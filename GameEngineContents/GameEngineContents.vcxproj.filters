@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="CenterLevel.cpp">
+      <Filter>CenterLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeEffect.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel.cpp">
+      <Filter>TestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="TestObject.cpp">
+      <Filter>TestLevel\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CenterGui.cpp">
+      <Filter>CenterLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Contents_Resources.cpp" />
+    <ClCompile Include="ContentsCore.cpp" />
+    <ClCompile Include="BlackScreen.cpp">
+      <Filter>TestLevel\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PreCompileHeader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CenterLevel.h">
+      <Filter>CenterLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeEffect.h">
+      <Filter>PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLevel.h">
+      <Filter>TestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="TestObject.h">
+      <Filter>TestLevel\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CenterGui.h">
+      <Filter>CenterLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsCore.h" />
+    <ClInclude Include="BlackScreen.h">
+      <Filter>TestLevel\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="PreCompileHeader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CenterLevel">
+      <UniqueIdentifier>{d44676b4-b55b-4b01-b97f-0c42b408d171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostEffect">
+      <UniqueIdentifier>{d5ea17ab-cd73-4c06-af79-5246cf19158e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestLevel">
+      <UniqueIdentifier>{eada6a09-d35b-4d75-a77b-f265879012ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestLevel\Object">
+      <UniqueIdentifier>{20971649-8cee-49b6-84ba-e57808e3cfc9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
