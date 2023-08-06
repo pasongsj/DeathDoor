@@ -30,6 +30,22 @@ public:
 		return Res;
 	}
 
+	static std::shared_ptr<GameEngineMesh> Create(std::shared_ptr<GameEngineVertexBuffer> _Vtx, std::shared_ptr<GameEngineIndexBuffer> _Idx)
+	{
+		std::shared_ptr<GameEngineMesh> Res = GameEngineResource::CreateUnNamed();
+		Res->VertexBufferPtr = _Vtx;
+		Res->IndexBufferPtr = _Idx;
+
+		if ((nullptr == Res->VertexBufferPtr) || (nullptr == Res->IndexBufferPtr))
+		{
+			MsgAssert("매쉬를 만드는데 실패했습니다.");
+		}
+
+		return Res;
+	}
+
+
+
 	std::shared_ptr<GameEngineVertexBuffer> GetVertexBuffer() 
 	{
 		return VertexBufferPtr;

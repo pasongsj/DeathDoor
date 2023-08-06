@@ -4,7 +4,7 @@
 
 std::atomic_bool GameEngineThread::End = false;
 
-GameEngineThread::GameEngineThread()
+GameEngineThread::GameEngineThread() 
 {
 }
 
@@ -13,7 +13,7 @@ GameEngineThread::GameEngineThread(std::string _ThreadName, std::function<void(G
 	Start(_ThreadName, _CallBack);
 }
 
-GameEngineThread::~GameEngineThread()
+GameEngineThread::~GameEngineThread() 
 {
 	Join();
 }
@@ -25,7 +25,7 @@ void GameEngineThread::Start(std::string _ThreadName, std::function<void(GameEng
 
 }
 
-void GameEngineThread::ThreadBaseFunction(GameEngineThread* Thread, std::string Name)
+void GameEngineThread::ThreadBaseFunction(GameEngineThread* Thread, std::string Name) 
 {
 	// 쓰레드버그가 최악인게
 	// 절대 일정하지 않다.

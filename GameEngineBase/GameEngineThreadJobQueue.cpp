@@ -4,11 +4,11 @@
 
 std::atomic_int GameEngineThreadJobQueue::RunningThreadCount = 0;
 
-GameEngineThreadJobQueue::GameEngineThreadJobQueue()
+GameEngineThreadJobQueue::GameEngineThreadJobQueue() 
 {
 }
 
-GameEngineThreadJobQueue::~GameEngineThreadJobQueue()
+GameEngineThreadJobQueue::~GameEngineThreadJobQueue() 
 {
 	IsRun = false;
 
@@ -16,7 +16,7 @@ GameEngineThreadJobQueue::~GameEngineThreadJobQueue()
 	{
 		// 쓰레드 깨우는 함수
 		if (
-			FALSE ==
+			FALSE == 
 			PostQueuedCompletionStatus(IOCPHandle, static_cast<DWORD>(ThreadWorkType::Destroy), 0, nullptr)
 			)
 		{
@@ -27,7 +27,7 @@ GameEngineThreadJobQueue::~GameEngineThreadJobQueue()
 	}
 }
 
-void GameEngineThreadJobQueue::ThreadPoolFunction(GameEngineThreadJobQueue* _ThreadPool, GameEngineThread* _Thread, HANDLE _IOCPHandle)
+void GameEngineThreadJobQueue::ThreadPoolFunction(GameEngineThreadJobQueue* _ThreadPool, GameEngineThread* _Thread, HANDLE _IOCPHandle) 
 {
 	DWORD Byte;
 	ULONG_PTR PtrKey;
@@ -43,6 +43,7 @@ void GameEngineThreadJobQueue::ThreadPoolFunction(GameEngineThreadJobQueue* _Thr
 		case UserWork:
 		{
 			Job* JobPtr = reinterpret_cast<Job*>(PtrKey);
+
 			if (nullptr != JobPtr->Function)
 			{
 				JobPtr->Function(_Thread);

@@ -16,12 +16,6 @@
 
 //////////////////////////// GameEngineSoundPlayer ////////////////////////////
 
-GameEngineSoundPlayer::GameEngineSoundPlayer(FMOD::Channel* _Channel)
-	: Channel(_Channel)
-{
-	Channel->setChannelGroup(GameEngineSound::ChannelGroup);
- }
-
 void GameEngineSoundPlayer::SoundFadeIn(double _Time, float _Volume)
 {
 	if (false == IsValid())
@@ -97,7 +91,7 @@ public:
 		{
 			MsgAssert("사운드 시스템 이니셜라이즈에 실패했습니다.");
 		}
-		SoundSystem->createChannelGroup("TestGroup", &GameEngineSound::ChannelGroup);
+
 	}
 
 	~SoundSystemCreator()
@@ -107,7 +101,7 @@ public:
 };
 
 SoundSystemCreator SoundInitObject = SoundSystemCreator();
-FMOD::ChannelGroup* GameEngineSound::ChannelGroup = nullptr;
+
 void GameEngineSound::SoundUpdate()
 {
 	if (nullptr == SoundSystem)

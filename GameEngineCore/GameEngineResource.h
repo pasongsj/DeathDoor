@@ -91,8 +91,9 @@ protected:
 	}
 
 
-private:
 	std::string Path;
+
+private:
 
 	static std::map<std::string, std::shared_ptr<ResourcesType>> NamedResources;
 	static std::mutex NameLock;

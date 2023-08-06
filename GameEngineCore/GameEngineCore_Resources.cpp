@@ -10,6 +10,7 @@
 
 #include "GameEngineMesh.h"
 #include "GameEngineBlend.h"
+#include "GameEngineFBXMesh.h"
 #include "GameEngineTexture.h"
 #include "GameEngineDepthState.h"
 #include "GameEngineRasterizer.h"
@@ -187,35 +188,35 @@ void GameEngineCore::CoreResourcesInit()
 		Vertex[3] = { float4(-0.5f, -0.5f, 0.5f), float4(0.0f, 1.0f)};
 
 		// 뒷면
-		Vertex[4] = { float4(-0.5f, 0.5f, 0.5f).RotationXDegReturn(180) , float4(0.0f, 0.0f)};
-		Vertex[5] = { float4(0.5f, 0.5f, 0.5f).RotationXDegReturn(180)  , float4(1.0f, 0.0f) };
-		Vertex[6] = { float4(0.5f, -0.5f, 0.5f).RotationXDegReturn(180) , float4(1.0f, 1.0f) };
-		Vertex[7] = { float4(-0.5f, -0.5f, 0.5f).RotationXDegReturn(180), float4(0.0f, 1.0f) };
+		Vertex[4] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(180) , float4(0.0f, 0.0f)};
+		Vertex[5] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(180)  , float4(1.0f, 0.0f) };
+		Vertex[6] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(180) , float4(1.0f, 1.0f) };
+		Vertex[7] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(180), float4(0.0f, 1.0f) };
 
 		// 왼쪽
-		Vertex[8] = { float4(-0.5f, 0.5f, 0.5f).RotationYDegReturn(90) , float4(0.0f, 0.0f) };
-		Vertex[9] = { float4(0.5f, 0.5f, 0.5f).RotationYDegReturn(90)  , float4(1.0f, 0.0f) };
-		Vertex[10] = { float4(0.5f, -0.5f, 0.5f).RotationYDegReturn(90) , float4(1.0f, 1.0f) };
-		Vertex[11] = { float4(-0.5f, -0.5f, 0.5f).RotationYDegReturn(90), float4(0.0f, 1.0f) };
+		Vertex[8] = { float4(-0.5f, 0.5f, 0.5f).RotaitonYDegReturn(90) , float4(0.0f, 0.0f) };
+		Vertex[9] = { float4(0.5f, 0.5f, 0.5f).RotaitonYDegReturn(90)  , float4(1.0f, 0.0f) };
+		Vertex[10] = { float4(0.5f, -0.5f, 0.5f).RotaitonYDegReturn(90) , float4(1.0f, 1.0f) };
+		Vertex[11] = { float4(-0.5f, -0.5f, 0.5f).RotaitonYDegReturn(90), float4(0.0f, 1.0f) };
 
 		// 오른쪽
-		Vertex[12] = { float4(-0.5f, 0.5f, 0.5f).RotationYDegReturn(-90) , float4(0.0f, 0.0f) };
-		Vertex[13] = { float4(0.5f, 0.5f, 0.5f).RotationYDegReturn(-90)  , float4(1.0f, 0.0f) };
-		Vertex[14] = { float4(0.5f, -0.5f, 0.5f).RotationYDegReturn(-90) , float4(1.0f, 1.0f) };
-		Vertex[15] = { float4(-0.5f, -0.5f, 0.5f).RotationYDegReturn(-90), float4(0.0f, 1.0f) };
+		Vertex[12] = { float4(-0.5f, 0.5f, 0.5f).RotaitonYDegReturn(-90) , float4(0.0f, 0.0f) };
+		Vertex[13] = { float4(0.5f, 0.5f, 0.5f).RotaitonYDegReturn(-90)  , float4(1.0f, 0.0f) };
+		Vertex[14] = { float4(0.5f, -0.5f, 0.5f).RotaitonYDegReturn(-90) , float4(1.0f, 1.0f) };
+		Vertex[15] = { float4(-0.5f, -0.5f, 0.5f).RotaitonYDegReturn(-90), float4(0.0f, 1.0f) };
 
 
 		// 위
-		Vertex[16] = { float4(-0.5f, 0.5f, 0.5f).RotationXDegReturn(90) , float4(0.0f, 0.0f) };
-		Vertex[17] = { float4(0.5f, 0.5f, 0.5f).RotationXDegReturn(90)  , float4(1.0f, 0.0f) };
-		Vertex[18] = { float4(0.5f, -0.5f, 0.5f).RotationXDegReturn(90) , float4(1.0f, 1.0f) };
-		Vertex[19] = { float4(-0.5f, -0.5f, 0.5f).RotationXDegReturn(90), float4(0.0f, 1.0f) };
+		Vertex[16] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(90) , float4(0.0f, 0.0f) };
+		Vertex[17] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(90)  , float4(1.0f, 0.0f) };
+		Vertex[18] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(90) , float4(1.0f, 1.0f) };
+		Vertex[19] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(90), float4(0.0f, 1.0f) };
 
 		// 아래
-		Vertex[20] = { float4(-0.5f, 0.5f, 0.5f).RotationXDegReturn(-90) , float4(0.0f, 0.0f) };
-		Vertex[21] = { float4(0.5f, 0.5f, 0.5f).RotationXDegReturn(-90)  , float4(1.0f, 0.0f) };
-		Vertex[22] = { float4(0.5f, -0.5f, 0.5f).RotationXDegReturn(-90) , float4(1.0f, 1.0f) };
-		Vertex[23] = { float4(-0.5f, -0.5f, 0.5f).RotationXDegReturn(-90), float4(0.0f, 1.0f) };
+		Vertex[20] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(-90) , float4(0.0f, 0.0f) };
+		Vertex[21] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(-90)  , float4(1.0f, 0.0f) };
+		Vertex[22] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(-90) , float4(1.0f, 1.0f) };
+		Vertex[23] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(-90), float4(0.0f, 1.0f) };
 
 
 		GameEngineVertexBuffer::Create("Box", Vertex);
@@ -276,7 +277,7 @@ void GameEngineCore::CoreResourcesInit()
 		float Radius = 0.5f;
 		// 북극점부터 시작합니다.
 		V.POSITION = float4(0.0f, Radius, 0.0f, 1.0f);
-		V.UV = float4(0.5f, 0.0f);
+		V.TEXCOORD = float4(0.5f, 0.0f);
 		// 노말 백터 혹은 법선백터라고 불리며
 		// 면에 수직인 벡터를 의미하게 된다.
 		// 빛을 반사할때 필수.
@@ -312,7 +313,7 @@ void GameEngineCore::CoreResourcesInit()
 
 				// V.Pos *= GameEngineRandom::RandomFloat(-0.9f, 0.1f);
 
-				V.UV = float4(yUvRatio * z, zUvRatio * y);
+				V.TEXCOORD = float4(yUvRatio * z, zUvRatio * y);
 				V.NORMAL = V.POSITION.NormalizeReturn();
 				V.NORMAL.w = 0.0f;
 
@@ -322,7 +323,7 @@ void GameEngineCore::CoreResourcesInit()
 
 		// 남극점
 		V.POSITION = float4(0.0f, -Radius, 0.0f, 1.0f);
-		V.UV = float4(0.5f, 1.0f);
+		V.TEXCOORD = float4(0.5f, 1.0f);
 		V.NORMAL = float4(0.0f, -Radius, 0.0f, 1.0f);
 		V.NORMAL.Normalize();
 		V.NORMAL.w = 0.0f;
@@ -476,32 +477,32 @@ void GameEngineCore::CoreResourcesInit()
 		ArrVertex[3] = { -0.5f, 0.5f,0.5f };
 
 		// 뒷면
-		ArrVertex[4] = ArrVertex[0].RotationXDegReturn(180.0f);
-		ArrVertex[5] = ArrVertex[1].RotationXDegReturn(180.0f);
-		ArrVertex[6] = ArrVertex[2].RotationXDegReturn(180.0f);
-		ArrVertex[7] = ArrVertex[3].RotationXDegReturn(180.0f);
+		ArrVertex[4] = ArrVertex[0].RotaitonXDegReturn(180.0f);
+		ArrVertex[5] = ArrVertex[1].RotaitonXDegReturn(180.0f);
+		ArrVertex[6] = ArrVertex[2].RotaitonXDegReturn(180.0f);
+		ArrVertex[7] = ArrVertex[3].RotaitonXDegReturn(180.0f);
 
 		// 왼쪽면
-		ArrVertex[8] = ArrVertex[0].RotationYDegReturn(90.0f);
-		ArrVertex[9] = ArrVertex[1].RotationYDegReturn(90.0f);
-		ArrVertex[10] = ArrVertex[2].RotationYDegReturn(90.0f);
-		ArrVertex[11] = ArrVertex[3].RotationYDegReturn(90.0f);
+		ArrVertex[8] = ArrVertex[0].RotaitonYDegReturn(90.0f);
+		ArrVertex[9] = ArrVertex[1].RotaitonYDegReturn(90.0f);
+		ArrVertex[10] = ArrVertex[2].RotaitonYDegReturn(90.0f);
+		ArrVertex[11] = ArrVertex[3].RotaitonYDegReturn(90.0f);
 
 		// 오른쪽
-		ArrVertex[12] = ArrVertex[0].RotationYDegReturn(-90.0f);
-		ArrVertex[13] = ArrVertex[1].RotationYDegReturn(-90.0f);
-		ArrVertex[14] = ArrVertex[2].RotationYDegReturn(-90.0f);
-		ArrVertex[15] = ArrVertex[3].RotationYDegReturn(-90.0f);
+		ArrVertex[12] = ArrVertex[0].RotaitonYDegReturn(-90.0f);
+		ArrVertex[13] = ArrVertex[1].RotaitonYDegReturn(-90.0f);
+		ArrVertex[14] = ArrVertex[2].RotaitonYDegReturn(-90.0f);
+		ArrVertex[15] = ArrVertex[3].RotaitonYDegReturn(-90.0f);
 
-		ArrVertex[16] = ArrVertex[0].RotationXDegReturn(90.0f);
-		ArrVertex[17] = ArrVertex[1].RotationXDegReturn(90.0f);
-		ArrVertex[18] = ArrVertex[2].RotationXDegReturn(90.0f);
-		ArrVertex[19] = ArrVertex[3].RotationXDegReturn(90.0f);
+		ArrVertex[16] = ArrVertex[0].RotaitonXDegReturn(90.0f);
+		ArrVertex[17] = ArrVertex[1].RotaitonXDegReturn(90.0f);
+		ArrVertex[18] = ArrVertex[2].RotaitonXDegReturn(90.0f);
+		ArrVertex[19] = ArrVertex[3].RotaitonXDegReturn(90.0f);
 
-		ArrVertex[20] = ArrVertex[0].RotationXDegReturn(-90.0f);
-		ArrVertex[21] = ArrVertex[1].RotationXDegReturn(-90.0f);
-		ArrVertex[22] = ArrVertex[2].RotationXDegReturn(-90.0f);
-		ArrVertex[23] = ArrVertex[3].RotationXDegReturn(-90.0f);
+		ArrVertex[20] = ArrVertex[0].RotaitonXDegReturn(-90.0f);
+		ArrVertex[21] = ArrVertex[1].RotaitonXDegReturn(-90.0f);
+		ArrVertex[22] = ArrVertex[2].RotaitonXDegReturn(-90.0f);
+		ArrVertex[23] = ArrVertex[3].RotaitonXDegReturn(-90.0f);
 
 	}
 
@@ -650,6 +651,7 @@ void GameEngineCore::CoreResourcesEnd()
 	GameEngineVertexShader::ResourcesClear();
 	GameEngineVertexBuffer::ResourcesClear();
 	GameEngineRenderTarget::ResourcesClear();
+	GameEngineFBXMesh::ResourcesClear();
 	GameEngineConstantBuffer::ResourcesClear();
 	GameEngineRenderingPipeLine::ResourcesClear();
 

@@ -38,6 +38,12 @@
     <ClCompile Include="GameEngineThreadJobQueue.cpp">
       <Filter>Thread</Filter>
     </ClCompile>
+    <ClCompile Include="JPSCollision.cpp">
+      <Filter>JPS</Filter>
+    </ClCompile>
+    <ClCompile Include="JPSPath.cpp">
+      <Filter>JPS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineDebug.h">
@@ -77,6 +83,24 @@
     <ClInclude Include="GameEngineThreadJobQueue.h">
       <Filter>Thread</Filter>
     </ClInclude>
+    <ClInclude Include="JPSCollision.h">
+      <Filter>JPS</Filter>
+    </ClInclude>
+    <ClInclude Include="JPSHeap.h">
+      <Filter>JPS</Filter>
+    </ClInclude>
+    <ClInclude Include="JPSPath.h">
+      <Filter>JPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Base.h">
+      <Filter>JPS</Filter>
+    </ClInclude>
+    <ClInclude Include="BitArray.h">
+      <Filter>JPS</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreTypeDef.h">
+      <Filter>JPS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">
@@ -95,7 +119,10 @@
       <UniqueIdentifier>{28f62796-1428-4e66-98e0-f556fc4d23d6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Thread">
-      <UniqueIdentifier>{c021a2ad-6174-404c-97e7-955eb0234e14}</UniqueIdentifier>
+      <UniqueIdentifier>{190aee9b-465e-4821-bb11-32daccb7dcfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JPS">
+      <UniqueIdentifier>{f5e898f2-bbfa-4fd3-95d1-b97200ffa2f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

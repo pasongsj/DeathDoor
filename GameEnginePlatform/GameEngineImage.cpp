@@ -239,15 +239,15 @@ void GameEngineImage::PlgCopy(const GameEngineImage* _OtherImage, float4 _CopyCe
 {
 	POINT ArrRotPoint[3];
 
-	CollisionDataAPI Data = {float4::Zero, _CopySize };
+	CollisionDataAPI Data = {float4::ZERO, _CopySize };
 
 	float4 LeftTop = Data.LeftTop();
 	float4 RightTop = Data.RightTop();
 	float4 LeftBot = Data.LeftBot();
 
-	ArrRotPoint[0] = (LeftTop.RotationZDegReturn(_Angle) + _CopyCenterPos).ToWindowPOINT();
-	ArrRotPoint[1] = (RightTop.RotationZDegReturn(_Angle) + _CopyCenterPos).ToWindowPOINT();
-	ArrRotPoint[2] = (LeftBot.RotationZDegReturn(_Angle) + _CopyCenterPos).ToWindowPOINT();
+	ArrRotPoint[0] = (LeftTop.RotaitonZDegReturn(_Angle) + _CopyCenterPos).ToWindowPOINT();
+	ArrRotPoint[1] = (RightTop.RotaitonZDegReturn(_Angle) + _CopyCenterPos).ToWindowPOINT();
+	ArrRotPoint[2] = (LeftBot.RotaitonZDegReturn(_Angle) + _CopyCenterPos).ToWindowPOINT();
 
 	PlgBlt(ImageDC, // 여기에 그려라.
 		ArrRotPoint,

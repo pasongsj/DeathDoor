@@ -23,7 +23,7 @@ public:
 
 	void Join();
 
-	static void ThreadEnd()
+	static void ThreadEnd() 
 	{
 		End = true;
 	}

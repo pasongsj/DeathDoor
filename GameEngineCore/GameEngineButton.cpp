@@ -7,15 +7,15 @@
 
 GameEngineButton* GameEngineButton::SelectButton = nullptr;
 
-GameEngineButton::GameEngineButton()
+GameEngineButton::GameEngineButton() 
 {
 }
 
-GameEngineButton::~GameEngineButton()
+GameEngineButton::~GameEngineButton() 
 {
 }
 
-void GameEngineButton::Start()
+void GameEngineButton::Start() 
 {
 	Render = CreateComponent<GameEngineUIRenderer>();
 	// Collision = CreateComponent<GameEngineCollision>();
@@ -51,14 +51,14 @@ void GameEngineButton::Update(float _Delta)
 
 	if (true == GameEngineTransform::AABB2DToSpehre2D(Render->GetTransform()->GetCollisionData(), MouseData))
 	{
-		if (HoverImage != "")
+		if(HoverImage != "")
 		{
 			Render->SetTexture(HoverImage);
 		}
 
 		if (true == GameEngineInput::IsPress("EngineMouseLeft"))
 		{
-			if (PressImage != "")
+			if(PressImage != "")
 			{
 				Render->SetTexture(PressImage);
 			}

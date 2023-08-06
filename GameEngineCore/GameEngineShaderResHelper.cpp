@@ -315,3 +315,29 @@ void GameEngineShaderResHelper::AllResourcesReset()
 		}
 	}
 }
+
+bool GameEngineShaderResHelper::IsConstantBuffer(const std::string_view& _Name)
+{
+	std::string UpperName = GameEngineString::ToUpper(_Name);
+
+	std::multimap<std::string, GameEngineConstantBufferSetter>::iterator FindIter = ConstantBufferSetters.find(UpperName);
+
+	if (ConstantBufferSetters.end() == FindIter)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool GameEngineShaderResHelper::IsTexture(const std::string& _Name)
+{
+	std::string Key = GameEngineString::ToUpper(_Name);
+
+	if (TextureSetters.end() != TextureSetters.find(Key))
+	{
+		return true;
+	}
+
+	return false;
+}

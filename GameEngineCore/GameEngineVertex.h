@@ -39,8 +39,13 @@ public:
 	static GameEngineInputLayOutInfo LayOut;
 
 public:
-	float4 POSITION; // 0 16
-	float4 UV;    // 16 32
-	float4 NORMAL; // 0 16
+	float4 POSITION;
+	float4 TEXCOORD;
+	float4 COLOR;
+	float4 NORMAL;
+	float4 BINORMAL;
+	float4 TANGENT;
+	float4 WEIGHT; // 애니메이션 가중치
+	int BLENDINDICES[4];
 };
 

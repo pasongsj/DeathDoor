@@ -51,7 +51,7 @@ void AnimationInfo::Update(float _DeltaTime)
 			StartEventFunction[CurFrameIndex].Function();
 			StartEventFunction[CurFrameIndex].IsEvent = true;
 		}
-
+		
 	}
 
 
@@ -406,8 +406,8 @@ void GameEngineSpriteRenderer::SpriteRenderInit()
 	AtlasData.z = 1.0f;
 	AtlasData.w = 1.0f;
 
-	ColorOptionValue.MulColor = float4::One;
-	ColorOptionValue.PlusColor = float4::Null;
+	ColorOptionValue.MulColor = float4::ONE;
+	ColorOptionValue.PlusColor = float4::ZERONULL;
 
 	GetShaderResHelper().SetConstantBufferLink("AtlasData", AtlasData);
 	GetShaderResHelper().SetConstantBufferLink("ColorOption", ColorOptionValue);

@@ -14,4 +14,12 @@ namespace GameEngineDebug
 	{
 		_CrtSetBreakAlloc(_Point);
 	}
+
+	void OutPutString(const std::string& _Text)
+	{
+		// #ifdef _DEBUG
+		OutputDebugStringA((_Text + "\n").c_str());
+		// #endif
+	}
+
 }

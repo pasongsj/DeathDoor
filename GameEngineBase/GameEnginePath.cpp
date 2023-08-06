@@ -36,6 +36,23 @@ GameEnginePath::GameEnginePath(const GameEnginePath& _Other)
 
 }
 
+std::string GameEnginePath::GetFileName(const std::string_view& _Path)
+{
+	std::filesystem::path NewPath = _Path;
+
+	return NewPath.filename().string();
+}
+
+
+std::string GameEnginePath::GetFolderPath(const std::string_view& _Path)
+{
+	std::string FileName = GetFileName(_Path);
+	std::string FullPath = _Path.data();
+
+	FullPath = FullPath.replace(FullPath.size() - FileName.size(), FileName.size(), "");
+	return FullPath;
+}
+
 std::string GameEnginePath::GetFileName() const
 {
 	return Path.filename().string();
