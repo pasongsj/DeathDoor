@@ -398,8 +398,10 @@ std::string GameEngineSpriteRenderer::GetTexName()
 void GameEngineSpriteRenderer::SpriteRenderInit()
 {
 
-	SetMesh("Rect");
-	SetPipeLine("2DTexture");
+	std::shared_ptr<GameEngineRenderUnit> Unit =  CreateRenderUnit();
+
+	Unit->SetMesh("Rect");
+	Unit->SetPipeLine("2DTexture");
 
 	AtlasData.x = 0.0f;
 	AtlasData.y = 0.0f;

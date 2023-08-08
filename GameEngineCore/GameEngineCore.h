@@ -89,5 +89,6 @@ private:
 	static std::shared_ptr<GameEngineLevel> MainLevel;
 	static std::shared_ptr<GameEngineLevel> NextLevel;
 
+	static void Release();
 };
 

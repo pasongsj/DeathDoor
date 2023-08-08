@@ -133,13 +133,20 @@ void GameEngineFBXMesh::LoadMesh(const std::string& _Path, const std::string& _N
 
 void GameEngineFBXMesh::MeshLoad()
 {
+	std::string Path = GetPath().data();
+
+
+	// 실질적으로 버텍스를 로드하는게 아니고 지오메트리
+	// 행렬을 가진 노드만 조사를 하는 함수
 	MeshNodeCheck();
 
+	// VertexBuffer
+	// IndexBuffer
+	// 를 만들기 위한 정보를 로드한다.
 	VertexBufferCheck();
 
 	ImportBone();
 
- 	std::string Path = GetPath().data();
 
 	AllBones; // 본정보체
 	AllFindMap;
@@ -569,9 +576,13 @@ void GameEngineFBXMesh::LoadUV(fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxAMatrix _MeshM
 		break;
 	}
 
+	// _ArrVtx[_Index].TEXCOORD.x = 0.0f;
+	// _ArrVtx[_Index].TEXCOORD.y = 0.0f;
 	_ArrVtx[_Index].TEXCOORD.x = (float)result.x;
-	// _ArrVtx[_Index].TEXCOORD.y = (float)result.y;
+	//// _ArrVtx[_Index].TEXCOORD.y = (float)result.y;
 	_ArrVtx[_Index].TEXCOORD.y = 1.0f - (float)result.y;
+	_ArrVtx[_Index].TEXCOORD.z = 0.0f;
+	_ArrVtx[_Index].TEXCOORD.w = 0.0f;
 }
 
 
@@ -590,6 +601,7 @@ void GameEngineFBXMesh::VertexBufferCheck()
 		FbxRenderUnitInfo& RenderUnit = RenderUnitInfos.emplace_back();
 		RenderUnit.VectorIndex = meshInfoIndex;
 
+		// 애니메이션용 정보라 지금은 큰 의미는 없습니다.
 		if (RenderUnit.MapWI.end() == RenderUnit.MapWI.find(pMesh))
 		{
 			RenderUnit.MapWI.insert(std::make_pair(pMesh, std::map<int, std::vector<FbxExIW>>()));
@@ -894,6 +906,7 @@ void GameEngineFBXMesh::MeshNodeCheck()
 			continue;
 		}
 
+		// 정보들을 우리가 뭘로 들고 있느냐.
 		FbxExMeshInfo& Info = MeshInfos.emplace_back();
 
 		if (geoMetry->GetName()[0] != '\0')
@@ -1049,10 +1062,18 @@ std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(size_t _Mes
 		{
 			Path = GameEnginePath::GetFolderPath(GetPath());
 
-			// CH_NPC_MOB_Anashar_A01_Lower_D_KGW.tga
-
 			std::string FilePath = Path + Unit.MaterialData[_SubIndex].DifTextureName;
-			GameEngineTexture::Load(FilePath);
+			GameEnginePath Path = FilePath;
+
+			if (false == Path.IsExists())
+			{
+				MsgTextBox("FBX매쉬도중 텍스처가 존재하지 않습니다." + std::string(FilePath));
+			}
+			else 
+			{
+				GameEngineTexture::Load(FilePath);
+			}
+
 		}
 	}
 
@@ -1070,7 +1091,16 @@ std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(size_t _Mes
 			// CH_NPC_MOB_Anashar_A01_Lower_D_KGW.tga
 
 			std::string FilePath = Path + Unit.MaterialData[_SubIndex].NorTextureName;
-			GameEngineTexture::Load(FilePath);
+			GameEnginePath Path = FilePath;
+
+			if (false == Path.IsExists())
+			{
+				MsgTextBox("FBX매쉬도중 텍스처가 존재하지 않습니다." + std::string(FilePath));
+			}
+			else
+			{
+				GameEngineTexture::Load(FilePath);
+			}
 		}
 	}
 

@@ -82,10 +82,13 @@ public:
 
 struct FbxExMeshInfo : public GameEngineSerializObject
 {
+	// 지오메트리 정보
 	fbxsdk::FbxMesh* Mesh;
+	// 이 매쉬를 가진 핵심 노드의 이름이 뭔가.
 	std::string Name;
 	bool bTriangulated;
 	unsigned __int64 UniqueId;
+	// 삼각형이 몇개인가
 	int FaceNum;
 	int VertexNum;
 	int MaterialNum;
@@ -174,11 +177,10 @@ public:
 	//       애니메이션이 있다면 채워져 있을겁니다.
 	std::map<FbxMesh*, std::map<int, std::vector<FbxExIW>>> MapWI;
 
+	// 버텍스 정보는 무조건 
 	std::vector<GameEngineVertex> Vertexs;
 
 	// 머리
-	// 다리 
-	// 몸통
 	std::vector<std::vector<unsigned int>> Indexs;
 
 	std::vector<FbxExMaterialSettingData> MaterialData;

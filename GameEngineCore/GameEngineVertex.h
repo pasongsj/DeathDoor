@@ -39,13 +39,20 @@ public:
 	static GameEngineInputLayOutInfo LayOut;
 
 public:
+	// 기본정보
 	float4 POSITION;
 	float4 TEXCOORD;
+
+	// 쓰잘데기 없는 정보
 	float4 COLOR;
+
+	// 범프매핑과 빛계산 때문에 필요하다.
 	float4 NORMAL;
 	float4 BINORMAL;
 	float4 TANGENT;
-	float4 WEIGHT; // 애니메이션 가중치
+
+	// 애니메이션을 하려면 필요합니다.
+	float4 WEIGHT; 
 	int BLENDINDICES[4];
 };
 

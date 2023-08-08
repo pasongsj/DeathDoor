@@ -27,6 +27,14 @@ GameEngineCore::~GameEngineCore()
 {
 }
 
+void GameEngineCore::Release()
+{
+	NextLevel = nullptr;
+	MainLevel = nullptr;
+	CurLoadLevel = nullptr;
+	LevelMap.clear();
+}
+
 void GameEngineCore::EngineStart(std::function<void()> _ContentsStart)
 {
 	// 코어이니셜라이즈
@@ -142,9 +150,11 @@ void GameEngineCore::EngineEnd(std::function<void()> _ContentsEnd)
 
 	LevelMap.clear();
 	CoreResourcesEnd();
+	Release();
 
 	GameEngineDevice::Release();
 	GameEngineWindow::Release();
+
 }
 
 void GameEngineCore::Start(HINSTANCE _instance,  std::function<void()> _Start, std::function<void()> _End, float4 _Pos, float4 _Size)

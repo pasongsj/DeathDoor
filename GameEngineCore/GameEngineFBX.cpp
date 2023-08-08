@@ -34,7 +34,10 @@ void GameEngineFBX::FBXInit(std::string _Path)
 {
 	if (false == FBXSystemInitialize(_Path))
 	{
+		MsgAssert("시스템 로드에 실패했습니다.");
 	}
+
+	FBXConvertScene();
 }
 
 bool GameEngineFBX::FBXSystemInitialize(std::string _Path)

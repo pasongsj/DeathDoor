@@ -22,6 +22,9 @@
       <Filter>TestLevel\Object</Filter>
     </ClCompile>
     <ClCompile Include="PreCompileHeader.cpp" />
+    <ClCompile Include="Player.cpp">
+      <Filter>TestLevel\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -45,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="PreCompileHeader.h" />
+    <ClInclude Include="Player.h">
+      <Filter>TestLevel\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CenterLevel">

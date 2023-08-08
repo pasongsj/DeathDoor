@@ -38,6 +38,7 @@ public:
 class GameEngineRenderer : public GameEngineComponent
 {
 	friend class GameEngineCamera;
+	friend class GameEngineRenderUnit;
 
 public:
 	// constrcuter destructer
@@ -56,7 +57,7 @@ public:
 	// 어떤 샘플러 어떤 상수버퍼를 사용했는지를 알아야 한다.
 	void SetPipeLine(const std::string_view& _Name, int _index = 0);
 
-	void SetMesh(const std::string_view& _Name, int _index = 0);
+	// void SetMesh(const std::string_view& _Name, int _index = 0);
 
 	// 랜더유니트를 만든다.
 	std::shared_ptr<GameEngineRenderUnit> CreateRenderUnit();
@@ -65,7 +66,7 @@ public:
 	std::shared_ptr<GameEngineRenderingPipeLine> GetPipeLine(int _index = 0);
 
 	// 이걸 사용하게되면 이 랜더러의 유니트는 자신만의 클론 파이프라인을 가지게 된다.
-	std::shared_ptr<GameEngineRenderingPipeLine> GetPipeLineClone(int _index = 0);
+	// std::shared_ptr<GameEngineRenderingPipeLine> GetPipeLineClone(int _index = 0);
 
 	inline GameEngineShaderResHelper& GetShaderResHelper(int _index = 0) 
 	{

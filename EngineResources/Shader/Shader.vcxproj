@@ -145,6 +145,7 @@
   <ItemGroup>
     <FxCompile Include="BlurShader.hlsl" />
     <FxCompile Include="DebugMeshRender.hlsl" />
+    <FxCompile Include="MeshTexture.hlsl" />
     <FxCompile Include="MergeShader.hlsl" />
     <FxCompile Include="TextureShader.hlsl" />
     <FxCompile Include="TileMapShader.hlsl" />
