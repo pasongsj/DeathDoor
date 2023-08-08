@@ -181,6 +181,9 @@
     <ClInclude Include="ThirdParty\PhysX_5\inc\PxPhysicsAPI.h">
       <Filter>ThirdParty\PhysX_5\Header</Filter>
     </ClInclude>
+    <ClInclude Include="GameEnginePhysics.h">
+      <Filter>PhysX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -353,6 +356,9 @@
     <ClCompile Include="GameEngineFBXRenderer.cpp">
       <Filter>Object\Rendering\Component</Filter>
     </ClCompile>
+    <ClCompile Include="GameEnginePhysics.cpp">
+      <Filter>PhysX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Object">
@@ -483,6 +489,9 @@
     </Filter>
     <Filter Include="ThirdParty\PhysX_5\bin\Release">
       <UniqueIdentifier>{96218852-a156-4194-9825-dd8f633cdd9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysX">
+      <UniqueIdentifier>{3d3b2b4b-ab74-49a4-b2cd-2e4e84dc770f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
