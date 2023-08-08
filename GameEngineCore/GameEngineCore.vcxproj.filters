@@ -504,12 +504,6 @@
     <None Include="ThirdParty\DirectXTex\lib\x64\Release\DirectXTex.lib">
       <Filter>ThirdParty\DirectXTex\bin\Release</Filter>
     </None>
-    <None Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXGpu_64.7z">
-      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
-    </None>
-    <None Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXGpu_64.7z">
-      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
-    </None>
     <None Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXGpu_64.zip">
       <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
     </None>
