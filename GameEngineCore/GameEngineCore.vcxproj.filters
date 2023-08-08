@@ -39,7 +39,7 @@
       <Filter>Device</Filter>
     </ClInclude>
     <ClInclude Include="PrecompileHeader.h" />
-    <ClInclude Include="GameEngineRenderingPipeLine.h">
+    <ClInclude Include="GameEngineMaterial.h">
       <Filter>Object\Rendering\Component</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineShader.h">
@@ -227,7 +227,7 @@
       <Filter>Device</Filter>
     </ClCompile>
     <ClCompile Include="PrecompileHeader.cpp" />
-    <ClCompile Include="GameEngineRenderingPipeLine.cpp">
+    <ClCompile Include="GameEngineMaterial.cpp">
       <Filter>Object\Rendering\Component</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineShader.cpp">
@@ -635,7 +635,6 @@
     <CopyFileToFolders Include="ThirdParty\FBX\lib\x64\Release\libfbxsdk-md.zip">
       <Filter>ThirdParty\FBX\bin\Release</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\FBX\lib\x64\Release\libfbxsdk-mt.zip" />
     <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\freeglutd.dll">
       <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
     </CopyFileToFolders>
@@ -923,6 +922,9 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\SimulationController_static_64.pdb">
       <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\FBX\lib\x64\Release\libfbxsdk-mt.zip">
+      <Filter>ThirdParty\FBX\bin\Release</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>
