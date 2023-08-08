@@ -9,6 +9,7 @@
 #include <GameEngineCore/GameEngineFont.h>
 
 #include "BlackScreen.h"
+#include "CenterGui.h"
 
 CenterLevel::CenterLevel() 
 {
@@ -22,6 +23,10 @@ void CenterLevel::Start()
 {
 	GameEngineInput::CreateKey("TestLevel", '0');
 
+	if (nullptr == GameEngineGUI::FindGUIWindow("LevelChanger"))
+	{
+		GameEngineGUI::GUIWindowCreate<CenterGui>("LevelChanger");
+	}
 
 
 	{

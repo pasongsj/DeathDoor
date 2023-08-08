@@ -1,7 +1,8 @@
 #pragma once
+#include <GameEngineCore/GameEngineGUI.h>
 
 // Ό³Έν :
-class CenterGui
+class CenterGui : public GameEngineGUIWindow
 {
 public:
 	// constrcuter destructer
@@ -15,6 +16,8 @@ public:
 	CenterGui& operator=(CenterGui&& _Other) noexcept = delete;
 
 protected:
+	virtual void Start() override;
+	virtual void OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _DeltaTime) override;
 
 private:
 

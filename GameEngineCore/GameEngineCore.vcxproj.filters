@@ -178,6 +178,12 @@
     <ClInclude Include="GameEngineFBXRenderer.h">
       <Filter>Object\Rendering\Component</Filter>
     </ClInclude>
+    <ClInclude Include="ThirdParty\PhysX_5\inc\PxPhysicsAPI.h">
+      <Filter>ThirdParty\PhysX_5\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePhysics.h">
+      <Filter>PhysX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -350,6 +356,9 @@
     <ClCompile Include="GameEngineFBXRenderer.cpp">
       <Filter>Object\Rendering\Component</Filter>
     </ClCompile>
+    <ClCompile Include="GameEnginePhysics.cpp">
+      <Filter>PhysX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Object">
@@ -466,6 +475,24 @@
     <Filter Include="ThirdParty\FBX\bin\Release">
       <UniqueIdentifier>{9f77ce30-651b-4257-ba50-f3d88c06f813}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ThirdParty\PhysX_5">
+      <UniqueIdentifier>{9b0fe5b5-6a52-415d-952a-4b6e6e0b3f66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\PhysX_5\bin">
+      <UniqueIdentifier>{de393ce0-b219-4c29-bf48-4e9c2ad02af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\PhysX_5\Header">
+      <UniqueIdentifier>{fbcf16a9-4f3d-4573-84c6-0c08c76e4880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\PhysX_5\bin\Debug">
+      <UniqueIdentifier>{ae6699c9-e6cd-4fc7-adf8-e21891978a0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\PhysX_5\bin\Release">
+      <UniqueIdentifier>{96218852-a156-4194-9825-dd8f633cdd9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysX">
+      <UniqueIdentifier>{3d3b2b4b-ab74-49a4-b2cd-2e4e84dc770f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl">
@@ -477,8 +504,11 @@
     <None Include="ThirdParty\DirectXTex\lib\x64\Release\DirectXTex.lib">
       <Filter>ThirdParty\DirectXTex\bin\Release</Filter>
     </None>
-    <None Include="ThirdParty\FBX\lib\x64\Release\libfbxsdk-mt.zip">
-      <Filter>ThirdParty\FBX\bin\Release</Filter>
+    <None Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXGpu_64.zip">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </None>
+    <None Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXGpu_64.zip">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -604,6 +634,295 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\FBX\lib\x64\Release\libfbxsdk-md.zip">
       <Filter>ThirdParty\FBX\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\FBX\lib\x64\Release\libfbxsdk-mt.zip" />
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\freeglutd.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\LowLevel_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\LowLevel_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\LowLevelAABB_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\LowLevelAABB_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\LowLevelDynamics_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\LowLevelDynamics_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysX_64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysX_64.exp">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysX_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysX_64.map">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysX_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXCharacterKinematic_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXCharacterKinematic_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXCommon_64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXCommon_64.exp">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXCommon_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXCommon_64.map">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXCommon_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXCooking_64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXCooking_64.exp">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXCooking_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXCooking_64.map">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXCooking_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXDevice64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXExtensions_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXExtensions_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXFoundation_64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXFoundation_64.exp">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXFoundation_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXFoundation_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXGpu_64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXPvdSDK_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXPvdSDK_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXTask_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXTask_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXVehicle_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXVehicle_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXVehicle2_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PhysXVehicle2_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PVDRuntime_64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PVDRuntime_64.exp">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PVDRuntime_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\PVDRuntime_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\SceneQuery_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\SceneQuery_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\SimulationController_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Debug\SimulationController_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\freeglut.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\LowLevel_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\LowLevel_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\LowLevelAABB_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\LowLevelAABB_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\LowLevelDynamics_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\LowLevelDynamics_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysX_64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysX_64.exp">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysX_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysX_64.map">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysX_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXCharacterKinematic_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXCharacterKinematic_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXCommon_64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXCommon_64.exp">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXCommon_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXCommon_64.map">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXCommon_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXCooking_64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXCooking_64.exp">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXCooking_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXCooking_64.map">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXCooking_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXDevice64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXExtensions_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXExtensions_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXFoundation_64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXFoundation_64.exp">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXFoundation_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXFoundation_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXGpu_64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXPvdSDK_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXPvdSDK_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXTask_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXTask_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXVehicle_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXVehicle_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXVehicle2_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PhysXVehicle2_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PVDRuntime_64.dll">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PVDRuntime_64.exp">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PVDRuntime_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\PVDRuntime_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\SceneQuery_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\SceneQuery_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\SimulationController_static_64.lib">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\PhysX_5\lib\x64\Release\SimulationController_static_64.pdb">
+      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>
