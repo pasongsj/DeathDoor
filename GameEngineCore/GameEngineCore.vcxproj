@@ -292,7 +292,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEngineRenderingPipeLine.h">
+    <ClInclude Include="GameEngineMaterial.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -495,7 +495,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GameEngineRenderingPipeLine.cpp">
+    <ClCompile Include="GameEngineMaterial.cpp">
       <SubType>
       </SubType>
     </ClCompile>

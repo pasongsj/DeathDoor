@@ -1,5 +1,5 @@
 #include "PrecompileHeader.h"
-#include "GameEngineRenderingPipeLine.h"
+#include "GameEngineMaterial.h"
 #include <GameEngineCore/GameEngineDevice.h>
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineIndexBuffer.h"
@@ -10,19 +10,19 @@
 #include "GameEngineInputLayOut.h"
 #include "GameEngineDepthState.h"
 
-GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() 
+GameEngineMaterial::GameEngineMaterial() 
 {
 	// InputLayOutPtr = std::make_shared<GameEngineInputLayOut>();
 }
 
-GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine() 
+GameEngineMaterial::~GameEngineMaterial() 
 {
 }
 
 // 매쉬 + 머티리얼
 //
 //// 점에 대한 정보를 준비하고
-//void GameEngineRenderingPipeLine::InputAssembler1() 
+//void GameEngineMaterial::InputAssembler1() 
 //{
 //	if (nullptr == InputLayOutPtr)
 //	{
@@ -50,7 +50,7 @@ GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine()
 //	// GameEngineDevice::GetContext()->IASetVertexBuffers()
 //}
 // 로컬에 존재하는 점을 우리가 만든 행렬을 통해서 변환하고.
-void GameEngineRenderingPipeLine::VertexShader()
+void GameEngineMaterial::VertexShader()
 {
 	if (nullptr == VertexShaderPtr)
 	{
@@ -62,7 +62,7 @@ void GameEngineRenderingPipeLine::VertexShader()
 }
 //
 //// 점의 정보를 토대로 어떤 순서로 그릴지 정하고
-//void GameEngineRenderingPipeLine::InputAssembler2() 
+//void GameEngineMaterial::InputAssembler2() 
 //{
 //	// 그리는 순서에 대한 데이터를 넣어준다.
 //	if (nullptr == IndexBufferPtr)
@@ -79,19 +79,19 @@ void GameEngineRenderingPipeLine::VertexShader()
 //}
 
 // 여기서부터
-void GameEngineRenderingPipeLine::HullShader() 
+void GameEngineMaterial::HullShader() 
 {
 
 }
-void GameEngineRenderingPipeLine::Tessellator() 
+void GameEngineMaterial::Tessellator() 
 {
 
 }
-void GameEngineRenderingPipeLine::DomainShader() 
+void GameEngineMaterial::DomainShader() 
 {
 
 }
-void GameEngineRenderingPipeLine::GeometryShaeder() 
+void GameEngineMaterial::GeometryShaeder() 
 {
 
 }
@@ -101,7 +101,7 @@ void GameEngineRenderingPipeLine::GeometryShaeder()
 // 뷰포트도 곱해줍니다.
 // 화면 컬링 
 // 픽셀 건지기
-void GameEngineRenderingPipeLine::Rasterizer() 
+void GameEngineMaterial::Rasterizer() 
 {
 	if (nullptr == RasterizerPtr)
 	{
@@ -116,7 +116,7 @@ void GameEngineRenderingPipeLine::Rasterizer()
 }
 
 
-void GameEngineRenderingPipeLine::PixelShader() 
+void GameEngineMaterial::PixelShader() 
 {
 	if (nullptr == PixelShaderPtr)
 	{
@@ -129,7 +129,7 @@ void GameEngineRenderingPipeLine::PixelShader()
 
 	// GameEngineDevice::GetContext()->PSSetShader
 }
-void GameEngineRenderingPipeLine::OutputMerger() 
+void GameEngineMaterial::OutputMerger() 
 {
 	if (nullptr == BlendStatePtr)
 	{
@@ -149,7 +149,7 @@ void GameEngineRenderingPipeLine::OutputMerger()
 }
 
 //
-//void GameEngineRenderingPipeLine::SetVertexBuffer(const std::string_view& _Value)
+//void GameEngineMaterial::SetVertexBuffer(const std::string_view& _Value)
 //{
 //	std::string UpperName = GameEngineString::ToUpper(_Value);
 //	VertexBufferPtr = GameEngineVertexBuffer::Find(UpperName);
@@ -168,7 +168,7 @@ void GameEngineRenderingPipeLine::OutputMerger()
 //}
 //
 //
-//void GameEngineRenderingPipeLine::SetIndexBuffer(const std::string_view& _Value)
+//void GameEngineMaterial::SetIndexBuffer(const std::string_view& _Value)
 //{
 //	std::string UpperName = GameEngineString::ToUpper(_Value);
 //	IndexBufferPtr = GameEngineIndexBuffer::Find(UpperName);
@@ -181,7 +181,7 @@ void GameEngineRenderingPipeLine::OutputMerger()
 
 
 
-void GameEngineRenderingPipeLine::SetVertexShader(const std::string_view& _Value)
+void GameEngineMaterial::SetVertexShader(const std::string_view& _Value)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Value);
 	VertexShaderPtr = GameEngineVertexShader::Find(UpperName);
@@ -200,7 +200,7 @@ void GameEngineRenderingPipeLine::SetVertexShader(const std::string_view& _Value
 }
 
 
-void GameEngineRenderingPipeLine::SetPixelShader(const std::string_view& _Value)
+void GameEngineMaterial::SetPixelShader(const std::string_view& _Value)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Value);
 	PixelShaderPtr = GameEnginePixelShader::Find(UpperName);
@@ -211,7 +211,7 @@ void GameEngineRenderingPipeLine::SetPixelShader(const std::string_view& _Value)
 	}
 }
 
-void GameEngineRenderingPipeLine::SetBlendState(const std::string_view& _Value)
+void GameEngineMaterial::SetBlendState(const std::string_view& _Value)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Value);
 	BlendStatePtr = GameEngineBlend::Find(UpperName);
@@ -223,7 +223,7 @@ void GameEngineRenderingPipeLine::SetBlendState(const std::string_view& _Value)
 	}
 }
 
-void GameEngineRenderingPipeLine::SetDepthState(const std::string_view& _Value)
+void GameEngineMaterial::SetDepthState(const std::string_view& _Value)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Value);
 	DepthStatePtr = GameEngineDepthState::Find(UpperName);
@@ -235,7 +235,7 @@ void GameEngineRenderingPipeLine::SetDepthState(const std::string_view& _Value)
 	}
 }
 
-void GameEngineRenderingPipeLine::SetRasterizer(const std::string_view& _Value)
+void GameEngineMaterial::SetRasterizer(const std::string_view& _Value)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Value);
 	RasterizerPtr = GameEngineRasterizer::Find(UpperName);
@@ -246,7 +246,7 @@ void GameEngineRenderingPipeLine::SetRasterizer(const std::string_view& _Value)
 	}
 }
 
-void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
+void GameEngineMaterial::RenderingPipeLineSetting()
 {
 	// 랜더라고 하는 부분은 랜더링 파이프라인을 한바뀌 돌리는 것.
 	// InputAssembler1();
@@ -261,15 +261,15 @@ void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
 	OutputMerger();
 }
 
-void GameEngineRenderingPipeLine::Render()
+void GameEngineMaterial::Render()
 {
 	//UINT IndexCount = IndexBufferPtr->GetIndexCount();
 	//GameEngineDevice::GetContext()->DrawIndexed(IndexCount, 0, 0);
 }
 
-std::shared_ptr<GameEngineRenderingPipeLine> GameEngineRenderingPipeLine::Clone() 
+std::shared_ptr<GameEngineMaterial> GameEngineMaterial::Clone() 
 {
-	std::shared_ptr<GameEngineRenderingPipeLine> ClonePipe = std::make_shared<GameEngineRenderingPipeLine>();
+	std::shared_ptr<GameEngineMaterial> ClonePipe = std::make_shared<GameEngineMaterial>();
 
 	// ClonePipe->InputLayOutPtr = InputLayOutPtr;
 	ClonePipe->VertexBufferPtr = VertexBufferPtr;

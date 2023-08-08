@@ -2,22 +2,22 @@
 #include "GameEngineResource.h"
 
 // Ό³Έν :
-class GameEngineRenderingPipeLine : public GameEngineResource<GameEngineRenderingPipeLine>
+class GameEngineMaterial : public GameEngineResource<GameEngineMaterial>
 {
 public:
 	// constrcuter destructer
-	GameEngineRenderingPipeLine();
-	~GameEngineRenderingPipeLine();
+	GameEngineMaterial();
+	~GameEngineMaterial();
 
 	// delete Function
-	GameEngineRenderingPipeLine(const GameEngineRenderingPipeLine& _Other) = delete;
-	GameEngineRenderingPipeLine(GameEngineRenderingPipeLine&& _Other) noexcept = delete;
-	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine& _Other) = delete;
-	GameEngineRenderingPipeLine& operator=(GameEngineRenderingPipeLine&& _Other) noexcept = delete;
+	GameEngineMaterial(const GameEngineMaterial& _Other) = delete;
+	GameEngineMaterial(GameEngineMaterial&& _Other) noexcept = delete;
+	GameEngineMaterial& operator=(const GameEngineMaterial& _Other) = delete;
+	GameEngineMaterial& operator=(GameEngineMaterial&& _Other) noexcept = delete;
 
-	static std::shared_ptr<class GameEngineRenderingPipeLine> Create(const std::string_view& _Name)
+	static std::shared_ptr<class GameEngineMaterial> Create(const std::string_view& _Name)
 	{
-		std::shared_ptr<class GameEngineRenderingPipeLine> NewRes = GameEngineResource<GameEngineRenderingPipeLine>::Create(_Name);
+		std::shared_ptr<class GameEngineMaterial> NewRes = GameEngineResource<GameEngineMaterial>::Create(_Name);
 		return NewRes;
 	}
 
@@ -48,7 +48,7 @@ public:
 	void RenderingPipeLineSetting();
 	void Render();
 
-	std::shared_ptr<GameEngineRenderingPipeLine> Clone();
+	std::shared_ptr<GameEngineMaterial> Clone();
 
 	bool IsClone() 
 	{

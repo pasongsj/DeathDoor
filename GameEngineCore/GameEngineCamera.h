@@ -18,6 +18,7 @@ class GameEngineCamera : public GameEngineActor
 {
 	friend GameEngineLevel;
 	friend GameEngineRenderer;
+	friend class GameEngineRenderUnit;
 
 public:
 	// constrcuter destructer
@@ -99,7 +100,9 @@ public:
 protected:
 	void Start() override;
 
-private:
+private:	
+	std::map<int, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>> Units;
+
 	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>> Renderers;
 	std::map<int, SortType> SortValues;
 
@@ -127,6 +130,8 @@ private:
 	float Far = 10000.0f;
 
 	void PushRenderer(std::shared_ptr<GameEngineRenderer> _Render);
+	void PushRenderUnit(std::shared_ptr<GameEngineRenderUnit> _Unit);
+
 
 	void Release();
 

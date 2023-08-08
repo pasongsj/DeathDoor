@@ -80,7 +80,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 	std::shared_ptr <GameEngineMesh> GetFBXMesh = FBXMesh->GetGameEngineMesh(Index, _SubSetIndex);
 
 	RenderUnit->SetMesh(GetFBXMesh);
-	RenderUnit->SetPipeLine(_Material);
+	RenderUnit->SetMaterial(_Material);
 
 	if (RenderUnit->ShaderResHelper.IsTexture("DiffuseTexture"))
 	{
@@ -109,23 +109,23 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 	return RenderUnit;
 }
 
-void GameEngineFBXRenderer::Render(float _DeltaTime)
-{
-	for (size_t UnitIndex = 0; UnitIndex < Unit.size(); UnitIndex++)
-	{
-		for (size_t SubSetIndex = 0; SubSetIndex < Unit[UnitIndex].size(); SubSetIndex++)
-		{
-			if (nullptr == Unit[UnitIndex][SubSetIndex]->Pipe)
-			{
-				continue;
-			}
-
-			//if (nullptr == Unit[UnitIndex][SubSetIndex].GetMaterial()->GetPixelShader()->GetIsDeffered())
-			//{
-			//	continue;
-			//}
-
-			Unit[UnitIndex][SubSetIndex]->Render(_DeltaTime);
-		}
-	}
-}
+//void GameEngineFBXRenderer::Render(float _DeltaTime)
+//{
+//	for (size_t UnitIndex = 0; UnitIndex < Unit.size(); UnitIndex++)
+//	{
+//		for (size_t SubSetIndex = 0; SubSetIndex < Unit[UnitIndex].size(); SubSetIndex++)
+//		{
+//			if (nullptr == Unit[UnitIndex][SubSetIndex]->Pipe)
+//			{
+//				continue;
+//			}
+//
+//			//if (nullptr == Unit[UnitIndex][SubSetIndex].GetMaterial()->GetPixelShader()->GetIsDeffered())
+//			//{
+//			//	continue;
+//			//}
+//
+//			Unit[UnitIndex][SubSetIndex]->Render(_DeltaTime);
+//		}
+//	}
+//}

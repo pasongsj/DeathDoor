@@ -5,7 +5,7 @@
 
 #include "GameEngineLevel.h"
 #include "GameEngineCamera.h"
-#include "GameEngineRenderingPipeLine.h"
+#include "GameEngineMaterial.h"
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
 #include "GameEngineShaderResHelper.h"
@@ -42,9 +42,9 @@ void GameEngineRenderUnit::SetMesh(std::shared_ptr<GameEngineMesh> _Mesh)
 	}
 }
 
-void GameEngineRenderUnit::SetPipeLine(const std::string_view& _Name) 
+void GameEngineRenderUnit::SetMaterial(const std::string_view& _Name) 
 {
-	Pipe = GameEngineRenderingPipeLine::Find(_Name);
+	Pipe = GameEngineMaterial::Find(_Name);
 
 	if (nullptr == Pipe)
 	{
@@ -66,6 +66,15 @@ void GameEngineRenderUnit::SetPipeLine(const std::string_view& _Name)
 	{
 		InputLayOutPtr->ResCreate(Mesh->GetVertexBuffer(), Pipe->GetVertexShader());
 	}
+
+	if (nullptr != ParentRenderer)
+	{
+		ParentRenderer->GetCamera()->PushRenderUnit(shared_from_this());
+	}
+
+
+	// 카메라에 들어가야 하는순간.
+
 
 
 	if (true == ShaderResHelper.IsConstantBuffer("TransformData"))
@@ -157,7 +166,7 @@ void GameEngineRenderer::Render(float _Delta)
 
 }
 
-std::shared_ptr<GameEngineRenderingPipeLine> GameEngineRenderer::GetPipeLine(int _index/* = 0*/) 
+std::shared_ptr<GameEngineMaterial> GameEngineRenderer::GetMaterial(int _index/* = 0*/)
 {
 	if (Units.size() <= _index)
 	{
@@ -168,7 +177,7 @@ std::shared_ptr<GameEngineRenderingPipeLine> GameEngineRenderer::GetPipeLine(int
 }
 
 //// 이걸 사용하게되면 이 랜더러의 유니트는 자신만의 클론 파이프라인을 가지게 된다.
-//std::shared_ptr<GameEngineRenderingPipeLine> GameEngineRenderer::GetPipeLineClone(int _index/* = 0*/)
+//std::shared_ptr<GameEngineMaterial> GameEngineRenderer::GetPipeLineClone(int _index/* = 0*/)
 //{
 //	if (Units.size() <= _index)
 //	{
@@ -210,7 +219,7 @@ std::shared_ptr<GameEngineRenderingPipeLine> GameEngineRenderer::GetPipeLine(int
 //	Unit->SetMesh(Mesh);
 //}
 //
-//void GameEngineRenderer::SetPipeLine(const std::string_view& _Name, int _index)
+//void GameEngineRenderer::SetMaterial(const std::string_view& _Name, int _index)
 //{
 //	//if (0 >= Units.size())
 //	//{
@@ -236,7 +245,7 @@ std::shared_ptr<GameEngineRenderingPipeLine> GameEngineRenderer::GetPipeLine(int
 //	}
 //
 //
-//	Unit->SetPipeLine(_Name);
+//	Unit->SetMaterial(_Name);
 //
 //	if (true == Unit->ShaderResHelper.IsConstantBuffer("TransformData"))
 //	{
