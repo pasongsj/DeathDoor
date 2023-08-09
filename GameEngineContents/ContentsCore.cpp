@@ -3,6 +3,9 @@
 #include <GameEngineCore\GameEngineCore.h>
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
+#include "ServerWindow.h"
+#include "LevelWindow.h"
+
 #include "CenterLevel.h"
 #include "TestLevel.h"
 
@@ -20,6 +23,9 @@ void ContentsCore::GameStart()
 {
 	//GameEngineGUI::GUIWindowCreate<GameEngineCoreWindow>("CoreWindow");	
 
+	GameEngineGUI::GUIWindowCreate<LevelWindow>("LevelWindow");
+	GameEngineGUI::GUIWindowCreate<ServerWindow>("ServerWindow");
+	
 	ContentsResourcesCreate();
 
 	//InstallFont();
