@@ -166,7 +166,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlackScreen.cpp" />
-    <ClCompile Include="CenterGui.cpp">
+    <ClCompile Include="LevelWindow.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -180,6 +180,10 @@
       </SubType>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ServerWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <SubType>
       </SubType>
@@ -191,7 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlackScreen.h" />
-    <ClInclude Include="CenterGui.h">
+    <ClInclude Include="LevelWindow.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -201,6 +205,10 @@
     <ClInclude Include="FadeEffect.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PreCompileHeader.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerWindow.h">
       <SubType>
       </SubType>
     </ClInclude>

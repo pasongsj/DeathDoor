@@ -13,9 +13,6 @@
     <ClCompile Include="TestObject.cpp">
       <Filter>TestLevel\Object</Filter>
     </ClCompile>
-    <ClCompile Include="CenterGui.cpp">
-      <Filter>CenterLevel</Filter>
-    </ClCompile>
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="BlackScreen.cpp">
@@ -24,6 +21,12 @@
     <ClCompile Include="PreCompileHeader.cpp" />
     <ClCompile Include="Player.cpp">
       <Filter>TestLevel\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelWindow.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerWindow.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -39,9 +42,6 @@
     <ClInclude Include="TestObject.h">
       <Filter>TestLevel\Object</Filter>
     </ClInclude>
-    <ClInclude Include="CenterGui.h">
-      <Filter>CenterLevel</Filter>
-    </ClInclude>
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="BlackScreen.h">
       <Filter>TestLevel\Object</Filter>
@@ -50,6 +50,12 @@
     <ClInclude Include="PreCompileHeader.h" />
     <ClInclude Include="Player.h">
       <Filter>TestLevel\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelWindow.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerWindow.h">
+      <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +70,9 @@
     </Filter>
     <Filter Include="TestLevel\Object">
       <UniqueIdentifier>{20971649-8cee-49b6-84ba-e57808e3cfc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{830c1ac3-b273-4035-9822-5c88ac53bfb8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

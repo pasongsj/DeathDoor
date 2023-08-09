@@ -1,22 +1,22 @@
 #include "PrecompileHeader.h"
-#include "CenterGui.h"
+#include "LevelWindow.h"
 
 #include "CenterLevel.h"
 #include "TestLevel.h"
 
-CenterGui::CenterGui() 
+LevelWindow::LevelWindow() 
 {
 }
 
-CenterGui::~CenterGui() 
+LevelWindow::~LevelWindow() 
 {
 }
 
-void CenterGui::Start()
+void LevelWindow::Start()
 {
 }
 
-void CenterGui::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _DeltaTime)
+void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _DeltaTime)
 {
 	if (ImGui::Button("CenterLevel") && Level.get() != GetLevel())
 	{
