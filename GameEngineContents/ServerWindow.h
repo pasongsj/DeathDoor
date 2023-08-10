@@ -7,6 +7,7 @@
 class ServerWindow : public GameEngineGUIWindow
 {
 public:
+	static ServerWindow* ServerGUI;
 	// constrcuter destructer
 	ServerWindow();
 	~ServerWindow();
@@ -18,16 +19,19 @@ public:
 	ServerWindow& operator=(ServerWindow&& _Other) noexcept = delete;
 
 protected:
+	void Start() override;
 	void OnGUI(std::shared_ptr<GameEngineLevel> Level, float _DeltaTime) override;
-
+	void ServerInit(std::shared_ptr<GameEngineLevel> Level);
 private:
 	GameEngineNetServer Server;
 	GameEngineNetClient Client;
 	static GameEngineNet* NetInst;
 
-	bool IsServer;
+	bool IsServer = false;
 	std::string IP = "127.0.0.1";
 	int Port = 30000;
-	bool IsClient;
+	bool IsClient = false;
+
+	std::string TestSendBuffer = "TestString";
 };
 

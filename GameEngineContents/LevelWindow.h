@@ -20,6 +20,6 @@ protected:
 	virtual void OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _DeltaTime) override;
 
 private:
-
+	std::string m_CurLevelName = "CenterLevel";
 };
 

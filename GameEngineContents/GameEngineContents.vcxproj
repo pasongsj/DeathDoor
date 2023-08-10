@@ -166,6 +166,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlackScreen.cpp" />
+    <ClCompile Include="ConnectIDPacket.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LevelWindow.cpp">
       <SubType>
       </SubType>
@@ -174,11 +178,19 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
+    <ClCompile Include="ObjectUpdatePacket.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PreCompileHeader.cpp">
       <SubType>
       </SubType>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ServerTestLevel.cpp">
+      <SubType>
+      </SubType>
     </ClCompile>
     <ClCompile Include="ServerWindow.cpp">
       <SubType>
@@ -195,6 +207,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlackScreen.h" />
+    <ClInclude Include="ConnectIDPacket.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LevelWindow.h">
       <SubType>
       </SubType>
@@ -203,8 +219,16 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
+    <ClInclude Include="ObjectUpdatePacket.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player.h" />
     <ClInclude Include="PreCompileHeader.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerTestLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

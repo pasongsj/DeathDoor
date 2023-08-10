@@ -1,10 +1,12 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineBase/GameEngineNetObject.h>
 
 // Ό³Έν :
-class TestObject : public GameEngineActor
+class TestObject : public GameEngineActor, public GameEngineNetObject
 {
 public:
+	static TestObject* MainTestObject;
 	// constrcuter destructer
 	TestObject();
 	~TestObject();
@@ -19,8 +21,10 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+	void UserUpdate(float _DeltaTime);
+	void ServerUpdate(float _DeltaTime);
+
 private:
-	std::shared_ptr<class GameEngineSpriteRenderer> m_pTestObj = nullptr;
 
 	float m_pSpeed = 200.0f;
 };
