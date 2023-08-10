@@ -1,6 +1,7 @@
 #pragma once
 
-// 설명 : 서버와 클라가 동시에 사용하는 클래스
+// 설명 :
+// 이녀석은 서버와 클라가 동시에 사용하는 클래스
 class GameEngineNet
 {
 public:
@@ -14,7 +15,7 @@ public:
 	GameEngineNet& operator=(const GameEngineNet& _Other) = delete;
 	GameEngineNet& operator=(GameEngineNet&& _Other) noexcept = delete;
 
-	virtual void Send(void* Data, unsigned int _Size) = 0;
+	virtual void Send(const char* Data, unsigned int _Size) = 0;
 
 	inline bool IsNet() 
 	{
