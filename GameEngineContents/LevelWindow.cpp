@@ -42,5 +42,23 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		m_CurLevelName = "ServerTestLevel";
 		GameEngineCore::ChangeLevel("ServerTestLevel");
 	}
+
+	ImGui::Text("CurCameraMode :");
+	ImGui::SameLine();
+	ImGui::Text(m_CurCameraMode.c_str());
+	ImGui::Separator();
+
+	if (ImGui::Button("FreeCamera") && Level.get() != GetLevel())
+	{
+		if (false == Level->GetMainCamera()->IsFreeCamera())
+		{
+			m_CurCameraMode = "Free Camera Mode";
+		}
+		else
+		{
+			m_CurCameraMode = "Play Mode";
+		}
+		Level->GetMainCamera()->SwtichFreeCamera();
+	}
 }
 

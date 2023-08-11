@@ -15,6 +15,12 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 {
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 	// 너 몇개 가지고 있어.
+	if (nullptr == FindFBXMesh)
+	{
+		MsgAssert("로드하지 않은 FBX를 사용하려 했습니다");
+		return;
+	}
+
 	for (size_t UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
 	{
 		// size_t SubSet = FindFBXMesh->GetSubSetCount(UnitCount);

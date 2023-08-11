@@ -21,5 +21,7 @@ protected:
 
 private:
 	std::string m_CurLevelName = "CenterLevel";
+
+	std::string m_CurCameraMode = "Play Mode";
 };
 
