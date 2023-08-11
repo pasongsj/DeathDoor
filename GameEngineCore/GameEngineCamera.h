@@ -58,6 +58,11 @@ public:
 		return FreeCamera;
 	}
 
+	inline void SwtichFreeCamera()
+	{
+		FreeCamera = !FreeCamera;
+	}
+
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 
