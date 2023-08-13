@@ -4,6 +4,7 @@
 #include "ObjectUpdatePacket.h"
 #include "TestObject.h"
 #include "ServerTestLevel.h"
+#include "ConnectIDPacket.h"
 
 GameEngineNet* ServerWindow::NetInst = nullptr;
 ServerWindow* ServerWindow::ServerGUI = nullptr;
@@ -81,19 +82,25 @@ void ServerWindow::OnGUI(std::shared_ptr<GameEngineLevel> Level, float _DeltaTim
 	Text = "호스트 하기";
 	if (ImGui::Button(GameEngineString::AnsiToUTF8(Text).c_str()))
 	{
+
+		ServerPacketInit(Server);
 		Server.ServerOpen(static_cast<unsigned short>(Port));
 		ServerInit(Level);
-		IsServer = true;
-
 		TestObject::MainTestObject->InitServerObject();
 
+
+		IsServer = true;
+
+
 		NetInst = &Server;
+
 
 	}
 	ImGui::Dummy(ImVec2(0, 10));
 	Text = "클라이언트로 접속하기";
 	if (ImGui::Button(GameEngineString::AnsiToUTF8(Text).c_str()))
 	{
+		ClientPacketInit(Client);
 		IsClient = Client.Connect(IP, static_cast<unsigned short>(Port));
 
 		NetInst = &Client;
@@ -104,11 +111,43 @@ void ServerWindow::OnGUI(std::shared_ptr<GameEngineLevel> Level, float _DeltaTim
 void ServerWindow::ServerInit(std::shared_ptr<GameEngineLevel> Level)
 {
 	Server.SetAcceptCallBack(
-		[=](SOCKET, GameEngineNetServer* _Server)
+		[=](SOCKET _Socket, GameEngineNetServer* _Server)
 		{
-			// 이때 상대에게 ID를 보낸다.
+			// 접속한 사람에게만 보내야 한다.
 			std::shared_ptr<ConnectIDPacket> Packet = std::make_shared<ConnectIDPacket>();
-			std::shared_ptr<TestObject> NewTestObj = Level->CreateActor<TestObject>();
+
+			int ID = GameEngineNetObject::CreateServerID();
+			Packet->SetObjectID(ID);
+
+			GameEngineSerializer Ser;
+			Packet->SerializePacket(Ser);
+
+			// 유일하게 한번 딱 직접 소켓을 써서 보내야할때.
+			GameEngineNet::Send(_Socket, Ser.GetConstCharPtr(), Ser.GetWriteOffSet());
+
+			//// 이때 상대에게 ID를 보낸다.
+			//std::shared_ptr<ConnectIDPacket> Packet = std::make_shared<ConnectIDPacket>();
+			//std::shared_ptr<TestObject> NewTestObj = Level->CreateActor<TestObject>();
+
+		}
+
+	);
+}
+
+
+void ServerWindow::ServerPacketInit(GameEngineNetServer& _Net)
+{
+
+}
+
+void ServerWindow::ClientPacketInit(GameEngineNetClient& _Net)
+{
+	_Net.Dispatcher.AddHandler<ConnectIDPacket>(PacketEnum::ConnectIDPacket,
+		[](std::shared_ptr<ConnectIDPacket> _Packet)
+		{
+			//GetLevel()->
+
+			int a = 0;
 		}
 	);
 }
