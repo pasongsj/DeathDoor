@@ -7,14 +7,13 @@ class ObjectUpdatePacket : public GameEnginePacket
 {
 public:
 	// constrcuter destructer
-	ObjectUpdatePacket();
-	~ObjectUpdatePacket();
-
-	// delete Function
-	ObjectUpdatePacket(const ObjectUpdatePacket& _Other) = delete;
-	ObjectUpdatePacket(ObjectUpdatePacket&& _Other) noexcept = delete;
-	ObjectUpdatePacket& operator=(const ObjectUpdatePacket& _Other) = delete;
-	ObjectUpdatePacket& operator=(ObjectUpdatePacket&& _Other) noexcept = delete;
+	ObjectUpdatePacket()
+	{
+		SetPacketID(PacketEnum::ObjectUpdatePacket);
+	}
+	~ObjectUpdatePacket()
+	{
+	}
 
 protected:
 

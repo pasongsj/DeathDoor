@@ -27,6 +27,11 @@ public:
 	//GameEngineFile& operator=(const GameEngineFile& _Other) = delete;
 	//GameEngineFile& operator=(GameEngineFile&& _Other) noexcept = delete;
 
+	std::string GetFileName()
+	{
+		return Path.GetFileName();
+	}
+
 	std::string GetFullPath() 
 	{
 		return Path.Path.string();

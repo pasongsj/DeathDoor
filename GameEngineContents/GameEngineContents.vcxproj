@@ -166,10 +166,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlackScreen.cpp" />
-    <ClCompile Include="ConnectIDPacket.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="LevelWindow.cpp">
       <SubType>
       </SubType>
@@ -178,7 +174,7 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
-    <ClCompile Include="ObjectUpdatePacket.cpp">
+    <ClCompile Include="PacketEnum.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -220,6 +216,10 @@
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
     <ClInclude Include="ObjectUpdatePacket.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PacketEnum.h">
       <SubType>
       </SubType>
     </ClInclude>

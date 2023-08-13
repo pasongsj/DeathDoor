@@ -1,4 +1,5 @@
 #pragma once
+#include "GameEngineDispatcher.h"
 
 // 설명 :
 // 이녀석은 서버와 클라가 동시에 사용하는 클래스
@@ -15,17 +16,26 @@ public:
 	GameEngineNet& operator=(const GameEngineNet& _Other) = delete;
 	GameEngineNet& operator=(GameEngineNet&& _Other) noexcept = delete;
 
+	static void Send(SOCKET _Socket, const char* Data, unsigned int _Size);
+
 	virtual void Send(const char* Data, unsigned int _Size) = 0;
+	void SendPacket(std::shared_ptr<class GameEnginePacket> _Packet);
 
 	inline bool IsNet() 
 	{
 		return IsNetValue;
 	}
 
+	GameEngineDispatcher Dispatcher;
+
 protected:
 	static void RecvThreadFunction(SOCKET _Socket, GameEngineNet* _Net);
 
 private:
 	std::atomic<bool> IsNetValue = true;
+
+	std::mutex RecvPacketLock;
+	std::list<std::shared_ptr<GameEnginePacket>> RecvPacket;
+
 };
 
