@@ -6,8 +6,9 @@
 
 
 #pragma warning(disable : 4996)
-#include <GameEngineCore/ThirdParty/PhysX/inc/PhysX/PxConfig.h>
-#include <GameEngineCore/ThirdParty/PhysX/inc/PhysX/PxPhysicsAPI.h>
+#include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxConfig.h>
+#include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxPhysicsAPI.h>
+#include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxPhysXConfig.h>
 
 #pragma comment (lib, "PhysX_static_64.lib")
 #pragma comment (lib, "PhysXCharacterKinematic_static_64.lib")
