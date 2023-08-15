@@ -1280,28 +1280,12 @@
     <CopyFileToFolders Include="ThirdParty\PhysX_4_1\bin\Release\PhysX_static_64.lib">
       <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
     </CopyFileToFolders>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="ThirdParty\PhysX_4_1\bin\Release\PhysXVehicle_static_64.lib">
-      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX_4_1\bin\Release\PhysXPvdSDK_static_64.lib">
-      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX_4_1\bin\Release\PhysXFoundation_static_64.lib">
-      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX_4_1\bin\Release\PhysXExtensions_static_64.lib">
-      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX_4_1\bin\Release\PhysXCooking_static_64.lib">
-      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX_4_1\bin\Release\PhysXCommon_static_64.lib">
-      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
-    </Library>
-    <Library Include="ThirdParty\PhysX_4_1\bin\Release\PhysXCharacterKinematic_static_64.lib">
-      <Filter>ThirdParty\PhysX_5\bin\Release</Filter>
-    </Library>
+    <CopyFileToFolders Include="ThirdParty\PhysX_4_1\bin\Release\PhysXCharacterKinematic_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX_4_1\bin\Release\PhysXCommon_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX_4_1\bin\Release\PhysXCooking_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX_4_1\bin\Release\PhysXExtensions_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX_4_1\bin\Release\PhysXFoundation_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX_4_1\bin\Release\PhysXPvdSDK_static_64.lib" />
+    <CopyFileToFolders Include="ThirdParty\PhysX_4_1\bin\Release\PhysXVehicle_static_64.lib" />
   </ItemGroup>
 </Project>
