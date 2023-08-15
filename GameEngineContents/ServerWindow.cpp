@@ -81,8 +81,8 @@ void ServerWindow::OnGUI(std::shared_ptr<GameEngineLevel> Level, float _DeltaTim
 	Text = "호스트 하기";
 	if (ImGui::Button(GameEngineString::AnsiToUTF8(Text).c_str()))
 	{
-		Server.ServerOpen(static_cast<unsigned short>(Port));
 		ServerInit(Level);
+		Server.ServerOpen(static_cast<unsigned short>(Port));
 		IsServer = true;
 
 		TestObject::MainTestObject->InitServerObject();
@@ -108,7 +108,7 @@ void ServerWindow::ServerInit(std::shared_ptr<GameEngineLevel> Level)
 		{
 			// 이때 상대에게 ID를 보낸다.
 			std::shared_ptr<ConnectIDPacket> Packet = std::make_shared<ConnectIDPacket>();
-			std::shared_ptr<TestObject> NewTestObj = Level->CreateActor<TestObject>();
+			//std::shared_ptr<TestObject> NewTestObj = Level->CreateActor<TestObject>();
 		}
 	);
 }

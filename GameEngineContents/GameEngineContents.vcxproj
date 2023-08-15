@@ -178,6 +178,7 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
+    <ClCompile Include="PhysXTestLevel.cpp" />
     <ClCompile Include="ObjectUpdatePacket.cpp">
       <SubType>
       </SubType>
@@ -219,6 +220,7 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
+    <ClInclude Include="PhysXTestLevel.h" />
     <ClInclude Include="ObjectUpdatePacket.h">
       <SubType>
       </SubType>

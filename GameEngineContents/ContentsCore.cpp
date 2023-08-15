@@ -9,6 +9,7 @@
 #include "CenterLevel.h"
 #include "TestLevel.h"
 #include "ServerTestLevel.h"
+#include "PhysXTestLevel.h"
 
 ContentsCore::ContentsCore()
 {
@@ -34,6 +35,7 @@ void ContentsCore::GameStart()
 	GameEngineCore::CreateLevel<CenterLevel>();
 	GameEngineCore::CreateLevel<TestLevel>();
 	GameEngineCore::CreateLevel<ServerTestLevel>();
+	GameEngineCore::CreateLevel<PhysXTestLevel>();
 
 	GameEngineCore::ChangeLevel("CenterLevel");
 }

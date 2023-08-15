@@ -4,6 +4,7 @@
 #include "CenterLevel.h"
 #include "TestLevel.h"
 #include "ServerTestLevel.h"
+#include "PhysXTestLevel.h"
 
 LevelWindow::LevelWindow() 
 {
@@ -41,6 +42,12 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	{
 		m_CurLevelName = "ServerTestLevel";
 		GameEngineCore::ChangeLevel("ServerTestLevel");
+	}
+
+	if (ImGui::Button("PhysXTestLevel") && Level.get() != GetLevel())
+	{
+		m_CurLevelName = "PhysXTestLevel";
+		GameEngineCore::ChangeLevel("PhysXTestLevel");
 	}
 }
 

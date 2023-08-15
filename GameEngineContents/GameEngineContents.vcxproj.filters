@@ -37,6 +37,9 @@
     <ClCompile Include="ServerTestLevel.cpp">
       <Filter>TestLevel</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXTestLevel.cpp">
+      <Filter>PhysX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -75,6 +78,9 @@
     <ClInclude Include="ServerTestLevel.h">
       <Filter>TestLevel</Filter>
     </ClInclude>
+    <ClInclude Include="PhysXTestLevel.h">
+      <Filter>PhysX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CenterLevel">
@@ -94,6 +100,9 @@
     </Filter>
     <Filter Include="Packet">
       <UniqueIdentifier>{7a60a209-6a23-4332-9882-202217e65294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysX">
+      <UniqueIdentifier>{4d83cbc8-4188-4e36-b30b-1974fd06a430}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
