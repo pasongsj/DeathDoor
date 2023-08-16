@@ -39,7 +39,7 @@ void PhysXBoxGeometryComponent::CreatePhysXActors(physx::PxScene* _Scene, physx:
 
 	// 중력이 적용되지 않도록
 	// TODO::RigidStatic으로 변경해야
-	m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
+	m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
 
 	m_pRigidDynamic->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
 

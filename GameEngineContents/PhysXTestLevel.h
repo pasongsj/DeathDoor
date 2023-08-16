@@ -6,7 +6,6 @@ class PhysXTestLevel : public GameEngineLevel
 {
 	class CustomErrorCallback : public physx::PxErrorCallback
 	{
-		friend class PhysXTestLevel;
 	private:
 		void reportError(physx::PxErrorCode::Enum code, const char* message, const char* file, int line) override
 		{
@@ -14,7 +13,7 @@ class PhysXTestLevel : public GameEngineLevel
 		}
 	};
 
-	friend class TestObject;
+	friend class PhysXTestActor;
 public:
 	// constrcuter destructer
 	PhysXTestLevel();
