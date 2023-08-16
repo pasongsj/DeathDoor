@@ -37,8 +37,20 @@
     <ClCompile Include="ServerTestLevel.cpp">
       <Filter>TestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="PhysXTestLevel.cpp">
+    <ClCompile Include="PhysXDefault.cpp">
       <Filter>PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTestActor.cpp">
+      <Filter>PhysX\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTestLevel.cpp">
+      <Filter>PhysX\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTestPlane.cpp">
+      <Filter>PhysX\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXBoxGeometryComponent.cpp">
+      <Filter>PhysX\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,8 +90,20 @@
     <ClInclude Include="ServerTestLevel.h">
       <Filter>TestLevel</Filter>
     </ClInclude>
-    <ClInclude Include="PhysXTestLevel.h">
+    <ClInclude Include="PhysXDefault.h">
       <Filter>PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTestActor.h">
+      <Filter>PhysX\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTestLevel.h">
+      <Filter>PhysX\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTestPlane.h">
+      <Filter>PhysX\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXBoxGeometryComponent.h">
+      <Filter>PhysX\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +127,15 @@
     </Filter>
     <Filter Include="PhysX">
       <UniqueIdentifier>{4d83cbc8-4188-4e36-b30b-1974fd06a430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysX\Object">
+      <UniqueIdentifier>{c0881260-81c3-4478-b5d6-05f3ea633a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysX\Level">
+      <UniqueIdentifier>{6fa03a4f-bdb5-45d7-80bb-eda57c90363e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysX\Component">
+      <UniqueIdentifier>{d7309d46-1f1f-43b1-9d99-dcb38e66248c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

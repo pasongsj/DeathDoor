@@ -178,8 +178,18 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
+    <ClCompile Include="PhysXBoxGeometryComponent.cpp" />
+    <ClCompile Include="PhysXDefault.cpp" />
+    <ClCompile Include="PhysXTestActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PhysXTestLevel.cpp" />
     <ClCompile Include="ObjectUpdatePacket.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXTestPlane.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -220,8 +230,18 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
+    <ClInclude Include="PhysXBoxGeometryComponent.h" />
+    <ClInclude Include="PhysXDefault.h" />
+    <ClInclude Include="PhysXTestActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PhysXTestLevel.h" />
     <ClInclude Include="ObjectUpdatePacket.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXTestPlane.h">
       <SubType>
       </SubType>
     </ClInclude>

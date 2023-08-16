@@ -2,7 +2,7 @@
 #include "PhysXTestLevel.h"
 
 #include <ctype.h>
-#include "TestObject.h"
+#include "PhysXTestActor.h"
 
 
 #include <PhysXSDKSnippets/SnippetUtils.h>
@@ -71,7 +71,7 @@ void PhysXTestLevel::Initialize()
 	physx::PxRigidStatic* pGroundPlane = PxCreatePlane(*m_pPhysics, physx::PxPlane(0, 1, 0, 10000), *m_pMaterial);
 	m_pScene->addActor(*pGroundPlane);
 
-	CreateActor<TestObject>();
+	CreateActor<PhysXTestActor>();
 }
 
 

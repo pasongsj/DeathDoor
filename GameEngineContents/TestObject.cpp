@@ -26,10 +26,6 @@ void TestObject::Start()
 	pRenderer->GetTransform()->SetLocalScale(Scale * 10.0f);
 	GetTransform()->SetLocalPosition(float4(0.f, 1000.f, 0.f));
 	
-	if (GetLevel()->GetSharedThis() == GameEngineCore::GetCurLevel())
-	{
-		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
-	}
 }
 
 void TestObject::Update(float _DeltaTime)
