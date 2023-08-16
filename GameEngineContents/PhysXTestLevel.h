@@ -4,6 +4,16 @@
 // 설명 :
 class PhysXTestLevel : public GameEngineLevel
 {
+	class CustomErrorCallback : public physx::PxErrorCallback
+	{
+		friend class PhysXTestLevel;
+	private:
+		void reportError(physx::PxErrorCode::Enum code, const char* message, const char* file, int line) override
+		{
+			MsgAssert(message);
+		}
+	};
+
 	friend class TestObject;
 public:
 	// constrcuter destructer
@@ -26,7 +36,9 @@ protected:
 private:
 	// Foundation을 생성하는데 필요한 변수
 	physx::PxDefaultAllocator		m_Allocator;
-	physx::PxDefaultErrorCallback	m_ErrorCallback;
+	//physx::PxDefaultErrorCallback	m_ErrorCallback;
+	CustomErrorCallback m_ErrorCallback;
+
 
 	physx::PxPhysics* m_pPhysics = nullptr;
 	physx::PxScene* m_pScene = nullptr;
@@ -34,7 +46,7 @@ private:
 	physx::PxFoundation* m_pFoundation = nullptr;
 	physx::PxDefaultCpuDispatcher* m_pDispatcher = nullptr;
 
-	physx::PxPvd* m_pPvd = nullptr;
+	//physx::PxPvd* m_pPvd = nullptr;
 
 	void Initialize();
 
