@@ -25,6 +25,11 @@ MapEditorWindow::~MapEditorWindow()
 void MapEditorWindow::Start()
 {
 	MapEditorWindow::EditorGUI->Off();
+
+	GameEngineDirectory Dir;
+	Dir.MoveParentToDirectory("ContentResources");
+	FilePath.SetPath(Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath());
+
 }
 
 void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _DeltaTime)
@@ -41,10 +46,16 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 	}
 
 	ImGui::Separator();
-	if (false == ReadCSV && ImGui::Button("Read") && Level.get() != GetLevel())
+	if (false == ReadCSV && ImGui::Button("Read Actor File") && Level.get() != GetLevel())
 	{
 		ReadActor(Level);
 		ReadCSV = true;
+		return;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Clear Actor File") && Level.get() != GetLevel())
+	{
+		ClearActors();
 		return;
 	}
 	ImGui::Separator();
@@ -285,15 +296,6 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 
 }
 
-//int ActorIndex = -1;
-//int ActorType = 1;
-//int ActorOrder = 0;
-//float4 LocScale = float4::ZERO;
-//float4 LocRot = float4::ZERO;
-//float4 LocPos = float4::ZERO;
-//float ScaleRatio = 1.0f;
-//bool IsMoveable = false;
-//std::string FBXName = "ActorFrozenBlock.fbx";
 
 void MapEditorWindow::SaveActors()
 {
@@ -315,43 +317,53 @@ void MapEditorWindow::SaveActors()
 	CurActorSturct.ScaleRatio = stof(Ratio);
 	CurActorSturct.IsMoveable = false;
 	CurActorSturct.FBXName = FBXName;
-
-	GameEngineDirectory Dir;
-	Dir.MoveParentToDirectory("ContentResources");
-	ProcessMapInfo::RWProcessInst->WriteFile(Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath(), CurActorSturct);
+	CurActorSturct.FBXNameLen = FBXName.size();
+	//GameEngineDirectory Dir;
+	//Dir.MoveParentToDirectory("ContentResources");
+	//ProcessMapInfo::RWProcessInst->WriteFile(Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath(), CurActorSturct);
+	ProcessMapInfo::RWProcessInst->WriteFile(FilePath, CurActorSturct);
 }
 
 void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 {
-	GameEngineDirectory Dir;
-	Dir.MoveParentToDirectory("ContentResources");
-	std::vector<SponeMapActor> AllInfo = ProcessMapInfo::RWProcessInst->OpenFile(Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath());
+	//GameEngineDirectory Dir;
+	//Dir.MoveParentToDirectory("ContentResources");
+	//std::vector<SponeMapActor> AllInfo = ProcessMapInfo::RWProcessInst->OpenFile(Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath());
+	std::vector<SponeMapActor> AllInfo = ProcessMapInfo::RWProcessInst->OpenFile(FilePath);
+	std::shared_ptr<GameEngineActor> LoadActor = nullptr;
 	for (SponeMapActor _str : AllInfo)
 	{
 		if (static_cast<int>(ContentsActorType::GameEngineActor) == static_cast<int>(_str.ActorType))
 		{
-			if (nullptr == GameEngineFBXMesh::Find(FBXName))
+			if (nullptr == GameEngineFBXMesh::Find(_str.FBXName))
 			{
 				MsgTextBox("FBX매쉬를 선택하지 않았습니다");
 				return;
 			}
-			CurActor = Level->CreateActor<GameEngineActor>();
-			std::shared_ptr<GameEngineFBXRenderer> pRenderer = CurActor->CreateComponent< GameEngineFBXRenderer>();
-			pRenderer->SetFBXMesh(FBXName, MeterialName);
+			LoadActor = Level->CreateActor<GameEngineActor>();
+			std::shared_ptr<GameEngineFBXRenderer> pRenderer = LoadActor->CreateComponent< GameEngineFBXRenderer>();
+			pRenderer->SetFBXMesh(_str.FBXName, MeterialName);
 		}
 		else if (static_cast<int>(ContentsActorType::TestObject) == static_cast<int>(_str.ActorType))
 		{
-			CurActor = Level->CreateActor<TestObject>();
+			LoadActor = Level->CreateActor<TestObject>();
 		}
 		else if (static_cast<int>(ContentsActorType::Player) == static_cast<int>(_str.ActorType))
 		{
-			CurActor = Level->CreateActor<Player>();
+			LoadActor = Level->CreateActor<Player>();
 		}
 		else
 		{
 			return;
 		}
-
+		LoadActor->SetOrder(static_cast<int>(_str.ActorIndex));
+		LoadActor->GetTransform()->SetLocalScale(_str.LocScale);
+		LoadActor->GetTransform()->SetLocalRotation(_str.LocRot);
+		LoadActor->GetTransform()->SetLocalPosition(_str.LocPos);
+		//ratio
+		//IsMoveable
+		++lastindex;
+		LoadActor = nullptr;
 	}
 }
 
@@ -378,4 +390,14 @@ void MapEditorWindow::ResetValue()
 void MapEditorWindow::ReleaseMapEditor()
 {
 	CurActor = nullptr;
+}
+
+
+void MapEditorWindow::ClearActors()
+{
+	//GameEngineDirectory Dir;
+	//Dir.MoveParentToDirectory("ContentResources");
+	//Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath();
+	//ProcessMapInfo::RWProcessInst->CpyAndClear(Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath());
+	ProcessMapInfo::RWProcessInst->CpyAndClear(FilePath);
 }

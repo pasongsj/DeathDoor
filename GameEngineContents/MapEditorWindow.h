@@ -24,6 +24,8 @@ protected:
 
 private:
 
+	GameEnginePath FilePath;
+
 	bool ReadCSV = false;
 
 	int lastindex = -1;
@@ -58,4 +60,6 @@ private:
 	void SaveActors();
 
 	void ReadActor(std::shared_ptr<class GameEngineLevel> Level);
+
+	void ClearActors();
 };

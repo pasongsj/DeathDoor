@@ -19,7 +19,7 @@ public:
 
 	std::vector<SponeMapActor> OpenFile(GameEnginePath _Path);
 
-	void CloseFile();
+	void CpyAndClear(GameEnginePath _Path);
 
 	void WriteFile(GameEnginePath _Path, const SponeMapActor& _Value);
 

@@ -21,5 +21,6 @@ struct SponeMapActor {
     float4 LocPos = float4::ZERO;
     float ScaleRatio = 1.0f;
     bool IsMoveable = false;
+    unsigned int FBXNameLen = -1;
     std::string FBXName = "ActorFrozenBlock.fbx";
 };
