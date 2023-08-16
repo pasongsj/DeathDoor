@@ -4,6 +4,7 @@
 // Ό³Έν :
 class PhysXTestLevel : public GameEngineLevel
 {
+	friend class TestObject;
 public:
 	// constrcuter destructer
 	PhysXTestLevel();
@@ -40,5 +41,6 @@ private:
 	void Simulate(bool _Value = true);
 
 	void Release();
+
 };
 

@@ -15,6 +15,7 @@ PhysXTestLevel::PhysXTestLevel()
 
 PhysXTestLevel::~PhysXTestLevel() 
 {
+	Release();
 }
 
 void PhysXTestLevel::Start()
@@ -31,7 +32,6 @@ void PhysXTestLevel::LevelChangeStart()
 
 void PhysXTestLevel::LevelChangeEnd()
 {
-	Release();
 }
 
 void PhysXTestLevel::Update(float _DeltaTime)
@@ -52,7 +52,7 @@ void PhysXTestLevel::Initialize()
 	m_pPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_pFoundation, physx::PxTolerancesScale(), true);
 
 	physx::PxSceneDesc SceneDesc(m_pPhysics->getTolerancesScale());
-	SceneDesc.gravity = physx::PxVec3(0.0f, -10.f, 0.0f);
+	SceneDesc.gravity = physx::PxVec3(0.0f, -981.f, 0.0f);
 	m_pDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
 	SceneDesc.cpuDispatcher = m_pDispatcher;
 	SceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
@@ -68,8 +68,10 @@ void PhysXTestLevel::Initialize()
 
 	m_pMaterial = m_pPhysics->createMaterial(0.5f, 0.5f, 0.5f);
 
-	physx::PxRigidStatic* pGroundPlane = PxCreatePlane(*m_pPhysics, physx::PxPlane(0, 1, 0, 0), *m_pMaterial);
+	physx::PxRigidStatic* pGroundPlane = PxCreatePlane(*m_pPhysics, physx::PxPlane(0, 1, 0, 10000), *m_pMaterial);
 	m_pScene->addActor(*pGroundPlane);
+
+	CreateActor<TestObject>();
 }
 
 
