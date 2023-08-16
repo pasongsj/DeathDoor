@@ -24,6 +24,8 @@ protected:
 
 private:
 
+	bool ReadCSV = false;
+
 	int lastindex = -1;
 	int saveIndex = -1;
 
@@ -55,5 +57,5 @@ private:
 	std::string SaveIndex = "                ";
 	void SaveActors();
 
-	void ReadActor();
+	void ReadActor(std::shared_ptr<class GameEngineLevel> Level);
 };

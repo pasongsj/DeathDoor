@@ -2,7 +2,7 @@
 #include "PreCompileHeader.h"
 #include <functional>
 #include <string>
-
+const int MAX_NAME_LEN = 32;
 
 enum class ContentsActorType
 {
@@ -12,15 +12,14 @@ enum class ContentsActorType
 };
 
 
-struct employeeShort {
-    int ActorIndex;
-    ContentsActorType ActorType;
-    int ActorOrder;
-    std::string FBXName;
-    float4 LPos;
-    float4 LRot;
-    float4 LScale;
-    float ScaleRatio;
-    bool IsMoveable;
-
+struct SponeMapActor {
+    int ActorIndex = -1;
+	int ActorType = 1;
+    int ActorOrder = 0;
+    float4 LocScale = float4::ZERO;
+    float4 LocRot = float4::ZERO;
+    float4 LocPos = float4::ZERO;
+    float ScaleRatio = 1.0f;
+    bool IsMoveable = false;
+    std::string FBXName = "ActorFrozenBlock.fbx";
 };

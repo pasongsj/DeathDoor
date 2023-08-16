@@ -196,6 +196,10 @@
       </SubType>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ProcessMapInfo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ServerTestLevel.cpp">
       <SubType>
       </SubType>
@@ -250,6 +254,10 @@
     </ClInclude>
     <ClInclude Include="Player.h" />
     <ClInclude Include="PreCompileHeader.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ProcessMapInfo.h">
       <SubType>
       </SubType>
     </ClInclude>

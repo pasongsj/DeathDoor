@@ -43,6 +43,9 @@
     <ClCompile Include="ContentsFBXRenderer.cpp">
       <Filter>mapeditor</Filter>
     </ClCompile>
+    <ClCompile Include="ProcessMapInfo.cpp">
+      <Filter>mapeditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -94,6 +97,9 @@
       <Filter>mapeditor</Filter>
     </ClInclude>
     <ClInclude Include="ContentsFBXRenderer.h">
+      <Filter>mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessMapInfo.h">
       <Filter>mapeditor</Filter>
     </ClInclude>
   </ItemGroup>

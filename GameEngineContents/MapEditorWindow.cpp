@@ -3,6 +3,11 @@
 #include "TestObject.h"
 #include "Player.h"
 
+
+
+#include "ProcessMapInfo.h"
+#include "MapEditGlobalValue.h"
+
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 
 
@@ -35,6 +40,13 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 		}
 	}
 
+	ImGui::Separator();
+	if (false == ReadCSV && ImGui::Button("Read") && Level.get() != GetLevel())
+	{
+		ReadActor(Level);
+		ReadCSV = true;
+		return;
+	}
 	ImGui::Separator();
 
 
@@ -273,13 +285,74 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 
 }
 
+//int ActorIndex = -1;
+//int ActorType = 1;
+//int ActorOrder = 0;
+//float4 LocScale = float4::ZERO;
+//float4 LocRot = float4::ZERO;
+//float4 LocPos = float4::ZERO;
+//float ScaleRatio = 1.0f;
+//bool IsMoveable = false;
+//std::string FBXName = "ActorFrozenBlock.fbx";
+
 void MapEditorWindow::SaveActors()
 {
+	enum class ContentsActorType
+	{
+		GameEngineActor,
+		TestObject,
+		Player
+	};
+	std::map<std::string, int> typeconvertor = { {"GameEngineActor",static_cast<int>(ContentsActorType::GameEngineActor)},
+		{"TestObject",static_cast<int>(ContentsActorType::TestObject)},{"Player",static_cast<int>(ContentsActorType::Player)} };
+	SponeMapActor CurActorSturct;
+	CurActorSturct.ActorIndex = lastindex;
+	CurActorSturct.ActorType = typeconvertor[ActorType];
+	CurActorSturct.ActorOrder = 0; // 임시
+	CurActorSturct.LocScale = CurActor->GetTransform()->GetLocalScale();
+	CurActorSturct.LocRot = CurActor->GetTransform()->GetLocalRotation();
+	CurActorSturct.LocPos = CurActor->GetTransform()->GetLocalPosition();
+	CurActorSturct.ScaleRatio = stof(Ratio);
+	CurActorSturct.IsMoveable = false;
+	CurActorSturct.FBXName = FBXName;
 
+	GameEngineDirectory Dir;
+	Dir.MoveParentToDirectory("ContentResources");
+	ProcessMapInfo::RWProcessInst->WriteFile(Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath(), CurActorSturct);
 }
-void MapEditorWindow::ReadActor()
-{
 
+void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
+{
+	GameEngineDirectory Dir;
+	Dir.MoveParentToDirectory("ContentResources");
+	std::vector<SponeMapActor> AllInfo = ProcessMapInfo::RWProcessInst->OpenFile(Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath());
+	for (SponeMapActor _str : AllInfo)
+	{
+		if (static_cast<int>(ContentsActorType::GameEngineActor) == static_cast<int>(_str.ActorType))
+		{
+			if (nullptr == GameEngineFBXMesh::Find(FBXName))
+			{
+				MsgTextBox("FBX매쉬를 선택하지 않았습니다");
+				return;
+			}
+			CurActor = Level->CreateActor<GameEngineActor>();
+			std::shared_ptr<GameEngineFBXRenderer> pRenderer = CurActor->CreateComponent< GameEngineFBXRenderer>();
+			pRenderer->SetFBXMesh(FBXName, MeterialName);
+		}
+		else if (static_cast<int>(ContentsActorType::TestObject) == static_cast<int>(_str.ActorType))
+		{
+			CurActor = Level->CreateActor<TestObject>();
+		}
+		else if (static_cast<int>(ContentsActorType::Player) == static_cast<int>(_str.ActorType))
+		{
+			CurActor = Level->CreateActor<Player>();
+		}
+		else
+		{
+			return;
+		}
+
+	}
 }
 
 
