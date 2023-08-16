@@ -1,16 +1,21 @@
 #pragma once
 #include "PreCompileHeader.h"
+#include <functional>
+#include <string>
+
 
 enum class ContentsActorType
 {
-    ContentsFBXActor,
-
+    GameEngineActor,
+    TestObject,
+    Player
 };
 
 
 struct employeeShort {
     int ActorIndex;
     ContentsActorType ActorType;
+    int ActorOrder;
     std::string FBXName;
     float4 LPos;
     float4 LRot;

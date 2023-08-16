@@ -1,6 +1,6 @@
 #pragma once
-#pragma once
 #include <GameEngineCore/GameEngineGUI.h>
+#include "MapEditGlobalValue.h"
 
 class MapEditorWindow : public GameEngineGUIWindow
 {
@@ -16,6 +16,8 @@ public:
 	MapEditorWindow& operator=(const MapEditorWindow& _Other) = delete;
 	MapEditorWindow& operator=(MapEditorWindow&& _Other) noexcept = delete;
 
+	void ReleaseMapEditor();
+
 protected:
 	void Start() override;
 	void OnGUI(std::shared_ptr<GameEngineLevel> Level, float _DeltaTime) override;
@@ -23,8 +25,15 @@ protected:
 private:
 
 	int lastindex = -1;
+	int saveIndex = -1;
 
 	std::shared_ptr<class GameEngineActor> CurActor = nullptr;
+
+
+	std::string ActorType = "                    ";
+	std::string FBXName = "                   ";
+	std::string MeterialName = "MeshTexture";
+
 
 	float4 CurRot = float4::ZERO;
 	float4 CurPos = float4::ZERO;
@@ -42,4 +51,9 @@ private:
 	std::string RevPositionZ = "0000.000000";
 
 	void ResetValue();
+
+	std::string SaveIndex = "                ";
+	void SaveActors();
+
+	void ReadActor();
 };

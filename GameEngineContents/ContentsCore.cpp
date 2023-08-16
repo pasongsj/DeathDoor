@@ -44,6 +44,7 @@ void ContentsCore::GameStart()
 
 void ContentsCore::GameEnd()
 {
+	MapEditorWindow::EditorGUI->ReleaseMapEditor();
 	//RemoveFont();
 }
 
