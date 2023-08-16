@@ -105,7 +105,9 @@ void ProcessMapInfo::CpyAndClear(GameEnginePath _Path)
 	in.read(buf, length);
 
 	in.close();
-
+	std::ofstream clearf;
+	clearf.open(_Path.GetFullPath(), std::ios_base::out);
+	clearf.close();
 
 	// 메모리에 저장된 파일 데이터를 다른 파일에 저장한다
 	std::ofstream out;
