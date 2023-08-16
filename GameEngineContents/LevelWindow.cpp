@@ -43,6 +43,12 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		GameEngineCore::ChangeLevel("ServerTestLevel");
 	}
 
+	if (ImGui::Button("MapEditorLevel") && Level.get() != GetLevel())
+	{
+		m_CurLevelName = "MapEditorLevel";
+		GameEngineCore::ChangeLevel("MapEditorLevel");
+	}
+
 	ImGui::Text("CurCameraMode :");
 	ImGui::SameLine();
 	ImGui::Text(m_CurCameraMode.c_str());
