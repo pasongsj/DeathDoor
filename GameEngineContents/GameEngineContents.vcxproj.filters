@@ -34,6 +34,15 @@
     <ClCompile Include="PacketEnum.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="MapEditorWindow.cpp">
+      <Filter>mapeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditorLevel.cpp">
+      <Filter>mapeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsFBXRenderer.cpp">
+      <Filter>mapeditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -75,6 +84,18 @@
     <ClInclude Include="PacketEnum.h">
       <Filter>Server</Filter>
     </ClInclude>
+    <ClInclude Include="MapEditorWindow.h">
+      <Filter>mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditorLevel.h">
+      <Filter>mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditGlobalValue.h">
+      <Filter>mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsFBXRenderer.h">
+      <Filter>mapeditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CenterLevel">
@@ -98,8 +119,8 @@
     <Filter Include="Server">
       <UniqueIdentifier>{b7663b85-6fd3-4f21-b289-cdc522ae4486}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NewFilter1">
-      <UniqueIdentifier>{2fa9cc8c-2c03-49b5-a6b6-75a7a164ebc3}</UniqueIdentifier>
+    <Filter Include="mapeditor">
+      <UniqueIdentifier>{89975606-5f56-4ef4-845e-15ad963da86d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

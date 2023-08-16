@@ -5,10 +5,12 @@
 
 #include "ServerWindow.h"
 #include "LevelWindow.h"
+#include "MapEditorWindow.h"
 
 #include "CenterLevel.h"
 #include "TestLevel.h"
 #include "ServerTestLevel.h"
+#include "MapEditorLevel.h"
 
 ContentsCore::ContentsCore()
 {
@@ -26,6 +28,7 @@ void ContentsCore::GameStart()
 
 	GameEngineGUI::GUIWindowCreate<LevelWindow>("LevelWindow");
 	GameEngineGUI::GUIWindowCreate<ServerWindow>("ServerWindow");
+	GameEngineGUI::GUIWindowCreate<MapEditorWindow>("MapEditorWindow");
 	
 	ContentsResourcesCreate();
 
@@ -34,6 +37,7 @@ void ContentsCore::GameStart()
 	GameEngineCore::CreateLevel<CenterLevel>();
 	GameEngineCore::CreateLevel<TestLevel>();
 	GameEngineCore::CreateLevel<ServerTestLevel>();
+	GameEngineCore::CreateLevel<MapEditorLevel>();
 
 	GameEngineCore::ChangeLevel("CenterLevel");
 }
