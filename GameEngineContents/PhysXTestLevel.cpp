@@ -46,9 +46,9 @@ void PhysXTestLevel::Initialize()
 {
 	m_pFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_Allocator, m_ErrorCallback);
 
-	//m_pPvd = PxCreatePvd(*m_pFoundation);
-	//physx::PxPvdTransport* pTransport = physx::PxDefaultPvdSocketTransportCreate(PVD_HOST, 54321, 1000);
-	//m_pPvd->connect(*pTransport, physx::PxPvdInstrumentationFlag::eALL);
+	m_pPvd = PxCreatePvd(*m_pFoundation);
+	physx::PxPvdTransport* pTransport = physx::PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 1000);
+	bool test = m_pPvd->connect(*pTransport, physx::PxPvdInstrumentationFlag::eALL);
 
 	m_pPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_pFoundation, physx::PxTolerancesScale(), true);
 
@@ -59,13 +59,13 @@ void PhysXTestLevel::Initialize()
 	SceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
 	m_pScene = m_pPhysics->createScene(SceneDesc);
 
-	//physx::PxPvdSceneClient* pPvdClient = m_pScene->getScenePvdClient();
-	//if (pPvdClient)
-	//{
-	//	pPvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
-	//	pPvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
-	//	pPvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
-	//}
+	physx::PxPvdSceneClient* pPvdClient = m_pScene->getScenePvdClient();
+	if (pPvdClient)
+	{
+		pPvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
+		pPvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
+		pPvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
+	}
 
 	//m_pMaterial = m_pPhysics->createMaterial(0.5f, 0.5f, 0.5f);
 
@@ -90,12 +90,12 @@ void PhysXTestLevel::Release()
 	PX_RELEASE(m_pScene);
 	PX_RELEASE(m_pDispatcher);
 	PX_RELEASE(m_pPhysics);
-	//if (m_pPvd)
-	//{
-	//	physx::PxPvdTransport* pTransport = m_pPvd->getTransport();
-	//	m_pPvd->release();	
-	//	m_pPvd = nullptr;
-	//	PX_RELEASE(pTransport);
-	//}
+	if (m_pPvd)
+	{
+		physx::PxPvdTransport* pTransport = m_pPvd->getTransport();
+		m_pPvd->release();	
+		m_pPvd = nullptr;
+		PX_RELEASE(pTransport);
+	}
 	PX_RELEASE(m_pFoundation);
 }

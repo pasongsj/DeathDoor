@@ -46,7 +46,7 @@ private:
 	physx::PxFoundation* m_pFoundation = nullptr;
 	physx::PxDefaultCpuDispatcher* m_pDispatcher = nullptr;
 
-	//physx::PxPvd* m_pPvd = nullptr;
+	physx::PxPvd* m_pPvd = nullptr;
 
 	void Initialize();
 
