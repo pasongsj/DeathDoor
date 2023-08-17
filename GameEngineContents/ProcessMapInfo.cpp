@@ -107,13 +107,13 @@ void ProcessMapInfo::CpyAndClear(GameEnginePath _Path)
 	}
 	// 파일의 전체 크기를 확인한다
 	in.seekg(0, std::ios::end);
-	int length = in.tellg();
+	int length = static_cast<int>(in.tellg());
 
 	// 파일의 전체 크기만큼 메모리에 로드한다
 	in.seekg(0, std::ios::beg);
 	char* buf = new char[length];
 	in.read(buf, length);
-
+	delete buf;
 	in.close();
 	std::ofstream clearf;
 	clearf.open(_Path.GetFullPath(), std::ios_base::out);
