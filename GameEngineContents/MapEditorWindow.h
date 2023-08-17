@@ -62,4 +62,6 @@ private:
 	void ReadActor(std::shared_ptr<class GameEngineLevel> Level);
 
 	void ClearActors();
+
+	void Explorer(std::string& _Value);
 };
