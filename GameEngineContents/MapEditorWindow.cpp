@@ -31,6 +31,27 @@ void MapEditorWindow::Start()
 	Dir.MoveParentToDirectory("ContentResources");
 	FilePath.SetPath(Dir.GetPlusFileName("ContentResources\\MapInfo").GetFullPath());
 
+	if (false == GameEngineInput::IsKey("EditX"))
+	{
+		GameEngineInput::CreateKey("EditX", 'X');
+	}	
+	if (false == GameEngineInput::IsKey("EditY"))
+	{
+		GameEngineInput::CreateKey("EditY", 'Y');
+	}	
+	if (false == GameEngineInput::IsKey("EditZ"))
+	{
+		GameEngineInput::CreateKey("EditZ", 'Z');
+	}
+	if (false == GameEngineInput::IsKey("LeftClick"))
+	{
+		GameEngineInput::CreateKey("LeftClick", VK_LBUTTON);
+	}	
+	if (false == GameEngineInput::IsKey("RightClick"))
+	{
+		GameEngineInput::CreateKey("RightClick", VK_RBUTTON);
+	}
+
 }
 
 void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _DeltaTime)
@@ -62,8 +83,6 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 
 	if (nullptr == CurActor)
 	{
-		const char* items[] = { "GameEngineActor", "TestObject","Player"};
-		static const char* current_item = NULL;
 
 		if (ImGui::Button("Clear Actor File") && Level.get() != GetLevel())
 		{
@@ -73,6 +92,8 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 		ImGui::Separator();
 
 
+		const char* items[] = { "GameEngineActor", "TestObject","Player"};
+		static const char* current_item = NULL;
 		ImGui::Text("CreateActor");
 		if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
 		{
@@ -126,7 +147,7 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 			}
 			++lastindex;
 
-
+			recvUnit = std::to_string(UnitScale);
 			CurStruct.ActorIndex = lastindex;
 			CurStruct.ActorOrder = 0; // 임시
 			CurStruct.ActorType = typeconvertor[ActorType];;
@@ -149,6 +170,11 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 				MsgTextBox("숫자를 입력하세요");
 				return;
 			}
+			else if (EditorActorInfo.end() == EditorActorInfo.find(stoi(AccessIndex)))
+			{
+				MsgTextBox("이 index에 해당하는 액터가 존재하지 않습니다");
+				return;
+			}
 			else
 			{
 				CurActor = EditorActorInfo[stoi(AccessIndex)];
@@ -156,13 +182,8 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 			}
 		}
 	}
-	else //(-1 != index)
+	else
 	{
-		//if (nullptr != PinedActor)
-		//{
-		//	PinedActor->GetTransform()->SetWorldPosition(CurActor->GetTransform()->GetWorldPosition() + float4(0, 0, 500));
-		//}
-
 
 		ImGui::Text("CurActorIndex :");
 		ImGui::SameLine();
@@ -174,6 +195,22 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 
 		ImGui::Separator();
 
+		static const char* Select = NULL;
+		const char* NetTypes[] = {"LocalActor",  "ServerActor" };
+		ImGui::Text("Net Type - is moveable?");
+		if (ImGui::BeginCombo("##combo", Select)) // The second parameter is the label previewed before opening the combo.
+		{
+			for (int n = 0; n < IM_ARRAYSIZE(NetTypes); n++)
+			{
+				bool is_selected = (Select == NetTypes[n]); // You can store your selection however you want, outside or inside your objects
+				if (ImGui::Selectable(NetTypes[n], is_selected))
+					CurStruct.IsMoveable = ("ServerActor" == NetTypes[n]);
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+			}
+			ImGui::EndCombo();
+		}
+		ImGui::Separator();
 		if (ImGui::Button("ResetTrans") && Level.get() != GetLevel())
 		{
 			CurActor->GetTransform()->SetLocalScale(float4::ONE);
@@ -188,6 +225,11 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 		}
 		if (ImGui::Button("Remove") && Level.get() != GetLevel())
 		{
+
+			int CurIndex = CurStruct.ActorIndex;
+			EditorActorInfo.erase(CurIndex);
+			EditorSturctInfo.erase(CurIndex);
+			SaveActors();
 			CurActor->Death();
 			CurActor = nullptr;
 		}
@@ -195,9 +237,165 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 
 }
 
+void MapEditorWindow::EditTransformMouseControl()
+{
+	
+
+	switch (CurOption)
+	{
+	case EditOption::Scale:
+	{
+		ImGui::Text("Change Mode : Scale");
+		if (true == GameEngineInput::IsPress("EditX"))
+		{
+			if (true == GameEngineInput::IsDown("LeftClick"))
+			{
+				CurActor->GetTransform()->AddLocalScale(float4{ -1.0f ,0 });
+			}
+			else if (true == GameEngineInput::IsDown("RightClick"))
+			{
+				CurActor->GetTransform()->AddLocalScale(float4{ 1.0f ,0 });
+
+			}
+		}
+		else if (true == GameEngineInput::IsPress("EditY"))
+		{
+			if (true == GameEngineInput::IsDown("LeftClick"))
+			{
+				CurActor->GetTransform()->AddLocalScale(float4{ 0, -1.0f ,0 });
+			}
+			else if (true == GameEngineInput::IsDown("RightClick"))
+			{
+				CurActor->GetTransform()->AddLocalScale(float4{ 0,1.0f ,0 });
+
+			}
+		}
+		else if (true == GameEngineInput::IsPress("EditZ"))
+		{
+			if (true == GameEngineInput::IsDown("LeftClick"))
+			{
+				CurActor->GetTransform()->AddLocalScale(float4{ 0,0, -1.0f });
+			}
+			else if (true == GameEngineInput::IsDown("RightClick"))
+			{
+				CurActor->GetTransform()->AddLocalScale(float4{ 0,0, 1.0f });
+
+			}
+		}
+		break;
+	}
+	case EditOption::Rot:
+	{
+		ImGui::Text("Change Mode : Rotation");
+		if (true == GameEngineInput::IsPress("EditX"))
+		{
+			if (true == GameEngineInput::IsDown("LeftClick"))
+			{
+				CurActor->GetTransform()->AddLocalRotation(float4{ -UnitScale ,0 });
+			}
+			else if (true == GameEngineInput::IsDown("RightClick"))
+			{
+				CurActor->GetTransform()->AddLocalRotation(float4{ UnitScale ,0 });
+
+			}
+		}
+		else if (true == GameEngineInput::IsPress("EditY"))
+		{
+			if (true == GameEngineInput::IsDown("LeftClick"))
+			{
+				CurActor->GetTransform()->AddLocalRotation(float4{ 0, -UnitScale ,0 });
+			}
+			else if (true == GameEngineInput::IsDown("RightClick"))
+			{
+				CurActor->GetTransform()->AddLocalRotation(float4{ 0,UnitScale ,0 });
+
+			}
+		}
+		else if (true == GameEngineInput::IsPress("EditZ"))
+		{
+			if (true == GameEngineInput::IsDown("LeftClick"))
+			{
+				CurActor->GetTransform()->AddLocalRotation(float4{ 0,0, -UnitScale });
+			}
+			else if (true == GameEngineInput::IsDown("RightClick"))
+			{
+				CurActor->GetTransform()->AddLocalRotation(float4{ 0,0, UnitScale });
+
+			}
+		}
+		break;
+	}
+	case EditOption::Pos:
+	{
+		ImGui::Text("Change Mode : Position");
+
+		if (true == GameEngineInput::IsPress("EditX"))
+		{
+			if (true == GameEngineInput::IsDown("LeftClick"))
+			{
+				CurActor->GetTransform()->AddLocalPosition(float4{ -UnitScale ,0 });
+			}
+			else if (true == GameEngineInput::IsDown("RightClick"))
+			{
+				CurActor->GetTransform()->AddLocalPosition(float4{ UnitScale ,0 });
+
+			}
+		}
+		else if (true == GameEngineInput::IsPress("EditY"))
+		{
+			if (true == GameEngineInput::IsDown("LeftClick"))
+			{
+				CurActor->GetTransform()->AddLocalPosition(float4{ 0, -UnitScale ,0 });
+			}
+			else if (true == GameEngineInput::IsDown("RightClick"))
+			{
+				CurActor->GetTransform()->AddLocalPosition(float4{ 0,UnitScale ,0 });
+
+			}
+		}
+		else if (true == GameEngineInput::IsPress("EditZ"))
+		{
+			if (true == GameEngineInput::IsDown("LeftClick"))
+			{
+				CurActor->GetTransform()->AddLocalPosition(float4{ 0,0, -UnitScale });
+			}
+			else if (true == GameEngineInput::IsDown("RightClick"))
+			{
+				CurActor->GetTransform()->AddLocalPosition(float4{ 0,0, UnitScale });
+
+			}
+		}
+		break;
+	}
+	default:
+		break;
+	}
+
+	if (ImGui::Button("Scale Mode"))
+	{
+		CurOption = EditOption::Scale;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Rotation Mode"))
+	{
+		CurOption = EditOption::Rot;
+
+	}
+	ImGui::SameLine();
+
+	if (ImGui::Button("Position Mode"))
+	{
+		CurOption = EditOption::Pos;
+
+	}
+	
+}
+
+
+
+
 void MapEditorWindow::EditTransform()
 {
-	TransformData Trans = CurActor->GetTransform()->GetTransDataRef();
 	ImGui::Text("TransformData");
 	ImGui::Text("Unit Scale : %f", UnitScale);
 	ImGui::InputText("##UnitScale", &recvUnit[0], recvUnit.size());
@@ -209,13 +407,18 @@ void MapEditorWindow::EditTransform()
 			UnitScale = std::stof(recvUnit);
 		}
 	}
+
+	EditTransformMouseControl();
+	TransformData Trans = CurActor->GetTransform()->GetTransDataRef();
+
+
 	ImGui::Separator();
 
 	{
 		//scale
 		ImGui::Text("LocalRatio :%f", Trans.LocalScale.x / 1.0f);
 		ImGui::InputText("Scale Ratio", &Ratio[0], Ratio.size());
-		if (ImGui::Button("Change"))
+		if (ImGui::Button("Change Scale"))
 		{
 			float Rat = std::stof(Ratio);
 			CurActor->GetTransform()->SetLocalScale(float4{ Rat, Rat, Rat });
@@ -265,17 +468,13 @@ void MapEditorWindow::EditTransform()
 			isChangeRot = true;
 		}
 
-		if (true == CurRot.IsZero() || true == isChangeRot)
+		if (true == isChangeRot)
 		{
-			CurRot = CurActor->GetTransform()->GetLocalRotation();
+			RevRotationX = std::to_string(Trans.LocalRotation.x);
+			RevRotationY = std::to_string(Trans.LocalRotation.y);
+			RevRotationZ = std::to_string(Trans.LocalRotation.z);
 		}
-		ImGui::SliderFloat3("Rotation", &CurRot.x, -360.0f, 360.0f);
 
-		if (ImGui::Button("Change Slider Rotion"))
-		{
-			CurRot.w = 1;
-			CurActor->GetTransform()->SetLocalRotation(CurRot);
-		}
 		ImGui::InputText("RotX", &RevRotationX[0], RevRotationX.size());
 
 		ImGui::InputText("RotY", &RevRotationY[0], RevRotationY.size());
@@ -331,17 +530,13 @@ void MapEditorWindow::EditTransform()
 			isChangePos = true;
 		}
 
-		if (true == CurPos.IsZero() || true == isChangePos)
-		{
-			CurPos = CurActor->GetTransform()->GetLocalPosition();
-		}
-		ImGui::SliderFloat3("Position", &CurPos.x, -UnitScale * 100, UnitScale * 100);
-		if (ImGui::Button("Change Slider Position"))
-		{
-			CurPos.w = 1;
-			CurActor->GetTransform()->SetLocalPosition(CurPos);
-		}
 
+		if (true == isChangePos)
+		{
+			RevPositionX = std::to_string(Trans.LocalPosition.x);
+			RevPositionY = std::to_string(Trans.LocalPosition.y);
+			RevPositionZ = std::to_string(Trans.LocalPosition.z);
+		}
 
 		ImGui::InputText("PosX", &RevPositionX[0], RevPositionX.size());
 
@@ -367,12 +562,12 @@ void MapEditorWindow::SaveActors()
 		TestObject,
 		Player
 	};
-	CurStruct.LocScale = CurActor->GetTransform()->GetLocalScale();
-	CurStruct.LocRot = CurActor->GetTransform()->GetLocalRotation();
-	CurStruct.LocPos = CurActor->GetTransform()->GetLocalPosition();
-	CurStruct.ScaleRatio = stof(Ratio);
 	if (CurStruct.ActorIndex == lastindex)
 	{
+		CurStruct.LocScale = CurActor->GetTransform()->GetLocalScale();
+		CurStruct.LocRot = CurActor->GetTransform()->GetLocalRotation();
+		CurStruct.LocPos = CurActor->GetTransform()->GetLocalPosition();
+		CurStruct.ScaleRatio = stof(Ratio);
 		ProcessMapInfo::WriteFile(FilePath, CurStruct);
 	}
 	else
@@ -426,6 +621,7 @@ void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 		}
 		EditorSturctInfo[readindex] = _str;
 		EditorActorInfo[readindex] = LoadActor;
+		recvUnit = std::to_string(_str.ScaleRatio);
 		lastindex = lastindex > readindex ? lastindex : readindex + 1;
 		LoadActor = nullptr;
 	}
