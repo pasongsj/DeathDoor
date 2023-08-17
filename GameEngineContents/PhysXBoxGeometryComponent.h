@@ -54,7 +54,6 @@ private:
 	physx::PxMaterial* m_pMaterial = nullptr;
 	physx::PxShape* m_pShape = nullptr;
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
-	physx::PxRigidStatic* m_pRigidStatic = nullptr;
 	// 이 컴포넌트를 가지고 있는 Parent에 대한 정보
 	std::weak_ptr<GameEngineActor> m_pParentActor;
 

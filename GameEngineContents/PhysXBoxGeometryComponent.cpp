@@ -34,85 +34,49 @@ void PhysXBoxGeometryComponent::CreatePhysXActors(physx::PxScene* _Scene, physx:
 								   _GeoMetryScale.y * 0.5f,
 								   _GeoMetryScale.z * 0.5f);
 
-	// 충돌체의 종류
-	if (m_bStatic == false)
+	m_pRigidDynamic = _physics->createRigidDynamic(localTm);
+	if (m_bGravity == false)
 	{
-		m_pRigidDynamic = _physics->createRigidDynamic(localTm);
-
-		m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, m_bGravity);
-
-		m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidDynamic, physx::PxBoxGeometry(tmpGeoMetryScale), *m_pMaterial);
-		// RigidDynamic의 밀도를 설정
-		physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.1f);
-
-		//피벗 설정
-		physx::PxVec3 Pivot(m_f4DynamicPivot.x, m_f4DynamicPivot.y, m_f4DynamicPivot.z);
-		m_pShape->setLocalPose(physx::PxTransform(Pivot));
-
-		//충돌할때 필요한 필터 데이터
-		if (m_bObstacle == true)
-		{
-			m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle)
-				, static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0));
-		}
-
-		else if (m_bGround == true)
-		{
-			m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground)
-				, static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0));
-		}
-
-		//콜백피벗 설정
-		m_pShape->setLocalPose(physx::PxTransform(Pivot));
-
-		// Scene에 액터 추가
-		if (true == m_bAggregateObj)
-		{
-			AddActorAggregate(m_pRigidDynamic);
-		}
-		else
-		{
-			_Scene->addActor(*m_pRigidDynamic);
-		}
+		m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
+		m_pRigidDynamic->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
 	}
 	else
 	{
-		m_pRigidStatic = _physics->createRigidStatic(localTm);
-		m_pRigidStatic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, m_bGravity);
+		m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
+	}
 
-		m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidStatic, physx::PxBoxGeometry(tmpGeoMetryScale), *m_pMaterial);
-		// RigidDynamic의 밀도를 설정
-		//physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidStatic, 0.1f);
+	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidDynamic, physx::PxBoxGeometry(tmpGeoMetryScale), *m_pMaterial);
+	// RigidDynamic의 밀도를 설정
+	physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.1f);
 
-		//피벗 설정
-		physx::PxVec3 Pivot(m_f4DynamicPivot.x, m_f4DynamicPivot.y, m_f4DynamicPivot.z);
-		m_pShape->setLocalPose(physx::PxTransform(Pivot));
+	//피벗 설정
+	physx::PxVec3 Pivot(m_f4DynamicPivot.x, m_f4DynamicPivot.y, m_f4DynamicPivot.z);
+	m_pShape->setLocalPose(physx::PxTransform(Pivot));
 
-		//충돌할때 필요한 필터 데이터
-		if (m_bObstacle == true)
-		{
-			m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle)
-				, static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0));
-		}
+	//충돌할때 필요한 필터 데이터
+	if (m_bObstacle == true)
+	{
+		m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle)
+			, static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0));
+	}
 
-		else if (m_bGround == true)
-		{
-			m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground)
-				, static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0));
-		}
+	else if (m_bGround == true)
+	{
+		m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground)
+			, static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0));
+	}
 
-		//콜백피벗 설정
-		m_pShape->setLocalPose(physx::PxTransform(Pivot));
+	//콜백피벗 설정
+	m_pShape->setLocalPose(physx::PxTransform(Pivot));
 
-		// Scene에 액터 추가
-		if (true == m_bAggregateObj)
-		{
-			AddActorAggregate(m_pRigidStatic);
-		}
-		else
-		{
-			_Scene->addActor(*m_pRigidStatic);
-		}
+	// Scene에 액터 추가
+	if (true == m_bAggregateObj)
+	{
+		AddActorAggregate(m_pRigidDynamic);
+	}
+	else
+	{
+		_Scene->addActor(*m_pRigidDynamic);
 	}
 	// 중력이 적용되지 않도록
 	// TODO::RigidStatic으로 변경해야
@@ -142,32 +106,15 @@ void PhysXBoxGeometryComponent::Update(float _DeltaTime)
 {
 	if (false == m_bPositionSetFromParentFlag)
 	{
-		if (m_bStatic == false)
-		{
+		// PhysX Actor의 상태에 맞춰서 부모의 Transform정보를 갱신
+		float4 tmpWorldPos = { m_pRigidDynamic->getGlobalPose().p.x
+		, m_pRigidDynamic->getGlobalPose().p.y
+		, m_pRigidDynamic->getGlobalPose().p.z };
 
-			// PhysX Actor의 상태에 맞춰서 부모의 Transform정보를 갱신
-			float4 tmpWorldPos = { m_pRigidDynamic->getGlobalPose().p.x
-			, m_pRigidDynamic->getGlobalPose().p.y
-			, m_pRigidDynamic->getGlobalPose().p.z };
+		float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pRigidDynamic->getGlobalPose().q) * GameEngineMath::RadToDeg;
 
-			float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pRigidDynamic->getGlobalPose().q) * GameEngineMath::RadToDeg;
-
-			m_pParentActor.lock()->GetTransform()->SetWorldRotation(float4{ EulerRot.x, EulerRot.y, EulerRot.z });
-			m_pParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
-		}
-		else
-		{
-
-			// PhysX Actor의 상태에 맞춰서 부모의 Transform정보를 갱신
-			float4 tmpWorldPos = { m_pRigidStatic->getGlobalPose().p.x
-			, m_pRigidStatic->getGlobalPose().p.y
-			, m_pRigidStatic->getGlobalPose().p.z };
-
-			float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pRigidStatic->getGlobalPose().q) * GameEngineMath::RadToDeg;
-
-			m_pParentActor.lock()->GetTransform()->SetWorldRotation(float4{ EulerRot.x, EulerRot.y, EulerRot.z });
-			m_pParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
-		}
+		m_pParentActor.lock()->GetTransform()->SetWorldRotation(float4{ EulerRot.x, EulerRot.y, EulerRot.z });
+		m_pParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
 	}
 	else
 	{
@@ -178,7 +125,7 @@ void PhysXBoxGeometryComponent::Update(float _DeltaTime)
 			m_pParentActor.lock()->GetTransform()->GetWorldPosition().z, physx::PxQuat(tmpQuat.x, tmpQuat.y, tmpQuat.z, tmpQuat.w));
 
 		// 부모의 Transform정보를 바탕으로 PhysX Actor의 트랜스폼을 갱신
-		m_pRigidDynamic->setKinematicTarget(tmpPxTransform);
+		m_pRigidDynamic->setGlobalPose(tmpPxTransform);
 		// TODO::회전도 처리해야함. DegreeToQuat
 		physx::PxVec3 vec = m_pRigidDynamic->getGlobalPose().p;
 		int a = 0;

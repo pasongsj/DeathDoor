@@ -26,8 +26,7 @@ void PhysXTestPlane::Start()
 	if (GetLevel()->DynamicThis<PhysXTestLevel>() != nullptr)
 	{
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
-		pGeometryComp->SetGravity(true);
-		pGeometryComp->SetStatic(true);
+		pGeometryComp->SetGravity(false);
 		pGeometryComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
 
 	}
