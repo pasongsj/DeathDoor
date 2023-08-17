@@ -17,11 +17,16 @@ public:
 	ProcessMapInfo& operator=(ProcessMapInfo&& _Other) noexcept = delete;
 
 
-	std::vector<SponeMapActor> OpenFile(GameEnginePath _Path);
+	static std::vector<SponeMapActor> OpenFile(GameEnginePath _Path);
 
-	void CpyAndClear(GameEnginePath _Path);
+	static void CpyAndClear(GameEnginePath _Path);
 
-	void WriteFile(GameEnginePath _Path, const SponeMapActor& _Value);
+	static void WriteFile(GameEnginePath _Path, const SponeMapActor& _Value);
+
+	static void WriteAllFile(GameEnginePath _Path, std::map<int, SponeMapActor> _AllStruct );
+
+
+	static void CreatPathFile(GameEnginePath _Path);
 
 protected:
 

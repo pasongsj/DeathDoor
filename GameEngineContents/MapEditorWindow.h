@@ -24,20 +24,28 @@ protected:
 
 private:
 
+	bool IsSetFilePath = false;
 	GameEnginePath FilePath;
+	std::string FileName = "                           ";
+
+	void SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel> Level);
 
 	bool ReadCSV = false;
 
 	int lastindex = -1;
 	int saveIndex = -1;
 
+	std::string AccessIndex = "                ";
+
 	std::shared_ptr<class GameEngineActor> CurActor = nullptr;
+	SponeMapActor CurStruct;
 
 
 	std::string ActorType = "                    ";
 	std::string FBXName = "                   ";
 	std::string MeterialName = "MeshTexture";
 
+	// Transform
 
 	float4 CurRot = float4::ZERO;
 	float4 CurPos = float4::ZERO;
@@ -54,7 +62,11 @@ private:
 	std::string RevPositionY = "0000.000000";
 	std::string RevPositionZ = "0000.000000";
 
+	void EditTransform();
+
 	void ResetValue();
+
+
 
 	std::string SaveIndex = "                ";
 	void SaveActors();
@@ -64,4 +76,9 @@ private:
 	void ClearActors();
 
 	void Explorer(std::string& _Value);
+
+	std::map<int, std::shared_ptr<class GameEngineActor>> EditorActorInfo;
+	std::map<int, SponeMapActor> EditorSturctInfo;
+
+	std::shared_ptr<class GameEngineActor> PinedActor = nullptr;
 };
