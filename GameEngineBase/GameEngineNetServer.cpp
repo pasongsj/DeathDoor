@@ -26,7 +26,7 @@ void GameEngineNetServer::AcceptThread(SOCKET _AcceptSocket, GameEngineNetServer
         std::string ThreadName = std::to_string(ClientSocket);
         ThreadName += "Server Recv Thread";
      
-        _Net->AccpetCallBack(ClientSocket, _Net);
+        _Net->AcceptCallBack(ClientSocket, _Net);
 
         NewThread->Start(ThreadName, std::bind(&GameEngineNet::RecvThreadFunction, ClientSocket, _Net));
     }
@@ -46,7 +46,7 @@ GameEngineNetServer::~GameEngineNetServer()
     }
 }
 
-void GameEngineNetServer::Send(const char* Data, unsigned int _Size)
+void GameEngineNetServer::Send(const char* Data, unsigned int _Size, int _IgnoreID)
 {
     for (size_t i = 0; i < Users.size(); i++)
     {

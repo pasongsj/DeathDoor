@@ -4,6 +4,7 @@
 #include "TestObject.h"
 #include "ServerWindow.h"
 
+
 ServerTestLevel::ServerTestLevel() 
 {
 }
@@ -19,6 +20,10 @@ void ServerTestLevel::Start()
 
 void ServerTestLevel::Update(float _DeltaTime)
 {
+	if (nullptr != ServerWindow::NetInst)
+	{
+		ServerWindow::NetInst->UpdatePacket();
+	}
 }
 
 void ServerTestLevel::LevelChangeStart()

@@ -1,9 +1,8 @@
 #include "PrecompileHeader.h"
 #include "TestObject.h"
-
 #include <GameEnginePlatform/GameEngineInput.h>
-
 #include <GameEngineCore/GameEngineFBXRenderer.h>
+#include "ObjectUpdatePacket.h"
 
 TestObject* TestObject::MainTestObject = nullptr;
 
@@ -80,6 +79,26 @@ void TestObject::UserUpdate(float _DeltaTime)
 	if (true == GameEngineInput::IsPress("CamMoveBack"))
 	{
 		GetTransform()->AddLocalPosition(GetTransform()->GetWorldBackVector() * m_pSpeed * _DeltaTime);
+	}
+
+	static float Delta = 0.0f;
+
+	Delta += _DeltaTime;
+
+	if (Delta <= 1.0f / 60.0f)
+	{
+		return;
+	}
+
+	Delta -= 1.0f / 60.0f;
+
+	if (true == IsNet())
+	{
+		std::shared_ptr<ObjectUpdatePacket> NewPacket = std::make_shared<ObjectUpdatePacket>();
+		NewPacket->SetObjectID(GetNetObjectID());
+		NewPacket->Position = GetTransform()->GetWorldPosition();
+		NewPacket->Rotation = GetTransform()->GetWorldRotation();
+		GetNet()->SendPacket(NewPacket);
 	}
 }
 
