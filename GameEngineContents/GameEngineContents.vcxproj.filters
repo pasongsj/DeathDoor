@@ -40,10 +40,10 @@
     <ClCompile Include="MapEditorLevel.cpp">
       <Filter>mapeditor</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsFBXRenderer.cpp">
+    <ClCompile Include="ProcessMapInfo.cpp">
       <Filter>mapeditor</Filter>
     </ClCompile>
-    <ClCompile Include="ProcessMapInfo.cpp">
+    <ClCompile Include="PinActor.cpp">
       <Filter>mapeditor</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,10 +96,10 @@
     <ClInclude Include="MapEditGlobalValue.h">
       <Filter>mapeditor</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsFBXRenderer.h">
+    <ClInclude Include="ProcessMapInfo.h">
       <Filter>mapeditor</Filter>
     </ClInclude>
-    <ClInclude Include="ProcessMapInfo.h">
+    <ClInclude Include="PinActor.h">
       <Filter>mapeditor</Filter>
     </ClInclude>
   </ItemGroup>

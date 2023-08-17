@@ -23,6 +23,9 @@ public:
 
 	static void WriteFile(GameEnginePath _Path, const SponeMapActor& _Value);
 
+	static void WriteAllFile(GameEnginePath _Path, std::map<int, SponeMapActor> _AllStruct );
+
+
 	static void CreatPathFile(GameEnginePath _Path);
 
 protected:

@@ -166,10 +166,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlackScreen.cpp" />
-    <ClCompile Include="ContentsFBXRenderer.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="LevelWindow.cpp">
       <SubType>
       </SubType>
@@ -187,6 +183,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PacketEnum.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PinActor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -223,10 +223,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ContentsFBXRenderer.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="LevelWindow.h">
       <SubType>
       </SubType>
@@ -249,6 +245,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PacketEnum.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PinActor.h">
       <SubType>
       </SubType>
     </ClInclude>

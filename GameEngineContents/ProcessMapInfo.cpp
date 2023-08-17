@@ -57,6 +57,16 @@ std::vector<SponeMapActor> ProcessMapInfo::OpenFile(GameEnginePath _Path)
 	return NewActorStructs;
 }
 
+void ProcessMapInfo::WriteAllFile(GameEnginePath _Path, std::map<int, SponeMapActor> _AllStruct)
+{
+	std::ofstream ofs;
+	ofs.open(_Path.GetFullPath(), std::ios::out);
+	for (std::pair<int, SponeMapActor> _StructInfo : _AllStruct)
+	{
+		WriteFile(_Path, _StructInfo.second);
+	}
+}
+
 
 void ProcessMapInfo::WriteFile(GameEnginePath _Path, const SponeMapActor& _Value)
 {

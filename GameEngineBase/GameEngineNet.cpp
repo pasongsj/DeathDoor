@@ -68,7 +68,7 @@ void GameEngineNet::RecvThreadFunction(SOCKET _Socket, GameEngineNet* _Net)
 
 		// 8바이트 이상 받았지만
 		// 그걸 통해서 알아낸 패킷의 크기보다는 덜온 상태 체크.
-		if (PacketSize > Serializer.GetWriteOffSet())
+		if (static_cast<unsigned int>(PacketSize) > Serializer.GetWriteOffSet())
 		{
 			continue;
 		}
