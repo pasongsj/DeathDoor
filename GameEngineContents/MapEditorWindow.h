@@ -39,13 +39,13 @@ private:
 
 	bool ReadCSV = false;
 
-	int lastindex = -1;
-	int saveIndex = -1;
-
+	int lastindex = 0;
+	int CurIndex = -1;
+	bool CurNetType = false;
 	std::string AccessIndex = "                              ";
 
 	std::shared_ptr<class GameEngineActor> CurActor = nullptr;
-	SponeMapActor CurStruct;
+	//SponeMapActor CurStruct;
 
 
 	std::string ActorType = "                              ";
@@ -88,5 +88,4 @@ private:
 	std::map<int, std::shared_ptr<class GameEngineActor>> EditorActorInfo;
 	std::map<int, SponeMapActor> EditorSturctInfo;
 
-	std::shared_ptr<class GameEngineActor> PinedActor = nullptr;
 };

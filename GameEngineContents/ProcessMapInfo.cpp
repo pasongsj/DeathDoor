@@ -29,10 +29,10 @@ std::vector<SponeMapActor> ProcessMapInfo::OpenFile(GameEnginePath _Path)
 
 	while (!ifs.eof()) {
 		SponeMapActor NewActor;
-		ifs.read((char*)&NewActor.ActorIndex, sizeof(int));
+		//ifs.read((char*)&NewActor.ActorIndex, sizeof(int));
 		ifs.read((char*)&NewActor.ActorType, sizeof(int));
 		ifs.read((char*)&NewActor.ActorOrder, sizeof(int));
-		ifs.read((char*)&NewActor.LocScale, sizeof(float4::ZERO));
+		//ifs.read((char*)&NewActor.LocScale, sizeof(float4::ZERO));
 		ifs.read((char*)&NewActor.LocRot, sizeof(float4::ZERO));
 		ifs.read((char*)&NewActor.LocPos, sizeof(float4::ZERO));
 		ifs.read((char*)&NewActor.ScaleRatio, sizeof(float));
@@ -78,10 +78,10 @@ void ProcessMapInfo::WriteFile(GameEnginePath _Path, const SponeMapActor& _Value
 		ofs.close();
 		return;
 	}
-	ofs.write((char*)&_Value.ActorIndex, sizeof(int));
+	//ofs.write((char*)&_Value.ActorIndex, sizeof(int));
 	ofs.write((char*)&_Value.ActorType, sizeof(int));
 	ofs.write((char*)&_Value.ActorOrder, sizeof(int));
-	ofs.write((char*)&_Value.LocScale, sizeof(float4::ZERO));
+	//ofs.write((char*)&_Value.LocScale, sizeof(float4::ZERO));
 	ofs.write((char*)&_Value.LocRot, sizeof(float4::ZERO));
 	ofs.write((char*)&_Value.LocPos, sizeof(float4::ZERO));
 	ofs.write((char*)&_Value.ScaleRatio, sizeof(float));

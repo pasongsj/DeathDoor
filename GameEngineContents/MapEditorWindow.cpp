@@ -10,7 +10,10 @@
 
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 	std::map<std::string, int> typeconvertor = { {"GameEngineActor",static_cast<int>(ContentsActorType::GameEngineActor)},
-{"TestObject",static_cast<int>(ContentsActorType::TestObject)},{"Player",static_cast<int>(ContentsActorType::Player)} };
+{"TestObject",static_cast<int>(ContentsActorType::TestObject)},{"Player",static_cast<int>(ContentsActorType::Player)} };	
+	
+	std::map<int, std::string> typeconvertorItoS = { {static_cast<int>(ContentsActorType::GameEngineActor),"GameEngineActor"},
+{static_cast<int>(ContentsActorType::TestObject),"TestObject"},{static_cast<int>(ContentsActorType::Player),"Player"} };
 
 MapEditorWindow* MapEditorWindow::EditorGUI;
 
@@ -30,7 +33,10 @@ void MapEditorWindow::Start()
 	GameEngineDirectory Dir;
 	Dir.MoveParentToDirectory("ContentResources");
 	FilePath.SetPath(Dir.GetPlusFileName("ContentResources\\MapInfo").GetFullPath());
-
+	if (false == GameEngineInput::IsKey("LeftCtrl"))
+	{
+		GameEngineInput::CreateKey("LeftCtrl", VK_LCONTROL);
+	}
 	if (false == GameEngineInput::IsKey("EditX"))
 	{
 		GameEngineInput::CreateKey("EditX", 'X');
@@ -145,15 +151,7 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 			{
 				return;
 			}
-			++lastindex;
-
-			recvUnit = std::to_string(UnitScale);
-			CurStruct.ActorIndex = lastindex;
-			CurStruct.ActorOrder = 0; // 임시
-			CurStruct.ActorType = typeconvertor[ActorType];;
-			CurStruct.FBXName = FBXName;
-			CurStruct.FBXNameLen = FBXName.size();
-			CurStruct.IsMoveable = false; // 임시
+			CurIndex = lastindex++;
 			ResetValue();
 		}
 		////
@@ -177,17 +175,20 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 			}
 			else
 			{
-				CurActor = EditorActorInfo[stoi(AccessIndex)];
-				CurStruct = EditorSturctInfo[stoi(AccessIndex)];
+				CurIndex = stoi(AccessIndex);
+				CurActor = EditorActorInfo[CurIndex];
+				ActorType = typeconvertorItoS[EditorSturctInfo[CurIndex].ActorType];
+				//ActorOrder = 0;// 임시
+				Ratio = std::to_string(EditorSturctInfo[CurIndex].ScaleRatio);
+				CurNetType = EditorSturctInfo[CurIndex].IsMoveable;
+				FBXName = EditorSturctInfo[CurIndex].FBXName;
 			}
 		}
 	}
 	else
 	{
 
-		ImGui::Text("CurActorIndex :");
-		ImGui::SameLine();
-		ImGui::Text(std::to_string(CurStruct.ActorIndex).c_str());
+		ImGui::Text("CurActorIndex : %d, NextNewIndex : %d", CurIndex,lastindex);
 		//
 		ImGui::Separator();
 		//
@@ -204,7 +205,7 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 			{
 				bool is_selected = (Select == NetTypes[n]); // You can store your selection however you want, outside or inside your objects
 				if (ImGui::Selectable(NetTypes[n], is_selected))
-					CurStruct.IsMoveable = ("ServerActor" == NetTypes[n]);
+					CurNetType = ("ServerActor" == NetTypes[n]);
 				if (is_selected)
 					ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
 			}
@@ -226,12 +227,15 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 		if (ImGui::Button("Remove") && Level.get() != GetLevel())
 		{
 
-			int CurIndex = CurStruct.ActorIndex;
-			EditorActorInfo.erase(CurIndex);
-			EditorSturctInfo.erase(CurIndex);
-			SaveActors();
+			//int CurIndex = CurStruct.ActorIndex;
+			if(EditorActorInfo.end() != EditorActorInfo.find(CurIndex))
+			{
+				EditorActorInfo.erase(CurIndex);
+				EditorSturctInfo.erase(CurIndex);
+			}
 			CurActor->Death();
 			CurActor = nullptr;
+			SaveActors();
 		}
 	}
 
@@ -246,42 +250,22 @@ void MapEditorWindow::EditTransformMouseControl()
 	case EditOption::Scale:
 	{
 		ImGui::Text("Change Mode : Scale");
-		if (true == GameEngineInput::IsPress("EditX"))
+
+		if(true == GameEngineInput::IsPress("LeftCtrl"))
 		{
+			float rat = stof(Ratio);
 			if (true == GameEngineInput::IsDown("LeftClick"))
 			{
-				CurActor->GetTransform()->AddLocalScale(float4{ -1.0f ,0 });
+				rat -= 0.1f;
 			}
 			else if (true == GameEngineInput::IsDown("RightClick"))
 			{
-				CurActor->GetTransform()->AddLocalScale(float4{ 1.0f ,0 });
-
+				rat += 0.1f;
 			}
+			CurActor->GetTransform()->SetLocalScale(float4::ONE * rat);
+			Ratio = std::to_string(rat);
 		}
-		else if (true == GameEngineInput::IsPress("EditY"))
-		{
-			if (true == GameEngineInput::IsDown("LeftClick"))
-			{
-				CurActor->GetTransform()->AddLocalScale(float4{ 0, -1.0f ,0 });
-			}
-			else if (true == GameEngineInput::IsDown("RightClick"))
-			{
-				CurActor->GetTransform()->AddLocalScale(float4{ 0,1.0f ,0 });
-
-			}
-		}
-		else if (true == GameEngineInput::IsPress("EditZ"))
-		{
-			if (true == GameEngineInput::IsDown("LeftClick"))
-			{
-				CurActor->GetTransform()->AddLocalScale(float4{ 0,0, -1.0f });
-			}
-			else if (true == GameEngineInput::IsDown("RightClick"))
-			{
-				CurActor->GetTransform()->AddLocalScale(float4{ 0,0, 1.0f });
-
-			}
-		}
+		
 		break;
 	}
 	case EditOption::Rot:
@@ -562,18 +546,24 @@ void MapEditorWindow::SaveActors()
 		TestObject,
 		Player
 	};
-	if (CurStruct.ActorIndex == lastindex)
+
+	if(nullptr != CurActor)
 	{
-		CurStruct.LocScale = CurActor->GetTransform()->GetLocalScale();
-		CurStruct.LocRot = CurActor->GetTransform()->GetLocalRotation();
-		CurStruct.LocPos = CurActor->GetTransform()->GetLocalPosition();
-		CurStruct.ScaleRatio = stof(Ratio);
-		ProcessMapInfo::WriteFile(FilePath, CurStruct);
+		SponeMapActor Struct;
+		Struct.ActorType = typeconvertor[ActorType];
+		Struct.ActorOrder = 0;
+		Struct.ScaleRatio = CurActor->GetTransform()->GetLocalScale().x / 1.0f;
+		Struct.LocRot = CurActor->GetTransform()->GetLocalRotation();
+		Struct.LocPos = CurActor->GetTransform()->GetLocalPosition();
+		Struct.IsMoveable = CurNetType;
+		Struct.FBXNameLen = FBXName.size();
+		Struct.FBXName = FBXName;
+
+		EditorActorInfo[CurIndex] = CurActor;
+		EditorSturctInfo[CurIndex] = Struct;
 	}
-	else
-	{
-		ProcessMapInfo::WriteAllFile(FilePath, EditorSturctInfo);
-	}
+	ProcessMapInfo::WriteAllFile(FilePath, EditorSturctInfo);
+
 }
 
 void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
@@ -583,13 +573,11 @@ void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 	std::shared_ptr<GameEngineActor> LoadActor = nullptr;
 	for (SponeMapActor _str : AllInfo)
 	{
-		int readindex = _str.ActorIndex;
-
 		if (static_cast<int>(ContentsActorType::GameEngineActor) == static_cast<int>(_str.ActorType))
 		{
 			if (nullptr == GameEngineFBXMesh::Find(_str.FBXName))
 			{
-				MsgTextBox("FBX매쉬를 선택하지 않았습니다");
+				MsgAssert("FBX매쉬를 선택하지 않았습니다");
 				return;
 			}
 			LoadActor = Level->CreateActor<GameEngineActor>();
@@ -608,22 +596,17 @@ void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 		{
 			return;
 		}
-		LoadActor->SetOrder(static_cast<int>(_str.ActorIndex));
-		LoadActor->GetTransform()->SetLocalScale(_str.LocScale);
+		LoadActor->SetOrder(static_cast<int>(_str.ActorOrder));
+		LoadActor->GetTransform()->SetLocalScale(float4::ONE * _str.ScaleRatio);
 		LoadActor->GetTransform()->SetLocalRotation(_str.LocRot);
 		LoadActor->GetTransform()->SetLocalPosition(_str.LocPos);
-		//ratio
-		//IsMoveable
-		if (EditorActorInfo.end() != EditorActorInfo.find(readindex))
-		{
-			MsgTextBox("동일한 인덱스에 액터가 존재합니다");
-			return;
-		}
-		EditorSturctInfo[readindex] = _str;
-		EditorActorInfo[readindex] = LoadActor;
-		recvUnit = std::to_string(_str.ScaleRatio);
-		lastindex = lastindex > readindex ? lastindex : readindex + 1;
+
+		EditorSturctInfo[lastindex] = _str;
+		EditorActorInfo[lastindex] = LoadActor;
+		//recvUnit = std::to_string(_str.ScaleRatio);
+		Ratio = std::to_string(_str.ScaleRatio);
 		LoadActor = nullptr;
+		lastindex++;
 	}
 	ReadCSV = true;
 }
@@ -651,7 +634,7 @@ void MapEditorWindow::ResetValue()
 void MapEditorWindow::ReleaseMapEditor()
 {
 	CurActor = nullptr;
-	PinedActor = nullptr;
+	//PinedActor = nullptr;
 	EditorActorInfo.clear();
 	EditorSturctInfo.clear();
 }
@@ -676,12 +659,7 @@ void MapEditorWindow::SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel
 			MsgAssert("파일이 생성되지 않았습니다;");
 			return;
 		}
-		//if (nullptr == PinedActor)
-		//{
-		//	PinedActor = Level->CreateActor<GameEngineActor>(99);
-		//	std::shared_ptr<GameEngineFBXRenderer> Mesh = PinedActor->CreateComponent< GameEngineFBXRenderer>();
-		//	Mesh->SetFBXMesh("ActorFrozenBlock.fbx", "MeshTexture");
-		//}
+
 		IsSetFilePath = true;
 		ReadActor(Level);
 		return;

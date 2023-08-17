@@ -13,10 +13,9 @@ enum class ContentsActorType
 
 
 struct SponeMapActor {
-    int ActorIndex = -1;
+    //int ActorIndex = -1;
 	int ActorType = 1;
     int ActorOrder = 0;
-    float4 LocScale = float4::ZERO;
     float4 LocRot = float4::ZERO;
     float4 LocPos = float4::ZERO;
     float ScaleRatio = 1.0f;
