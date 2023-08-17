@@ -2,8 +2,12 @@
 #include "Player.h"
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 
+Player* Player::MainPlayer = nullptr;
+
+
 Player::Player() 
 {
+	MainPlayer = this;
 }
 
 Player::~Player() 
@@ -26,4 +30,37 @@ void Player::Start()
 	// Renderer->SetFBXMesh("AnimMan.FBX", "MeshTexture", 0, 0);
 	// Renderer->SetFBXMesh("AnimMan.FBX", "MeshTexture", 0, 2);
 
+}
+
+void Player::Update(float _DeltaTime)
+{
+	// 서버의 관리를 받는 오브젝트라면
+	// 클라이언트의 입장에서는 
+	// 상대의 패킷으로만 움직여야 한다.
+	// 2가지로 나뉘게 된다.
+
+	NetControlType Type = GetControlType();
+
+	switch (Type)
+	{
+	case NetControlType::None:
+		UserUpdate(_DeltaTime);
+		break;
+	case NetControlType::UserControl:
+		UserUpdate(_DeltaTime);
+		break;
+	case NetControlType::ServerControl:
+		ServerUpdate(_DeltaTime);
+		break;
+	default:
+		break;
+	}
+}
+
+void Player::UserUpdate(float _DeltaTime)
+{
+}
+
+void Player::ServerUpdate(float _DeltaTime)
+{
 }
