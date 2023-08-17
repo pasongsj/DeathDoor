@@ -75,6 +75,8 @@ private:
 
 	void ClearActors();
 
+	void Explorer(std::string& _Value);
+
 	std::map<int, std::shared_ptr<class GameEngineActor>> EditorActorInfo;
 	std::map<int, SponeMapActor> EditorSturctInfo;
 

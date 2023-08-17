@@ -88,8 +88,15 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 		}
 
 
-		ImGui::InputText("##FBXName", &FBXName[0], FBXName.size());
-		ImGui::InputText("##MeterialName", &MeterialName[0], MeterialName.size());
+		///
+		//ImGui::InputText("##ActorType", &ActorType[0], ActorType.size());
+		ImGui::InputText("##FBXName", &FBXName[0], FBXName.size()); 
+		ImGui::SameLine();
+		if (ImGui::Button("FbxLoad"))
+		{
+			Explorer(FBXName);
+		}
+		ImGui::InputText("##MeterialName", &MeterialName[0], MeterialName.size()); 
 
 		ImGui::SameLine();
 		if (ImGui::Button("Create") && Level.get() != GetLevel())
@@ -485,3 +492,38 @@ void MapEditorWindow::SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel
 	}
 }
 
+void MapEditorWindow::Explorer(std::string& _Value)
+{
+	GameEngineDirectory NewDir;
+	NewDir.MoveParentToDirectory("ContentResources");
+	NewDir.Move("ContentResources");
+	NewDir.Move("Mesh");
+	std::string Initpath = NewDir.GetPath().GetFullPath();
+	std::wstring strFolderPath = GameEngineString::AnsiToUniCode(Initpath);
+
+
+	OPENFILENAME ofn = {};
+
+
+	wchar_t szFilePath[256] = {};
+	wchar_t szFileName[256] = {};
+
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFile = szFilePath;
+	ofn.lpstrFile[0] = NULL; //'\0';
+	ofn.nMaxFile = 256;
+	ofn.lpstrFilter = L"ALL\0*.*";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = szFileName;
+	ofn.nMaxFileTitle = 256;
+	ofn.lpstrInitialDir = strFolderPath.c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST| OFN_NOCHANGEDIR;;
+
+	if (false == GetSaveFileName(&ofn))
+		return;
+
+	std::wstring filename = szFileName;
+	_Value = GameEngineString::UniCodeToAnsi(filename);
+}
