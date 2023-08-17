@@ -1,4 +1,5 @@
 #pragma once
+#include "GameEngineNet.h"
 
 // 서버입장에서는 유저든
 // 내가 가진 몬스터든 결론적으로 본다면 결국 오브젝트일뿐이다.
@@ -15,6 +16,12 @@ enum class NetControlType
 class GameEngineNetObject
 {
 public:
+	static bool IsNetObject(int _Id)
+	{
+		return AllNetObjects.contains(_Id);
+	}
+
+
 	// constrcuter destructer
 	GameEngineNetObject();
 	~GameEngineNetObject();
@@ -30,9 +37,7 @@ public:
 		return ++AtomicObjectID;
 	}
 
-	void InitServerObject();
-
-	void InitClientObject(int _ObjectID);
+	void InitNetObject(int _ObjectID, GameEngineNet* _Net);
 
 	void SetControl(NetControlType _ControlType)
 	{
@@ -49,6 +54,17 @@ public:
 		return ObjectID;
 	}
 
+	bool IsNet()
+	{
+		return nullptr != Net;
+	}
+
+	GameEngineNet* GetNet()
+	{
+		return Net;
+	}
+
+	void PushPacket(std::shared_ptr<GameEnginePacket> _Packet);
 
 protected:
 
@@ -59,5 +75,9 @@ private:
 
 	NetControlType ControlType = NetControlType::None;
 	int ObjectID = -1;
+
+	GameEngineNet* Net = nullptr;
+
+	std::list<std::shared_ptr<GameEnginePacket>> Packets;
 };
 

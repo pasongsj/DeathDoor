@@ -3,7 +3,7 @@
 
 #include "TestObject.h"
 #include "Player.h"
-
+#include "ServerWindow.h"
 
 TestLevel::TestLevel() 
 {
@@ -16,11 +16,11 @@ TestLevel::~TestLevel()
 void TestLevel::Start()
 {
 	CreateActor<Player>();
-
 }
 
 void TestLevel::Update(float _DeltaTime)
 {
+
 }
 
 void TestLevel::LevelChangeStart()

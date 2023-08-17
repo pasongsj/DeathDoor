@@ -6,6 +6,7 @@
 #include "ServerTestLevel.h"
 #include "ConnectIDPacket.h"
 
+
 GameEngineNet* ServerWindow::NetInst = nullptr;
 ServerWindow* ServerWindow::ServerGUI = nullptr;
 
@@ -82,25 +83,21 @@ void ServerWindow::OnGUI(std::shared_ptr<GameEngineLevel> Level, float _DeltaTim
 	Text = "호스트 하기";
 	if (ImGui::Button(GameEngineString::AnsiToUTF8(Text).c_str()))
 	{
-
-		ServerPacketInit(Server);
+		ServerPacketInit(&Server);
 		Server.ServerOpen(static_cast<unsigned short>(Port));
 		ServerInit(Level);
-		TestObject::MainTestObject->InitServerObject();
-
+		TestObject::MainTestObject->InitNetObject(GameEngineNetObject::CreateServerID(), &Server);
 
 		IsServer = true;
 
-
 		NetInst = &Server;
-
-
 	}
+
 	ImGui::Dummy(ImVec2(0, 10));
 	Text = "클라이언트로 접속하기";
 	if (ImGui::Button(GameEngineString::AnsiToUTF8(Text).c_str()))
 	{
-		ClientPacketInit(Client);
+		ClientPacketInit(&Client);
 		IsClient = Client.Connect(IP, static_cast<unsigned short>(Port));
 
 		NetInst = &Client;
@@ -122,31 +119,42 @@ void ServerWindow::ServerInit(std::shared_ptr<GameEngineLevel> Level)
 			GameEngineSerializer Ser;
 			Packet->SerializePacket(Ser);
 
-			// 유일하게 한번 딱 직접 소켓을 써서 보내야할때.
+			_Server->AddUser(ID, _Socket);
+
+			// 유일하게 한번 딱 직접 소켓을 써서 보내야할때
 			GameEngineNet::Send(_Socket, Ser.GetConstCharPtr(), Ser.GetWriteOffSet());
-
-			//// 이때 상대에게 ID를 보낸다.
-			//std::shared_ptr<ConnectIDPacket> Packet = std::make_shared<ConnectIDPacket>();
-			//std::shared_ptr<TestObject> NewTestObj = Level->CreateActor<TestObject>();
-
 		}
-
 	);
 }
 
 
-void ServerWindow::ServerPacketInit(GameEngineNetServer& _Net)
+void ServerWindow::ServerPacketInit(GameEngineNetServer* _Net)
 {
-
+	_Net->Dispatcher.AddHandler<ObjectUpdatePacket>(
+		[=](std::shared_ptr<ObjectUpdatePacket> _Packet)
+		{
+			if (false == GameEngineNetObject::IsNetObject(_Packet->GetObjectID()))
+			{
+				std::shared_ptr<TestObject> NewObj = GetLevel()->CreateActor<TestObject>();
+				NewObj->InitNetObject(_Packet->GetObjectID(), _Net);
+			}
+		}
+	);
 }
 
-void ServerWindow::ClientPacketInit(GameEngineNetClient& _Net)
+void ServerWindow::ClientPacketInit(GameEngineNetClient* _Net)
 {
-	_Net.Dispatcher.AddHandler<ConnectIDPacket>(PacketEnum::ConnectIDPacket,
-		[](std::shared_ptr<ConnectIDPacket> _Packet)
+	_Net->Dispatcher.AddHandler<ConnectIDPacket>(
+		[=](std::shared_ptr<ConnectIDPacket> _Packet)
 		{
-			//GetLevel()->
+			// 이 순간 메인플레이어를 생성하거나, 기존의 플레이어를 서버로 이니셜라이즈 시킨다. 
+			TestObject::MainTestObject->InitNetObject(_Packet->GetObjectID(), ServerWindow::NetInst);
+		}
+	);
 
+	_Net->Dispatcher.AddHandler<ObjectUpdatePacket>(
+		[=](std::shared_ptr<ObjectUpdatePacket> _Packet)
+		{
 			int a = 0;
 		}
 	);

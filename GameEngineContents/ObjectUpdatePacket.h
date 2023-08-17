@@ -1,27 +1,40 @@
 #pragma once
 #include <GameEngineBase/GameEnginePacket.h>
 #include <GameEngineCore/GameEngineTransform.h>
+#include "PacketEnum.h"
 
 // Ό³Έν :
 class ObjectUpdatePacket : public GameEnginePacket
 {
 public:
+	static const PacketEnum Type = PacketEnum::ObjectUpdatePacket;
+
+public:
 	// constrcuter destructer
 	ObjectUpdatePacket()
 	{
-		SetPacketID(PacketEnum::ObjectUpdatePacket);
+		SetPacketID(Type);
 	}
 	~ObjectUpdatePacket()
 	{
 	}
 
-protected:
+	float4 Rotation;
+	float4 Position;
 
-private:
-	float4 Pos;
-	int Att;
-	int Hp;
-	int Animation;
-	// TransformData Data;
+protected:
+	void Serialize(GameEngineSerializer& _Ser) override
+	{
+		GameEnginePacket::Serialize(_Ser);
+		_Ser << Rotation;
+		_Ser << Position;
+	}
+
+	void DeSeralize(GameEngineSerializer& _Ser) override
+	{
+		GameEnginePacket::DeSeralize(_Ser);
+		_Ser >> Rotation;
+		_Ser >> Position;
+	}
 };
 
