@@ -24,7 +24,11 @@ protected:
 
 private:
 
+	bool IsSetFilePath = false;
 	GameEnginePath FilePath;
+	std::string FileName = "                           ";
+
+	void SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel> Level);
 
 	bool ReadCSV = false;
 

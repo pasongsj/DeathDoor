@@ -124,3 +124,13 @@ void ProcessMapInfo::CpyAndClear(GameEnginePath _Path)
 	out.close();
 }
 
+void ProcessMapInfo::CreatPathFile(GameEnginePath _Path)
+{
+	if (false == _Path.IsExists())
+	{
+		std::ofstream ofs;
+		ofs.open(_Path.GetFullPath(), std::ios::out);
+		ofs.close();
+		return;
+	}
+}

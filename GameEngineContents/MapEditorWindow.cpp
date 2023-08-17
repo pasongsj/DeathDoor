@@ -28,12 +28,25 @@ void MapEditorWindow::Start()
 
 	GameEngineDirectory Dir;
 	Dir.MoveParentToDirectory("ContentResources");
-	FilePath.SetPath(Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath());
+	FilePath.SetPath(Dir.GetPlusFileName("ContentResources\\MapInfo").GetFullPath());
 
 }
 
 void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _DeltaTime)
 {
+	if (Level.get() == GetLevel())
+	{
+		return;
+	}
+
+	ImGui::Text("Current Path : %s", FilePath.GetFullPath().c_str());
+
+	if (false == IsSetFilePath)
+	{
+		SetReadWriteFilePath(Level);
+		return;
+	}
+
 	ImGui::Text("Unit Scale : %f", UnitScale);
 	ImGui::InputText("##UnitScale", &recvUnit[0], recvUnit.size());
 	ImGui::SameLine();
@@ -46,13 +59,15 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 	}
 
 	ImGui::Separator();
-	if (false == ReadCSV && ImGui::Button("Read Actor File") && Level.get() != GetLevel())
+	if (false == ReadCSV)
 	{
-		ReadActor(Level);
-		ReadCSV = true;
-		return;
+		if(ImGui::Button("Read Actor File") && Level.get() != GetLevel())
+		{
+			ReadActor(Level);
+			return;
+		}
+		ImGui::SameLine();
 	}
-	ImGui::SameLine();
 	if (ImGui::Button("Clear Actor File") && Level.get() != GetLevel())
 	{
 		ClearActors();
@@ -318,18 +333,14 @@ void MapEditorWindow::SaveActors()
 	CurActorSturct.IsMoveable = false;
 	CurActorSturct.FBXName = FBXName;
 	CurActorSturct.FBXNameLen = FBXName.size();
-	//GameEngineDirectory Dir;
-	//Dir.MoveParentToDirectory("ContentResources");
-	//ProcessMapInfo::RWProcessInst->WriteFile(Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath(), CurActorSturct);
-	ProcessMapInfo::RWProcessInst->WriteFile(FilePath, CurActorSturct);
+
+	ProcessMapInfo::WriteFile(FilePath, CurActorSturct);
 }
 
 void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 {
-	//GameEngineDirectory Dir;
-	//Dir.MoveParentToDirectory("ContentResources");
-	//std::vector<SponeMapActor> AllInfo = ProcessMapInfo::RWProcessInst->OpenFile(Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath());
-	std::vector<SponeMapActor> AllInfo = ProcessMapInfo::RWProcessInst->OpenFile(FilePath);
+
+	std::vector<SponeMapActor> AllInfo = ProcessMapInfo::OpenFile(FilePath);
 	std::shared_ptr<GameEngineActor> LoadActor = nullptr;
 	for (SponeMapActor _str : AllInfo)
 	{
@@ -365,6 +376,7 @@ void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 		++lastindex;
 		LoadActor = nullptr;
 	}
+	ReadCSV = true;
 }
 
 
@@ -395,9 +407,20 @@ void MapEditorWindow::ReleaseMapEditor()
 
 void MapEditorWindow::ClearActors()
 {
-	//GameEngineDirectory Dir;
-	//Dir.MoveParentToDirectory("ContentResources");
-	//Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath();
-	//ProcessMapInfo::RWProcessInst->CpyAndClear(Dir.GetPlusFileName("ContentResources\\tmp\\test.csv").GetFullPath());
-	ProcessMapInfo::RWProcessInst->CpyAndClear(FilePath);
+	ProcessMapInfo::CpyAndClear(FilePath);
 }
+
+void MapEditorWindow::SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel> Level)
+{
+	ImGui::InputText("##Path", &FileName[0], FileName.size());
+	ImGui::SameLine();
+	if (ImGui::Button("Input Path"))
+	{
+		FilePath.SetPath(FilePath.GetFullPath() +"\\" + FileName);
+		ProcessMapInfo::CreatPathFile(FilePath);
+		IsSetFilePath = true;
+		ReadActor(Level);
+		return;
+	}
+}
+
