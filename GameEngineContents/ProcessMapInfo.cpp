@@ -113,7 +113,6 @@ void ProcessMapInfo::CpyAndClear(GameEnginePath _Path)
 	in.seekg(0, std::ios::beg);
 	char* buf = new char[length];
 	in.read(buf, length);
-	delete buf;
 	in.close();
 	std::ofstream clearf;
 	clearf.open(_Path.GetFullPath(), std::ios_base::out);
@@ -131,6 +130,7 @@ void ProcessMapInfo::CpyAndClear(GameEnginePath _Path)
 	}
 	out.write(buf, length);
 
+	delete[] buf;
 	out.close();
 }
 
