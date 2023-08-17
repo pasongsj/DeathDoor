@@ -2,6 +2,13 @@
 #include <GameEngineCore/GameEngineGUI.h>
 #include "MapEditGlobalValue.h"
 
+enum class EditOption
+{
+	Scale,
+	Rot,
+	Pos,
+};
+
 class MapEditorWindow : public GameEngineGUIWindow
 {
 public:
@@ -26,7 +33,7 @@ private:
 
 	bool IsSetFilePath = false;
 	GameEnginePath FilePath;
-	std::string FileName = "                           ";
+	std::string FileName = "                              ";
 
 	void SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel> Level);
 
@@ -35,14 +42,14 @@ private:
 	int lastindex = -1;
 	int saveIndex = -1;
 
-	std::string AccessIndex = "                ";
+	std::string AccessIndex = "                              ";
 
 	std::shared_ptr<class GameEngineActor> CurActor = nullptr;
 	SponeMapActor CurStruct;
 
 
-	std::string ActorType = "                    ";
-	std::string FBXName = "                   ";
+	std::string ActorType = "                              ";
+	std::string FBXName = "                              ";
 	std::string MeterialName = "MeshTexture";
 
 	// Transform
@@ -63,10 +70,11 @@ private:
 	std::string RevPositionZ = "0000.000000";
 
 	void EditTransform();
+	void EditTransformMouseControl();
 
 	void ResetValue();
 
-
+	EditOption CurOption = EditOption::Pos;
 
 	std::string SaveIndex = "                ";
 	void SaveActors();
