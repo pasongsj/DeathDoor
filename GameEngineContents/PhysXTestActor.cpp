@@ -20,13 +20,14 @@ void PhysXTestActor::Start()
 	float4 Scale = pRenderer->GetTransform()->GetLocalScale();
 	pRenderer->GetTransform()->SetLocalScale(Scale * 10.0f);
 	GetTransform()->SetLocalPosition(float4(0.f, 500.f, 0.f));
-
+	float4 scale = pRenderer->GetFBXMesh()->GetRenderUnit(0)->BoundScaleBox;
+	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 
 	std::shared_ptr<PhysXBoxGeometryComponent> pGeometryComp = CreateComponent<PhysXBoxGeometryComponent>();
 	if (GetLevel()->DynamicThis<PhysXTestLevel>()!= nullptr)
 	{
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
-		pGeometryComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics,{10.f,10.f,10.f});
+		pGeometryComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
 		//pGeometryComp->SetPositionSetFromParentFlag(true);
 	}
 }

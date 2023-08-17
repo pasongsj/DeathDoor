@@ -14,6 +14,7 @@ class PhysXTestLevel : public GameEngineLevel
 	};
 
 	friend class PhysXTestActor;
+	friend class PhysXTestPlane;
 public:
 	// constrcuter destructer
 	PhysXTestLevel();

@@ -3,6 +3,7 @@
 
 #include <ctype.h>
 #include "PhysXTestActor.h"
+#include "PhysXTestPlane.h"
 
 
 #include <PhysXSDKSnippets/SnippetUtils.h>
@@ -72,6 +73,7 @@ void PhysXTestLevel::Initialize()
 	//m_pScene->addActor(*pGroundPlane);
 
 	CreateActor<PhysXTestActor>();
+	CreateActor<PhysXTestPlane>();
 }
 
 
