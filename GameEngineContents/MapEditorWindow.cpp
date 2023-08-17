@@ -68,7 +68,6 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 	}
 
 	ImGui::Text("Current Path : %s", FilePath.GetFullPath().c_str());
-
 	if (false == IsSetFilePath)
 	{
 		SetReadWriteFilePath(Level);
@@ -105,12 +104,20 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 		{
 			for (int n = 0; n < IM_ARRAYSIZE(items); n++)
 			{
-				bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your objects
-				if (ImGui::Selectable(items[n], is_selected))
+				if (ImGui::Selectable(items[n]))
+				{
+					current_item = items[n];
 					ActorType = items[n];
-					if (is_selected)
-						ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+				}
+
+				//bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your /objects
+				//if (ImGui::Selectable(items[n], is_selected))
+				//	ActorType = items[n];
+				//if (is_selected)
+				//	ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+
 			}
+
 			ImGui::EndCombo();
 		}
 
@@ -160,22 +167,16 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 
 		ImGui::Separator();
 		ImGui::Text("Access Index File");
-		ImGui::InputText("##AccessIndex", &AccessIndex[0], AccessIndex.size());
+		ImGui::InputInt("##AccessIndex", &CurIndex);
 		if (ImGui::Button("Access") && Level.get() != GetLevel())
 		{
-			if ('0' != AccessIndex[0] && 0 == atoi(AccessIndex.c_str()))
-			{
-				MsgTextBox("숫자를 입력하세요");
-				return;
-			}
-			else if (EditorActorInfo.end() == EditorActorInfo.find(stoi(AccessIndex)))
+			if (EditorActorInfo.end() == EditorActorInfo.find(CurIndex))
 			{
 				MsgTextBox("이 index에 해당하는 액터가 존재하지 않습니다");
 				return;
 			}
 			else
 			{
-				CurIndex = stoi(AccessIndex);
 				CurActor = EditorActorInfo[CurIndex];
 				ActorType = typeconvertorItoS[EditorSturctInfo[CurIndex].ActorType];
 				//ActorOrder = 0;// 임시
@@ -203,11 +204,17 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 		{
 			for (int n = 0; n < IM_ARRAYSIZE(NetTypes); n++)
 			{
-				bool is_selected = (Select == NetTypes[n]); // You can store your selection however you want, outside or inside your objects
-				if (ImGui::Selectable(NetTypes[n], is_selected))
-					CurNetType = ("ServerActor" == NetTypes[n]);
-				if (is_selected)
-					ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+				if (ImGui::Selectable(NetTypes[n]))
+				{
+					Select = NetTypes[n];
+					CurNetType = NetTypes[n];
+				}
+				//bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your /objects
+				//if (ImGui::Selectable(items[n], is_selected))
+				//	ActorType = items[n];
+				//if (is_selected)
+				//		ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+
 			}
 			ImGui::EndCombo();
 		}
@@ -465,7 +472,7 @@ void MapEditorWindow::EditTransform()
 
 		ImGui::InputText("RotZ", &RevRotationZ[0], RevRotationZ.size());
 
-		if (ImGui::Button("Change Rotion"))
+		if (ImGui::Button("Change Rotation"))
 		{
 			CurActor->GetTransform()->SetLocalRotation(float4{ std::stof(RevRotationX),std::stof(RevRotationY) ,std::stof(RevRotationZ) });
 			CurRot = CurActor->GetTransform()->GetLocalRotation();
@@ -556,7 +563,7 @@ void MapEditorWindow::SaveActors()
 		Struct.LocRot = CurActor->GetTransform()->GetLocalRotation();
 		Struct.LocPos = CurActor->GetTransform()->GetLocalPosition();
 		Struct.IsMoveable = CurNetType;
-		Struct.FBXNameLen = FBXName.size();
+		Struct.FBXNameLen = static_cast<UINT>(FBXName.size());
 		Struct.FBXName = FBXName;
 
 		EditorActorInfo[CurIndex] = CurActor;
@@ -650,6 +657,12 @@ void MapEditorWindow::SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel
 {
 	ImGui::InputText("##Path", &FileName[0], FileName.size());
 	ImGui::SameLine();
+	if (ImGui::Button("SetCsvFile"))
+	{
+		Explorer(FileName, FilePath.GetFullPath());
+	}
+	ImGui::TextColored(ImVec4(1.f,0.f,0.f,1.f), "Check \".csv\"");
+	ImGui::SameLine();
 	if (ImGui::Button("Input Path"))
 	{
 		FilePath.SetPath(FilePath.GetFullPath() +"\\" + FileName);
@@ -666,7 +679,7 @@ void MapEditorWindow::SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel
 	}
 }
 
-void MapEditorWindow::Explorer(std::string& _Value)
+void MapEditorWindow::Explorer(std::string& _Name, const std::string_view& _StartPath)
 {
 	GameEngineDirectory NewDir;
 	NewDir.MoveParentToDirectory("ContentResources");
@@ -675,6 +688,10 @@ void MapEditorWindow::Explorer(std::string& _Value)
 	std::string Initpath = NewDir.GetPath().GetFullPath();
 	std::wstring strFolderPath = GameEngineString::AnsiToUniCode(Initpath);
 
+	if (_StartPath != "")
+	{
+		strFolderPath = GameEngineString::AnsiToUniCode(_StartPath);
+	}
 
 	OPENFILENAME ofn = {};
 
@@ -699,5 +716,5 @@ void MapEditorWindow::Explorer(std::string& _Value)
 		return;
 
 	std::wstring filename = szFileName;
-	_Value = GameEngineString::UniCodeToAnsi(filename);
+	_Name = GameEngineString::UniCodeToAnsi(filename);
 }
