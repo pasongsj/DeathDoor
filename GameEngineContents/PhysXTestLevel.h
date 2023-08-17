@@ -46,11 +46,12 @@ private:
 	physx::PxFoundation* m_pFoundation = nullptr;
 	physx::PxDefaultCpuDispatcher* m_pDispatcher = nullptr;
 
+	physx::PxCooking* m_pCooking = nullptr;
 	physx::PxPvd* m_pPvd = nullptr;
 
 	void Initialize();
 
-	void Simulate(bool _Value = true);
+	void Simulate(float _Deltatime,bool _Value = true);
 
 	void Release();
 

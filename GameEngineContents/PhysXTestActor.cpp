@@ -31,6 +31,7 @@ void PhysXTestActor::Start()
 		pGeometryComp->SetRestitution(2.f);
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
 		pGeometryComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
+
 		//pGeometryComp->SetPositionSetFromParentFlag(true);
 	}
 }
