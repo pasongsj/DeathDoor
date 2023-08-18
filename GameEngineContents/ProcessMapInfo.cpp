@@ -29,33 +29,41 @@ std::vector<SponeMapActor> ProcessMapInfo::OpenFile(GameEnginePath _Path)
 
 	while (!ifs.eof()) {
 		SponeMapActor NewActor;
-		//ifs.read((char*)&NewActor.ActorIndex, sizeof(int));
-		ifs.read((char*)&NewActor.ActorType, sizeof(int));
-		ifs.read((char*)&NewActor.ActorOrder, sizeof(int));
-		//ifs.read((char*)&NewActor.LocScale, sizeof(float4::ZERO));
+		ifs.read((char*)&NewActor.MeshType, sizeof(int));
 		ifs.read((char*)&NewActor.LocRot, sizeof(float4::ZERO));
 		ifs.read((char*)&NewActor.LocPos, sizeof(float4::ZERO));
 		ifs.read((char*)&NewActor.ScaleRatio, sizeof(float));
-		ifs.read((char*)&NewActor.IsMoveable, sizeof(bool));
 		ifs.read((char*)&NewActor.FBXNameLen, sizeof(size_t));
-
 		int Len = static_cast<int>(NewActor.FBXNameLen);
 		if (Len <= 0)
 		{
 			break;
 		}
-		char* temp = new char[Len + 1];
-		ifs.read(temp, Len);
-		temp[Len] = '\0';
-		NewActor.FBXName = temp;
+		char* tmp1 = new char[Len + 1];
+		ifs.read(tmp1, Len);
+		tmp1[Len] = '\0';
+		NewActor.FBXName = tmp1;
+
+		ifs.read((char*)&NewActor.MeterialLen, sizeof(size_t));
+		Len = static_cast<int>(NewActor.MeterialLen);
+		if (Len <= 0)
+		{
+			break;
+		}
+		char* tmp2 = new char[Len + 1];
+		ifs.read(tmp2, Len);
+		tmp2[Len] = '\0';
+		NewActor.MeterialName = tmp2;
 
 		NewActorStructs.push_back(NewActor);
-		delete[] temp;
+		delete[] tmp1;
+		delete[] tmp2;
 	}
 
 	ifs.close();
 	return NewActorStructs;
 }
+
 
 void ProcessMapInfo::WriteAllFile(GameEnginePath _Path, std::map<int, SponeMapActor> _AllStruct)
 {
@@ -79,20 +87,20 @@ void ProcessMapInfo::WriteFile(GameEnginePath _Path, const SponeMapActor& _Value
 		return;
 	}
 	//ofs.write((char*)&_Value.ActorIndex, sizeof(int));
-	ofs.write((char*)&_Value.ActorType, sizeof(int));
-	ofs.write((char*)&_Value.ActorOrder, sizeof(int));
-	//ofs.write((char*)&_Value.LocScale, sizeof(float4::ZERO));
+	ofs.write((char*)&_Value.MeshType, sizeof(int));
 	ofs.write((char*)&_Value.LocRot, sizeof(float4::ZERO));
 	ofs.write((char*)&_Value.LocPos, sizeof(float4::ZERO));
 	ofs.write((char*)&_Value.ScaleRatio, sizeof(float));
-	ofs.write((char*)&_Value.IsMoveable, sizeof(bool));
 	ofs.write((char*)&_Value.FBXNameLen, sizeof(size_t));
 	ofs.write(_Value.FBXName.c_str(), _Value.FBXNameLen);
+	ofs.write((char*)&_Value.MeterialLen, sizeof(size_t));
+	ofs.write(_Value.MeterialName.c_str(), _Value.MeterialLen);
 
 	//ofs.write((char*)&_Value, sizeof(struct SponeMapActor));
 	ofs.close();
 	return;
 }
+
 
 void ProcessMapInfo::CpyAndClear(GameEnginePath _Path)
 {

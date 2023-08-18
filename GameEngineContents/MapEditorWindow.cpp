@@ -7,64 +7,28 @@
 
 #include "ProcessMapInfo.h"
 #include "MapEditGlobalValue.h"
+#include "GameContentsMapActor.h"
 
 #include <GameEngineCore/GameEngineFBXRenderer.h>
-
-
-
-//여기
-	std::map<std::string, int> typeconvertor = { 
-		{"GameEngineActor",static_cast<int>(ContentsActorType::GameEngineActor)},
-		{"TestObject",static_cast<int>(ContentsActorType::TestObject)},
-		{"Player",static_cast<int>(ContentsActorType::Player)},
-		{"SinkBox_4x4", static_cast<int>(ContentsActorType::SinkBox_4x4)},
-		{"SinkBox_8x8", static_cast<int>(ContentsActorType::SinkBox_8x8)} 
-	};
-	
-	std::map<int, std::string> typeconvertorItoS = { 
-		{static_cast<int>(ContentsActorType::GameEngineActor),"GameEngineActor"},
-		{static_cast<int>(ContentsActorType::TestObject),"TestObject"},
-		{static_cast<int>(ContentsActorType::Player),"Player"},
-		{static_cast<int>(ContentsActorType::SinkBox_4x4), "SinkBox_4x4"},
-		{static_cast<int>(ContentsActorType::SinkBox_8x8),"SinkBox_8x8"} 
-	};
-
 
 MapEditorWindow* MapEditorWindow::EditorGUI;
 
 void MapEditorWindow::CreateSetCurActor(int _ActorType, std::shared_ptr<class GameEngineLevel> Level)
 {
-	if (static_cast<int>(ContentsActorType::GameEngineActor) == _ActorType)
+	if (nullptr == GameEngineFBXMesh::Find(FBXName))
 	{
-		if (nullptr == GameEngineFBXMesh::Find(FBXName))
-		{
-			MsgAssert("FBX매쉬를 선택하지 않았습니다");
-			return;
-		}
-		CurActor = Level->CreateActor<GameEngineActor>();
-		std::shared_ptr<GameEngineFBXRenderer> pRenderer = CurActor->CreateComponent< GameEngineFBXRenderer>();
-		pRenderer->SetFBXMesh(FBXName, MeterialName);
-	}
-	else if (static_cast<int>(ContentsActorType::TestObject) == _ActorType)
-	{
-		CurActor = Level->CreateActor<TestObject>();
-	}
-	else if (static_cast<int>(ContentsActorType::Player) == _ActorType)
-	{
-		CurActor = Level->CreateActor<Player>();
-	}
-	else if (static_cast<int>(ContentsActorType::SinkBox_4x4) == _ActorType)
-	{
-		CurActor = Level->CreateActor<SinkBox_4x4>();
-	}
-	else if (static_cast<int>(ContentsActorType::SinkBox_8x8) == _ActorType)
-	{
-		CurActor = Level->CreateActor<SinkBox_8x8>();
-	}
-	else
-	{
+		MsgAssert("FBX매쉬를 선택하지 않았습니다");
 		return;
 	}
+	CurActor = Level->CreateActor<GameContentsMapActor>();
+	std::shared_ptr< GameContentsMapActor> MapActor = CurActor->DynamicThis< GameContentsMapActor>();
+	if (nullptr != MapActor->Renderer)
+	{
+		MsgAssert("잘못생성된 액터입니다.");
+	}
+	MapActor->Renderer = MapActor->CreateComponent< GameEngineFBXRenderer>();
+	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CurActor->CreateComponent< GameEngineFBXRenderer>();
+	pRenderer->SetFBXMesh(FBXName, MeterialName);
 }
 
 MapEditorWindow::MapEditorWindow()
@@ -116,7 +80,6 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 	{
 		return;
 	}
-
 	ImGui::Text("Current Path : %s", FilePath.GetFullPath().c_str());
 	if (false == IsSetFilePath)
 	{
@@ -127,68 +90,106 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 	ImGui::Separator();
 	if (false == ReadCSV)
 	{
-		if(ImGui::Button("Read Actor File") && Level.get() != GetLevel())
+		if (ImGui::Button("Read Actor File") && Level.get() != GetLevel())
 		{
 			ReadActor(Level);
 			return;
 		}
 		ImGui::SameLine();
 	}
+	
+	if (nullptr == CurActor)
+	{
+		SettingCurActor(Level);
+	}
+	else
+	{
+		EditCurActor(Level);
+	}
+
+}
+
+void MapEditorWindow::EditCurActor(std::shared_ptr<class GameEngineLevel> Level)
+{
+	ImGui::Text("CurActorIndex : %d, NextNewIndex : %d", CurIndex, lastindex);
+	ImGui::Separator();
+	ShowFBXINfo();
+
+	EditTransform();
+	ImGui::Separator();
 
 
+	if (ImGui::Button("ResetTrans") && Level.get() != GetLevel())
+	{
+		CurActor->GetTransform()->SetLocalScale(float4::ONE);
+		CurActor->GetTransform()->SetLocalRotation(float4::ZERO);
+		CurActor->GetTransform()->SetLocalPosition(float4::ZERO);
+		ResetValue();
+	}
+	if (ImGui::Button("Save") && Level.get() != GetLevel())
+	{
+		SaveActors();
+		CurActor = nullptr;
+	}
+	if (ImGui::Button("Remove") && Level.get() != GetLevel())
+	{
+		if (EditorActorInfo.end() != EditorActorInfo.find(CurIndex))
+		{
+			EditorActorInfo.erase(CurIndex);
+			EditorSturctInfo.erase(CurIndex);
+		}
+		CurActor->Death();
+		CurActor = nullptr;
+		SaveActors();
+	}
+}
+void MapEditorWindow::ShowFBXINfo()
+{
+	//std::shared_ptr< GameEngineFBXMesh> CurMesh = GameEngineFBXMesh::Find(FBXName);
+	//if (nullptr == CurMesh)
+	//{
+	//	MsgAssert("매쉬가 세팅되지 않은 액터입니다");
+	//}
+	//ImGui::Text("FBX Mesh info");
+	//ImGui::Text("Scale : %f %f %f", CurMesh->GetMeshInfosCount());
+	//ImGui::Text("Rot : %f %f %f", CurMesh->GetMeshInfosCount());
+	//ImGui::Text("Rot : %f %f %f", CurMesh->GetMeshInfosCount());
+	//ImGui::Separator();
+
+}
+
+
+void MapEditorWindow::SettingCurActor(std::shared_ptr<class GameEngineLevel> Level)
+{
 	if (nullptr == CurActor)
 	{
 
 		if (ImGui::Button("Clear Actor File") && Level.get() != GetLevel())
 		{
-			ClearActors();
+			ClearCurFile();
 			return;
 		}
 		ImGui::Separator();
 
-
-		//여기
-		const char* items[] = { "GameEngineActor", "TestObject","Player","SinkBox_4x4", "SinkBox_8x8"};
-		static const char* current_item = NULL;
 		ImGui::Text("CreateActor");
-		if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
-		{
-			for (int n = 0; n < IM_ARRAYSIZE(items); n++)
-			{
-				if (ImGui::Selectable(items[n]))
-				{
-					current_item = items[n];
-					ActorType = items[n];
-				}
-
-				//bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your /objects
-				//if (ImGui::Selectable(items[n], is_selected))
-				//	ActorType = items[n];
-				//if (is_selected)
-				//	ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
-
-			}
-
-			ImGui::EndCombo();
-		}
 
 
 		///
 		//ImGui::InputText("##ActorType", &ActorType[0], ActorType.size());
-		ImGui::InputText("##FBXName", &FBXName[0], FBXName.size()); 
+		ImGui::InputText("##FBXName", &FBXName[0], FBXName.size());
 		ImGui::SameLine();
 		if (ImGui::Button("FbxLoad"))
 		{
 			Explorer(FBXName);
 		}
-		ImGui::InputText("##MeterialName", &MeterialName[0], MeterialName.size()); 
+		ImGui::InputText("##MeterialName", &MeterialName[0], MeterialName.size());
 
 		ImGui::SameLine();
 		if (ImGui::Button("Create") && Level.get() != GetLevel())
 		{
 			//여기
-			CreateSetCurActor(typeconvertor[ActorType], Level);
-			
+			CreateSetCurActor(0, Level);
+
 			CurIndex = lastindex++;
 			ResetValue();
 		}
@@ -209,74 +210,12 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 			else
 			{
 				CurActor = EditorActorInfo[CurIndex];
-				ActorType = typeconvertorItoS[EditorSturctInfo[CurIndex].ActorType];
-				//ActorOrder = 0;// 임시
+				//ActorType = 0;
 				Ratio = std::to_string(EditorSturctInfo[CurIndex].ScaleRatio);
-				CurNetType = EditorSturctInfo[CurIndex].IsMoveable;
 				FBXName = EditorSturctInfo[CurIndex].FBXName;
 			}
 		}
 	}
-	else
-	{
-
-		ImGui::Text("CurActorIndex : %d, NextNewIndex : %d", CurIndex,lastindex);
-		//
-		ImGui::Separator();
-		//
-		EditTransform();
-
-		ImGui::Separator();
-
-		static const char* Select = NULL;
-		const char* NetTypes[] = {"LocalActor",  "ServerActor" };
-		ImGui::Text("Net Type - is moveable?");
-		if (ImGui::BeginCombo("##combo", Select)) // The second parameter is the label previewed before opening the combo.
-		{
-			for (int n = 0; n < IM_ARRAYSIZE(NetTypes); n++)
-			{
-				if (ImGui::Selectable(NetTypes[n]))
-				{
-					Select = NetTypes[n];
-					CurNetType = NetTypes[n];
-				}
-				//bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your /objects
-				//if (ImGui::Selectable(items[n], is_selected))
-				//	ActorType = items[n];
-				//if (is_selected)
-				//		ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
-
-			}
-			ImGui::EndCombo();
-		}
-		ImGui::Separator();
-		if (ImGui::Button("ResetTrans") && Level.get() != GetLevel())
-		{
-			CurActor->GetTransform()->SetLocalScale(float4::ONE);
-			CurActor->GetTransform()->SetLocalRotation(float4::ZERO);
-			CurActor->GetTransform()->SetLocalPosition(float4::ZERO);
-			ResetValue();
-		}
-		if (ImGui::Button("Save") && Level.get() != GetLevel())
-		{
-			SaveActors();
-			CurActor = nullptr;
-		}
-		if (ImGui::Button("Remove") && Level.get() != GetLevel())
-		{
-
-			//int CurIndex = CurStruct.ActorIndex;
-			if(EditorActorInfo.end() != EditorActorInfo.find(CurIndex))
-			{
-				EditorActorInfo.erase(CurIndex);
-				EditorSturctInfo.erase(CurIndex);
-			}
-			CurActor->Death();
-			CurActor = nullptr;
-			SaveActors();
-		}
-	}
-
 }
 
 void MapEditorWindow::EditTransformMouseControl()
@@ -575,20 +514,19 @@ void MapEditorWindow::EditTransform()
 }
 
 
-
 void MapEditorWindow::SaveActors()
 {
 	if(nullptr != CurActor)
 	{
 		SponeMapActor Struct;
-		Struct.ActorType = typeconvertor[ActorType];
-		Struct.ActorOrder = 0;
+		Struct.MeshType = 0; // 수정 필요
 		Struct.ScaleRatio = CurActor->GetTransform()->GetLocalScale().x / 1.0f;
 		Struct.LocRot = CurActor->GetTransform()->GetLocalRotation();
 		Struct.LocPos = CurActor->GetTransform()->GetLocalPosition();
-		Struct.IsMoveable = CurNetType;
 		Struct.FBXNameLen = static_cast<UINT>(FBXName.size());
 		Struct.FBXName = FBXName;
+		Struct.MeterialLen = static_cast<UINT>(MeterialName.size());
+		Struct.MeterialName = MeterialName;
 
 		EditorActorInfo[CurIndex] = CurActor;
 		EditorSturctInfo[CurIndex] = Struct;
@@ -599,22 +537,21 @@ void MapEditorWindow::SaveActors()
 
 void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 {
-	//여기
 	std::vector<SponeMapActor> AllInfo = ProcessMapInfo::OpenFile(FilePath);
 	for (SponeMapActor _str : AllInfo)
 	{
 		FBXName = _str.FBXName;
-		CreateSetCurActor(_str.ActorType, Level);
+		MeterialName = _str.MeterialName;
 
-		CurActor->SetOrder(static_cast<int>(_str.ActorOrder));
+		CreateSetCurActor(0, Level);
+
 		CurActor->GetTransform()->SetLocalScale(float4::ONE * _str.ScaleRatio);
 		CurActor->GetTransform()->SetLocalRotation(_str.LocRot);
 		CurActor->GetTransform()->SetLocalPosition(_str.LocPos);
 
 		EditorSturctInfo[lastindex] = _str;
 		EditorActorInfo[lastindex] = CurActor;
-		//recvUnit = std::to_string(_str.ScaleRatio);
-		Ratio = std::to_string(_str.ScaleRatio);
+
 		CurActor = nullptr;
 		lastindex++;
 	}
@@ -650,7 +587,7 @@ void MapEditorWindow::ReleaseMapEditor()
 }
 
 
-void MapEditorWindow::ClearActors()
+void MapEditorWindow::ClearCurFile()
 {
 	ProcessMapInfo::CpyAndClear(FilePath);
 

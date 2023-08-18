@@ -52,6 +52,12 @@
     <ClCompile Include="SinkBox_4x4.cpp">
       <Filter>PlayLevel\MapActor</Filter>
     </ClCompile>
+    <ClCompile Include="GameContentsMapActor.cpp">
+      <Filter>NetObejct</Filter>
+    </ClCompile>
+    <ClCompile Include="GameContentsNetActor.cpp">
+      <Filter>NetObejct</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -114,6 +120,12 @@
     <ClInclude Include="SinkBox_4x4.h">
       <Filter>PlayLevel\MapActor</Filter>
     </ClInclude>
+    <ClInclude Include="GameContentsNetActor.h">
+      <Filter>NetObejct</Filter>
+    </ClInclude>
+    <ClInclude Include="GameContentsMapActor.h">
+      <Filter>NetObejct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CenterLevel">
@@ -151,6 +163,9 @@
     </Filter>
     <Filter Include="PlayLevel\MapActor">
       <UniqueIdentifier>{5dd5f4a8-7587-4241-8ab9-47d33fcde18d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NetObejct">
+      <UniqueIdentifier>{992ca562-a6e9-43c3-ba73-db8f7817cc57}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

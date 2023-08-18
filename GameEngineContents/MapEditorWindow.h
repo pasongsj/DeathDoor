@@ -31,35 +31,22 @@ protected:
 
 private:
 
-	bool IsSetFilePath = false;
-	GameEnginePath FilePath;
-	std::string FileName = "                              ";
-
-	void SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel> Level);
-
-	bool ReadCSV = false;
+	//editor Info
+	std::map<int, std::shared_ptr<class GameEngineActor>> EditorActorInfo;
+	std::map<int, SponeMapActor> EditorSturctInfo;
 
 	int lastindex = 0;
 	int CurIndex = -1;
-	bool CurNetType = false;
+	bool ReadCSV = false;
 	std::string AccessIndex = "                              ";
-
-	std::shared_ptr<class GameEngineActor> CurActor = nullptr;
-	//SponeMapActor CurStruct;
-
-
-	std::string ActorType = "                              ";
-	std::string FBXName = "                              ";
-	std::string MeterialName = "MeshTexture";
-
-	// Transform
-
+	float UnitScale = 10.0f;
+		// Transform
+	EditOption CurOption = EditOption::Pos;
+	std::string recvUnit = "1000.000000";//1000.000000
+	std::string Ratio = "1.000000";
 	float4 CurRot = float4::ZERO;
 	float4 CurPos = float4::ZERO;
-	std::string recvUnit = "1000.000000";//1000.000000
-	float UnitScale = 10.0f;
 
-	std::string Ratio = "1.000000";
 
 	std::string RevRotationX = "0000.000000";
 	std::string RevRotationY = "0000.000000";
@@ -69,25 +56,37 @@ private:
 	std::string RevPositionY = "0000.000000";
 	std::string RevPositionZ = "0000.000000";
 
+	//editor func
+	void SettingCurActor(std::shared_ptr<class GameEngineLevel> Level);
+	void EditCurActor(std::shared_ptr<class GameEngineLevel> Level);
 	void EditTransform();
 	void EditTransformMouseControl();
-
 	void ResetValue();
+	void CreateSetCurActor(int _ActorType, std::shared_ptr<class GameEngineLevel> Level);
 
-	EditOption CurOption = EditOption::Pos;
+	void ShowFBXINfo();
 
-	std::string SaveIndex = "                ";
-	void SaveActors();
+	// ReSource Info
+	bool IsSetFilePath = false;
+	GameEnginePath FilePath;
+	std::string FileName = "                              ";
 
-	void ReadActor(std::shared_ptr<class GameEngineLevel> Level);
-
-	void ClearActors();
-
+	// Resource Func
+	void SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel> Level);
 	void Explorer(std::string& _Name, const std::string_view& _StartPath = "");
 
-	std::map<int, std::shared_ptr<class GameEngineActor>> EditorActorInfo;
-	std::map<int, SponeMapActor> EditorSturctInfo;
+	// Actor Info
+	std::shared_ptr<class GameEngineActor> CurActor = nullptr;
+	std::string FBXName = "                              ";
+	std::string MeterialName = "MeshTexture";
 
-	void CreateSetCurActor(int _ActorType, std::shared_ptr<class GameEngineLevel> Level);
+	// read & save func
+	void ReadActor(std::shared_ptr<class GameEngineLevel> Level);
+	void SaveActors();
+	void ClearCurFile();
+
+
+
+
 
 };
