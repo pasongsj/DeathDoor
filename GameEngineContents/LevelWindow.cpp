@@ -25,25 +25,25 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	ImGui::Separator();
 	ImGui::Dummy(ImVec2(0, 10));
 
-	if (ImGui::Button("CenterLevel") && Level.get() != GetLevel())
+	if (ImGui::Button("CenterLevel")/* && Level.get() != GetLevel()*/)
 	{
 		m_CurLevelName = "CenterLevel";
 		GameEngineCore::ChangeLevel("CenterLevel");
 	}
 
-	if (ImGui::Button("TestLevel") && Level.get() != GetLevel())
+	if (ImGui::Button("TestLevel") /*&& Level.get() != GetLevel()*/)
 	{
 		m_CurLevelName = "TestLevel";
 		GameEngineCore::ChangeLevel("TestLevel");
 	}
 
-	if (ImGui::Button("ServerTestLevel") && Level.get() != GetLevel())
+	if (ImGui::Button("ServerTestLevel")/* && Level.get() != GetLevel()*/)
 	{
 		m_CurLevelName = "ServerTestLevel";
 		GameEngineCore::ChangeLevel("ServerTestLevel");
 	}
 
-	if (ImGui::Button("MapEditorLevel") && Level.get() != GetLevel())
+	if (ImGui::Button("MapEditorLevel") /*&& Level.get() != GetLevel()*/ )
 	{
 		m_CurLevelName = "MapEditorLevel";
 		GameEngineCore::ChangeLevel("MapEditorLevel");
@@ -54,7 +54,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	ImGui::Text(m_CurCameraMode.c_str());
 	ImGui::Separator();
 
-	if (ImGui::Button("FreeCamera") && Level.get() != GetLevel())
+	if (ImGui::Button("FreeCamera") /*&& Level.get() != GetLevel()*/)
 	{
 		if (false == Level->GetMainCamera()->IsFreeCamera())
 		{

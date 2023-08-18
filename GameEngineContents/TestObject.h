@@ -22,7 +22,8 @@ protected:
 	void Update(float _DeltaTime) override;
 
 	void UserUpdate(float _DeltaTime);
-	void ServerUpdate(float _DeltaTime);
+	void NetUpdate(float _DeltaTime);
+	//void ServerUpdate(float _DeltaTime);
 
 private:
 

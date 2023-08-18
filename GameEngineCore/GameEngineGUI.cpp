@@ -113,7 +113,10 @@ void GameEngineGUI::Render(std::shared_ptr<class GameEngineLevel> Level, float _
             continue;
         }
 
+        GameEngineObject* Ptr = WindowPtr.get();
+
         WindowPtr->Begin();
+        Ptr->Level = Level.get();
         WindowPtr->OnGUI(Level, _DeltaTime);
         WindowPtr->End();
     }

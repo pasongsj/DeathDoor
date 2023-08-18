@@ -41,20 +41,20 @@ void Player::Update(float _DeltaTime)
 
 	NetControlType Type = GetControlType();
 
-	switch (Type)
-	{
-	case NetControlType::None:
-		UserUpdate(_DeltaTime);
-		break;
-	case NetControlType::UserControl:
-		UserUpdate(_DeltaTime);
-		break;
-	case NetControlType::ServerControl:
-		ServerUpdate(_DeltaTime);
-		break;
-	default:
-		break;
-	}
+	//switch (Type)
+	//{
+	//case NetControlType::None:
+	//	UserUpdate(_DeltaTime);
+	//	break;
+	//case NetControlType::UserControl:
+	//	UserUpdate(_DeltaTime);
+	//	break;
+	//case NetControlType::ServerControl:
+	//	ServerUpdate(_DeltaTime);
+	//	break;
+	//default:
+	//	break;
+	//}
 }
 
 void Player::UserUpdate(float _DeltaTime)

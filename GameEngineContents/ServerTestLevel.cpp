@@ -15,7 +15,10 @@ ServerTestLevel::~ServerTestLevel()
 
 void ServerTestLevel::Start()
 {
-	CreateActor<TestObject>();
+	//CreateActor<TestObject>();
+
+	std::shared_ptr<TestObject> TestObj = CreateActor<TestObject>();
+	TestObj->SetUserControlType();
 }
 
 void ServerTestLevel::Update(float _DeltaTime)

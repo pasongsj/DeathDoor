@@ -48,9 +48,15 @@ GameEngineNetServer::~GameEngineNetServer()
 
 void GameEngineNetServer::Send(const char* Data, unsigned int _Size, int _IgnoreID)
 {
-    for (size_t i = 0; i < Users.size(); i++)
+    for (std::pair<const int, SOCKET> UserPair : Users)
     {
-        send(Users[i], Data, _Size, 0);
+        if (_IgnoreID == UserPair.first)
+        {
+            continue;
+        }
+
+        // 이걸 보낸놈 한테는 다시 보낼필요가 없다.
+        send(UserPair.second, Data, _Size, 0);
     }
 }
 

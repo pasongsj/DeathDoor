@@ -83,6 +83,8 @@ void ServerWindow::OnGUI(std::shared_ptr<GameEngineLevel> Level, float _DeltaTim
 	Text = "호스트 하기";
 	if (ImGui::Button(GameEngineString::AnsiToUTF8(Text).c_str()))
 	{
+		SetThreadDescription(GetCurrentThread(), L"Server Main Thread");
+
 		ServerPacketInit(&Server);
 		Server.ServerOpen(static_cast<unsigned short>(Port));
 		ServerInit(Level);
@@ -97,6 +99,8 @@ void ServerWindow::OnGUI(std::shared_ptr<GameEngineLevel> Level, float _DeltaTim
 	Text = "클라이언트로 접속하기";
 	if (ImGui::Button(GameEngineString::AnsiToUTF8(Text).c_str()))
 	{
+		SetThreadDescription(GetCurrentThread(), L"Client Main Thread");
+
 		ClientPacketInit(&Client);
 		IsClient = Client.Connect(IP, static_cast<unsigned short>(Port));
 
@@ -135,9 +139,15 @@ void ServerWindow::ServerPacketInit(GameEngineNetServer* _Net)
 		{
 			if (false == GameEngineNetObject::IsNetObject(_Packet->GetObjectID()))
 			{
+				GameEngineLevel* LevelPtr = GetLevel();
+
 				std::shared_ptr<TestObject> NewObj = GetLevel()->CreateActor<TestObject>();
 				NewObj->InitNetObject(_Packet->GetObjectID(), _Net);
 			}
+
+			GameEngineNetObject::PushNetObjectPacket(_Packet);
+
+			_Net->SendPacket(_Packet, _Packet->GetObjectID());
 		}
 	);
 }
@@ -155,7 +165,15 @@ void ServerWindow::ClientPacketInit(GameEngineNetClient* _Net)
 	_Net->Dispatcher.AddHandler<ObjectUpdatePacket>(
 		[=](std::shared_ptr<ObjectUpdatePacket> _Packet)
 		{
-			int a = 0;
+			if (false == GameEngineNetObject::IsNetObject(_Packet->GetObjectID()))
+			{
+				GameEngineLevel* LevelPtr = GetLevel();
+
+				std::shared_ptr<TestObject> NewObj = GetLevel()->CreateActor<TestObject>();
+				NewObj->InitNetObject(_Packet->GetObjectID(), _Net);
+			}
+
+			GameEngineNetObject::PushNetObjectPacket(_Packet);
 		}
 	);
 }
