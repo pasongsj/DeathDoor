@@ -22,7 +22,7 @@ void PhysXTestActor::Start()
 	pRenderer->GetTransform()->SetLocalScale(Scale * 10.0f);
 	GetTransform()->SetLocalPosition(float4(0.f, 500.f, 0.f));
 
-	float4 scale = pRenderer->GetFBXMesh()->GetRenderUnit(0)->MaxBoundBox;
+	float4 scale = pRenderer->GetMeshScale();
 	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 
 
