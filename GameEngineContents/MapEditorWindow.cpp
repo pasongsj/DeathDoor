@@ -32,6 +32,41 @@
 
 MapEditorWindow* MapEditorWindow::EditorGUI;
 
+void MapEditorWindow::CreateSetCurActor(int _ActorType, std::shared_ptr<class GameEngineLevel> Level)
+{
+	if (static_cast<int>(ContentsActorType::GameEngineActor) == _ActorType)
+	{
+		if (nullptr == GameEngineFBXMesh::Find(FBXName))
+		{
+			MsgAssert("FBX매쉬를 선택하지 않았습니다");
+			return;
+		}
+		CurActor = Level->CreateActor<GameEngineActor>();
+		std::shared_ptr<GameEngineFBXRenderer> pRenderer = CurActor->CreateComponent< GameEngineFBXRenderer>();
+		pRenderer->SetFBXMesh(FBXName, MeterialName);
+	}
+	else if (static_cast<int>(ContentsActorType::TestObject) == _ActorType)
+	{
+		CurActor = Level->CreateActor<TestObject>();
+	}
+	else if (static_cast<int>(ContentsActorType::Player) == _ActorType)
+	{
+		CurActor = Level->CreateActor<Player>();
+	}
+	else if (static_cast<int>(ContentsActorType::SinkBox_4x4) == _ActorType)
+	{
+		CurActor = Level->CreateActor<SinkBox_4x4>();
+	}
+	else if (static_cast<int>(ContentsActorType::SinkBox_8x8) == _ActorType)
+	{
+		CurActor = Level->CreateActor<SinkBox_8x8>();
+	}
+	else
+	{
+		return;
+	}
+}
+
 MapEditorWindow::MapEditorWindow()
 {
 	EditorGUI = this;
@@ -152,37 +187,8 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 		if (ImGui::Button("Create") && Level.get() != GetLevel())
 		{
 			//여기
-			if ("GameEngineActor" == ActorType)
-			{
-				if (nullptr == GameEngineFBXMesh::Find(FBXName))
-				{
-					MsgTextBox("FBX매쉬를 선택하지 않았습니다");
-					return;
-				}
-				CurActor = Level->CreateActor<GameEngineActor>();
-				std::shared_ptr<GameEngineFBXRenderer> pRenderer = CurActor->CreateComponent< GameEngineFBXRenderer>();
-				pRenderer->SetFBXMesh(FBXName, MeterialName);
-			}
-			else if ("TestObject" == ActorType)
-			{
-				CurActor = Level->CreateActor<TestObject>();
-			}
-			else if ("Player" == ActorType)
-			{
-				CurActor = Level->CreateActor<Player>();
-			}
-			else if ("SinkBox_4x4" == ActorType)
-			{
-				CurActor = Level->CreateActor<SinkBox_4x4>();
-			}
-			else if ("SinkBox_8x8" == ActorType)
-			{
-				CurActor = Level->CreateActor<SinkBox_8x8>();
-			}
-			else
-			{
-				return;
-			}
+			CreateSetCurActor(typeconvertor[ActorType], Level);
+			
 			CurIndex = lastindex++;
 			ResetValue();
 		}
@@ -595,50 +601,21 @@ void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 {
 	//여기
 	std::vector<SponeMapActor> AllInfo = ProcessMapInfo::OpenFile(FilePath);
-	std::shared_ptr<GameEngineActor> LoadActor = nullptr;
 	for (SponeMapActor _str : AllInfo)
 	{
-		if (static_cast<int>(ContentsActorType::GameEngineActor) == static_cast<int>(_str.ActorType))
-		{
-			if (nullptr == GameEngineFBXMesh::Find(_str.FBXName))
-			{
-				MsgAssert("FBX매쉬를 선택하지 않았습니다");
-				return;
-			}
-			LoadActor = Level->CreateActor<GameEngineActor>();
-			std::shared_ptr<GameEngineFBXRenderer> pRenderer = LoadActor->CreateComponent< GameEngineFBXRenderer>();
-			pRenderer->SetFBXMesh(_str.FBXName, MeterialName);
-		}
-		else if (static_cast<int>(ContentsActorType::TestObject) == static_cast<int>(_str.ActorType))
-		{
-			LoadActor = Level->CreateActor<TestObject>();
-		}
-		else if (static_cast<int>(ContentsActorType::Player) == static_cast<int>(_str.ActorType))
-		{
-			LoadActor = Level->CreateActor<Player>();
-		}
-		else if (static_cast<int>(ContentsActorType::SinkBox_4x4) == static_cast<int>(_str.ActorType))
-		{
-			LoadActor = Level->CreateActor<SinkBox_4x4>();
-		}
-		else if (static_cast<int>(ContentsActorType::SinkBox_8x8) == static_cast<int>(_str.ActorType))
-		{
-			LoadActor = Level->CreateActor<SinkBox_8x8>();
-		}
-		else
-		{
-			return;
-		}
-		LoadActor->SetOrder(static_cast<int>(_str.ActorOrder));
-		LoadActor->GetTransform()->SetLocalScale(float4::ONE * _str.ScaleRatio);
-		LoadActor->GetTransform()->SetLocalRotation(_str.LocRot);
-		LoadActor->GetTransform()->SetLocalPosition(_str.LocPos);
+		FBXName = _str.FBXName;
+		CreateSetCurActor(_str.ActorType, Level);
+
+		CurActor->SetOrder(static_cast<int>(_str.ActorOrder));
+		CurActor->GetTransform()->SetLocalScale(float4::ONE * _str.ScaleRatio);
+		CurActor->GetTransform()->SetLocalRotation(_str.LocRot);
+		CurActor->GetTransform()->SetLocalPosition(_str.LocPos);
 
 		EditorSturctInfo[lastindex] = _str;
-		EditorActorInfo[lastindex] = LoadActor;
+		EditorActorInfo[lastindex] = CurActor;
 		//recvUnit = std::to_string(_str.ScaleRatio);
 		Ratio = std::to_string(_str.ScaleRatio);
-		LoadActor = nullptr;
+		CurActor = nullptr;
 		lastindex++;
 	}
 	ReadCSV = true;

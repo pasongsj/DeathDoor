@@ -88,4 +88,6 @@ private:
 	std::map<int, std::shared_ptr<class GameEngineActor>> EditorActorInfo;
 	std::map<int, SponeMapActor> EditorSturctInfo;
 
+	void CreateSetCurActor(int _ActorType, std::shared_ptr<class GameEngineLevel> Level);
+
 };
