@@ -52,6 +52,9 @@
     <ClCompile Include="PhysXBoxGeometryComponent.cpp">
       <Filter>PhysX\Component</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXDynamicActorComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -105,6 +108,10 @@
     <ClInclude Include="PhysXBoxGeometryComponent.h">
       <Filter>PhysX\Component</Filter>
     </ClInclude>
+    <ClInclude Include="PhysXDynamicActorComponent.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CenterLevel">

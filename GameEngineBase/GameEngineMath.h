@@ -28,6 +28,19 @@ public:
 	static const float DegToRad;
 	static const float RadToDeg;
 
+	static float fLerp(float p1, float p2, float Time)
+	{
+		return (1.0f - Time) * p1 + Time * p2;
+	}
+	static float fLerpClamp(float p1, float p2, float Time)
+	{
+		if (1.0f <= Time)
+		{
+			Time = 1.0f;
+		}
+
+		return fLerp(p1, p2, Time);
+	}
 private:
 	virtual ~GameEngineMath() = 0;
 };
@@ -52,7 +65,7 @@ public:
 	static const float4 BLACK;
 
 	static float4 MatrixToQuaternion(const class float4x4& M);
-	
+
 
 	static float InvSqrt(float f)
 	{

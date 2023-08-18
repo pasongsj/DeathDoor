@@ -21,5 +21,6 @@ protected:
 
 private:
 	std::shared_ptr<class PhysXBoxGeometryComponent> pGeometryComp = nullptr;
+	std::shared_ptr<class PhysXDynamicActorComponent> pDynamicActorComp = nullptr;
 };
 
