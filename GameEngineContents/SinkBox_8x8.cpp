@@ -11,6 +11,13 @@ SinkBox_8x8::~SinkBox_8x8()
 
 void SinkBox_8x8::Start()
 {
-	std::shared_ptr<GameEngineFBXRenderer> NewRenderer = CreateComponent<GameEngineFBXRenderer>();
-	NewRenderer->SetFBXMesh("SinkBox_8x8.fbx", "MeshTexture");	
+	NewRenderer = CreateComponent<GameEngineFBXRenderer>();
+	NewRenderer->SetFBXMesh("SinkBox_8x8.fbx", "MeshTexture");
+}
+
+void SinkBox_8x8::Update(float _Deltatime)
+{
+	float4 Pos = NewRenderer->GetTransform()->GetWorldScale();
+	
+	int a = 0;
 }

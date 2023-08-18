@@ -2,17 +2,33 @@
 #include "MapEditorWindow.h"
 #include "TestObject.h"
 #include "Player.h"
+#include "SinkBox_4x4.h"
 #include "SinkBox_8x8.h"
 
 #include "ProcessMapInfo.h"
 #include "MapEditGlobalValue.h"
 
 #include <GameEngineCore/GameEngineFBXRenderer.h>
-	std::map<std::string, int> typeconvertor = { {"GameEngineActor",static_cast<int>(ContentsActorType::GameEngineActor)},
-{"TestObject",static_cast<int>(ContentsActorType::TestObject)},{"Player",static_cast<int>(ContentsActorType::Player)} };	
+
+
+
+//여기
+	std::map<std::string, int> typeconvertor = { 
+		{"GameEngineActor",static_cast<int>(ContentsActorType::GameEngineActor)},
+		{"TestObject",static_cast<int>(ContentsActorType::TestObject)},
+		{"Player",static_cast<int>(ContentsActorType::Player)},
+		{"SinkBox_4x4", static_cast<int>(ContentsActorType::SinkBox_4x4)},
+		{"SinkBox_8x8", static_cast<int>(ContentsActorType::SinkBox_8x8)} 
+	};
 	
-	std::map<int, std::string> typeconvertorItoS = { {static_cast<int>(ContentsActorType::GameEngineActor),"GameEngineActor"},
-{static_cast<int>(ContentsActorType::TestObject),"TestObject"},{static_cast<int>(ContentsActorType::Player),"Player"} };
+	std::map<int, std::string> typeconvertorItoS = { 
+		{static_cast<int>(ContentsActorType::GameEngineActor),"GameEngineActor"},
+		{static_cast<int>(ContentsActorType::TestObject),"TestObject"},
+		{static_cast<int>(ContentsActorType::Player),"Player"},
+		{static_cast<int>(ContentsActorType::SinkBox_4x4), "SinkBox_4x4"},
+		{static_cast<int>(ContentsActorType::SinkBox_8x8),"SinkBox_8x8"} 
+	};
+
 
 MapEditorWindow* MapEditorWindow::EditorGUI;
 
@@ -96,8 +112,8 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 		ImGui::Separator();
 
 
-		//Actor 이름 추가
-		const char* items[] = { "GameEngineActor", "TestObject","Player", "SinkBox_8x8"};
+		//여기
+		const char* items[] = { "GameEngineActor", "TestObject","Player","SinkBox_4x4", "SinkBox_8x8"};
 		static const char* current_item = NULL;
 		ImGui::Text("CreateActor");
 		if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
@@ -135,7 +151,7 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 		ImGui::SameLine();
 		if (ImGui::Button("Create") && Level.get() != GetLevel())
 		{
-			//Actor 클래스 생성 추가
+			//여기
 			if ("GameEngineActor" == ActorType)
 			{
 				if (nullptr == GameEngineFBXMesh::Find(FBXName))
@@ -154,6 +170,10 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 			else if ("Player" == ActorType)
 			{
 				CurActor = Level->CreateActor<Player>();
+			}
+			else if ("SinkBox_4x4" == ActorType)
+			{
+				CurActor = Level->CreateActor<SinkBox_4x4>();
 			}
 			else if ("SinkBox_8x8" == ActorType)
 			{
@@ -552,13 +572,6 @@ void MapEditorWindow::EditTransform()
 
 void MapEditorWindow::SaveActors()
 {
-	enum class ContentsActorType
-	{
-		GameEngineActor,
-		TestObject,
-		Player
-	};
-
 	if(nullptr != CurActor)
 	{
 		SponeMapActor Struct;
@@ -580,7 +593,7 @@ void MapEditorWindow::SaveActors()
 
 void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 {
-
+	//여기
 	std::vector<SponeMapActor> AllInfo = ProcessMapInfo::OpenFile(FilePath);
 	std::shared_ptr<GameEngineActor> LoadActor = nullptr;
 	for (SponeMapActor _str : AllInfo)
@@ -603,6 +616,14 @@ void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 		else if (static_cast<int>(ContentsActorType::Player) == static_cast<int>(_str.ActorType))
 		{
 			LoadActor = Level->CreateActor<Player>();
+		}
+		else if (static_cast<int>(ContentsActorType::SinkBox_4x4) == static_cast<int>(_str.ActorType))
+		{
+			LoadActor = Level->CreateActor<SinkBox_4x4>();
+		}
+		else if (static_cast<int>(ContentsActorType::SinkBox_8x8) == static_cast<int>(_str.ActorType))
+		{
+			LoadActor = Level->CreateActor<SinkBox_8x8>();
 		}
 		else
 		{
