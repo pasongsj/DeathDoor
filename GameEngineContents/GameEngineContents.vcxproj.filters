@@ -58,6 +58,12 @@
     <ClCompile Include="GameContentsNetActor.cpp">
       <Filter>NetObejct</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerBase.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_Banana.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -126,6 +132,12 @@
     <ClInclude Include="GameContentsMapActor.h">
       <Filter>NetObejct</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerBase.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_Banana.h">
+      <Filter>Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CenterLevel">
@@ -166,6 +178,9 @@
     </Filter>
     <Filter Include="NetObejct">
       <UniqueIdentifier>{992ca562-a6e9-43c3-ba73-db8f7817cc57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{d7d0bb27-7d0a-4e1e-b795-6e8711f07cec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

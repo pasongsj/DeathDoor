@@ -193,6 +193,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Player_Banana.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PreCompileHeader.cpp">
       <SubType>
       </SubType>
@@ -265,6 +273,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Player_Banana.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PreCompileHeader.h">
       <SubType>
       </SubType>
