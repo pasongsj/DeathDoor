@@ -25,6 +25,11 @@ public:
 		return FBXMesh;
 	}
 
+	inline std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> GetRenderUnit()
+	{
+		return Unit;
+	}
+
 protected:
 	//void Render(float _DeltaTime) override;
 

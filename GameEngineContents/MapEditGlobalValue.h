@@ -8,7 +8,8 @@ enum class ContentsActorType
 {
     GameEngineActor,
     TestObject,
-    Player
+    Player,
+    SinkBox_8x8
 };
 
 

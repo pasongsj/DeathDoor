@@ -9,4 +9,6 @@
 
 #include <GameEngineCore/GameEngineDebug3D.h>
 
+#include <GameEngineCore/GameEngineFBXRenderer.h>
+
 #include "ContentsEnum.h"

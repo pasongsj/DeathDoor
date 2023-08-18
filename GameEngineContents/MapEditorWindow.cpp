@@ -2,8 +2,7 @@
 #include "MapEditorWindow.h"
 #include "TestObject.h"
 #include "Player.h"
-
-
+#include "SinkBox_8x8.h"
 
 #include "ProcessMapInfo.h"
 #include "MapEditGlobalValue.h"
@@ -97,7 +96,8 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 		ImGui::Separator();
 
 
-		const char* items[] = { "GameEngineActor", "TestObject","Player"};
+		//Actor 이름 추가
+		const char* items[] = { "GameEngineActor", "TestObject","Player", "SinkBox_8x8"};
 		static const char* current_item = NULL;
 		ImGui::Text("CreateActor");
 		if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
@@ -135,6 +135,7 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 		ImGui::SameLine();
 		if (ImGui::Button("Create") && Level.get() != GetLevel())
 		{
+			//Actor 클래스 생성 추가
 			if ("GameEngineActor" == ActorType)
 			{
 				if (nullptr == GameEngineFBXMesh::Find(FBXName))
@@ -153,6 +154,10 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 			else if ("Player" == ActorType)
 			{
 				CurActor = Level->CreateActor<Player>();
+			}
+			else if ("SinkBox_8x8" == ActorType)
+			{
+				CurActor = Level->CreateActor<SinkBox_8x8>();
 			}
 			else
 			{
