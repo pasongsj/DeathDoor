@@ -33,7 +33,7 @@ std::vector<SponeMapActor> ProcessMapInfo::OpenFile(GameEnginePath _Path)
 		ifs.read((char*)&NewActor.LocRot, sizeof(float4::ZERO));
 		ifs.read((char*)&NewActor.LocPos, sizeof(float4::ZERO));
 		ifs.read((char*)&NewActor.ScaleRatio, sizeof(float));
-		ifs.read((char*)&NewActor.FBXNameLen, sizeof(size_t));
+		ifs.read((char*)&NewActor.FBXNameLen, sizeof(int));
 		int Len = static_cast<int>(NewActor.FBXNameLen);
 		if (Len <= 0)
 		{
@@ -44,7 +44,7 @@ std::vector<SponeMapActor> ProcessMapInfo::OpenFile(GameEnginePath _Path)
 		tmp1[Len] = '\0';
 		NewActor.FBXName = tmp1;
 
-		ifs.read((char*)&NewActor.MeterialLen, sizeof(size_t));
+		ifs.read((char*)&NewActor.MeterialLen, sizeof(int));
 		Len = static_cast<int>(NewActor.MeterialLen);
 		if (Len <= 0)
 		{
@@ -91,9 +91,9 @@ void ProcessMapInfo::WriteFile(GameEnginePath _Path, const SponeMapActor& _Value
 	ofs.write((char*)&_Value.LocRot, sizeof(float4::ZERO));
 	ofs.write((char*)&_Value.LocPos, sizeof(float4::ZERO));
 	ofs.write((char*)&_Value.ScaleRatio, sizeof(float));
-	ofs.write((char*)&_Value.FBXNameLen, sizeof(size_t));
+	ofs.write((char*)&_Value.FBXNameLen, sizeof(int));
 	ofs.write(_Value.FBXName.c_str(), _Value.FBXNameLen);
-	ofs.write((char*)&_Value.MeterialLen, sizeof(size_t));
+	ofs.write((char*)&_Value.MeterialLen, sizeof(int));
 	ofs.write(_Value.MeterialName.c_str(), _Value.MeterialLen);
 
 	//ofs.write((char*)&_Value, sizeof(struct SponeMapActor));

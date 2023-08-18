@@ -211,7 +211,7 @@ void MapEditorWindow::SettingCurActor(std::shared_ptr<class GameEngineLevel> Lev
 			{
 				CurActor = EditorActorInfo[CurIndex];
 				//ActorType = 0;
-				Ratio = std::to_string(EditorSturctInfo[CurIndex].ScaleRatio);
+				Ratio = EditorSturctInfo[CurIndex].ScaleRatio;
 				FBXName = EditorSturctInfo[CurIndex].FBXName;
 			}
 		}
@@ -230,17 +230,17 @@ void MapEditorWindow::EditTransformMouseControl()
 
 		if(true == GameEngineInput::IsPress("LeftCtrl"))
 		{
-			float rat = stof(Ratio);
+			//float rat = stof(Ratio);
 			if (true == GameEngineInput::IsDown("LeftClick"))
 			{
-				rat -= 0.1f;
+				Ratio -= 0.1f;
 			}
 			else if (true == GameEngineInput::IsDown("RightClick"))
 			{
-				rat += 0.1f;
+				Ratio += 0.1f;
 			}
-			CurActor->GetTransform()->SetLocalScale(float4::ONE * rat);
-			Ratio = std::to_string(rat);
+			CurActor->GetTransform()->SetLocalScale(float4::ONE * Ratio);
+			//Ratio = std::to_string(rat);
 		}
 		
 		break;
@@ -359,14 +359,12 @@ void MapEditorWindow::EditTransform()
 {
 	ImGui::Text("TransformData");
 	ImGui::Text("Unit Scale : %f", UnitScale);
-	ImGui::InputText("##UnitScale", &recvUnit[0], recvUnit.size());
+	ImGui::InputFloat("##UnitScale", &NextUnitScale);
+	//ImGui::InputText("##UnitScale", &recvUnit[0], recvUnit.size());
 	ImGui::SameLine();
 	if (ImGui::Button("Change Unit"))
 	{
-		if (recvUnit.size() > 0)
-		{
-			UnitScale = std::stof(recvUnit);
-		}
+		UnitScale = NextUnitScale;
 	}
 
 	EditTransformMouseControl();
@@ -378,11 +376,12 @@ void MapEditorWindow::EditTransform()
 	{
 		//scale
 		ImGui::Text("LocalRatio :%f", Trans.LocalScale.x / 1.0f);
-		ImGui::InputText("Scale Ratio", &Ratio[0], Ratio.size());
+		ImGui::InputFloat("Scale Ratio", &Ratio);
+		//ImGui::InputText("Scale Ratio", &Ratio[0], Ratio.size());
 		if (ImGui::Button("Change Scale"))
 		{
-			float Rat = std::stof(Ratio);
-			CurActor->GetTransform()->SetLocalScale(float4{ Rat, Rat, Rat });
+			//float Rat = std::stof(Ratio);
+			CurActor->GetTransform()->SetLocalScale(float4::ONE * Ratio);
 		}
 	}
 	ImGui::Separator();
@@ -429,23 +428,26 @@ void MapEditorWindow::EditTransform()
 			isChangeRot = true;
 		}
 
-		if (true == isChangeRot)
-		{
-			RevRotationX = std::to_string(Trans.LocalRotation.x);
-			RevRotationY = std::to_string(Trans.LocalRotation.y);
-			RevRotationZ = std::to_string(Trans.LocalRotation.z);
-		}
+		//if (true == isChangeRot)
+		//{
+		//	RevRotationX = std::to_string(Trans.LocalRotation.x);
+		//	RevRotationY = std::to_string(Trans.LocalRotation.y);
+		//	RevRotationZ = std::to_string(Trans.LocalRotation.z);
+		//}
 
-		ImGui::InputText("RotX", &RevRotationX[0], RevRotationX.size());
+		ImGui::InputFloat3("##ROT", (float*)&CurRot);
 
-		ImGui::InputText("RotY", &RevRotationY[0], RevRotationY.size());
-
-		ImGui::InputText("RotZ", &RevRotationZ[0], RevRotationZ.size());
+		//ImGui::InputText("RotX", &RevRotationX[0], RevRotationX.size());
+		//
+		//ImGui::InputText("RotY", &RevRotationY[0], RevRotationY.size());
+		//
+		//ImGui::InputText("RotZ", &RevRotationZ[0], RevRotationZ.size());
 
 		if (ImGui::Button("Change Rotation"))
 		{
-			CurActor->GetTransform()->SetLocalRotation(float4{ std::stof(RevRotationX),std::stof(RevRotationY) ,std::stof(RevRotationZ) });
-			CurRot = CurActor->GetTransform()->GetLocalRotation();
+			//CurActor->GetTransform()->SetLocalRotation(float4{ std::stof(RevRotationX),std::stof(RevRotationY) ,std::stof(RevRotationZ) });
+			CurActor->GetTransform()->SetLocalRotation(CurRot);
+			//CurRot = CurActor->GetTransform()->GetLocalRotation();
 		}
 	}
 	ImGui::Separator();
@@ -492,22 +494,26 @@ void MapEditorWindow::EditTransform()
 		}
 
 
-		if (true == isChangePos)
-		{
-			RevPositionX = std::to_string(Trans.LocalPosition.x);
-			RevPositionY = std::to_string(Trans.LocalPosition.y);
-			RevPositionZ = std::to_string(Trans.LocalPosition.z);
-		}
+		//if (true == isChangePos)
+		//{
+		//	RevPositionX = std::to_string(Trans.LocalPosition.x);
+		//	RevPositionY = std::to_string(Trans.LocalPosition.y);
+		//	RevPositionZ = std::to_string(Trans.LocalPosition.z);
+		//}
 
-		ImGui::InputText("PosX", &RevPositionX[0], RevPositionX.size());
+		ImGui::InputFloat3("##Pos", (float*)&CurPos);
 
-		ImGui::InputText("PosY", &RevPositionY[0], RevPositionY.size());
 
-		ImGui::InputText("PosZ", &RevPositionZ[0], RevPositionZ.size());
+		//ImGui::InputText("PosX", &RevPositionX[0], RevPositionX.size());
+		//
+		//ImGui::InputText("PosY", &RevPositionY[0], RevPositionY.size());
+		//
+		//ImGui::InputText("PosZ", &RevPositionZ[0], RevPositionZ.size());
 
 		if (ImGui::Button("Change Position") )
 		{
-			CurActor->GetTransform()->SetLocalPosition(float4{ std::stof(RevPositionX),std::stof(RevPositionY) ,std::stof(RevPositionZ) });
+			//CurActor->GetTransform()->SetLocalPosition(float4{ std::stof(RevPositionX),std::stof(RevPositionY) ,std::stof(RevPositionZ) });
+			CurActor->GetTransform()->SetLocalPosition(CurPos);
 		}
 	}
 
@@ -563,18 +569,18 @@ void MapEditorWindow::ResetValue()
 {
 	CurRot = float4::ZERO;
 	CurPos = float4::ZERO;
-	recvUnit = "1000.000000";//1000.000000
+	//recvUnit = "1000.000000";//1000.000000
 	UnitScale = 10.0f;
 
-	Ratio = "1.000000";
+	Ratio = 1.0f;
 
-	RevRotationX = "0000.000000";
-	RevRotationY = "0000.000000";
-	RevRotationZ = "0000.000000";
+	//RevRotationX = "0000.000000";
+	//RevRotationY = "0000.000000";
+	//RevRotationZ = "0000.000000";
 
-	RevPositionX = "0000.000000";
-	RevPositionY = "0000.000000";
-	RevPositionZ = "0000.000000";
+	//RevPositionX = "0000.000000";
+	//RevPositionY = "0000.000000";
+	//RevPositionZ = "0000.000000";
 }
 
 
