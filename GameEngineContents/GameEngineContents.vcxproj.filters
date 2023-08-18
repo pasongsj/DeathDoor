@@ -49,6 +49,9 @@
     <ClCompile Include="SinkBox_8x8.cpp">
       <Filter>PlayLevel\MapActor</Filter>
     </ClCompile>
+    <ClCompile Include="SinkBox_4x4.cpp">
+      <Filter>PlayLevel\MapActor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -106,6 +109,9 @@
       <Filter>mapeditor</Filter>
     </ClInclude>
     <ClInclude Include="SinkBox_8x8.h">
+      <Filter>PlayLevel\MapActor</Filter>
+    </ClInclude>
+    <ClInclude Include="SinkBox_4x4.h">
       <Filter>PlayLevel\MapActor</Filter>
     </ClInclude>
   </ItemGroup>

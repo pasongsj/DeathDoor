@@ -16,8 +16,8 @@ public:
 
 protected:
 	void Start() override;
-
+	void Update(float _Deltatime) override;
 private:
-
+	std::shared_ptr<class GameEngineFBXRenderer> NewRenderer = nullptr;
 };
 
