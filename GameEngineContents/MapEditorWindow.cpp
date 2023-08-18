@@ -76,10 +76,7 @@ void MapEditorWindow::Start()
 
 void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _DeltaTime)
 {
-	if (Level.get() == GetLevel())
-	{
-		return;
-	}
+
 	ImGui::Text("Current Path : %s", FilePath.GetFullPath().c_str());
 	if (false == IsSetFilePath)
 	{
@@ -90,7 +87,7 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 	ImGui::Separator();
 	if (false == ReadCSV)
 	{
-		if (ImGui::Button("Read Actor File") && Level.get() != GetLevel())
+		if (ImGui::Button("Read Actor File"))
 		{
 			ReadActor(Level);
 			return;
@@ -119,19 +116,19 @@ void MapEditorWindow::EditCurActor(std::shared_ptr<class GameEngineLevel> Level)
 	ImGui::Separator();
 
 
-	if (ImGui::Button("ResetTrans") && Level.get() != GetLevel())
+	if (ImGui::Button("ResetTrans"))
 	{
 		CurActor->GetTransform()->SetLocalScale(float4::ONE);
 		CurActor->GetTransform()->SetLocalRotation(float4::ZERO);
 		CurActor->GetTransform()->SetLocalPosition(float4::ZERO);
 		ResetValue();
 	}
-	if (ImGui::Button("Save") && Level.get() != GetLevel())
+	if (ImGui::Button("Save") )
 	{
 		SaveActors();
 		CurActor = nullptr;
 	}
-	if (ImGui::Button("Remove") && Level.get() != GetLevel())
+	if (ImGui::Button("Remove") )
 	{
 		if (EditorActorInfo.end() != EditorActorInfo.find(CurIndex))
 		{
@@ -164,7 +161,7 @@ void MapEditorWindow::SettingCurActor(std::shared_ptr<class GameEngineLevel> Lev
 	if (nullptr == CurActor)
 	{
 
-		if (ImGui::Button("Clear Actor File") && Level.get() != GetLevel())
+		if (ImGui::Button("Clear Actor File") )
 		{
 			ClearCurFile();
 			return;
@@ -185,7 +182,7 @@ void MapEditorWindow::SettingCurActor(std::shared_ptr<class GameEngineLevel> Lev
 		ImGui::InputText("##MeterialName", &MeterialName[0], MeterialName.size());
 
 		ImGui::SameLine();
-		if (ImGui::Button("Create") && Level.get() != GetLevel())
+		if (ImGui::Button("Create"))
 		{
 			//¿©±â
 			CreateSetCurActor(0, Level);
@@ -200,7 +197,7 @@ void MapEditorWindow::SettingCurActor(std::shared_ptr<class GameEngineLevel> Lev
 		ImGui::Separator();
 		ImGui::Text("Access Index File");
 		ImGui::InputInt("##AccessIndex", &CurIndex);
-		if (ImGui::Button("Access") && Level.get() != GetLevel())
+		if (ImGui::Button("Access")  )
 		{
 			if (EditorActorInfo.end() == EditorActorInfo.find(CurIndex))
 			{
