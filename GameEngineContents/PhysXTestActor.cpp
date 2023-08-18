@@ -16,13 +16,12 @@ PhysXTestActor::~PhysXTestActor()
 void PhysXTestActor::Start()
 {
 	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	pRenderer->SetFBXMesh("House1.fbx", "MeshTexture");
+	pRenderer->SetFBXMesh("Armature.fbx", "MeshTexture");
 
-	float4 Scale = pRenderer->GetTransform()->GetLocalScale();
-	pRenderer->GetTransform()->SetLocalScale(Scale * 10.0f);
 	GetTransform()->SetLocalPosition(float4(0.f, 500.f, 0.f));
 
 	float4 scale = pRenderer->GetMeshScale();
+	//pRenderer->GetTransform()->AddLocalPosition(float4(0.f, -scale.hy(), 0.f));
 	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 
 

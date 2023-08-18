@@ -19,7 +19,9 @@ void PhysXTestPlane::Start()
 	GetTransform()->SetLocalPosition({ 0.f,-100.f,0.f });
 	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
 	pRenderer->SetFBXMesh("Ground_Mesh.fbx", "MeshTexture");
-	float4 scale = pRenderer->GetFBXMesh()->GetRenderUnit(0)->BoundScaleBox;
+
+	float4 scale = pRenderer->GetMeshScale();
+	pRenderer->GetTransform()->AddLocalPosition(float4(0.f, -scale.hy(), 0.f));
 	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 
 	std::shared_ptr<PhysXBoxGeometryComponent> pGeometryComp = CreateComponent<PhysXBoxGeometryComponent>();
