@@ -105,6 +105,13 @@ public:
 		return RenderTimeScale[_Order];
 	}
 
+	static std::string GetCurTime()
+	{
+		auto now = std::chrono::system_clock::now();
+		std::time_t end_time = std::chrono::system_clock::to_time_t(now);
+		return std::to_string(end_time);
+	}
+	
 protected:
 
 private:

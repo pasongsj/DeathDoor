@@ -126,7 +126,6 @@ void MapEditorWindow::EditCurActor(std::shared_ptr<class GameEngineLevel> Level)
 	if (ImGui::Button("Save") )
 	{
 		SaveActors();
-		CurActor = nullptr;
 	}
 	if (ImGui::Button("Remove") )
 	{
@@ -161,13 +160,19 @@ void MapEditorWindow::SettingCurActor(std::shared_ptr<class GameEngineLevel> Lev
 	if (nullptr == CurActor)
 	{
 
-		if (ImGui::Button("Clear Actor File") )
+		if (ImGui::Button("ClearFile") )
 		{
 			ClearCurFile();
 			return;
 		}
-		ImGui::Separator();
+		ImGui::SameLine();
+		if (ImGui::Button("Save TMP"))
+		{
+			ProcessMapInfo::CpyFile(FilePath);
+			return;
+		}
 
+		ImGui::Separator();
 		ImGui::Text("CreateActor");
 
 
@@ -357,7 +362,6 @@ void MapEditorWindow::EditTransform()
 	ImGui::Text("TransformData");
 	ImGui::Text("Unit Scale : %f", UnitScale);
 	ImGui::InputFloat("##UnitScale", &NextUnitScale);
-	//ImGui::InputText("##UnitScale", &recvUnit[0], recvUnit.size());
 	ImGui::SameLine();
 	if (ImGui::Button("Change Unit"))
 	{
@@ -386,65 +390,45 @@ void MapEditorWindow::EditTransform()
 		// rotation
 		ImGui::Text("LocalRotation :%f %f %f", Trans.LocalRotation.x, Trans.LocalRotation.y, Trans.LocalRotation.z);
 		// rot button
-		bool isChangeRot = false;
+		float4 RotBtn = float4::ZERO;
 		if (ImGui::Button("-RotX") )
 		{
-			CurActor->GetTransform()->AddLocalRotation(float4{ -UnitScale ,0 });
-			isChangeRot = true;
+			RotBtn += float4::LEFT;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("+RotX"))
 		{
-			CurActor->GetTransform()->AddLocalRotation(float4{ UnitScale ,0 });
-			isChangeRot = true;
+			RotBtn += float4::RIGHT;
 		}
 		ImGui::SameLine();
 
 		if (ImGui::Button("-RotY"))
 		{
-			CurActor->GetTransform()->AddLocalRotation(float4{ 0, -UnitScale });
-			isChangeRot = true;
+			RotBtn += float4::DOWN;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("+RotY"))
 		{
-			CurActor->GetTransform()->AddLocalRotation(float4{ 0, UnitScale });
-			isChangeRot = true;
+			RotBtn += float4::UP;
 		}
 		ImGui::SameLine();
 
 		if (ImGui::Button("-RotZ"))
 		{
-			CurActor->GetTransform()->AddLocalRotation(float4{ 0,0 - UnitScale });
-			isChangeRot = true;
+			RotBtn += float4::BACK;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("+RotZ"))
 		{
-			CurActor->GetTransform()->AddLocalRotation(float4{ 0,0,UnitScale });
-			isChangeRot = true;
+			RotBtn += float4::FORWARD;
 		}
-
-		//if (true == isChangeRot)
-		//{
-		//	RevRotationX = std::to_string(Trans.LocalRotation.x);
-		//	RevRotationY = std::to_string(Trans.LocalRotation.y);
-		//	RevRotationZ = std::to_string(Trans.LocalRotation.z);
-		//}
-
+		CurActor->GetTransform()->AddLocalRotation(RotBtn * UnitScale );
+		CurRot = CurActor->GetTransform()->GetLocalRotation();
+		// rot input
 		ImGui::InputFloat3("##ROT", (float*)&CurRot);
-
-		//ImGui::InputText("RotX", &RevRotationX[0], RevRotationX.size());
-		//
-		//ImGui::InputText("RotY", &RevRotationY[0], RevRotationY.size());
-		//
-		//ImGui::InputText("RotZ", &RevRotationZ[0], RevRotationZ.size());
-
 		if (ImGui::Button("Change Rotation"))
 		{
-			//CurActor->GetTransform()->SetLocalRotation(float4{ std::stof(RevRotationX),std::stof(RevRotationY) ,std::stof(RevRotationZ) });
 			CurActor->GetTransform()->SetLocalRotation(CurRot);
-			//CurRot = CurActor->GetTransform()->GetLocalRotation();
 		}
 	}
 	ImGui::Separator();
@@ -452,64 +436,44 @@ void MapEditorWindow::EditTransform()
 		//position
 		ImGui::Text("LocalPosition :%f %f %f", Trans.LocalPosition.x, Trans.LocalPosition.y, Trans.LocalPosition.z);
 		// pos button
-		bool isChangePos = false;
+		float4 PosBtn = float4::ZERO;
 		if (ImGui::Button("-PosX") )
 		{
-			CurActor->GetTransform()->AddLocalPosition(float4{ -UnitScale ,0 });
-			isChangePos = true;
+			PosBtn += float4::LEFT;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("+PosX"))
 		{
-			CurActor->GetTransform()->AddLocalPosition(float4{ UnitScale ,0 });
-			isChangePos = true;
+			PosBtn += float4::RIGHT;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("-PosY"))
 		{
-			CurActor->GetTransform()->AddLocalPosition(float4{ 0, -UnitScale ,0 });
-			isChangePos = true;
+			PosBtn += float4::DOWN;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("+PosY"))
 		{
-			CurActor->GetTransform()->AddLocalPosition(float4{ 0, UnitScale ,0 });
-			isChangePos = true;
+			PosBtn += float4::UP;
 		}
 		ImGui::SameLine();
 
 		if (ImGui::Button("-PosZ") )
 		{
-			CurActor->GetTransform()->AddLocalPosition(float4{ 0,0, -UnitScale });
-			isChangePos = true;
+			PosBtn += float4::BACK;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("+PosZ"))
 		{
-			CurActor->GetTransform()->AddLocalPosition(float4{ 0,0,UnitScale });
-			isChangePos = true;
+			PosBtn += float4::FORWARD;
 		}
-
-
-		//if (true == isChangePos)
-		//{
-		//	RevPositionX = std::to_string(Trans.LocalPosition.x);
-		//	RevPositionY = std::to_string(Trans.LocalPosition.y);
-		//	RevPositionZ = std::to_string(Trans.LocalPosition.z);
-		//}
-
+		CurActor->GetTransform()->AddLocalPosition(PosBtn* UnitScale);
+		CurPos = CurActor->GetTransform()->GetLocalPosition();
+		// Pos input
 		ImGui::InputFloat3("##Pos", (float*)&CurPos);
-
-
-		//ImGui::InputText("PosX", &RevPositionX[0], RevPositionX.size());
-		//
-		//ImGui::InputText("PosY", &RevPositionY[0], RevPositionY.size());
-		//
-		//ImGui::InputText("PosZ", &RevPositionZ[0], RevPositionZ.size());
 
 		if (ImGui::Button("Change Position") )
 		{
-			//CurActor->GetTransform()->SetLocalPosition(float4{ std::stof(RevPositionX),std::stof(RevPositionY) ,std::stof(RevPositionZ) });
 			CurActor->GetTransform()->SetLocalPosition(CurPos);
 		}
 	}
@@ -535,7 +499,8 @@ void MapEditorWindow::SaveActors()
 		EditorSturctInfo[CurIndex] = Struct;
 	}
 	ProcessMapInfo::WriteAllFile(FilePath, EditorSturctInfo);
-
+	CurActor = nullptr;
+	ResetValue();
 }
 
 void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
@@ -608,6 +573,11 @@ void MapEditorWindow::SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel
 	ImGui::SameLine();
 	if (ImGui::Button("Input Path"))
 	{
+		if (' ' == FileName[0])
+		{
+			MsgTextBox("파일명을 입력해주세요");
+			return;
+		}
 		FilePath.SetPath(FilePath.GetFullPath() +"\\" + FileName);
 		ProcessMapInfo::CreatPathFile(FilePath);
 		if (false == FilePath.IsExists())
