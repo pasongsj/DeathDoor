@@ -100,11 +100,8 @@ void ProcessMapInfo::WriteFile(GameEnginePath _Path, const SponeMapActor& _Value
 	ofs.close();
 	return;
 }
-
-
-void ProcessMapInfo::CpyAndClear(GameEnginePath _Path)
+void ProcessMapInfo::CpyFile(GameEnginePath _Path, const std::string& FileName)
 {
-
 	std::ifstream in;
 	in.open(_Path.GetFullPath(), std::ios_base::in | std::ios::binary);
 	if (in.fail())
@@ -122,13 +119,14 @@ void ProcessMapInfo::CpyAndClear(GameEnginePath _Path)
 	char* buf = new char[length];
 	in.read(buf, length);
 	in.close();
-	std::ofstream clearf;
-	clearf.open(_Path.GetFullPath(), std::ios_base::out);
-	clearf.close();
-
+	
 	// 메모리에 저장된 파일 데이터를 다른 파일에 저장한다
+	std::string NewPath = GameEnginePath::GetFolderPath(_Path.GetFullPath()) + FileName;
+	if ("" == FileName)
+	{
+		NewPath = GameEnginePath::GetFolderPath(_Path.GetFullPath()) + "TMP\\" + GameEngineTime::GetCurTime() + _Path.GetFileName();
+	}
 	std::ofstream out;
-	std::string NewPath = GameEnginePath::GetFolderPath(_Path.GetFullPath()) + "Cpy" + _Path.GetFileName();
 	out.open(NewPath, std::ios_base::out | std::ios::binary);
 	if (out.fail())
 	{
@@ -140,6 +138,19 @@ void ProcessMapInfo::CpyAndClear(GameEnginePath _Path)
 
 	delete[] buf;
 	out.close();
+}
+void ProcessMapInfo::ClearFile(GameEnginePath _Path)
+{
+	std::ofstream clearf;
+	clearf.open(_Path.GetFullPath(), std::ios_base::out);
+	clearf.close();
+}
+
+void ProcessMapInfo::CpyAndClear(GameEnginePath _Path)
+{
+	std::string NewPath = "Cpy" + _Path.GetFileName();
+	CpyFile(_Path, NewPath);
+	ClearFile(_Path);
 }
 
 void ProcessMapInfo::CreatPathFile(GameEnginePath _Path)

@@ -20,6 +20,8 @@ public:
 	static std::vector<SponeMapActor> OpenFile(GameEnginePath _Path);
 
 	static void CpyAndClear(GameEnginePath _Path);
+	static void CpyFile(GameEnginePath _Path,const std::string& FileName = "");
+	static void ClearFile(GameEnginePath _Path);
 
 	static void WriteFile(GameEnginePath _Path, const SponeMapActor& _Value);
 
