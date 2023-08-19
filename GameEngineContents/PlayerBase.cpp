@@ -131,12 +131,11 @@ void PlayerBase::PlayerUpdate(float _Delta)
 	}
 }
 
-template<typename EnumType>
-std::optional<std::function<bool(float)>> PlayerBase::isPlayerUpdate(EnumType _MoveTypes)
+std::optional<std::function<bool(float)>> PlayerBase::isPlayerUpdate(int _MoveTypes)
 {
-	if (UpdateList.find(static_cast<int>(_MoveTypes)) != UpdateList.end())
+	if (UpdateList.find(_MoveTypes) != UpdateList.end())
 	{
-		return UpdateList[static_cast<int>(_MoveTypes)];
+		return UpdateList[_MoveTypes];
 	}
 	else
 	{

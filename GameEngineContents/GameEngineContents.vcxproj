@@ -166,6 +166,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlackScreen.cpp" />
+    <ClCompile Include="Boomerang.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
     <ClCompile Include="GameContentsNetActor.cpp" />
     <ClCompile Include="LevelWindow.cpp">
@@ -237,6 +241,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlackScreen.h" />
+    <ClInclude Include="Boomerang.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ConnectIDPacket.h">
       <SubType>
       </SubType>
