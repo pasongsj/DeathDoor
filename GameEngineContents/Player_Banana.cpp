@@ -14,7 +14,6 @@ void Player_Banana::Start()
 	//SetMyType("BANANA");
 
 	CreateKey();
-
 }
 
 void Player_Banana::Update(float _Delta)

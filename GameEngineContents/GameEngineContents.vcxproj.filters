@@ -64,6 +64,9 @@
     <ClCompile Include="Player_Banana.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="Boomerang.cpp">
+      <Filter>Player\ObJect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -138,6 +141,9 @@
     <ClInclude Include="Player_Banana.h">
       <Filter>Player</Filter>
     </ClInclude>
+    <ClInclude Include="Boomerang.h">
+      <Filter>Player\ObJect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CenterLevel">
@@ -181,6 +187,9 @@
     </Filter>
     <Filter Include="Player">
       <UniqueIdentifier>{d7d0bb27-7d0a-4e1e-b795-6e8711f07cec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\ObJect">
+      <UniqueIdentifier>{27029e27-0fed-4c60-b7a0-99d6d4ec8c42}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

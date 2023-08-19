@@ -42,6 +42,7 @@ protected:
 	void StatusUpdate();
 
 	void CreateKey();
+
 private:
 
 	void SetMesh();
@@ -61,10 +62,15 @@ private:
 	bool CutUpdate(float _Delta);
 	bool DieUpdate(float _Delta);
 
+	std::optional<std::function<bool(float)>> isPlayerUpdate(int _MoveTypes);
 
 	template<typename EnumType>
-	std::optional<std::function<bool(float)>> isPlayerUpdate(EnumType _MoveTypes);
+	std::optional<std::function<bool(float)>> isPlayerUpdate(EnumType _MoveTypes)
+	{
+		return isPlayerUpdate(static_cast<int>(_MoveTypes));
+	}
 
+private:
 	std::map<int, std::function<bool(float)>> UpdateList;
 
 	int Status = 0;
