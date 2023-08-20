@@ -35,15 +35,12 @@ void PhysXBoxGeometryComponent::CreatePhysXActors(physx::PxScene* _Scene, physx:
 								   _GeoMetryScale.z * 0.5f);
 
 	m_pRigidDynamic = _physics->createRigidDynamic(localTm);
-	if (m_bGravity == false)
-	{
-		m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
-		m_pRigidDynamic->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
-	}
-	else
-	{
-		m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
-	}
+
+	// 중력이 적용되지 않도록
+	m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
+
+	m_pRigidDynamic->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
+
 
 	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidDynamic, physx::PxBoxGeometry(tmpGeoMetryScale), *m_pMaterial);
 	// RigidDynamic의 밀도를 설정
@@ -78,22 +75,6 @@ void PhysXBoxGeometryComponent::CreatePhysXActors(physx::PxScene* _Scene, physx:
 	{
 		_Scene->addActor(*m_pRigidDynamic);
 	}
-	// 중력이 적용되지 않도록
-	// TODO::RigidStatic으로 변경해야
-
-	//m_pRigidDynamic->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
-
-	// 충돌체의 형태
-	// 충돌체의 크기는 절반의 크기를 설정하므로 실제 Renderer의 스케일은 충돌체의 2배로 설정되어야 함
-	// TODO::부모 액터의 RenderUnit으로부터 Mesh의 Scale 과 WorldScale의 연산의 결과를 지오메트리의 Scale로 세팅해야함.
-	
-
-	//// 충돌체의 종류
-	//rigidStatic_ = _physics->createRigidStatic(localTm);
-	//rigidStatic_->attachShape(*shape_);
-
-	//// Scene에 액터 추가
-	//_Scene->addActor(*rigidStatic_);
 }
 
 void PhysXBoxGeometryComponent::Start()
@@ -125,9 +106,7 @@ void PhysXBoxGeometryComponent::Update(float _DeltaTime)
 			m_pParentActor.lock()->GetTransform()->GetWorldPosition().z, physx::PxQuat(tmpQuat.x, tmpQuat.y, tmpQuat.z, tmpQuat.w));
 
 		// 부모의 Transform정보를 바탕으로 PhysX Actor의 트랜스폼을 갱신
-		m_pRigidDynamic->setGlobalPose(tmpPxTransform);
+		m_pRigidDynamic->setKinematicTarget(tmpPxTransform);
 		// TODO::회전도 처리해야함. DegreeToQuat
-		physx::PxVec3 vec = m_pRigidDynamic->getGlobalPose().p;
-		int a = 0;
 	}
 }

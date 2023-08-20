@@ -16,14 +16,6 @@ public:
 	PhysXBoxGeometryComponent& operator=(const PhysXBoxGeometryComponent& _Other) = delete;
 	PhysXBoxGeometryComponent& operator=(PhysXBoxGeometryComponent&& _Other) noexcept = delete;
 
-	void SetGravity(bool _Value)
-	{
-		m_bGravity = _Value;
-	}
-	void SetStatic(bool _Value)
-	{
-		m_bStatic = _Value;
-	}
 	void CreatePhysXActors(physx::PxScene* _Scene, physx::PxPhysics* _physics, physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
 
 	inline void ReleasePhysX()
@@ -45,7 +37,6 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-	bool m_bStatic = false;
 	bool m_bGravity =  false;;
 	// Phys액터 생성에 필요한 정보
 	//physx::PxPhysics* physics_;
