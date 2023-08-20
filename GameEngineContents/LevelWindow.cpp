@@ -44,8 +44,8 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		m_CurLevelName = "ServerTestLevel";
 		GameEngineCore::ChangeLevel("ServerTestLevel");
 	}
-
-	if (ImGui::Button("PhysXTestLevel") && Level.get() != GetLevel())
+	
+	if (ImGui::Button("PhysXTestLevel") && Level->DynamicThis<PhysXTestLevel>().get() != GetLevel())
 	{
 		m_CurLevelName = "PhysXTestLevel";
 		GameEngineCore::ChangeLevel("PhysXTestLevel");

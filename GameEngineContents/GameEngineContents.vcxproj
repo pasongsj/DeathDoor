@@ -192,7 +192,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PhysXTestLevel.cpp" />
-    <ClCompile Include="ObjectUpdatePacket.cpp">
     <ClCompile Include="MapEditorLevel.cpp">
       <SubType>
       </SubType>
