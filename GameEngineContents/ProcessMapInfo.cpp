@@ -18,9 +18,6 @@ ProcessMapInfo::~ProcessMapInfo()
 std::vector<SponeMapActor> ProcessMapInfo::OpenFile(GameEnginePath _Path)
 {
 	std::vector<SponeMapActor> NewActorStructs;
-	TextToBin(NewActorStructs, _Path.GetFullPath());
-	return NewActorStructs;
-
 
 	std::ifstream ifs;
 	ifs.open(_Path.GetFullPath(), std::ios_base::in | std::ios::binary);
@@ -162,10 +159,18 @@ void ProcessMapInfo::CreatPathFile(GameEnginePath _Path)
 
 void ProcessMapInfo::BinToText(const SponeMapActor& _Value, GameEnginePath _Load)
 {
-
 	std::string ToText;
+	GameEngineFile Beforefile = GameEngineFile(_Load.GetFullPath() + "read.csv");
 
-	GameEngineFile file = GameEngineFile(_Load.GetFullPath() );
+	if (std::filesystem::exists(_Load.GetFullPath() + "read.csv") && Beforefile.GetFileSize() != 0)
+	{
+		ToText += Beforefile.GetString();
+		std::filesystem::remove(_Load.GetFullPath() + "read.csv");
+		
+	}
+
+	GameEngineFile file = GameEngineFile(_Load.GetFullPath() + "read.csv");
+	{
 		ToText += "MeshType";
 		ToText += ",";
 		ToText += GameEngineString::ToString(_Value.MeshType);
@@ -210,7 +215,7 @@ void ProcessMapInfo::BinToText(const SponeMapActor& _Value, GameEnginePath _Load
 		ToText += ",";
 		ToText += _Value.MeterialName;
 		ToText += "\n";
-	
+	}
 
 	file.SaveText(ToText);
 
@@ -218,6 +223,8 @@ void ProcessMapInfo::BinToText(const SponeMapActor& _Value, GameEnginePath _Load
 
 void ProcessMapInfo::TextToBin(std::vector<SponeMapActor>& _Value, GameEnginePath _Load)
 {
+
+	///완성 못함
 	GameEngineFile file = GameEngineFile(_Load.GetFullPath());
 	std::string AllData;
 	if (std::filesystem::exists(_Load.GetFullPath()))
