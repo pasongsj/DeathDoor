@@ -1,6 +1,9 @@
 #include "PreCompileHeader.h"
 #include "ProcessMapInfo.h"
 #include <fstream>
+#include <GameEngineBase/GameEngineFile.h>
+#include <GameEngineBase/GameEngineSerializer.h>
+
 ProcessMapInfo* ProcessMapInfo::RWProcessInst = nullptr;
 
 ProcessMapInfo::ProcessMapInfo()
@@ -15,6 +18,9 @@ ProcessMapInfo::~ProcessMapInfo()
 std::vector<SponeMapActor> ProcessMapInfo::OpenFile(GameEnginePath _Path)
 {
 	std::vector<SponeMapActor> NewActorStructs;
+	TextToBin(NewActorStructs, _Path.GetFullPath());
+	return NewActorStructs;
+
 
 	std::ifstream ifs;
 	ifs.open(_Path.GetFullPath(), std::ios_base::in | std::ios::binary);
@@ -98,6 +104,7 @@ void ProcessMapInfo::WriteFile(GameEnginePath _Path, const SponeMapActor& _Value
 
 	//ofs.write((char*)&_Value, sizeof(struct SponeMapActor));
 	ofs.close();
+	BinToText(_Value, _Path);
 	return;
 }
 
@@ -151,4 +158,203 @@ void ProcessMapInfo::CreatPathFile(GameEnginePath _Path)
 		ofs.close();
 		return;
 	}
+}
+
+void ProcessMapInfo::BinToText(const SponeMapActor& _Value, GameEnginePath _Load)
+{
+
+	std::string ToText;
+
+	GameEngineFile file = GameEngineFile(_Load.GetFullPath() );
+		ToText += "MeshType";
+		ToText += ",";
+		ToText += GameEngineString::ToString(_Value.MeshType);
+		ToText += "\n";
+		ToText += "LocRot";
+		ToText += ",";
+		ToText += GameEngineString::ToString(_Value.LocRot.x);
+		ToText += ",";
+		ToText += GameEngineString::ToString(_Value.LocRot.y);
+		ToText += ",";
+		ToText += GameEngineString::ToString(_Value.LocRot.z);
+		ToText += ",";
+		ToText += GameEngineString::ToString(_Value.LocRot.w);
+		ToText += "\n";
+		ToText += "LocPos";
+		ToText += ",";
+		ToText += GameEngineString::ToString(_Value.LocPos.x);
+		ToText += ",";
+		ToText += GameEngineString::ToString(_Value.LocPos.y);
+		ToText += ",";
+		ToText += GameEngineString::ToString(_Value.LocPos.z);
+		ToText += ",";
+		ToText += GameEngineString::ToString(_Value.LocPos.w);
+		ToText += "\n";
+		ToText += "ScaleRatio";
+		ToText += ",";
+		ToText += GameEngineString::ToString(_Value.ScaleRatio);
+		ToText += "\n";
+		ToText += "FBXNameLen";
+		ToText += ",";
+		ToText += GameEngineString::ToString(static_cast<int>(_Value.FBXNameLen));
+		ToText += "\n";
+		ToText += "FBXName";
+		ToText += ",";
+		ToText += _Value.FBXName;
+		ToText += "\n";
+		ToText += "MeterialLen";
+		ToText += ",";
+		ToText += GameEngineString::ToString(static_cast<int>(_Value.MeterialLen));
+		ToText += "\n";
+		ToText += "MeterialName";
+		ToText += ",";
+		ToText += _Value.MeterialName;
+		ToText += "\n";
+	
+
+	file.SaveText(ToText);
+
+}
+
+void ProcessMapInfo::TextToBin(std::vector<SponeMapActor>& _Value, GameEnginePath _Load)
+{
+	GameEngineFile file = GameEngineFile(_Load.GetFullPath());
+	std::string AllData;
+	if (std::filesystem::exists(_Load.GetFullPath()))
+	{
+		if (file.GetFileSize() != 0)
+		{
+			GameEngineSerializer Ser;
+			Ser.BufferResize(file.GetFileSize());
+			file.LoadText(Ser);
+			AllData += Ser.GetString();			
+		}
+	}
+
+
+	std::string Temp;
+	int iDownCount = 0;
+	int ResultCount = 0;
+
+	SponeMapActor Actor;
+	for (size_t i = 0; i < AllData.size(); i++)
+	{
+		if (i == 10)
+		{
+			int a = 0;
+		}
+		switch (AllData[i])
+		{
+		case ',':
+		{
+			if (ResultCount == 0)
+			{
+				Temp.clear();
+				++ResultCount;
+				break;
+			}
+			++ResultCount;
+			switch (static_cast<SponeMapActorData>(iDownCount))
+			{
+			case SponeMapActorData::MeshType:
+			{
+				if (ResultCount != 1)
+				{
+					break;
+				}
+				Actor.MeshType = std::stoi(Temp);
+			}
+			break;
+			case SponeMapActorData::LocRotx:
+				Actor.LocRot.x = std::stof(Temp); ++iDownCount;
+				break;
+			case SponeMapActorData::LocRoty:
+				Actor.LocRot.y = std::stof(Temp); ++iDownCount;
+				break;
+			case SponeMapActorData::LocRotz:
+				Actor.LocRot.z = std::stof(Temp); ++iDownCount;
+				break;
+			case SponeMapActorData::LocRotw:
+				Actor.LocRot.w = std::stof(Temp);
+				break;
+			case SponeMapActorData::LocPosx:
+				Actor.LocPos.x = std::stof(Temp); ++iDownCount;
+				break;
+			case SponeMapActorData::LocPosy:
+				Actor.LocPos.y = std::stof(Temp); ++iDownCount;
+				break;
+			case SponeMapActorData::LocPosz:
+				Actor.LocPos.z = std::stof(Temp); ++iDownCount;
+				break;
+			case SponeMapActorData::LocPosw:
+				Actor.LocPos.w = std::stof(Temp);
+				break;
+			case SponeMapActorData::ScaleRatio:
+			{
+				if (ResultCount != 1)
+				{
+					break;
+				}
+				Actor.ScaleRatio = std::stof(Temp);
+			}
+				break;
+			case SponeMapActorData::TFBXNameLen: 
+			{
+				if (ResultCount != 1)
+				{
+					break;
+				}
+				Actor.FBXNameLen = std::stoi(Temp);
+			}
+				break;
+			case SponeMapActorData::FBXName:
+			{
+				if (ResultCount != 1)
+				{
+					break;
+				}
+				Actor.FBXName = Temp;
+			}
+				break;
+			case SponeMapActorData::MeterialLen:
+			{
+				if (ResultCount != 1)
+				{
+					break;
+				}
+				Actor.MeterialLen = std::stoi(Temp); 
+			}
+				break;
+			case SponeMapActorData::MeterialName:
+			{
+				if (ResultCount != 1)
+				{
+					break;
+				}
+				Actor.MeterialName = Temp;
+			}
+				break;
+			case SponeMapActorData::MAX:
+			{
+				iDownCount = 0;
+				ResultCount = 0;
+				Temp.clear();
+			}
+			break;
+			}
+		}
+		break;
+		
+		case '\n':
+		{
+			++iDownCount;
+			ResultCount = 0;
+		}
+		break;
+		default:
+			Temp += AllData[i];
+			break;
+		}
+	}
+	_Value.push_back(Actor);
 }

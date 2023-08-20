@@ -19,6 +19,7 @@ class GameEngineString
 public:
 	static std::string ToUpper(const std::string_view& _Str);
 	static std::string ToString(int Value);
+	static std::string ToString(float Value);
 
 	static std::wstring AnsiToUniCode(const std::string_view& _Text);
 	static std::string UniCodeToAnsi(const std::wstring_view& _Text);

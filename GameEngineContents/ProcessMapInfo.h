@@ -1,7 +1,25 @@
 #pragma once
+#include <bitset>
 #include <GameEngineBase/GameEngineFile.h>
 #include "MapEditGlobalValue.h"
-
+enum class SponeMapActorData
+{
+	MeshType,
+	LocRotx,
+	LocRoty,
+	LocRotz,
+	LocRotw,
+	LocPosx,
+	LocPosy,
+	LocPosz,
+	LocPosw,
+	ScaleRatio,
+	TFBXNameLen,
+	FBXName,
+	MeterialLen,
+	MeterialName,
+	MAX,
+};
 class ProcessMapInfo
 {
 public:
@@ -27,6 +45,9 @@ public:
 
 
 	static void CreatPathFile(GameEnginePath _Path);
+
+	static void BinToText(const SponeMapActor& _Value,GameEnginePath _Load);
+	static void TextToBin(std::vector<SponeMapActor>& _Value,GameEnginePath _Load);
 
 protected:
 
