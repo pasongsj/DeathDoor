@@ -52,7 +52,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 
 	ImGui::Text("CurCameraMode :");
 	ImGui::SameLine(); 
-	if (false == Level->GetMainCamera()->IsFreeCamera())
+	if (true == GetLevel()->GetMainCamera()->IsFreeCamera())
 	{
 		m_CurCameraMode = "Free Camera Mode";
 	}
@@ -63,9 +63,8 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	ImGui::Text(m_CurCameraMode.c_str());
 	ImGui::Separator();
 	if (ImGui::Button("FreeCamera") )
-	{
-		
-		Level->GetMainCamera()->SwtichFreeCamera();
+	{		
+		GetLevel()->GetMainCamera()->SwtichFreeCamera();
 	}
 }
 
