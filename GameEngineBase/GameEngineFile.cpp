@@ -55,7 +55,26 @@ void GameEngineFile::SaveText(const std::string_view& _View)
 
 	//                         500               1
 	fwrite(_View.data(), _View.size(), 1, FilePtr);
+	if (nullptr != FilePtr)
+	{
+		fclose(FilePtr);
+	}
+}
+void GameEngineFile::SaveTextAppend(const std::string_view& _View)
+{
+	FILE* FilePtr = nullptr;
+	std::string PathString = Path.GetFullPath();
+	std::string Text = "at";
 
+	fopen_s(&FilePtr, PathString.c_str(), Text.c_str());
+
+	if (nullptr == FilePtr)
+	{
+		MsgAssert("파일 오픈에 실패했습니다." + PathString);
+	}
+
+	//                         500               1
+	fwrite(_View.data(), _View.size(), 1, FilePtr);
 	if (nullptr != FilePtr)
 	{
 		fclose(FilePtr);

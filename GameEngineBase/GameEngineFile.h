@@ -39,6 +39,7 @@ public:
 
 	void SaveBin(const GameEngineSerializer& _Data);
 	void SaveText(const std::string_view& _View);
+	void SaveTextAppend(const std::string_view& _View);
 
 	void LoadBin(GameEngineSerializer& _Data);
 

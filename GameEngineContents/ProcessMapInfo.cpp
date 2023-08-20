@@ -72,6 +72,8 @@ void ProcessMapInfo::WriteAllFile(GameEnginePath _Path, std::map<int, SponeMapAc
 {
 	std::ofstream ofs;
 	ofs.open(_Path.GetFullPath(), std::ios::out);
+	// bin to text clear
+	std::filesystem::remove(_Path.GetFullPath() + "read.csv");
 	for (std::pair<int, SponeMapActor> _StructInfo : _AllStruct)
 	{
 		WriteFile(_Path, _StructInfo.second);
@@ -101,7 +103,7 @@ void ProcessMapInfo::WriteFile(GameEnginePath _Path, const SponeMapActor& _Value
 
 	//ofs.write((char*)&_Value, sizeof(struct SponeMapActor));
 	ofs.close();
-	BinToText(_Value, _Path);
+	BinToText(_Value, _Path); // 이어쓰기 하는 방법
 	return;
 }
 
@@ -160,14 +162,14 @@ void ProcessMapInfo::CreatPathFile(GameEnginePath _Path)
 void ProcessMapInfo::BinToText(const SponeMapActor& _Value, GameEnginePath _Load)
 {
 	std::string ToText;
-	GameEngineFile Beforefile = GameEngineFile(_Load.GetFullPath() + "read.csv");
+	//GameEngineFile Beforefile = GameEngineFile(_Load.GetFullPath() + "read.csv");
 
-	if (std::filesystem::exists(_Load.GetFullPath() + "read.csv") && Beforefile.GetFileSize() != 0)
-	{
-		ToText += Beforefile.GetString();
-		std::filesystem::remove(_Load.GetFullPath() + "read.csv");
-		
-	}
+	//if (std::filesystem::exists(_Load.GetFullPath() + "read.csv") && Beforefile.GetFileSize() != 0)
+	//{
+	//	ToText += Beforefile.GetString();
+	//	std::filesystem::remove(_Load.GetFullPath() + "read.csv");
+	//	
+	//}
 
 	GameEngineFile file = GameEngineFile(_Load.GetFullPath() + "read.csv");
 	{
@@ -217,7 +219,7 @@ void ProcessMapInfo::BinToText(const SponeMapActor& _Value, GameEnginePath _Load
 		ToText += "\n";
 	}
 
-	file.SaveText(ToText);
+	file.SaveTextAppend(ToText);
 
 }
 
