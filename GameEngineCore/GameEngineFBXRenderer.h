@@ -20,7 +20,7 @@ public:
 	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex);
 	virtual std::shared_ptr<GameEngineRenderUnit> SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex);
 
-	std::map<std::pair<int, int>, std::shared_ptr<GameEngineRenderUnit>> GetUnTexturedUnit()
+	std::map<std::pair<size_t, size_t>, std::shared_ptr<GameEngineRenderUnit>> GetUnTexturedUnit()
 	{
 		return UnTexturedUnit;
 	}
@@ -42,6 +42,6 @@ private:
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> Unit;
 
-	std::map<std::pair<int, int>, std::shared_ptr<GameEngineRenderUnit>> UnTexturedUnit;
+	std::map<std::pair<size_t, size_t>, std::shared_ptr<GameEngineRenderUnit>> UnTexturedUnit;
 };
 
