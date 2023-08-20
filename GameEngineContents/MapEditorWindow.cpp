@@ -377,12 +377,13 @@ void MapEditorWindow::EditTransform()
 	{
 		//scale
 		ImGui::Text("LocalRatio :%f", Trans.LocalScale.x / 1.0f);
-		ImGui::InputFloat("Scale Ratio", &Ratio);
+		static float tmpRatio;
+		ImGui::InputFloat("Scale Ratio", &tmpRatio);
 		//ImGui::InputText("Scale Ratio", &Ratio[0], Ratio.size());
 		if (ImGui::Button("Change Scale"))
 		{
 			//float Rat = std::stof(Ratio);
-			CurActor->GetTransform()->SetLocalScale(float4::ONE * Ratio);
+			CurActor->GetTransform()->SetLocalScale(float4::ONE * tmpRatio);
 		}
 	}
 	ImGui::Separator();
@@ -425,12 +426,14 @@ void MapEditorWindow::EditTransform()
 		CurActor->GetTransform()->AddLocalRotation(RotBtn * UnitScale );
 		CurRot = CurActor->GetTransform()->GetLocalRotation();
 		// rot input
-		ImGui::InputFloat3("##ROT", (float*)&CurRot);
+		static float4 tmpRot;
+		ImGui::InputFloat3("##ROT", (float*)&tmpRot);
 		if (ImGui::Button("Change Rotation"))
 		{
-			CurActor->GetTransform()->SetLocalRotation(CurRot);
+			CurActor->GetTransform()->SetLocalRotation(tmpRot);
 		}
 	}
+
 	ImGui::Separator();
 	{
 		//position
@@ -470,11 +473,12 @@ void MapEditorWindow::EditTransform()
 		CurActor->GetTransform()->AddLocalPosition(PosBtn* UnitScale);
 		CurPos = CurActor->GetTransform()->GetLocalPosition();
 		// Pos input
-		ImGui::InputFloat3("##Pos", (float*)&CurPos);
+		static float4 tmpPos;
+		ImGui::InputFloat3("##Pos", (float*)&tmpPos);
 
 		if (ImGui::Button("Change Position") )
 		{
-			CurActor->GetTransform()->SetLocalPosition(CurPos);
+			CurActor->GetTransform()->SetLocalPosition(tmpPos);
 		}
 	}
 
