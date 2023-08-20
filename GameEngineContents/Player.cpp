@@ -1,5 +1,6 @@
 #include "PrecompileHeader.h"
 #include "Player.h"
+#include "ContentFBXRenderer.h"
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 
 Player* Player::MainPlayer = nullptr;
@@ -20,13 +21,15 @@ void Player::Start()
 	/*std::shared_ptr<GameEngineFBXRenderer> Renderer = CreateComponent<GameEngineFBXRenderer>();
 	Renderer->SetFBXMesh("House1.FBX", "MeshTexture");*/
 
-	std::shared_ptr<GameEngineFBXRenderer> Renderer2 = CreateComponent<GameEngineFBXRenderer>();
-	Renderer2->SetFBXMesh("House1.fbx", "MeshTexture");
+	std::shared_ptr<ContentFBXRenderer> Renderer2 = CreateComponent<ContentFBXRenderer>();
+	Renderer2->SetFBXMesh("Ocean.fbx", "ContentMesh");
+	auto Unit = Renderer2->GetUnTexturedUnit();
+	Unit[{0, 0}]->Color.MulColor = { 0.0f, 0.0f, 0.0f, 1 };
+	Unit[{0, 0}]->Color.PlusColor = { 0.35f, 0.58f, 0.74f, 1 };
 
 	//Renderer2->GetTransform()->SetLocalPosition(float4(200, 0, 0));
 	float4 Scale = Renderer2->GetTransform()->GetLocalScale();
-	Renderer2->GetTransform()->SetLocalScale(Scale * 10.0f);
-
+	//Renderer2->GetTransform()->SetLocalScale(Scale * 10.0f);
 	// Renderer->SetFBXMesh("AnimMan.FBX", "MeshTexture", 0, 0);
 	// Renderer->SetFBXMesh("AnimMan.FBX", "MeshTexture", 0, 2);
 

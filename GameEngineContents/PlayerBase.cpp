@@ -55,9 +55,9 @@ int PlayerBase::GetKeyInput()
 	
 void PlayerBase::StatusUpdate()
 {
-	Status = GetKeyInput();
+	int KetStatus = GetKeyInput();
 	
-	switch (Status)
+	switch (KetStatus)
 	{
 	case static_cast<int>(MoveTypes::Idle):
 
@@ -143,24 +143,39 @@ std::optional<std::function<bool(float)>> PlayerBase::isPlayerUpdate(int _MoveTy
 	}
 }
 
+void PlayerBase::GetItem()
+{
+	//아이템 충돌체가 있는 액터에서, 충돌검사후 이 함수를 호출
+	//호출되면, ItemQueue에 해당 아이템의 Enum을 Push
+	
+	//이후, ItemQueue의 front에 있는 Enum에 따라, Throw혹은 Cut이 Switch문으로 다르게 동작
+}
+
 void PlayerBase::IdleStart()
 {
+	Status = static_cast<int>(MoveTypes::Idle);
+
+	//상태에 진입할 때 설정해야할 기초상태로 초기화
 }
 
 void PlayerBase::MoveStart()
 {
+	Status = static_cast<int>(MoveTypes::Move);
 }
 
 void PlayerBase::ThrowStart()
 {
+	Status = static_cast<int>(MoveTypes::Throw);
 }
 
 void PlayerBase::CutStart()
 {
+	Status = static_cast<int>(MoveTypes::Cut);
 }
 
 void PlayerBase::DieStart()
 {
+	Status = static_cast<int>(MoveTypes::Die);
 }
 
 bool PlayerBase::IdleUpdate(float _Delta)
@@ -171,7 +186,7 @@ bool PlayerBase::IdleUpdate(float _Delta)
 	}
 	else
 	{
-		//업데이트가 끝나면
+		//업데이트가 끝나는 순간
 		return true;
 		//true를 반환하면, PlayerUpdate에서 Erase하면서 업데이트 멈춤.
 	}

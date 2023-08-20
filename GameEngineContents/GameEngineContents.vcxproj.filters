@@ -67,6 +67,9 @@
     <ClCompile Include="Boomerang.cpp">
       <Filter>Player\ObJect</Filter>
     </ClCompile>
+    <ClCompile Include="ContentFBXRenderer.cpp">
+      <Filter>ContentClass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -144,6 +147,9 @@
     <ClInclude Include="Boomerang.h">
       <Filter>Player\ObJect</Filter>
     </ClInclude>
+    <ClInclude Include="ContentFBXRenderer.h">
+      <Filter>ContentClass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CenterLevel">
@@ -190,6 +196,9 @@
     </Filter>
     <Filter Include="Player\ObJect">
       <UniqueIdentifier>{27029e27-0fed-4c60-b7a0-99d6d4ec8c42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentClass">
+      <UniqueIdentifier>{ea47a0a4-5c32-4fb2-9bd1-1b0b0980ad7b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
