@@ -29,6 +29,11 @@ std::string GameEngineString::ToString(int Value)
 	return std::to_string(Value);
 }
 
+std::string GameEngineString::ToString(float Value)
+{
+	return std::to_string(Value);
+}
+
 
 std::wstring GameEngineString::AnsiToUniCode(const std::string_view& _Text) 
 {

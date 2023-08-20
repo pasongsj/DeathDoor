@@ -509,6 +509,14 @@ void MapEditorWindow::SaveActors()
 
 void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 {
+	GameEngineFile file = GameEngineFile(FilePath.GetFullPath());
+	if (file.GetFileSize() == 0)
+	{
+		int a = 0;
+
+		return;
+	}
+	
 	std::vector<SponeMapActor> AllInfo = ProcessMapInfo::OpenFile(FilePath);
 	for (SponeMapActor _str : AllInfo)
 	{
