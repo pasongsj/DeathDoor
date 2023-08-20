@@ -3,6 +3,7 @@
 #include <string_view>
 #include <list>
 #include <optional>
+#include <Queue>
 
 class PlayerBase : public GameEngineActor
 {
@@ -70,6 +71,8 @@ private:
 		return isPlayerUpdate(static_cast<int>(_MoveTypes));
 	}
 
+	void GetItem();
+
 private:
 	std::map<int, std::function<bool(float)>> UpdateList;
 
@@ -80,5 +83,6 @@ private:
 	std::shared_ptr<class GameEngineFBXRenderer> PlayerMesh = nullptr;
 	std::shared_ptr<class GameEngineCollision> PlayerCollision = nullptr;
 
+	std::queue<int> OwnedItemQueue;
 };
 
