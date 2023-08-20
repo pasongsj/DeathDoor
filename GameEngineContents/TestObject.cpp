@@ -22,6 +22,8 @@ void TestObject::Start()
 
 	float4 Scale = pRenderer->GetTransform()->GetLocalScale();
 	pRenderer->GetTransform()->SetLocalScale(Scale * 10.0f);
+	GetTransform()->SetLocalPosition(float4(0.f, 1000.f, 0.f));
+	
 }
 
 void TestObject::Update(float _DeltaTime)

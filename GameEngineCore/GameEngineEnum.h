@@ -13,3 +13,4 @@ enum class CameraType
 	Perspective,
 	Orthogonal,
 };
+

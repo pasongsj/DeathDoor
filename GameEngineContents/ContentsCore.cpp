@@ -11,6 +11,7 @@
 #include "TestLevel.h"
 #include "ServerTestLevel.h"
 #include "MapEditorLevel.h"
+#include "PhysXTestLevel.h"
 
 ContentsCore::ContentsCore()
 {
@@ -38,6 +39,7 @@ void ContentsCore::GameStart()
 	GameEngineCore::CreateLevel<TestLevel>();
 	GameEngineCore::CreateLevel<ServerTestLevel>();
 	GameEngineCore::CreateLevel<MapEditorLevel>();
+	GameEngineCore::CreateLevel<PhysXTestLevel>();
 
 	GameEngineCore::ChangeLevel("CenterLevel");
 }

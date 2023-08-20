@@ -5,6 +5,7 @@
 #include "TestLevel.h"
 #include "ServerTestLevel.h"
 #include "MapEditorLevel.h"
+#include "PhysXTestLevel.h"
 
 LevelWindow::LevelWindow() 
 {
@@ -42,6 +43,12 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	{
 		m_CurLevelName = "ServerTestLevel";
 		GameEngineCore::ChangeLevel("ServerTestLevel");
+	}
+
+	if (ImGui::Button("PhysXTestLevel") && Level.get() != GetLevel())
+	{
+		m_CurLevelName = "PhysXTestLevel";
+		GameEngineCore::ChangeLevel("PhysXTestLevel");
 	}
 
 	if (ImGui::Button("MapEditorLevel") && Level->DynamicThis<MapEditorLevel>().get() != GetLevel())
