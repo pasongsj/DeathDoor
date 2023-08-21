@@ -518,7 +518,7 @@ void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 	std::vector<SponeMapActor> AllInfo = ProcessMapInfo::OpenFile(FilePath);
 	if (std::string::npos != FilePath.GetFileName().find("read.csv"))
 	{
-		int index = FilePath.GetFullPath().find("read.csv");
+		size_t index = FilePath.GetFullPath().find("read.csv");
 		FilePath.SetPath(FilePath.GetFullPath().substr(0, index));
 	}
 	for (SponeMapActor _str : AllInfo)

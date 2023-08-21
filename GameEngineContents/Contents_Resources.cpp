@@ -205,6 +205,7 @@ void ContentsCore::ContentsResourcesCreate()
 		//GameEngineVertexShader::Load(Files[0].GetFullPath(), "MyShader_VS");
 		//GameEnginePixelShader::Load(Files[0].GetFullPath(), "MyShader_PS");
 	}
+	
 
 
 

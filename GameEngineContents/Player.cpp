@@ -17,8 +17,15 @@ Player::~Player()
 
 void Player::Start()
 {
-	/*std::shared_ptr<GameEngineFBXRenderer> Renderer = CreateComponent<GameEngineFBXRenderer>();
-	Renderer->SetFBXMesh("House1.FBX", "MeshTexture");*/
+
+
+	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
+	pRenderer->SetFBXMesh("AnimMan.FBX", "MeshAniTexture");
+	pRenderer->CreateFBXAnimation("Run","ALS_N_Run_F.FBX");
+	pRenderer->ChangeAnimation("Run");
+
+	//std::shared_ptr<GameEngineFBXRenderer> Renderer = CreateComponent<GameEngineFBXRenderer>();
+	//Renderer->SetFBXMesh("House1.FBX", "MeshTexture");
 
 	//std::shared_ptr<ContentFBXRenderer> Renderer2 = CreateComponent<ContentFBXRenderer>();
 	//Renderer2->SetFBXMesh("Stone_2x2.fbx", "ContentMesh");

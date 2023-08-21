@@ -66,6 +66,15 @@ public:
 
 	static float4 MatrixToQuaternion(const class float4x4& M);
 
+	static float4 SLerpQuaternion(const float4& _Left, const float4& _Right, float _Ratio)
+	{
+		if (1.0f <= _Ratio)
+		{
+			_Ratio = 1.0f;
+		}
+
+		return DirectX::XMQuaternionSlerp(_Left.DirectVector, _Right.DirectVector, _Ratio);
+	}
 
 	static float InvSqrt(float f)
 	{

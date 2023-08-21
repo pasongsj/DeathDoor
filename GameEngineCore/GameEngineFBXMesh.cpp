@@ -3,11 +3,11 @@
 #include "GameEngineMesh.h"
 
 
-GameEngineFBXMesh::GameEngineFBXMesh() 
+GameEngineFBXMesh::GameEngineFBXMesh()
 {
 }
 
-GameEngineFBXMesh::~GameEngineFBXMesh() 
+GameEngineFBXMesh::~GameEngineFBXMesh()
 {
 }
 
@@ -1005,7 +1005,7 @@ std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(size_t _Mes
 
 	FbxRenderUnitInfo& Unit = RenderUnitInfos[_MeshIndex];
 
-	if (nullptr == Unit.VertexBuffer) 
+	if (nullptr == Unit.VertexBuffer)
 	{
 		std::shared_ptr<GameEngineVertexBuffer> VertexBuffer = GameEngineVertexBuffer::Create(Unit.Vertexs);
 
@@ -1069,7 +1069,7 @@ std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(size_t _Mes
 			{
 				MsgTextBox("FBX매쉬도중 텍스처가 존재하지 않습니다." + std::string(FilePath));
 			}
-			else 
+			else
 			{
 				GameEngineTexture::Load(FilePath);
 			}
