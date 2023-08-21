@@ -71,6 +71,11 @@ public:
 
 	static GameEngineThreadJobQueue JobQueue;
 
+	static void SetRcvPacket(std::function<void()> _Fun)
+	{
+		RcvPacket = _Fun;
+	}
+
 protected:
 
 private:
@@ -90,5 +95,8 @@ private:
 	static std::shared_ptr<GameEngineLevel> NextLevel;
 
 	static void Release();
+
+	static std::function<void()> RcvPacket;
+
 };
 

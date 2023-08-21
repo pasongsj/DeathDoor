@@ -1,6 +1,7 @@
 #pragma once
-#include "GameContentsNetActor.h"
-class GameContentsMapActor : public GameContentsNetActor
+#include <GameEngineCore/GameEngineNetActor.h>
+
+class GameContentsMapActor : public GameEngineNetActor
 {
 public:
 	friend class MapEditorWindow;

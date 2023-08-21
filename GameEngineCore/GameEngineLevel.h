@@ -152,6 +152,9 @@ private:
 
 	void TextureReLoad(GameEngineLevel* _PrevLevel);
 
+	// user >> server
+	void SendActorPacket(float _DeltaTime);
+
 };
 
  

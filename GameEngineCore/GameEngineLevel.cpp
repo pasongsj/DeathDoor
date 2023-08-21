@@ -1,6 +1,7 @@
 #include "PrecompileHeader.h"
 #include "GameEngineLevel.h"
 #include "GameEngineActor.h"
+#include "GameEngineNetActor.h"
 #include "GameEngineCamera.h"
 #include "GameEngineGUI.h"
 #include "GameEngineCollision.h"
@@ -503,3 +504,29 @@ void GameEngineLevel::DestroyCamera()
 	Cameras.clear();
 }
 
+void GameEngineLevel::SendActorPacket(float _DeltaTime)
+{
+	// 모든 Actor가 업데이트 된 후에 SendPacket을 하기 위함이다.
+	{
+		std::map<int, std::list<std::shared_ptr<GameEngineActor>>>::iterator GroupStartIter = Actors.begin();
+		std::map<int, std::list<std::shared_ptr<GameEngineActor>>>::iterator GroupEndIter = Actors.end();
+
+		for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
+		{
+			std::list<std::shared_ptr<GameEngineActor>>& ActorList = GroupStartIter->second;
+
+			std::list<std::shared_ptr<GameEngineActor>>::iterator ActorStart = ActorList.begin();
+			std::list<std::shared_ptr<GameEngineActor>>::iterator ActorEnd = ActorList.end();
+
+			for (; ActorStart != ActorEnd; ++ActorStart)
+			{
+				// 이 액터가 GameEngineNetObject로 캐스팅이 가능하면
+				std::shared_ptr< GameEngineNetActor> CurActor = (*ActorStart)->DynamicThis< GameEngineNetActor>();
+				if (nullptr != CurActor)
+				{
+					CurActor->SendNetPacket(_DeltaTime);
+				}
+			}
+		}
+	}
+}

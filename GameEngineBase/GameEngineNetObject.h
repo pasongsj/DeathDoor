@@ -103,6 +103,20 @@ public:
 	}
 
 
+	//template<typename PacketType>
+	//std::shared_ptr<PacketType> GetFirstPacket()
+	//{
+	//	std::shared_ptr<PacketType> PacketReturn = std::dynamic_pointer_cast<PacketType>(Packets.front());
+	//	return PacketReturn;
+	//}
+
+	//template<typename EnumType>
+	//std::shared_ptr<EnumType> GetFirstPacket()
+	//{
+	//	return static_cast<EnumType>(Packets.front());
+	//}
+
+
 protected:
 
 private:

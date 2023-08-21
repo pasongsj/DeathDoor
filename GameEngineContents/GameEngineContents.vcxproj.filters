@@ -31,9 +31,6 @@
     <ClCompile Include="ServerTestLevel.cpp">
       <Filter>TestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="PacketEnum.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="MapEditorWindow.cpp">
       <Filter>mapeditor</Filter>
     </ClCompile>
@@ -88,6 +85,9 @@
     <ClCompile Include="PhysXDynamicActorComponent.cpp">
       <Filter>PhysX\Component</Filter>
     </ClCompile>
+    <ClCompile Include="ServerPacket.cpp">
+      <Filter>Server\Packet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -117,17 +117,8 @@
     <ClInclude Include="ServerWindow.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="ConnectIDPacket.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectUpdatePacket.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
     <ClInclude Include="ServerTestLevel.h">
       <Filter>TestLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketEnum.h">
-      <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="MapEditorWindow.h">
       <Filter>mapeditor</Filter>
@@ -187,6 +178,9 @@
       <Filter>PhysX\Component</Filter>
     </ClInclude>
     <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="ServerPacket.h">
+      <Filter>Server\Packet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CenterLevel">
@@ -248,6 +242,9 @@
     </Filter>
     <Filter Include="PhysX\Component">
       <UniqueIdentifier>{d7309d46-1f1f-43b1-9d99-dcb38e66248c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Packet">
+      <UniqueIdentifier>{87cb09f1-9269-4a47-95d9-45d86e4e2d4f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 #include "TestObject.h"
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineFBXRenderer.h>
-#include "ObjectUpdatePacket.h"
+#include "ServerPacket.h"
 
 TestObject* TestObject::MainTestObject = nullptr;
 
@@ -22,7 +22,7 @@ void TestObject::Start()
 
 	float4 Scale = pRenderer->GetTransform()->GetLocalScale();
 	pRenderer->GetTransform()->SetLocalScale(Scale * 10.0f);
-	GetTransform()->SetLocalPosition(float4(0.f, 1000.f, 0.f));
+	GetTransform()->SetLocalPosition(float4(0.f, 10.f, 0.f));
 	
 }
 
@@ -42,21 +42,6 @@ void TestObject::Update(float _DeltaTime)
 		break;
 	}
 
-	//switch (Type)
-	//{
-	//case NetControlType::None:
-	//	UserUpdate(_DeltaTime);
-	//	break;
-	//case NetControlType::UserControl:
-	//	UserUpdate(_DeltaTime);
-	//	break;
-	//case NetControlType::ServerControl:
-	//	ServerUpdate(_DeltaTime);
-	//	break;
-	//default:
-	//	break;
-	//}
-	//	
 }
 
 void TestObject::NetUpdate(float _DeltaTime)
@@ -74,9 +59,38 @@ void TestObject::NetUpdate(float _DeltaTime)
 		{
 		case PacketEnum::ObjectUpdatePacket:
 		{
+			//std::shared_ptr<ObjectUpdatePacket> Pack = GetFirstPacket<ObjectUpdatePacket>();
+			//if (PacketObjectType::Player != Pack->ObjectType)
+			//{
+			//	return;
+			//}
+			
+			//PacketObjectType OjType = GetPackectObjectType<PacketObjectType>();
 			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = PopFirstPacket<ObjectUpdatePacket>();
-			GetTransform()->SetLocalPosition(ObjectUpdate->Position);
-			GetTransform()->SetLocalRotation(ObjectUpdate->Rotation);
+			if(PacketObjectType::Player == ObjectUpdate->ObjectType)
+			{
+				PacketDataType Type = ObjectUpdate->DataType;
+
+				switch (Type)
+				{
+				case PacketDataType::Transform:
+					//GetTransform()->SetLocalPosition(ObjectUpdate->Scale);
+					GetTransform()->SetLocalPosition(ObjectUpdate->Position);
+					GetTransform()->SetLocalRotation(ObjectUpdate->Rotation);
+					break;
+				case PacketDataType::State:
+					//ChangeSate
+					break;
+				case PacketDataType::CharacterType:
+					//Change Animation
+					break;
+				case PacketDataType::Items:
+					// items
+					break;
+				default:
+					break;
+				}
+			}
 			break;
 		}
 		default:
@@ -123,6 +137,12 @@ void TestObject::UserUpdate(float _DeltaTime)
 		GetTransform()->AddLocalPosition(GetTransform()->GetWorldBackVector() * m_pSpeed * _DeltaTime);
 	}
 
+	
+}
+
+
+void TestObject::SendNetPacket(float _DeltaTime)
+{
 	static float Delta = 0.0f;
 
 	Delta += _DeltaTime;
@@ -136,15 +156,25 @@ void TestObject::UserUpdate(float _DeltaTime)
 
 	if (true == IsNet())
 	{
-		std::shared_ptr<ObjectUpdatePacket> NewPacket = std::make_shared<ObjectUpdatePacket>();
-		NewPacket->SetObjectID(GetNetObjectID());
-		NewPacket->Position = GetTransform()->GetLocalPosition();
-		NewPacket->Rotation = GetTransform()->GetLocalRotation();
-		GetNet()->SendPacket(NewPacket);
+		//transform 보내기
+		{
+			std::shared_ptr<ObjectUpdatePacket> NewPacket = std::make_shared<ObjectUpdatePacket>();
+			NewPacket->SetObjectID(GetNetObjectID());
+			NewPacket->ObjectType = PacketObjectType::Player;
+			NewPacket->DataType = PacketDataType::Transform;
+			NewPacket->Scale = GetTransform()->GetLocalScale();
+			NewPacket->Position = GetTransform()->GetLocalPosition();
+			NewPacket->Rotation = GetTransform()->GetLocalRotation();
+			GetNet()->SendPacket(NewPacket);
+		}
+		//state보내기
+		{
+			std::shared_ptr<ObjectUpdatePacket> NewPacket = std::make_shared<ObjectUpdatePacket>();
+			NewPacket->SetObjectID(GetNetObjectID());
+			NewPacket->ObjectType = PacketObjectType::Player;
+			NewPacket->DataType = PacketDataType::State;
+			NewPacket->ObjectState = PacketObjectBaseState::Base;
+			GetNet()->SendPacket(NewPacket);
+		}
 	}
 }
-
-//void TestObject::ServerUpdate(float _DeltaTime)
-//{
-//}
-
