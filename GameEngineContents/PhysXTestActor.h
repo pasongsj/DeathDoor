@@ -20,9 +20,10 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-	std::shared_ptr<class PhysXBoxGeometryComponent> pGeometryComp = nullptr;
-	std::shared_ptr<class PhysXDynamicActorComponent> pDynamicActorComp = nullptr;
-	std::shared_ptr<class PhysXTriangleComponent> pTriangleComp = nullptr;
-	std::shared_ptr<class PhysXConvexComponent> pConvexComp = nullptr;
+	std::shared_ptr<class PhysXBoxGeometryComponent> m_pGeometryComp = nullptr;
+	std::shared_ptr<class PhysXDynamicActorComponent> m_pDynamicActorComp = nullptr;
+	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
+	std::shared_ptr<class PhysXConvexComponent> m_pConvexComp = nullptr;
+	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 };
 

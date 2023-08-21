@@ -3,7 +3,7 @@
 
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 #include <GameEngineCore/GameEngineSpriteRenderer.h>
-#include "PhysXBoxGeometryComponent.h"
+#include "PhysXBoxComponent.h"
 #include "PhysXTestLevel.h"
 
 PhysXTestPlane::PhysXTestPlane() 
@@ -21,14 +21,15 @@ void PhysXTestPlane::Start()
 	pRenderer->SetFBXMesh("Ground_Mesh.fbx", "MeshTexture");
 
 	float4 scale = pRenderer->GetMeshScale();
-	pRenderer->GetTransform()->AddLocalPosition(float4(0.f, -scale.hy(), 0.f));
 	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 
-	std::shared_ptr<PhysXBoxGeometryComponent> pGeometryComp = CreateComponent<PhysXBoxGeometryComponent>();
+
+	std::shared_ptr<PhysXBoxComponent> pBoxComp = CreateComponent<PhysXBoxComponent>();
 	if (GetLevel()->DynamicThis<PhysXTestLevel>() != nullptr)
 	{
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
-		pGeometryComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
+		pBoxComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
+		pBoxComp->SetPositionSetFromParentFlag(true);
 
 	}
 }

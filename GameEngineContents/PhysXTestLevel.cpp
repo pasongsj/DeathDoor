@@ -32,6 +32,11 @@ void PhysXTestLevel::LevelChangeStart()
 
 	CreateActor<PhysXTestActor>();
 	CreateActor<PhysXTestPlane>();
+
+	std::shared_ptr<PhysXTestPlane> pWallPlane = CreateActor<PhysXTestPlane>();
+	pWallPlane->GetTransform()->AddWorldPosition(float4{ 100, 0, 100 });
+	pWallPlane->GetTransform()->AddWorldRotation(float4{ 0, 0, 90 });
+	pWallPlane->GetTransform()->AddWorldRotation(float4{ 0, -45, 0 });
 }
 
 void PhysXTestLevel::LevelChangeEnd()
@@ -51,20 +56,47 @@ void PhysXTestLevel::Initialize()
 {
 	m_pFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_Allocator, m_ErrorCallback);
 
+	if (!m_pFoundation)
+	{
+		MsgAssert("PxFoundation failed!");
+	}
+
 	m_pPvd = PxCreatePvd(*m_pFoundation);
+
+	if (!m_pPvd)
+	{
+		MsgAssert("PxPvd failed!");
+	}
+
 	physx::PxPvdTransport* pTransport = physx::PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
-	bool test = m_pPvd->connect(*pTransport, physx::PxPvdInstrumentationFlag::eALL);
+
+	if (!pTransport)
+	{
+		MsgAssert("Transport failed!");
+	}
+
+	bool bConnect = m_pPvd->connect(*pTransport, physx::PxPvdInstrumentationFlag::eALL);
 
 	m_pPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_pFoundation, physx::PxTolerancesScale(), true, m_pPvd);
 
+	if (!m_pPhysics)
+	{
+		MsgAssert("PxPhysics failed!");
+	}
+
 	physx::PxSceneDesc SceneDesc(m_pPhysics->getTolerancesScale());
-	//SceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
-	SceneDesc.gravity = physx::PxVec3(0.0f, -160.f, 0.0f);
+	SceneDesc.gravity = physx::PxVec3(0.f, -98.1f, 0.0f);
 	m_pDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
 	SceneDesc.cpuDispatcher = m_pDispatcher;
 	SceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
 
 	m_pScene = m_pPhysics->createScene(SceneDesc);
+
+	if (!m_pScene)
+	{
+		MsgAssert("PxScene failed!");
+	}
+
 
 	physx::PxPvdSceneClient* pPvdClient = m_pScene->getScenePvdClient();
 	if (pPvdClient)
@@ -79,18 +111,13 @@ void PhysXTestLevel::Initialize()
 	{
 		MsgAssert("PxCreateCooking failed!");
 	}
-	//m_pMaterial = m_pPhysics->createMaterial(0.5f, 0.5f, 0.5f);
-
-	//physx::PxRigidStatic* pGroundPlane = PxCreatePlane(*m_pPhysics, physx::PxPlane(0, 1, 0, 10000), *m_pMaterial);
-	//m_pScene->addActor(*pGroundPlane);
-
 }
 
 
 // 물리연산
 void PhysXTestLevel::Simulate(float _Deltatime,bool _Value)
 {
-	m_pScene->simulate(1/60.f);
+	m_pScene->simulate(_Deltatime);
 	m_pScene->fetchResults(_Value);
 }
 

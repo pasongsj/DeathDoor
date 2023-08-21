@@ -82,7 +82,7 @@
     <ClCompile Include="PhysXTestPlane.cpp">
       <Filter>PhysX\Object</Filter>
     </ClCompile>
-    <ClCompile Include="PhysXBoxGeometryComponent.cpp">
+    <ClCompile Include="PhysXBoxComponent.cpp">
       <Filter>PhysX\Component</Filter>
     </ClCompile>
     <ClCompile Include="PhysXDynamicActorComponent.cpp">
@@ -189,7 +189,7 @@
     <ClInclude Include="PhysXTestPlane.h">
       <Filter>PhysX\Object</Filter>
     </ClInclude>
-    <ClInclude Include="PhysXBoxGeometryComponent.h">
+    <ClInclude Include="PhysXBoxComponent.h">
       <Filter>PhysX\Component</Filter>
     </ClInclude>
     <ClInclude Include="PhysXDynamicActorComponent.h">

@@ -184,7 +184,7 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
-    <ClCompile Include="PhysXBoxGeometryComponent.cpp" />
+    <ClCompile Include="PhysXBoxComponent.cpp" />
     <ClCompile Include="PhysXCapsuleComponent.cpp" />
     <ClCompile Include="PhysXConvexComponent.cpp" />
     <ClCompile Include="PhysXDefault.cpp" />
@@ -286,7 +286,7 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
-    <ClInclude Include="PhysXBoxGeometryComponent.h" />
+    <ClInclude Include="PhysXBoxComponent.h" />
     <ClInclude Include="PhysXCapsuleComponent.h" />
     <ClInclude Include="PhysXConvexComponent.h" />
     <ClInclude Include="PhysXDefault.h" />

@@ -199,7 +199,7 @@ void PhysXTriangleComponent::CustomFBXLoad(const std::string& _MeshName, bool _I
 	}
 
 	//랜더유닛카운트를 불러와 백터에 reserve를 한다
-	int RenderinfoCount = Mesh->GetRenderUnitCount();
+	size_t RenderinfoCount = Mesh->GetRenderUnitCount();
 
 	VertexVec.reserve(RenderinfoCount + 1);
 	IndexVec.reserve(RenderinfoCount + 1);
@@ -212,8 +212,8 @@ void PhysXTriangleComponent::CustomFBXLoad(const std::string& _MeshName, bool _I
 		std::vector<GameEngineVertex> MeshVertexs = RenderUnitInfo->Vertexs;
 		std::vector<unsigned int> Indexes = RenderUnitInfo->Indexs[0];
 
-		int VertexSize = MeshVertexs.size();
-		int IndexSize = Indexes.size();
+		size_t VertexSize = MeshVertexs.size();
+		size_t IndexSize = Indexes.size();
 		std::vector<physx::PxVec3> InstVertVec;
 		std::vector<unsigned int> InstIndexVec;
 		//Vertex와 Index 정보를 VertexVec, IndexVec에 저장한다
@@ -231,7 +231,7 @@ void PhysXTriangleComponent::CustomFBXLoad(const std::string& _MeshName, bool _I
 		}
 		if (_InverseIndex == false)
 		{
-			for (int j = IndexSize - 1; j >= 0; --j)
+			for (size_t j = IndexSize - 1; j >= 0; --j)
 			{
 				InstIndexVec.push_back(physx::PxU32(Indexes[j]));
 			}

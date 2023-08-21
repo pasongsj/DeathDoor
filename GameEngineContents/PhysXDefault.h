@@ -91,7 +91,19 @@ public:
 	float dotProduct(vector v1, vector v2);
 	vector matrixMultiply(matrix m, vector v);
 
+	physx::PxRigidDynamic* GetDynamic()
+	{
+		return m_pRigidDynamic;
+	}
+
+	physx::PxRigidStatic* GetStaitc()
+	{
+		return m_pRigidStatic;
+	}
+	
 protected:
+	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
+	physx::PxRigidStatic* m_pRigidStatic = nullptr;
 	float m_fStaticFriction = 0.0f;
 	float m_fDynamicFriction = 0.0f;
 	float m_fResitution = 0.0f;

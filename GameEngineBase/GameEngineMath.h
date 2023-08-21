@@ -288,6 +288,24 @@ public:
 
 	}
 
+
+	physx::PxQuat PhysXQuatReturn()
+	{
+		float4 Temp = this->EulerDegToQuaternion();
+		return physx::PxQuat(Temp.x, Temp.y, Temp.z, Temp.w);
+	}
+	physx::PxVec3 PhysXVec3Return()
+	{
+		return physx::PxVec3(x, y, z);
+	}
+	static physx::PxTransform PhysXTransformReturn(float4 _Rot, float4 _Pos)
+	{
+		physx::PxTransform Temp = {};
+		Temp.q = _Rot.PhysXQuatReturn();
+		Temp.p = _Pos.PhysXVec3Return();
+		return Temp;
+	}
+
 	void RotaitonXRad(float _Rad);
 	void RotaitonYRad(float _Rad);
 	void RotaitonZRad(float _Rad);
