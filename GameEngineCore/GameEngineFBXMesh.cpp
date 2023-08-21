@@ -468,6 +468,7 @@ void GameEngineFBXMesh::LoadNormal(fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxAMatrix _M
 	FbxGeometryElementNormal* pElement = _Mesh->GetElementNormal();
 	int iDataIndex = VtxId;
 
+	// test
 	if (pElement->GetMappingMode() == FbxGeometryElement::eByPolygonVertex)
 	{
 		if (FbxGeometryElement::eIndexToDirect == pElement->GetReferenceMode())
