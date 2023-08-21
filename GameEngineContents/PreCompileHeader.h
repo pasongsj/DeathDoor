@@ -30,3 +30,4 @@
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 
 #include "ContentsEnum.h"
+#include "ServerPacket.h"

@@ -760,6 +760,9 @@
     <ClInclude Include="ThirdParty\PhysX_4_1\inc\PhysX\characterkinematic\PxExtended.h">
       <Filter>ThirdParty\PhysX_4.1\Header\PhysX_4_1\PhysX\characterkinematic</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineNetActor.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -931,6 +934,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineFBXRenderer.cpp">
       <Filter>Object\Rendering\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineNetActor.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

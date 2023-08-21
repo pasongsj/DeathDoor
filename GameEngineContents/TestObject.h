@@ -1,9 +1,9 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineBase/GameEngineNetObject.h>
-
+#include <GameEngineCore/GameEngineNetActor.h>
 // Ό³Έν :
-class TestObject : public GameEngineActor, public GameEngineNetObject
+class TestObject : public GameEngineNetActor
 {
 public:
 	static TestObject* MainTestObject;
@@ -24,6 +24,8 @@ protected:
 	void UserUpdate(float _DeltaTime);
 	void NetUpdate(float _DeltaTime);
 	//void ServerUpdate(float _DeltaTime);
+
+	void SendNetPacket(float _DeltaTime) override;
 
 private:
 

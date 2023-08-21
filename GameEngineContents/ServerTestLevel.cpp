@@ -23,10 +23,10 @@ void ServerTestLevel::Start()
 
 void ServerTestLevel::Update(float _DeltaTime)
 {
-	if (nullptr != ServerWindow::NetInst)
-	{
-		ServerWindow::NetInst->UpdatePacket();
-	}
+	//if (nullptr != ServerWindow::NetInst)
+	//{
+	//	ServerWindow::NetInst->UpdatePacket();
+	//}
 }
 
 void ServerTestLevel::LevelChangeStart()

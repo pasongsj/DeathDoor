@@ -1,11 +1,8 @@
 #include "PrecompileHeader.h"
 #include "ServerWindow.h"
-#include "ConnectIDPacket.h"
-#include "ObjectUpdatePacket.h"
 #include "TestObject.h"
 #include "ServerTestLevel.h"
-#include "ConnectIDPacket.h"
-
+#include "ServerPacket.h"
 
 GameEngineNet* ServerWindow::NetInst = nullptr;
 ServerWindow* ServerWindow::ServerGUI = nullptr;
@@ -24,6 +21,13 @@ ServerWindow::~ServerWindow()
 void ServerWindow::Start()
 {
 	ServerWindow::ServerGUI->Off();
+	GameEngineCore::SetRcvPacket([]
+		{
+			if (nullptr != ServerWindow::NetInst)
+			{
+				ServerWindow::NetInst->UpdatePacket();
+			}
+		});
 }
 
 void ServerWindow::OnGUI(std::shared_ptr<GameEngineLevel> Level, float _DeltaTime)

@@ -200,10 +200,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PacketEnum.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="PinActor.cpp">
       <SubType>
       </SubType>
@@ -230,6 +226,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ServerPacket.cpp" />
     <ClCompile Include="ServerTestLevel.cpp">
       <SubType>
       </SubType>
@@ -258,10 +255,6 @@
   <ItemGroup>
     <ClInclude Include="BlackScreen.h" />
     <ClInclude Include="Boomerang.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="ConnectIDPacket.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -300,14 +293,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ObjectUpdatePacket.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="PacketEnum.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="PinActor.h">
       <SubType>
       </SubType>
@@ -333,6 +318,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ServerPacket.h" />
     <ClInclude Include="ServerTestLevel.h">
       <SubType>
       </SubType>
