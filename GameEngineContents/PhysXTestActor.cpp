@@ -25,11 +25,11 @@ void PhysXTestActor::Start()
 	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
 	pRenderer->SetFBXMesh("Armature.fbx", "MeshTexture");
 	pRenderer->GetFBXMesh();
-	GetTransform()->SetLocalPosition(float4(0.f, 500.f, 0.f));
+	GetTransform()->SetLocalPosition(float4(0.f, 300.f, 0.f));
 
 	float4 scale = pRenderer->GetMeshScale();
 	//pRenderer->GetTransform()->AddLocalPosition(float4(0.f, -scale.hy(), 0.f));
-	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z)/100;
+	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 
 	//pConvexComp = CreateComponent <PhysXConvexComponent>();
 	pTriangleComp = CreateComponent <PhysXTriangleComponent>();
@@ -44,7 +44,7 @@ void PhysXTestActor::Start()
 		pTriangleComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking,true ,vscale);
 		//pDynamicActorComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
 
-
+		
 
 		//pGeometryComp->SetGravity(true);
 		//pGeometryComp->SetRestitution(2.f);
