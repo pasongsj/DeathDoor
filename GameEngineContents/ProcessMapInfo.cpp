@@ -179,7 +179,7 @@ void ProcessMapInfo::SaveToText(const SponeMapActor& _Value, GameEnginePath _Loa
 {
 	std::string ToText;
 
-	GameEngineFile file = GameEngineFile(_Load.GetFullPath() + "read.csv");
+	GameEngineFile file = GameEngineFile(std::string_view(_Load.GetFullPath() + "read.csv"));
 	{
 		//MeshType
 		ToText += GameEngineString::ToString(_Value.MeshType);
@@ -226,7 +226,7 @@ void ProcessMapInfo::SaveToText(const SponeMapActor& _Value, GameEnginePath _Loa
 std::vector<SponeMapActor> ProcessMapInfo::ReadFromText(GameEnginePath _Path)
 {
 	std::vector<SponeMapActor> NewActorStructs;
-	GameEngineFile file = GameEngineFile(_Path.GetFullPath());
+	GameEngineFile file = GameEngineFile(_Path);
 	std::string Data;
 	Data.reserve(file.GetFileSize());
 	Data = file.GetString();

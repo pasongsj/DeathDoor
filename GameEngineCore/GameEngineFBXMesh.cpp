@@ -122,7 +122,7 @@ void GameEngineFBXMesh::LoadMesh(const std::string& _Path, const std::string& _N
 	// FBXInit(FBXFile.GetFullPath());
 	FBXInit(_Path);
 	MeshLoad();
-	// CreateGameEngineStructuredBuffer();
+	CreateGameEngineStructuredBuffer();
 	// Bone을 조사한다.
 
 	//if (false == SaveFile.IsExits())
@@ -468,7 +468,6 @@ void GameEngineFBXMesh::LoadNormal(fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxAMatrix _M
 	FbxGeometryElementNormal* pElement = _Mesh->GetElementNormal();
 	int iDataIndex = VtxId;
 
-	// test
 	if (pElement->GetMappingMode() == FbxGeometryElement::eByPolygonVertex)
 	{
 		if (FbxGeometryElement::eIndexToDirect == pElement->GetReferenceMode())
@@ -1862,13 +1861,18 @@ void GameEngineFBXMesh::BuildSkeletonSystem(fbxsdk::FbxScene* pScene, std::vecto
 
 void GameEngineFBXMesh::CreateGameEngineStructuredBuffer()
 {
-	// AllBoneStructuredBuffers.resize(AllBones.size());
+	AllBoneStructuredBuffers.resize(AllBones.size());
 
-	//for (size_t i = 0; i < AllBones.size(); i++)
-	//{
-	//	std::shared_ptr<GameEngineStructuredBuffer> NewStructuredBuffer = AllBoneStructuredBuffers.emplace_back(std::make_shared<GameEngineStructuredBuffer>());
-	//	NewStructuredBuffer->CreateResize(sizeof(float4x4), static_cast<int>(AllBones[i].size()), nullptr);
-	//}
+	for (size_t i = 0; i < AllBones.size(); i++)
+	{
+		if (nullptr != AllBoneStructuredBuffers[i])
+		{
+			continue;
+		}
+
+		AllBoneStructuredBuffers[i] = std::make_shared<GameEngineStructuredBuffer>();
+		AllBoneStructuredBuffers[i]->CreateResize(sizeof(float4x4), static_cast<int>(AllBones[i].size()), nullptr);
+	}
 }
 
 std::shared_ptr<GameEngineStructuredBuffer> GameEngineFBXMesh::GetAnimationStructuredBuffer(size_t _Index)
