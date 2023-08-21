@@ -185,6 +185,8 @@
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
     <ClCompile Include="PhysXBoxGeometryComponent.cpp" />
+    <ClCompile Include="PhysXCapsuleComponent.cpp" />
+    <ClCompile Include="PhysXConvexComponent.cpp" />
     <ClCompile Include="PhysXDefault.cpp" />
     <ClCompile Include="PhysXDynamicActorComponent.cpp" />
     <ClCompile Include="PhysXTestActor.cpp">
@@ -204,6 +206,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PhysXTriangleComponent.cpp" />
     <ClCompile Include="PinActor.cpp">
       <SubType>
       </SubType>
@@ -284,6 +287,8 @@
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
     <ClInclude Include="PhysXBoxGeometryComponent.h" />
+    <ClInclude Include="PhysXCapsuleComponent.h" />
+    <ClInclude Include="PhysXConvexComponent.h" />
     <ClInclude Include="PhysXDefault.h" />
     <ClInclude Include="PhysXDynamicActorComponent.h" />
     <ClInclude Include="PhysXTestActor.h">
@@ -308,6 +313,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PhysXTriangleComponent.h" />
     <ClInclude Include="PinActor.h">
       <SubType>
       </SubType>

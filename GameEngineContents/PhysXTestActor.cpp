@@ -2,9 +2,16 @@
 #include "PhysXTestActor.h"
 
 #include <GameEngineCore/GameEngineFBXRenderer.h>
+
 #include "PhysXBoxGeometryComponent.h"
 #include "PhysXDynamicActorComponent.h"
+#include "PhysXCapsuleComponent.h"
+#include "PhysXConvexComponent.h"
+#include "PhysXTriangleComponent.h"
+
 #include "PhysXTestLevel.h"
+
+
 PhysXTestActor::PhysXTestActor() 
 {
 }
@@ -17,22 +24,25 @@ void PhysXTestActor::Start()
 {
 	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
 	pRenderer->SetFBXMesh("Armature.fbx", "MeshTexture");
-
+	pRenderer->GetFBXMesh();
 	GetTransform()->SetLocalPosition(float4(0.f, 500.f, 0.f));
 
 	float4 scale = pRenderer->GetMeshScale();
 	//pRenderer->GetTransform()->AddLocalPosition(float4(0.f, -scale.hy(), 0.f));
-	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
+	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z)/100;
 
-
-	pDynamicActorComp = CreateComponent <PhysXDynamicActorComponent>();
+	//pConvexComp = CreateComponent <PhysXConvexComponent>();
+	pTriangleComp = CreateComponent <PhysXTriangleComponent>();
+	//pDynamicActorComp = CreateComponent <PhysXDynamicActorComponent>();
 	//pGeometryComp = CreateComponent<PhysXBoxGeometryComponent>();
-
+	
 	if (GetLevel()->DynamicThis<PhysXTestLevel>()!= nullptr)
 	{
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
 
-		pDynamicActorComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
+		//pConvexComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking, true, vscale);
+		pTriangleComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking,true ,vscale);
+		//pDynamicActorComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
 
 
 
@@ -45,29 +55,36 @@ void PhysXTestActor::Start()
 
 void PhysXTestActor::Update(float _DeltaTime)
 {
+	float4 Movedir = float4::ZERO;
 	if (true == GameEngineInput::IsPress("CamMoveLeft"))
 	{
-		GetTransform()->AddLocalPosition(GetTransform()->GetWorldLeftVector() * 500.f * _DeltaTime);
+		Movedir += GetTransform()->GetWorldLeftVector() * 500.f * _DeltaTime;
+		//GetTransform()->AddLocalPosition(GetTransform()->GetWorldLeftVector() * 500.f * _DeltaTime);
 	}
 	if (true == GameEngineInput::IsPress("CamMoveRight"))
 	{
-		GetTransform()->AddLocalPosition(GetTransform()->GetWorldRightVector() * 500.f * _DeltaTime);
+		Movedir += GetTransform()->GetWorldRightVector() * 500.f * _DeltaTime;
+		//GetTransform()->AddLocalPosition(GetTransform()->GetWorldRightVector() * 500.f * _DeltaTime);
 	}
 	if (true == GameEngineInput::IsPress("CamMoveUp"))
 	{
-		GetTransform()->AddLocalPosition(GetTransform()->GetWorldUpVector() * 500.f * _DeltaTime);
+		Movedir += GetTransform()->GetWorldUpVector() * 500.f * _DeltaTime;
+		//GetTransform()->AddLocalPosition(GetTransform()->GetWorldUpVector() * 500.f * _DeltaTime);
 	}
 	if (true == GameEngineInput::IsPress("CamMoveDown"))
 	{
-		GetTransform()->AddLocalPosition(GetTransform()->GetWorldDownVector() * 500.f * _DeltaTime);
+		Movedir += GetTransform()->GetWorldDownVector() * 500.f * _DeltaTime;
+		//GetTransform()->AddLocalPosition(GetTransform()->GetWorldDownVector() * 500.f * _DeltaTime);
 	}
 	if (true == GameEngineInput::IsPress("CamMoveForward"))
 	{
-		GetTransform()->AddLocalPosition(GetTransform()->GetWorldForwardVector() * 500.f * _DeltaTime);
+		Movedir += GetTransform()->GetWorldForwardVector() * 500.f * _DeltaTime;
+		//GetTransform()->AddLocalPosition(GetTransform()->GetWorldForwardVector() * 500.f * _DeltaTime);
 	}
 	if (true == GameEngineInput::IsPress("CamMoveBack"))
 	{
-		GetTransform()->AddLocalPosition(GetTransform()->GetWorldBackVector() * 500.f * _DeltaTime);
+		Movedir += GetTransform()->GetWorldBackVector() * 500.f * _DeltaTime;
+		//GetTransform()->AddLocalPosition(GetTransform()->GetWorldBackVector() * 500.f * _DeltaTime);
 	}
 };
 

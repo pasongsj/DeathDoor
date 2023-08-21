@@ -58,7 +58,8 @@ void PhysXTestLevel::Initialize()
 	m_pPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_pFoundation, physx::PxTolerancesScale(), true, m_pPvd);
 
 	physx::PxSceneDesc SceneDesc(m_pPhysics->getTolerancesScale());
-	SceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+	//SceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+	SceneDesc.gravity = physx::PxVec3(0.0f, -160.f, 0.0f);
 	m_pDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
 	SceneDesc.cpuDispatcher = m_pDispatcher;
 	SceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;

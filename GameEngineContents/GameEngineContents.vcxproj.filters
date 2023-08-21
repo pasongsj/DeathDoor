@@ -88,6 +88,15 @@
     <ClCompile Include="PhysXDynamicActorComponent.cpp">
       <Filter>PhysX\Component</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXCapsuleComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXConvexComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTriangleComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -187,6 +196,15 @@
       <Filter>PhysX\Component</Filter>
     </ClInclude>
     <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="PhysXCapsuleComponent.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXConvexComponent.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTriangleComponent.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CenterLevel">
