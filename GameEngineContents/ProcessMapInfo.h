@@ -21,6 +21,7 @@ public:
 	static std::vector<SponeMapActor> OpenFile(GameEnginePath _Path);
 
 	static void CpyAndClear(GameEnginePath _Path);
+
 	static void CpyFile(GameEnginePath _Path,const std::string& FileName = "");
 	static void ClearFile(GameEnginePath _Path);
 
@@ -31,7 +32,8 @@ public:
 
 	static void CreatPathFile(GameEnginePath _Path);
 
-	static void BinToText(const SponeMapActor& _Value,GameEnginePath _Load);
+	static void SaveToText(const SponeMapActor& _Value,GameEnginePath _Load);
+	static std::vector<SponeMapActor> ReadFromText(GameEnginePath _Path);
 
 protected:
 

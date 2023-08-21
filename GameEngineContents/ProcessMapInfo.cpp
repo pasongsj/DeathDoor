@@ -4,6 +4,7 @@
 #include <GameEngineBase/GameEngineFile.h>
 #include <GameEngineBase/GameEngineSerializer.h>
 
+
 ProcessMapInfo* ProcessMapInfo::RWProcessInst = nullptr;
 
 ProcessMapInfo::ProcessMapInfo()
@@ -17,6 +18,10 @@ ProcessMapInfo::~ProcessMapInfo()
 
 std::vector<SponeMapActor> ProcessMapInfo::OpenFile(GameEnginePath _Path)
 {
+	if (std::string::npos != _Path.GetFileName().find("read.csv"))
+	{
+		return ReadFromText(_Path);
+	}
 	std::vector<SponeMapActor> NewActorStructs;
 
 	std::ifstream ifs;
@@ -73,7 +78,7 @@ void ProcessMapInfo::WriteAllFile(GameEnginePath _Path, std::map<int, SponeMapAc
 	std::ofstream ofs;
 	ofs.open(_Path.GetFullPath(), std::ios::out);
 	// bin to text clear
-	std::filesystem::remove(_Path.GetFullPath() + "read.csv");
+	ClearFile(_Path.GetFullPath() + "read.csv");	//std::filesystem::remove(_Path.GetFullPath() + "read.csv");
 	for (std::pair<int, SponeMapActor> _StructInfo : _AllStruct)
 	{
 		WriteFile(_Path, _StructInfo.second);
@@ -103,7 +108,7 @@ void ProcessMapInfo::WriteFile(GameEnginePath _Path, const SponeMapActor& _Value
 
 	//ofs.write((char*)&_Value, sizeof(struct SponeMapActor));
 	ofs.close();
-	BinToText(_Value, _Path); // 이어쓰기 하는 방법
+	SaveToText(_Value, _Path); // 이어쓰기 하는 방법
 	return;
 }
 void ProcessMapInfo::CpyFile(GameEnginePath _Path, const std::string& FileName)
@@ -170,26 +175,16 @@ void ProcessMapInfo::CreatPathFile(GameEnginePath _Path)
 	}
 }
 
-void ProcessMapInfo::BinToText(const SponeMapActor& _Value, GameEnginePath _Load)
+void ProcessMapInfo::SaveToText(const SponeMapActor& _Value, GameEnginePath _Load)
 {
 	std::string ToText;
-	//GameEngineFile Beforefile = GameEngineFile(_Load.GetFullPath() + "read.csv");
-
-	//if (std::filesystem::exists(_Load.GetFullPath() + "read.csv") && Beforefile.GetFileSize() != 0)
-	//{
-	//	ToText += Beforefile.GetString();
-	//	std::filesystem::remove(_Load.GetFullPath() + "read.csv");
-	//	
-	//}
 
 	GameEngineFile file = GameEngineFile(_Load.GetFullPath() + "read.csv");
 	{
-		ToText += "MeshType";
-		ToText += ",";
+		//MeshType
 		ToText += GameEngineString::ToString(_Value.MeshType);
-		ToText += "\n";
-		ToText += "LocRot";
 		ToText += ",";
+		// LocRot
 		ToText += GameEngineString::ToString(_Value.LocRot.x);
 		ToText += ",";
 		ToText += GameEngineString::ToString(_Value.LocRot.y);
@@ -197,9 +192,8 @@ void ProcessMapInfo::BinToText(const SponeMapActor& _Value, GameEnginePath _Load
 		ToText += GameEngineString::ToString(_Value.LocRot.z);
 		ToText += ",";
 		ToText += GameEngineString::ToString(_Value.LocRot.w);
-		ToText += "\n";
-		ToText += "LocPos";
 		ToText += ",";
+		//LocPos
 		ToText += GameEngineString::ToString(_Value.LocPos.x);
 		ToText += ",";
 		ToText += GameEngineString::ToString(_Value.LocPos.y);
@@ -207,29 +201,80 @@ void ProcessMapInfo::BinToText(const SponeMapActor& _Value, GameEnginePath _Load
 		ToText += GameEngineString::ToString(_Value.LocPos.z);
 		ToText += ",";
 		ToText += GameEngineString::ToString(_Value.LocPos.w);
-		ToText += "\n";
-		ToText += "ScaleRatio";
 		ToText += ",";
+		//LocScale Ratio
 		ToText += GameEngineString::ToString(_Value.ScaleRatio);
-		ToText += "\n";
-		ToText += "FBXNameLen";
 		ToText += ",";
+		//FBXNameLen
 		ToText += GameEngineString::ToString(static_cast<int>(_Value.FBXNameLen));
-		ToText += "\n";
-		ToText += "FBXName";
 		ToText += ",";
+		//FBXName
 		ToText += _Value.FBXName;
-		ToText += "\n";
-		ToText += "MeterialLen";
 		ToText += ",";
+		//MeterialLen
 		ToText += GameEngineString::ToString(static_cast<int>(_Value.MeterialLen));
-		ToText += "\n";
-		ToText += "MeterialName";
 		ToText += ",";
+		//MeterialName
 		ToText += _Value.MeterialName;
 		ToText += "\n";
 	}
 
 	file.SaveTextAppend(ToText);
 
+}
+
+std::vector<SponeMapActor> ProcessMapInfo::ReadFromText(GameEnginePath _Path)
+{
+	std::vector<SponeMapActor> NewActorStructs;
+	GameEngineFile file = GameEngineFile(_Path.GetFullPath());
+	std::string Data;
+	Data.reserve(file.GetFileSize());
+	Data = file.GetString();
+
+	std::istringstream ss(Data);
+	std::string SubString;
+
+	while (getline(ss, SubString, '\n'))
+	{
+
+		SponeMapActor NewStruct;
+		std::istringstream s2(SubString);
+		std::string Source;
+		// meshtype
+		getline(s2, Source, ',');
+		NewStruct.MeshType = stoi(Source);
+		// LocRot
+		getline(s2, Source, ',');
+		NewStruct.LocRot.x = stof(Source);
+		getline(s2, Source, ',');
+		NewStruct.LocRot.y = stof(Source);
+		getline(s2, Source, ',');
+		NewStruct.LocRot.z = stof(Source);
+		getline(s2, Source, ',');
+		NewStruct.LocRot.w = stof(Source);
+		// LocPos
+		getline(s2, Source, ',');
+		NewStruct.LocPos.x = stof(Source);
+		getline(s2, Source, ',');
+		NewStruct.LocPos.y = stof(Source);
+		getline(s2, Source, ',');
+		NewStruct.LocPos.z = stof(Source);
+		getline(s2, Source, ',');
+		NewStruct.LocPos.w = stof(Source);
+		// Ratio
+		getline(s2, Source, ',');
+		NewStruct.LocRot.x = stof(Source);
+		// fbx name
+		getline(s2, Source, ',');
+		NewStruct.FBXNameLen = stoi(Source);
+		getline(s2, Source, ',');
+		NewStruct.FBXName = Source;
+		//Meterial name
+		getline(s2, Source, ',');
+		NewStruct.MeterialLen = stoi(Source);
+		getline(s2, Source, ',');
+		NewStruct.MeterialName = Source;
+		NewActorStructs.push_back(NewStruct);
+	}
+	return NewActorStructs;
 }
