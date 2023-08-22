@@ -17,6 +17,8 @@ TestLevel::~TestLevel()
 
 void TestLevel::Start()
 {
+	SetLevelType(PacketLevelType::TestLevel);
+
 	{
 		//AnimTest Load
 		

@@ -21,6 +21,8 @@ PhysXTestLevel::~PhysXTestLevel()
 
 void PhysXTestLevel::Start()
 {
+	SetLevelType(PacketLevelType::PhysXTestLevel);
+
 }
 
 void PhysXTestLevel::LevelChangeStart()

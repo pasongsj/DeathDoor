@@ -15,6 +15,7 @@ ServerTestLevel::~ServerTestLevel()
 
 void ServerTestLevel::Start()
 {
+	SetLevelType(PacketLevelType::ServerTestLevel);
 	//CreateActor<TestObject>();
 
 	std::shared_ptr<TestObject> TestObj = CreateActor<TestObject>();

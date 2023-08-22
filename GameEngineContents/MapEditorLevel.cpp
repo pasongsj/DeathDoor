@@ -12,6 +12,8 @@ MapEditorLevel::~MapEditorLevel()
 }
 void MapEditorLevel::Start()
 {
+	SetLevelType(PacketLevelType::MapEditorLevel);
+
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0.0f });
 
