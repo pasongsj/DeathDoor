@@ -88,6 +88,15 @@
     <ClCompile Include="ServerPacket.cpp">
       <Filter>Server\Packet</Filter>
     </ClCompile>
+    <ClCompile Include="StartLevel.cpp">
+      <Filter>StartLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="StartUI.cpp">
+      <Filter>StartLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentSpriteRenderer.cpp">
+      <Filter>ContentClass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -181,6 +190,15 @@
     <ClInclude Include="ServerPacket.h">
       <Filter>Server\Packet</Filter>
     </ClInclude>
+    <ClInclude Include="StartLevel.h">
+      <Filter>StartLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="StartUI.h">
+      <Filter>StartLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentSpriteRenderer.h">
+      <Filter>ContentClass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CenterLevel">
@@ -245,6 +263,12 @@
     </Filter>
     <Filter Include="Server\Packet">
       <UniqueIdentifier>{87cb09f1-9269-4a47-95d9-45d86e4e2d4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StartLevel">
+      <UniqueIdentifier>{ce82898a-ce38-4483-8266-4f610cbc57f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StartLevel\Actor">
+      <UniqueIdentifier>{c1dcac4a-2650-4b32-b061-bf2031510580}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

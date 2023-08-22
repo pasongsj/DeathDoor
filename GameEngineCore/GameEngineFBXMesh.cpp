@@ -461,7 +461,8 @@ void GameEngineFBXMesh::LoadNormal(fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxAMatrix _M
 
 	if (0 == iCount)
 	{
-		MsgAssert("GetElementNormalCount가 여러개 입니다.");
+		_Mesh->GenerateNormals();
+		//MsgAssert("GetElementNormalCount가 여러개 입니다.");
 	}
 
 
