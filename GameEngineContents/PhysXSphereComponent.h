@@ -19,10 +19,6 @@ public:
 
 	physx::PxRigidDynamic* CreatePhysXActors(physx::PxScene* _Scene, physx::PxPhysics* _physics, physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f });
 
-	physx::PxRigidDynamic* GetDynamic()
-	{
-		return m_pDynamic;
-	}
 
 	void SetMoveSpeed(float4 _MoveSpeed);
 
@@ -34,26 +30,26 @@ public:
 
 	inline physx::PxVec3 GetLinearVelocity()
 	{
-		return m_pDynamic->getLinearVelocity();
+		return m_pRigidDynamic->getLinearVelocity();
 	}
 
 	inline void SetlockAxis()
 	{
-		m_pDynamic->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X | physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y | physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z);
+		m_pRigidDynamic->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X | physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y | physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z);
 	}
 
 	inline void SetUnlockAxis()
 	{
 		// 고정된 축을 해제
-		m_pDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, false);
-		m_pDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, false);
+		m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, false);
+		m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, false);
 
-		m_pDynamic->addForce(physx::PxVec3(0.0f, 0.01f, 0.0f), physx::PxForceMode::eIMPULSE);
+		m_pRigidDynamic->addForce(physx::PxVec3(0.0f, 0.01f, 0.0f), physx::PxForceMode::eIMPULSE);
 	}
 
 	inline float4 GetWorldPosition()
 	{
-		return float4(m_pDynamic->getGlobalPose().p.x, m_pDynamic->getGlobalPose().p.y, m_pDynamic->getGlobalPose().p.z);
+		return float4(m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z);
 	}
 
 
@@ -63,22 +59,22 @@ public:
 
 	void TurnOffSpeedLimit()
 	{
-		IsSpeedLimit = false;
+		m_bSpeedLimit = false;
 	}
 
 	void TurnOnSpeedLimit()
 	{
-		IsSpeedLimit = true;
+		m_bSpeedLimit = true;
 	}
 
 	void SwitchSpeedLimit()
 	{
-		IsSpeedLimit = !IsSpeedLimit;
+		m_bSpeedLimit = !m_bSpeedLimit;
 	}
 
 	float4 GetDynamicVelocity()
 	{
-		physx::PxVec3 Vec3 = m_pDynamic->getLinearVelocity();
+		physx::PxVec3 Vec3 = m_pRigidDynamic->getLinearVelocity();
 		return float4{ Vec3.x, Vec3.y, Vec3.z };
 	}
 
@@ -88,13 +84,13 @@ public:
 	//중력끄기
 	void TurnOffGravity()
 	{
-		m_pDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
+		m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
 	}
 
 	//중력키기
 	void TurnOnGravity()
 	{
-		m_pDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
+		m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
 	}
 
 	//void LockAxis();
@@ -109,8 +105,6 @@ public:
 	//Reset 함수
 	void ResetDynamic();
 
-	//일어설때 목표 각도구하는 함수
-	void InitializeStandUp2();
 
 	void SetMainPlayerFlags()
 	{
@@ -134,9 +128,8 @@ private:
 
 	physx::PxMaterial* m_pMaterial = nullptr;
 	physx::PxShape* m_pShape = nullptr;
-	physx::PxRigidDynamic* m_pDynamic = nullptr;
 
-	bool IsSpeedLimit = false;
+	bool m_bSpeedLimit = false;
 
 	// 이 컴포넌트를 가지고 있는 Parent에 대한 정보
 	std::weak_ptr<class GameEngineActor> ParentActor;

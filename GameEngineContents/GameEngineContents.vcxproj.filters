@@ -97,6 +97,9 @@
     <ClCompile Include="PhysXTriangleComponent.cpp">
       <Filter>PhysX\Component</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXSphereComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -203,6 +206,9 @@
       <Filter>PhysX\Component</Filter>
     </ClInclude>
     <ClInclude Include="PhysXTriangleComponent.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXSphereComponent.h">
       <Filter>PhysX\Component</Filter>
     </ClInclude>
   </ItemGroup>
