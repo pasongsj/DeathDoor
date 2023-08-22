@@ -103,6 +103,9 @@
     <ClCompile Include="CharacterList.cpp">
       <Filter>Level\SelectLevel\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="TextObj.cpp">
+      <Filter>TestLevel\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -210,6 +213,9 @@
     </ClInclude>
     <ClInclude Include="CharacterList.h">
       <Filter>Level\SelectLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TextObj.h">
+      <Filter>TestLevel\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

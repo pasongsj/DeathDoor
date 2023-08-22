@@ -1,6 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
-#include "ContentStruct.h"
+//#include "ContentStruct.h"
 
 class StartUI : public GameEngineActor
 {

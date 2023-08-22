@@ -174,6 +174,8 @@ private:
 	// 확장되어야 한다.
 	// 본개수 만큼
 	// 앞쪽에 키는 매쉬 개수 x 본개수의 뜻을 가지게 된다.
+
+	// Structure Buffer랑 링크가 되는 녀석.
 	std::map<size_t, std::vector<float4x4>> AnimationBoneMatrixs;
 	std::map<size_t, std::vector<AnimationBoneData>> AnimationBoneDatas;
 };
