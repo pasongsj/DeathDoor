@@ -11,6 +11,8 @@
 #include "GameEngineVideo.h"
 #include "GameEngineGUI.h"
 
+#include <GameEngineBase/GameEngineNetObject.h>
+
 GameEngineThreadJobQueue GameEngineCore::JobQueue;
 
 std::map<std::string, std::shared_ptr<GameEngineLevel>> GameEngineCore::LevelMap;
@@ -133,7 +135,8 @@ void GameEngineCore::EngineUpdate()
 	// CurLoadLevel = nullptr;
 
 	// 서버에 패킷을 보내는 위치 (server packet send)
-	MainLevel->SendActorPacket(TimeDeltaTime);
+	GameEngineNetObject::SendAllPacket(TimeDeltaTime);
+	//MainLevel->SendActorPacket(TimeDeltaTime);
 
 	GameEngineVideo::VideoState State = GameEngineVideo::GetCurState();
 	if (State != GameEngineVideo::VideoState::Running)

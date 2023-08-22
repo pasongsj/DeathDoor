@@ -21,6 +21,7 @@ CenterLevel::~CenterLevel()
 
 void CenterLevel::Start()
 {
+	SetLevelType(PacketLevelType::CenterLevel);
 	GameEngineInput::CreateKey("TestLevel", '0');
 
 
