@@ -189,7 +189,10 @@
     <ClCompile Include="PhysXConvexComponent.cpp" />
     <ClCompile Include="PhysXDefault.cpp" />
     <ClCompile Include="PhysXDynamicActorComponent.cpp" />
-    <ClCompile Include="PhysXSphereComponent.cpp" />
+    <ClCompile Include="PhysXSphereComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PhysXTestActor.cpp">
       <SubType>
       </SubType>
@@ -292,7 +295,10 @@
     <ClInclude Include="PhysXConvexComponent.h" />
     <ClInclude Include="PhysXDefault.h" />
     <ClInclude Include="PhysXDynamicActorComponent.h" />
-    <ClInclude Include="PhysXSphereComponent.h" />
+    <ClInclude Include="PhysXSphereComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PhysXTestActor.h">
       <SubType>
       </SubType>
