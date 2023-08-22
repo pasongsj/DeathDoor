@@ -4,18 +4,18 @@
 #include "PhysXDefault.h"
 
 // 설명 :
-class PhysXCapsuleComponent : public GameEngineComponent, public PhysXDefault
+class PhysXShpereComponent : public GameEngineComponent, public PhysXDefault
 {
 public:
 	// constrcuter destructer
-	PhysXCapsuleComponent();
-	~PhysXCapsuleComponent();
+	PhysXShpereComponent();
+	~PhysXShpereComponent();
 
 	// delete Function
-	PhysXCapsuleComponent(const PhysXCapsuleComponent& _Other) = delete;
-	PhysXCapsuleComponent(PhysXCapsuleComponent&& _Other) noexcept = delete;
-	PhysXCapsuleComponent& operator=(const PhysXCapsuleComponent& _Other) = delete;
-	PhysXCapsuleComponent& operator=(PhysXCapsuleComponent&& _Other) noexcept = delete;
+	PhysXShpereComponent(const PhysXShpereComponent& _Other) = delete;
+	PhysXShpereComponent(PhysXShpereComponent&& _Other) noexcept = delete;
+	PhysXShpereComponent& operator=(const PhysXShpereComponent& _Other) = delete;
+	PhysXShpereComponent& operator=(PhysXShpereComponent&& _Other) noexcept = delete;
 
 	physx::PxRigidDynamic* CreatePhysXActors(physx::PxScene* _Scene, physx::PxPhysics* _physics, physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f });
 
@@ -56,27 +56,24 @@ public:
 		return float4(m_pDynamic->getGlobalPose().p.x, m_pDynamic->getGlobalPose().p.y, m_pDynamic->getGlobalPose().p.z);
 	}
 
-	void SetPlayerStartPos(float4 _Pos);
 
 	void PushImpulse(float4 _ImpulsePower);
 	void PushImpulseAtLocalPos(float4 _ImpulsePower, float4 _Pos);
 
-	bool PlayerStandUp(float _DeltaTime, bool _IsXAixisRotReady);
-	bool StandUp2(float _DeltaTime, bool _IsXAixisRotReady);
 
 	void TurnOffSpeedLimit()
 	{
-		m_bSpeedLimit = false;
+		IsSpeedLimit = false;
 	}
 
 	void TurnOnSpeedLimit()
 	{
-		m_bSpeedLimit = true;
+		IsSpeedLimit = true;
 	}
 
 	void SwitchSpeedLimit()
 	{
-		m_bSpeedLimit = !m_bSpeedLimit;
+		IsSpeedLimit = !IsSpeedLimit;
 	}
 
 	float4 GetDynamicVelocity()
@@ -102,10 +99,6 @@ public:
 
 	//void LockAxis();
 
-	inline void SetIsMain(bool _Flag)
-	{
-		IsMain = _Flag;
-	}
 
 	//플레이어 멈추는 함수
 	void FreezeDynamic();
@@ -143,7 +136,7 @@ private:
 	physx::PxShape* m_pShape = nullptr;
 	physx::PxRigidDynamic* m_pDynamic = nullptr;
 
-	bool m_bSpeedLimit = false;
+	bool IsSpeedLimit = false;
 
 	// 이 컴포넌트를 가지고 있는 Parent에 대한 정보
 	std::weak_ptr<class GameEngineActor> ParentActor;

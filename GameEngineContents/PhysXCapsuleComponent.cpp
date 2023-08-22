@@ -162,7 +162,7 @@ void PhysXCapsuleComponent::Update(float _DeltaTime)
 	ParentActor.lock()->GetTransform()->SetWorldRotation(float4{ EulerRot.x, EulerRot.y, EulerRot.z });
 	ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
 
-	if (IsSpeedLimit == true)
+	if (m_bSpeedLimit == true)
 	{
 		SpeedLimit();
 	}

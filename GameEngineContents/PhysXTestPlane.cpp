@@ -24,9 +24,9 @@ void PhysXTestPlane::Start()
 	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 
 
-	std::shared_ptr<PhysXBoxComponent> pBoxComp = CreateComponent<PhysXBoxComponent>();
 	if (GetLevel()->DynamicThis<PhysXTestLevel>() != nullptr)
 	{
+		std::shared_ptr<PhysXBoxComponent> pBoxComp = CreateComponent<PhysXBoxComponent>();
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
 		pBoxComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
 		pBoxComp->SetPositionSetFromParentFlag(true);

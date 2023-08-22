@@ -25,7 +25,7 @@ void PhysXTestActor::Start()
 	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
 	pRenderer->SetFBXMesh("Armature.fbx", "MeshTexture");
 	pRenderer->GetFBXMesh();
-	GetTransform()->SetLocalPosition(float4(0.f, 300.f, 0.f));
+	GetTransform()->SetLocalPosition(float4(0.f, 0.f, 0.f));
 
 	float4 scale = pRenderer->GetMeshScale();
 	//pRenderer->GetTransform()->AddLocalPosition(float4(0.f, -scale.hy(), 0.f));
@@ -41,13 +41,14 @@ void PhysXTestActor::Start()
 	{
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
 
+		m_pCapsuleComp->SetPhysxMaterial(1.5f, 0.1f, 1.f);
 		m_pCapsuleComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics,vscale);
 		//m_pConvexComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking, true, vscale);
 		//m_pTriangleComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking,true ,vscale);
 		//m_pDynamicActorComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
 
-		
-
+		m_pCapsuleComp->GetDynamic()->setMass(1.f);
+		m_pCapsuleComp->TurnOnSpeedLimit();
 		//m_pGeometryComp->SetGravity(true);
 		//m_pGeometryComp->SetRestitution(2.f);
 		//m_pGeometryComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
@@ -94,13 +95,12 @@ void PhysXTestActor::Update(float _DeltaTime)
 	}
 	
 	Movedir.Normalize();
-	physx::PxTransform test= float4::PhysXTransformReturn(GetTransform()->GetWorldRotation(), Movedir * 500.f * _DeltaTime);
-	physx::PxTransform test2 = m_pCapsuleComp->GetDynamic()->getGlobalPose();
-	test.p += test2.p;
+	//physx::PxTransform test= float4::PhysXTransformReturn(GetTransform()->GetWorldRotation(), Movedir * 500.f * _DeltaTime);
+	//physx::PxTransform test2 = m_pCapsuleComp->GetDynamic()->getGlobalPose();
+	//test.p += test2.p;
+	//m_pCapsuleComp->GetDynamic()->setGlobalPose(test);
 
-	m_pCapsuleComp->GetDynamic()->setGlobalPose(test);
-	//m_pCapsuleComp->SetMoveSpeed(Movedir * 5000.f * _DeltaTime);
+	m_pCapsuleComp->SetMoveSpeed(Movedir * 100.f);
 	//m_pCapsuleComp->SetChangedRot(GetTransform()->GetWorldRotation());
-	int a = 0;
 };
 
