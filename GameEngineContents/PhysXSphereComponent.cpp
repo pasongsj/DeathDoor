@@ -49,7 +49,6 @@ physx::PxRigidDynamic* PhysXSphereComponent::CreatePhysXActors(physx::PxScene* _
 
 	// 충돌체의 종류
 	m_pRigidDynamic = _physics->createRigidDynamic(localTm);
-
 	// 특정 축을 따라/주위로 동작을 잠그는 메커니즘을 제공하는 플래그 모음
 	m_pRigidDynamic->setRigidDynamicLockFlags
 	(
@@ -70,12 +69,12 @@ physx::PxRigidDynamic* PhysXSphereComponent::CreatePhysXActors(physx::PxScene* _
 	// TODO::부모 액터의 RenderUnit으로부터 Mesh의 Scale 과 WorldScale의 연산의 결과를 지오메트리의 Scale로 세팅해야함.
 	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidDynamic,physx::PxSphereGeometry(physx::PxReal(_GeoMetryScale.y*0.5f)), *m_pMaterial);
 
+	m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
 	// RigidDynamic의 밀도를 설정
 	physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.01f);
 
 	//피벗 설정
-	float CapsuleHeight = ScaledHeight * 1.f;
-	physx::PxVec3 DynamicCenter = physx::PxVec3{ 0.0f, CapsuleHeight, 0.0f };
+	physx::PxVec3 DynamicCenter = physx::PxVec3{ 0.0f, ScaledHeight, 0.0f };
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 	relativePose.p = DynamicCenter;
 	m_pShape->setLocalPose(relativePose);

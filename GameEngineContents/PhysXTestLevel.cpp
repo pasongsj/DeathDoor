@@ -34,9 +34,6 @@ void PhysXTestLevel::LevelChangeStart()
 	CreateActor<PhysXTestPlane>();
 
 	std::shared_ptr<PhysXTestPlane> pWallPlane = CreateActor<PhysXTestPlane>();
-	pWallPlane->GetTransform()->AddWorldPosition(float4{ 100, 0, 100 });
-	pWallPlane->GetTransform()->AddWorldRotation(float4{ 0, 0, 90 });
-	pWallPlane->GetTransform()->AddWorldRotation(float4{ 0, -45, 0 });
 }
 
 void PhysXTestLevel::LevelChangeEnd()

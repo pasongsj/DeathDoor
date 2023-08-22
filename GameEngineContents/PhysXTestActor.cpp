@@ -43,9 +43,8 @@ void PhysXTestActor::Start()
 	{
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
 
-		m_pSphereComp->SetPhysxMaterial(1.5f, 0.1f, 1.f);
+		m_pSphereComp->SetPhysxMaterial(2.f, 0.f, 0.f);
 		m_pSphereComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics,vscale);
-		m_pSphereComp->SetUnlockAxis();
 		m_pSphereComp->GetDynamic()->setMass(1.f);
 		m_pSphereComp->TurnOnSpeedLimit();
 		
@@ -108,7 +107,8 @@ void PhysXTestActor::Update(float _DeltaTime)
 	//test.p += test2.p;
 	//m_pCapsuleComp->GetDynamic()->setGlobalPose(test);
 
-	m_pSphereComp->SetMoveSpeed(Movedir * 100.f);
+	m_pSphereComp->SetUnlockAxis();
+	m_pSphereComp->SetMoveSpeed(Movedir * 300);
 	//m_pCapsuleComp->SetChangedRot(GetTransform()->GetWorldRotation());
 };
 

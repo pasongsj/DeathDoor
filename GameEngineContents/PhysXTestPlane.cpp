@@ -14,6 +14,7 @@ PhysXTestPlane::~PhysXTestPlane()
 {
 }
 
+int  PhysXTestPlane::Count=0;
 void PhysXTestPlane::Start()
 {
 	GetTransform()->SetLocalPosition({ 0.f,-100.f,0.f });
@@ -26,11 +27,14 @@ void PhysXTestPlane::Start()
 
 	if (GetLevel()->DynamicThis<PhysXTestLevel>() != nullptr)
 	{
-		std::shared_ptr<PhysXBoxComponent> pBoxComp = CreateComponent<PhysXBoxComponent>();
+		m_pBoxComp = CreateComponent<PhysXBoxComponent>();
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
-		pBoxComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
-		pBoxComp->SetPositionSetFromParentFlag(true);
-
+		if(Count!=0)
+		{
+			GetTransform()->AddWorldRotation(float4{ 0, 45, 10 });
+		}
+		m_pBoxComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale,GetTransform()->GetWorldRotation());
+		++Count;
 	}
 }
 
