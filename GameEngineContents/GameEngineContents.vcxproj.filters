@@ -86,13 +86,22 @@
       <Filter>Server\Packet</Filter>
     </ClCompile>
     <ClCompile Include="StartLevel.cpp">
-      <Filter>StartLevel</Filter>
+      <Filter>Level\StartLevel</Filter>
     </ClCompile>
     <ClCompile Include="StartUI.cpp">
-      <Filter>StartLevel\Actor</Filter>
+      <Filter>Level\StartLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="ContentSpriteRenderer.cpp">
       <Filter>ContentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentUIRenderer.cpp">
+      <Filter>ContentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectLevel.cpp">
+      <Filter>Level\SelectLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterList.cpp">
+      <Filter>Level\SelectLevel\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,13 +194,22 @@
       <Filter>Server\Packet</Filter>
     </ClInclude>
     <ClInclude Include="StartLevel.h">
-      <Filter>StartLevel</Filter>
+      <Filter>Level\StartLevel</Filter>
     </ClInclude>
     <ClInclude Include="StartUI.h">
-      <Filter>StartLevel\Actor</Filter>
+      <Filter>Level\StartLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="ContentSpriteRenderer.h">
       <Filter>ContentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentUIRenderer.h">
+      <Filter>ContentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectLevel.h">
+      <Filter>Level\SelectLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterList.h">
+      <Filter>Level\SelectLevel\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -258,11 +276,20 @@
     <Filter Include="Server\Packet">
       <UniqueIdentifier>{87cb09f1-9269-4a47-95d9-45d86e4e2d4f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="StartLevel">
+    <Filter Include="Level">
+      <UniqueIdentifier>{7247da7d-5323-4fde-a1b6-8be3bacbb3d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\SelectLevel">
+      <UniqueIdentifier>{e76c41f3-ab62-481f-aacc-477d78051cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\StartLevel">
       <UniqueIdentifier>{ce82898a-ce38-4483-8266-4f610cbc57f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="StartLevel\Actor">
+    <Filter Include="Level\StartLevel\Actor">
       <UniqueIdentifier>{c1dcac4a-2650-4b32-b061-bf2031510580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\SelectLevel\Actor">
+      <UniqueIdentifier>{1dc1bd94-bc76-4877-8c08-eb966b4ba3a2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

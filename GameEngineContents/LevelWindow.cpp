@@ -7,6 +7,7 @@
 #include "MapEditorLevel.h"
 #include "PhysXTestLevel.h"
 #include "StartLevel.h"
+#include "SelectLevel.h"
 
 LevelWindow::LevelWindow() 
 {
@@ -58,10 +59,16 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		GameEngineCore::ChangeLevel("MapEditorLevel");
 	}
 
-	if (ImGui::Button("StartLevel") && Level->DynamicThis<MapEditorLevel>().get() != GetLevel())
+	if (ImGui::Button("StartLevel") && Level->DynamicThis<StartLevel>().get() != GetLevel())
 	{
 		m_CurLevelName = "StartLevel";
 		GameEngineCore::ChangeLevel("StartLevel");
+	}
+
+	if (ImGui::Button("SelectLevel") && Level->DynamicThis<SelectLevel>().get() != GetLevel())
+	{
+		m_CurLevelName = "SelectLevel";
+		GameEngineCore::ChangeLevel("SelectLevel");
 	}
 
 	ImGui::Text("CurCameraMode :");

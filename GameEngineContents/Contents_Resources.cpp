@@ -32,9 +32,9 @@ void ContentsCore::ContentsResourcesCreate()
 	{
 		D3D11_SAMPLER_DESC SamperData = {};
 		SamperData.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-		SamperData.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-		SamperData.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-		SamperData.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+		SamperData.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+		SamperData.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+		SamperData.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 		// ≈ÿΩ∫√≥∞° ∏÷∏Æ¿÷¿ª∂ß π∂∞∂≤®≥ƒ
 		// æ»π∂∞µ¥Ÿ.
 		SamperData.MipLODBias = 0.0f;
@@ -196,9 +196,9 @@ void ContentsCore::ContentsResourcesCreate()
 		NewDir.Move("ContentResources");
 		NewDir.Move("Mesh");
 		NewDir.Move("Characters");
-
+		
 		std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".FBX" });
-
+		
 		for (size_t i = 0; i < Files.size(); i++)
 		{
 			GameEngineFBXMesh::Load(Files[i].GetFullPath());
