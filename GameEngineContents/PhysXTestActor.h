@@ -25,5 +25,6 @@ private:
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
 	std::shared_ptr<class PhysXConvexComponent> m_pConvexComp = nullptr;
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
+	std::shared_ptr<class PhysXSphereComponent> m_pSphereComp = nullptr;
 };
 
