@@ -68,7 +68,7 @@ physx::PxRigidDynamic* PhysXSphereComponent::CreatePhysXActors(physx::PxScene* _
 	// 충돌체의 형태
 	// 충돌체의 크기는 절반의 크기를 설정하므로 실제 Renderer의 스케일은 충돌체의 2배로 설정되어야 함
 	// TODO::부모 액터의 RenderUnit으로부터 Mesh의 Scale 과 WorldScale의 연산의 결과를 지오메트리의 Scale로 세팅해야함.
-	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidDynamic,physx::PxSphereGeometry(physx::PxReal(_GeoMetryScale.x*0.5f)), *m_pMaterial);
+	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidDynamic,physx::PxSphereGeometry(physx::PxReal(_GeoMetryScale.y*0.5f)), *m_pMaterial);
 
 	// RigidDynamic의 밀도를 설정
 	physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.01f);
