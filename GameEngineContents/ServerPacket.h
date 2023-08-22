@@ -15,13 +15,24 @@ enum class PacketEnum
 	ObjectUpdatePacket,
 };
 
-enum class PacketObjectType
+//enum class PacketObjectType // 필요없을지도
+//{
+//	Player,
+//	Boomerang,
+//	Map,
+//	Level,
+//	None,
+//};
+
+enum class PacketLevelType
 {
-	Player,
-	Boomerang,
-	Map,
-	Level,
-	None,
+	CenterLevel,
+	TestLevel,
+	ServerTestLevel,
+	MapEditorLevel,
+	PhysXTestLevel,
+	StartLevel,
+	ChangLevel
 };
 
 enum class PacketDataType
@@ -30,6 +41,7 @@ enum class PacketDataType
 	State,
 	CharacterType,
 	Items,
+	ChangeLevel
 };
 
 enum class PacketPlayerMeshType
@@ -49,7 +61,9 @@ enum class PacketPlayerMeshType
 //_Ser >> PacketID;
 //_Ser >> Size;
 //_Ser >> ObjectID;
-//_Ser >> ObjectType;
+
+//_Ser >> Level;
+					//_Ser >> ObjectType;
 //_Ser >> DataType;
 //_ser >> 최종 데이터
 
@@ -68,8 +82,8 @@ public:
 	~ObjectUpdatePacket()
 	{
 	}
-
-	PacketObjectType ObjectType;
+	PacketLevelType LevelType;
+	//PacketObjectType ObjectType;
 	//Transform,
 	//State,
 	//CharacterType,
@@ -87,6 +101,7 @@ public:
 		PacketObjectBaseState ObjectState;
 		PacketPlayerMeshType PlayerMeshType;
 		// items
+		std::string NextLevelName;
 	};
 
 	
@@ -95,7 +110,8 @@ protected:
 	void Serialize(GameEngineSerializer& _Ser) override
 	{
 		GameEnginePacket::Serialize(_Ser);
-		_Ser.WriteEnum(ObjectType);
+		_Ser.WriteEnum(LevelType);
+		//_Ser.WriteEnum(ObjectType);
 		_Ser.WriteEnum(DataType);
 		switch (DataType)
 		{
@@ -120,6 +136,11 @@ protected:
 		{
 			break;
 		}
+		case PacketDataType::ChangeLevel:
+		{
+			_Ser << NextLevelName;
+			break;
+		}
 		default:
 			break;
 		}
@@ -129,7 +150,8 @@ protected:
 	void DeSeralize(GameEngineSerializer& _Ser) override
 	{
 		GameEnginePacket::DeSeralize(_Ser);
-		_Ser.ReadEnum(ObjectType);
+		_Ser.ReadEnum(LevelType);
+		//_Ser.ReadEnum(ObjectType);
 		_Ser.ReadEnum(DataType);
 		switch (DataType)
 		{
@@ -152,6 +174,11 @@ protected:
 		}
 		case PacketDataType::Items:
 		{
+			break;
+		}
+		case PacketDataType::ChangeLevel:
+		{
+			_Ser >> NextLevelName;
 			break;
 		}
 		default:

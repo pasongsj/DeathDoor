@@ -100,7 +100,16 @@ public:
 		return Actors[_Index];
 	}
 	
+	inline int GetLevelType()
+	{
+		return LevelType;
+	}
 
+	template<typename EnumType>
+	inline EnumType GetLevelType()
+	{
+		return static_cast<EnumType>(LevelType);
+	}
 protected:
 	// 레벨이 바뀌어서 시작할때
 	virtual void LevelChangeStart();
@@ -111,8 +120,22 @@ protected:
 	void Render(float _DeltaTime);
 
 	void AllActorDestroy();
+
+	template<typename EnumType>
+	inline void SetLevelType(EnumType _Type)
+	{
+		LevelType = static_cast<int>(_Type);
+	}
+
+	inline void SetLevelType(int _Type)
+	{
+		LevelType = _Type;
+	}
+
+
 private:
 	static bool IsDebugRender;
+	int LevelType = -1;
 
 	// 모든 카메라의 내용이 다 종합된.
 	std::shared_ptr<GameEngineRenderTarget> LastTarget;
@@ -153,7 +176,7 @@ private:
 	void TextureReLoad(GameEngineLevel* _PrevLevel);
 
 	// user >> server
-	void SendActorPacket(float _DeltaTime);
+	//void SendActorPacket(float _DeltaTime);
 
 };
 

@@ -59,38 +59,33 @@ void TestObject::NetUpdate(float _DeltaTime)
 		{
 		case PacketEnum::ObjectUpdatePacket:
 		{
-			//std::shared_ptr<ObjectUpdatePacket> Pack = GetFirstPacket<ObjectUpdatePacket>();
-			//if (PacketObjectType::Player != Pack->ObjectType)
-			//{
-			//	return;
-			//}
-			
-			//PacketObjectType OjType = GetPackectObjectType<PacketObjectType>();
 			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = PopFirstPacket<ObjectUpdatePacket>();
-			if(PacketObjectType::Player == ObjectUpdate->ObjectType)
+			if (ObjectUpdate->LevelType != GetLevel()->GetLevelType<PacketLevelType>())
 			{
-				PacketDataType Type = ObjectUpdate->DataType;
-
-				switch (Type)
-				{
-				case PacketDataType::Transform:
-					//GetTransform()->SetLocalPosition(ObjectUpdate->Scale);
-					GetTransform()->SetLocalPosition(ObjectUpdate->Position);
-					GetTransform()->SetLocalRotation(ObjectUpdate->Rotation);
-					break;
-				case PacketDataType::State:
-					//ChangeSate
-					break;
-				case PacketDataType::CharacterType:
-					//Change Animation
-					break;
-				case PacketDataType::Items:
-					// items
-					break;
-				default:
-					break;
-				}
+				//현재 레벨에 해당하지 않는 패킷을 보냈습니다.
+				break;
 			}
+			PacketDataType Type = ObjectUpdate->DataType;
+			switch (Type)
+			{
+			case PacketDataType::Transform:
+				GetTransform()->SetLocalPosition(ObjectUpdate->Scale);
+				GetTransform()->SetLocalPosition(ObjectUpdate->Position);
+				GetTransform()->SetLocalRotation(ObjectUpdate->Rotation);
+				break;
+			case PacketDataType::State:
+				//ChangeSate
+				break;
+			case PacketDataType::CharacterType:
+				//Change Animation
+				break;
+			case PacketDataType::Items:
+				// items
+				break;
+			default:
+				break;
+			}
+
 			break;
 		}
 		default:
@@ -141,18 +136,8 @@ void TestObject::UserUpdate(float _DeltaTime)
 }
 
 
-void TestObject::SendNetPacket(float _DeltaTime)
+void TestObject::SendNetPacket()
 {
-	static float Delta = 0.0f;
-
-	Delta += _DeltaTime;
-
-	if (Delta <= 1.0f / 60.0f)
-	{
-		return;
-	}
-
-	Delta -= 1.0f / 60.0f;
 
 	if (true == IsNet())
 	{
@@ -160,7 +145,8 @@ void TestObject::SendNetPacket(float _DeltaTime)
 		{
 			std::shared_ptr<ObjectUpdatePacket> NewPacket = std::make_shared<ObjectUpdatePacket>();
 			NewPacket->SetObjectID(GetNetObjectID());
-			NewPacket->ObjectType = PacketObjectType::Player;
+			NewPacket->LevelType = GetLevel()->GetLevelType<PacketLevelType>();
+			//NewPacket->ObjectType = PacketObjectType::Player;
 			NewPacket->DataType = PacketDataType::Transform;
 			NewPacket->Scale = GetTransform()->GetLocalScale();
 			NewPacket->Position = GetTransform()->GetLocalPosition();
@@ -168,13 +154,13 @@ void TestObject::SendNetPacket(float _DeltaTime)
 			GetNet()->SendPacket(NewPacket);
 		}
 		//state보내기
-		{
-			std::shared_ptr<ObjectUpdatePacket> NewPacket = std::make_shared<ObjectUpdatePacket>();
-			NewPacket->SetObjectID(GetNetObjectID());
-			NewPacket->ObjectType = PacketObjectType::Player;
-			NewPacket->DataType = PacketDataType::State;
-			NewPacket->ObjectState = PacketObjectBaseState::Base;
-			GetNet()->SendPacket(NewPacket);
-		}
+		//{
+		//	std::shared_ptr<ObjectUpdatePacket> NewPacket = std::make_shared<ObjectUpdatePacket>();
+		//	NewPacket->SetObjectID(GetNetObjectID());
+		//	NewPacket->ObjectType = PacketObjectType::Player;
+		//	NewPacket->DataType = PacketDataType::State;
+		//	NewPacket->ObjectState = PacketObjectBaseState::Base;
+		//	GetNet()->SendPacket(NewPacket);
+		//}
 	}
 }

@@ -15,10 +15,20 @@ public:
 	GameContentsMapActor& operator=(const GameContentsMapActor& _Other) = delete;
 	GameContentsMapActor& operator=(GameContentsMapActor&& _Other) noexcept = delete;
 
+	void SetCurrentActor()
+	{
+		BlinkOoption = true;
+	}
+
+
 protected:
+
+	void Update(float _DeltaTime) override;
 
 private:
 	std::shared_ptr<class GameEngineFBXRenderer> Renderer = nullptr;
+
+	bool BlinkOoption = false;
 	
 };
 

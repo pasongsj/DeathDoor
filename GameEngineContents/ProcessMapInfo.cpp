@@ -263,7 +263,7 @@ std::vector<SponeMapActor> ProcessMapInfo::ReadFromText(GameEnginePath _Path)
 		NewStruct.LocPos.w = stof(Source);
 		// Ratio
 		getline(s2, Source, ',');
-		NewStruct.LocRot.x = stof(Source);
+		NewStruct.ScaleRatio = stof(Source);
 		// fbx name
 		getline(s2, Source, ',');
 		NewStruct.FBXNameLen = stoi(Source);

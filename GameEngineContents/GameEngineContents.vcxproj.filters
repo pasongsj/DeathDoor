@@ -52,9 +52,6 @@
     <ClCompile Include="GameContentsMapActor.cpp">
       <Filter>NetObejct</Filter>
     </ClCompile>
-    <ClCompile Include="GameContentsNetActor.cpp">
-      <Filter>NetObejct</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerBase.cpp">
       <Filter>Player</Filter>
     </ClCompile>
@@ -158,9 +155,6 @@
     </ClInclude>
     <ClInclude Include="SinkBox_4x4.h">
       <Filter>PlayLevel\MapActor</Filter>
-    </ClInclude>
-    <ClInclude Include="GameContentsNetActor.h">
-      <Filter>NetObejct</Filter>
     </ClInclude>
     <ClInclude Include="GameContentsMapActor.h">
       <Filter>NetObejct</Filter>

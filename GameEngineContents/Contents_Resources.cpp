@@ -203,7 +203,7 @@ void ContentsCore::ContentsResourcesCreate()
 		{
 			GameEngineFBXMesh::Load(Files[i].GetFullPath());
 		}
-		
+
 		NewDir.MoveParent();
 		NewDir.Move("Map");
 		
@@ -213,9 +213,6 @@ void ContentsCore::ContentsResourcesCreate()
 		{
 			GameEngineFBXMesh::Load(MapFiles[i].GetFullPath());
 		}
-
-		//GameEngineVertexShader::Load(Files[0].GetFullPath(), "MyShader_VS");
-		//GameEnginePixelShader::Load(Files[0].GetFullPath(), "MyShader_PS");
 	}
 	
 

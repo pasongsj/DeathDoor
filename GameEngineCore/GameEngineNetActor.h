@@ -18,7 +18,7 @@ public:
 	GameEngineNetActor& operator=(GameEngineNetActor&& _Other) noexcept = delete;
 
 protected:
-	virtual void SendNetPacket(float _DeltaTime) {};
+	
 
 private:
 

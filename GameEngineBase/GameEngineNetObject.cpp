@@ -27,3 +27,23 @@ void GameEngineNetObject::PushPacket(std::shared_ptr<GameEnginePacket> _Packet)
 {
 	Packets.push_back(_Packet);
 }
+
+void GameEngineNetObject::SendAllPacket(float DeltaTime)
+{
+	static float SendInterval = 0.0f;
+	SendInterval += DeltaTime;
+	if (SendInterval <= 1.0f / 60.0f)
+	{
+		return;
+	}
+
+	SendInterval -= 1.0f / 60.0f;
+	for (std::pair<int,GameEngineNetObject*> NetObj : AllNetObjects)
+	{
+		GameEngineNetObject* CurObj = (NetObj.second);
+		if (true == CurObj->IsNet())
+		{
+			CurObj->SendNetPacket();
+		}
+	}
+}

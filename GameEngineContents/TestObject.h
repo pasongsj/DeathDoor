@@ -25,7 +25,7 @@ protected:
 	void NetUpdate(float _DeltaTime);
 	//void ServerUpdate(float _DeltaTime);
 
-	void SendNetPacket(float _DeltaTime) override;
+	void SendNetPacket() override;
 
 private:
 

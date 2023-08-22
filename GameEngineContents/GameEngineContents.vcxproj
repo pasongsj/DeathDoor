@@ -187,7 +187,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
-    <ClCompile Include="GameContentsNetActor.cpp" />
     <ClCompile Include="LevelWindow.cpp">
       <SubType>
       </SubType>
@@ -303,7 +302,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameContentsMapActor.h" />
-    <ClInclude Include="GameContentsNetActor.h" />
     <ClInclude Include="LevelWindow.h">
       <SubType>
       </SubType>
