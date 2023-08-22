@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include "ContentStruct.h"
 
 class StartUI : public GameEngineActor
 {
@@ -20,22 +21,27 @@ protected:
 	void Render(float _DelTa) override;
 private:
 	void LogoUpdate(float _Delta);
+	
+	void SetUIobject();
+	void SetBackGroundObject();
+	void SetCharacter();
 
 	std::shared_ptr<class GameEngineSpriteRenderer> BackGround_Sky = nullptr;
 
-	std::shared_ptr<class ContentSpriteRenderer> WhiteLine_Up = nullptr;
-	std::shared_ptr<class ContentSpriteRenderer> WhiteLine_Down = nullptr;
+	std::shared_ptr<class ContentUIRenderer> WhiteLine_Up = nullptr;
+	std::shared_ptr<class ContentUIRenderer> WhiteLine_Down = nullptr;
 	float AddUV = 0.0f;
 
-	std::shared_ptr<class GameEngineSpriteRenderer> Logo_Boomerang = nullptr;
+	std::shared_ptr<class GameEngineUIRenderer> Logo_Boomerang = nullptr;
 	float RotAngle_Logo_Boomerang = 0.0f;
 	float MoveAngle_Logo_Boomerang = 0.0f;
 
-	std::shared_ptr<class GameEngineSpriteRenderer> Logo_F = nullptr;
-	std::shared_ptr<class GameEngineSpriteRenderer> Logo_U = nullptr;
+	std::shared_ptr<class GameEngineUIRenderer> Logo_F = nullptr;
+	std::shared_ptr<class GameEngineUIRenderer> Logo_U = nullptr;
 	float ScaleAngle_Logo_FU = 0.0f;
 
-	std::shared_ptr<class GameEngineSpriteRenderer> Logo_Arrow = nullptr;
+	std::shared_ptr<class GameEngineUIRenderer> Logo_Arrow = nullptr;
 
+	float CameraZoomAngle = 0.0f;
 };
 

@@ -170,11 +170,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="CharacterList.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentFBXRenderer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="ContentSpriteRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentUIRenderer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -230,6 +238,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="SelectLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ServerPacket.cpp" />
     <ClCompile Include="ServerTestLevel.cpp">
       <SubType>
@@ -270,7 +282,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="CharacterList.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentSpriteRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentUIRenderer.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -331,6 +351,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ProcessMapInfo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SelectLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

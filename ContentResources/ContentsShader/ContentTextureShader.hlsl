@@ -67,7 +67,7 @@ OutPut ContentTexture_VS(Input _Value)
     
     OutPutValue.UV.x = _Value.UV.x * MaxUV_x + AddTimeToUV_x;
     OutPutValue.UV.y = _Value.UV.y * MAXUV_y + AddTimeToUV_y;
-    
+        
     return OutPutValue;
 }
 
