@@ -27,6 +27,7 @@ void PhysXTestLevel::LevelChangeStart()
 {
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 0, -1000.0f });
+	GetMainCamera()->GetTransform()->SetLocalRotation({ 90, 0, 0.0f });
 
 	Initialize();
 
