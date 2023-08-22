@@ -8,7 +8,7 @@ class GameEngineRenderUnit
 {
 public:
 	GameEngineShaderResHelper ShaderResHelper;
-	std::shared_ptr<class GameEngineMaterial> Pipe;
+	std::shared_ptr<class GameEngineMaterial> Material;
 
 	GameEngineRenderUnit();
 	void SetMesh(const std::string_view& _Name);

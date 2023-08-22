@@ -596,6 +596,8 @@ struct Bone : public GameEngineSerializObject
 // Ό³Έν :
 class GameEngineFBXMesh : public GameEngineFBX, public GameEngineResource<GameEngineFBXMesh>
 {
+	friend class GameEngineFBXAnimation;
+
 public:
 	// constrcuter destructer
 	GameEngineFBXMesh();

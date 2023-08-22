@@ -509,15 +509,18 @@ void MapEditorWindow::SaveActors()
 
 void MapEditorWindow::ReadActor(std::shared_ptr<GameEngineLevel> Level)
 {
-	GameEngineFile file = GameEngineFile(FilePath.GetFullPath());
+	GameEngineFile file = GameEngineFile(FilePath);
 	if (file.GetFileSize() == 0)
 	{
-		int a = 0;
-
 		return;
 	}
 	
 	std::vector<SponeMapActor> AllInfo = ProcessMapInfo::OpenFile(FilePath);
+	if (std::string::npos != FilePath.GetFileName().find("read.csv"))
+	{
+		size_t index = FilePath.GetFullPath().find("read.csv");
+		FilePath.SetPath(FilePath.GetFullPath().substr(0, index));
+	}
 	for (SponeMapActor _str : AllInfo)
 	{
 		FBXName = _str.FBXName;
@@ -610,7 +613,7 @@ void MapEditorWindow::Explorer(std::string& _Name, const std::string_view& _Star
 	NewDir.MoveParentToDirectory("ContentResources");
 	NewDir.Move("ContentResources");
 	NewDir.Move("Mesh");
-	std::string Initpath = NewDir.GetPath().GetFullPath();
+	std::string Initpath = NewDir.GetFullPath();
 	std::wstring strFolderPath = GameEngineString::AnsiToUniCode(Initpath);
 
 	if (_StartPath != "")

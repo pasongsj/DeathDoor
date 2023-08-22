@@ -3,12 +3,13 @@
 #include "GameEngineConstantBuffer.h"
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
+#include "GameEngineStructuredBuffer.h"
 
-GameEngineShader::GameEngineShader() 
+GameEngineShader::GameEngineShader()
 {
 }
 
-GameEngineShader::~GameEngineShader() 
+GameEngineShader::~GameEngineShader()
 {
 	if (nullptr != BinaryCode)
 	{
@@ -73,7 +74,7 @@ void GameEngineShader::ShaderResCheck()
 
 			D3D11_SHADER_BUFFER_DESC BufferDesc;
 			CBufferPtr->GetDesc(&BufferDesc);
-			
+
 			std::shared_ptr<GameEngineConstantBuffer> Res = GameEngineConstantBuffer::CreateAndFind(BufferDesc.Size, UpperName, BufferDesc);
 
 			GameEngineConstantBufferSetter Setter;
@@ -120,6 +121,26 @@ void GameEngineShader::ShaderResCheck()
 			Setter.Res = Res;
 
 			ResHelper.CreateSamplerSetter(Setter);
+			break;
+		}
+		case D3D_SIT_STRUCTURED:
+		{
+			// 스트럭처드 버퍼는 텍스처 슬롯을 사용합니다.
+			// 기본적으로 텍스처로 판단합니다.
+
+			ID3D11ShaderReflectionConstantBuffer* SBufferPtr = CompileInfo->GetConstantBufferByName(ResDesc.Name);
+			D3D11_SHADER_BUFFER_DESC BufferDesc;
+			SBufferPtr->GetDesc(&BufferDesc);
+
+			std::shared_ptr<GameEngineStructuredBuffer> Res = GameEngineStructuredBuffer::CreateAndFind(Name, BufferDesc, 0);
+
+			GameEngineStructuredBufferSetter Setter;
+			Setter.ParentShader = this;
+			Setter.Name = UpperName;
+			Setter.BindPoint = ResDesc.BindPoint;
+			Setter.Res = Res;
+
+			ResHelper.CreateStructuredBufferSetter(Setter);
 			break;
 		}
 		default:
