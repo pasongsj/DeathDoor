@@ -15,9 +15,12 @@ public:
 	GameContentsMapActor& operator=(const GameContentsMapActor& _Other) = delete;
 	GameContentsMapActor& operator=(GameContentsMapActor&& _Other) noexcept = delete;
 
-	void SetCurrentActor()
+	void SetFlickers()
 	{
-		BlinkOoption = true;
+		Flickoption = true;
+		FlickDuration = 5.0f;
+		FlickInterval = 0.5f;
+
 	}
 
 
@@ -28,7 +31,8 @@ protected:
 private:
 	std::shared_ptr<class GameEngineFBXRenderer> Renderer = nullptr;
 
-	bool BlinkOoption = false;
-	
+	bool Flickoption = false;
+	float FlickDuration = 5.0f;
+	float FlickInterval = 0.5f;
 };
 

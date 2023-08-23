@@ -46,6 +46,7 @@ private:
 	float4 CurRot = float4::ZERO;
 	float4 CurPos = float4::ZERO;
 
+	float4 meshscale = float4::ZERO;
 
 	//editor func
 	void SettingCurActor(std::shared_ptr<class GameEngineLevel> Level);
@@ -76,7 +77,7 @@ private:
 	void SaveActors();
 	void ClearCurFile();
 
-
+	void CheckCurActor();
 
 
 
