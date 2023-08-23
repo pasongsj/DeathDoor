@@ -66,7 +66,7 @@ Output ContentMeshTexture_VS(Input _Input)
     // NewOutPut.POSITION = mul(_Input.POSITION, ArrAniMationMatrix[_Input.BLENDINDICES[0]].Mat);
     NewOutPut.POSITION = mul(NewOutPut.POSITION, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
-    NewOutPut.NORMAL = _Input.NORMAL;
+    //NewOutPut.NORMAL = _Input.NORMAL;
         
     return NewOutPut;
 }
