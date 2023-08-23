@@ -1,14 +1,15 @@
 #pragma once
 #include "GameEngineComponent.h"
 #include "GameEngineShader.h"
-#include "EngineContentRenderingStruct.h"
+//#include "EngineContentRenderingStruct.h"
 
-class GameEngineRenderUnit 
-	: public std::enable_shared_from_this<GameEngineRenderUnit>
+class GameEngineRenderUnit : public GameEngineObjectBase, public std::enable_shared_from_this<GameEngineRenderUnit>
 {
 public:
 	GameEngineShaderResHelper ShaderResHelper;
 	std::shared_ptr<class GameEngineMaterial> Material;
+
+	std::function<void(float)> RenderFunction;
 
 	GameEngineRenderUnit();
 	void SetMesh(const std::string_view& _Name);
@@ -22,7 +23,7 @@ public:
 		return ParentRenderer;
 	}
 
-	ColorOption Color = { {1, 1, 1, 1}, {0, 0, 0, 0} };
+	//ColorOption Color = { {1, 1, 1, 1}, {0, 0, 0, 0} };
 
 private:
 	GameEngineRenderer* ParentRenderer = nullptr;
@@ -31,7 +32,7 @@ private:
 };
 
 
-class RenderBaseValue 
+class RenderBaseValue
 {
 public:
 	float DeltaTime = 0.0f;
@@ -76,26 +77,26 @@ public:
 	// 이걸 사용하게되면 이 랜더러의 유니트는 자신만의 클론 파이프라인을 가지게 된다.
 	// std::shared_ptr<GameEngineMaterial> GetPipeLineClone(int _index = 0);
 
-	inline GameEngineShaderResHelper& GetShaderResHelper(int _index = 0) 
+	inline GameEngineShaderResHelper& GetShaderResHelper(int _index = 0)
 	{
 		return Units[_index]->ShaderResHelper;
 	}
 
-	void CameraCullingOn() 
+	void CameraCullingOn()
 	{
 		IsCameraCulling = true;
 	}
 
 	void CalSortZ(class GameEngineCamera* _Camera);
 
-	GameEngineCamera* GetCamera() 
+	GameEngineCamera* GetCamera()
 	{
 		return RenderCamera;
 	}
 
 	// 업데이트에서 할것이기 때문에 그냥 하겠습니다. 
 	// 랜더 도중에 카메라를 바꾸거나 한다면 이상한 일이 발생할수 있다.
-	
+
 protected:
 	void Start();
 

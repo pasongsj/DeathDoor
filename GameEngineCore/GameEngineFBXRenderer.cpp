@@ -148,11 +148,11 @@ void GameEngineFBXAnimationInfo::Reset()
 
 
 
-GameEngineFBXRenderer::GameEngineFBXRenderer() 
+GameEngineFBXRenderer::GameEngineFBXRenderer()
 {
 }
 
-GameEngineFBXRenderer::~GameEngineFBXRenderer() 
+GameEngineFBXRenderer::~GameEngineFBXRenderer()
 {
 }
 
@@ -160,6 +160,12 @@ GameEngineFBXRenderer::~GameEngineFBXRenderer()
 void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material)
 {
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
+
+	if (nullptr == FindFBXMesh)
+	{
+		MsgAssert("로드하지 않은 FBX 매쉬를 사용하려고 했습니다.");
+	}
+
 	// 너 몇개 가지고 있어.
 	for (size_t UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
 	{

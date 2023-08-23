@@ -274,6 +274,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TextObj.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlackScreen.h" />
@@ -389,6 +390,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TextObj.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

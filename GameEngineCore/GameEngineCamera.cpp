@@ -59,6 +59,10 @@ void GameEngineCamera::Update(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsDown("ProjectionModeChange"))
 	{
+		if (GetLevel()->GetMainCamera().get() != this)
+		{
+			return;
+		}
 		switch (ProjectionType)
 		{
 		case CameraType::None:
@@ -105,7 +109,7 @@ void GameEngineCamera::Update(float _DeltaTime)
 
 		if (true == GameEngineInput::IsPress("CamMoveLeft"))
 		{
-			GetTransform()->AddLocalPosition(GetTransform()->GetWorldLeftVector()* Speed * _DeltaTime);
+			GetTransform()->AddLocalPosition(GetTransform()->GetWorldLeftVector() * Speed * _DeltaTime);
 		}
 		if (true == GameEngineInput::IsPress("CamMoveRight"))
 		{
@@ -211,32 +215,45 @@ void GameEngineCamera::Render(float _DeltaTime)
 	}
 
 	{
-		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& UnitPath = Units[0];
-
-		std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupStartIter = UnitPath.begin();
-		std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupEndIter = UnitPath.end();
-
-
-		for (; RenderGroupStartIter != RenderGroupEndIter; ++RenderGroupStartIter)
+		for (std::pair<const int, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& UnitGroup : Units)
 		{
-			std::list<std::shared_ptr<GameEngineRenderUnit>>& RenderGroup = RenderGroupStartIter->second;
+			std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& UnitPath = UnitGroup.second;
 
-			std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator StartRenderer = RenderGroup.begin();
-			std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator EndRenderer = RenderGroup.end();
+			std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupStartIter = UnitPath.begin();
+			std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupEndIter = UnitPath.end();
 
-			float ScaleTime = _DeltaTime * GameEngineTime::GlobalTime.GetRenderOrderTimeScale(RenderGroupStartIter->first);
 
-			for (; StartRenderer != EndRenderer; ++StartRenderer)
+			for (; RenderGroupStartIter != RenderGroupEndIter; ++RenderGroupStartIter)
 			{
-				std::shared_ptr<GameEngineRenderUnit>& Render = *StartRenderer;
+				std::list<std::shared_ptr<GameEngineRenderUnit>>& RenderGroup = RenderGroupStartIter->second;
 
-				Render->Render(_DeltaTime);
+				std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator StartRenderer = RenderGroup.begin();
+				std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator EndRenderer = RenderGroup.end();
+
+				float ScaleTime = _DeltaTime * GameEngineTime::GlobalTime.GetRenderOrderTimeScale(RenderGroupStartIter->first);
+
+				for (; StartRenderer != EndRenderer; ++StartRenderer)
+				{
+					std::shared_ptr<GameEngineRenderUnit>& Render = *StartRenderer;
+
+					if (false == Render->IsUpdate())
+					{
+						continue;
+					}
+
+					if (false == Render->GetRenderer()->IsUpdate())
+					{
+						continue;
+					}
+
+					Render->Render(_DeltaTime);
+				}
 			}
 		}
+
 	}
+
 }
-
-
 
 void GameEngineCamera::CameraTransformUpdate()
 {
@@ -345,6 +362,38 @@ bool GameEngineCamera::IsView(const TransformData& _TransData)
 
 void GameEngineCamera::Release()
 {
+
+	{
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& UnitPath = Units[0];
+
+		std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupStartIter = UnitPath.begin();
+		std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupEndIter = UnitPath.end();
+
+
+		for (; RenderGroupStartIter != RenderGroupEndIter; ++RenderGroupStartIter)
+		{
+			std::list<std::shared_ptr<GameEngineRenderUnit>>& RenderGroup = RenderGroupStartIter->second;
+
+			std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator StartRenderUnit = RenderGroup.begin();
+			std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator EndRenderUnit = RenderGroup.end();
+
+			float ScaleTime = GameEngineTime::GlobalTime.GetRenderOrderTimeScale(RenderGroupStartIter->first);
+
+			for (; StartRenderUnit != EndRenderUnit; /*++StartRenderer*/)
+			{
+				std::shared_ptr<GameEngineRenderUnit>& Render = *StartRenderUnit;
+
+				if (false == Render->GetRenderer()->IsDeath())
+				{
+					++StartRenderUnit;
+					continue;
+				}
+
+				StartRenderUnit = RenderGroup.erase(StartRenderUnit);
+			}
+		}
+	}
+
 	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator RenderGroupStartIter = Renderers.begin();
 	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator RenderGroupEndIter = Renderers.end();
 

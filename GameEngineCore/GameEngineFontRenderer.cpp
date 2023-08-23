@@ -1,6 +1,7 @@
 #include "PrecompileHeader.h"
 #include "GameEngineFontRenderer.h"
 #include "GameEngineFont.h"
+#include "GameEngineLevel.h"
 
 GameEngineFontRenderer::GameEngineFontRenderer() 
 {
@@ -34,13 +35,15 @@ void GameEngineFontRenderer::Render(float _Delta)
 	{
 		return;
 	}
-
 	float4 Pos = GetTransform()->GetWorldPosition();
-
 	GameEngineCamera* Camera = GetCamera();
+
+	
 	Pos *= Camera->GetView();
 	Pos *= Camera->GetProjection();
+	Pos.w = 1.f;
 	Pos *= Camera->GetViewPort();
+	 
 
 	Font->FontDraw(Text, Pos, FontScale, FontColor, FwTextFlag);
 
@@ -49,6 +52,13 @@ void GameEngineFontRenderer::Render(float _Delta)
 }
 
 void GameEngineFontRenderer::Start() 
-{
-	GameEngineRenderer::Start();
+{	
+	// GameEngineRenderer::Start();
+
+	// UI카메라라
+	PushCameraRender(0);
+	Unit = CreateRenderUnit();
+
+	Unit->RenderFunction = std::bind(&GameEngineFontRenderer::Render, this, std::placeholders::_1);
+
 }
