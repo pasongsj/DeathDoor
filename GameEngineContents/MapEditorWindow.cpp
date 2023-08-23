@@ -27,8 +27,9 @@ void MapEditorWindow::CreateSetCurActor(int _ActorType, std::shared_ptr<class Ga
 		MsgAssert("잘못생성된 액터입니다.");
 	}
 	MapActor->Renderer = MapActor->CreateComponent< GameEngineFBXRenderer>();
-	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CurActor->CreateComponent< GameEngineFBXRenderer>();
-	pRenderer->SetFBXMesh(FBXName, MeterialName);
+	MapActor->Renderer = CurActor->CreateComponent< GameEngineFBXRenderer>();
+	MapActor->Renderer->SetFBXMesh(FBXName, MeterialName);
+	meshscale = MapActor->Renderer->GetMeshScale();
 }
 
 MapEditorWindow::MapEditorWindow()
@@ -109,6 +110,11 @@ void MapEditorWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float 
 void MapEditorWindow::EditCurActor(std::shared_ptr<class GameEngineLevel> Level)
 {
 	ImGui::Text("CurActorIndex : %d, NextNewIndex : %d", CurIndex, lastindex);
+	ImGui::SameLine();
+	if (ImGui::Button("CheckCurrentActor"))
+	{
+		CheckCurActor();
+	}
 	ImGui::Separator();
 	ShowFBXINfo();
 
@@ -141,16 +147,14 @@ void MapEditorWindow::EditCurActor(std::shared_ptr<class GameEngineLevel> Level)
 }
 void MapEditorWindow::ShowFBXINfo()
 {
-	//std::shared_ptr< GameEngineFBXMesh> CurMesh = GameEngineFBXMesh::Find(FBXName);
-	//if (nullptr == CurMesh)
-	//{
-	//	MsgAssert("매쉬가 세팅되지 않은 액터입니다");
-	//}
-	//ImGui::Text("FBX Mesh info");
-	//ImGui::Text("Scale : %f %f %f", CurMesh->GetMeshInfosCount());
-	//ImGui::Text("Rot : %f %f %f", CurMesh->GetMeshInfosCount());
-	//ImGui::Text("Rot : %f %f %f", CurMesh->GetMeshInfosCount());
-	//ImGui::Separator();
+	std::shared_ptr< GameEngineFBXMesh> CurMesh = GameEngineFBXMesh::Find(FBXName);
+	if (nullptr == CurMesh)
+	{
+		MsgAssert("매쉬가 세팅되지 않은 액터입니다");
+	}
+	ImGui::Text("FBX Mesh info");
+	ImGui::Text("Scale = x : %f, y : %f, z : %f", meshscale.x, meshscale.y, meshscale.z);
+	ImGui::Separator();
 
 }
 
@@ -215,6 +219,7 @@ void MapEditorWindow::SettingCurActor(std::shared_ptr<class GameEngineLevel> Lev
 				//ActorType = 0;
 				Ratio = EditorSturctInfo[CurIndex].ScaleRatio;
 				FBXName = EditorSturctInfo[CurIndex].FBXName;
+				CheckCurActor();
 			}
 		}
 	}
@@ -546,18 +551,10 @@ void MapEditorWindow::ResetValue()
 {
 	CurRot = float4::ZERO;
 	CurPos = float4::ZERO;
-	//recvUnit = "1000.000000";//1000.000000
 	UnitScale = 10.0f;
 
 	Ratio = 1.0f;
 
-	//RevRotationX = "0000.000000";
-	//RevRotationY = "0000.000000";
-	//RevRotationZ = "0000.000000";
-
-	//RevPositionX = "0000.000000";
-	//RevPositionY = "0000.000000";
-	//RevPositionZ = "0000.000000";
 }
 
 
@@ -645,4 +642,14 @@ void MapEditorWindow::Explorer(std::string& _Name, const std::string_view& _Star
 
 	std::wstring filename = szFileName;
 	_Name = GameEngineString::UniCodeToAnsi(filename);
+}
+
+
+void MapEditorWindow::CheckCurActor()
+{
+	if (nullptr != CurActor)
+	{
+		std::shared_ptr< GameContentsMapActor> MapActor = CurActor->DynamicThis< GameContentsMapActor>();
+		MapActor->SetFlickers();
+	}
 }
