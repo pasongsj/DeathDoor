@@ -20,9 +20,15 @@ void Player::Start()
 
 
 	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	pRenderer->SetFBXMesh("AnimMan.FBX", "MeshAniTexture");
-	pRenderer->CreateFBXAnimation("Run","ALS_N_Run_F.FBX");
-	pRenderer->ChangeAnimation("Run");
+	pRenderer->SetFBXMesh("aaa.FBX", "ContentMesh");
+	auto aa = pRenderer->GetAllRenderUnit();
+
+	pRenderer->GetAllRenderUnit()[0][0]->Color.MulColor = { 0, 0, 0, 0 };
+	pRenderer->GetAllRenderUnit()[0][0]->Color.PlusColor = { 0.75, 0.95, 0.46, 1 };
+
+	pRenderer->GetTransform()->SetLocalRotation({ -90, 0, 0 });
+	//pRenderer->CreateFBXAnimation("Run","ALS_N_Run_F.FBX");
+	//pRenderer->ChangeAnimation("Run");
 
 	//std::shared_ptr<GameEngineFBXRenderer> Renderer = CreateComponent<GameEngineFBXRenderer>();
 	//Renderer->SetFBXMesh("House1.FBX", "MeshTexture");
