@@ -11,8 +11,13 @@ Player_Banana::~Player_Banana()
 
 void Player_Banana::Start()
 {
-	//SetMyType("BANANA");
+	SetMyType("BANANA");
+	GetTransform()->SetLocalRotation({ -180, 90, 90 });
+	
+	float4 Scale = GetTransform()->GetLocalScale();
+	GetTransform()->SetLocalScale(Scale * 20);
 
+	SetExpression("Face0");
 	CreateKey();
 }
 

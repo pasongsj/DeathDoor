@@ -38,6 +38,12 @@ protected:
 		SetCollision();
 	}
 
+	void SetExpression(const std::string_view& _Expression)
+	{
+		std::string Expression = _Expression.data();
+		//PlayerMesh->GetAllRenderUnit()[2][0]->ShaderResHelper.SetTexture("DiffuseTexture", Expression + ".png");
+	}
+
 protected:
 	void PlayerUpdate(float _Delta);
 	void StatusUpdate();
