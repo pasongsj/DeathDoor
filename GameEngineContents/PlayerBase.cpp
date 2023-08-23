@@ -22,7 +22,9 @@ void PlayerBase::SetMesh()
 	}
 
 	PlayerMesh = CreateComponent<GameEngineFBXRenderer>();
-	PlayerMesh->SetFBXMesh(Type, "MeshTexture");
+	//PlayerMesh->SetFBXMesh(Type + ".fbx", "MeshAniTexture");
+	//PlayerMesh->CreateFBXAnimation("WalkOne", "Banana.fbx");
+	//PlayerMesh->CreateFBXAnimation();
 }
 
 void PlayerBase::SetCollision()

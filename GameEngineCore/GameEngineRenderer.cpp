@@ -84,10 +84,10 @@ void GameEngineRenderUnit::SetMaterial(const std::string_view& _Name)
 		ShaderResHelper.SetConstantBufferLink("RenderBaseValue", ParentRenderer->BaseValue);
 	}
 
-	if (true == ShaderResHelper.IsConstantBuffer("ColorOption"))
-	{
-		ShaderResHelper.SetConstantBufferLink("ColorOption", Color);
-	}
+	//if (true == ShaderResHelper.IsConstantBuffer("ColorOption"))
+	//{
+	//	ShaderResHelper.SetConstantBufferLink("ColorOption", Color);
+	//}
 }
 
 void GameEngineRenderUnit::Render(float _DeltaTime)

@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "ServerWindow.h"
 #include "TextObj.h"
+#include "Player_Banana.h"
 
 TestLevel::TestLevel() 
 {
@@ -41,10 +42,13 @@ void TestLevel::Start()
 		}
 
 	}
-	CreateActor<Player>();
-	std::shared_ptr<TextObj> pText =  CreateActor<TextObj>();
-	pText->SetScale(100.f);
-	pText->SetTxt("test");
+	//CreateActor<Player>();
+	//std::shared_ptr<TextObj> pText =  CreateActor<TextObj>();
+	//pText->SetScale(100.f);
+	//pText->SetTxt("test");
+
+	CreateActor<Player_Banana>();
+
 
 }
 
@@ -56,7 +60,7 @@ void TestLevel::Update(float _DeltaTime)
 void TestLevel::LevelChangeStart()
 {
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 0.0f, -1000.0f });
+	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 0.0f, -50.0f });
 
 
 }

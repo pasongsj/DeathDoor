@@ -2,6 +2,9 @@
 #include "SelectLevel.h"
 #include "CharacterList.h"
 
+
+#include "Player_Banana.h"
+
 SelectLevel::SelectLevel()
 {
 }
@@ -16,6 +19,7 @@ void SelectLevel::Start()
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 0.0f, -1000.0f });
 
 	Level_CharacterList = CreateActor<CharacterList>();
+
 }
 
 void SelectLevel::Update(float _DeltaTime)
