@@ -184,11 +184,19 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
+    <ClCompile Include="PhysXActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PhysXBoxComponent.cpp" />
     <ClCompile Include="PhysXCapsuleComponent.cpp" />
     <ClCompile Include="PhysXConvexComponent.cpp" />
     <ClCompile Include="PhysXDefault.cpp" />
     <ClCompile Include="PhysXDynamicActorComponent.cpp" />
+    <ClCompile Include="PhysXLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PhysXSphereComponent.cpp">
       <SubType>
       </SubType>
@@ -290,11 +298,19 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
+    <ClInclude Include="PhysXActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PhysXBoxComponent.h" />
     <ClInclude Include="PhysXCapsuleComponent.h" />
     <ClInclude Include="PhysXConvexComponent.h" />
     <ClInclude Include="PhysXDefault.h" />
     <ClInclude Include="PhysXDynamicActorComponent.h" />
+    <ClInclude Include="PhysXLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PhysXSphereComponent.h">
       <SubType>
       </SubType>

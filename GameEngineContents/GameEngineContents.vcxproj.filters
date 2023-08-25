@@ -100,6 +100,12 @@
     <ClCompile Include="PhysXSphereComponent.cpp">
       <Filter>PhysX\Component</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXLevel.cpp">
+      <Filter>PhysX\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXActor.cpp">
+      <Filter>PhysX\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -210,6 +216,12 @@
     </ClInclude>
     <ClInclude Include="PhysXSphereComponent.h">
       <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXLevel.h">
+      <Filter>PhysX\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXActor.h">
+      <Filter>PhysX\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

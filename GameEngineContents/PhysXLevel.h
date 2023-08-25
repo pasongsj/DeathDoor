@@ -2,33 +2,33 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 // 설명 :
-class PhysXTestLevel : public GameEngineLevel
+class PhysXLevel : public GameEngineLevel
 {
 	class CustomErrorCallback : public physx::PxErrorCallback
 	{
 	private:
 		void reportError(physx::PxErrorCode::Enum code, const char* message, const char* file, int line) override
 		{
-			std::string Code = "Code : " + std::to_string(code) 
-								+"\nMsg : " + message 
-								+ "\nFile : " + file 
-								+ "\nLine : "+ std::to_string(line);
+			std::string Code = "Code : " + std::to_string(code)
+				+ "\nMsg : " + message
+				+ "\nFile : " + file
+				+ "\nLine : " + std::to_string(line);
 			MsgAssert(Code);
 		}
 	};
 
-	friend class PhysXTestActor;
-	friend class PhysXTestPlane;
+	friend class PhysXActor;
+	friend class PhysXPlane;
 public:
 	// constrcuter destructer
-	PhysXTestLevel();
-	~PhysXTestLevel();
+	PhysXLevel();
+	~PhysXLevel();
 
 	// delete Function
-	PhysXTestLevel(const PhysXTestLevel& _Other) = delete;
-	PhysXTestLevel(PhysXTestLevel&& _Other) noexcept = delete;
-	PhysXTestLevel& operator=(const PhysXTestLevel& _Other) = delete;
-	PhysXTestLevel& operator=(PhysXTestLevel&& _Other) noexcept = delete;
+	PhysXLevel(const PhysXLevel& _Other) = delete;
+	PhysXLevel(PhysXLevel&& _Other) noexcept = delete;
+	PhysXLevel& operator=(const PhysXLevel& _Other) = delete;
+	PhysXLevel& operator=(PhysXLevel&& _Other) noexcept = delete;
 
 protected:
 	void Start() override;
@@ -36,13 +36,15 @@ protected:
 
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
-	
+	bool advance(physx::PxReal _DeltaTime);
 private:
 	// Foundation을 생성하는데 필요한 변수
 	physx::PxDefaultAllocator		m_Allocator;
 	//physx::PxDefaultErrorCallback	m_ErrorCallback;
 	CustomErrorCallback m_ErrorCallback;
 
+	float m_fStepSize = 0.f;
+	float m_fWaitTime = 0.f;
 
 	physx::PxPhysics* m_pPhysics = nullptr;
 	physx::PxScene* m_pScene = nullptr;
@@ -55,7 +57,7 @@ private:
 
 	void Initialize();
 
-	void Simulate(float _Deltatime,bool _Value = true);
+	void Simulate(float _Deltatime);
 
 	void Release();
 

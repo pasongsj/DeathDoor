@@ -34,8 +34,9 @@ void PhysXTestPlane::Start()
 			GetTransform()->AddWorldRotation(float4{ 0, 45, 10 });
 		}
 		m_pBoxComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale,GetTransform()->GetWorldRotation());
-		++Count;
+		++Count; 
 	}
+	m_pBoxComp->SetPhysxMaterial(10.f, 10.f, 0.f);
 }
 
 void PhysXTestPlane::Update(float _DeltaTime)

@@ -1,55 +1,79 @@
 #include "PreCompileHeader.h"
-#include "PhysXTestLevel.h"
+#include "PhysXLevel.h"
 
 #include <ctype.h>
-#include "PhysXTestActor.h"
-#include "PhysXTestPlane.h"
 
 
 #include <PhysXSDKSnippets/SnippetUtils.h>
 #include <PhysXSDKSnippets/SnippetPrint.h>
 #include <PhysXSDKSnippets/SnippetPVD.h>
 
-PhysXTestLevel::PhysXTestLevel() 
+PhysXLevel::PhysXLevel()
 {
 }
 
-PhysXTestLevel::~PhysXTestLevel() 
+PhysXLevel::~PhysXLevel()
 {
 	Release();
 }
 
-void PhysXTestLevel::Start()
+void PhysXLevel::Start()
 {
 }
 
-void PhysXTestLevel::LevelChangeStart()
+void PhysXLevel::LevelChangeStart()
 {
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.f,0.f,0.f });
-	GetMainCamera()->GetTransform()->SetLocalPosition({ 0,3000, .0f });
+	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 0, -1000.0f });
+
 	Initialize();
 
-	CreateActor<PhysXTestActor>();
-	CreateActor<PhysXTestPlane>();
-
-	std::shared_ptr<PhysXTestPlane> pWallPlane = CreateActor<PhysXTestPlane>();
 }
 
-void PhysXTestLevel::LevelChangeEnd()
+void PhysXLevel::LevelChangeEnd()
 {
 	Release();
-	AllActorDestroy();
 }
 
-void PhysXTestLevel::Update(float _DeltaTime)
+bool PhysXLevel::advance(physx::PxReal _DeltaTime)
 {
-	Simulate(_DeltaTime,true);
+	m_fWaitTime += _DeltaTime;
+	m_fStepSize = 1.0f / 60.0f;
+
+	if (m_fWaitTime < m_fStepSize)
+	{
+		return false;
+	}
+
+	m_fWaitTime -= m_fStepSize;
+
+	m_pScene->simulate(m_fStepSize);
+
+	return true;
+}
+
+// 실제로 물리연산을 실행
+void PhysXLevel::Simulate(float _DeltaTime)
+{
+	if (nullptr == m_pPhysics)
+	{
+		return;
+	}
+
+	if (true == advance(_DeltaTime))
+	{
+		m_pScene->fetchResults(true);
+	}
+}
+
+void PhysXLevel::Update(float _DeltaTime)
+{
+	Simulate(_DeltaTime);
 }
 
 
 // 초기화
-void PhysXTestLevel::Initialize()
+void PhysXLevel::Initialize()
 {
 	m_pFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_Allocator, m_ErrorCallback);
 
@@ -82,7 +106,7 @@ void PhysXTestLevel::Initialize()
 	}
 
 	physx::PxSceneDesc SceneDesc(m_pPhysics->getTolerancesScale());
-	SceneDesc.gravity = physx::PxVec3(0.f, -160.1f, 0.0f);
+	SceneDesc.gravity = physx::PxVec3(0.f, -98.1f, 0.0f);
 	m_pDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
 	SceneDesc.cpuDispatcher = m_pDispatcher;
 	SceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
@@ -111,15 +135,9 @@ void PhysXTestLevel::Initialize()
 }
 
 
-// 물리연산
-void PhysXTestLevel::Simulate(float _Deltatime,bool _Value)
-{
-	m_pScene->simulate(_Deltatime);
-	m_pScene->fetchResults(_Value);
-}
 
 // 메모리 해제
-void PhysXTestLevel::Release()
+void PhysXLevel::Release()
 {
 	PX_RELEASE(m_pScene);
 	PX_RELEASE(m_pDispatcher);
@@ -128,7 +146,7 @@ void PhysXTestLevel::Release()
 	if (m_pPvd)
 	{
 		physx::PxPvdTransport* pTransport = m_pPvd->getTransport();
-		m_pPvd->release();	
+		m_pPvd->release();
 		m_pPvd = nullptr;
 		PX_RELEASE(pTransport);
 	}

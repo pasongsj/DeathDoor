@@ -42,9 +42,9 @@ void PhysXTestActor::Start()
 	{
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
 
-		m_pSphereComp->SetPhysxMaterial(2.f, 0.f, 0.f);
+		m_pSphereComp->SetPhysxMaterial(0.5f, 0.5f, 0.f);
 		m_pSphereComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics,vscale);
-		m_pSphereComp->GetDynamic()->setMass(1.f);
+		m_pSphereComp->GetDynamic()->setMass(0.65f);
 		m_pSphereComp->TurnOnSpeedLimit();
 		
 		//m_pCapsuleComp->SetPhysxMaterial(1.5f, 0.1f, 1.f);
@@ -101,14 +101,13 @@ void PhysXTestActor::Update(float _DeltaTime)
 	}
 	
 	Movedir.Normalize();
-	physx::PxTransform test= float4::PhysXTransformReturn(GetTransform()->GetWorldRotation(), Movedir * 500.f * _DeltaTime);
-	physx::PxTransform test2 = m_pSphereComp->GetDynamic()->getGlobalPose();
-	test.p += test2.p;
-	m_pSphereComp->GetDynamic()->setGlobalPose(test);
+	//physx::PxTransform test= float4::PhysXTransformReturn(GetTransform()->GetWorldRotation(), Movedir * 1000.f * _DeltaTime);
+	//physx::PxTransform test2 = m_pSphereComp->GetDynamic()->getGlobalPose();
+	//test.p += test2.p;
+	//m_pSphereComp->GetDynamic()->setGlobalPose(test);
 
-	GetLevel()->GetMainCamera()->GetTransform()->SetLocalPosition(GetTransform()->GetWorldPosition()+float4(0.f,1000.f,0.f));
-	//m_pSphereComp->SetUnlockAxis();
-	//m_pSphereComp->SetMoveSpeed(Movedir * 300);
+	m_pSphereComp->SetUnlockAxis();
+	m_pSphereComp->SetMoveSpeed(Movedir * 500);
 	//m_pCapsuleComp->SetChangedRot(GetTransform()->GetWorldRotation());
 };
 
