@@ -1,11 +1,11 @@
 #include "PrecompileHeader.h"
 #include "GameEngineFBXAnimation.h"
 
-GameEngineFBXAnimation::GameEngineFBXAnimation() 
+GameEngineFBXAnimation::GameEngineFBXAnimation()
 {
 }
 
-GameEngineFBXAnimation::~GameEngineFBXAnimation() 
+GameEngineFBXAnimation::~GameEngineFBXAnimation()
 {
 }
 
@@ -248,9 +248,9 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 					Frame.BoneIndex = static_cast<int>(boneIndex);
 					Frame.BoneParentIndex = static_cast<int>(boneIndex);
 
-					for (fbxsdk::FbxLongLong i = startTime; i <= endTime; ++i)
+					for (fbxsdk::FbxLongLong j = startTime; j <= endTime; ++j)
 					{
-						fixIndex = i - startTime;
+						fixIndex = j - startTime;
 
 						FbxExBoneFrameData& FrameData = Frame.BoneMatData[fixIndex];
 

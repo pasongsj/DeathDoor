@@ -16,7 +16,9 @@ PhysXTestActor::~PhysXTestActor()
 void PhysXTestActor::Start()
 {
 	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	pRenderer->SetFBXMesh("Armature.fbx", "MeshTexture");
+	pRenderer->SetFBXMesh("AnimMan.FBX", "MeshAniTexture");
+	pRenderer->CreateFBXAnimation("Run", "ALS_N_Run_F.FBX");
+	pRenderer->ChangeAnimation("Run");
 
 	GetTransform()->SetLocalPosition(float4(0.f, 500.f, 0.f));
 
