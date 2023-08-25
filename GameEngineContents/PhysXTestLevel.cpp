@@ -14,7 +14,6 @@ PhysXTestLevel::~PhysXTestLevel()
 void PhysXTestLevel::Start()
 {
 	SetLevelType(PacketLevelType::PhysXTestLevel);
-
 }
 
 void PhysXTestLevel::LevelChangeStart()
@@ -38,6 +37,7 @@ void PhysXTestLevel::LevelChangeStart()
 void PhysXTestLevel::LevelChangeEnd()
 {
 	PhysXLevel::LevelChangeEnd();
+	AllActorDestroy();
 }
 
 void PhysXTestLevel::Update(float _DeltaTime)

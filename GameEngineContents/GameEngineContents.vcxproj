@@ -226,10 +226,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PacketEnum.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="PhysXTestPlane.cpp" />
     <ClCompile Include="PhysXTriangleComponent.cpp" />
     <ClCompile Include="PinActor.cpp">
@@ -357,14 +353,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MapEditorWindow.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="ObjectUpdatePacket.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="PacketEnum.h">
       <SubType>
       </SubType>
     </ClInclude>
