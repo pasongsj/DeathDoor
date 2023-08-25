@@ -1,0 +1,110 @@
+#include "PreCompileHeader.h"
+#include "PhysXCustom.h"
+
+physx::PxFilterFlags CustomFilterShader
+(
+	physx::PxFilterObjectAttributes attributes0,
+	physx::PxFilterData filterData0,
+	physx::PxFilterObjectAttributes attributes1,
+	physx::PxFilterData filterData1,
+	physx::PxPairFlags& pairFlags,
+	const void* constantBlock,
+	physx::PxU32 constantBlockSize
+)
+{
+	// let triggers through
+	if (physx::PxFilterObjectIsTrigger(attributes0) || physx::PxFilterObjectIsTrigger(attributes1))
+	{
+		pairFlags = physx::PxPairFlag::eTRIGGER_DEFAULT | physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
+		return physx::PxFilterFlag::eDEFAULT;
+	}
+
+	//generate contacts for all that were not filtered above
+	pairFlags = physx::PxPairFlag::eNOTIFY_TOUCH_FOUND | physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS | physx::PxPairFlag::eNOTIFY_TOUCH_LOST |
+		physx::PxPairFlag::eDETECT_DISCRETE_CONTACT | physx::PxPairFlag::eSOLVE_CONTACT;
+
+	return physx::PxFilterFlag::eDEFAULT;
+}
+
+void CustomSimulationEventCallback::onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count)
+{
+	//트리거에 충돌이 일어났을때 어떤 걸 할 것인지
+	while (count--)
+	{
+		physx::PxTriggerPair& current = *pairs++;
+
+		// 액터가 가지고 있는 쉐이프를 모두 가져옴
+		physx::PxRigidActor& tmpOtherActor = *current.otherActor;
+		physx::PxFilterData OtherFilterdata = current.otherShape->getSimulationFilterData();
+		physx::PxFilterData TriggerFilterdata = current.triggerShape->getSimulationFilterData();
+		physx::PxU16 tmpnbShape = current.otherActor->getNbShapes();
+
+		//C26813  : 비트플래그로 사용된 enum끼리의 비교는 == 이 아닌 bitwise and(&)로 비교하는 것이 좋음
+		//WARNING : resultFd.word0 == static_cast<physx::PxU32>(PhysXFilterGroup::Ground
+
+		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle) &&
+			TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerFace) &&
+			current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
+		{
+			
+			
+		}
+
+
+		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Ground) &&
+			TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerHead))
+		{
+			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
+			{
+				
+			}
+
+			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST)
+			{
+				
+			}
+		}
+
+	}
+}
+
+
+void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs)
+{
+	// 접촉이 일어났을때 필터를 가져와서 어떻게 처리할것인지
+
+	while (nbPairs--)
+	{
+		physx::PxContactPair current = *pairs++;
+		// 액터가 가지고 있는 쉐이프를 모두 가져옴
+		physx::PxShape* tmpContactActor = current.shapes[0];
+		physx::PxShape* tmpOtherActor = current.shapes[1];
+		physx::PxFilterData OtherFilterdata = tmpOtherActor->getSimulationFilterData();
+		physx::PxFilterData ContactFilterdata = tmpContactActor->getSimulationFilterData();
+		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Ground) &&
+			ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerHead))
+		{
+
+			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS)
+			{
+				
+			}
+			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_LOST)
+			{
+			}
+
+		}
+		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerHead) &&
+			ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle) &&
+			current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
+		{
+		}
+
+		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle) &&
+			ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerHead) &&
+			current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
+		{
+		}
+
+	}
+}

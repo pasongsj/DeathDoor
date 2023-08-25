@@ -14,7 +14,8 @@ PhysXTestPlane::~PhysXTestPlane()
 {
 }
 
-int  PhysXTestPlane::Count=0;
+int PhysXTestPlane::Count=0;
+
 void PhysXTestPlane::Start()
 {
 	GetTransform()->SetLocalPosition({ 0.f,-100.f,0.f });
@@ -33,7 +34,7 @@ void PhysXTestPlane::Start()
 		{
 			GetTransform()->AddWorldRotation(float4{ 0, 45, 10 });
 		}
-		m_pBoxComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale,GetTransform()->GetWorldRotation());
+		m_pBoxComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale, GetTransform()->GetWorldRotation());
 		++Count; 
 	}
 	m_pBoxComp->SetPhysxMaterial(10.f, 10.f, 0.f);

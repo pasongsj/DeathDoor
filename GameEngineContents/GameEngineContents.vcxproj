@@ -191,6 +191,7 @@
     <ClCompile Include="PhysXBoxComponent.cpp" />
     <ClCompile Include="PhysXCapsuleComponent.cpp" />
     <ClCompile Include="PhysXConvexComponent.cpp" />
+    <ClCompile Include="PhysXCustom.cpp" />
     <ClCompile Include="PhysXDefault.cpp" />
     <ClCompile Include="PhysXDynamicActorComponent.cpp" />
     <ClCompile Include="PhysXLevel.cpp">
@@ -218,12 +219,9 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PhysXTestPlane.cpp" />
     <ClCompile Include="PhysXTriangleComponent.cpp" />
     <ClCompile Include="PinActor.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="PhysXTestPlane.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -305,6 +303,7 @@
     <ClInclude Include="PhysXBoxComponent.h" />
     <ClInclude Include="PhysXCapsuleComponent.h" />
     <ClInclude Include="PhysXConvexComponent.h" />
+    <ClInclude Include="PhysXCustom.h" />
     <ClInclude Include="PhysXDefault.h" />
     <ClInclude Include="PhysXDynamicActorComponent.h" />
     <ClInclude Include="PhysXLevel.h">
@@ -337,12 +336,9 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PhysXTestPlane.h" />
     <ClInclude Include="PhysXTriangleComponent.h" />
     <ClInclude Include="PinActor.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="PhysXTestPlane.h">
       <SubType>
       </SubType>
     </ClInclude>

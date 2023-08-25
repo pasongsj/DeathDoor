@@ -2,8 +2,6 @@
 #include "PhysXLevel.h"
 
 #include <ctype.h>
-
-
 #include <PhysXSDKSnippets/SnippetUtils.h>
 #include <PhysXSDKSnippets/SnippetPrint.h>
 #include <PhysXSDKSnippets/SnippetPVD.h>
@@ -23,11 +21,7 @@ void PhysXLevel::Start()
 
 void PhysXLevel::LevelChangeStart()
 {
-	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 0, -1000.0f });
-
 	Initialize();
-
 }
 
 void PhysXLevel::LevelChangeEnd()
@@ -109,8 +103,9 @@ void PhysXLevel::Initialize()
 	SceneDesc.gravity = physx::PxVec3(0.f, -98.1f, 0.0f);
 	m_pDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
 	SceneDesc.cpuDispatcher = m_pDispatcher;
-	SceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
-
+	m_pSimulationEventCallback = new CustomSimulationEventCallback();
+	SceneDesc.simulationEventCallback = m_pSimulationEventCallback;
+	SceneDesc.filterShader = CustomFilterShader;
 	m_pScene = m_pPhysics->createScene(SceneDesc);
 
 	if (!m_pScene)
@@ -139,6 +134,11 @@ void PhysXLevel::Initialize()
 // 메모리 해제
 void PhysXLevel::Release()
 {
+	if (nullptr != m_pSimulationEventCallback)
+	{
+		delete m_pSimulationEventCallback;
+		m_pSimulationEventCallback = nullptr;
+	}
 	PX_RELEASE(m_pScene);
 	PX_RELEASE(m_pDispatcher);
 	PX_RELEASE(m_pPhysics);

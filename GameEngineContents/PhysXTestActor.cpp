@@ -43,7 +43,7 @@ void PhysXTestActor::Start()
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
 
 		m_pSphereComp->SetPhysxMaterial(0.5f, 0.5f, 0.f);
-		m_pSphereComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics,vscale);
+		m_pSphereComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale);
 		m_pSphereComp->GetDynamic()->setMass(0.65f);
 		m_pSphereComp->TurnOnSpeedLimit();
 		
