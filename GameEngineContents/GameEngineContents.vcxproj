@@ -195,9 +195,24 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
-    <ClCompile Include="PhysXBoxGeometryComponent.cpp" />
+    <ClCompile Include="PhysXActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXBoxComponent.cpp" />
+    <ClCompile Include="PhysXCapsuleComponent.cpp" />
+    <ClCompile Include="PhysXConvexComponent.cpp" />
+    <ClCompile Include="PhysXCustom.cpp" />
     <ClCompile Include="PhysXDefault.cpp" />
     <ClCompile Include="PhysXDynamicActorComponent.cpp" />
+    <ClCompile Include="PhysXLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXSphereComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PhysXTestActor.cpp">
       <SubType>
       </SubType>
@@ -211,11 +226,13 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PinActor.cpp">
+    <ClCompile Include="PacketEnum.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PhysXTestPlane.cpp">
+    <ClCompile Include="PhysXTestPlane.cpp" />
+    <ClCompile Include="PhysXTriangleComponent.cpp" />
+    <ClCompile Include="PinActor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -311,9 +328,24 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
-    <ClInclude Include="PhysXBoxGeometryComponent.h" />
+    <ClInclude Include="PhysXActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXBoxComponent.h" />
+    <ClInclude Include="PhysXCapsuleComponent.h" />
+    <ClInclude Include="PhysXConvexComponent.h" />
+    <ClInclude Include="PhysXCustom.h" />
     <ClInclude Include="PhysXDefault.h" />
     <ClInclude Include="PhysXDynamicActorComponent.h" />
+    <ClInclude Include="PhysXLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXSphereComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PhysXTestActor.h">
       <SubType>
       </SubType>
@@ -328,11 +360,17 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PinActor.h">
+    <ClInclude Include="ObjectUpdatePacket.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PhysXTestPlane.h">
+    <ClInclude Include="PacketEnum.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXTestPlane.h" />
+    <ClInclude Include="PhysXTriangleComponent.h" />
+    <ClInclude Include="PinActor.h">
       <SubType>
       </SubType>
     </ClInclude>
