@@ -6,11 +6,13 @@
 #include "GameEngineGUI.h"
 #include "GameEngineCollision.h"
 #include "GameEngineDebug3D.h"
+#include "GameEngineLight.h"
+#include <GameEngineCore/GameEngineLight.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 
 bool GameEngineLevel::IsDebugRender = false;
 
-GameEngineLevel::GameEngineLevel() 
+GameEngineLevel::GameEngineLevel()
 {
 	LevelCameraInit();
 }
@@ -25,7 +27,7 @@ void GameEngineLevel::LevelCameraInit()
 	LastTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 }
 
-GameEngineLevel::~GameEngineLevel() 
+GameEngineLevel::~GameEngineLevel()
 {
 }
 
@@ -171,128 +173,6 @@ void GameEngineLevel::ActorLevelChangeEnd()
 //	//}
 //}
 
-void GameEngineLevel::ActorRender(float _DeltaTime)
-{
-	// GetMainCamera()->Setting();
-	// GetMainCamera()->CameraTransformUpdate();
-	// GetMainCamera()->Render(_DeltaTime);
-
-	if (true == IsDebugRender)
-	{
-			std::map<int, std::list<std::shared_ptr<GameEngineCollision>>>::iterator GroupStartIter = Collisions.begin();
-			std::map<int, std::list<std::shared_ptr<GameEngineCollision>>>::iterator GroupEndIter = Collisions.end();
-
-			for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
-			{
-				std::list<std::shared_ptr<GameEngineCollision>>& ObjectList = GroupStartIter->second;
-
-				std::list<std::shared_ptr<GameEngineCollision>>::iterator ObjectStart = ObjectList.begin();
-				std::list<std::shared_ptr<GameEngineCollision>>::iterator ObjectEnd = ObjectList.end();
-
-				for (; ObjectStart != ObjectEnd; ++ObjectStart)
-				{
-					std::shared_ptr<GameEngineCollision> CollisionObject = (*ObjectStart);
-
-					if (nullptr == CollisionObject)
-					{
-						continue;
-					}
-
-					if (false == CollisionObject->IsUpdate())
-					{
-						continue;
-					}
-
-					CollisionObject->DebugRender(_DeltaTime);
-				}
-			}
-	}
-
-	for (std::pair<int, std::shared_ptr<GameEngineCamera>> Pair : Cameras)
-	{
-		std::shared_ptr<GameEngineCamera> Cam = Pair.second;
-		Cam->Setting();
-		Cam->CameraTransformUpdate();
-		Cam->Render(_DeltaTime);
-		Cam->CamTarget->Effect(_DeltaTime);
-
-		if (false == IsDebugRender)
-		{
-			continue;
-		}
-
-		GameEngineDebug::DebugRender(Cam.get(), _DeltaTime);
-
-		// CollisionDebugRender(Cam.get(), _DeltaTime);
-	}
-
-	LastTarget->Clear();
-
-	for (std::pair<int, std::shared_ptr<GameEngineCamera>> Pair : Cameras)
-	{
-		std::shared_ptr<GameEngineCamera> Camera = Pair.second;
-		std::shared_ptr<GameEngineRenderTarget> Target = Camera->GetCamTarget();
-
-		LastTarget->Merge(Target);
-	}
-
-	LastTarget->Effect(_DeltaTime);
-
-	LastTarget->Setting();
-
-	GameEngineDevice::GetBackBufferTarget()->Merge(LastTarget);
-
-
-	//// 이건 나중에 만들어질 랜더러의 랜더가 다 끝나고 되는 랜더가 될겁니다.
-	//std::map<int, std::list<std::shared_ptr<GameEngineActor>>>::iterator GroupStartIter = Actors.begin();
-	//std::map<int, std::list<std::shared_ptr<GameEngineActor>>>::iterator GroupEndIter = Actors.end();
-
-	//for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
-	//{
-	//	std::list<std::shared_ptr<GameEngineActor>>& ActorList = GroupStartIter->second;
-
-	//	std::list<std::shared_ptr<GameEngineActor>>::iterator ActorStart = ActorList.begin();
-	//	std::list<std::shared_ptr<GameEngineActor>>::iterator ActorEnd = ActorList.end();
-
-	//	for (; ActorStart != ActorEnd; ++ActorStart)
-	//	{
-	//		std::shared_ptr<GameEngineActor>& Actor = *ActorStart;
-
-	//		Actor->AllRender(_DeltaTime);
-
-
-	//		/*if (false == Actor->IsUpdate())
-	//		{
-	//			continue;
-	//		}
-
-	//		GameEngineTransform* Transform = Actor->GetTransform();
-	//		Transform->AllRender(_DeltaTime);*/
-	//	}
-	//}
-
-	static bool GUIRender = true;
-
-	if (true == GameEngineInput::IsDown("GUISwitch"))
-	{
-		GUIRender = !GUIRender;
-
-		if (false == GUIRender)
-		{
-			GameEngineGUI::Release();
-		}
-		else {
-			GameEngineGUI::Initialize();
-		}
-	}
-
-	if (true == GUIRender)
-	{
-		GameEngineGUI::Render(GetSharedThis(), _DeltaTime);
-	} 
-
-}
-
 void GameEngineLevel::ActorRelease()
 {
 	//// 랜더러를 릴리즈 한다.
@@ -328,7 +208,7 @@ void GameEngineLevel::ActorRelease()
 		}
 	}
 
-	
+
 	{
 		std::map<int, std::list<std::shared_ptr<GameEngineActor>>>::iterator GroupStartIter = Actors.begin();
 		std::map<int, std::list<std::shared_ptr<GameEngineActor>>>::iterator GroupEndIter = Actors.end();
@@ -361,13 +241,109 @@ void GameEngineLevel::ActorRelease()
 
 }
 
-void GameEngineLevel::Update(float _DeltaTime) 
+void GameEngineLevel::Update(float _DeltaTime)
 {
 
 }
 
-void GameEngineLevel::Render(float _DeltaTime) 
+void GameEngineLevel::Render(float _DeltaTime)
 {
+	if (true == IsDebugRender)
+	{
+		std::map<int, std::list<std::shared_ptr<GameEngineCollision>>>::iterator GroupStartIter = Collisions.begin();
+		std::map<int, std::list<std::shared_ptr<GameEngineCollision>>>::iterator GroupEndIter = Collisions.end();
+
+		for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
+		{
+			std::list<std::shared_ptr<GameEngineCollision>>& ObjectList = GroupStartIter->second;
+
+			std::list<std::shared_ptr<GameEngineCollision>>::iterator ObjectStart = ObjectList.begin();
+			std::list<std::shared_ptr<GameEngineCollision>>::iterator ObjectEnd = ObjectList.end();
+
+			for (; ObjectStart != ObjectEnd; ++ObjectStart)
+			{
+				std::shared_ptr<GameEngineCollision> CollisionObject = (*ObjectStart);
+
+				if (nullptr == CollisionObject)
+				{
+					continue;
+				}
+
+				if (false == CollisionObject->IsUpdate())
+				{
+					continue;
+				}
+
+				CollisionObject->DebugRender(_DeltaTime);
+			}
+		}
+	}
+
+
+	for (std::pair<int, std::shared_ptr<GameEngineCamera>> Pair : Cameras)
+	{
+
+		std::shared_ptr<GameEngineCamera> Cam = Pair.second;
+
+		LightDataObject.LightCount = 0;
+		for (std::shared_ptr<GameEngineLight> Light : AllLight)
+		{
+			Light->LightUpdate(Cam.get(), _DeltaTime);
+			LightDataObject.AllLight[LightDataObject.LightCount] = Light->GetLightData();
+			++LightDataObject.LightCount;
+		}
+
+		Cam->Setting();
+		Cam->CameraTransformUpdate();
+		Cam->Render(_DeltaTime);
+		Cam->CamTarget->Effect(_DeltaTime);
+
+		if (false == IsDebugRender)
+		{
+			continue;
+		}
+
+		GameEngineDebug::DebugRender(Cam.get(), _DeltaTime);
+
+		// CollisionDebugRender(Cam.get(), _DeltaTime);
+	}
+
+	LastTarget->Clear();
+
+	for (std::pair<int, std::shared_ptr<GameEngineCamera>> Pair : Cameras)
+	{
+		std::shared_ptr<GameEngineCamera> Camera = Pair.second;
+		std::shared_ptr<GameEngineRenderTarget> Target = Camera->GetCamTarget();
+
+		LastTarget->Merge(Target);
+	}
+
+	LastTarget->Effect(_DeltaTime);
+
+	LastTarget->Setting();
+
+	GameEngineDevice::GetBackBufferTarget()->Merge(LastTarget);
+
+	static bool GUIRender = true;
+
+	if (true == GameEngineInput::IsDown("GUISwitch"))
+	{
+		GUIRender = !GUIRender;
+
+		if (false == GUIRender)
+		{
+			GameEngineGUI::Release();
+		}
+		else {
+			GameEngineGUI::Initialize();
+		}
+	}
+
+	if (true == GUIRender)
+	{
+		GameEngineGUI::Render(GetSharedThis(), _DeltaTime);
+	}
+
 }
 
 void GameEngineLevel::ActorInit(std::shared_ptr<GameEngineActor> _Actor, int _Order, GameEngineLevel* _Level)
@@ -384,11 +360,11 @@ void GameEngineLevel::PushCollision(std::shared_ptr<GameEngineCollision> _Collis
 	Collisions[_Collision->GetOrder()].push_back(_Collision);
 }
 
-void GameEngineLevel::LevelChangeStart() 
+void GameEngineLevel::LevelChangeStart()
 {
 
 }
-void GameEngineLevel::LevelChangeEnd() 
+void GameEngineLevel::LevelChangeEnd()
 {
 
 }
@@ -504,6 +480,17 @@ void GameEngineLevel::DestroyCamera()
 	Cameras.clear();
 }
 
+void GameEngineLevel::PushLight(std::shared_ptr<GameEngineLight> _Light)
+{
+	// 라이트가 지워질때 어떻게 하지?
+	//LightData& LightInst = LightDataObject.AllLight[LightDataObject.LightCount];
+
+	//_Light->LightDataPtr = &LightInst;
+	//++LightDataObject.LightCount;
+
+	AllLight.push_back(_Light);
+}
+
 //void GameEngineLevel::SendActorPacket(float _DeltaTime)
 //{
 //	// 모든 Actor가 업데이트 된 후에 SendPacket을 하기 위함이다.
@@ -530,3 +517,4 @@ void GameEngineLevel::DestroyCamera()
 //		}
 //	}
 //}
+

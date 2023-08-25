@@ -32,6 +32,11 @@ void PhysXTestLevel::LevelChangeStart()
 
 	Initialize();
 
+
+	{
+		std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
+	}
+
 	CreateActor<PhysXTestActor>();
 	CreateActor<PhysXTestPlane>();
 }

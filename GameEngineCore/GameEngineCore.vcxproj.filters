@@ -763,6 +763,9 @@
     <ClInclude Include="GameEngineNetActor.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineLight.h">
+      <Filter>Object\Rendering\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -937,6 +940,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineNetActor.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineLight.cpp">
+      <Filter>Object\Rendering\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -108,7 +108,8 @@ void TransformData::WorldCalculation(const TransformData& _Parent, bool Absolute
 void TransformData::SetViewAndProjection(const float4x4& _View, const float4x4& _Projection)
 {
 	View = _View;
-	Projection = _Projection;
+	Projection = _Projection;	
+	WorldView = WorldMatrix * View;
 	WorldViewProjectionMatrix = WorldMatrix * View * Projection;
 }
 
