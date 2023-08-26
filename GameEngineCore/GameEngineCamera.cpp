@@ -59,6 +59,10 @@ void GameEngineCamera::Update(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsDown("ProjectionModeChange"))
 	{
+		if (GetLevel()->GetMainCamera().get() != this)
+		{
+			return;
+		}
 		switch (ProjectionType)
 		{
 		case CameraType::None:
@@ -105,7 +109,7 @@ void GameEngineCamera::Update(float _DeltaTime)
 
 		if (true == GameEngineInput::IsPress("CamMoveLeft"))
 		{
-			GetTransform()->AddLocalPosition(GetTransform()->GetWorldLeftVector()* Speed * _DeltaTime);
+			GetTransform()->AddLocalPosition(GetTransform()->GetWorldLeftVector() * Speed * _DeltaTime);
 		}
 		if (true == GameEngineInput::IsPress("CamMoveRight"))
 		{
@@ -154,59 +158,101 @@ void GameEngineCamera::Setting()
 
 void GameEngineCamera::Render(float _DeltaTime)
 {
-	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator RenderGroupStartIter = Renderers.begin();
-	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator RenderGroupEndIter = Renderers.end();
-
-	for (;RenderGroupStartIter != RenderGroupEndIter; ++RenderGroupStartIter)
 	{
-		std::list<std::shared_ptr<GameEngineRenderer>>& RenderGroup = RenderGroupStartIter->second;
+		std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator RenderGroupStartIter = Renderers.begin();
+		std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator RenderGroupEndIter = Renderers.end();
 
-		int Order = RenderGroupStartIter->first;
-		std::map<int, SortType>::iterator SortIter = SortValues.find(Order);
-
-		if (SortIter != SortValues.end() && SortIter->second != SortType::None)
+		for (; RenderGroupStartIter != RenderGroupEndIter; ++RenderGroupStartIter)
 		{
-			if (SortIter->second == SortType::ZSort)
+			std::list<std::shared_ptr<GameEngineRenderer>>& RenderGroup = RenderGroupStartIter->second;
+
+			int Order = RenderGroupStartIter->first;
+			std::map<int, SortType>::iterator SortIter = SortValues.find(Order);
+
+			if (SortIter != SortValues.end() && SortIter->second != SortType::None)
 			{
-				for (std::shared_ptr<GameEngineRenderer>& Render : RenderGroup)
+				if (SortIter->second == SortType::ZSort)
 				{
-					Render->CalSortZ(this);
+					for (std::shared_ptr<GameEngineRenderer>& Render : RenderGroup)
+					{
+						Render->CalSortZ(this);
+					}
+
+					// 퀵소트 내일
+					RenderGroup.sort([](std::shared_ptr<GameEngineRenderer>& _Left, std::shared_ptr<GameEngineRenderer>& _Right)
+						{
+							return _Left->CalZ > _Right->CalZ;
+						});
 				}
 
-				// 퀵소트 내일
-				RenderGroup.sort([](std::shared_ptr<GameEngineRenderer>& _Left, std::shared_ptr<GameEngineRenderer>& _Right)
-					{
-						return _Left->CalZ > _Right->CalZ;
-					});
+				// 정렬을 하겠다는 뜻으로 본다.
 			}
 
-			// 정렬을 하겠다는 뜻으로 본다.
-		}
+			std::list<std::shared_ptr<GameEngineRenderer>>::iterator StartRenderer = RenderGroup.begin();
+			std::list<std::shared_ptr<GameEngineRenderer>>::iterator EndRenderer = RenderGroup.end();
 
-		std::list<std::shared_ptr<GameEngineRenderer>>::iterator StartRenderer = RenderGroup.begin();
-		std::list<std::shared_ptr<GameEngineRenderer>>::iterator EndRenderer = RenderGroup.end();
+			float ScaleTime = _DeltaTime * GameEngineTime::GlobalTime.GetRenderOrderTimeScale(RenderGroupStartIter->first);
 
-		float ScaleTime = _DeltaTime * GameEngineTime::GlobalTime.GetRenderOrderTimeScale(RenderGroupStartIter->first);
-
-		for (; StartRenderer != EndRenderer; ++StartRenderer)
-		{
-			std::shared_ptr<GameEngineRenderer>& Render = *StartRenderer;
-
-			if (false == Render->IsUpdate())
+			for (; StartRenderer != EndRenderer; ++StartRenderer)
 			{
-				continue;
+				std::shared_ptr<GameEngineRenderer>& Render = *StartRenderer;
+
+				if (false == Render->IsUpdate())
+				{
+					continue;
+				}
+
+				if (true == Render->IsCameraCulling && false == IsView(Render->GetTransform()->GetTransDataRef()))
+				{
+					continue;
+				}
+
+				Render->RenderTransformUpdate(this);
+				Render->RenderBaseValueUpdate(ScaleTime);
+				// Render->Render(ScaleTime);
 			}
-
-			if (true == Render->IsCameraCulling && false == IsView(Render->GetTransform()->GetTransDataRef()))
-			{
-				continue;
-			}
-
-			Render->RenderTransformUpdate(this);
-			Render->Render(ScaleTime);
-
 		}
 	}
+
+	{
+		for (std::pair<const int, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& UnitGroup : Units)
+		{
+			std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& UnitPath = UnitGroup.second;
+
+			std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupStartIter = UnitPath.begin();
+			std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupEndIter = UnitPath.end();
+
+
+			for (; RenderGroupStartIter != RenderGroupEndIter; ++RenderGroupStartIter)
+			{
+				std::list<std::shared_ptr<GameEngineRenderUnit>>& RenderGroup = RenderGroupStartIter->second;
+
+				std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator StartRenderer = RenderGroup.begin();
+				std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator EndRenderer = RenderGroup.end();
+
+				float ScaleTime = _DeltaTime * GameEngineTime::GlobalTime.GetRenderOrderTimeScale(RenderGroupStartIter->first);
+
+				for (; StartRenderer != EndRenderer; ++StartRenderer)
+				{
+					std::shared_ptr<GameEngineRenderUnit>& Render = *StartRenderer;
+
+					if (false == Render->IsUpdate())
+					{
+						continue;
+					}
+
+					if (false == Render->GetRenderer()->IsUpdate())
+					{
+						continue;
+					}
+
+					Render->Render(_DeltaTime);
+				}
+			}
+		}
+
+	}
+
 }
 
 void GameEngineCamera::CameraTransformUpdate()
@@ -262,6 +308,19 @@ void GameEngineCamera::PushRenderer(std::shared_ptr<GameEngineRenderer> _Render)
 	Renderers[_Render->GetOrder()].push_back(_Render);
 }
 
+void GameEngineCamera::PushRenderUnit(std::shared_ptr<GameEngineRenderUnit> _Unit)
+{
+	if (nullptr == _Unit->GetRenderer())
+	{
+		MsgAssert("부모가 없는 랜더유니트입니다");
+		return;
+	}
+
+	int Order = _Unit->GetRenderer()->GetOrder();
+
+	Units[0][Order].push_back(_Unit);
+}
+
 bool GameEngineCamera::IsView(const TransformData& _TransData)
 {
 	if (true == IsFreeCamera())
@@ -303,6 +362,38 @@ bool GameEngineCamera::IsView(const TransformData& _TransData)
 
 void GameEngineCamera::Release()
 {
+
+	{
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& UnitPath = Units[0];
+
+		std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupStartIter = UnitPath.begin();
+		std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupEndIter = UnitPath.end();
+
+
+		for (; RenderGroupStartIter != RenderGroupEndIter; ++RenderGroupStartIter)
+		{
+			std::list<std::shared_ptr<GameEngineRenderUnit>>& RenderGroup = RenderGroupStartIter->second;
+
+			std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator StartRenderUnit = RenderGroup.begin();
+			std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator EndRenderUnit = RenderGroup.end();
+
+			float ScaleTime = GameEngineTime::GlobalTime.GetRenderOrderTimeScale(RenderGroupStartIter->first);
+
+			for (; StartRenderUnit != EndRenderUnit; /*++StartRenderer*/)
+			{
+				std::shared_ptr<GameEngineRenderUnit>& Render = *StartRenderUnit;
+
+				if (false == Render->GetRenderer()->IsDeath())
+				{
+					++StartRenderUnit;
+					continue;
+				}
+
+				StartRenderUnit = RenderGroup.erase(StartRenderUnit);
+			}
+		}
+	}
+
 	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator RenderGroupStartIter = Renderers.begin();
 	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator RenderGroupEndIter = Renderers.end();
 

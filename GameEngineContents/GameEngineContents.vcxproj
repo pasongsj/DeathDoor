@@ -166,7 +166,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlackScreen.cpp" />
-    <ClCompile Include="CenterGui.cpp">
+    <ClCompile Include="Boomerang.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CharacterList.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentFBXRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentSpriteRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentUIRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameContentsMapActor.cpp" />
+    <ClCompile Include="LevelWindow.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -174,11 +195,89 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
+    <ClCompile Include="PhysXActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXBoxComponent.cpp" />
+    <ClCompile Include="PhysXCapsuleComponent.cpp" />
+    <ClCompile Include="PhysXConvexComponent.cpp" />
+    <ClCompile Include="PhysXCustom.cpp" />
+    <ClCompile Include="PhysXDefault.cpp" />
+    <ClCompile Include="PhysXDynamicActorComponent.cpp" />
+    <ClCompile Include="PhysXLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXSphereComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXTestActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXTestLevel.cpp" />
+    <ClCompile Include="MapEditorLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MapEditorWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXTestPlane.cpp" />
+    <ClCompile Include="PhysXTriangleComponent.cpp" />
+    <ClCompile Include="PinActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Player_Banana.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PreCompileHeader.cpp">
       <SubType>
       </SubType>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ProcessMapInfo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SelectLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ServerPacket.cpp" />
+    <ClCompile Include="ServerTestLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ServerWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SinkBox_4x4.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SinkBox_8x8.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StartLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StartUI.cpp">
+      <SubType>
+      </SubType>
     </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <SubType>
@@ -188,10 +287,36 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TextObj.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlackScreen.h" />
-    <ClInclude Include="CenterGui.h">
+    <ClInclude Include="Boomerang.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CharacterList.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentSpriteRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentUIRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentFBXRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameContentsMapActor.h" />
+    <ClInclude Include="LevelWindow.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -199,8 +324,87 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
+    <ClInclude Include="PhysXActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXBoxComponent.h" />
+    <ClInclude Include="PhysXCapsuleComponent.h" />
+    <ClInclude Include="PhysXConvexComponent.h" />
+    <ClInclude Include="PhysXCustom.h" />
+    <ClInclude Include="PhysXDefault.h" />
+    <ClInclude Include="PhysXDynamicActorComponent.h" />
+    <ClInclude Include="PhysXLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXSphereComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXTestActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXTestLevel.h" />
+    <ClInclude Include="MapEditGlobalValue.h" />
+    <ClInclude Include="MapEditorLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MapEditorWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXTestPlane.h" />
+    <ClInclude Include="PhysXTriangleComponent.h" />
+    <ClInclude Include="PinActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Player_Banana.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PreCompileHeader.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ProcessMapInfo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SelectLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerPacket.h" />
+    <ClInclude Include="ServerTestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SinkBox_4x4.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SinkBox_8x8.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StartLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StartUI.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -212,6 +416,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TextObj.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -35,7 +35,7 @@ public:
 	//GameEngineSerializer& operator=(const GameEngineSerializer& _Other) = delete;
 	//GameEngineSerializer& operator=(GameEngineSerializer&& _Other) noexcept = delete;
 
-	void BufferResize(unsigned int _Size) 
+	void BufferResize(unsigned int _Size)
 	{
 		Data.resize(_Size);
 	}
@@ -79,6 +79,10 @@ public:
 		return &Data[0];
 	}
 
+	const char* GetConstCharPtr() {
+		return reinterpret_cast<const char*>(&Data[0]);
+	}
+
 	const char* GetDataConstPtr() {
 		return reinterpret_cast<const char*>(&Data[0]);
 	}
@@ -95,6 +99,18 @@ public:
 
 	void ClearReadData();
 
+	template<typename Type>
+	void operator<<(const Type& _Data)
+	{
+		Write(reinterpret_cast<const void*>(&_Data), sizeof(Type));
+	}
+
+	template<typename Type>
+	void Write(const Type& _Data)
+	{
+		Write(reinterpret_cast<const void*>(&_Data), sizeof(Type));
+	}
+
 	void operator<<(const std::string& _Value);
 	void operator<<(const int _Value);
 	void operator<<(const unsigned int _Value);
@@ -103,6 +119,19 @@ public:
 	void operator<<(const bool _Value);
 	void operator<<(const float4& _Value);
 	void operator<<(const float4x4& _Value);
+
+	template<typename Type>
+	void operator>>(Type& _Data)
+	{
+		Read(reinterpret_cast<void*>(&_Data), sizeof(Type));
+	}
+
+	template<typename Type>
+	void Read(Type& _Data)
+	{
+		Read(reinterpret_cast<void*>(&_Data), sizeof(Type));
+	}
+
 
 	template<typename T>
 	void WriteEnum(const T _Value)
@@ -273,7 +302,7 @@ public:
 		return &Data[0];
 	}
 
-	std::string GetString() 
+	std::string GetString()
 	{
 		const char* Return = reinterpret_cast<const char*>(&Data[0]);
 

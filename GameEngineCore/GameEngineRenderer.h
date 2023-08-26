@@ -1,20 +1,29 @@
 #pragma once
 #include "GameEngineComponent.h"
 #include "GameEngineShader.h"
+//#include "EngineContentRenderingStruct.h"
 
-class GameEngineRenderUnit 
-	: std::enable_shared_from_this<GameEngineRenderUnit>
+class GameEngineRenderUnit : public GameEngineObjectBase, public std::enable_shared_from_this<GameEngineRenderUnit>
 {
 public:
 	GameEngineShaderResHelper ShaderResHelper;
-	std::shared_ptr<class GameEngineRenderingPipeLine> Pipe;
+	std::shared_ptr<class GameEngineMaterial> Material;
+
+	std::function<void(float)> RenderFunction;
 
 	GameEngineRenderUnit();
 	void SetMesh(const std::string_view& _Name);
 	void SetMesh(std::shared_ptr<class GameEngineMesh> _Mesh);
-	void SetPipeLine(const std::string_view& _Name);
+	void SetMaterial(const std::string_view& _Name);
 	void Render(float _DeltaTime);
 	void SetRenderer(GameEngineRenderer* _Renderer);
+
+	GameEngineRenderer* GetRenderer()
+	{
+		return ParentRenderer;
+	}
+
+	//ColorOption Color = { {1, 1, 1, 1}, {0, 0, 0, 0} };
 
 private:
 	GameEngineRenderer* ParentRenderer = nullptr;
@@ -23,7 +32,7 @@ private:
 };
 
 
-class RenderBaseValue 
+class RenderBaseValue
 {
 public:
 	float DeltaTime = 0.0f;
@@ -55,7 +64,7 @@ public:
 	// 어떤 쉐이더를 사용했다는 걸 알아야 하고
 	// 그 쉐이더에서 어떤 텍스처를 사용했고
 	// 어떤 샘플러 어떤 상수버퍼를 사용했는지를 알아야 한다.
-	void SetPipeLine(const std::string_view& _Name, int _index = 0);
+	void SetMaterial(const std::string_view& _Name, int _index = 0);
 
 	// void SetMesh(const std::string_view& _Name, int _index = 0);
 
@@ -63,24 +72,24 @@ public:
 	std::shared_ptr<GameEngineRenderUnit> CreateRenderUnit();
 
 	// 여기서 리턴된 파이프라인을 수정하면 이 파이프라인을 사용하는 모든 애들이 바뀌게 된다.
-	std::shared_ptr<GameEngineRenderingPipeLine> GetPipeLine(int _index = 0);
+	std::shared_ptr<GameEngineMaterial> GetMaterial(int _index = 0);
 
 	// 이걸 사용하게되면 이 랜더러의 유니트는 자신만의 클론 파이프라인을 가지게 된다.
-	// std::shared_ptr<GameEngineRenderingPipeLine> GetPipeLineClone(int _index = 0);
+	// std::shared_ptr<GameEngineMaterial> GetPipeLineClone(int _index = 0);
 
-	inline GameEngineShaderResHelper& GetShaderResHelper(int _index = 0) 
+	inline GameEngineShaderResHelper& GetShaderResHelper(int _index = 0)
 	{
 		return Units[_index]->ShaderResHelper;
 	}
 
-	void CameraCullingOn() 
+	void CameraCullingOn()
 	{
 		IsCameraCulling = true;
 	}
 
 	void CalSortZ(class GameEngineCamera* _Camera);
 
-	GameEngineCamera* GetCamera() 
+	GameEngineCamera* GetCamera()
 	{
 		return RenderCamera;
 	}
@@ -110,7 +119,7 @@ private:
 
 	// Pipe와
 	//// GameEngineShaderResHelper 가 합쳐져야 랜더링 이 되는 식이 됩니다.
-	//std::shared_ptr<class GameEngineRenderingPipeLine> Pipe;
+	//std::shared_ptr<class GameEngineMaterial> Pipe;
 	//GameEngineShaderResHelper ShaderResHelper;
 
 

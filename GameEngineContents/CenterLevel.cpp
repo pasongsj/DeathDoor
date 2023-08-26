@@ -9,6 +9,7 @@
 #include <GameEngineCore/GameEngineFont.h>
 
 #include "BlackScreen.h"
+#include "LevelWindow.h"
 
 CenterLevel::CenterLevel() 
 {
@@ -20,6 +21,7 @@ CenterLevel::~CenterLevel()
 
 void CenterLevel::Start()
 {
+	SetLevelType(PacketLevelType::CenterLevel);
 	GameEngineInput::CreateKey("TestLevel", '0');
 
 

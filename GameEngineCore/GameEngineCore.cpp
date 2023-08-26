@@ -11,13 +11,19 @@
 #include "GameEngineVideo.h"
 #include "GameEngineGUI.h"
 
+#include <GameEngineBase/GameEngineNetObject.h>
+
 GameEngineThreadJobQueue GameEngineCore::JobQueue;
 
 std::map<std::string, std::shared_ptr<GameEngineLevel>> GameEngineCore::LevelMap;
 std::shared_ptr<GameEngineLevel> GameEngineCore::MainLevel = nullptr;
 std::shared_ptr<GameEngineLevel> GameEngineCore::NextLevel = nullptr;
 
-std::shared_ptr<class GameEngineLevel> GameEngineCore::CurLoadLevel;
+std::shared_ptr<class GameEngineLevel> GameEngineCore::CurLoadLevel = nullptr;
+std::function<void()> GameEngineCore::RcvPacket = nullptr;
+
+
+
 
 GameEngineCore::GameEngineCore() 
 {
@@ -113,7 +119,10 @@ void GameEngineCore::EngineUpdate()
 	{
 		TimeDeltaTime = 1 / 30.0f;
 	}
-
+	if (nullptr != RcvPacket)
+	{
+		RcvPacket();
+	}
 	GameEngineInput::Update(TimeDeltaTime);
 	GameEngineSound::SoundUpdate();
 
@@ -125,12 +134,15 @@ void GameEngineCore::EngineUpdate()
 	MainLevel->ActorUpdate(TimeDeltaTime);
 	// CurLoadLevel = nullptr;
 
+	// 서버에 패킷을 보내는 위치 (server packet send)
+	GameEngineNetObject::SendAllPacket(TimeDeltaTime);
+	//MainLevel->SendActorPacket(TimeDeltaTime);
+
 	GameEngineVideo::VideoState State = GameEngineVideo::GetCurState();
 	if (State != GameEngineVideo::VideoState::Running)
 	{
 		GameEngineDevice::RenderStart();
 		MainLevel->Render(TimeDeltaTime);
-		MainLevel->ActorRender(TimeDeltaTime);
 		GameEngineDevice::RenderEnd();
 	}
 

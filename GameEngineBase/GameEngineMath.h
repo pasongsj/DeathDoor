@@ -28,6 +28,19 @@ public:
 	static const float DegToRad;
 	static const float RadToDeg;
 
+	static float fLerp(float p1, float p2, float Time)
+	{
+		return (1.0f - Time) * p1 + Time * p2;
+	}
+	static float fLerpClamp(float p1, float p2, float Time)
+	{
+		if (1.0f <= Time)
+		{
+			Time = 1.0f;
+		}
+
+		return fLerp(p1, p2, Time);
+	}
 private:
 	virtual ~GameEngineMath() = 0;
 };
@@ -52,7 +65,16 @@ public:
 	static const float4 BLACK;
 
 	static float4 MatrixToQuaternion(const class float4x4& M);
-	
+
+	static float4 SLerpQuaternion(const float4& _Left, const float4& _Right, float _Ratio)
+	{
+		if (1.0f <= _Ratio)
+		{
+			_Ratio = 1.0f;
+		}
+
+		return DirectX::XMQuaternionSlerp(_Left.DirectVector, _Right.DirectVector, _Ratio);
+	}
 
 	static float InvSqrt(float f)
 	{
@@ -273,6 +295,24 @@ public:
 		: DirectVector(_Vector)
 	{
 
+	}
+
+
+	physx::PxQuat PhysXQuatReturn()
+	{
+		float4 Temp = this->EulerDegToQuaternion();
+		return physx::PxQuat(Temp.x, Temp.y, Temp.z, Temp.w);
+	}
+	physx::PxVec3 PhysXVec3Return()
+	{
+		return physx::PxVec3(x, y, z);
+	}
+	static physx::PxTransform PhysXTransformReturn(float4 _Rot, float4 _Pos)
+	{
+		physx::PxTransform Temp = {};
+		Temp.q = _Rot.PhysXQuatReturn();
+		Temp.p = _Pos.PhysXVec3Return();
+		return Temp;
 	}
 
 	void RotaitonXRad(float _Rad);

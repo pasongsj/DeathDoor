@@ -3,11 +3,11 @@
 #include "GameEngineMesh.h"
 
 
-GameEngineFBXMesh::GameEngineFBXMesh() 
+GameEngineFBXMesh::GameEngineFBXMesh()
 {
 }
 
-GameEngineFBXMesh::~GameEngineFBXMesh() 
+GameEngineFBXMesh::~GameEngineFBXMesh()
 {
 }
 
@@ -17,7 +17,7 @@ std::shared_ptr<GameEngineFBXMesh> GameEngineFBXMesh::Load(const std::string& _P
 	std::shared_ptr<GameEngineFBXMesh> Res = GameEngineResource::Create(_Name);
 	Res->SetPath(_Path);
 	Res->LoadMesh(_Path, _Name);
-	return Res;
+	return Res;  
 }
 
 //
@@ -122,7 +122,11 @@ void GameEngineFBXMesh::LoadMesh(const std::string& _Path, const std::string& _N
 	// FBXInit(FBXFile.GetFullPath());
 	FBXInit(_Path);
 	MeshLoad();
-	// CreateGameEngineStructuredBuffer();
+
+	// 이쪽에서 본이 있는지 확인하고
+	// 본이 있다면 애니메이션을 할 가능성이 있다고 생각하기 때문에
+	// 여기서 본에 맞는 스트럭처드 버퍼를 만들어 낸다.
+	CreateGameEngineStructuredBuffer();
 	// Bone을 조사한다.
 
 	//if (false == SaveFile.IsExits())
@@ -461,7 +465,8 @@ void GameEngineFBXMesh::LoadNormal(fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxAMatrix _M
 
 	if (0 == iCount)
 	{
-		MsgAssert("GetElementNormalCount가 여러개 입니다.");
+		_Mesh->GenerateNormals();
+		//MsgAssert("GetElementNormalCount가 여러개 입니다.");
 	}
 
 
@@ -798,10 +803,10 @@ void GameEngineFBXMesh::LoadUVInformation(fbxsdk::FbxMesh* pMesh, std::vector<Ga
 
 						lUVValue = lUVElement->GetDirectArray().GetAt(lUVIndex);
 
-						//int VertexIndex = pMesh->GetTextureUVIndex(lPolyIndex, lVertIndex);
+						int VertexIndex = pMesh->GetTextureUVIndex(lPolyIndex, lVertIndex);
 
-						//_ArrVtx[VertexIndex].TEXCOORD.x = static_cast<float>(lUVValue.mData[0]);
-						//_ArrVtx[VertexIndex].TEXCOORD.y = 1.0f - static_cast<float>(lUVValue.mData[1]);
+						_ArrVtx[VertexIndex].TEXCOORD.x = static_cast<float>(lUVValue.mData[0]);
+						_ArrVtx[VertexIndex].TEXCOORD.y = 1.0f - static_cast<float>(lUVValue.mData[1]);
 
 						//float4 Test;
 						//Test.x = static_cast<float>(lUVValue.mData[0]);
@@ -1005,7 +1010,7 @@ std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(size_t _Mes
 
 	FbxRenderUnitInfo& Unit = RenderUnitInfos[_MeshIndex];
 
-	if (nullptr == Unit.VertexBuffer) 
+	if (nullptr == Unit.VertexBuffer)
 	{
 		std::shared_ptr<GameEngineVertexBuffer> VertexBuffer = GameEngineVertexBuffer::Create(Unit.Vertexs);
 
@@ -1067,9 +1072,9 @@ std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(size_t _Mes
 
 			if (false == Path.IsExists())
 			{
-				MsgTextBox("FBX매쉬도중 텍스처가 존재하지 않습니다." + std::string(FilePath));
+				//MsgTextBox("FBX매쉬도중 텍스처가 존재하지 않습니다." + std::string(FilePath));
 			}
-			else 
+			else
 			{
 				GameEngineTexture::Load(FilePath);
 			}
@@ -1095,7 +1100,7 @@ std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(size_t _Mes
 
 			if (false == Path.IsExists())
 			{
-				MsgTextBox("FBX매쉬도중 텍스처가 존재하지 않습니다." + std::string(FilePath));
+				//MsgTextBox("FBX매쉬도중 텍스처가 존재하지 않습니다." + std::string(FilePath));
 			}
 			else
 			{
@@ -1861,13 +1866,18 @@ void GameEngineFBXMesh::BuildSkeletonSystem(fbxsdk::FbxScene* pScene, std::vecto
 
 void GameEngineFBXMesh::CreateGameEngineStructuredBuffer()
 {
-	// AllBoneStructuredBuffers.resize(AllBones.size());
+	AllBoneStructuredBuffers.resize(AllBones.size());
 
-	//for (size_t i = 0; i < AllBones.size(); i++)
-	//{
-	//	std::shared_ptr<GameEngineStructuredBuffer> NewStructuredBuffer = AllBoneStructuredBuffers.emplace_back(std::make_shared<GameEngineStructuredBuffer>());
-	//	NewStructuredBuffer->CreateResize(sizeof(float4x4), static_cast<int>(AllBones[i].size()), nullptr);
-	//}
+	for (size_t i = 0; i < AllBones.size(); i++)
+	{
+		if (nullptr != AllBoneStructuredBuffers[i])
+		{
+			continue;
+		}
+
+		AllBoneStructuredBuffers[i] = std::make_shared<GameEngineStructuredBuffer>();
+		AllBoneStructuredBuffers[i]->CreateResize(sizeof(float4x4), static_cast<int>(AllBones[i].size()), nullptr);
+	}
 }
 
 std::shared_ptr<GameEngineStructuredBuffer> GameEngineFBXMesh::GetAnimationStructuredBuffer(size_t _Index)

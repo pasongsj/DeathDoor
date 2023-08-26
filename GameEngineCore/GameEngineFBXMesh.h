@@ -596,6 +596,8 @@ struct Bone : public GameEngineSerializObject
 // 설명 :
 class GameEngineFBXMesh : public GameEngineFBX, public GameEngineResource<GameEngineFBXMesh>
 {
+	friend class GameEngineFBXAnimation;
+
 public:
 	// constrcuter destructer
 	GameEngineFBXMesh();
@@ -672,8 +674,10 @@ protected:
 	std::string FBXMeshName;
 
 	std::vector<FbxExMeshInfo> MeshInfos;
-	std::vector<FbxRenderUnitInfo> RenderUnitInfos;
 	std::vector<std::vector<Bone>> AllBones;
+
+
+	std::vector<FbxRenderUnitInfo> RenderUnitInfos;
 
 	std::vector<std::shared_ptr<GameEngineStructuredBuffer>> AllBoneStructuredBuffers; // 본정보체
 

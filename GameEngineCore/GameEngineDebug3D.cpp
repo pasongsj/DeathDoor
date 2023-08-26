@@ -46,9 +46,9 @@ namespace GameEngineDebug
 
 	void DebugRender(GameEngineCamera* _Camera, float _Delta)
 	{
-		if (nullptr == DebugRenderUnit.Pipe)
+		if (nullptr == DebugRenderUnit.Material)
 		{
-			DebugRenderUnit.SetPipeLine("DebugMeshRender");
+			DebugRenderUnit.SetMaterial("DebugMeshRender");
 		}
 
 		std::vector<DebugData>& Data = DebugDrawDatas[_Camera];

@@ -7,5 +7,20 @@
     <FxCompile Include="TileMapShader.hlsl" />
     <FxCompile Include="BlurShader.hlsl" />
     <FxCompile Include="MeshTexture.hlsl" />
+    <FxCompile Include="MeshAniTexture.hlsl" />
+    <FxCompile Include="Animation.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="Light.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="Transform.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{b8743ae9-7b40-439a-af7a-90e4841873b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

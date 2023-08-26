@@ -16,6 +16,8 @@ class GameEngineObject :
 	friend class GameEngineCore;
 	friend class GameEngineTransform;
 	friend class GameEngineLevel;
+	friend class GameEngineGUI;
+	friend class GameEngineGUIWindow;
 
 public:
 	// constrcuter destructer

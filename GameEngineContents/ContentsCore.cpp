@@ -3,8 +3,18 @@
 #include <GameEngineCore\GameEngineCore.h>
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
+#include "ServerWindow.h"
+#include "LevelWindow.h"
+#include "MapEditorWindow.h"
+
 #include "CenterLevel.h"
 #include "TestLevel.h"
+#include "ServerTestLevel.h"
+#include "MapEditorLevel.h"
+#include "PhysXTestLevel.h"
+
+#include "StartLevel.h"
+#include "SelectLevel.h"
 
 ContentsCore::ContentsCore()
 {
@@ -20,18 +30,28 @@ void ContentsCore::GameStart()
 {
 	//GameEngineGUI::GUIWindowCreate<GameEngineCoreWindow>("CoreWindow");	
 
+	GameEngineGUI::GUIWindowCreate<LevelWindow>("LevelWindow");
+	GameEngineGUI::GUIWindowCreate<ServerWindow>("ServerWindow");
+	GameEngineGUI::GUIWindowCreate<MapEditorWindow>("MapEditorWindow");
+	
 	ContentsResourcesCreate();
 
 	//InstallFont();
 
 	GameEngineCore::CreateLevel<CenterLevel>();
 	GameEngineCore::CreateLevel<TestLevel>();
+	GameEngineCore::CreateLevel<ServerTestLevel>();
+	GameEngineCore::CreateLevel<MapEditorLevel>();
+	GameEngineCore::CreateLevel<PhysXTestLevel>();
+	GameEngineCore::CreateLevel<StartLevel>();
+	GameEngineCore::CreateLevel<SelectLevel>();
 
 	GameEngineCore::ChangeLevel("CenterLevel");
 }
 
 void ContentsCore::GameEnd()
 {
+	MapEditorWindow::EditorGUI->ReleaseMapEditor();
 	//RemoveFont();
 }
 

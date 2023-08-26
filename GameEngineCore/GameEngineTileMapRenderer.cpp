@@ -19,9 +19,9 @@ void GameEngineTileMapRenderer::Start()
 	std::shared_ptr<GameEngineRenderUnit> Unit = CreateRenderUnit();
 
 	Unit->SetMesh("Rect");
-	Unit->SetPipeLine("TileMap");
+	Unit->SetMaterial("TileMap");
 
-	// SetPipeLine("2DTexture");
+	// SetMaterial("2DTexture");
 
 	AtlasData.x = 0.0f;
 	AtlasData.y = 0.0f;

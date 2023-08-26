@@ -3,6 +3,7 @@
 #include <GameEngineBase\GameEngineTimeEvent.h>
 #include <string_view>
 #include <map>
+#include <GameEngineCore/GameEngineLight.h>
 #include <GameEngineCore/GameEngineRenderTarget.h>
 
 // 설명 :
@@ -12,7 +13,9 @@ class GameEngineRenderer;
 class GameEngineCollision;
 class GameEngineLevel : public GameEngineObject
 {
+	friend class GameEngineLight;
 	friend class GameEngineRenderer;
+	friend class GameEngineRenderUnit;
 	friend class GameEngineCollision;
 	friend class GameEngineTransform;
 	friend class GameEngineCore;
@@ -20,7 +23,7 @@ class GameEngineLevel : public GameEngineObject
 	friend class GameEngineTexture;
 
 public:
-	static void IsDebugSwitch() 
+	static void IsDebugSwitch()
 	{
 		IsDebugRender = !IsDebugRender;
 	}
@@ -71,7 +74,7 @@ public:
 
 	std::shared_ptr<class GameEngineCamera> CreateNewCamera(int _Order);
 
-	std::shared_ptr<class GameEngineCamera> GetMainCamera() 
+	std::shared_ptr<class GameEngineCamera> GetMainCamera()
 	{
 		return MainCamera;
 	}
@@ -83,7 +86,7 @@ public:
 
 	std::shared_ptr<GameEngineCamera> GetCamera(int _CameraOrder);
 
-	std::shared_ptr<GameEngineRenderTarget> GetLastTarget() 
+	std::shared_ptr<GameEngineRenderTarget> GetLastTarget()
 	{
 		return LastTarget;
 	}
@@ -95,12 +98,21 @@ public:
 		return GetActorGroup(static_cast<int>(_Index));
 	}
 
-	std::list<std::shared_ptr<GameEngineActor>> GetActorGroup(int _Index) 
+	std::list<std::shared_ptr<GameEngineActor>> GetActorGroup(int _Index)
 	{
 		return Actors[_Index];
 	}
 
+	inline int GetLevelType()
+	{
+		return LevelType;
+	}
 
+	template<typename EnumType>
+	inline EnumType GetLevelType()
+	{
+		return static_cast<EnumType>(LevelType);
+	}
 protected:
 	// 레벨이 바뀌어서 시작할때
 	virtual void LevelChangeStart();
@@ -111,8 +123,22 @@ protected:
 	void Render(float _DeltaTime);
 
 	void AllActorDestroy();
+
+	template<typename EnumType>
+	inline void SetLevelType(EnumType _Type)
+	{
+		LevelType = static_cast<int>(_Type);
+	}
+
+	inline void SetLevelType(int _Type)
+	{
+		LevelType = _Type;
+	}
+
+
 private:
 	static bool IsDebugRender;
+	int LevelType = -1;
 
 	// 모든 카메라의 내용이 다 종합된.
 	std::shared_ptr<GameEngineRenderTarget> LastTarget;
@@ -129,6 +155,14 @@ private:
 
 	void PushCameraRenderer(std::shared_ptr<GameEngineRenderer> _Renderer, int _CameraOrder);
 
+	// 빛의 영향 받는 여부만 존재
+	std::list<std::shared_ptr<GameEngineLight>> AllLight;
+
+	LightDatas LightDataObject;
+	void PushLight(std::shared_ptr<GameEngineLight> _Light);
+
+
+
 	std::map<int, std::list<std::shared_ptr<GameEngineActor>>> Actors;
 
 	std::map<int, std::list<std::shared_ptr<GameEngineCollision>>> Collisions;
@@ -138,7 +172,6 @@ private:
 	void ActorInit(std::shared_ptr<GameEngineActor> _Actor, int _Order, GameEngineLevel* _Level);
 
 	void ActorUpdate(float _DeltaTime);
-	void ActorRender(float _DeltaTime);
 	void ActorRelease();
 	void ActorLevelChangeStart();
 	void ActorLevelChangeEnd();
@@ -152,6 +185,8 @@ private:
 
 	void TextureReLoad(GameEngineLevel* _PrevLevel);
 
+	// user >> server
+	//void SendActorPacket(float _DeltaTime);
+
 };
 
- 

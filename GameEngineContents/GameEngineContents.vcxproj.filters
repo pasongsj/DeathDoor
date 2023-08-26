@@ -13,9 +13,6 @@
     <ClCompile Include="TestObject.cpp">
       <Filter>TestLevel\Object</Filter>
     </ClCompile>
-    <ClCompile Include="CenterGui.cpp">
-      <Filter>CenterLevel</Filter>
-    </ClCompile>
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="BlackScreen.cpp">
@@ -24,6 +21,111 @@
     <ClCompile Include="PreCompileHeader.cpp" />
     <ClCompile Include="Player.cpp">
       <Filter>TestLevel\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelWindow.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerWindow.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerTestLevel.cpp">
+      <Filter>TestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditorWindow.cpp">
+      <Filter>mapeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditorLevel.cpp">
+      <Filter>mapeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessMapInfo.cpp">
+      <Filter>mapeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="PinActor.cpp">
+      <Filter>mapeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SinkBox_8x8.cpp">
+      <Filter>PlayLevel\MapActor</Filter>
+    </ClCompile>
+    <ClCompile Include="SinkBox_4x4.cpp">
+      <Filter>PlayLevel\MapActor</Filter>
+    </ClCompile>
+    <ClCompile Include="GameContentsMapActor.cpp">
+      <Filter>NetObejct</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBase.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_Banana.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Boomerang.cpp">
+      <Filter>Player\ObJect</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentFBXRenderer.cpp">
+      <Filter>ContentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTestActor.cpp">
+      <Filter>PhysX\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXBoxComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXDynamicActorComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXCapsuleComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXConvexComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerPacket.cpp">
+      <Filter>Server\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="StartLevel.cpp">
+      <Filter>Level\StartLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="StartUI.cpp">
+      <Filter>Level\StartLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentSpriteRenderer.cpp">
+      <Filter>ContentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentUIRenderer.cpp">
+      <Filter>ContentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectLevel.cpp">
+      <Filter>Level\SelectLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterList.cpp">
+      <Filter>Level\SelectLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="TextObj.cpp">
+      <Filter>TestLevel\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTriangleComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXSphereComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXLevel.cpp">
+      <Filter>PhysX\ParentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXActor.cpp">
+      <Filter>PhysX\ParentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTestLevel.cpp">
+      <Filter>PhysX\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXCustom.cpp">
+      <Filter>PhysX\ParentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXDefault.cpp">
+      <Filter>PhysX\ParentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTestPlane.cpp">
+      <Filter>PhysX\Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -39,9 +141,6 @@
     <ClInclude Include="TestObject.h">
       <Filter>TestLevel\Object</Filter>
     </ClInclude>
-    <ClInclude Include="CenterGui.h">
-      <Filter>CenterLevel</Filter>
-    </ClInclude>
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="BlackScreen.h">
       <Filter>TestLevel\Object</Filter>
@@ -49,6 +148,116 @@
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="PreCompileHeader.h" />
     <ClInclude Include="Player.h">
+      <Filter>TestLevel\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelWindow.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerWindow.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerTestLevel.h">
+      <Filter>TestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditorWindow.h">
+      <Filter>mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditorLevel.h">
+      <Filter>mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditGlobalValue.h">
+      <Filter>mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessMapInfo.h">
+      <Filter>mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="PinActor.h">
+      <Filter>mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SinkBox_8x8.h">
+      <Filter>PlayLevel\MapActor</Filter>
+    </ClInclude>
+    <ClInclude Include="SinkBox_4x4.h">
+      <Filter>PlayLevel\MapActor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameContentsMapActor.h">
+      <Filter>NetObejct</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBase.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_Banana.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Boomerang.h">
+      <Filter>Player\ObJect</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentFBXRenderer.h">
+      <Filter>ContentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTestActor.h">
+      <Filter>PhysX\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXBoxComponent.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXDynamicActorComponent.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="PhysXCapsuleComponent.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXConvexComponent.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTriangleComponent.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXSphereComponent.h">
+      <Filter>PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXActor.h">
+      <Filter>PhysX\ParentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXLevel.h">
+      <Filter>PhysX\ParentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTestLevel.h">
+      <Filter>PhysX\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXCustom.h">
+      <Filter>PhysX\ParentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXDefault.h">
+      <Filter>PhysX\ParentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTestPlane.h">
+      <Filter>PhysX\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="ServerPacket.h">
+      <Filter>Server\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="StartLevel.h">
+      <Filter>Level\StartLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="StartUI.h">
+      <Filter>Level\StartLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentSpriteRenderer.h">
+      <Filter>ContentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentUIRenderer.h">
+      <Filter>ContentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectLevel.h">
+      <Filter>Level\SelectLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterList.h">
+      <Filter>Level\SelectLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TextObj.h">
       <Filter>TestLevel\Object</Filter>
     </ClInclude>
   </ItemGroup>
@@ -64,6 +273,72 @@
     </Filter>
     <Filter Include="TestLevel\Object">
       <UniqueIdentifier>{20971649-8cee-49b6-84ba-e57808e3cfc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{830c1ac3-b273-4035-9822-5c88ac53bfb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{7a60a209-6a23-4332-9882-202217e65294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{b7663b85-6fd3-4f21-b289-cdc522ae4486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mapeditor">
+      <UniqueIdentifier>{89975606-5f56-4ef4-845e-15ad963da86d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayLevel">
+      <UniqueIdentifier>{24783dc1-27e8-4373-b1c1-dd0e053066fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayLevel\LevelWhisk">
+      <UniqueIdentifier>{2dd775a0-49eb-4f54-bab1-72f5b12fc6ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayLevel\LevelMaze">
+      <UniqueIdentifier>{5d752848-2d4e-461a-be8b-26560dcf3e0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayLevel\MapActor">
+      <UniqueIdentifier>{5dd5f4a8-7587-4241-8ab9-47d33fcde18d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NetObejct">
+      <UniqueIdentifier>{992ca562-a6e9-43c3-ba73-db8f7817cc57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{d7d0bb27-7d0a-4e1e-b795-6e8711f07cec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\ObJect">
+      <UniqueIdentifier>{27029e27-0fed-4c60-b7a0-99d6d4ec8c42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContentClass">
+      <UniqueIdentifier>{ea47a0a4-5c32-4fb2-9bd1-1b0b0980ad7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysX">
+      <UniqueIdentifier>{4d83cbc8-4188-4e36-b30b-1974fd06a430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysX\Component">
+      <UniqueIdentifier>{d7309d46-1f1f-43b1-9d99-dcb38e66248c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Packet">
+      <UniqueIdentifier>{87cb09f1-9269-4a47-95d9-45d86e4e2d4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{7247da7d-5323-4fde-a1b6-8be3bacbb3d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\SelectLevel">
+      <UniqueIdentifier>{e76c41f3-ab62-481f-aacc-477d78051cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\StartLevel">
+      <UniqueIdentifier>{ce82898a-ce38-4483-8266-4f610cbc57f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\StartLevel\Actor">
+      <UniqueIdentifier>{c1dcac4a-2650-4b32-b061-bf2031510580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\SelectLevel\Actor">
+      <UniqueIdentifier>{1dc1bd94-bc76-4877-8c08-eb966b4ba3a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysX\ParentClass">
+      <UniqueIdentifier>{dabb8312-c38b-4b1b-a797-0ae1c4771dbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PhysX\Test">
+      <UniqueIdentifier>{c0881260-81c3-4478-b5d6-05f3ea633a14}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

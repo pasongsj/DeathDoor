@@ -2,11 +2,63 @@
 #include "GameEngineFBX.h"
 #include <GameEngineBase/GameEngineString.h>
 
-GameEngineFBX::GameEngineFBX() 
+bool GameEngineFBX::IsCheckAnimationFBX(std::string_view _Path)
+{
+	GameEngineFBX FBX;
+
+	FBX.FBXInit(_Path.data());
+
+	return FBX.CheckAnimationFBX(_Path);
+}
+
+bool GameEngineFBX::CheckAnimationFBX(std::string_view _Path)
+{
+	int geometryCount = Scene->GetGeometryCount();
+	for (int i = 0; i < geometryCount; i++)
+	{
+		// 노드중에서 기하구조를 가진녀석들을 뽑아내는것이고.
+		fbxsdk::FbxGeometry* geoMetry = Scene->GetGeometry(i);
+		fbxsdk::FbxNode* geoMetryNode = geoMetry->GetNode();
+
+		// FBXInfoDebugFunction(geoMetryNode);
+
+		if (nullptr == geoMetry)
+		{
+			continue;
+		}
+
+		// 뽑아낸 애들중에서 그 타입이
+		if (geoMetry->GetAttributeType() != fbxsdk::FbxNodeAttribute::eMesh)
+		{
+			continue;
+		}
+
+		fbxsdk::FbxMesh* Mesh = reinterpret_cast<fbxsdk::FbxMesh*>(geoMetry);
+
+		fbxsdk::FbxNode* pNode = Mesh->GetNode();
+		fbxsdk::FbxMesh* FbxMesh = Mesh;
+
+		const int SkinDeformerCount = FbxMesh->GetDeformerCount(fbxsdk::FbxDeformer::eSkin);
+		for (int DeformerIndex = 0; DeformerIndex < SkinDeformerCount; DeformerIndex++)
+		{
+			fbxsdk::FbxSkin* Skin = (fbxsdk::FbxSkin*)FbxMesh->GetDeformer(DeformerIndex, fbxsdk::FbxDeformer::eSkin);
+			for (int ClusterIndex = 0; ClusterIndex < Skin->GetClusterCount(); ClusterIndex++)
+			{
+				_Path;
+				// 본을 가진 매쉬다
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+GameEngineFBX::GameEngineFBX()
 {
 }
 
-GameEngineFBX::~GameEngineFBX() 
+GameEngineFBX::~GameEngineFBX()
 {
 	if (nullptr != Scene)
 	{
@@ -28,6 +80,47 @@ GameEngineFBX::~GameEngineFBX()
 		Manager->Destroy();
 		Manager = nullptr;
 	}
+}
+
+std::vector<FBXNodeInfo> GameEngineFBX::CheckAllNode()
+{
+	std::vector<FBXNodeInfo> AllNode;
+
+	RecursiveAllNode(RootNode, [&](fbxsdk::FbxNode* _Node)
+		{
+			FBXNodeInfo& _NodeInfo = AllNode.emplace_back();
+
+			_NodeInfo.Name = _Node->GetName();
+			_NodeInfo.Node = _Node;
+		});
+
+	return AllNode;
+
+}
+
+void GameEngineFBX::RecursiveAllNode(fbxsdk::FbxNode* _Node, std::function<void(fbxsdk::FbxNode*)> _Function /*= nullptr*/)
+{
+	if (nullptr != _Function)
+	{
+		_Function(_Node);
+	}
+
+	fbxsdk::FbxNodeAttribute* Info = _Node->GetNodeAttribute();
+
+	if (nullptr != Info)
+	{
+		fbxsdk::FbxNodeAttribute::EType Type = Info->GetAttributeType();
+	}
+
+
+	int Count = _Node->GetChildCount();
+
+	for (int i = 0; i < Count; i++)
+	{
+		fbxsdk::FbxNode* Node = _Node->GetChild(i);
+		RecursiveAllNode(Node, _Function);
+	}
+
 }
 
 void GameEngineFBX::FBXInit(std::string _Path)
