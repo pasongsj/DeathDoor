@@ -1,6 +1,8 @@
 #include "PrecompileHeader.h"
 #include "StartLevel.h"
-#include "StartUI.h"
+
+#include "GameLogo.h"
+#include "StartMenu.h"
 
 StartLevel::StartLevel()
 {
@@ -14,10 +16,14 @@ void StartLevel::Start()
 {
 	SetLevelType(PacketLevelType::StartLevel);
 
-	GetMainCamera()->SetProjectionType(CameraType::Orthogonal);
-	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 0.0f, -1000.0f });
+	GetMainCamera()->SetProjectionType(CameraType::Perspective);
+	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -100.0f });
 
-	CreateActor<StartUI>();
+	GetCamera(100)->SetProjectionType(CameraType::Orthogonal);
+	GetCamera(100)->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+
+	CreateActor<GameLogo>();
+	CreateActor<StartMenu>();
 }
 
 void StartLevel::Update(float _DeltaTime)
