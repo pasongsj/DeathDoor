@@ -7,8 +7,12 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineDebug3D.h>
+
+#include <GameEngineCore/GameEngineCollision.h>
+
 #include <GameEngineCore/GameEngineFBXRenderer.h>
-#include <GameEngineCore/GameEngineFBXRenderer.h>
+#include <GameEngineCore/GameEngineUIRenderer.h>
+#include <GameEngineCore/GameEngineFontRenderer.h>
 
 //PhysX 4.1
 //#pragma warning(disable : 4996)

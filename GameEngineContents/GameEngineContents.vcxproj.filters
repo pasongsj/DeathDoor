@@ -52,15 +52,6 @@
     <ClCompile Include="GameContentsMapActor.cpp">
       <Filter>NetObejct</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBase.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Player_Banana.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Boomerang.cpp">
-      <Filter>Player\ObJect</Filter>
-    </ClCompile>
     <ClCompile Include="ContentFBXRenderer.cpp">
       <Filter>ContentClass</Filter>
     </ClCompile>
@@ -85,20 +76,11 @@
     <ClCompile Include="StartLevel.cpp">
       <Filter>Level\StartLevel</Filter>
     </ClCompile>
-    <ClCompile Include="StartUI.cpp">
-      <Filter>Level\StartLevel\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="ContentSpriteRenderer.cpp">
       <Filter>ContentClass</Filter>
     </ClCompile>
     <ClCompile Include="ContentUIRenderer.cpp">
       <Filter>ContentClass</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectLevel.cpp">
-      <Filter>Level\SelectLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterList.cpp">
-      <Filter>Level\SelectLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="TextObj.cpp">
       <Filter>TestLevel\Object</Filter>
@@ -126,6 +108,18 @@
     </ClCompile>
     <ClCompile Include="PhysXTestPlane.cpp">
       <Filter>PhysX\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="StartMenu.cpp">
+      <Filter>Level\StartLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogo.cpp">
+      <Filter>Level\StartLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentUIFontRenderer.cpp">
+      <Filter>ContentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBase.cpp">
+      <Filter>Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -183,15 +177,6 @@
     <ClInclude Include="GameContentsMapActor.h">
       <Filter>NetObejct</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBase.h">
-      <Filter>Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Player_Banana.h">
-      <Filter>Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Boomerang.h">
-      <Filter>Player\ObJect</Filter>
-    </ClInclude>
     <ClInclude Include="ContentFBXRenderer.h">
       <Filter>ContentClass</Filter>
     </ClInclude>
@@ -242,23 +227,26 @@
     <ClInclude Include="StartLevel.h">
       <Filter>Level\StartLevel</Filter>
     </ClInclude>
-    <ClInclude Include="StartUI.h">
-      <Filter>Level\StartLevel\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="ContentSpriteRenderer.h">
       <Filter>ContentClass</Filter>
     </ClInclude>
     <ClInclude Include="ContentUIRenderer.h">
       <Filter>ContentClass</Filter>
     </ClInclude>
-    <ClInclude Include="SelectLevel.h">
-      <Filter>Level\SelectLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterList.h">
-      <Filter>Level\SelectLevel\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="TextObj.h">
       <Filter>TestLevel\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="StartMenu.h">
+      <Filter>Level\StartLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogo.h">
+      <Filter>Level\StartLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentUIFontRenderer.h">
+      <Filter>ContentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBase.h">
+      <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -304,9 +292,6 @@
     <Filter Include="Player">
       <UniqueIdentifier>{d7d0bb27-7d0a-4e1e-b795-6e8711f07cec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Player\ObJect">
-      <UniqueIdentifier>{27029e27-0fed-4c60-b7a0-99d6d4ec8c42}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ContentClass">
       <UniqueIdentifier>{ea47a0a4-5c32-4fb2-9bd1-1b0b0980ad7b}</UniqueIdentifier>
     </Filter>
@@ -322,17 +307,11 @@
     <Filter Include="Level">
       <UniqueIdentifier>{7247da7d-5323-4fde-a1b6-8be3bacbb3d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\SelectLevel">
-      <UniqueIdentifier>{e76c41f3-ab62-481f-aacc-477d78051cd3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level\StartLevel">
       <UniqueIdentifier>{ce82898a-ce38-4483-8266-4f610cbc57f4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Level\StartLevel\Actor">
       <UniqueIdentifier>{c1dcac4a-2650-4b32-b061-bf2031510580}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\SelectLevel\Actor">
-      <UniqueIdentifier>{1dc1bd94-bc76-4877-8c08-eb966b4ba3a2}</UniqueIdentifier>
     </Filter>
     <Filter Include="PhysX\ParentClass">
       <UniqueIdentifier>{dabb8312-c38b-4b1b-a797-0ae1c4771dbd}</UniqueIdentifier>

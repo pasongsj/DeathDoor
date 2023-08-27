@@ -214,9 +214,10 @@ void ContentsCore::ContentsResourcesCreate()
 			GameEngineFBXMesh::Load(MapFiles[i].GetFullPath());
 		}
 	}
-	
 
-
+	{
+		GameEngineFont::Load("¸¼Àº °íµñ");
+	}
 
 	//{
 	//	GameEngineDirectory NewDir;
