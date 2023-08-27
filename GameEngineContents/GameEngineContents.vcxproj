@@ -166,14 +166,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlackScreen.cpp" />
-    <ClCompile Include="Boomerang.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="CharacterList.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="ContentFBXRenderer.cpp">
       <SubType>
       </SubType>
@@ -186,7 +178,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentUIFontRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
+    <ClCompile Include="GameLogo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LevelWindow.cpp">
       <SubType>
       </SubType>
@@ -233,24 +233,13 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerBase.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Player_Banana.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="PreCompileHeader.cpp">
       <SubType>
       </SubType>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ProcessMapInfo.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="SelectLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -275,7 +264,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="StartUI.cpp">
+    <ClCompile Include="StartMenu.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -291,19 +280,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlackScreen.h" />
-    <ClInclude Include="Boomerang.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="CharacterList.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="ContentSpriteRenderer.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentUIRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentUIFontRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameLogo.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -363,23 +352,12 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerBase.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Player_Banana.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="PreCompileHeader.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="ProcessMapInfo.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="SelectLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -404,7 +382,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="StartUI.h">
+    <ClInclude Include="StartMenu.h">
       <SubType>
       </SubType>
     </ClInclude>

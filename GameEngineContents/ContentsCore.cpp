@@ -14,7 +14,6 @@
 #include "PhysXTestLevel.h"
 
 #include "StartLevel.h"
-#include "SelectLevel.h"
 
 ContentsCore::ContentsCore()
 {
@@ -44,7 +43,6 @@ void ContentsCore::GameStart()
 	GameEngineCore::CreateLevel<MapEditorLevel>();
 	GameEngineCore::CreateLevel<PhysXTestLevel>();
 	GameEngineCore::CreateLevel<StartLevel>();
-	GameEngineCore::CreateLevel<SelectLevel>();
 
 	GameEngineCore::ChangeLevel("CenterLevel");
 }

@@ -7,7 +7,6 @@
 #include "Player.h"
 #include "ServerWindow.h"
 #include "TextObj.h"
-#include "Player_Banana.h"
 
 TestLevel::TestLevel() 
 {
@@ -43,12 +42,9 @@ void TestLevel::Start()
 
 	}
 	//CreateActor<Player>();
-	//std::shared_ptr<TextObj> pText =  CreateActor<TextObj>();
-	//pText->SetScale(100.f);
-	//pText->SetTxt("test");
-
-	CreateActor<Player_Banana>();
-
+	std::shared_ptr<TextObj> pText =  CreateActor<TextObj>();
+	pText->SetScale(100.f);
+	pText->SetTxt("test");
 
 }
 
