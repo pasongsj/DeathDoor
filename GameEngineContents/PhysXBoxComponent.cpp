@@ -63,6 +63,12 @@ void PhysXBoxComponent::CreatePhysXActors(physx::PxScene* _Scene, physx::PxPhysi
 	physx::PxVec3 Pivot(m_f4DynamicPivot.x, m_f4DynamicPivot.y, m_f4DynamicPivot.z);
 	m_pShape->setLocalPose(physx::PxTransform(Pivot));
 
+	///////////////////////
+	m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),
+		static_cast<physx::PxU32>(PhysXFilterGroup::Ground), 0, 0));
+	///////////////////////
+	// 
+	// 
 	//충돌할때 필요한 필터 데이터
 	if (m_bObstacle == true)
 	{

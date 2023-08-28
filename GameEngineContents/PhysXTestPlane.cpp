@@ -29,6 +29,7 @@ void PhysXTestPlane::Start()
 	if (GetLevel()->DynamicThis<PhysXTestLevel>() != nullptr)
 	{
 		m_pBoxComp = CreateComponent<PhysXBoxComponent>();
+		m_pBoxComp->SetPhysxMaterial(0.f,0.f, 0.f);
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
 		if(Count!=0)
 		{
@@ -37,7 +38,6 @@ void PhysXTestPlane::Start()
 		m_pBoxComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale, GetTransform()->GetWorldRotation());
 		++Count; 
 	}
-	m_pBoxComp->SetPhysxMaterial(10.f, 10.f, 0.f);
 }
 
 void PhysXTestPlane::Update(float _DeltaTime)

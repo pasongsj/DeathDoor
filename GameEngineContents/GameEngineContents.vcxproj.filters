@@ -121,6 +121,9 @@
     <ClCompile Include="PlayerBase.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXPlaneComponent.cpp">
+      <Filter>PhysX\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="PlayerBase.h">
       <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXPlaneComponent.h">
+      <Filter>PhysX\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

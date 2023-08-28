@@ -50,21 +50,6 @@ void CustomSimulationEventCallback::onTrigger(physx::PxTriggerPair* pairs, physx
 			
 		}
 
-
-		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Ground) &&
-			TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerHead))
-		{
-			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
-			{
-				
-			}
-
-			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST)
-			{
-				
-			}
-		}
-
 	}
 }
 
@@ -82,28 +67,32 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 		physx::PxFilterData OtherFilterdata = tmpOtherActor->getSimulationFilterData();
 		physx::PxFilterData ContactFilterdata = tmpContactActor->getSimulationFilterData();
 		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Ground) &&
-			ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerHead))
+			ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic))
 		{
 
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS)
 			{
+				int a = 0;
 				
 			}
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_LOST)
 			{
+				int a = 0;
 			}
 
 		}
-		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerHead) &&
+		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic) &&
 			ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle) &&
 			current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
 		{
+			int a = 0;
 		}
 
 		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle) &&
-			ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerHead) &&
+			ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic) &&
 			current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
 		{
+			int a = 0;
 		}
 
 	}
