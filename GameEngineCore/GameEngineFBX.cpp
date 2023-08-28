@@ -135,6 +135,10 @@ void GameEngineFBX::FBXInit(std::string _Path)
 
 bool GameEngineFBX::FBXSystemInitialize(std::string _Path)
 {
+	if (Manager!=nullptr)
+	{
+		return true;
+	}
 	// fbx에서 사용하는 기본기능을 제공하는 인터페이스
 	Manager = fbxsdk::FbxManager::Create();
 
