@@ -17,6 +17,9 @@
     <FxCompile Include="Transform.fx">
       <Filter>Header</Filter>
     </FxCompile>
+    <FxCompile Include="RenderBaseValue.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

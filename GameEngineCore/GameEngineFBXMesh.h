@@ -661,6 +661,9 @@ public:
 
 	std::shared_ptr<GameEngineStructuredBuffer> GetAnimationStructuredBuffer(size_t _Index);
 
+	void Initialize();
+
+
 	//void UserLoad(const std::string_view& _Path/*GameEngineFile& _File*/);
 	//void UserSave(const std::string_view& _Path/*GameEngineFile& _File*/);
 
@@ -687,7 +690,11 @@ protected:
 private:
 	void LoadMesh(const std::string& _Path, const std::string& _Name);
 
+	bool IsInit = false;
+
 	void MeshLoad();
+	void CreateGameEngineStructuredBuffer();
+
 
 	// 매쉬 정보 획득
 	void MeshNodeCheck();
@@ -725,9 +732,5 @@ private:
 	void LoadAnimationVertexData(FbxRenderUnitInfo* _DrawData, const std::vector<FbxClusterData>& vecClusterData);
 	void DrawSetWeightAndIndexSetting(FbxRenderUnitInfo* _DrawSet, fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxCluster* _Cluster, int _BoneIndex);
 	void CalAnimationVertexData(FbxRenderUnitInfo& _DrawSet);
-
-	// 스트럭처드 버퍼 생성로직.
-	void CreateGameEngineStructuredBuffer();
-
 };
 

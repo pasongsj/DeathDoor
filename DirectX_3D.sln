@@ -45,7 +45,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngineContents", "GameE
 		{A6E9BFEE-96EC-4FC9-9219-12202F5126CC} = {A6E9BFEE-96EC-4FC9-9219-12202F5126CC}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ContentsShader", "ContentsShader\ContentsShader.vcxproj", "{F37F1428-2DB1-4397-B24A-6A66CF7E2E0D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ContentsShader", "ContentResources\ContentsShader\ContentsShader.vcxproj", "{F37F1428-2DB1-4397-B24A-6A66CF7E2E0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -99,7 +99,7 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 			// 68개 
 			std::vector<AnimationBoneData>& AnimationBoneData = AnimationDataIter->second;
 
-			size_t MeshIndex = MatrixIter->first;
+			size_t MeshIndex = 0;
 
 			for (int i = 0; i < AnimationBoneMatrix.size(); i++)
 			{
@@ -166,6 +166,8 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 		MsgAssert("로드하지 않은 FBX 매쉬를 사용하려고 했습니다.");
 	}
 
+	FindFBXMesh->Initialize();
+
 	// 너 몇개 가지고 있어.
 	for (size_t UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
 	{
@@ -208,6 +210,8 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 	{
 		// 지금까지 만든거 다 날립니다.
 	}
+
+	FindFBXMesh->Initialize();
 
 	// return nullptr;
 
@@ -345,6 +349,8 @@ void GameEngineFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName
 		MsgAssert("GameEngineFBXAnimation이 존재하지 않습니다. " + std::string(_AnimationFBXName));
 		return;
 	}
+
+	Animation->Initialize();
 
 
 	std::shared_ptr<GameEngineFBXAnimationInfo> NewAnimation = std::make_shared<GameEngineFBXAnimationInfo>();

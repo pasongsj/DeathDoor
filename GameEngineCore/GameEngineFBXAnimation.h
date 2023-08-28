@@ -185,6 +185,8 @@ public:
 		return &AnimationDatas[_Index];
 	}
 
+	void Initialize();
+
 protected:
 	void LoadMesh(const std::string& _Path, const std::string& _Name);
 
@@ -194,12 +196,11 @@ protected:
 	void ProcessAnimationCheckState(std::shared_ptr <GameEngineFBXMesh> _Fbx, int userAniDataIndex);
 	fbxsdk::FbxAMatrix GetGeometryTransformation(fbxsdk::FbxNode* pNode);
 
-	// 런
-	// 아이들
-	// 어택
 	std::vector<FbxExAniData> AnimationDatas;
 
 private:
 	bool CheckAnimation();
+
+	bool IsInit = false;
 };
 
