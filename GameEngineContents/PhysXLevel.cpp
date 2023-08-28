@@ -62,7 +62,9 @@ void PhysXLevel::Simulate(float _DeltaTime)
 
 void PhysXLevel::Update(float _DeltaTime)
 {
-	Simulate(_DeltaTime);
+	m_pScene->simulate(_DeltaTime);
+	m_pScene->fetchResults(true);
+	//Simulate(_DeltaTime);
 }
 
 

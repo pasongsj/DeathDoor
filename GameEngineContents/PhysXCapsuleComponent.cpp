@@ -71,6 +71,12 @@ physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors(physx::PxScene* 
 	// TODO::부모 액터의 RenderUnit으로부터 Mesh의 Scale 과 WorldScale의 연산의 결과를 지오메트리의 Scale로 세팅해야함.
 	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pDynamic, physx::PxCapsuleGeometry(ScaledRadius * 1.f, ScaledHeight * 1.f), *m_pMaterial);
 
+///////////////////////
+	m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground),
+		static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),0,0));
+///////////////////////
+
+
 	// RigidDynamic의 밀도를 설정
 	physx::PxRigidBodyExt::updateMassAndInertia(*m_pDynamic, 0.01f);
 
@@ -115,7 +121,7 @@ void PhysXCapsuleComponent::SetMoveSpeed(float4 _MoveSpeed)
 	m_pDynamic->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X | physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y | physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z);
 
 	// 캐릭터의 방향을 힘으로 조절
-	m_pDynamic->addForce(physx::PxVec3(_MoveSpeed.x, _MoveSpeed.y, _MoveSpeed.z), physx::PxForceMode::eFORCE);
+	m_pDynamic->addForce(physx::PxVec3(_MoveSpeed.x, _MoveSpeed.y, _MoveSpeed.z), physx::PxForceMode::eVELOCITY_CHANGE);
 }
 
 void PhysXCapsuleComponent::SetMoveJump()

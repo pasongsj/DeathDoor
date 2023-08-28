@@ -16,13 +16,7 @@ physx::PxFilterFlags CustomFilterShader
 class CustomSimulationEventCallback : public physx::PxSimulationEventCallback, public PhysXDefault
 {
 public:
-	void SetPlayer(std::shared_ptr<class Player> _Player)
-	{
-		// 플레이어의 포인터 및 다이나믹을 저장한다.
-	}
-
 	void onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs) override;
-
 	void onConstraintBreak(physx::PxConstraintInfo* constraints, physx::PxU32 count) override {};
 	void onWake(physx::PxActor** actors, physx::PxU32 count) override {};
 	void onSleep(physx::PxActor** actors, physx::PxU32 count) override {};
