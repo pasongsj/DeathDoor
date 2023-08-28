@@ -99,7 +99,7 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 			// 68°³ 
 			std::vector<AnimationBoneData>& AnimationBoneData = AnimationDataIter->second;
 
-			size_t MeshIndex = MatrixIter->first;
+			size_t MeshIndex = 0;
 
 			for (int i = 0; i < AnimationBoneMatrix.size(); i++)
 			{
