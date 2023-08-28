@@ -29,7 +29,7 @@ void PhysXTestPlane::Start()
 	if (GetLevel()->DynamicThis<PhysXTestLevel>() != nullptr)
 	{
 		m_pBoxComp = CreateComponent<PhysXBoxComponent>();
-		m_pBoxComp->SetPhysxMaterial(10.f,10.f, 0.f);
+		m_pBoxComp->SetPhysxMaterial(0.f,0.f, 0.f);
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
 		if(Count!=0)
 		{

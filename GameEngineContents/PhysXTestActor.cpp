@@ -49,8 +49,7 @@ void PhysXTestActor::Start()
 
 		m_pCapsuleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale);
-		m_pCapsuleComp->TurnOnSpeedLimit();
-		m_pCapsuleComp->GetDynamic()->setMass(1.f);
+		//m_pCapsuleComp->TurnOnSpeedLimit();
 		//m_pConvexComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking, true, vscale);
 		//m_pTriangleComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking,true ,vscale);
 		//m_pDynamicActorComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
@@ -102,6 +101,6 @@ void PhysXTestActor::Update(float _DeltaTime)
 	//test.p += test2.p;
 	//m_pSphereComp->GetDynamic()->setGlobalPose(test);
 	m_pCapsuleComp->GetDynamic()->setLinearVelocity({0,0,0});
-	m_pCapsuleComp->SetMoveSpeed(Movedir * 500);
+	m_pCapsuleComp->SetMoveSpeed(Movedir * 400);
 };
 
