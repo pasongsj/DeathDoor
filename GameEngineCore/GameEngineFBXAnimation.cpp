@@ -140,7 +140,7 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 		CurAniData.StartTime = startTime;
 		CurAniData.TimeMode = timeMode;
 
-		for (size_t MeshIndex = 0; MeshIndex < 1; ++MeshIndex)
+		for (size_t MeshIndex = 0; MeshIndex < CurAniData.AniFrameData.size(); ++MeshIndex)
 		{
 			if (0 == CurAniData.AniFrameData[MeshIndex].size())
 			{
@@ -302,7 +302,7 @@ void GameEngineFBXAnimation::ProcessAnimationCheckState(std::shared_ptr <GameEng
 	// 애니메이션 정보가 비어있는 녀석등은 보통 offset이라고 하는 T
 	// 
 	// 몸통
-	for (size_t MeshIndex = 0; MeshIndex < 1; MeshIndex++)
+	for (size_t MeshIndex = 0; MeshIndex < userAniData.AniFrameData.size(); MeshIndex++)
 	{
 		// 30프레임의 정보가
 		size_t aniFrameDataSize = userAniData.AniFrameData[MeshIndex].size();
