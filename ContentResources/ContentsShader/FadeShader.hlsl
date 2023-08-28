@@ -25,7 +25,6 @@ OutPut Fade_VS(Input _Value)
 
 cbuffer FadeData : register(b1)
 {
-    // 상수버퍼는 
     float4 FadeValue;
 }
 

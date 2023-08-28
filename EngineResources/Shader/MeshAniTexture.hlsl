@@ -1,16 +1,9 @@
 #include "Transform.fx"
 #include "Animation.fx"
 #include "Light.fx"
+#include "RenderBaseValue.fx"
 
-cbuffer RenderBaseValue : register(b10)
-{
-    float DeltaTime = 0.0f;
-    float SumDeltaTime = 0.0f;
-    int IsAnimation = 0;
-    int IsNormal = 0;
-    float4 ScreenScale;
-    float4 Mouse;
-};
+
 
 
 
@@ -52,11 +45,15 @@ Output MeshAniTexture_VS(Input _Input)
     float4 InputPos = _Input.POSITION;
     InputPos.w = 1.0f;
     
+    float4 InputNormal = _Input.NORMAL;
+    InputNormal.w = 0.0f;
+    
     if (IsAnimation != 0)
-
     {
         Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+        // SkinningNormal(InputNormal, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
         InputPos.w = 1.0f;
+        InputNormal.w = 0.0f;
     }
     
     
@@ -72,7 +69,7 @@ Output MeshAniTexture_VS(Input _Input)
     // 빛계산을 하기 위한 포지션이므로 이녀석은 뷰공간에 있어야 한다.
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
     _Input.NORMAL.w = 0.0f;
-    NewOutPut.NORMAL = mul(_Input.NORMAL, WorldView);
+    NewOutPut.NORMAL = mul(InputNormal, WorldView);
     
     return NewOutPut;
 }
@@ -93,12 +90,12 @@ float4 MeshAniTexture_PS(Output _Input) : SV_Target0
     }
     
     float4 DiffuseRatio = CalDiffuseLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
-    float4 SpacularRatio;
+    float4 SpacularRatio = CalSpacularLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);;
     float4 AmbientRatio = CalAmbientLight(AllLight[0]);
     
     
     float A = Color.w;
-    float4 ResultColor = Color * DiffuseRatio;
+    float4 ResultColor = Color * (DiffuseRatio + SpacularRatio + AmbientRatio);
     ResultColor.a = A;
     // Color += AllLight[0].LightColor;
     

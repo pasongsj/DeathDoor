@@ -35,6 +35,7 @@ private:
 class RenderBaseValue
 {
 public:
+	float4 BaseColor = { 1.0f, 0.0f, 0.0f, 1.0f };
 	float DeltaTime = 0.0f;
 	float SumDeltaTime = 0.0f;
 	int IsAnimation = 0;
@@ -64,9 +65,12 @@ public:
 	// 어떤 쉐이더를 사용했다는 걸 알아야 하고
 	// 그 쉐이더에서 어떤 텍스처를 사용했고
 	// 어떤 샘플러 어떤 상수버퍼를 사용했는지를 알아야 한다.
+
 	void SetMaterial(const std::string_view& _Name, int _index = 0);
 
 	// void SetMesh(const std::string_view& _Name, int _index = 0);
+
+	std::shared_ptr<GameEngineRenderUnit> CreateRenderUnit(std::string_view _Mesh, std::string_view _Material);
 
 	// 랜더유니트를 만든다.
 	std::shared_ptr<GameEngineRenderUnit> CreateRenderUnit();

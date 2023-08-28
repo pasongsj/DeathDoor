@@ -40,11 +40,38 @@ float4 CalDiffuseLight(float4 _Pos,  float4 _Normal, LightData _Data)
 {
     float4 ResultRatio = (float4) 0.0f;
 
-    _Normal = normalize(_Normal); // N
-    float4 LightRevDir = normalize(_Data.ViewLightRevDir); // L
+    _Normal.xyz = normalize(_Normal.xyz); // N
+    float4 LightRevDir;
+    LightRevDir.xyz = normalize(_Data.ViewLightRevDir.xyz); // L
     
     ResultRatio = max(0.0f, dot(_Normal.xyz, LightRevDir.xyz));
     return ResultRatio;
+}
+
+float4 CalSpacularLight(float4 _Pos, float4 _Normal, LightData _Data)
+{
+    float4 SpacularLight = (float4) 0.0f;
+    
+    _Normal.xyz = normalize(_Normal.xyz); // N
+    _Data.ViewLightRevDir.xyz = normalize(_Data.ViewLightRevDir.xyz); // L
+    
+    float4 LightDir = _Data.ViewLightRevDir;
+    
+    // ¹Ý»çº¤ÅÍ
+    // 
+    float3 Reflection = normalize(2.0f * _Normal.xyz * dot(LightDir.xyz, _Normal.xyz) - LightDir.xyz); //  N
+    
+    // ´«ÀÌ ¾îµðÀÖ³Ä
+    float3 Eye = normalize(_Data.CameraPosition.xyz - _Pos.xyz); // L
+    
+    // 0 ~ 1
+    float Result = max(0.0f, dot(Reflection.xyz, Eye.xyz));
+    
+    // SpacularLight.xyzw = Result;
+    SpacularLight.xyzw = pow(Result, 10);
+    
+    return SpacularLight;
+
 }
 
 float4 CalAmbientLight(LightData _LightData)
