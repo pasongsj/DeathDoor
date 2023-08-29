@@ -192,7 +192,6 @@
     <ClInclude Include="PhysXDynamicActorComponent.h">
       <Filter>PhysX\Component</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="PhysXCapsuleComponent.h">
       <Filter>PhysX\Component</Filter>
     </ClInclude>
@@ -325,8 +324,5 @@
     <Filter Include="PhysX\Test">
       <UniqueIdentifier>{c0881260-81c3-4478-b5d6-05f3ea633a14}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\ContentResources\ContentsShader\ContentsShader.vcxproj" />
   </ItemGroup>
 </Project>
