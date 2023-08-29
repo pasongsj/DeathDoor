@@ -71,10 +71,6 @@ physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors(physx::PxScene* 
 	// TODO::부모 액터의 RenderUnit으로부터 Mesh의 Scale 과 WorldScale의 연산의 결과를 지오메트리의 Scale로 세팅해야함.
 	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pDynamic, physx::PxCapsuleGeometry(ScaledRadius * 1.f, ScaledHeight * 1.f), *m_pMaterial);
 
-///////////////////////
-	m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground),
-		static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),0,0));
-///////////////////////
 
 
 	// RigidDynamic의 밀도를 설정
@@ -87,6 +83,10 @@ physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors(physx::PxScene* 
 	relativePose.p = DynamicCenter;
 	m_pShape->setLocalPose(relativePose);
 
+	///////////////////////
+	m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),
+		static_cast<physx::PxU32>(PhysXFilterGroup::Ground), 0, 0));
+	///////////////////////
 	//충돌할때 필요한 필터 데이터
 	//m_pShape->setSimulationFilterData
 	//(
