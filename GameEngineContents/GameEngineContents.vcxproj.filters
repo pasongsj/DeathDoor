@@ -18,9 +18,6 @@
       <Filter>Contents\TestLevel\Object</Filter>
     </ClCompile>
     <ClCompile Include="PreCompileHeader.cpp" />
-    <ClCompile Include="Player.cpp">
-      <Filter>Contents\TestLevel\Object</Filter>
-    </ClCompile>
     <ClCompile Include="ServerTestLevel.cpp">
       <Filter>Contents\TestLevel</Filter>
     </ClCompile>
@@ -126,6 +123,15 @@
     <ClCompile Include="GameContentsMapActor.cpp">
       <Filter>Component\mapeditor</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerTestLevel.cpp">
+      <Filter>Contents\PlayerTest</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Contents\PlayerTest</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFSM.cpp">
+      <Filter>Contents\PlayerTest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -145,9 +151,6 @@
       <Filter>Contents\TestLevel\Object</Filter>
     </ClInclude>
     <ClInclude Include="PreCompileHeader.h" />
-    <ClInclude Include="Player.h">
-      <Filter>Contents\TestLevel\Object</Filter>
-    </ClInclude>
     <ClInclude Include="ServerTestLevel.h">
       <Filter>Contents\TestLevel</Filter>
     </ClInclude>
@@ -254,6 +257,12 @@
     <ClInclude Include="GameContentsMapActor.h">
       <Filter>Component\mapeditor</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerTestLevel.h">
+      <Filter>Contents\PlayerTest</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Contents\PlayerTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -324,6 +333,9 @@
     </Filter>
     <Filter Include="Contents\TestLevel\Object">
       <UniqueIdentifier>{20971649-8cee-49b6-84ba-e57808e3cfc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\PlayerTest">
+      <UniqueIdentifier>{a1e2dbe7-2529-4870-adb3-ceaef6fd0e8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

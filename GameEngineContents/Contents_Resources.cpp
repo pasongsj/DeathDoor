@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineMaterial.h>
 #include <GameEngineCore/GameEngineBlend.h>
 #include <GameEngineCore/GameEngineFBXMesh.h>
+#include <GameEngineCore/GameEngineFBXAnimation.h>
 
 void ContentsCore::ContentsResourcesCreate()
 {
@@ -196,7 +197,8 @@ void ContentsCore::ContentsResourcesCreate()
 		NewDir.Move("ContentResources");
 		NewDir.Move("Mesh");
 		NewDir.Move("Characters");
-		
+
+
 		std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".FBX" });
 		
 		for (size_t i = 0; i < Files.size(); i++)
@@ -204,15 +206,15 @@ void ContentsCore::ContentsResourcesCreate()
 			GameEngineFBXMesh::Load(Files[i].GetFullPath());
 		}
 
-		//NewDir.MoveParent();
-		//NewDir.Move("Map");
-		//
-		//std::vector<GameEngineFile> MapFiles = NewDir.GetAllFile({ ".FBX" });
-		//
-		//for (size_t i = 0; i < MapFiles.size(); i++)
-		//{
-		//	GameEngineFBXMesh::Load(MapFiles[i].GetFullPath());
-		//}
+		NewDir.MoveParent();
+		NewDir.Move("Animations");
+		
+		std::vector<GameEngineFile> MapFiles = NewDir.GetAllFile({ ".FBX" });
+		
+		for (size_t i = 0; i < MapFiles.size(); i++)
+		{
+			GameEngineFBXAnimation::Load(MapFiles[i].GetFullPath());
+		}
 	}
 
 	{

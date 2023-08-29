@@ -63,6 +63,11 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		m_CurLevelName = "StartLevel";
 		GameEngineCore::ChangeLevel("StartLevel");
 	}
+	if (ImGui::Button("PlayerTestLevel") && Level->DynamicThis<StartLevel>().get() != GetLevel())
+	{
+		m_CurLevelName = "PlayerTestLevel";
+		GameEngineCore::ChangeLevel("PlayerTestLevel");
+	}
 
 	ImGui::Text("CurCameraMode :");
 	ImGui::SameLine(); 
