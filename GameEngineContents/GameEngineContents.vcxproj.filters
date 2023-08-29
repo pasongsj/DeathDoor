@@ -326,4 +326,7 @@
       <UniqueIdentifier>{c0881260-81c3-4478-b5d6-05f3ea633a14}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ContentResources\ContentsShader\ContentsShader.vcxproj" />
+  </ItemGroup>
 </Project>

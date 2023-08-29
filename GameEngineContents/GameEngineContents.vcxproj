@@ -404,6 +404,9 @@
     </ClInclude>
     <ClInclude Include="TextObj.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ContentResources\ContentsShader\ContentsShader.vcxproj" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
