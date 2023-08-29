@@ -80,12 +80,16 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 			ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic))
 		{
 
-			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS)
+			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) //충돌이 시작된 시점
+			{
+				int a = 0;
+			}
+			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) //충돌이 유지되는동안 계속 들어옴
 			{
 				int a = 0;
 				
 			}
-			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_LOST)
+			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) //충돌이 끝나는 시점
 			{
 				int a = 0;
 			}
