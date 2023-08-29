@@ -12,16 +12,26 @@ physx::PxFilterFlags CustomFilterShader
 	physx::PxU32 constantBlockSize
 )
 {
-	// let triggers through
+	PX_UNUSED(attributes0);
+	PX_UNUSED(attributes1);
+	PX_UNUSED(filterData0);
+	PX_UNUSED(filterData1);
+	PX_UNUSED(constantBlockSize);
+	PX_UNUSED(constantBlock);
+
 	if (physx::PxFilterObjectIsTrigger(attributes0) || physx::PxFilterObjectIsTrigger(attributes1))
 	{
-		pairFlags = physx::PxPairFlag::eTRIGGER_DEFAULT | physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
+		pairFlags = physx::PxPairFlag::eNOTIFY_TOUCH_FOUND | physx::PxPairFlag::eNOTIFY_TOUCH_LOST | physx::PxPairFlag::eSOLVE_CONTACT | physx::PxPairFlag::eDETECT_DISCRETE_CONTACT;
 		return physx::PxFilterFlag::eDEFAULT;
 	}
 
-	//generate contacts for all that were not filtered above
-	pairFlags = physx::PxPairFlag::eNOTIFY_TOUCH_FOUND | physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS | physx::PxPairFlag::eNOTIFY_TOUCH_LOST |
-		physx::PxPairFlag::eDETECT_DISCRETE_CONTACT | physx::PxPairFlag::eSOLVE_CONTACT;
+	// all initial and persisting reports for everything, with per-point data
+	pairFlags = physx::PxPairFlag::eSOLVE_CONTACT
+		| physx::PxPairFlag::eDETECT_DISCRETE_CONTACT
+		| physx::PxPairFlag::eNOTIFY_TOUCH_FOUND
+		| physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS
+		| physx::PxPairFlag::eNOTIFY_TOUCH_LOST
+		| physx::PxPairFlag::eNOTIFY_CONTACT_POINTS;
 
 	return physx::PxFilterFlag::eDEFAULT;
 }
