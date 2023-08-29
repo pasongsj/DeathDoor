@@ -204,15 +204,15 @@ void ContentsCore::ContentsResourcesCreate()
 			GameEngineFBXMesh::Load(Files[i].GetFullPath());
 		}
 
-		NewDir.MoveParent();
-		NewDir.Move("Map");
-		
-		std::vector<GameEngineFile> MapFiles = NewDir.GetAllFile({ ".FBX" });
-		
-		for (size_t i = 0; i < MapFiles.size(); i++)
-		{
-			GameEngineFBXMesh::Load(MapFiles[i].GetFullPath());
-		}
+		//NewDir.MoveParent();
+		//NewDir.Move("Map");
+		//
+		//std::vector<GameEngineFile> MapFiles = NewDir.GetAllFile({ ".FBX" });
+		//
+		//for (size_t i = 0; i < MapFiles.size(); i++)
+		//{
+		//	GameEngineFBXMesh::Load(MapFiles[i].GetFullPath());
+		//}
 	}
 
 	{
