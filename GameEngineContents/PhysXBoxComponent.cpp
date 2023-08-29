@@ -65,8 +65,8 @@ void PhysXBoxComponent::CreatePhysXActors(physx::PxScene* _Scene, physx::PxPhysi
 
 	
 	/////////////////////////
-	//m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground),
-	//	static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0));
+	m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground),
+		static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0));
 	/////////////////////////
 	
 

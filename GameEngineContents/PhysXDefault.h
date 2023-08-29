@@ -77,7 +77,7 @@ public:
 
 	inline void AddActorAggregate(physx::PxActor* _Actor)
 	{
-		MapAggregate_->addActor(*_Actor);
+		m_pAggregate->addActor(*_Actor);
 	}
 
 	//쿼터니언 관련 함수
@@ -114,7 +114,7 @@ protected:
 	bool m_bGround = false;
 	bool m_bAggregateObj = false;
 
-	static physx::PxAggregate* MapAggregate_;
+	static physx::PxAggregate* m_pAggregate;
 
 private:
 };
