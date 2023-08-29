@@ -209,10 +209,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PhysXPlaneComponent.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="PhysXSphereComponent.cpp">
       <SubType>
       </SubType>
@@ -324,10 +320,6 @@
     <ClInclude Include="PhysXDefault.h" />
     <ClInclude Include="PhysXDynamicActorComponent.h" />
     <ClInclude Include="PhysXLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="PhysXPlaneComponent.h">
       <SubType>
       </SubType>
     </ClInclude>

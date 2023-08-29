@@ -86,6 +86,8 @@ physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors(physx::PxScene* 
 	///////////////////////
 	m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),
 		static_cast<physx::PxU32>(PhysXFilterGroup::Ground), 0, 0));
+	m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),
+		static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle), 0, 0));
 	///////////////////////
 	//충돌할때 필요한 필터 데이터
 	//m_pShape->setSimulationFilterData
@@ -118,8 +120,8 @@ void PhysXCapsuleComponent::SetMoveSpeed(float4 _MoveSpeed)
 {
 	// RigidDynamic의 축을 고정하는 Flag -> 캐릭터가 쓰러지지 않고 서있을 수 있도록
 	// 무언가와 충돌해서 쓰러져야 할경우에는 setRigidDynamicLockFlag({flag}, false)로 flag를 해제해야함.
-	m_pDynamic->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X | physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y | physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z);
 
+	m_pDynamic->setLinearVelocity({ 0,-GetLinearVelocity().y,0});
 	// 캐릭터의 방향을 힘으로 조절
 	m_pDynamic->addForce(physx::PxVec3(_MoveSpeed.x, _MoveSpeed.y, _MoveSpeed.z), physx::PxForceMode::eVELOCITY_CHANGE);
 }
