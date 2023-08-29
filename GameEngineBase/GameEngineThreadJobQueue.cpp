@@ -46,7 +46,7 @@ void GameEngineThreadJobQueue::ThreadPoolFunction(GameEngineThreadJobQueue* _Thr
 
 			if (nullptr != JobPtr->Function)
 			{
-				JobPtr->Function(_Thread);
+				JobPtr->Function();
 			}
 			delete JobPtr;
 			break;
@@ -92,7 +92,7 @@ void GameEngineThreadJobQueue::Initialize(const std::string& _ThreadName, int _T
 	}
 }
 
-void GameEngineThreadJobQueue::Work(std::function<void(GameEngineThread*)> _Work)
+void GameEngineThreadJobQueue::Work(std::function<void()> _Work)
 {
 	Job* NewJob = new Job();
 	NewJob->Function = _Work;

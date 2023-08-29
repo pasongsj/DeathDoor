@@ -60,6 +60,8 @@ public:
 
 	static void MouseCursorOff();
 
+	static void AllReset();
+
 	static bool IsAnyKey() 
 	{
 		return IsAnyKeyValue;
