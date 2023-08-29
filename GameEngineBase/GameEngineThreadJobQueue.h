@@ -21,7 +21,7 @@ private:
 	class Job
 	{
 	public:
-		std::function<void(GameEngineThread*)> Function;
+		std::function<void()> Function;
 	};
 
 public:
@@ -35,7 +35,7 @@ public:
 	GameEngineThreadJobQueue& operator=(const GameEngineThreadJobQueue& _Other) = delete;
 	GameEngineThreadJobQueue& operator=(GameEngineThreadJobQueue&& _Other) noexcept = delete;
 
-	void Work(std::function<void(GameEngineThread*)> _Work);
+	void Work(std::function<void()> _Work);
 
 	void Initialize(const std::string& _ThreadName, int _ThreadCount = 0);
 

@@ -176,3 +176,14 @@ void GameEngineInput::MouseCursorOff()
 {
 	ShowCursor(FALSE);
 }
+
+void GameEngineInput::AllReset()
+{
+	std::map<std::string, GameEngineKey>::iterator StartKeyIter = Keys.begin();
+	std::map<std::string, GameEngineKey>::iterator EndKeyIter = Keys.end();
+
+	for (; StartKeyIter != EndKeyIter; ++StartKeyIter)
+	{
+		StartKeyIter->second.Reset();
+	}
+}

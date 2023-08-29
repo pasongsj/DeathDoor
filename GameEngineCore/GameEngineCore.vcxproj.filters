@@ -766,6 +766,9 @@
     <ClInclude Include="GameEngineLight.h">
       <Filter>Object\Rendering\Component</Filter>
     </ClInclude>
+    <ClInclude Include="EngineGrid.h">
+      <Filter>Object\Contents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -943,6 +946,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineLight.cpp">
       <Filter>Object\Rendering\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineGrid.cpp">
+      <Filter>Object\Contents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1125,6 +1131,9 @@
     </Filter>
     <Filter Include="ThirdParty\PhysX_4.1\Header\PhysX_4_1\PhysX\task">
       <UniqueIdentifier>{a1b5a37b-f7d7-48e3-9938-1137a4af0bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Contents">
+      <UniqueIdentifier>{aa2e761b-8163-4856-a3f9-def7fba5e45b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
