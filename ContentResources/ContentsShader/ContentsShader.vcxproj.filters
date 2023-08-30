@@ -4,5 +4,23 @@
     <FxCompile Include="ContentMeshShader.hlsl" />
     <FxCompile Include="ContentTextureShader.hlsl" />
     <FxCompile Include="FadeShader.hlsl" />
+    <FxCompile Include="ContentRenderBaseValue.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentTransform.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentAnimation.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentLight.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentMeshAniShader.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{eef00498-d33d-45be-9baa-d6003f492226}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

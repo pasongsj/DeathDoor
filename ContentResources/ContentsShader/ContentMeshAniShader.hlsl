@@ -47,7 +47,7 @@ cbuffer UVData : register(b2)
 // 그걸 픽셀 쉐이더에서하면 그걸 퐁쉐이딩
 
 // 그래픽카드에서 이뤄지는것.
-Output ContentMeshTexture_VS(Input _Input)
+Output ContentMeshAniTexture_VS(Input _Input)
 {
     Output NewOutPut = (Output) 0;
     
@@ -56,6 +56,14 @@ Output ContentMeshTexture_VS(Input _Input)
     
     float4 InputNormal = _Input.NORMAL;
     InputNormal.w = 0.0f;
+    
+    if (IsAnimation != 0)
+    {
+        Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+       // SkinningNormal(InputNormal, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+        InputPos.w = 1.0f;
+        InputNormal.w = 0.0f;
+    }
     
     // 자신의 로컬공간에서 애니메이션을 시키고
     // NewOutPut.POSITION = mul(_Input.POSITION, ArrAniMationMatrix[_Input.BLENDINDICES[0]].Mat);
@@ -77,7 +85,7 @@ Output ContentMeshTexture_VS(Input _Input)
 Texture2D DiffuseTexture : register(t0);
 SamplerState ENGINEBASE : register(s0);
 
-float4 ContentMeshTexture_PS(Output _Input) : SV_Target0
+float4 ContentMeshAniTexture_PS(Output _Input) : SV_Target0
 {
     _Input.TEXCOORD.xy *= MulUV;
     _Input.TEXCOORD.xy += AddUV;

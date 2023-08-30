@@ -127,8 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <FxCompile Include="ContentAnimation.fx" />
+    <FxCompile Include="ContentLight.fx" />
+    <FxCompile Include="ContentMeshAniShader.hlsl" />
     <FxCompile Include="ContentMeshShader.hlsl" />
+    <FxCompile Include="ContentRenderBaseValue.fx" />
     <FxCompile Include="ContentTextureShader.hlsl" />
+    <FxCompile Include="ContentTransform.fx" />
     <FxCompile Include="FadeShader.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

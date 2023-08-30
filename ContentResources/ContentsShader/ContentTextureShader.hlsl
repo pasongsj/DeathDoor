@@ -66,5 +66,7 @@ float4 ContentTexture_PS(OutPut _Value) : SV_Target0
     Color *= MulColor;
     Color += PlusColor;
     
+    Color = saturate(Color);
+    
     return Color;
 }
