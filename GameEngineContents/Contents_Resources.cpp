@@ -114,6 +114,18 @@ void ContentsCore::ContentsResourcesCreate()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshToon");
+
+		//Pipe->SetVertexBuffer("FullRect");
+		//Pipe->SetIndexBuffer("FullRect");
+		Pipe->SetVertexShader("ContentMeshToonShader.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("ContentMeshToonShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Content2DTexture");
 
 		//Pipe->SetVertexBuffer("FullRect");

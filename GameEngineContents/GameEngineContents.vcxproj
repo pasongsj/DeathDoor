@@ -170,6 +170,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentFBXUIRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentSpriteRenderer.cpp">
       <SubType>
       </SubType>
@@ -183,6 +187,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
+    <ClCompile Include="HpBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LevelWindow.cpp">
       <SubType>
       </SubType>
@@ -192,6 +200,10 @@
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
     <ClCompile Include="Mouse.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MpBar.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -264,6 +276,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="SkillSlot.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="StartLevel.cpp">
       <SubType>
       </SubType>
@@ -285,9 +301,17 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TextObj.cpp" />
+    <ClCompile Include="UITestLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlackScreen.h" />
+    <ClInclude Include="ContentFBXUIRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentSpriteRenderer.h">
       <SubType>
       </SubType>
@@ -305,6 +329,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameContentsMapActor.h" />
+    <ClInclude Include="HpBar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LevelWindow.h">
       <SubType>
       </SubType>
@@ -314,6 +342,10 @@
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
     <ClInclude Include="Mouse.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MpBar.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -386,6 +418,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="SkillSlot.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="StartLevel.h">
       <SubType>
       </SubType>
@@ -407,6 +443,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TextObj.h" />
+    <ClInclude Include="UITestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
