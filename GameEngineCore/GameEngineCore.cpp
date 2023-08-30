@@ -114,6 +114,11 @@ void GameEngineCore::EngineUpdate()
 
 	float TimeDeltaTime = GameEngineTime::GlobalTime.TimeCheck();
 
+	if (TimeDeltaTime<=0.f)
+	{
+		return;
+	}
+
 	// 별로 좋은건 아닙니다.
 	if (TimeDeltaTime > 1 / 30.0f)
 	{

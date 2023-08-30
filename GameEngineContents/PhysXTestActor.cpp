@@ -47,9 +47,11 @@ void PhysXTestActor::Start()
 		//m_pSphereComp->GetDynamic()->setMass(1.f);
 		//m_pSphereComp->TurnOnSpeedLimit();
 
-		m_pCapsuleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
+		//m_pCapsuleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
+		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale);
-		//m_pCapsuleComp->TurnOnSpeedLimit();
+		m_pCapsuleComp->TurnOnSpeedLimit();
+		m_pCapsuleComp->GetDynamic()->setMass(65.f);
 		//m_pConvexComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking, true, vscale);
 		//m_pTriangleComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking,true ,vscale);
 		//m_pDynamicActorComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
@@ -74,10 +76,10 @@ void PhysXTestActor::Update(float _DeltaTime)
 		Movedir += GetTransform()->GetWorldRightVector() * 500.f * _DeltaTime;
 		//GetTransform()->AddLocalPosition(GetTransform()->GetWorldRightVector() * 500.f * _DeltaTime);
 	}
-	if (true == GameEngineInput::IsPress("CamMoveUp"))
+	if (true == GameEngineInput::IsDown("CamMoveUp"))
 	{
 		Movedir += GetTransform()->GetWorldUpVector() * 500.f * _DeltaTime;
-		//GetTransform()->AddLocalPosition(GetTransform()->GetWorldUpVector() * 500.f * _DeltaTime);
+		m_pCapsuleComp->SetMoveJump();
 	}
 	if (true == GameEngineInput::IsPress("CamMoveDown"))
 	{
@@ -94,13 +96,11 @@ void PhysXTestActor::Update(float _DeltaTime)
 		Movedir += GetTransform()->GetWorldBackVector() * 500.f * _DeltaTime;
 		//GetTransform()->AddLocalPosition(GetTransform()->GetWorldBackVector() * 500.f * _DeltaTime);
 	}
-	
 	Movedir.Normalize();
 	//physx::PxTransform test= float4::PhysXTransformReturn(GetTransform()->GetWorldRotation(), Movedir * 1000.f * _DeltaTime);
 	//physx::PxTransform test2 = m_pSphereComp->GetDynamic()->getGlobalPose();
 	//test.p += test2.p;
 	//m_pSphereComp->GetDynamic()->setGlobalPose(test);
-	m_pCapsuleComp->GetDynamic()->setLinearVelocity({0,0,0});
 	m_pCapsuleComp->SetMoveSpeed(Movedir * 400);
 };
 

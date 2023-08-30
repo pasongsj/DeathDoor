@@ -2,7 +2,7 @@
 #include "PhysXDefault.h"
 #include <math.h>
 
-physx::PxAggregate* PhysXDefault::MapAggregate_ = nullptr;
+physx::PxAggregate* PhysXDefault::m_pAggregate = nullptr;
 
 PhysXDefault::PhysXDefault() 
 {
