@@ -1,7 +1,7 @@
 #pragma once
 #include "GameEngineComponent.h"
 #include "GameEngineShader.h"
-//#include "EngineContentRenderingStruct.h"
+#include "EngineContentRenderingStruct.h"
 
 class GameEngineRenderUnit : public GameEngineObjectBase, public std::enable_shared_from_this<GameEngineRenderUnit>
 {
@@ -23,8 +23,9 @@ public:
 		return ParentRenderer;
 	}
 
-	//ColorOption Color = { {1, 1, 1, 1}, {0, 0, 0, 0} };
+	float4 UVdata = { 1, 1, 0, 0 };
 
+	ColorOption Color = { {1, 1, 1, 1}, {0, 0, 0, 0} };
 private:
 	GameEngineRenderer* ParentRenderer = nullptr;
 	std::shared_ptr<class GameEngineInputLayOut> InputLayOutPtr;
