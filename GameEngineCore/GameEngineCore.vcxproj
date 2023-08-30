@@ -177,6 +177,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EngineGrid.h" />
     <ClInclude Include="GameEngineBlend.h">
       <SubType>
       </SubType>
@@ -571,6 +572,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EngineGrid.cpp" />
     <ClCompile Include="GameEngineActor.cpp">
       <SubType>
       </SubType>

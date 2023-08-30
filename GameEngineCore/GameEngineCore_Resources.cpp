@@ -171,6 +171,26 @@ void GameEngineCore::CoreResourcesInit()
 		// 0   1
 		// 3   2
 		// 앞면
+		ArrVertex[0] = { { -0.5f, 0.0f, 0.5f }, {0.0f, 0.0f} };
+		ArrVertex[1] = { { 0.5f, 0.0f, 0.5f }, {1.0f, 0.0f} };
+		ArrVertex[2] = { { 0.5f, 0.0f, -0.5f }, {1.0f, 1.0f} };
+		ArrVertex[3] = { { -0.5f, 0.0f, -0.5f }, {0.0f, 1.0f} };
+
+		std::vector<UINT> ArrIndex = { 0, 1, 2, 0, 2, 3 };
+
+		GameEngineVertexBuffer::Create("GridRect", ArrVertex);
+		GameEngineIndexBuffer::Create("GridRect", ArrIndex);
+		GameEngineMesh::Create("GridRect");
+	}
+
+
+	{
+		std::vector<GameEngineVertex> ArrVertex;
+		ArrVertex.resize(4);
+
+		// 0   1
+		// 3   2
+		// 앞면
 		ArrVertex[0] = { { -1.0f, 1.0f, 0.0f }, {0.0f, 0.0f} };
 		ArrVertex[1] = { { 1.0f, 1.0f, 0.0f }, {1.0f, 0.0f} };
 		ArrVertex[2] = { { 1.0f, -1.0f, 0.0f }, {1.0f, 1.0f} };
@@ -671,6 +691,15 @@ void GameEngineCore::CoreResourcesInit()
 		Pipe->SetPixelShader("BlurShader.hlsl");
 		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("GridShader");
+		Pipe->SetVertexShader("GridShader.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("GridShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("AlwayDepth");
 	}
 
 	{

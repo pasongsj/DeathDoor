@@ -183,10 +183,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
-    <ClCompile Include="GameLogo.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="LevelWindow.cpp">
       <SubType>
       </SubType>
@@ -195,6 +191,10 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
+    <ClCompile Include="Mouse.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PhysXActor.cpp">
       <SubType>
       </SubType>
@@ -272,6 +272,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Start_BackGround.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <SubType>
       </SubType>
@@ -296,10 +300,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameLogo.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="ContentFBXRenderer.h">
       <SubType>
       </SubType>
@@ -313,6 +313,10 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
+    <ClInclude Include="Mouse.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PhysXActor.h">
       <SubType>
       </SubType>
@@ -387,6 +391,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="StartMenu.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Start_BackGround.h">
       <SubType>
       </SubType>
     </ClInclude>
