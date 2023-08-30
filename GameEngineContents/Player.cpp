@@ -17,8 +17,6 @@ Player::~Player()
 
 void Player::Start()
 {
-
-
 	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
 	pRenderer->SetFBXMesh("aaa.FBX", "ContentMesh");
 	auto aa = pRenderer->GetAllRenderUnit();

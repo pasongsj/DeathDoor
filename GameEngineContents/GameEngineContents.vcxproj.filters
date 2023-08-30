@@ -127,7 +127,28 @@
       <Filter>Contents\StartLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
-      <Filter>Component\Global</Filter>
+      <Filter>Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UITestLevel.cpp">
+      <Filter>Contents\UITestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentFBXUIRenderer.cpp">
+      <Filter>Component\ContentsRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillSlot.cpp">
+      <Filter>Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="HpBar.cpp">
+      <Filter>Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MpBar.cpp">
+      <Filter>Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MapTestLevel.cpp">
+      <Filter>Contents\TestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="TestMap.cpp">
+      <Filter>Contents\TestLevel\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -258,7 +279,28 @@
       <Filter>Contents\StartLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
-      <Filter>Component\Global</Filter>
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UITestLevel.h">
+      <Filter>Contents\UITestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentFBXUIRenderer.h">
+      <Filter>Component\ContentsRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillSlot.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="HpBar.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MpBar.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MapTestLevel.h">
+      <Filter>Contents\TestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="TestMap.h">
+      <Filter>Contents\TestLevel\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -331,7 +373,10 @@
     <Filter Include="Contents\TestLevel\Object">
       <UniqueIdentifier>{20971649-8cee-49b6-84ba-e57808e3cfc9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Global">
+    <Filter Include="Contents\UITestLevel">
+      <UniqueIdentifier>{3fd6a672-fbf5-44c4-922f-dd2e1e6ae53c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\UI">
       <UniqueIdentifier>{74de8639-1ad2-4b61-8191-ce266cf0324a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

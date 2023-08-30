@@ -112,6 +112,7 @@ float4 ContentMeshAniTexture_PS(Output _Input) : SV_Target0
     ResultColor *= MulColor;
     ResultColor += AddColor;
     
+    ResultColor = ceil(ResultColor * 5.0f) / 5.0f;
     // Color += AllLight[0].LightColor;
     
     return ResultColor;
