@@ -17,6 +17,7 @@
       <Filter>Header</Filter>
     </FxCompile>
     <FxCompile Include="ContentMeshAniShader.hlsl" />
+    <FxCompile Include="ContentMeshToonShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
