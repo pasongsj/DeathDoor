@@ -278,6 +278,10 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 		{
 			RenderUnit->ShaderResHelper.SetTexture("DiffuseTexture", MatData.DifTextureName);
 		}
+		else
+		{
+			UnTexturedUnit[{_MeshIndex, _SubSetIndex}] = RenderUnit;
+		}
 	}
 
 

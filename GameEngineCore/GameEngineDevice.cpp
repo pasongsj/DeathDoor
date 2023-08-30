@@ -172,7 +172,7 @@ void GameEngineDevice::CreateSwapChain()
 	std::shared_ptr<GameEngineTexture> BackBufferTexture = std::make_shared<GameEngineTexture>();
 	BackBufferTexture->ResCreate(SwapBackBufferTexture);
 
-	BackBufferTarget = GameEngineRenderTarget::Create("MainBackBufferTarget", BackBufferTexture, {0.0f, 0.0f, 1.0f, 1.0f});
+	BackBufferTarget = GameEngineRenderTarget::Create("MainBackBufferTarget", BackBufferTexture, {0.3f, 0.3f, 0.3f, 1.0f});
 
 	BackBufferTarget->CreateDepthTexture();
 

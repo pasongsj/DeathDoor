@@ -102,9 +102,6 @@
     <ClCompile Include="StartMenu.cpp">
       <Filter>Contents\StartLevel\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="GameLogo.cpp">
-      <Filter>Contents\StartLevel\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="ContentUIFontRenderer.cpp">
       <Filter>Component\ContentsRenderer</Filter>
     </ClCompile>
@@ -125,6 +122,12 @@
     </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp">
       <Filter>Component\mapeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Start_BackGround.cpp">
+      <Filter>Contents\StartLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Component\Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,9 +235,6 @@
     <ClInclude Include="StartMenu.h">
       <Filter>Contents\StartLevel\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="GameLogo.h">
-      <Filter>Contents\StartLevel\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="ContentUIFontRenderer.h">
       <Filter>Component\ContentsRenderer</Filter>
     </ClInclude>
@@ -253,6 +253,12 @@
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="GameContentsMapActor.h">
       <Filter>Component\mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Start_BackGround.h">
+      <Filter>Contents\StartLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Component\Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -324,6 +330,9 @@
     </Filter>
     <Filter Include="Contents\TestLevel\Object">
       <UniqueIdentifier>{20971649-8cee-49b6-84ba-e57808e3cfc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Global">
+      <UniqueIdentifier>{74de8639-1ad2-4b61-8191-ce266cf0324a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

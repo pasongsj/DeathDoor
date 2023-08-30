@@ -20,28 +20,57 @@ protected:
 	void Render(float _DeltaTime) override;
 private:
 
-	struct MenuButton{
+	struct MenuButton
+	{
 		std::shared_ptr<class ContentUIFontRenderer> Text = nullptr;
+		std::shared_ptr<class ContentUIFontRenderer> TextShadow = nullptr;
 		std::shared_ptr<class GameEngineCollision> Collision = nullptr;
 		std::function<void()> ColEvent = nullptr;
 		std::function<void()> ClickEvent = nullptr;
 
+		float4 StartPos = { 0.0f, 0.0f, 0.0f };
 		bool isSelected = false;
 	};
 
+	struct RealStartButton
+	{
+		std::shared_ptr<class ContentUIRenderer> Window = nullptr;
+		std::shared_ptr<class GameEngineCollision> Collision = nullptr;
+	};
+
+	void CreateKey();
+	
+	void Set_Logo();
 	void Set_SelectedTexture();
 	void Set_MenuButton();
-	void CreateKey();
+	void Set_RealStartButton();
 
 	void Move_SelectedTexture(float _DeltaTime);
-
+	
 	void SelectMenu();
 
-	std::shared_ptr<class GameEngineUIRenderer> Selected_Left = nullptr;
-	std::shared_ptr<class GameEngineUIRenderer> Selected_Right = nullptr;
+	bool LerpArrowScale(float _DeltaTime);
+	bool LerpArrowPos(float _DeltaTime);
+	bool HideMenu(float _DeltaTime);
+	bool AppearRealStart(float _DeltaTime);
+
+	float4 LeftArrowPos = { 0.0f, 0.0f, 0.0f };
+	float4 RightArrowPos = { 0.0f, 0.0f, 0.0f };
+
+	float LerpRatio = 0.0f;
+	bool isSelectUpdate = true;
+
+	std::shared_ptr<class GameEngineUIRenderer> LogoRender = nullptr;
+
+	std::shared_ptr<class ContentUIRenderer> Arrow_Left = nullptr;
+	std::shared_ptr<class ContentUIRenderer> Arrow_Right = nullptr;
 	float MoveAngle = 0.0f;
 
+	std::function<bool(float)> UpdateFunc = nullptr;
+
 	std::vector<std::shared_ptr<MenuButton>> MenuButtonList;
+	std::shared_ptr<RealStartButton> RealStart;
+
 	size_t ButtonIndex = 0;
 };
 

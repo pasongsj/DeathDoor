@@ -84,17 +84,21 @@ void GameEngineRenderUnit::SetMaterial(const std::string_view& _Name)
 		ShaderResHelper.SetConstantBufferLink("RenderBaseValue", ParentRenderer->BaseValue);
 	}
 
-	//if (true == ShaderResHelper.IsConstantBuffer("ColorOption"))
-	//{
-	//	ShaderResHelper.SetConstantBufferLink("ColorOption", Color);
-	//}
+	if (true == ShaderResHelper.IsConstantBuffer("ColorOption"))
+	{
+		ShaderResHelper.SetConstantBufferLink("ColorOption", Color);
+	}
+
+	if (true == ShaderResHelper.IsConstantBuffer("UVdata"))
+	{
+		ShaderResHelper.SetConstantBufferLink("UVdata", UVdata);
+	}
 
 	if (true == ShaderResHelper.IsConstantBuffer("LightDatas"))
 	{
 		LightDatas& Data = ParentRenderer->GetActor()->GetLevel()->LightDataObject;
 		ShaderResHelper.SetConstantBufferLink("LightDatas", Data);
 	}
-
 }
 
 void GameEngineRenderUnit::Render(float _DeltaTime)
