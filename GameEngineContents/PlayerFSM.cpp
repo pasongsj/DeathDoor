@@ -149,7 +149,6 @@ void Player::SetFSMFunc()
 
 
 
-
 	FSMFunc[PlayerState::SKILL].Start = [this]
 		{
 			switch (CurSkill)
@@ -186,5 +185,28 @@ void Player::SetFSMFunc()
 		{
 
 		};
+	
+
+
+	FSMFunc[PlayerState::ATTED].Start = [this]
+		{
+			StateDuration = 2.0f;
+		};
+
+	FSMFunc[PlayerState::ATTED].Update = [this](float Delta)
+		{
+			StateDuration -= Delta;
+			if (StateDuration < 0.0f)
+			{
+				NextState = PlayerState::IDLE;
+			}
+		};
+
+	FSMFunc[PlayerState::ATTED].End = [this]
+		{
+
+		};
+
+
 
 }

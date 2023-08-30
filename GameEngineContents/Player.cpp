@@ -6,12 +6,12 @@
 Player* Player::MainPlayer = nullptr;
 
 
-Player::Player() 
+Player::Player()
 {
 	MainPlayer = this;
 }
 
-Player::~Player() 
+Player::~Player()
 {
 }
 
@@ -37,57 +37,159 @@ void Player::TestInit()
 	{
 		GameEngineInput::CreateKey("PressN", 'N');
 	}
-	//GameEngineCore::JobQueue.Work();
+
 	{
 		Renderer = CreateComponent<GameEngineFBXRenderer>();
 		Renderer->SetFBXMesh("player.FBX", "MeshAniTexture");
 
-		//AnimationLoadCount
-		//GameEngineCore::JobQueue.Work([,this] {
-		//	Renderer->CreateFBXAnimation("Player_Idle", "Player_Idle.FBX");
-		//	AnimationName.push_back("Player_Idle");
-		//	++AnimationLoadCount;
-		//	});
+		Time.Reset();
+
 		Renderer->CreateFBXAnimation("Player_Idle", "Player_Idle.FBX");
 		AnimationName.push_back("Player_Idle");
 
+
 		Renderer->CreateFBXAnimation("Player_Roll", "Player_Roll.FBX");
 		AnimationName.push_back("Player_Roll");
-				
-		Renderer->CreateFBXAnimation("Player_Idle2", "Player_Idle.FBX");
-		AnimationName.push_back("Player_Idle2");
+
+
+		//	Renderer->CreateFBXAnimation("Player_Idle2", "Player_Idle.FBX");
+		//AnimationName.push_back("Player_Idle2");
 
 		Renderer->CreateFBXAnimation("Player_Att_Left", "Player_Att_Left.FBX");
 		AnimationName.push_back("Player_Att_Left");
-		
+
+
 		Renderer->CreateFBXAnimation("Player_Att_R", "Player_Att_R.FBX");
 		AnimationName.push_back("Player_Att_R");
 
+
 		Renderer->CreateFBXAnimation("Player_Att1", "Player_Att1.FBX"); //특수무기??
 		AnimationName.push_back("Player_Att1");
-		
+
+
 		Renderer->CreateFBXAnimation("Player_Att2", "Player_Att2.FBX");
 		AnimationName.push_back("Player_Att2");
 
+
 		Renderer->CreateFBXAnimation("Player_HitBack", "Player_HitBack.FBX"); // 피격
 		AnimationName.push_back("Player_HitBack");
-		
+
+
 		Renderer->CreateFBXAnimation("Player_HitIdle", "Player_HitIdle.FBX");
 		AnimationName.push_back("Player_HitIdle");
-		
+
+
 		Renderer->CreateFBXAnimation("Player_SlideAtt", "Player_SlideAtt.FBX"); // 슬라이드 공격
 		AnimationName.push_back("Player_SlideAtt");
-		
+
+
 		Renderer->CreateFBXAnimation("Player_Walk_S", "Player_Walk_S.FBX"); // 걷기
 		AnimationName.push_back("Player_Walk_S");
-		
+
+
 		Renderer->CreateFBXAnimation("Player_Arrow", "Player_Arrow.FBX"); // 스킬 - 화살
 		AnimationName.push_back("Player_Arrow");
-		
+
+
 		Renderer->CreateFBXAnimation("Player_Magic", "Player_Magic.FBX"); // 스킬 - 화살
 		AnimationName.push_back("Player_Magic");
 
 		//Renderer->ChangeAnimation(AnimationName[index++]);
+
+		//
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_Idle", "Player_Idle.FBX");
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_Idle");
+
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_Idle", "Player_Idle.FBX");
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_Idle");
+
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_Roll", "Player_Roll.FBX");
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_Roll");
+
+
+		////GameEngineCore::JobQueue.Work([this] {
+		////	Renderer->CreateFBXAnimation("Player_Idle2", "Player_Idle.FBX");
+		////	++AnimationLoadCount;
+		////	});
+		////AnimationName.push_back("Player_Idle2");
+
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_Att_Left", "Player_Att_Left.FBX");
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_Att_Left");
+
+
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_Att_R", "Player_Att_R.FBX");
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_Att_R");
+
+
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_Att1", "Player_Att1.FBX"); //특수무기??
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_Att1");
+
+
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_Att2", "Player_Att2.FBX");
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_Att2");
+
+
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_HitBack", "Player_HitBack.FBX"); // 피격
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_HitBack");
+
+
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_HitIdle", "Player_HitIdle.FBX");
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_HitIdle");
+
+
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_SlideAtt", "Player_SlideAtt.FBX"); // 슬라이드 공격
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_SlideAtt");
+
+
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_Walk_S", "Player_Walk_S.FBX"); // 걷기
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_Walk_S");
+
+
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_Arrow", "Player_Arrow.FBX"); // 스킬 - 화살
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_Arrow");
+
+
+		//GameEngineCore::JobQueue.Work([this] {
+		//	Renderer->CreateFBXAnimation("Player_Magic", "Player_Magic.FBX"); // 스킬 - 화살
+		//	++AnimationLoadCount;
+		//	});
+		//AnimationName.push_back("Player_Magic");
 	}
 
 }
@@ -113,7 +215,16 @@ void Player::Update(float _DeltaTime)
 	// 서버의 관리를 받는 오브젝트라면
 	// 클라이언트의 입장에서는 
 	// 상대의 패킷으로만 움직여야 한다.
-	// 2가지로 나뉘게 된다.
+	//// 2가지로 나뉘게 된다.
+	//if (AnimationLoadCount < 13)
+	//{
+	//	return;
+	//}
+	if (PlayerState::MAX == CurState)
+	{
+		float Check0 = Time.TimeCheck();
+		NextState = PlayerState::IDLE;
+	}
 
 	NetControlType Type = GetControlType();
 	UpdateState(_DeltaTime);
@@ -133,7 +244,7 @@ void Player::Update(float _DeltaTime)
 	//default:
 	//	break;
 	//}
-	
+
 
 }
 
@@ -211,7 +322,7 @@ void Player::TestMoveUpdate(float _DeltaTime)
 
 
 
-void Player::UpdateState(float _DeltaTime) 
+void Player::UpdateState(float _DeltaTime)
 {
 	if (CurState != NextState)
 	{
@@ -237,7 +348,7 @@ void Player::UpdateState(float _DeltaTime)
 
 void Player::CheckInput(float _DeltaTime)
 {
-	
+
 	if (true == GameEngineInput::IsPress("PlayerRoll"))
 	{
 		NextState = PlayerState::ROLL;
@@ -252,7 +363,7 @@ void Player::CheckInput(float _DeltaTime)
 	{
 		NextState = PlayerState::SKILL;
 		return;
-	}	
+	}
 	if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
 	{
 		NextState = PlayerState::CHARGE_ATT;
@@ -264,21 +375,21 @@ void Player::CheckInput(float _DeltaTime)
 	// move
 	if (true == GameEngineInput::IsPress("PlayerLeft"))
 	{
-		Dir += GetTransform()->GetWorldLeftVector();
+		Dir += float4{ -1,0,0 };
 	}
 	if (true == GameEngineInput::IsPress("PlayerRight"))
 	{
-		Dir += GetTransform()->GetWorldRightVector();
+		Dir += float4{ 1,0,0 };
 	}
 	if (true == GameEngineInput::IsPress("PlayerUp"))
 	{
-		Dir += GetTransform()->GetWorldUpVector();
+		Dir += float4{ 0,0,1 };
 	}
 	if (true == GameEngineInput::IsPress("PlayerDown"))
 	{
-		Dir += GetTransform()->GetWorldDownVector();
+		Dir += float4{ 0,0,-1 };
 	}
-	if (false == MoveDir.IsZero())
+	if (false == Dir.IsZero())
 	{
 		NextState = PlayerState::WALK;
 		Dir.Normalize();
@@ -293,7 +404,7 @@ void Player::CheckInput(float _DeltaTime)
 
 void Player::MoveUpdate(float _DeltaTime)
 {
-	GetTransform()->AddLocalPosition(MoveDir * m_pSpeed/*임시 스피드*/ * _DeltaTime);
+	GetTransform()->AddLocalPosition(MoveDir * m_pSpeed * 0.1f/*임시 스피드*/ * _DeltaTime);
 
 }
 

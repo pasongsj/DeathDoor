@@ -39,6 +39,7 @@ private:
 		SLIDE_ATT,		// 스페이스바+휠클릭
 		CHARGE_ATT,		// 휠클릭
 		SKILL,			// 우클릭
+		ATTED,			// 공격당함
 		MAX,
 	};
 
@@ -72,7 +73,7 @@ private:
 
 
 	// State
-	PlayerState CurState = PlayerState::IDLE;
+	PlayerState CurState = PlayerState::MAX;
 	PlayerState NextState = PlayerState::IDLE;
 	void UpdateState(float _DeltaTime);
 		// Attack
@@ -99,6 +100,6 @@ private:
 	void TestMoveUpdate(float _DeltaTime);
 	void TestInit();
 
-
+	GameEngineTime Time;
 };
 
