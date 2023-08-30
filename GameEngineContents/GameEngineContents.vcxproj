@@ -191,6 +191,7 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
+    <ClCompile Include="MapTestLevel.cpp" />
     <ClCompile Include="Mouse.cpp">
       <SubType>
       </SubType>
@@ -280,6 +281,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TestMap.cpp" />
     <ClCompile Include="TestObject.cpp">
       <SubType>
       </SubType>
@@ -313,6 +315,10 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
+    <ClInclude Include="MapTestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Mouse.h">
       <SubType>
       </SubType>
@@ -399,6 +405,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TestMap.h">
       <SubType>
       </SubType>
     </ClInclude>
