@@ -140,6 +140,9 @@ private:
 
 	void Release();
 
-	std::shared_ptr<GameEngineRenderTarget> CamTarget;
+	std::shared_ptr<GameEngineRenderTarget> CamTarget;	
+	
+	void FreeCameraSwitch();
+
 };
 
