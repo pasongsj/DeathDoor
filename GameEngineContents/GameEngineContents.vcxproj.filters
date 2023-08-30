@@ -144,6 +144,12 @@
     <ClCompile Include="MpBar.cpp">
       <Filter>Contents\UI</Filter>
     </ClCompile>
+    <ClCompile Include="MapTestLevel.cpp">
+      <Filter>Contents\TestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="TestMap.cpp">
+      <Filter>Contents\TestLevel\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -289,6 +295,12 @@
     </ClInclude>
     <ClInclude Include="MpBar.h">
       <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MapTestLevel.h">
+      <Filter>Contents\TestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="TestMap.h">
+      <Filter>Contents\TestLevel\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

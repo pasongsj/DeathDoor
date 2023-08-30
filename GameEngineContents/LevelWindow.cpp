@@ -7,7 +7,9 @@
 #include "MapEditorLevel.h"
 #include "PhysXTestLevel.h"
 #include "StartLevel.h"
+#include "MapTestLevel.h"
 #include "UITestLevel.h"
+
 
 LevelWindow::LevelWindow() 
 {
@@ -63,6 +65,12 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	{
 		m_CurLevelName = "StartLevel";
 		GameEngineCore::ChangeLevel("StartLevel");
+	}
+
+	if (ImGui::Button("MapTestLevel") && Level->DynamicThis<MapTestLevel>().get() != GetLevel())
+	{
+		m_CurLevelName = "MapTestLevel";
+		GameEngineCore::ChangeLevel("MapTestLevel");
 	}
 
 
