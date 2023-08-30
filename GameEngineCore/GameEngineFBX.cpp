@@ -2,6 +2,10 @@
 #include "GameEngineFBX.h"
 #include <GameEngineBase/GameEngineString.h>
 
+
+std::mutex GameEngineFBX::CreateLock;
+std::mutex GameEngineFBX::SceneLock;
+
 bool GameEngineFBX::IsCheckAnimationFBX(std::string_view _Path)
 {
 	GameEngineFBX FBX;
@@ -139,18 +143,21 @@ bool GameEngineFBX::FBXSystemInitialize(std::string _Path)
 	{
 		return true;
 	}
+	//CreateLock.lock();
 	// fbx에서 사용하는 기본기능을 제공하는 인터페이스
 	Manager = fbxsdk::FbxManager::Create();
-
 	if (nullptr == Manager)
 	{
 		MsgAssert("FBX 매니저 생성에 실패했습니다.");
+		//CreateLock.unlock();
 		return false;
 	}
 
 	// 알고치는게 아닙니다
 	// 예제 코드에 이렇게 만들어야한다고 해서 나도 그렇게 한것뿐
+
 	IOSetting = fbxsdk::FbxIOSettings::Create(Manager, IOSROOT);
+	//CreateLock.unlock();
 
 	Importer = fbxsdk::FbxImporter::Create(Manager, "");
 
@@ -163,11 +170,13 @@ bool GameEngineFBX::FBXSystemInitialize(std::string _Path)
 		return false;
 	}
 
+	//SceneLock.lock();
 	// 비엉있는 scene을 만들고
 	Scene = fbxsdk::FbxScene::Create(Manager, "");
 
 	if (nullptr == Scene)
 	{
+		//SceneLock.unlock();
 		MsgAssert("FBX 씬생성 실패.");
 		return false;
 	}
@@ -175,9 +184,11 @@ bool GameEngineFBX::FBXSystemInitialize(std::string _Path)
 	// 비어있는 Scene에 기본적인 내용을 모두 채웁니다.
 	if (false == Importer->Import(Scene))
 	{
+		//SceneLock.unlock();
 		MsgAssert("FBX 임포트 실패.");
 		return false;
 	}
+	//SceneLock.unlock();
 
 	return true;
 }

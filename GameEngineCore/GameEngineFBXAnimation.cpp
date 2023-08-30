@@ -1,6 +1,11 @@
 #include "PrecompileHeader.h"
 #include "GameEngineFBXAnimation.h"
 
+
+std::mutex GameEngineFBXAnimation::AnimationLock;
+std::mutex GameEngineFBXAnimation::Animation2Lock;
+
+
 GameEngineFBXAnimation::GameEngineFBXAnimation()
 {
 }
@@ -19,8 +24,10 @@ std::shared_ptr<GameEngineFBXAnimation> GameEngineFBXAnimation::Load(const std::
 
 void GameEngineFBXAnimation::Initialize()
 {
+	AnimationLock.lock();
 	FBXInit(GetPathToString());
 	CheckAnimation();
+	AnimationLock.unlock();
 }
 
 void GameEngineFBXAnimation::LoadMesh(const std::string& _Path, const std::string& _Name)
@@ -59,11 +66,17 @@ bool GameEngineFBXAnimation::CheckAnimation()
 	{
 		AnimationDatas[i].AniName = GameEngineString::UTF8ToAnsi(AniNameArray[i]->Buffer());
 
+		//AnimationLock.lock();
+
 		FbxTakeInfo* TakeInfo = Scene->GetTakeInfo(AnimationDatas[i].AniName.c_str());
+		
+
+
 		AnimationDatas[i].StartTime = TakeInfo->mLocalTimeSpan.GetStart();
 		AnimationDatas[i].EndTime = TakeInfo->mLocalTimeSpan.GetStop();
 		AnimationDatas[i].TimeMode = Scene->GetGlobalSettings().GetTimeMode();
 		AnimationDatas[i].TimeStartCount = AnimationDatas[i].StartTime.GetFrameCount(AnimationDatas[i].TimeMode);
+		//AnimationLock.unlock();
 
 		if (0 >= AnimationDatas[i].TimeStartCount)
 		{
@@ -99,6 +112,8 @@ fbxsdk::FbxAMatrix GameEngineFBXAnimation::GetGeometryTransformation(fbxsdk::Fbx
 
 bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, fbxsdk::FbxNode* _Node, int AnimationIndex)
 {
+	AnimationLock.lock();
+
 	FbxAnimStack* stack = Scene->GetSrcObject<FbxAnimStack>(AnimationIndex);
 	// 이 씬의 애니메이션을 이 스택의 애니메이션으로 지정해준다.
 	Scene->SetCurrentAnimationStack(stack);
@@ -135,6 +150,7 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 
 	fbxsdk::FbxTime currTime;
 
+	AnimationLock.unlock();
 
 	for (int deformerIndex = 0; deformerIndex < deformerCount; ++deformerIndex)
 	{
@@ -187,14 +203,18 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 
 					currTime.SetFrame(fixIndex, timeMode);
 					// 로
+					Animation2Lock.lock();
 					currentTransformOffset = _Node->EvaluateGlobalTransform(currTime) * JointMatrix * geometryTransform;
 					// 시간을 넣어주면 그때의 본의 행렬을 가져와 준다.
 					// 커브 
+					//
+
 					globalTransform = currentTransformOffset.Inverse() * pLinkNode->EvaluateGlobalTransform(currTime);
 
 					localTransform.SetS(pLinkNode->EvaluateLocalScaling(currTime));
 					localTransform.SetR(pLinkNode->EvaluateLocalRotation(currTime));
 					localTransform.SetT(pLinkNode->EvaluateLocalTranslation(currTime));
+					Animation2Lock.unlock();
 
 					FrameData.Time = currTime.GetSecondDouble();
 					FrameData.LocalAnimation = localTransform;
@@ -385,15 +405,19 @@ void GameEngineFBXAnimation::ProcessAnimationLoad(std::shared_ptr <GameEngineFBX
 		break;
 		case fbxsdk::FbxNodeAttribute::eMesh:
 		{
+			//AnimationLock.lock();
 			AnimationLoad(_Mesh, pNode, _index);
+			//AnimationLock.unlock();
 		}
 		break;
 		default:
 			break;
 		}
 	}
-
-	for (int n = 0; n < pNode->GetChildCount(); ++n)
+	//AnimationLock.lock();
+	int ChildCount = pNode->GetChildCount();
+	//AnimationLock.unlock();
+	for (int n = 0; n < ChildCount; ++n)
 	{
 		ProcessAnimationLoad(_Mesh, pNode->GetChild(n), _index);
 	}

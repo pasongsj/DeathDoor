@@ -202,5 +202,9 @@ private:
 	bool CheckAnimation();
 
 	bool IsInit = false;
+
+	static std::mutex AnimationLock;
+	static std::mutex Animation2Lock;
+
 };
 

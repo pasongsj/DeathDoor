@@ -74,5 +74,8 @@ protected:
 
 private:
 	bool CheckAnimationFBX(std::string_view _Path);
+
+	static std::mutex CreateLock;
+	static std::mutex SceneLock;
 };
 

@@ -3,6 +3,8 @@
 #include "GameEngineFBXAnimation.h"
 #include "GameEngineMaterial.h"
 
+std::mutex GameEngineFBXRenderer::NameLock;
+
 
 void GameEngineFBXAnimationInfo::Init(const std::string_view& _Name, int _Index)
 {
@@ -335,14 +337,15 @@ void GameEngineFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName
 	}
 
 	// 여기있는 함수를 외부에서 호출하면 됩니다.
-
+	NameLock.lock();
 	if (Animations.end() != Animations.find(UpperName))
 	{
 		MsgAssert("이미 존재하는 이름의 애니메이션입니다." + UpperName);
+		NameLock.unlock();
 		return;
 	}
-
 	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Find(_AnimationFBXName);
+	NameLock.unlock();
 
 	if (nullptr == Animation)
 	{
@@ -364,9 +367,11 @@ void GameEngineFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName
 	NewAnimation->Init(_AnimationName, _Index);
 
 	BaseValue.IsAnimation = 1;
+
+	std::lock_guard<std::mutex> Lock(NameLock);
 	Animations.insert(std::make_pair(UpperName, NewAnimation));
 
-	Animation;
+	//Animation;
 }
 
 

@@ -178,5 +178,7 @@ private:
 	// Structure Buffer¶û ¸µÅ©°¡ µÇ´Â ³à¼®.
 	std::map<size_t, std::vector<float4x4>> AnimationBoneMatrixs;
 	std::map<size_t, std::vector<AnimationBoneData>> AnimationBoneDatas;
+
+	static std::mutex NameLock;
 };
 
