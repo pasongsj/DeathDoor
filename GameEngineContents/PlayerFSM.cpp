@@ -37,11 +37,21 @@ void Player::SetFSMFunc()
 	FSMFunc[PlayerState::WALK].Start = [this]
 		{
 			Renderer->ChangeAnimation("Player_Walk_S");
+
+			StateDuration = 0.5f;
+
+			//float rot = MoveDir.x * 90 - (1 - MoveDir.z) * 90;
+			//GetTransform()->SetLocalRotation(float4{ 0,rot,0 });
 		};
 
 	FSMFunc[PlayerState::WALK].Update = [this](float Delta)
 		{
 			CheckInput(Delta);
+			StateDuration -= Delta;
+			if (StateDuration < 0.0f)
+			{
+				NextState = PlayerState::IDLE;
+			}
 
 		};
 
@@ -95,6 +105,12 @@ void Player::SetFSMFunc()
 			if (StateDuration < 0.0f)
 			{
 				NextState = PlayerState::IDLE;
+			}
+
+			if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
+			{
+				NextState = PlayerState::SLIDE_ATT;
+				return;
 			}
 		};
 

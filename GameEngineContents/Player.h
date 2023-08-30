@@ -90,16 +90,16 @@ private:
 	float MoveSpeed;
 
 
+	//physx
+	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 
 
 	// for test
 	std::vector<std::string> AnimationName;
+	void TestInit();
 	int index = 0;
 	float m_pSpeed = 200.0f;
-
 	void TestMoveUpdate(float _DeltaTime);
-	void TestInit();
-
 	GameEngineTime Time;
 };
 

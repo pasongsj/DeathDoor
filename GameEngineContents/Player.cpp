@@ -2,6 +2,8 @@
 #include "Player.h"
 #include "ContentFBXRenderer.h"
 #include <GameEngineCore/GameEngineFBXRenderer.h>
+#include "PhysXTestLevel.h"
+#include "PhysXCapsuleComponent.h"
 
 Player* Player::MainPlayer = nullptr;
 
@@ -48,148 +50,71 @@ void Player::TestInit()
 		AnimationName.push_back("Player_Idle");
 
 
-		Renderer->CreateFBXAnimation("Player_Roll", "Player_Roll.FBX");
-		AnimationName.push_back("Player_Roll");
-
-
-		//	Renderer->CreateFBXAnimation("Player_Idle2", "Player_Idle.FBX");
-		//AnimationName.push_back("Player_Idle2");
-
-		Renderer->CreateFBXAnimation("Player_Att_Left", "Player_Att_Left.FBX");
-		AnimationName.push_back("Player_Att_Left");
-
-
-		Renderer->CreateFBXAnimation("Player_Att_R", "Player_Att_R.FBX");
-		AnimationName.push_back("Player_Att_R");
-
-
-		Renderer->CreateFBXAnimation("Player_Att1", "Player_Att1.FBX"); //특수무기??
-		AnimationName.push_back("Player_Att1");
-
-
-		Renderer->CreateFBXAnimation("Player_Att2", "Player_Att2.FBX");
-		AnimationName.push_back("Player_Att2");
-
-
-		Renderer->CreateFBXAnimation("Player_HitBack", "Player_HitBack.FBX"); // 피격
-		AnimationName.push_back("Player_HitBack");
-
-
-		Renderer->CreateFBXAnimation("Player_HitIdle", "Player_HitIdle.FBX");
-		AnimationName.push_back("Player_HitIdle");
-
-
-		Renderer->CreateFBXAnimation("Player_SlideAtt", "Player_SlideAtt.FBX"); // 슬라이드 공격
-		AnimationName.push_back("Player_SlideAtt");
-
-
 		Renderer->CreateFBXAnimation("Player_Walk_S", "Player_Walk_S.FBX"); // 걷기
 		AnimationName.push_back("Player_Walk_S");
 
 
-		Renderer->CreateFBXAnimation("Player_Arrow", "Player_Arrow.FBX"); // 스킬 - 화살
-		AnimationName.push_back("Player_Arrow");
-
-
-		Renderer->CreateFBXAnimation("Player_Magic", "Player_Magic.FBX"); // 스킬 - 화살
-		AnimationName.push_back("Player_Magic");
-
-		//Renderer->ChangeAnimation(AnimationName[index++]);
-
-		//
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_Idle", "Player_Idle.FBX");
-		//	++AnimationLoadCount;
-		//	});
-		//AnimationName.push_back("Player_Idle");
-
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_Idle", "Player_Idle.FBX");
-		//	++AnimationLoadCount;
-		//	});
-		//AnimationName.push_back("Player_Idle");
-
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_Roll", "Player_Roll.FBX");
-		//	++AnimationLoadCount;
-		//	});
+		//Renderer->CreateFBXAnimation("Player_Roll", "Player_Roll.FBX");
 		//AnimationName.push_back("Player_Roll");
-
-
-		////GameEngineCore::JobQueue.Work([this] {
+		//
+		//
 		////	Renderer->CreateFBXAnimation("Player_Idle2", "Player_Idle.FBX");
-		////	++AnimationLoadCount;
-		////	});
 		////AnimationName.push_back("Player_Idle2");
-
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_Att_Left", "Player_Att_Left.FBX");
-		//	++AnimationLoadCount;
-		//	});
+		//
+		//Renderer->CreateFBXAnimation("Player_Att_Left", "Player_Att_Left.FBX");
 		//AnimationName.push_back("Player_Att_Left");
-
-
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_Att_R", "Player_Att_R.FBX");
-		//	++AnimationLoadCount;
-		//	});
+		//
+		//
+		//Renderer->CreateFBXAnimation("Player_Att_R", "Player_Att_R.FBX");
 		//AnimationName.push_back("Player_Att_R");
-
-
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_Att1", "Player_Att1.FBX"); //특수무기??
-		//	++AnimationLoadCount;
-		//	});
+		//
+		//
+		//Renderer->CreateFBXAnimation("Player_Att1", "Player_Att1.FBX"); //특수무기??
 		//AnimationName.push_back("Player_Att1");
-
-
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_Att2", "Player_Att2.FBX");
-		//	++AnimationLoadCount;
-		//	});
+		//
+		//
+		//Renderer->CreateFBXAnimation("Player_Att2", "Player_Att2.FBX");
 		//AnimationName.push_back("Player_Att2");
-
-
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_HitBack", "Player_HitBack.FBX"); // 피격
-		//	++AnimationLoadCount;
-		//	});
+		//
+		//
+		//Renderer->CreateFBXAnimation("Player_HitBack", "Player_HitBack.FBX"); // 피격
 		//AnimationName.push_back("Player_HitBack");
-
-
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_HitIdle", "Player_HitIdle.FBX");
-		//	++AnimationLoadCount;
-		//	});
+		//
+		//
+		//Renderer->CreateFBXAnimation("Player_HitIdle", "Player_HitIdle.FBX");
 		//AnimationName.push_back("Player_HitIdle");
-
-
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_SlideAtt", "Player_SlideAtt.FBX"); // 슬라이드 공격
-		//	++AnimationLoadCount;
-		//	});
+		//
+		//
+		//Renderer->CreateFBXAnimation("Player_SlideAtt", "Player_SlideAtt.FBX"); // 슬라이드 공격
 		//AnimationName.push_back("Player_SlideAtt");
-
-
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_Walk_S", "Player_Walk_S.FBX"); // 걷기
-		//	++AnimationLoadCount;
-		//	});
-		//AnimationName.push_back("Player_Walk_S");
-
-
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_Arrow", "Player_Arrow.FBX"); // 스킬 - 화살
-		//	++AnimationLoadCount;
-		//	});
+		//
+		//
+		//Renderer->CreateFBXAnimation("Player_Arrow", "Player_Arrow.FBX"); // 스킬 - 화살
 		//AnimationName.push_back("Player_Arrow");
-
-
-		//GameEngineCore::JobQueue.Work([this] {
-		//	Renderer->CreateFBXAnimation("Player_Magic", "Player_Magic.FBX"); // 스킬 - 화살
-		//	++AnimationLoadCount;
-		//	});
+		//
+		//
+		//Renderer->CreateFBXAnimation("Player_Magic", "Player_Magic.FBX"); // 스킬 - 화살
 		//AnimationName.push_back("Player_Magic");
+		//
+		////AnimationName.push_back("Player_Magic");
+	}
+	{
+		float4 scale = Renderer->GetMeshScale();
+		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
+		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+
+
+		if (GetLevel()->DynamicThis<PhysXTestLevel>() != nullptr)
+		{
+			std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
+
+
+			m_pCapsuleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
+			m_pCapsuleComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale);
+		}
+	}
+	{
+		GetTransform()->SetLocalScale(float4::ONE * 30.0f);
 	}
 
 }
@@ -228,7 +153,7 @@ void Player::Update(float _DeltaTime)
 
 	NetControlType Type = GetControlType();
 	UpdateState(_DeltaTime);
-	//TestMoveUpdate(_DeltaTime);
+	TestMoveUpdate(_DeltaTime);
 
 	//switch (Type)
 	//{
@@ -247,50 +172,50 @@ void Player::Update(float _DeltaTime)
 
 
 }
-
+//
 void Player::TestMoveUpdate(float _DeltaTime)
 {
-	if (true == GameEngineInput::IsDown("PressN"))
-	{
-		if (index >= AnimationName.size())
-		{
-			index = 0;
-		}
-		Renderer->ChangeAnimation(AnimationName[index++]);
-	}
-	if (true == GameEngineInput::IsPress("SpeedBoost") && m_pSpeed > 1000.f)
-	{
-		m_pSpeed = 1000.f;
-	}
-	else
-	{
-		m_pSpeed = 200.f;
-	}
+	//if (true == GameEngineInput::IsDown("PressN"))
+	//{
+	//	if (index >= AnimationName.size())
+	//	{
+	//		index = 0;
+	//	}
+	//	Renderer->ChangeAnimation(AnimationName[index++]);
+	//}
+	//if (true == GameEngineInput::IsPress("SpeedBoost") && m_pSpeed > 1000.f)
+	//{
+	//	m_pSpeed = 1000.f;
+	//}
+	//else
+	//{
+	//	m_pSpeed = 200.f;
+	//}
 
-	if (true == GameEngineInput::IsPress("CamMoveLeft"))
-	{
-		GetTransform()->AddLocalPosition(GetTransform()->GetWorldLeftVector() * m_pSpeed * _DeltaTime);
-	}
-	if (true == GameEngineInput::IsPress("CamMoveRight"))
-	{
-		GetTransform()->AddLocalPosition(GetTransform()->GetWorldRightVector() * m_pSpeed * _DeltaTime);
-	}
-	if (true == GameEngineInput::IsPress("CamMoveUp"))
-	{
-		GetTransform()->AddLocalPosition(GetTransform()->GetWorldUpVector() * m_pSpeed * _DeltaTime);
-	}
-	if (true == GameEngineInput::IsPress("CamMoveDown"))
-	{
-		GetTransform()->AddLocalPosition(GetTransform()->GetWorldDownVector() * m_pSpeed * _DeltaTime);
-	}
-	if (true == GameEngineInput::IsPress("CamMoveForward"))
-	{
-		GetTransform()->AddLocalPosition(GetTransform()->GetWorldForwardVector() * m_pSpeed * _DeltaTime);
-	}
-	if (true == GameEngineInput::IsPress("CamMoveBack"))
-	{
-		GetTransform()->AddLocalPosition(GetTransform()->GetWorldBackVector() * m_pSpeed * _DeltaTime);
-	}
+	//if (true == GameEngineInput::IsPress("CamMoveLeft"))
+	//{
+	//	GetTransform()->AddLocalPosition(GetTransform()->GetWorldLeftVector() * m_pSpeed * _DeltaTime);
+	//}
+	//if (true == GameEngineInput::IsPress("CamMoveRight"))
+	//{
+	//	GetTransform()->AddLocalPosition(GetTransform()->GetWorldRightVector() * m_pSpeed * _DeltaTime);
+	//}
+	//if (true == GameEngineInput::IsPress("CamMoveUp"))
+	//{
+	//	GetTransform()->AddLocalPosition(GetTransform()->GetWorldUpVector() * m_pSpeed * _DeltaTime);
+	//}
+	//if (true == GameEngineInput::IsPress("CamMoveDown"))
+	//{
+	//	GetTransform()->AddLocalPosition(GetTransform()->GetWorldDownVector() * m_pSpeed * _DeltaTime);
+	//}
+	//if (true == GameEngineInput::IsPress("CamMoveForward"))
+	//{
+	//	GetTransform()->AddLocalPosition(GetTransform()->GetWorldForwardVector() * m_pSpeed * _DeltaTime);
+	//}
+	//if (true == GameEngineInput::IsPress("CamMoveBack"))
+	//{
+	//	GetTransform()->AddLocalPosition(GetTransform()->GetWorldBackVector() * m_pSpeed * _DeltaTime);
+	//}
 
 
 	// rot
@@ -328,7 +253,7 @@ void Player::UpdateState(float _DeltaTime)
 	{
 		if (FSMFunc.end() == FSMFunc.find(NextState) || PlayerState::MAX == NextState)
 		{
-			MsgAssert("State에 해당하는 func이 생서되지 않았습니다");
+			MsgAssert("State에 해당하는 func이 생성되지 않았습니다");
 		}
 		if (nullptr != FSMFunc[CurState].End)
 		{
@@ -372,22 +297,25 @@ void Player::CheckInput(float _DeltaTime)
 
 
 	float4 Dir = float4::ZERO;
+	float4 Rot = float4::ZERO;
 	// move
 	if (true == GameEngineInput::IsPress("PlayerLeft"))
 	{
-		Dir += float4{ -1,0,0 };
+		Dir += GetTransform()->GetWorldLeftVector(); // 0 -90 0
 	}
 	if (true == GameEngineInput::IsPress("PlayerRight"))
 	{
-		Dir += float4{ 1,0,0 };
+		Dir += GetTransform()->GetWorldRightVector(); // 0 90 0
+
 	}
 	if (true == GameEngineInput::IsPress("PlayerUp"))
 	{
-		Dir += float4{ 0,0,1 };
+		Dir += GetTransform()->GetWorldForwardVector(); // 0 0 0
+
 	}
 	if (true == GameEngineInput::IsPress("PlayerDown"))
 	{
-		Dir += float4{ 0,0,-1 };
+		Dir += GetTransform()->GetWorldBackVector(); // 0 180 0
 	}
 	if (false == Dir.IsZero())
 	{
@@ -397,14 +325,15 @@ void Player::CheckInput(float _DeltaTime)
 		MoveUpdate(_DeltaTime);
 		return;
 	}
-	NextState = PlayerState::IDLE;
+
 }
 
 
 
 void Player::MoveUpdate(float _DeltaTime)
 {
-	GetTransform()->AddLocalPosition(MoveDir * m_pSpeed * 0.1f/*임시 스피드*/ * _DeltaTime);
+	m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+	m_pCapsuleComp->SetMoveSpeed(MoveDir * m_pSpeed/* * _DeltaTime*/);
 
 }
 
