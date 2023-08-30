@@ -50,6 +50,13 @@ public:
 	}
 };
 
+class AnimationCreateParams
+{
+public:
+	float Inter = 0.0f;
+	bool Loop = true;
+};
+
 
 struct AnimationBoneData
 {
@@ -90,12 +97,12 @@ public:
 		return FBXMesh;
 	}
 
-	void CreateFBXAnimation(const std::string& _AnimationFBXName, int _Index = 0)
+	void CreateFBXAnimation(const std::string& _AnimationFBXName, const AnimationCreateParams& _Params, int _Index = 0)
 	{
-		CreateFBXAnimation(_AnimationFBXName, _AnimationFBXName, _Index);
+		CreateFBXAnimation(_AnimationFBXName, _AnimationFBXName, _Params, _Index);
 	}
 
-	void CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBXName, int _Index = 0);
+	void CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBXName, const AnimationCreateParams& _Params = {0.05f,true}, int _Index = 0);
 
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& GetAllRenderUnit()
 	{
@@ -106,7 +113,7 @@ public:
 
 	void PauseSwtich();
 
-	void ChangeAnimation(const std::string& _AnimationName);
+	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false);
 
 	float4 GetMeshScale()
 	{
@@ -177,6 +184,8 @@ private:
 
 	// Structure Buffer¶û ¸µÅ©°¡ µÇ´Â ³à¼®.
 	std::map<size_t, std::vector<float4x4>> AnimationBoneMatrixs;
+
+
 	std::map<size_t, std::vector<AnimationBoneData>> AnimationBoneDatas;
 };
 

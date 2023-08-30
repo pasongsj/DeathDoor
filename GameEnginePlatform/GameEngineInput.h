@@ -10,7 +10,7 @@ class GameEngineInput
 	friend GameEngineWindow;
 
 private:
-	class GameEngineKey 
+	class GameEngineKey
 	{
 		friend GameEngineInput;
 
@@ -22,7 +22,7 @@ private:
 		float PressTime; // 몇초간 눌렀다.
 		int Key = -1;
 
-		void Reset() 
+		void Reset()
 		{
 			Down = false; // 누른 한순간
 			Press = false; // 계속 누르고 있다.
@@ -30,7 +30,7 @@ private:
 			Free = true; // 안눌리고 있다.
 		}
 
-		bool KeyCheck() 
+		bool KeyCheck()
 		{
 			return 0 != GetAsyncKeyState(Key);
 		}
@@ -62,12 +62,12 @@ public:
 
 	static void AllReset();
 
-	static bool IsAnyKey() 
+	static bool IsAnyKey()
 	{
 		return IsAnyKeyValue;
 	}
 
-	static float4 GetMousePosition() 
+	static float4 GetMousePosition()
 	{
 		return MousePos;
 	}
@@ -82,12 +82,20 @@ public:
 		return MouseDirection.NormalizeReturn();
 	}
 
+	static void AddIgnoreKeys(std::string_view _name)
+	{
+		std::string Name = GameEngineString::ToUpper(_name.data());
+		IgnoreKeys.insert(Name);
+	}
+
 protected:
 
 private:
 	// constrcuter destructer
 	GameEngineInput();
 	~GameEngineInput();
+
+	static std::set<std::string> IgnoreKeys;
 
 	//      PlayerJump       A
 	static std::map<std::string, GameEngineKey> Keys;

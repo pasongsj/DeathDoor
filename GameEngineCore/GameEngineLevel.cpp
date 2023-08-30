@@ -15,7 +15,13 @@ bool GameEngineLevel::IsDebugRender = false;
 GameEngineLevel::GameEngineLevel()
 {
 	LevelCameraInit();
+
+	if (false == GameEngineInput::IsKey("FreeCameraSwitch"))
+	{
+		GameEngineInput::CreateKey("FreeCameraSwitch", VK_F1);
+	}
 }
+
 
 void GameEngineLevel::LevelCameraInit()
 {

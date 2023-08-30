@@ -35,8 +35,9 @@ void GameEngineCamera::Start()
 
 		GameEngineInput::CreateKey("CamRot", VK_RBUTTON);
 		GameEngineInput::CreateKey("SpeedBoost", VK_LSHIFT);
-		GameEngineInput::CreateKey("FreeCameraSwitch", 'P');
+		GameEngineInput::CreateKey("FreeCameraSwitch", VK_F1);
 		GameEngineInput::CreateKey("ProjectionModeChange", 'O');
+		GameEngineInput::AddIgnoreKeys("FreeCameraSwitch");
 	}
 
 	// float _Width, float _Height, float _Left, float _Right, float _ZMin = 0.0f, float _ZMax = 1.0f
@@ -55,14 +56,28 @@ void GameEngineCamera::Start()
 	CamTarget->CreateDepthTexture();
 }
 
+void GameEngineCamera::FreeCameraSwitch()
+{
+	if (GetLevel()->GetMainCamera().get() != this)
+	{
+		return;
+	}
+
+	FreeCamera = !FreeCamera;
+
+	if (true == FreeCamera)
+	{
+		OldData = GetTransform()->GetTransDataRef();
+	}
+	else {
+		GetTransform()->SetTransformData(OldData);
+	}
+}
+
 void GameEngineCamera::Update(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsDown("ProjectionModeChange"))
 	{
-		if (GetLevel()->GetMainCamera().get() != this)
-		{
-			return;
-		}
 		switch (ProjectionType)
 		{
 		case CameraType::None:
@@ -78,23 +93,23 @@ void GameEngineCamera::Update(float _DeltaTime)
 		}
 	}
 
-	if (true == GameEngineInput::IsDown("FreeCameraSwitch"))
-	{
-		if (GetLevel()->GetMainCamera().get() != this)
-		{
-			return;
-		}
+	//if (true == GameEngineInput::IsDown("FreeCameraSwitch"))
+	//{
+	//	if (GetLevel()->GetMainCamera().get() != this)
+	//	{
+	//		return;
+	//	}
 
-		FreeCamera = !FreeCamera;
+	//	FreeCamera = !FreeCamera;
 
-		if (true == FreeCamera)
-		{
-			OldData = GetTransform()->GetTransDataRef();
-		}
-		else {
-			GetTransform()->SetTransformData(OldData);
-		}
-	}
+	//	if (true == FreeCamera)
+	//	{
+	//		OldData = GetTransform()->GetTransDataRef();
+	//	}
+	//	else {
+	//		GetTransform()->SetTransformData(OldData);
+	//	}
+	//}
 
 	if (true == FreeCamera)
 	{
