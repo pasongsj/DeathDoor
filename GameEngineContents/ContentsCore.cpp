@@ -17,6 +17,7 @@
 #include "StartLevel.h"
 #include "UITestLevel.h"
 
+#include "PlayerTestLevel.h"
 
 ContentsCore::ContentsCore()
 {
@@ -48,6 +49,7 @@ void ContentsCore::GameStart()
 	GameEngineCore::CreateLevel<StartLevel>();
 	GameEngineCore::CreateLevel<UITestLevel>();
 	GameEngineCore::CreateLevel<MapTestLevel>();
+	GameEngineCore::CreateLevel<PlayerTestLevel>();
 
 	GameEngineCore::ChangeLevel("CenterLevel");
 }
