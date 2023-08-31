@@ -79,6 +79,7 @@ private:
 		// Attack
 	PlayerSkill CurSkill = PlayerSkill::ARROW;
 	bool isRightAttack = true;
+	bool isDown = false;
 
 	float StateDuration = 2.0f;
 	
@@ -88,6 +89,7 @@ private:
 
 	float4 MoveDir;
 	float MoveSpeed;
+	bool mButton = false;
 
 
 	//physx
