@@ -65,6 +65,10 @@ void PhysXTestActor::Start()
 
 void PhysXTestActor::Update(float _DeltaTime)
 {
+	if (m_pCapsuleComp->GetDynamic()->userData != nullptr)
+	{
+		m_pCapsuleComp->GetDynamic()->userData;
+	}
 	float4 Movedir = float4::ZERO;
 	if (true == GameEngineInput::IsPress("CamMoveLeft"))
 	{

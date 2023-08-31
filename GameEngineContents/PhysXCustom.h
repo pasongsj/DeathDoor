@@ -23,6 +23,7 @@ public:
 	void onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count) override;
 	void onAdvance(const physx::PxRigidBody* const* bodyBuffer, const physx::PxTransform* poseBuffer, const physx::PxU32 count) override {};
 
+	std::function<void* ()> customCallback = nullptr;
 
 private:
 	

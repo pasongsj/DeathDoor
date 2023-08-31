@@ -76,8 +76,8 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 		physx::PxShape* tmpOtherActor = current.shapes[1];
 		physx::PxFilterData OtherFilterdata = tmpOtherActor->getSimulationFilterData();
 		physx::PxFilterData ContactFilterdata = tmpContactActor->getSimulationFilterData();
-		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Ground) && //땅
-			ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic)) // 플레이어
+		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic)&&// 플레이어
+			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Ground))  //땅			
 		{
 			
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) //충돌이 시작된 시점
@@ -95,8 +95,8 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 				int a = 0;
 			}
 		}
-		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic) && //플레이어
-			ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle))//장애물
+		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic) &&// 플레이어
+			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle))  //장애물		
 		{
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) //충돌이 시작된 시점
 			{
