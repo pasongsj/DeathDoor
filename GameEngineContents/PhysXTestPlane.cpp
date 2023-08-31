@@ -33,7 +33,7 @@ void PhysXTestPlane::Start()
 		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
 		if(Count != 0)
 		{
-			m_pBoxComp->SetObjectObstacle();
+			//m_pBoxComp->SetObjectObstacle();
 			GetTransform()->AddWorldRotation(float4{ 0, 45, 10 });
 		}
 		m_pBoxComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale, GetTransform()->GetWorldRotation());
