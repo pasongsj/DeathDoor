@@ -105,9 +105,6 @@
     <ClCompile Include="PlayerBase.cpp">
       <Filter>Contents\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PhysXPlaneComponent.cpp">
-      <Filter>Component\PhysX\Component</Filter>
-    </ClCompile>
     <ClCompile Include="LevelWindow.cpp">
       <Filter>Base\Controller</Filter>
     </ClCompile>
@@ -146,6 +143,15 @@
     </ClCompile>
     <ClCompile Include="TestMap.cpp">
       <Filter>Contents\TestLevel\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Contents\PlayerTestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFSM.cpp">
+      <Filter>Contents\PlayerTestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTestLevel.cpp">
+      <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,9 +262,6 @@
     <ClInclude Include="PlayerBase.h">
       <Filter>Contents\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PhysXPlaneComponent.h">
-      <Filter>Component\PhysX\Component</Filter>
-    </ClInclude>
     <ClInclude Include="LevelWindow.h">
       <Filter>Base\Controller</Filter>
     </ClInclude>
@@ -295,6 +298,12 @@
     </ClInclude>
     <ClInclude Include="TestMap.h">
       <Filter>Contents\TestLevel\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Contents\PlayerTestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTestLevel.h">
+      <Filter>Contents\PlayerTestLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -372,6 +381,9 @@
     </Filter>
     <Filter Include="Contents\UI">
       <UniqueIdentifier>{74de8639-1ad2-4b61-8191-ce266cf0324a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\PlayerTestLevel">
+      <UniqueIdentifier>{f51af19b-c4ef-4a9b-a75e-fa1d33a8d783}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -248,10 +248,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="PlayerFSM.cpp" />
-    <ClCompile Include="PlayerTestLevel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="PlayerTestLevel.cpp" />
     <ClCompile Include="PreCompileHeader.cpp">
       <SubType>
       </SubType>
@@ -396,10 +393,7 @@
     </ClInclude>
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBase.h" />
-    <ClInclude Include="PlayerTestLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="PlayerTestLevel.h" />
     <ClInclude Include="PreCompileHeader.h">
       <SubType>
       </SubType>
