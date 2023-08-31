@@ -26,11 +26,16 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 		PlayTime += _DeltaTime;
 		//                      0.1
 		// 1
-		while (CurFrameTime >= Inter)
+		float CurInter = Inter;
+		if (FrameTime.size() > CurFrame)
+		{
+			CurInter = FrameTime[CurFrame];
+		}
+		while (CurFrameTime >= CurInter)
 		{
 			// 여분의 시간이 남게되죠?
 			// 여분의 시간이 중요합니다.
-			CurFrameTime -= Inter;
+			CurFrameTime -= CurInter;
 			++CurFrame;
 
 			if (false == bOnceStart && CurFrame == 0)
@@ -47,7 +52,7 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 				break;
 			}
 
-			if (CurFrame >= Frames.size() - 1)
+			if (CurFrame >= End)
 			{
 				if (true == Loop)
 				{
@@ -55,25 +60,19 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 				}
 				else
 				{
-					CurFrame = static_cast<unsigned int>(Frames.size()) - 1;
+					CurFrame = End - 1;
+					EndValue = true;
 				}
 			}
 		}
 	}
 
-	unsigned int NextFrame = CurFrame;
-
-	++NextFrame;
-
+	unsigned int NextFrame = CurFrame + 1;
 	if (NextFrame >= End)
 	{
 		NextFrame = 0;
 	}
 
-	if (CurFrame >= End)
-	{
-		CurFrame = 0;
-	}
 
 	// mesh      subset
 	std::vector<std::vector< std::shared_ptr<GameEngineRenderUnit>>>& Units = ParentRenderer->GetAllRenderUnit();
@@ -143,9 +142,14 @@ void GameEngineFBXAnimationInfo::Reset()
 	CurFrameTime = 0.0f;
 	CurFrame = 0;
 	PlayTime = 0.0f;
+	EndValue = false;
 	// Start = 0;
 }
 
+bool GameEngineFBXAnimationInfo::IsEnd()
+{
+	return EndValue;
+}
 
 
 GameEngineFBXRenderer::GameEngineFBXRenderer()
@@ -361,12 +365,31 @@ void GameEngineFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName
 	FbxExAniData* AnimData = Animation->GetAnimationData(_Index);
 	NewAnimation->Start = static_cast<UINT>(AnimData->TimeStartCount);
 	NewAnimation->End = static_cast<UINT>(AnimData->TimeEndCount);
+
+	if (_Params.Start > static_cast<int>(NewAnimation->End))
+	{
+		MsgAssert("입력한 start index가 최대 프레임 수를 넘었습니다");
+	}
+
+	if (_Params.End > static_cast<int>(NewAnimation->End))
+	{
+		MsgAssert("입력한 end index가 최대 프레임 수를 넘었습니다");
+	}
+	if (-1 != _Params.Start)
+	{
+		NewAnimation->Start = static_cast<UINT>(_Params.Start);
+	}
+	if (-1 != _Params.End)
+	{
+		NewAnimation->End = static_cast<UINT>(_Params.End);
+	}
 	NewAnimation->Mesh = GetFBXMesh();
 	NewAnimation->Aniamtion = Animation;
 	NewAnimation->ParentRenderer = this;	
 	NewAnimation->Inter = _Params.Inter;
 	NewAnimation->Loop = _Params.Loop;
-
+	NewAnimation->FrameTime = _Params.FrameTime;
+	
 	NewAnimation->Reset();
 	NewAnimation->Init(_AnimationName, _Index);
 
@@ -399,7 +422,7 @@ void GameEngineFBXRenderer::ChangeAnimation(const std::string& _AnimationName, b
 	{
 		return;
 	}
-
+	FindIter->second->Reset();
 	CurAnimation = FindIter->second;
 }
 
