@@ -79,9 +79,14 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Ground) && //땅
 			ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic)) // 플레이어
 		{
-
+			
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) //충돌이 시작된 시점
 			{
+				physx::PxRigidDynamic* pPlayer = static_cast<physx::PxRigidDynamic*>(tmpContactActor->getActor());
+				
+				physx::PxRigidDynamic* pGround = static_cast<physx::PxRigidDynamic*>(tmpOtherActor->getActor());
+
+				//std::string Name = ContactActor->getName();
 				int a = 0;
 			}
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) //충돌이 유지되는동안 계속 들어옴
