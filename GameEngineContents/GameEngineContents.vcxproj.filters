@@ -121,6 +121,9 @@
     <ClCompile Include="PlayerBase.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXMgr.cpp">
+      <Filter>PhysX\ParentClass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -245,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="PlayerBase.h">
       <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXMgr.h">
+      <Filter>PhysX\ParentClass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

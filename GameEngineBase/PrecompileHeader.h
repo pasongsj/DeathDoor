@@ -43,3 +43,7 @@
 #pragma comment (lib, "PhysXFoundation_static_64.lib")
 #pragma comment (lib, "PhysXPvdSDK_static_64.lib")
 #pragma comment (lib, "PhysXCooking_static_64.lib")
+
+#include <PhysXSDKSnippets/SnippetUtils.h>
+#include <PhysXSDKSnippets/SnippetPrint.h>
+#include <PhysXSDKSnippets/SnippetPVD.h>
