@@ -11,7 +11,7 @@
 #include "PhysXSphereComponent.h"
 
 #include "PhysXTestLevel.h"
-
+#include "MapTestLevel.h"
 
 PhysXTestActor::PhysXTestActor() 
 {
@@ -24,9 +24,8 @@ PhysXTestActor::~PhysXTestActor()
 void PhysXTestActor::Start()
 {
 	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	pRenderer->SetFBXMesh("AnimMan.FBX", "MeshAniTexture");
-	pRenderer->CreateFBXAnimation("Run", "ALS_N_Run_F.FBX");
-	pRenderer->ChangeAnimation("Run");
+	pRenderer->SetFBXMesh("Player.fbx", "MeshTexture");
+
 
 	float4 scale = pRenderer->GetMeshScale();
 	//pRenderer->GetTransform()->AddLocalPosition(float4(0.f, -scale.hy(), 0.f));

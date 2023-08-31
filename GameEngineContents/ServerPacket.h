@@ -32,6 +32,7 @@ enum class PacketLevelType
 	MapEditorLevel,
 	PhysXTestLevel,
 	StartLevel,
+	OfficeLevel,
 	ChangLevel
 };
 

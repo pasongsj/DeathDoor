@@ -139,10 +139,19 @@
       <Filter>Contents\UI</Filter>
     </ClCompile>
     <ClCompile Include="MapTestLevel.cpp">
-      <Filter>Contents\TestLevel</Filter>
+      <Filter>Contents\TestLevel\MapTestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Map_PhysXActor.cpp">
+      <Filter>Contents\TestLevel\MapTestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="OfficeLevel.cpp">
+      <Filter>Contents\OfficeLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Map_Office.cpp">
+      <Filter>Contents\OfficeLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="TestMap.cpp">
-      <Filter>Contents\TestLevel\Object</Filter>
+      <Filter>Contents\TestLevel\MapTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
@@ -294,10 +303,19 @@
       <Filter>Contents\UI</Filter>
     </ClInclude>
     <ClInclude Include="MapTestLevel.h">
-      <Filter>Contents\TestLevel</Filter>
+      <Filter>Contents\TestLevel\MapTestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_PhysXActor.h">
+      <Filter>Contents\TestLevel\MapTestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="OfficeLevel.h">
+      <Filter>Contents\OfficeLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_Office.h">
+      <Filter>Contents\OfficeLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="TestMap.h">
-      <Filter>Contents\TestLevel\Object</Filter>
+      <Filter>Contents\TestLevel\MapTestLevel</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Contents\PlayerTestLevel</Filter>
@@ -361,12 +379,6 @@
     <Filter Include="Contents\PlayLevel">
       <UniqueIdentifier>{24783dc1-27e8-4373-b1c1-dd0e053066fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\PlayLevel\LevelWhisk">
-      <UniqueIdentifier>{2dd775a0-49eb-4f54-bab1-72f5b12fc6ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\PlayLevel\LevelMaze">
-      <UniqueIdentifier>{5d752848-2d4e-461a-be8b-26560dcf3e0a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Contents\PlayLevel\MapActor">
       <UniqueIdentifier>{5dd5f4a8-7587-4241-8ab9-47d33fcde18d}</UniqueIdentifier>
     </Filter>
@@ -381,6 +393,15 @@
     </Filter>
     <Filter Include="Contents\UI">
       <UniqueIdentifier>{74de8639-1ad2-4b61-8191-ce266cf0324a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\TestLevel\MapTestLevel">
+      <UniqueIdentifier>{b16eeba7-6471-4f60-98a8-0090176d2813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel">
+      <UniqueIdentifier>{3ed49c97-668f-4942-9b4f-9f84ec5ffac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel\Actor">
+      <UniqueIdentifier>{7796eaa7-b090-4533-97cc-d83cc6fce77b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Contents\PlayerTestLevel">
       <UniqueIdentifier>{f51af19b-c4ef-4a9b-a75e-fa1d33a8d783}</UniqueIdentifier>

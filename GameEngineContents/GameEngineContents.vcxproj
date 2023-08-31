@@ -200,10 +200,13 @@
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
     <ClCompile Include="MapTestLevel.cpp" />
+    <ClCompile Include="Map_Office.cpp" />
+    <ClCompile Include="Map_PhysXActor.cpp" />
     <ClCompile Include="Mouse.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="OfficeLevel.cpp" />
     <ClCompile Include="MpBar.cpp">
       <SubType>
       </SubType>
@@ -345,7 +348,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Map_Office.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Map_PhysXActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Mouse.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="OfficeLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
