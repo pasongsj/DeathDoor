@@ -29,7 +29,8 @@ void OfficeLevel::LevelChangeStart()
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalPosition({ -415, 500, 100 });
 
-	std::shared_ptr<Map_Office> Obj = CreateActor<Map_Office>();
+	CreateActor<GameEngineLight>();
+	CreateActor<Map_Office>();
 	
 	
 }

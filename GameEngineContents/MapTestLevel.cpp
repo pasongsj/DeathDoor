@@ -3,7 +3,8 @@
 
 #include "TestMap.h"
 #include "Player.h"
-#include "PhysXTestActor.h"
+#include "Map_PhysXActor.h"
+
 
 MapTestLevel::MapTestLevel()
 {
@@ -30,7 +31,8 @@ void MapTestLevel::LevelChangeStart()
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 300, 0, -900.0f });
 
-	CreateActor<PhysXTestActor>();
+	CreateActor<GameEngineLight>();
+	CreateActor<Map_PhysXActor>();
 	CreateActor<TestMap>();
 }
 

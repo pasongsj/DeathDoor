@@ -35,7 +35,7 @@ void Map_PhysXActor::Start()
 	//m_pTriangleComp = CreateComponent <PhysXTriangleComponent>();
 	//m_pDynamicActorComp = CreateComponent <PhysXDynamicActorComponent>();
 	//m_pGeometryComp = CreateComponent<PhysXBoxGeometryComponent>();
-	GetCapsuleComponent() = CreateComponent<PhysXCapsuleComponent>();
+	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 	//m_pSphereComp = CreateComponent<PhysXSphereComponent>();
 	if (GetLevel()->DynamicThis<MapTestLevel>() != nullptr)
 	{
@@ -46,8 +46,8 @@ void Map_PhysXActor::Start()
 		//m_pSphereComp->GetDynamic()->setMass(1.f);
 		//m_pSphereComp->TurnOnSpeedLimit();
 
-		GetCapsuleComponent()->SetPhysxMaterial(0.f, 0.f, 0.f);
-		GetCapsuleComponent()->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale);
+		m_pCapsuleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
+		m_pCapsuleComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale);
 		//m_pCapsuleComp->TurnOnSpeedLimit();
 		//m_pConvexComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking, true, vscale);
 		//m_pTriangleComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking,true ,vscale);
