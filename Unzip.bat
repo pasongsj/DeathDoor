@@ -26,3 +26,6 @@ IF NOT EXIST "%~dp0%ContentResources\Mesh\Map\Cube14.fbx" (
     powershell expand-archive ContentResources\Zip\Cube14.zip ContentResources\Mesh\Map
 )
 
+IF NOT EXIST "%~dp0%ContentResources\Mesh\Map\Map_Office.fbx" (
+    powershell expand-archive ContentResources\Zip\Map_Office.zip ContentResources\Mesh\Map
+)
