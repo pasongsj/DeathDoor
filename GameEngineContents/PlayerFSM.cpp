@@ -38,7 +38,7 @@ void Player::SetFSMFunc()
 		{
 			Renderer->ChangeAnimation("Player_Walk_S");
 
-			StateDuration = 0.5f;
+			//StateDuration = 0.5f;
 
 			//float rot = MoveDir.x * 90 - (1 - MoveDir.z) * 90;
 			//GetTransform()->SetLocalRotation(float4{ 0,rot,0 });
@@ -47,11 +47,11 @@ void Player::SetFSMFunc()
 	FSMFunc[PlayerState::WALK].Update = [this](float Delta)
 		{
 			CheckInput(Delta);
-			StateDuration -= Delta;
-			if (StateDuration < 0.0f)
-			{
-				NextState = PlayerState::IDLE;
-			}
+			//StateDuration -= Delta;
+			//if (StateDuration < 0.0f)
+			//{
+			//	NextState = PlayerState::IDLE;
+			//}
 
 		};
 
@@ -73,16 +73,15 @@ void Player::SetFSMFunc()
 				Renderer->ChangeAnimation("Player_Att_Left");
 			}
 			isRightAttack = !isRightAttack;
-			StateDuration = 2.0f;
 		};
 
 	FSMFunc[PlayerState::BASE_ATT].Update = [this](float Delta)
 		{
-			StateDuration -= Delta;
-			if (StateDuration < 0.0f)
+			if (true == Renderer->IsAnimationEnd())
 			{
 				NextState = PlayerState::IDLE;
 			}
+
 		};
 
 	FSMFunc[PlayerState::BASE_ATT].End = [this]
@@ -95,23 +94,38 @@ void Player::SetFSMFunc()
 	FSMFunc[PlayerState::ROLL].Start = [this]
 		{
 			Renderer->ChangeAnimation("Player_Roll");
-			StateDuration = 2.0f;
-
+			//StateDuration = 2.0f;
+			mButton = false;
 		};
 
 	FSMFunc[PlayerState::ROLL].Update = [this](float Delta)
 		{
-			StateDuration -= Delta;
-			if (StateDuration < 0.0f)
+			if (true == GameEngineInput::IsDown("PlayerMBUTTON"))
 			{
-				NextState = PlayerState::IDLE;
+				mButton = true;
 			}
+			if (true == Renderer->IsAnimationEnd())
+			{
+				if (true == mButton)
+				{
+					NextState = PlayerState::SLIDE_ATT;
+				}
+				else
+				{
+					CheckInput(Delta);
+				}
+			}
+			//StateDuration -= Delta;
+			//if (StateDuration < 0.0f)
+			//{
+			//	NextState = PlayerState::IDLE;
+			//}
 
-			if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
-			{
-				NextState = PlayerState::SLIDE_ATT;
-				return;
-			}
+			//if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
+			//{
+			//	NextState = PlayerState::SLIDE_ATT;
+			//	return;
+			//}
 		};
 
 	FSMFunc[PlayerState::ROLL].End = [this]
@@ -124,16 +138,14 @@ void Player::SetFSMFunc()
 	FSMFunc[PlayerState::SLIDE_ATT].Start = [this]
 		{
 			Renderer->ChangeAnimation("Player_SlideAtt");
-			StateDuration = 2.0f;
 
 		};
 
 	FSMFunc[PlayerState::SLIDE_ATT].Update = [this](float Delta)
 		{
-			StateDuration -= Delta;
-			if (StateDuration < 0.0f)
+			if (true == Renderer->IsAnimationEnd())
 			{
-				NextState = PlayerState::IDLE;
+				CheckInput(Delta);
 			}
 		};
 
@@ -184,16 +196,14 @@ void Player::SetFSMFunc()
 			default:
 				break;
 			}
-			StateDuration = 2.0f;
 
 		};
 
 	FSMFunc[PlayerState::SKILL].Update = [this](float Delta)
 		{
-			StateDuration -= Delta;
-			if (StateDuration < 0.0f)
+			if (true == Renderer->IsAnimationEnd())
 			{
-				NextState = PlayerState::IDLE;
+				CheckInput(Delta);
 			}
 		};
 
@@ -206,13 +216,18 @@ void Player::SetFSMFunc()
 
 	FSMFunc[PlayerState::ATTED].Start = [this]
 		{
-			StateDuration = 2.0f;
+			isDown = false;
+			Renderer->ChangeAnimation("Player_HitBack");
 		};
 
 	FSMFunc[PlayerState::ATTED].Update = [this](float Delta)
 		{
-			StateDuration -= Delta;
-			if (StateDuration < 0.0f)
+			if (false == isDown && true == Renderer->IsAnimationEnd())
+			{
+				Renderer->ChangeAnimation("Player_HitIdle");
+				isDown = true;
+			}
+			else if (true == isDown && true == Renderer->IsAnimationEnd())
 			{
 				NextState = PlayerState::IDLE;
 			}
