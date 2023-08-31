@@ -160,6 +160,16 @@ public:
 		return GetAngleVectorToVectorRad360(_Pivot, _Other) * GameEngineMath::RadToDeg;
 	}
 
+	static float4 GetRadBetweenVector(const float4& N1, const float4& N2)
+	{
+		return DirectX::XMVector3AngleBetweenNormals(N1, N2);
+	}
+
+	static float4 GetDegBetweenVector(const float4& N1, const float4& N2)
+	{
+		return GetRadBetweenVector(N1, N2) * GameEngineMath::RadToDeg;
+	}
+
 	// 외적의 결과는 두개의 백터가 겹칠때 주의해서 처리해줘야 한다.
 	static float GetAngleVectorToVectorRad(const float4& _Left, const float4& _Right)
 	{
@@ -196,7 +206,7 @@ public:
 		}
 
 		float Angle = 0.f;
-		(Pivot.x * Other.y) - (Pivot.y * Other.x) > 0.0f ? Angle = acosf(CosSeta) : Angle = -acosf(CosSeta);
+		(Pivot.x * Other.z) - (Pivot.z * Other.x) > 0.0f ? Angle = acosf(CosSeta) : Angle = -acosf(CosSeta);
 
 
 		return Angle;

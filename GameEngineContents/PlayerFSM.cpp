@@ -1,5 +1,6 @@
 #include "PreCompileHeader.h"
 #include "Player.h"
+#include "PhysXCapsuleComponent.h"
 
 //IDLE,
 //WALK,
@@ -24,7 +25,10 @@ void Player::SetFSMFunc()
 
 	FSMFunc[PlayerState::IDLE].Update = [this](float Delta)
 		{
+			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 			CheckInput(Delta);
+
 		};
 
 	FSMFunc[PlayerState::IDLE].End = [this]
@@ -158,15 +162,23 @@ void Player::SetFSMFunc()
 
 	FSMFunc[PlayerState::CHARGE_ATT].Start = [this]
 		{
-			StateDuration = 2.0f;
+			if (true == isRightAttack)
+			{
+				Renderer->ChangeAnimation("Player_Att1");
+			}
+			else
+			{
+				Renderer->ChangeAnimation("Player_Att2");
+			}
+			isRightAttack = !isRightAttack;
 		};
 
 	FSMFunc[PlayerState::CHARGE_ATT].Update = [this](float Delta)
 		{
-			StateDuration -= Delta;
-			if (StateDuration < 0.0f)
+			
+			if (true == Renderer->IsAnimationEnd())
 			{
-				NextState = PlayerState::IDLE;
+				CheckInput(Delta);
 			}
 		};
 
