@@ -17,6 +17,7 @@ public:
 	std::shared_ptr<GameEngineFBXAnimation> Aniamtion;
 	FbxExAniData* FBXAnimationData;
 
+	std::vector<float> FrameTime;
 	float PlayTime = 0.0f;
 	float CurFrameTime = 0.0f;
 	float Inter = 0.1f;
@@ -29,11 +30,13 @@ public:
 	bool bOnceStart = true;
 	bool bOnceEnd = true;
 	bool Loop = true;
+	bool EndValue = false;
 
 	// Event
 
 	void Init(const std::string_view& _Name, int _Index);
 	void Reset();
+	bool IsEnd();
 	void Update(float _DeltaTime);
 
 public:
@@ -55,6 +58,9 @@ class AnimationCreateParams
 public:
 	float Inter = 0.0f;
 	bool Loop = true;
+	int Start = -1;
+	int End = -1;
+	std::vector<float> FrameTime = std::vector<float>();
 };
 
 
@@ -87,6 +93,12 @@ public:
 	virtual void SetFBXMesh(const std::string& _Name, std::string _Material);
 	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex);
 	virtual std::shared_ptr<GameEngineRenderUnit> SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex);
+
+
+	bool IsAnimationEnd()
+	{
+		return CurAnimation->IsEnd();
+	}
 
 	std::map<std::pair<size_t, size_t>, std::shared_ptr<GameEngineRenderUnit>> GetUnTexturedUnit()
 	{
