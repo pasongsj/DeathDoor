@@ -25,7 +25,8 @@ public:
 	}
 
 	void SetMoveSpeed(float4 _MoveSpeed);
-
+	void SetRotation(float4 _Rot);
+	void SetPose(float4 _Rot, float4 _MoveSpeed);
 	void SetMoveJump();
 	void SetMoveDive(float _Rot);
 
