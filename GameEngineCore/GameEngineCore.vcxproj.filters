@@ -769,6 +769,9 @@
     <ClInclude Include="EngineGrid.h">
       <Filter>Object\Contents</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineNavi.h">
+      <Filter>Object\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -949,6 +952,9 @@
     </ClCompile>
     <ClCompile Include="EngineGrid.cpp">
       <Filter>Object\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineNavi.cpp">
+      <Filter>Object\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
