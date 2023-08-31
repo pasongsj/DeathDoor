@@ -425,5 +425,8 @@ public:
 	static bool OBB2DToAABB2D(const CollisionData&, const CollisionData&);
 	static bool OBB2DToOBB2D(const CollisionData&, const CollisionData&);
 
+
+	static bool TriCollision(float4 _Start, float4 _Dir, float4 Point0, float4 Point1, float4 Point2, float& _Len);	// static bool 
+
 };
 

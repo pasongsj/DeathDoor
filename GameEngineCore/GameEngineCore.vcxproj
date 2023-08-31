@@ -281,6 +281,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineNavi.h" />
     <ClInclude Include="GameEngineNetActor.h" />
     <ClInclude Include="GameEngineObject.h">
       <SubType>
@@ -676,6 +677,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineNavi.cpp" />
     <ClCompile Include="GameEngineNetActor.cpp" />
     <ClCompile Include="GameEngineObject.cpp">
       <SubType>
