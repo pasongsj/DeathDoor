@@ -87,7 +87,8 @@ private:
 	void CheckInput(float _DeltaTime);
 	void MoveUpdate(float _DeltaTime);
 
-	float4 MoveDir;
+	float4 MoveDir = float4::ZERO;
+	float4 PrevDir = float4::ZERO;
 	float MoveSpeed;
 	bool mButton = false;
 
@@ -102,6 +103,5 @@ private:
 	int index = 0;
 	float m_pSpeed = 200.0f;
 	void TestMoveUpdate(float _DeltaTime);
-	GameEngineTime Time;
 };
 

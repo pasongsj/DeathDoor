@@ -44,58 +44,65 @@ void Player::TestInit()
 		Renderer = CreateComponent<GameEngineFBXRenderer>();
 		Renderer->SetFBXMesh("player.FBX", "MeshAniTexture");
 
-		Time.Reset();
 
 		Renderer->CreateFBXAnimation("Player_Idle", "Player_Idle.FBX", {0.01f,true});
 		AnimationName.push_back("Player_Idle");
-
-
-		Renderer->CreateFBXAnimation("Player_Walk_S", "Player_Walk_S.FBX", { 0.01f,true }); // 걷기
-		AnimationName.push_back("Player_Walk_S");
-
-
-		Renderer->CreateFBXAnimation("Player_Roll", "Player_Roll.FBX", { 0.01f,false });
-		AnimationName.push_back("Player_Roll");
+		
+		//
+		//Renderer->CreateFBXAnimation("Player_Walk_S", "Player_Walk_S.FBX", { 0.01f,true }); // 걷기
+		//AnimationName.push_back("Player_Walk_S");
 		//
 		//
-	//	////	Renderer->CreateFBXAnimation("Player_Idle2", "Player_Idle.FBX");
-	//	////AnimationName.push_back("Player_Idle2");
-	//	//
-	//	Renderer->CreateFBXAnimation("Player_Att_Left", "Player_Att_Left.FBX", { 0.01f,false });
-	//	AnimationName.push_back("Player_Att_Left");
-	//	
-	//	
-	//	Renderer->CreateFBXAnimation("Player_Att_R", "Player_Att_R.FBX", { 0.01f,false });
-	//	AnimationName.push_back("Player_Att_R");
+		//Renderer->CreateFBXAnimation("Player_Roll", "Player_Roll.FBX", { 0.01f,false });
+		//AnimationName.push_back("Player_Roll");
+		//
+		//
+		////////	Renderer->CreateFBXAnimation("Player_Idle2", "Player_Idle.FBX");
+		////////AnimationName.push_back("Player_Idle2");
+		//
+		//Renderer->CreateFBXAnimation("Player_Att_Left", "Player_Att_Left.FBX", { 0.01f,false });
+		//AnimationName.push_back("Player_Att_Left");
+		//
+		//
+		//Renderer->CreateFBXAnimation("Player_Att_R", "Player_Att_R.FBX", { 0.01f,false });
+		//AnimationName.push_back("Player_Att_R");		
+		
+		////
+		//////Renderer->CreateFBXAnimation("Player_Charge_Left", "Player_Att_Left.FBX", { 0.01f,false ,0,3});
+		//////AnimationName.push_back("Player_Charge_Left");
+		//////
+		//////
+		//////Renderer->CreateFBXAnimation("Player_Charge_R", "Player_Att_R.FBX", { 0.01f,false ,0,3});
+		//////AnimationName.push_back("Player_Charge_R");
 		
 		
-		//Renderer->CreateFBXAnimation("Player_Att1", "Player_Att1.FBX"); //특수무기??
-		//AnimationName.push_back("Player_Att1");
-		//
-		//
-		//Renderer->CreateFBXAnimation("Player_Att2", "Player_Att2.FBX");
-		//AnimationName.push_back("Player_Att2");
-		//
-		//
-	//	Renderer->CreateFBXAnimation("Player_HitBack", "Player_HitBack.FBX", { 0.01f,false }); // 피격
-	//	AnimationName.push_back("Player_HitBack");
-	//	
-	//	
-	//	Renderer->CreateFBXAnimation("Player_HitIdle", "Player_HitIdle.FBX", { 0.01f,false });
-	//	AnimationName.push_back("Player_HitIdle");
-	//	
-	//	
-	//	Renderer->CreateFBXAnimation("Player_SlideAtt", "Player_SlideAtt.FBX", { 0.01f,false }); // 슬라이드 공격
-	//	AnimationName.push_back("Player_SlideAtt");
-	//	
-	//	
-	//	Renderer->CreateFBXAnimation("Player_Arrow", "Player_Arrow.FBX", { 0.01f,false }); // 스킬 - 화살
-	//	AnimationName.push_back("Player_Arrow");
+		////Renderer->CreateFBXAnimation("Player_Att1", "Player_Att1.FBX"); //특수무기??
+		////AnimationName.push_back("Player_Att1");
+		////
+		////
+		////Renderer->CreateFBXAnimation("Player_Att2", "Player_Att2.FBX");
+		////AnimationName.push_back("Player_Att2");
 		
-		
+		//
+		//Renderer->CreateFBXAnimation("Player_HitBack", "Player_HitBack.FBX", { 0.01f,false }); // 피격
+		//AnimationName.push_back("Player_HitBack");
+		//
+		//
+		//Renderer->CreateFBXAnimation("Player_HitIdle", "Player_HitIdle.FBX", { 0.01f,false });
+		//AnimationName.push_back("Player_HitIdle");
+		//
+		//
+		//Renderer->CreateFBXAnimation("Player_SlideAtt", "Player_SlideAtt.FBX", { 0.01f,false }); // 슬라이드 공격
+		//AnimationName.push_back("Player_SlideAtt");
+		//
+		//
+		//Renderer->CreateFBXAnimation("Player_Arrow", "Player_Arrow.FBX", { 0.01f,false }); // 스킬 - 화살
+		//AnimationName.push_back("Player_Arrow");
+		//
+		//
 		//Renderer->CreateFBXAnimation("Player_Magic", "Player_Magic.FBX"); // 스킬 - 화살
 		//AnimationName.push_back("Player_Magic");
-		//
+		
 		////AnimationName.push_back("Player_Magic");
 	}
 	{
@@ -147,7 +154,6 @@ void Player::Update(float _DeltaTime)
 	//}
 	if (PlayerState::MAX == CurState)
 	{
-		float Check0 = Time.TimeCheck();
 		NextState = PlayerState::IDLE;
 	}
 
@@ -274,11 +280,11 @@ void Player::UpdateState(float _DeltaTime)
 void Player::CheckInput(float _DeltaTime)
 {
 
-	if (true == GameEngineInput::IsPress("PlayerRoll"))
-	{
-		NextState = PlayerState::ROLL;
-		return;
-	}
+	//if (true == GameEngineInput::IsPress("PlayerRoll"))
+	//{
+	//	NextState = PlayerState::ROLL;
+	//	return;
+	//}
 	//if (true == GameEngineInput::IsPress("PlayerLBUTTON"))
 	//{
 	//	NextState = PlayerState::BASE_ATT;
@@ -289,37 +295,36 @@ void Player::CheckInput(float _DeltaTime)
 	//	NextState = PlayerState::SKILL;
 	//	return;
 	//}
-	//if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
-	//{
-	//	NextState = PlayerState::CHARGE_ATT;
-	//	return;
-	//}
+	if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
+	{
+		NextState = PlayerState::CHARGE_ATT;
+		return;
+	}
 
 
 	float4 Dir = float4::ZERO;
-	float4 Rot = float4::ZERO;
 	// move
 	if (true == GameEngineInput::IsPress("PlayerLeft"))
 	{
-		Dir += GetTransform()->GetWorldLeftVector(); // 0 -90 0
+		Dir += float4::LEFT; // 0 -90 0
 	}
 	if (true == GameEngineInput::IsPress("PlayerRight"))
 	{
-		Dir += GetTransform()->GetWorldRightVector(); // 0 90 0
+		Dir += float4::RIGHT; // 0 90 0
 
 	}
 	if (true == GameEngineInput::IsPress("PlayerUp"))
 	{
-		Dir += GetTransform()->GetWorldForwardVector(); // 0 0 0
+		Dir += float4::FORWARD; // 0 0 0
 
 	}
 	if (true == GameEngineInput::IsPress("PlayerDown"))
 	{
-		Dir += GetTransform()->GetWorldBackVector(); // 0 180 0
+		Dir += float4::BACK; // 0 180 0
 	}
 	if (false == Dir.IsZero())
 	{
-		NextState = PlayerState::WALK;
+		//NextState = PlayerState::WALK;
 		Dir.Normalize();
 		MoveDir = Dir;
 		MoveUpdate(_DeltaTime);
@@ -336,10 +341,9 @@ void Player::MoveUpdate(float _DeltaTime)
 	m_pCapsuleComp->SetMoveSpeed(MoveDir * m_pSpeed/* * _DeltaTime*/);
 
 
-	//MoveDir.GetAnagleDegZ
 	float4 Rot = float4::ZERO;
-	Rot.y = Rot.GetAngleVectorToVectorDeg360(float4::FORWARD, MoveDir);
-	m_pCapsuleComp->SetRotation(Rot);
+	Rot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, MoveDir);
+	m_pCapsuleComp->SetRotation(-Rot);
 
 }
 

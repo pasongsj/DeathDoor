@@ -2,6 +2,7 @@
 #include "PhysXTestLevel.h"
 #include "PhysXTestActor.h"
 #include "PhysXTestPlane.h"
+#include "Player.h"
 
 PhysXTestLevel::PhysXTestLevel() 
 {
@@ -29,7 +30,8 @@ void PhysXTestLevel::LevelChangeStart()
 	}
 
 	CreateActor<PhysXTestActor>();
-	CreateActor<PhysXTestPlane>();
+	//CreateActor<PhysXTestPlane>();
+	CreateActor<Player>();
 	
 	std::shared_ptr<PhysXTestPlane> pWallPlane = CreateActor<PhysXTestPlane>();
 }

@@ -375,14 +375,6 @@ void GameEngineFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName
 	{
 		MsgAssert("입력한 end index가 최대 프레임 수를 넘었습니다");
 	}
-	if (-1 != _Params.Start)
-	{
-		NewAnimation->Start = static_cast<UINT>(_Params.Start);
-	}
-	if (-1 != _Params.End)
-	{
-		NewAnimation->End = static_cast<UINT>(_Params.End);
-	}
 	NewAnimation->Mesh = GetFBXMesh();
 	NewAnimation->Aniamtion = Animation;
 	NewAnimation->ParentRenderer = this;	
@@ -392,6 +384,14 @@ void GameEngineFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName
 	
 	NewAnimation->Reset();
 	NewAnimation->Init(_AnimationName, _Index);
+	if (-1 != _Params.Start)
+	{
+		NewAnimation->Start = static_cast<UINT>(_Params.Start);
+	}
+	if (-1 != _Params.End)
+	{
+		NewAnimation->End = static_cast<UINT>(_Params.End);
+	}
 
 	BaseValue.IsAnimation = 1;
 	Animations.insert(std::make_pair(UpperName, NewAnimation));
