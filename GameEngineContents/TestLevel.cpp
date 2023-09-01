@@ -19,7 +19,7 @@ TestLevel::~TestLevel()
 void TestLevel::Start()
 {
 	SetLevelType(PacketLevelType::TestLevel);
-
+	CreateScene();
 	{
 		//AnimTest Load
 		

@@ -39,7 +39,6 @@ void PhysXTestActor::Start()
 	//m_pSphereComp = CreateComponent<PhysXSphereComponent>();
 	if (GetLevel()->DynamicThis<PhysXTestLevel>()!= nullptr)
 	{
-		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
 
 		//m_pSphereComp->SetPhysxMaterial(100.f, 100.f, 0.f);
 		//m_pSphereComp->CreatePhysXActors(pLevel->GetScene(), pLevel-//>GetPhysics(), vscale);
@@ -48,7 +47,7 @@ void PhysXTestActor::Start()
 
 		//m_pCapsuleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale);
+		m_pCapsuleComp->CreatePhysXActors(m_pCapsuleComp->GetScene(), m_pCapsuleComp->GetPhysics(), vscale);
 		m_pCapsuleComp->TurnOnSpeedLimit();
 		m_pCapsuleComp->GetDynamic()->setMass(65.f);
 		//m_pConvexComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking, true, vscale);
@@ -64,6 +63,10 @@ void PhysXTestActor::Start()
 
 void PhysXTestActor::Update(float _DeltaTime)
 {
+	if (m_pCapsuleComp->GetDynamic()->userData != nullptr)
+	{
+		m_pCapsuleComp->GetDynamic()->userData;
+	}
 	float4 Movedir = float4::ZERO;
 	if (true == GameEngineInput::IsPress("CamMoveLeft"))
 	{

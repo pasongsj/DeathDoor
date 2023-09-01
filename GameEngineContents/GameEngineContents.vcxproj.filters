@@ -162,6 +162,7 @@
     <ClCompile Include="PlayerTestLevel.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -323,6 +324,7 @@
     <ClInclude Include="PlayerTestLevel.h">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClInclude>
+    <ClInclude Include="PhysXManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">

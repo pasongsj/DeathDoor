@@ -25,20 +25,17 @@ void PhysXTestPlane::Start()
 	float4 scale = pRenderer->GetMeshScale();
 	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 
+	m_pBoxComp = CreateComponent<PhysXBoxComponent>();
 
-	if (GetLevel()->DynamicThis<PhysXTestLevel>() != nullptr)
+	m_pBoxComp->SetPhysxMaterial(0.f, 0.f, 0.f);
+	if (Count != 0)
 	{
-		m_pBoxComp = CreateComponent<PhysXBoxComponent>();
-		m_pBoxComp->SetPhysxMaterial(0.f,0.f, 0.f);
-		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
-		if(Count != 0)
-		{
-			//m_pBoxComp->SetObjectObstacle();
-			GetTransform()->AddWorldRotation(float4{ 0, 45, 10 });
-		}
-		m_pBoxComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale, GetTransform()->GetWorldRotation());
-		++Count; 
+		//m_pBoxComp->SetObjectObstacle();
+		GetTransform()->AddWorldRotation(float4{ 0, 45, 10 });
 	}
+	m_pBoxComp->CreatePhysXActors(m_pBoxComp->GetScene(), m_pBoxComp->GetPhysics(), vscale, GetTransform()->GetWorldRotation());
+	++Count;
+
 }
 
 void PhysXTestPlane::Update(float _DeltaTime)

@@ -16,19 +16,31 @@ public:
 	PhysXLevel& operator=(const PhysXLevel& _Other) = delete;
 	PhysXLevel& operator=(PhysXLevel&& _Other) noexcept = delete;
 
-	inline physx::PxScene* GetScene()
+	physx::PxPhysics* GetPhysics()
 	{
-		return m_pScene;
+		return PhysXManager::GetInst()->GetPhysics();
 	}
 
-	inline physx::PxPhysics* GetPhysics()
+	physx::PxScene* GetScene()
 	{
-		return m_pPhysics;
+		return PhysXManager::GetInst()->GetScene();
 	}
 
-	inline physx::PxCooking* GetCooking()
+	physx::PxCooking* GetCooking()
 	{
-		return m_pCooking;
+		return PhysXManager::GetInst()->GetCooking();
+	}
+
+	void CreateScene()
+	{
+		PhysXManager::GetInst()->CreateScene(GetName());
+	}
+
+	void SetCameraPvd(float4 _CamPos, float4 _TargetPos)
+	{
+		float4 CamPos = _CamPos;
+		float4 TargetPos = _TargetPos;
+		PhysXManager::GetInst()->GetPvdClient()->updateCamera("PvdCam", CamPos.PhysXVec3Return(), { 0,1,0 }, TargetPos.PhysXVec3Return());
 	}
 
 protected:
@@ -38,26 +50,6 @@ protected:
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
 private:
-	physx::PxFoundation* m_pFoundation = nullptr;
-	physx::PxDefaultAllocator m_Allocator;
-	class CustomErrorCallback m_ErrorCallback;
-	physx::PxPvd* m_pPvd = nullptr;
-
-	float m_fStepSize = 0.f;
-	float m_fWaitTime = 0.f;
-
-	physx::PxPhysics* m_pPhysics = nullptr;
-	physx::PxScene* m_pScene = nullptr;
-	physx::PxDefaultCpuDispatcher* m_pDispatcher = nullptr;
-	class CustomSimulationEventCallback* m_pSimulationEventCallback = nullptr;
-	physx::PxCooking* m_pCooking = nullptr;
-
-	bool advance(physx::PxReal _DeltaTime);
-	void Initialize();
-
-	void Simulate(float _Deltatime);
-
-	void Release();
 
 };
 

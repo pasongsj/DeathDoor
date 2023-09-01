@@ -32,6 +32,7 @@
 
 //PhysX 4.1
 #pragma warning(disable : 4996)
+#pragma warning(disable : 4099)
 #include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxConfig.h>
 #include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxPhysicsAPI.h>
 #include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxPhysXConfig.h>
@@ -43,3 +44,7 @@
 #pragma comment (lib, "PhysXFoundation_static_64.lib")
 #pragma comment (lib, "PhysXPvdSDK_static_64.lib")
 #pragma comment (lib, "PhysXCooking_static_64.lib")
+
+#include <PhysXSDKSnippets/SnippetUtils.h>
+#include <PhysXSDKSnippets/SnippetPrint.h>
+#include <PhysXSDKSnippets/SnippetPVD.h>
