@@ -121,20 +121,6 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool
 		m_pShape->setLocalPose(physx::PxTransform(Pivot));
 	}
 
-	//// 충돌체의 종류
-	//dynamic_ = _physics->createRigidDynamic(localTm);
-	//dynamic_->attachShape(*shape_);
-	//// 중력이 적용되지 않도록
-	//// TODO::RigidStatic으로 변경해야
-	//dynamic_->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
-
-	//// RigidDynamic의 밀도를 설정
-	//physx::PxRigidBodyExt::updateMassAndInertia(*dynamic_, 10.0f);
-
-	//// Scene에 액터 추가
-	//_Scene->addActor(*dynamic_);
-
-	//rigidStatic_->attachShape(*shape_);
 
 	// Scene에 액터 추가
 	if (true == m_bAggregateObj)
@@ -181,11 +167,6 @@ void PhysXTriangleComponent::Update(float _DeltaTime)
 
 void PhysXTriangleComponent::CustomFBXLoad(const std::string& _MeshName, bool _InverseIndex)
 {
-	//GameEngineDirectory Dir;
-	//Dir.MoveParentToExitsChildDirectory(DIR_RESOURCES);
-	//Dir.Move(DIR_RESOURCES);
-	//Dir.Move(DIR_PHYSXMESH);
-	//std::string Path = Dir.PlusFilePath(_MeshName);
 
 	//매쉬를 찾는다
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_MeshName);
@@ -234,7 +215,7 @@ void PhysXTriangleComponent::CustomFBXLoad(const std::string& _MeshName, bool _I
 		}
 		if (_InverseIndex == false)
 		{
-			for (size_t j = IndexSize - 1; j >= 0; --j)
+			for (int j = static_cast<int>(IndexSize) - 1; j >= 0; --j)
 			{
 				InstIndexVec.push_back(physx::PxU32(Indexes[j]));
 			}
