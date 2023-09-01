@@ -33,7 +33,7 @@ void PhysXTestPlane::Start()
 		//m_pBoxComp->SetObjectObstacle();
 		GetTransform()->AddWorldRotation(float4{ 0, 45, 10 });
 	}
-	m_pBoxComp->CreatePhysXActors(m_pBoxComp->GetScene(), m_pBoxComp->GetPhysics(), vscale, GetTransform()->GetWorldRotation());
+	m_pBoxComp->CreatePhysXActors(vscale, GetTransform()->GetWorldRotation());
 	++Count;
 
 }

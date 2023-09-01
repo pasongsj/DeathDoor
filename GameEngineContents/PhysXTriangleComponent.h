@@ -17,8 +17,7 @@ public:
 	PhysXTriangleComponent& operator=(const PhysXTriangleComponent& _Other) = delete;
 	PhysXTriangleComponent& operator=(PhysXTriangleComponent&& _Other) noexcept = delete;
 	
-	void CreatePhysXActors(const std::string& _MeshName, physx::PxScene* _Scene, physx::PxPhysics* _physics,
-		physx::PxCooking* _cooking, bool _InverseIndex = true, physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = { 0.0f, 0.0f });
+	void CreatePhysXActors(const std::string& _MeshName,bool _InverseIndex = true, physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = { 0.0f, 0.0f });
 
 	inline void ReleasePhysX()
 	{
@@ -42,13 +41,12 @@ protected:
 
 private:
 	// Phys액터 생성에 필요한 정보
-	physx::PxPhysics* m_pPhysics;
-	physx::PxScene* m_pScene;
+	physx::PxPhysics* m_pPhysics = nullptr;
+	physx::PxScene* m_pScene = nullptr;
+	physx::PxCooking* m_pCooking = nullptr;
 
-	physx::PxMaterial* m_pMaterial;
-	physx::PxShape* m_pShape;
-	physx::PxShape* m_pTriggershape;
-	physx::PxRigidStatic* m_pRigidStatic;
+	physx::PxMaterial* m_pMaterial = nullptr;
+	physx::PxShape* m_pShape = nullptr;
 
 	physx::PxConvexMesh* m_pConvexMesh;
 
@@ -59,7 +57,7 @@ private:
 	// 이 컴포넌트를 가지고 있는 Parent에 대한 정보
 	std::weak_ptr<GameEngineActor> ParentActor;
 
-	bool PositionSetFromParentFlag;
+	bool PositionSetFromParentFlag = false;
 
 };
 

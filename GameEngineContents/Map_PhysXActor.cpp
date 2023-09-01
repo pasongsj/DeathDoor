@@ -47,7 +47,7 @@ void Map_PhysXActor::Start()
 		//m_pSphereComp->TurnOnSpeedLimit();
 
 		m_pCapsuleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale);
+		m_pCapsuleComp->CreatePhysXActors(vscale);
 		//m_pCapsuleComp->TurnOnSpeedLimit();
 		//m_pConvexComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking, true, vscale);
 		//m_pTriangleComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking,true ,vscale);

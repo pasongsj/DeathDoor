@@ -33,7 +33,7 @@ void Map_Office::Start()
 		m_pBoxComp = CreateComponent<PhysXBoxComponent>();
 		m_pBoxComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 		std::shared_ptr<OfficeLevel> pLevel = GetLevel()->DynamicThis<OfficeLevel>();
-		m_pBoxComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale, GetTransform()->GetWorldRotation());
+		m_pBoxComp->CreatePhysXActors(vscale, GetTransform()->GetWorldRotation());
 	}
 
 }

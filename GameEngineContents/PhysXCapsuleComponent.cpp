@@ -11,10 +11,10 @@ PhysXCapsuleComponent::~PhysXCapsuleComponent()
 {
 }
 
-physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors(physx::PxScene* _Scene, physx::PxPhysics* _physics, physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRotation)
+physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRotation)
 {
-	m_pScene = _Scene;
-	m_pPhysics = _physics;
+	m_pScene = GetScene();
+	m_pPhysics = GetPhysics();
 
 	float4 tmpQuat = _GeoMetryRotation.EulerDegToQuaternion();
 
@@ -31,7 +31,7 @@ physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors(physx::PxScene* 
 	);
 
 	// Staticfriction : 정적마찰 // Dynamicfriction : 동적마찰 // Resitution : 탄성계수
-	m_pMaterial = _physics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
+	m_pMaterial = m_pPhysics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
 
 	// TODO::배율을 적용할 경우 이쪽 코드를 사용
 	//float4 tmpMagnification = { SIZE_MAGNIFICATION_RATIO };
@@ -49,7 +49,7 @@ physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors(physx::PxScene* 
 	);
 
 	// 충돌체의 종류
-	m_pDynamic = _physics->createRigidDynamic(localTm);
+	m_pDynamic = m_pPhysics->createRigidDynamic(localTm);
 
 	// 특정 축을 따라/주위로 동작을 잠그는 메커니즘을 제공하는 플래그 모음
 	m_pDynamic->setRigidDynamicLockFlags
@@ -110,7 +110,7 @@ physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors(physx::PxScene* 
 	//m_pDynamic->setAngularDamping(physx::PxReal(2.0f));
 
 	// Scene에 액터 추가
-	_Scene->addActor(*m_pDynamic);
+	m_pScene->addActor(*m_pDynamic);
 
 	// TODO::virtualPhysXLevel에서 Callback 함수에 호출하기 위한 Dynamic 리턴
 	return m_pDynamic;

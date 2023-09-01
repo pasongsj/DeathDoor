@@ -117,7 +117,7 @@ void Player::TestInit()
 
 
 			m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-			m_pCapsuleComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale);
+			m_pCapsuleComp->CreatePhysXActors(vscale);
 		}
 	}
 	{
