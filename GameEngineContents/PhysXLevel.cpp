@@ -15,6 +15,10 @@ void PhysXLevel::Start()
 {
 }
 
+void PhysXLevel::Update(float _DeltaTime)
+{
+}
+
 void PhysXLevel::LevelChangeStart()
 {
 }

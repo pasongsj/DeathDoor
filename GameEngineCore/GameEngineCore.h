@@ -39,9 +39,8 @@ public:
 	static std::shared_ptr<LevelType> CreateLevel(const std::string_view& _Name = "")
 	{
 		std::shared_ptr<GameEngineLevel> NewLevel =  std::make_shared<LevelType>();
-
 		std::string Name = _Name.data();
-
+		NewLevel->SetName(GameEngineString::ToUpper(Name));
 		if (_Name == "")
 		{
 			const type_info& Info = typeid(LevelType);
@@ -97,6 +96,7 @@ private:
 	static void Release();
 
 	static std::function<void()> RcvPacket;
+	static float UpdateTime;
 
 };
 

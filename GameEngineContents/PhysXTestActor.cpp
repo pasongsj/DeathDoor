@@ -40,7 +40,6 @@ void PhysXTestActor::Start()
 	//m_pSphereComp = CreateComponent<PhysXSphereComponent>();
 	if (GetLevel()->DynamicThis<PhysXTestLevel>()!= nullptr)
 	{
-		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
 
 		//m_pSphereComp->SetPhysxMaterial(100.f, 100.f, 0.f);
 		//m_pSphereComp->CreatePhysXActors(pLevel->GetScene(), pLevel-//>GetPhysics(), vscale);
@@ -49,7 +48,7 @@ void PhysXTestActor::Start()
 
 		//m_pCapsuleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale);
+		m_pCapsuleComp->CreatePhysXActors(PhysXMgr::GetInst()->GetScene(), PhysXMgr::GetInst()->GetPhysics(), vscale);
 		m_pCapsuleComp->TurnOnSpeedLimit();
 		m_pCapsuleComp->GetDynamic()->setMass(65.f);
 		//m_pConvexComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking, true, vscale);

@@ -22,6 +22,7 @@ void LevelWindow::Start()
 
 void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _DeltaTime)
 {
+	ImGui::Text("%f", _DeltaTime);
 	ImGui::Text("CurLevel :");
 	ImGui::SameLine();
 	ImGui::Text(m_CurLevelName.c_str());

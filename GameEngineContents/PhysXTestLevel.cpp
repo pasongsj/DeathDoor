@@ -36,11 +36,9 @@ void PhysXTestLevel::LevelChangeStart()
 
 void PhysXTestLevel::LevelChangeEnd()
 {
-	PhysXLevel::LevelChangeEnd();
 	AllActorDestroy();
 }
 
 void PhysXTestLevel::Update(float _DeltaTime)
 {
-	PhysXLevel::Update(_DeltaTime);
 }

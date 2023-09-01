@@ -11,6 +11,7 @@
 #include "GameEngineVideo.h"
 #include "GameEngineGUI.h"
 
+#include <GameEngineContents/PhysXMgr.h>
 #include <GameEngineBase/GameEngineNetObject.h>
 
 GameEngineThreadJobQueue GameEngineCore::JobQueue;
@@ -22,6 +23,8 @@ std::shared_ptr<GameEngineLevel> GameEngineCore::NextLevel = nullptr;
 std::shared_ptr<class GameEngineLevel> GameEngineCore::CurLoadLevel = nullptr;
 std::function<void()> GameEngineCore::RcvPacket = nullptr;
 
+
+float GameEngineCore::UpdateTime = 0.f;
 
 
 
@@ -57,7 +60,7 @@ void GameEngineCore::EngineStart(std::function<void()> _ContentsStart)
 	GameEngineDevice::Initialize();
 
 	CoreResourcesInit();
-
+	PhysXMgr::GetInst()->Initialize();
 	GameEngineGUI::Initialize();
 
 	if (nullptr == _ContentsStart)
@@ -124,6 +127,17 @@ void GameEngineCore::EngineUpdate()
 	{
 		TimeDeltaTime = 1 / 30.0f;
 	}
+
+	UpdateTime += TimeDeltaTime;
+
+	if (1.f/120.f > UpdateTime)
+	{
+		return;
+	}
+
+	TimeDeltaTime = UpdateTime;
+	UpdateTime = 0.f;
+
 	if (nullptr != RcvPacket)
 	{
 		RcvPacket();

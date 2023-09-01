@@ -13,7 +13,7 @@ PhysXMgr::~PhysXMgr()
 bool PhysXMgr::advance(physx::PxReal _DeltaTime)
 {
 	m_fWaitTime += _DeltaTime;
-	m_fStepSize = 1.0f / 60.0f;
+	m_fStepSize = 1.0f / 240.0f;
 
 	if (m_fWaitTime < m_fStepSize)
 	{
@@ -37,6 +37,9 @@ void PhysXMgr::Simulate(float _DeltaTime)
 
 	if (true == advance(_DeltaTime))
 	{
+		float4 CamPos = GameEngineCore::GetCurLevel()->GetMainCamera()->GetTransform()->GetLocalPosition();
+		float4 TargetPos = CamPos + float4(0, 0, 100);
+		m_pPvdClient->updateCamera("Test", CamPos.PhysXVec3Return(), { 0,1,0 }, TargetPos.PhysXVec3Return());
 		m_pScene->simulate(_DeltaTime);
 		m_pScene->fetchResults(true);
 	}
@@ -90,13 +93,13 @@ void PhysXMgr::Initialize()
 		MsgAssert("PxScene failed!");
 	}
 
-
-	physx::PxPvdSceneClient* pPvdClient = m_pScene->getScenePvdClient();
-	if (pPvdClient)
+	
+	m_pPvdClient = m_pScene->getScenePvdClient();
+	if (m_pPvdClient)
 	{
-		pPvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
-		pPvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
-		pPvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
+		m_pPvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
+		m_pPvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
+		m_pPvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 	}
 
 	m_pCooking = PxCreateCooking(PX_PHYSICS_VERSION, *m_pFoundation, physx::PxCookingParams(m_pPhysics->getTolerancesScale()));
@@ -104,6 +107,10 @@ void PhysXMgr::Initialize()
 	{
 		MsgAssert("PxCreateCooking failed!");
 	}
+}
+
+void PhysXMgr::CreateScene()
+{
 }
 
 
