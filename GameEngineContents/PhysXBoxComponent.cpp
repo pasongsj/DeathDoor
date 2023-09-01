@@ -11,10 +11,11 @@ PhysXBoxComponent::~PhysXBoxComponent()
 {
 }
 
-void PhysXBoxComponent::CreatePhysXActors(physx::PxScene* _Scene, physx::PxPhysics* _physics, physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRot)
+void PhysXBoxComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRot)
 {
 	float4 tmpQuat = _GeoMetryRot.EulerDegToQuaternion();
-
+	m_pPhysics = GetPhysics();
+	m_pScene = GetScene();
 	// 부모 액터로부터 위치 생성
 	physx::PxTransform localTm
 	(
@@ -28,7 +29,7 @@ void PhysXBoxComponent::CreatePhysXActors(physx::PxScene* _Scene, physx::PxPhysi
 	);
 
 	// Staticfriction : 정적마찰 // Dynamicfriction : 동적마찰 // Resitution : 탄성계수
-	m_pMaterial = _physics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
+	m_pMaterial = m_pPhysics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
 
 	// TODO::배율을 적용할 경우 이쪽 코드를 사용
 	//float4 tmpMagnification = { SIZE_MAGNIFICATION_RATIO };
@@ -44,7 +45,7 @@ void PhysXBoxComponent::CreatePhysXActors(physx::PxScene* _Scene, physx::PxPhysi
 	);
 
 	// 충돌체의 종류
-	m_pRigidDynamic = _physics->createRigidDynamic(localTm);
+	m_pRigidDynamic = m_pPhysics->createRigidDynamic(localTm);
 
 	// 중력이 적용되지 않도록
 	// TODO::RigidStatic으로 변경해야
@@ -98,7 +99,7 @@ void PhysXBoxComponent::CreatePhysXActors(physx::PxScene* _Scene, physx::PxPhysi
 	}
 	else
 	{
-		_Scene->addActor(*m_pRigidDynamic);
+		m_pScene->addActor(*m_pRigidDynamic);
 	}
 }
 

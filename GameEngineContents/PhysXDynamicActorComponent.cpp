@@ -11,10 +11,10 @@ PhysXDynamicActorComponent::~PhysXDynamicActorComponent()
 {
 }
 
-physx::PxRigidDynamic* PhysXDynamicActorComponent::CreatePhysXActors(physx::PxScene* _Scene, physx::PxPhysics* _physics, physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRot)
+physx::PxRigidDynamic* PhysXDynamicActorComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRot)
 {
-	m_pScene = _Scene;
-	m_pPhysics = _physics;
+	m_pScene = GetScene();
+	m_pPhysics = GetPhysics();
 
 	float4 tmpQuat = _GeoMetryRot.EulerDegToQuaternion();
 
@@ -30,7 +30,7 @@ physx::PxRigidDynamic* PhysXDynamicActorComponent::CreatePhysXActors(physx::PxSc
 	// 마찰, 탄성계수
 	//material_ = _physics->createMaterial(0.0f, 0.0f, 0.0f);
 
-	m_pMaterial = _physics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
+	m_pMaterial = m_pPhysics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
 
 	// TODO::배율을 적용할 경우 이쪽 코드를 사용
 	//float4 tmpMagnification = { SIZE_MAGNIFICATION_RATIO };
@@ -48,7 +48,7 @@ physx::PxRigidDynamic* PhysXDynamicActorComponent::CreatePhysXActors(physx::PxSc
 	);
 
 	//// 충돌체의 종류
-	m_pRigidDynamic = _physics->createRigidDynamic(localTm);
+	m_pRigidDynamic = m_pPhysics->createRigidDynamic(localTm);
 
 
 	// TODO::점프속력에 영향을 미침. 스테이지 작성후 자세한 수치는 나중에 조절
@@ -118,7 +118,7 @@ physx::PxRigidDynamic* PhysXDynamicActorComponent::CreatePhysXActors(physx::PxSc
 
 
 	// Scene에 액터 추가
-	_Scene->addActor(*m_pRigidDynamic);
+	m_pScene->addActor(*m_pRigidDynamic);
 
 	// TODO::virtualPhysXLevel에서 Callback 함수에 호출하기 위한 Dynamic 리턴
 	return m_pRigidDynamic;

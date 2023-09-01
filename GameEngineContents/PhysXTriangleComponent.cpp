@@ -13,9 +13,12 @@ PhysXTriangleComponent::~PhysXTriangleComponent()
 
 //_MeshName(불러올 매시의 이름), _Scene, _Physics, _Cooking (InitPhysics 에서 불러온 값), _InverseIndex(Index를 역순으로 할지에 대한 bool값), 
 // _GeoMetryScale(스케일값), _GeoMetryRot(로테이션값)
-void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName, physx::PxScene* _Scene, physx::PxPhysics* _physics,
-	physx::PxCooking* _cooking, bool _InverseIndex, physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRot)
+void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool _InverseIndex, physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRot)
 {
+	m_pPhysics = GetPhysics();
+	m_pScene = GetScene();
+	m_pCooking = GetCooking();
+
 	//Mesh = GameEngineFBXMesh::Find(_MeshName);
 	CustomFBXLoad(_MeshName, _InverseIndex);
 	float4 tmpQuat = _GeoMetryRot.EulerDegToQuaternion();
@@ -39,12 +42,12 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName, phy
 	);
 
 	// 마찰, 탄성계수
-	m_pMaterial = _physics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
+	m_pMaterial = m_pPhysics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
 	//material_ = _physics->createMaterial(0.7f, 1.5f, resitution_);
 
 
 	// 충돌체의 종류
-	m_pRigidStatic = _physics->createRigidStatic(localTm);
+	m_pRigidStatic = m_pPhysics->createRigidStatic(localTm);
 	// TODO::배율을 적용할 경우 이쪽 코드를 사용
 	//float4 tmpMagnification = { SIZE_MAGNIFICATION_RATIO };
 	//physx::PxVec3 tmpGeoMetryScale(_GeoMetryScale.x * tmpMagnification.x * 0.5f, 
@@ -84,14 +87,14 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName, phy
 
 		physx::PxDefaultMemoryOutputStream writeBuffer;
 		physx::PxTriangleMeshCookingResult::Enum* result = nullptr;
-		bool status = _cooking->cookTriangleMesh(meshDesc, writeBuffer, result);
+		bool status = m_pCooking->cookTriangleMesh(meshDesc, writeBuffer, result);
 		if (!status)
 		{
 			MsgAssert("매쉬를 불러와 피직스X 충돌체를 만드는데 실패했습니다 TriMesh");
 		}
 
 		physx::PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
-		physx::PxTriangleMesh* TriangleMesh = _physics->createTriangleMesh(readBuffer);
+		physx::PxTriangleMesh* TriangleMesh = m_pPhysics->createTriangleMesh(readBuffer);
 		//createExclusiveShapefh RigidStatic에 Shape를 넣어준다.
 		m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidStatic, physx::PxTriangleMeshGeometry(TriangleMesh), *m_pMaterial);
 		//피벗 설정
@@ -140,7 +143,7 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName, phy
 	}
 	else
 	{
-		_Scene->addActor(*m_pRigidStatic);
+		m_pScene->addActor(*m_pRigidStatic);
 	}
 }
 

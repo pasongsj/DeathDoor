@@ -17,8 +17,8 @@ public:
 	PhysXConvexComponent& operator=(const PhysXConvexComponent& _Other) = delete;
 	PhysXConvexComponent& operator=(PhysXConvexComponent&& _Other) noexcept = delete;
 
-	void CreatePhysXActors(const std::string& _MeshName, physx::PxScene* _Scene, physx::PxPhysics* _physics,
-		physx::PxCooking* _cooking, bool _InverseIndex = true, physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = { 0.0f, 0.0f }, bool _Gravity = false);
+	void CreatePhysXActors(const std::string& _MeshName, 
+		bool _InverseIndex = true, physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = { 0.0f, 0.0f }, bool _Gravity = false);
 
 	// 힘을 추가
 	void AddForce(float4 _Force);
@@ -37,12 +37,12 @@ public:
 	// RigidBody의 질량을 취득
 	inline physx::PxReal GetMass()
 	{
-		return m_pDynamic->getMass();
+		return m_pRigidDynamic->getMass();
 	}
 
 	inline void ReleaseRigidBody()
 	{
-		m_pDynamic->release();
+		m_pRigidDynamic->release();
 		this->Death();
 	}
 
@@ -59,14 +59,14 @@ protected:
 
 private:
 	// Phys액터 생성에 필요한 정보
-	physx::PxPhysics* m_pPhysics;
-	physx::PxScene* m_pScene;
+	physx::PxPhysics* m_pPhysics =nullptr;
+	physx::PxScene* m_pScene = nullptr;
+	physx::PxCooking* m_pCooking = nullptr;
 
-	physx::PxMaterial* m_pMaterial;
-	physx::PxShape* m_pShape;
-	physx::PxRigidDynamic* m_pDynamic;
+	physx::PxMaterial* m_pMaterial = nullptr;
+	physx::PxShape* m_pShape = nullptr;
 
-	physx::PxConvexMesh* m_pConvexMesh;
+	physx::PxConvexMesh* m_pConvexMesh = nullptr;
 	std::vector<physx::PxVec3> VertexVec;
 	std::shared_ptr<class GameEngineFBXMesh> Mesh;
 
@@ -77,7 +77,7 @@ private:
 
 	physx::PxVec3 AddUpdateForce;
 
-	bool PositionSetFromParentFlag;
+	bool PositionSetFromParentFlag = false;
 
 };
 

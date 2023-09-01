@@ -16,7 +16,7 @@ public:
 	PhysXSphereComponent& operator=(const PhysXSphereComponent& _Other) = delete;
 	PhysXSphereComponent& operator=(PhysXSphereComponent&& _Other) noexcept = delete;
 
-	physx::PxRigidDynamic* CreatePhysXActors(physx::PxScene* _Scene, physx::PxPhysics* _physics, physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f });
+	physx::PxRigidDynamic* CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f });
 
 
 	void SetMoveSpeed(float4 _MoveSpeed);
