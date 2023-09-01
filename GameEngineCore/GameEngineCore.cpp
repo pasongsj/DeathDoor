@@ -11,7 +11,7 @@
 #include "GameEngineVideo.h"
 #include "GameEngineGUI.h"
 
-#include <GameEngineContents/PhysXMgr.h>
+#include <GameEngineContents/PhysXManager.h>
 #include <GameEngineBase/GameEngineNetObject.h>
 
 GameEngineThreadJobQueue GameEngineCore::JobQueue;
@@ -60,7 +60,7 @@ void GameEngineCore::EngineStart(std::function<void()> _ContentsStart)
 	GameEngineDevice::Initialize();
 
 	CoreResourcesInit();
-	PhysXMgr::GetInst()->Initialize();
+	PhysXManager::GetInst()->CreatePhysics();
 	GameEngineGUI::Initialize();
 
 	if (nullptr == _ContentsStart)
@@ -87,24 +87,12 @@ void GameEngineCore::EngineUpdate()
 		if (nullptr != MainLevel)
 		{
 			CurLoadLevel = MainLevel;
+			PhysXManager::GetInst()->ChangeScene(MainLevel->GetName());
+
 			MainLevel->LevelChangeStart();
 			MainLevel->ActorLevelChangeStart();
 		}
 
-		// PrevLevel
-		// 레벨체인지가 완료된 시점에서 Texture의 상태를 한번 생각해봅시다.
-
-		// 1은 가지고 있다.
-		// GameEngineResources<GameEngineTexture>가 1개의 레퍼런스 카운트를 가지고 있을 것이다.
-
-		// 이전레벨에 존재하는 TextureSetter내부에 보관되고 있는 애들은 2이상의 가지고 있을 것이다.
-
-		// 3이상인 애들은 => 이전레벨과 지금레벨에서 모두 사용하는 
-		// 애들 TextureResources에서도 들고 있을것이기 때문에 레퍼런스 카운트가 3이상이다.
-		// 2인애들은 이전레벨에서만 사용하거나 지금레벨에서만 사용애들입니다.
-		// 레퍼런스 카운트 관리해볼것이다.
-
-		// Prev레벨에서 사용한 텍스처들
 		NextLevel = nullptr;
 		GameEngineTime::GlobalTime.Reset();
 	}
@@ -129,6 +117,8 @@ void GameEngineCore::EngineUpdate()
 	}
 
 	UpdateTime += TimeDeltaTime;
+
+	PhysXManager::GetInst()->Simulate(TimeDeltaTime);
 
 	if (1.f/120.f > UpdateTime)
 	{
@@ -176,12 +166,13 @@ void GameEngineCore::EngineEnd(std::function<void()> _ContentsEnd)
 	}
 
 	_ContentsEnd();
-
+	PhysXManager::GetInst()->Release();
 	GameEngineGUI::Release();
 
 	LevelMap.clear();
 	CoreResourcesEnd();
 	Release();
+	
 
 	GameEngineDevice::Release();
 	GameEngineWindow::Release();

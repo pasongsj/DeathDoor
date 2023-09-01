@@ -48,7 +48,7 @@ void PhysXTestActor::Start()
 
 		//m_pCapsuleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(PhysXMgr::GetInst()->GetScene(), PhysXMgr::GetInst()->GetPhysics(), vscale);
+		m_pCapsuleComp->CreatePhysXActors(m_pCapsuleComp->GetScene(), m_pCapsuleComp->GetPhysics(), vscale);
 		m_pCapsuleComp->TurnOnSpeedLimit();
 		m_pCapsuleComp->GetDynamic()->setMass(65.f);
 		//m_pConvexComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking, true, vscale);

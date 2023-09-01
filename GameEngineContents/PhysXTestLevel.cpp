@@ -14,11 +14,11 @@ PhysXTestLevel::~PhysXTestLevel()
 void PhysXTestLevel::Start()
 {
 	SetLevelType(PacketLevelType::PhysXTestLevel);
+	CreateScene();
 }
 
 void PhysXTestLevel::LevelChangeStart()
-{
-	PhysXLevel::LevelChangeStart();
+{	
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.f,0.f,0.f });
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0,1000, .0f });
@@ -28,7 +28,7 @@ void PhysXTestLevel::LevelChangeStart()
 		std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
 	}
 
-	CreateActor<PhysXTestActor>();
+	m_pTestActor = CreateActor<PhysXTestActor>();
 	CreateActor<PhysXTestPlane>();
 	
 	std::shared_ptr<PhysXTestPlane> pWallPlane = CreateActor<PhysXTestPlane>();
@@ -41,4 +41,5 @@ void PhysXTestLevel::LevelChangeEnd()
 
 void PhysXTestLevel::Update(float _DeltaTime)
 {
+	SetCameraPvd(GetTransform()->GetWorldPosition(), m_pTestActor->GetTransform()->GetWorldRotation());
 }

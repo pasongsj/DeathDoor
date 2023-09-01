@@ -209,7 +209,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PhysXMgr.cpp">
+    <ClCompile Include="PhysXManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -327,7 +327,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PhysXMgr.h">
+    <ClInclude Include="PhysXManager.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -1,7 +1,7 @@
 #pragma once
+#include "PhysXManager.h"
 
-// 설명 : PhysX 모듈에서 공통으로 사용할 함수들
-//class PlayerActor;
+// 설명 : PhysX에서 공통으로 사용할 함수들
 class PhysXDefault
 {
 	typedef struct 
@@ -96,11 +96,38 @@ public:
 		return m_pRigidDynamic;
 	}
 
-	physx::PxRigidStatic* GetStaitc()
+	physx::PxRigidStatic* GetStatic()
 	{
 		return m_pRigidStatic;
 	}
-	
+
+
+	physx::PxPhysics* GetPhysics()
+	{
+		return PhysXManager::GetInst()->GetPhysics();
+	}
+
+	physx::PxScene* GetScene()
+	{
+		return PhysXManager::GetInst()->GetScene();
+	}
+
+	physx::PxCooking* GetCooking()
+	{
+		return PhysXManager::GetInst()->GetCooking();
+	}
+
+	void CreateScene()
+	{
+		PhysXManager::GetInst()->CreateScene(GameEngineCore::GetCurLevel()->GetName());
+	}
+
+	void SetCameraPvd(float4 _CamPos, float4 _TargetPos)
+	{
+		float4 CamPos = _CamPos;
+		float4 TargetPos = _TargetPos;
+		PhysXManager::GetInst()->GetPvdClient()->updateCamera("PvdCam", CamPos.PhysXVec3Return(), { 0,1,0 }, TargetPos.PhysXVec3Return());
+	}
 protected:
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
 	physx::PxRigidStatic* m_pRigidStatic = nullptr;
@@ -109,7 +136,6 @@ protected:
 	float m_fResitution = 0.0f;
 
 	float4 m_f4DynamicPivot = {0.0f, 0.0f, 0.0f};
-	//PlayerActor* CommonPlayer_;
 	bool m_bObstacle = false;
 	bool m_bGround = false;
 	bool m_bAggregateObj = false;

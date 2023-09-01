@@ -15,8 +15,8 @@
 #include <GameEngineCore/GameEngineFontRenderer.h>
 
 //PhysX 4.1
+//#pragma warning(disable : 4099)
 //#pragma warning(disable : 4996)
-#pragma warning(disable : 4099)
 //#include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxConfig.h>
 //#include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxPhysicsAPI.h>
 //#include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxPhysXConfig.h>
@@ -29,11 +29,8 @@
 //#pragma comment (lib, "PhysXPvdSDK_static_64.lib")
 //#pragma comment (lib, "PhysXCooking_static_64.lib")
 
-#include "PhysXMgr.h"
 #include "PhysXDefault.h"
-
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
 
-#include "ContentsEnum.h"
 #include "ServerPacket.h"

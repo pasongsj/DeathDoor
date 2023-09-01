@@ -1,6 +1,5 @@
 #pragma once
 
-
 physx::PxFilterFlags CustomFilterShader
 (
 	physx::PxFilterObjectAttributes attributes0,
@@ -13,7 +12,7 @@ physx::PxFilterFlags CustomFilterShader
 );
 
 // callback 이벤트를 재정의할 클래스
-class CustomSimulationEventCallback : public physx::PxSimulationEventCallback, public PhysXDefault
+class CustomSimulationEventCallback : public physx::PxSimulationEventCallback
 {
 public:
 	void onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs) override;

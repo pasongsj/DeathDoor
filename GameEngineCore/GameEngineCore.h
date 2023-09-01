@@ -40,7 +40,7 @@ public:
 	{
 		std::shared_ptr<GameEngineLevel> NewLevel =  std::make_shared<LevelType>();
 		std::string Name = _Name.data();
-		NewLevel->SetName(GameEngineString::ToUpper(Name));
+		(GameEngineString::ToUpper(Name));
 		if (_Name == "")
 		{
 			const type_info& Info = typeid(LevelType);
@@ -49,6 +49,7 @@ public:
 		}
 
 		Name = GameEngineString::ToUpper(Name);
+		NewLevel->SetName(Name);
 
 		if (LevelMap.end() != LevelMap.find(Name))
 		{

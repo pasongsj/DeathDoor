@@ -1,8 +1,9 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include "PhysXLevel.h"
 
 // Ό³Έν :
-class TestLevel : public GameEngineLevel
+class TestLevel : public PhysXLevel
 {
 public:
 	// constrcuter destructer

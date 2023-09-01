@@ -16,20 +16,32 @@ public:
 	PhysXLevel& operator=(const PhysXLevel& _Other) = delete;
 	PhysXLevel& operator=(PhysXLevel&& _Other) noexcept = delete;
 
-	//inline physx::PxScene* GetScene()
-	//{
-	//	return m_pScene;
-	//}
-	//
-	//inline physx::PxPhysics* GetPhysics()
-	//{
-	//	return m_pPhysics;
-	//}
-	//
-	//inline physx::PxCooking* GetCooking()
-	//{
-	//	return m_pCooking;
-	//}
+	physx::PxPhysics* GetPhysics()
+	{
+		return PhysXManager::GetInst()->GetPhysics();
+	}
+
+	physx::PxScene* GetScene()
+	{
+		return PhysXManager::GetInst()->GetScene();
+	}
+
+	physx::PxCooking* GetCooking()
+	{
+		return PhysXManager::GetInst()->GetCooking();
+	}
+
+	void CreateScene()
+	{
+		PhysXManager::GetInst()->CreateScene(GetName());
+	}
+
+	void SetCameraPvd(float4 _CamPos, float4 _TargetPos)
+	{
+		float4 CamPos = _CamPos;
+		float4 TargetPos = _TargetPos;
+		PhysXManager::GetInst()->GetPvdClient()->updateCamera("PvdCam", CamPos.PhysXVec3Return(), { 0,1,0 }, TargetPos.PhysXVec3Return());
+	}
 
 protected:
 	void Start() override;
