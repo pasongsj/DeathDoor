@@ -19,7 +19,10 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool
 	m_pScene = GetScene();
 	m_pCooking = GetCooking();
 
-	//Mesh = GameEngineFBXMesh::Find(_MeshName);
+	//physx::PxCookingParams* Param;
+	//Param->meshPreprocessParams = physx::PxMeshPreprocessingFlag::eDISABLE_CLEAN_MESH;
+	//m_pCooking->setParams(*Param);
+
 	CustomFBXLoad(_MeshName, _InverseIndex);
 	float4 tmpQuat = _GeoMetryRot.EulerDegToQuaternion();
 
@@ -70,6 +73,7 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool
 	
 	for (size_t i = 0; i < RenderinfoCount; i++)
 	{
+
 		//Vertex의 값을 Desc에 넣어준다
 		//Size, 단위의 바이트사이즈, 데이터의 시작값
 		physx::PxTriangleMeshDesc meshDesc;
@@ -84,10 +88,14 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool
 		meshDesc.triangles.count = IndexVecSize;
 		meshDesc.triangles.stride = 3 * sizeof(physx::PxU32);
 		meshDesc.triangles.data = &IndexVec[i][0];
-
+		
 		physx::PxDefaultMemoryOutputStream writeBuffer;
-		physx::PxTriangleMeshCookingResult::Enum* result = nullptr;
-		bool status = m_pCooking->cookTriangleMesh(meshDesc, writeBuffer, result);
+		physx::PxTriangleMeshCookingResult::Enum result;
+		bool status = m_pCooking->cookTriangleMesh(meshDesc, writeBuffer, &result);
+		//if (result == physx::PxTriangleMeshCookingResult::eLARGE_TRIANGLE)
+		//{
+		//	int a = 0;
+		//}
 		if (!status)
 		{
 			MsgAssert("매쉬를 불러와 피직스X 충돌체를 만드는데 실패했습니다 TriMesh");
@@ -96,7 +104,10 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool
 		physx::PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
 		physx::PxTriangleMesh* TriangleMesh = m_pPhysics->createTriangleMesh(readBuffer);
 		//createExclusiveShapefh RigidStatic에 Shape를 넣어준다.
+
+		//사이즈 조정 필요
 		m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidStatic, physx::PxTriangleMeshGeometry(TriangleMesh), *m_pMaterial);
+		
 		//피벗 설정
 		physx::PxVec3 Pivot(m_f4DynamicPivot.x, m_f4DynamicPivot.y, m_f4DynamicPivot.z);
 		m_pShape->setLocalPose(physx::PxTransform(Pivot));

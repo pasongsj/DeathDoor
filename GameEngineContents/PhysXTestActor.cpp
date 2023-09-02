@@ -37,9 +37,6 @@ void PhysXTestActor::Start()
 	//m_pGeometryComp = CreateComponent<PhysXBoxGeometryComponent>();
 	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 	//m_pSphereComp = CreateComponent<PhysXSphereComponent>();
-	if (GetLevel()->DynamicThis<PhysXTestLevel>()!= nullptr)
-	{
-
 		//m_pSphereComp->SetPhysxMaterial(100.f, 100.f, 0.f);
 		//m_pSphereComp->CreatePhysXActors(pLevel->GetScene(), pLevel-//>GetPhysics(), vscale);
 		//m_pSphereComp->GetDynamic()->setMass(1.f);
@@ -58,7 +55,7 @@ void PhysXTestActor::Start()
 		//m_pGeometryComp->SetRestitution(2.f);
 		//m_pGeometryComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
 		//m_pGeometryComp->SetPositionSetFromParentFlag(true);
-	}
+	
 }
 
 void PhysXTestActor::Update(float _DeltaTime)

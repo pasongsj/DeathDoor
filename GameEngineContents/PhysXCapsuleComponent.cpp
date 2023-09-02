@@ -49,10 +49,10 @@ physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _
 	);
 
 	// 충돌체의 종류
-	m_pDynamic = m_pPhysics->createRigidDynamic(localTm);
+	m_pRigidDynamic = m_pPhysics->createRigidDynamic(localTm);
 
 	// 특정 축을 따라/주위로 동작을 잠그는 메커니즘을 제공하는 플래그 모음
-	m_pDynamic->setRigidDynamicLockFlags
+	m_pRigidDynamic->setRigidDynamicLockFlags
 	(
 		physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X |
 		physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y |
@@ -69,12 +69,12 @@ physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _
 	// 충돌체의 형태
 	// 충돌체의 크기는 절반의 크기를 설정하므로 실제 Renderer의 스케일은 충돌체의 2배로 설정되어야 함
 	// TODO::부모 액터의 RenderUnit으로부터 Mesh의 Scale 과 WorldScale의 연산의 결과를 지오메트리의 Scale로 세팅해야함.
-	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pDynamic, physx::PxCapsuleGeometry(ScaledRadius * 1.f, ScaledHeight * 1.f), *m_pMaterial);
+	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidDynamic, physx::PxCapsuleGeometry(ScaledRadius, ScaledHeight), *m_pMaterial);
 
 
 
 	// RigidDynamic의 밀도를 설정
-	physx::PxRigidBodyExt::updateMassAndInertia(*m_pDynamic, 0.01f);
+	physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.01f);
 
 	//피벗 설정
 	float CapsuleHeight = ScaledHeight * 1.f;
@@ -105,49 +105,48 @@ physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _
 	m_pShape->setContactOffset(0.2f);
 
 	// 제동?
-	//m_pDynamic->setLinearDamping(physx::PxReal(0.01f));
-	//m_pDynamic->setMaxAngularVelocity(physx::PxReal(20.0f));
-	//m_pDynamic->setAngularDamping(physx::PxReal(2.0f));
+	//m_pRigidDynamic->setLinearDamping(physx::PxReal(0.01f));
+	//m_pRigidDynamic->setMaxAngularVelocity(physx::PxReal(20.0f));
+	//m_pRigidDynamic->setAngularDamping(physx::PxReal(2.0f));
 
 	// Scene에 액터 추가
-	m_pScene->addActor(*m_pDynamic);
-
+	m_pScene->addActor(*m_pRigidDynamic);
 	// TODO::virtualPhysXLevel에서 Callback 함수에 호출하기 위한 Dynamic 리턴
-	return m_pDynamic;
+	return m_pRigidDynamic;
 }
 
 void PhysXCapsuleComponent::SetMoveSpeed(float4 _MoveSpeed)
 {
 	//Y축은 중력에 의해 가속도를 받지만 X,Z는 가속도를 없애서 정속 이동을 하게끔 함
-	m_pDynamic->setLinearVelocity({ 0,GetLinearVelocity().y,0});
+	m_pRigidDynamic->setLinearVelocity({ 0,GetLinearVelocity().y,0});
 	// 캐릭터의 방향을 힘으로 조절
-	m_pDynamic->addForce(_MoveSpeed.PhysXVec3Return(), physx::PxForceMode::eVELOCITY_CHANGE);
+	m_pRigidDynamic->addForce(_MoveSpeed.PhysXVec3Return(), physx::PxForceMode::eVELOCITY_CHANGE);
 }
 
 void PhysXCapsuleComponent::SetRotation(float4 _Rot)
 {
-	m_pDynamic->setGlobalPose(float4::PhysXTransformReturn(_Rot, float4(m_pDynamic->getGlobalPose().p.x, m_pDynamic->getGlobalPose().p.y, m_pDynamic->getGlobalPose().p.z)));
+	m_pRigidDynamic->setGlobalPose(float4::PhysXTransformReturn(_Rot, float4(m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z)));
 }
 
 
 void PhysXCapsuleComponent::SetMoveJump()
 {
-	m_pDynamic->addForce(physx::PxVec3(0.0f, PLAYER_JUMP_FORCE, 0.0f), physx::PxForceMode::eIMPULSE);
+	m_pRigidDynamic->addForce(physx::PxVec3(0.0f, PLAYER_JUMP_FORCE, 0.0f), physx::PxForceMode::eIMPULSE);
 }
 
 void PhysXCapsuleComponent::SetMoveDive(float _Rot)
 {
 	float4 DirVec = float4::AngleToDirection2DToDeg(_Rot);
 	DirVec *= 1.0f;
-	m_pDynamic->addForce(physx::PxVec3(DirVec.y, PLAYER_JUMP_FORCE * 0.5f, DirVec.x), physx::PxForceMode::eIMPULSE);
+	m_pRigidDynamic->addForce(physx::PxVec3(DirVec.y, PLAYER_JUMP_FORCE * 0.5f, DirVec.x), physx::PxForceMode::eIMPULSE);
 }
 
 void PhysXCapsuleComponent::SetDynamicIdle()
 {
 	// 고정된 축을 해제
-	m_pDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, false);
-	m_pDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, false);
-	m_pDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, false);
+	m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, false);
+	m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, false);
+	m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, false);
 
 	// Kinematic을 사용했을 경우, RigidDynamic으로 돌아갈 수 있도록 Flag해제
 	//dynamic_->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, false);
@@ -161,15 +160,15 @@ void PhysXCapsuleComponent::Start()
 
 void PhysXCapsuleComponent::Update(float _DeltaTime)
 {
-	if (!(physx::PxIsFinite(m_pDynamic->getGlobalPose().p.x) || physx::PxIsFinite(m_pDynamic->getGlobalPose().p.y) || physx::PxIsFinite(m_pDynamic->getGlobalPose().p.z))
+	if (!(physx::PxIsFinite(m_pRigidDynamic->getGlobalPose().p.x) || physx::PxIsFinite(m_pRigidDynamic->getGlobalPose().p.y) || physx::PxIsFinite(m_pRigidDynamic->getGlobalPose().p.z))
 		&& true == IsMain)
 	{
-		m_pDynamic->setGlobalPose(RecentTransform);
+		m_pRigidDynamic->setGlobalPose(RecentTransform);
 	}
 
 	// PhysX Actor의 상태에 맞춰서 부모의 Transform정보를 갱신
-	float4 tmpWorldPos = { m_pDynamic->getGlobalPose().p.x, m_pDynamic->getGlobalPose().p.y, m_pDynamic->getGlobalPose().p.z };
-	float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pDynamic->getGlobalPose().q) * GameEngineMath::RadToDeg;
+	float4 tmpWorldPos = { m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z };
+	float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pRigidDynamic->getGlobalPose().q) * GameEngineMath::RadToDeg;
 
 	ParentActor.lock()->GetTransform()->SetWorldRotation(float4{ EulerRot.x, EulerRot.y, EulerRot.z });
 	ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
@@ -183,20 +182,20 @@ void PhysXCapsuleComponent::Update(float _DeltaTime)
 void PhysXCapsuleComponent::PushImpulse(float4 _ImpulsePower)
 {
 	// 고정된 축을 해제
-	m_pDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, false);
-	m_pDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, false);
-	m_pDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, false);
+	m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, false);
+	m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, false);
+	m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, false);
 
-	m_pDynamic->addForce(physx::PxVec3(_ImpulsePower.x, _ImpulsePower.y, _ImpulsePower.z), physx::PxForceMode::eIMPULSE);
+	m_pRigidDynamic->addForce(physx::PxVec3(_ImpulsePower.x, _ImpulsePower.y, _ImpulsePower.z), physx::PxForceMode::eIMPULSE);
 }
 
 void PhysXCapsuleComponent::PushImpulseAtLocalPos(float4 _ImpulsePower, float4 _Pos)
 {
 	// 고정된 축을 해제
-	m_pDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, false);
-	m_pDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, false);
+	m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, false);
+	m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, false);
 
-	physx::PxRigidBodyExt::addForceAtPos(*m_pDynamic, physx::PxVec3(_Pos.x, _Pos.y * 0.9f, _Pos.z),
+	physx::PxRigidBodyExt::addForceAtPos(*m_pRigidDynamic, physx::PxVec3(_Pos.x, _Pos.y * 0.9f, _Pos.z),
 		physx::PxVec3(_ImpulsePower.x, _ImpulsePower.y, _ImpulsePower.z), physx::PxForceMode::eIMPULSE, true);
 }
 
@@ -205,7 +204,7 @@ void PhysXCapsuleComponent::SetPlayerStartPos(float4 _Pos)
 	physx::PxTransform tmpPxTransform(_Pos.x, _Pos.y, _Pos.z);
 
 	// 부모의 Transform정보를 바탕으로 PhysX Actor의 트랜스폼을 갱신
-	m_pDynamic->setGlobalPose(tmpPxTransform);
+	m_pRigidDynamic->setGlobalPose(tmpPxTransform);
 	RecentTransform = tmpPxTransform;
 }
 
@@ -213,10 +212,10 @@ bool PhysXCapsuleComponent::PlayerStandUp(float _DeltaTime, bool _IsXAixisRotRea
 {
 	bool Result = false;
 
-	physx::PxVec3 GlobalPose(m_pDynamic->getGlobalPose().p);
+	physx::PxVec3 GlobalPose(m_pRigidDynamic->getGlobalPose().p);
 	physx::PxVec3 YAxis(0.0f, 1.0f, 0.0f);
 	//float YAixsGlobalAngle = std::acosf();
-	physx::PxQuat GlobalRot = m_pDynamic->getGlobalPose().q;
+	physx::PxQuat GlobalRot = m_pRigidDynamic->getGlobalPose().q;
 	float4 GlobalRotEuler = PhysXDefault::GetQuaternionEulerAngles(GlobalRot);
 	float4 AddedRotX = float4{ -1.0f, 0.0f, 0.0f }.EulerDegToQuaternion();
 	float4 AddedRotY = float4{ 0.0f, 10.0f, 0.0f }.EulerDegToQuaternion();
@@ -237,15 +236,15 @@ bool PhysXCapsuleComponent::PlayerStandUp(float _DeltaTime, bool _IsXAixisRotRea
 	//	FinalRot = GlobalRot * AddedRotQuat;
 	//}
 
-	physx::PxTransform FinalTransform(m_pDynamic->getGlobalPose().p, FinalRot);
+	physx::PxTransform FinalTransform(m_pRigidDynamic->getGlobalPose().p, FinalRot);
 	float4 EulerFinalRot = PhysXDefault::GetQuaternionEulerAngles(FinalRot);
 	std::string Asdf = std::to_string(EulerFinalRot.x * GameEngineMath::RadToDeg) + ", " +
 		std::to_string(EulerFinalRot.y * GameEngineMath::RadToDeg) + ", "
 		+ std::to_string(EulerFinalRot.z * GameEngineMath::RadToDeg) + "\n";
 	//OutputDebugString(Asdf.c_str());
 
-	m_pDynamic->setGlobalPose(FinalTransform);
-	physx::PxQuat QautPose = m_pDynamic->getGlobalPose().q;
+	m_pRigidDynamic->setGlobalPose(FinalTransform);
+	physx::PxQuat QautPose = m_pRigidDynamic->getGlobalPose().q;
 	float4 EulerPose = PhysXDefault::GetQuaternionEulerAngles(QautPose);
 	float4 EulerPoseDegree = EulerPose * GameEngineMath::RadToDeg;
 	//physx::PxQuat newLocalRotation = dynamic_->getGlobalPose().q * Quaternion.Inverse(transform.parent.rotation)
@@ -260,14 +259,14 @@ bool PhysXCapsuleComponent::StandUp2(float _DeltaTime, bool _IsXAixisRotReady)
 		return PlayerStandUp(_DeltaTime, _IsXAixisRotReady);
 	}
 
-	physx::PxQuat QautPose = m_pDynamic->getGlobalPose().q;
+	physx::PxQuat QautPose = m_pRigidDynamic->getGlobalPose().q;
 
 	float4 EulerPose = PhysXDefault::GetQuaternionEulerAngles(QautPose);
 	float4 EulerPoseDegree = EulerPose * GameEngineMath::RadToDeg;
 	// dynamic의 Angle, Axis를 구한다
 	float Angle;
 	physx::PxVec3 Vec3;
-	m_pDynamic->getGlobalPose().q.toRadiansAndUnitAxis(Angle, Vec3);
+	m_pRigidDynamic->getGlobalPose().q.toRadiansAndUnitAxis(Angle, Vec3);
 	//기준이 되는 Y-Axis  선언
 	float4 XAxis(1.0f, 0.0f, 0.0f);
 	float4 YAxis(0.0f, 1.0f, 0.0f);
@@ -276,7 +275,7 @@ bool PhysXCapsuleComponent::StandUp2(float _DeltaTime, bool _IsXAixisRotReady)
 	physx::PxVec3 mYAxisVec3(0.0f, -1.0f, 0.0f);
 	float AngleDegree = Angle * GameEngineMath::RadToDeg;
 
-	physx::PxVec3 ASDASFFASGG = m_pDynamic->getGlobalPose().q.getBasisVector1();
+	physx::PxVec3 ASDASFFASGG = m_pRigidDynamic->getGlobalPose().q.getBasisVector1();
 	float4 XZAngle = float4{ ASDASFFASGG.x, 0.0f, ASDASFFASGG.z };
 	XZAngle.Normalize();
 	float AngDiffXZ = atanf(XZAngle.x / XZAngle.z);
@@ -346,8 +345,8 @@ bool PhysXCapsuleComponent::StandUp2(float _DeltaTime, bool _IsXAixisRotReady)
 	FinalRotVec3.normalize();
 	physx::PxQuat tmpQuat(ChangedAngle, FinalRotVec3);
 	//const physx::PxQuat tmpPxQuat(tmpQuat.x, tmpQuat.y, tmpQuat.z, tmpQuat.w);
-	const physx::PxTransform tmpTransform(m_pDynamic->getGlobalPose().p, tmpQuat);
-	m_pDynamic->setGlobalPose(tmpTransform);
+	const physx::PxTransform tmpTransform(m_pRigidDynamic->getGlobalPose().p, tmpQuat);
+	m_pRigidDynamic->setGlobalPose(tmpTransform);
 
 	return Result;
 
@@ -355,7 +354,7 @@ bool PhysXCapsuleComponent::StandUp2(float _DeltaTime, bool _IsXAixisRotReady)
 
 void PhysXCapsuleComponent::SpeedLimit()
 {
-	physx::PxVec3 Velo = m_pDynamic->getLinearVelocity();
+	physx::PxVec3 Velo = m_pRigidDynamic->getLinearVelocity();
 	physx::PxVec2 Velo2D(Velo.x, Velo.z);
 
 	if (Velo2D.magnitude() > PLAYER_MAX_SPEED)
@@ -365,7 +364,7 @@ void PhysXCapsuleComponent::SpeedLimit()
 		Velo.x = Velo2D.x;
 		Velo.z = Velo2D.y;
 
-		m_pDynamic->setLinearVelocity(Velo);
+		m_pRigidDynamic->setLinearVelocity(Velo);
 	}
 }
 
@@ -375,30 +374,30 @@ void PhysXCapsuleComponent::SetChangedRot(float4 _Rot)
 
 	float4 tmpQuat = _Rot.EulerDegToQuaternion();
 	const physx::PxQuat tmpPxQuat(tmpQuat.x, tmpQuat.y, tmpQuat.z, tmpQuat.w);
-	const physx::PxTransform tmpTansform(m_pDynamic->getGlobalPose().p, tmpPxQuat);
+	const physx::PxTransform tmpTansform(m_pRigidDynamic->getGlobalPose().p, tmpPxQuat);
 
-	m_pDynamic->setGlobalPose(tmpTansform);
+	m_pRigidDynamic->setGlobalPose(tmpTansform);
 }
 
 //플레이어 멈추는 함수
 void PhysXCapsuleComponent::FreezeDynamic()
 {
-	m_pDynamic->putToSleep();
+	m_pRigidDynamic->putToSleep();
 }
 
 void PhysXCapsuleComponent::WakeUpDynamic()
 {
-	m_pDynamic->wakeUp();
+	m_pRigidDynamic->wakeUp();
 }
 
 void PhysXCapsuleComponent::ResetDynamic()
 {
 	float4 tmpQuat = float4{ 0.0f,0.0f,0.0f }.EulerDegToQuaternion();
 	const physx::PxQuat tmpPxQuat(tmpQuat.x, tmpQuat.y, tmpQuat.z, tmpQuat.w);
-	const physx::PxTransform tmpTansform(m_pDynamic->getGlobalPose().p, tmpPxQuat);
+	const physx::PxTransform tmpTansform(m_pRigidDynamic->getGlobalPose().p, tmpPxQuat);
 
-	m_pDynamic->setGlobalPose(tmpTansform);
-	m_pDynamic->setRigidDynamicLockFlags(
+	m_pRigidDynamic->setGlobalPose(tmpTansform);
+	m_pRigidDynamic->setRigidDynamicLockFlags(
 		physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X |
 		physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y |
 		physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z);
@@ -406,7 +405,7 @@ void PhysXCapsuleComponent::ResetDynamic()
 
 void PhysXCapsuleComponent::InitializeStandUp2()
 {
-	physx::PxVec3 ASDASFFASGG = m_pDynamic->getGlobalPose().q.getBasisVector1();
+	physx::PxVec3 ASDASFFASGG = m_pRigidDynamic->getGlobalPose().q.getBasisVector1();
 	float4 XZAngle = float4{ ASDASFFASGG.x, 0.0f, ASDASFFASGG.z };
 	XZAngle.Normalize();
 	float AngDiffXZ = atanf(XZAngle.x / XZAngle.z);
@@ -430,7 +429,7 @@ void PhysXCapsuleComponent::InitializeStandUp2()
 
 	float Angle;
 	physx::PxVec3 Vec3;
-	m_pDynamic->getGlobalPose().q.toRadiansAndUnitAxis(Angle, Vec3);
+	m_pRigidDynamic->getGlobalPose().q.toRadiansAndUnitAxis(Angle, Vec3);
 
 	StandUpStartYAxisAngle = Angle;
 

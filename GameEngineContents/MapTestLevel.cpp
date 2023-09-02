@@ -16,6 +16,7 @@ MapTestLevel::~MapTestLevel()
 
 void MapTestLevel::Start()
 {
+	CreateScene();
 	SetLevelType(PacketLevelType::PhysXTestLevel);
 }
 

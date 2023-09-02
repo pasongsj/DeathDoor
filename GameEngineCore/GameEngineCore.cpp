@@ -60,7 +60,7 @@ void GameEngineCore::EngineStart(std::function<void()> _ContentsStart)
 	GameEngineDevice::Initialize();
 
 	CoreResourcesInit();
-	PhysXManager::GetInst()->CreatePhysics();
+	PhysXManager::GetInst()->Init();
 	GameEngineGUI::Initialize();
 
 	if (nullptr == _ContentsStart)
@@ -189,7 +189,7 @@ void GameEngineCore::Start(HINSTANCE _instance,  std::function<void()> _Start, s
 		GameEngineInput::CreateKey("EngineMouseRight", VK_RBUTTON);
 	}
 
-	GameEngineWindow::WindowCreate(_instance, "MainWindow", _Size, _Pos);
+	GameEngineWindow::WindowCreate(_instance, "Death's Door", _Size, _Pos);
 	GameEngineWindow::WindowLoop(std::bind(GameEngineCore::EngineStart, _Start), GameEngineCore::EngineUpdate, std::bind(GameEngineCore::EngineEnd, _End));
 }
 

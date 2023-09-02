@@ -14,17 +14,16 @@ OfficeLevel::~OfficeLevel()
 
 void OfficeLevel::Start()
 {
+	CreateScene();
 	SetLevelType(PacketLevelType::OfficeLevel);
 }
 
 void OfficeLevel::Update(float _DeltaTime)
 {
-	PhysXLevel::Update(_DeltaTime);
 }
 
 void OfficeLevel::LevelChangeStart()
 {
-	PhysXLevel::LevelChangeStart();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalPosition({ -415, 500, 100 });
@@ -37,6 +36,5 @@ void OfficeLevel::LevelChangeStart()
 
 void OfficeLevel::LevelChangeEnd()
 {
-	PhysXLevel::LevelChangeEnd();
 	AllActorDestroy();
 }
