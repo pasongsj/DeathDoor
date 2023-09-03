@@ -20,6 +20,11 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
+	std::shared_ptr<class PhysXCapsuleComponent> GetPhysXComponent() const
+	{
+		return m_pCapsuleComp;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
