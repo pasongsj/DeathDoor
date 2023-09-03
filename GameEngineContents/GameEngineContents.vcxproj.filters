@@ -141,17 +141,11 @@
     <ClCompile Include="MapTestLevel.cpp">
       <Filter>Contents\TestLevel\MapTestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Map_PhysXActor.cpp">
-      <Filter>Contents\TestLevel\MapTestLevel</Filter>
-    </ClCompile>
     <ClCompile Include="OfficeLevel.cpp">
       <Filter>Contents\OfficeLevel</Filter>
     </ClCompile>
     <ClCompile Include="Map_Office.cpp">
       <Filter>Contents\OfficeLevel\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="TestMap.cpp">
-      <Filter>Contents\TestLevel\MapTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
@@ -306,17 +300,11 @@
     <ClInclude Include="MapTestLevel.h">
       <Filter>Contents\TestLevel\MapTestLevel</Filter>
     </ClInclude>
-    <ClInclude Include="Map_PhysXActor.h">
-      <Filter>Contents\TestLevel\MapTestLevel</Filter>
-    </ClInclude>
     <ClInclude Include="OfficeLevel.h">
       <Filter>Contents\OfficeLevel</Filter>
     </ClInclude>
     <ClInclude Include="Map_Office.h">
       <Filter>Contents\OfficeLevel\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="TestMap.h">
-      <Filter>Contents\TestLevel\MapTestLevel</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Contents\PlayerTestLevel</Filter>

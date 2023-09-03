@@ -41,6 +41,10 @@ private:
 			+ "\nMsg : " + message
 			+ "\nFile : " + file
 			+ "\nLine : " + std::to_string(line);
+		if (code == 2)
+		{
+			return;
+		}
 		MsgAssert(Code);
 	}
 };

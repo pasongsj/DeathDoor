@@ -111,14 +111,19 @@ void Player::TestInit()
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 
 
-		if (GetLevel()->DynamicThis<PhysXTestLevel>() != nullptr)
+		/*if (GetLevel()->DynamicThis<OfficeLevel>() != nullptr)
 		{
-			std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
+			std::shared_ptr<OfficeLevel> pLevel = GetLevel()->DynamicThis<OfficeLevel>();
 
 
 			m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 			m_pCapsuleComp->CreatePhysXActors(vscale);
-		}
+		}*/
+
+		// 레벨체크 때문에 터져서 레벨체크하는부분만 주석
+		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
+		m_pCapsuleComp->CreatePhysXActors(vscale);
+		
 	}
 	{
 		GetTransform()->SetLocalScale(float4::ONE * 30.0f);
