@@ -37,25 +37,27 @@ void Map_PhysXActor::Start()
 	//m_pGeometryComp = CreateComponent<PhysXBoxGeometryComponent>();
 	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 	//m_pSphereComp = CreateComponent<PhysXSphereComponent>();
-	if (GetLevel()->DynamicThis<MapTestLevel>() != nullptr)
-	{
-		std::shared_ptr<MapTestLevel> pLevel = GetLevel()->DynamicThis<MapTestLevel>();
+	//m_pSphereComp->SetPhysxMaterial(100.f, 100.f, 0.f);
+	//m_pSphereComp->CreatePhysXActors(pLevel->GetScene(), pLevel-//>GetPhysics(), vscale);
+	//m_pSphereComp->GetDynamic()->setMass(1.f);
+	//m_pSphereComp->TurnOnSpeedLimit();
 
-		//m_pSphereComp->SetPhysxMaterial(100.f, 100.f, 0.f);
-		//m_pSphereComp->CreatePhysXActors(pLevel->GetScene(), pLevel-//>GetPhysics(), vscale);
-		//m_pSphereComp->GetDynamic()->setMass(1.f);
-		//m_pSphereComp->TurnOnSpeedLimit();
+	m_pCapsuleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
+	m_pCapsuleComp->CreatePhysXActors(vscale);
+	//m_pCapsuleComp->TurnOnSpeedLimit();
+	//m_pConvexComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking, true, vscale);
+	//m_pTriangleComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking,true ,vscale);
+	//m_pDynamicActorComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
 
-		m_pCapsuleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(vscale);
-		//m_pCapsuleComp->TurnOnSpeedLimit();
-		//m_pConvexComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking, true, vscale);
-		//m_pTriangleComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking,true ,vscale);
-		//m_pDynamicActorComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
+	//m_pGeometryComp->SetGravity(true);
+	//m_pGeometryComp->SetRestitution(2.f);
+	//m_pGeometryComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
+	//m_pGeometryComp->SetPositionSetFromParentFlag(true);
+	
+	CreatePhysXComponent();
+}
 
-		//m_pGeometryComp->SetGravity(true);
-		//m_pGeometryComp->SetRestitution(2.f);
-		//m_pGeometryComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
-		//m_pGeometryComp->SetPositionSetFromParentFlag(true);
-	}
+void Map_PhysXActor::CreatePhysXComponent()
+{
+	SetPhysXComponent(m_pCapsuleComp);
 }

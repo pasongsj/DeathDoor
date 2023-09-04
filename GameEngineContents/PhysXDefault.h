@@ -4,6 +4,8 @@
 // 설명 : PhysX에서 공통으로 사용할 함수들
 class PhysXDefault
 {
+	friend class PhysXActor;
+
 	typedef struct 
 	{
 		float x, y, z;
@@ -127,6 +129,20 @@ public:
 		float4 CamPos = _CamPos;
 		float4 TargetPos = _TargetPos;
 		PhysXManager::GetInst()->GetPvdClient()->updateCamera("PvdCam", CamPos.PhysXVec3Return(), { 0,1,0 }, TargetPos.PhysXVec3Return());
+	}
+
+	void ReleaseRigid()
+	{
+		if (m_pRigidDynamic != nullptr && m_pRigidDynamic->isReleasable())
+		{
+			//GetScene()->removeActor(*m_pRigidDynamic);
+			m_pRigidDynamic->release();
+		}
+		if (m_pRigidStatic != nullptr && m_pRigidStatic->isReleasable())
+		{
+			//GetScene()->removeActor(*m_pRigidStatic);
+			m_pRigidStatic->release();
+		}
 	}
 protected:
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;

@@ -15,7 +15,7 @@ physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _
 {
 	m_pScene = GetScene();
 	m_pPhysics = GetPhysics();
-
+	
 	float4 tmpQuat = _GeoMetryRotation.EulerDegToQuaternion();
 
 	// 부모 액터로부터 위치 생성

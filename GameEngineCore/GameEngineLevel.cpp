@@ -10,6 +10,8 @@
 #include <GameEngineCore/GameEngineLight.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 
+#include <GameEngineContents/PhysXActor.h>
+
 bool GameEngineLevel::IsDebugRender = false;
 
 GameEngineLevel::GameEngineLevel()
@@ -230,7 +232,7 @@ void GameEngineLevel::ActorRelease()
 			for (; ActorStart != ActorEnd; )
 			{
 				std::shared_ptr<GameEngineActor> RelaseActor = (*ActorStart);
-
+				
 				RelaseActor->AllDestroy();
 
 				if (nullptr != RelaseActor && false == RelaseActor->IsDeath())
@@ -239,7 +241,11 @@ void GameEngineLevel::ActorRelease()
 					++ActorStart;
 					continue;
 				}
-
+				std::shared_ptr<PhysXActor> pPhysXActor = RelaseActor->DynamicThis<PhysXActor>();
+				if (nullptr != pPhysXActor)
+				{
+					pPhysXActor->Release();
+				}
 				RelaseActor->Release();
 				ActorStart = ActorList.erase(ActorStart);
 			}

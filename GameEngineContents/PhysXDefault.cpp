@@ -10,14 +10,6 @@ PhysXDefault::PhysXDefault()
 
 PhysXDefault::~PhysXDefault() 
 {
-    //if (m_pRigidDynamic != nullptr)
-    //{
-    //    GetScene()->removeActor(*m_pRigidDynamic);
-    //}
-    //if (m_pRigidStatic != nullptr)
-    //{
-    //    GetScene()->removeActor(*m_pRigidStatic);
-    //}
 }
 
 void PhysXDefault::SetupFiltering(physx::PxShape* _Shape, physx::PxU32 _FilterGroup, physx::PxU32 _FilterMask)

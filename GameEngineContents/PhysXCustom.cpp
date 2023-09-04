@@ -71,6 +71,10 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 	while (nbPairs--)
 	{
 		physx::PxContactPair current = *pairs++;
+		if (current.contactPatches == 0)
+		{
+			continue;
+		}
 		// 액터가 가지고 있는 쉐이프를 모두 가져옴
 		physx::PxShape* tmpContactActor = current.shapes[0];
 		physx::PxShape* tmpOtherActor = current.shapes[1];
