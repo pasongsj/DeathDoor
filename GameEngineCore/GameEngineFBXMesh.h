@@ -137,19 +137,19 @@ struct FbxExMeshInfo : public GameEngineSerializObject
 
 	void Read(GameEngineSerializer& _File) override
 	{
-		_File << Name;
-		_File << bTriangulated;
-		_File << UniqueId;
-		_File << FaceNum;
-		_File << VertexNum;
-		_File << MaterialNum;
-		_File << bIsSkeletalMesh;
-		_File << SkeletonRoot;
-		_File << SkeletonElemNum;
-		_File << bIsLodGroup;
-		_File << LODGroupName;
-		_File << LodLevel;
-		_File << MorphNum;
+		_File >> Name;
+		_File >> bTriangulated;
+		_File >> UniqueId;
+		_File >> FaceNum;
+		_File >> VertexNum;
+		_File >> MaterialNum;
+		_File >> bIsSkeletalMesh;
+		_File >> SkeletonRoot;
+		_File >> SkeletonElemNum;
+		_File >> bIsLodGroup;
+		_File >> LODGroupName;
+		_File >> LodLevel;
+		_File >> MorphNum;
 	}
 };
 
@@ -649,17 +649,17 @@ public:
 		return MeshInfos.size();
 	}
 
-	size_t GetBoneCount(size_t _Index)
+	size_t GetBoneCount()
 	{
-		return AllBones[_Index].size();
+		return AllBones.size();
 	}
 
 
 	// Bone 찾아주는 함수
-	Bone* FindBone(size_t MeshIndex, size_t _BoneIndex);
-	Bone* FindBone(size_t MeshIndex, std::string _Name);
+	Bone* FindBone(size_t _BoneIndex);
+	Bone* FindBone(std::string _Name);
 
-	std::shared_ptr<GameEngineStructuredBuffer> GetAnimationStructuredBuffer(size_t _Index);
+	std::shared_ptr<GameEngineStructuredBuffer> GetAnimationStructuredBuffer();
 
 	void Initialize();
 
@@ -677,14 +677,14 @@ protected:
 	std::string FBXMeshName;
 
 	std::vector<FbxExMeshInfo> MeshInfos;
-	std::vector<std::vector<Bone>> AllBones;
+	std::vector<Bone> AllBones;
 
 
 	std::vector<FbxRenderUnitInfo> RenderUnitInfos;
 
-	std::vector<std::shared_ptr<GameEngineStructuredBuffer>> AllBoneStructuredBuffers; // 본정보체
+	std::shared_ptr<GameEngineStructuredBuffer> AllBoneStructuredBuffers; // 본정보체
 
-	std::vector<std::map<std::string, Bone*>> AllFindMap;
+	std::map<std::string, Bone*> AllFindMap;
 	std::vector<std::vector<FbxClusterData>> ClusterData;
 
 private:

@@ -89,7 +89,7 @@ public:
 	// meshInfo 1개 상체 20
 	// meshInfo 1개 하체
 	// meshInfo 1개 전신 20
-	std::map<size_t, std::vector<FbxExBoneFrame>> AniFrameData;
+	std::vector<FbxExBoneFrame> AniFrameData;
 
 	void Write(GameEngineSerializer& _File) override
 	{

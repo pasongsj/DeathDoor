@@ -3,7 +3,7 @@
 #include "GameEngineRenderer.h"
 #include <set>
 
-class NaviNode
+class NaviNode : std::enable_shared_from_this<NaviNode>
 {
 public:
 	float4 ArrTri[3];
@@ -39,7 +39,7 @@ protected:
 
 private:
 	std::vector<std::shared_ptr<NaviNode>> Nodes;
-	
+
 	//std::vector<std::vector<std::shared_ptr<NaviNode>>> Nodes;
 
 	//      플레이어나 몬스터들    밟고있는 삼각형.
