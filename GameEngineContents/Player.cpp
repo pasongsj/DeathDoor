@@ -33,6 +33,142 @@ void Player::InitPlayer()
 	}
 }
 
+void Player::CheckAllAnimation()
+{
+
+
+	////Renderer->CreateFBXAnimation("Arrow", "Arrow.FBX", { 0.01f,true });
+	////AnimationName.push_back("Arrow");	
+	////
+	////Renderer->CreateFBXAnimation("Arrow_bomb", "Arrow_bomb.FBX", { 0.01f,true });
+	////AnimationName.push_back("Arrow_bomb");
+	////
+	////Renderer->CreateFBXAnimation("Arrow_magic", "Arrow_magic.FBX", { 0.01f,true });
+	////AnimationName.push_back("Arrow_magic");	
+		
+	////Renderer->CreateFBXAnimation("Brace", "Brace.FBX", { 0.01f,true });
+	////AnimationName.push_back("Brace");	
+	////	
+	////Renderer->CreateFBXAnimation("Charge_Heavy_L", "Charge_Heavy_L.FBX", { 0.01f,true });//마우스 휠 차지
+	////AnimationName.push_back("Charge_Heavy_L");
+	////Renderer->CreateFBXAnimation("Charge_Heavy_R", "Charge_Heavy_R.FBX", { 0.01f,true });//마우스 휠 차지
+	////AnimationName.push_back("Charge_Heavy_R");
+	
+	
+	////Renderer->CreateFBXAnimation("Charge_slash_L", "Charge_slash_L.FBX", { 0.01f,true }); // 일반 좌클릭
+	////AnimationName.push_back("Charge_slash_L");
+	////
+	Renderer->CreateFBXAnimation("Charge_slam_overhead", "Charge_slam_overhead.FBX", { 0.01f,true });// 구르기 마우스 휠
+	AnimationName.push_back("Charge_slam_overhead");
+
+	////Renderer->CreateFBXAnimation("Charge_slash_R", "Charge_slash_R.FBX", { 0.01f,true }); // 일반 좌클릭
+	////AnimationName.push_back("Charge_slash_R");	
+	////
+	////Renderer->CreateFBXAnimation("Climbing_ladder", "Climbing_ladder.FBX", { 0.01f,true });
+	////AnimationName.push_back("Climbing_ladder");
+	////	
+	////Renderer->CreateFBXAnimation("Climbing_ladder_down", "Climbing_ladder_down.FBX", { 0.01f,true });
+	////AnimationName.push_back("Climbing_ladder_down");	
+	////
+	////Renderer->CreateFBXAnimation("Climbing_off_ladder_top", "Climbing_off_ladder_top.FBX", { 0.01f,true });
+	////AnimationName.push_back("Climbing_off_ladder_top");
+
+	////Renderer->CreateFBXAnimation("Cutscene_turn_end", "Cutscene_turn_end.FBX", { 0.01f,true });
+	////AnimationName.push_back("Cutscene_turn_end");	
+	////
+	////Renderer->CreateFBXAnimation("Cutscene_turn_half", "Cutscene_turn_half.FBX", { 0.01f,true });
+	////AnimationName.push_back("Cutscene_turn_half");
+	////	
+	////Renderer->CreateFBXAnimation("Cutscene_turn_stopped", "Cutscene_turn_stopped.FBX", { 0.01f,true });
+	////AnimationName.push_back("Cutscene_turn_stopped");	
+
+	////Renderer->CreateFBXAnimation("Dead", "Dead.FBX", { 0.01f,true });
+	////AnimationName.push_back("Dead");	
+	////
+	////Renderer->CreateFBXAnimation("Drown", "Drown.FBX", { 0.01f,true });
+	////AnimationName.push_back("Drown");
+	////	
+	////Renderer->CreateFBXAnimation("Falling", "Falling.FBX", { 0.01f,true });
+	////AnimationName.push_back("Falling");	
+	
+	//Renderer->CreateFBXAnimation("Fly", "Fly.FBX", { 0.01f,true }); // 체크필요
+	//AnimationName.push_back("Fly");
+
+	//
+	//Renderer->CreateFBXAnimation("GetItem", "GetItem.FBX", { 0.01f,true }); // 체크필요
+	//AnimationName.push_back("GetItem");
+	//	
+	//Renderer->CreateFBXAnimation("Hit_back", "Hit_back.FBX", { 0.01f,true });
+	//AnimationName.push_back("Hit_back");	
+	//
+	//Renderer->CreateFBXAnimation("Hit_idle", "Hit_idle.FBX", { 0.01f,true });
+	//AnimationName.push_back("Hit_idle");
+	//
+	//Renderer->CreateFBXAnimation("Hit_Recover", "Hit_Recover.FBX", { 0.01f,true });
+	//AnimationName.push_back("Hit_Recover");	
+	
+	////Renderer->CreateFBXAnimation("Hookshot", "Hookshot.FBX", { 0.01f,true });
+	////AnimationName.push_back("Hookshot");
+	////	
+	////Renderer->CreateFBXAnimation("Hookshot_fly", "Hookshot_fly.FBX", { 0.01f,true });
+	////AnimationName.push_back("Hookshot_fly");	
+	////
+	////Renderer->CreateFBXAnimation("Idle_0", "Idle_0.FBX", { 0.01f,true });
+	////AnimationName.push_back("Idle_0");
+	////
+	////Renderer->CreateFBXAnimation("Idle_1", "Idle_1.FBX", { 0.01f,true });
+	////AnimationName.push_back("Idle_1");
+	//	
+	////Renderer->CreateFBXAnimation("Injured_fall", "Injured_fall.FBX", { 0.01f,true }); // 돌려야함
+	////AnimationName.push_back("Injured_fall");	
+	////
+	////Renderer->CreateFBXAnimation("Injured_getup", "Injured_getup.FBX", { 0.01f,true });
+	////AnimationName.push_back("Injured_getup");
+	////
+	////Renderer->CreateFBXAnimation("Injured_land", "Injured_land.FBX", { 0.01f,true });
+	////AnimationName.push_back("Injured_land");	
+	////
+	////Renderer->CreateFBXAnimation("Land", "Land.FBX", { 0.01f,true }); // 착지
+	////AnimationName.push_back("Land");
+	//	
+	//뭔지 모르겠음//Renderer->CreateFBXAnimation("Plunge", "Plunge.FBX", { 0.01f,true });
+	//뭔지 모르겠음//AnimationName.push_back("Plunge");	
+	//뭔지 모르겠음//////
+	//뭔지 모르겠음////Renderer->CreateFBXAnimation("Plunge_land", "Plunge_land.FBX", { 0.01f,true });
+	//뭔지 모르겠음////AnimationName.push_back("Plunge_land");	
+	//뭔지 모르겠음////	
+	//뭔지 모르겠음//Renderer->CreateFBXAnimation("Plunge_prep", "Plunge_prep.FBX", { 0.01f,true });
+	//뭔지 모르겠음//AnimationName.push_back("Plunge_prep");	
+
+
+	////Renderer->CreateFBXAnimation("Push_Lever", "Push_Lever.FBX", { 0.01f,true });
+	////AnimationName.push_back("Push_Lever");	
+	////
+	////Renderer->CreateFBXAnimation("Roll", "Roll.FBX", { 0.01f,true });
+	////AnimationName.push_back("Roll");
+
+
+	//Renderer->CreateFBXAnimation("Roll_slash", "Roll_slash.FBX", { 0.01f,true }); 
+	//AnimationName.push_back("Roll_slash");
+	//	
+	//Renderer->CreateFBXAnimation("Roll_slash_end", "Roll_slash_end.FBX", { 0.01f,true });
+	//AnimationName.push_back("Roll_slash_end");	
+	//
+	//Renderer->CreateFBXAnimation("Run", "Run.FBX", { 0.01f,true });
+	//AnimationName.push_back("Run");
+	//
+	//Renderer->CreateFBXAnimation("Slash_Light_L_new", "Slash_Light_L_new.FBX", { 0.01f,true });
+	//AnimationName.push_back("Slash_Light_L_new");
+	//
+	//Renderer->CreateFBXAnimation("Slash_Light_R_new", "Slash_Light_R_new.FBX", { 0.01f,true });
+	//AnimationName.push_back("Slash_Light_R_new");	
+	//
+	//Renderer->CreateFBXAnimation("Walk", "Walk.FBX", { 0.01f,true });
+	//AnimationName.push_back("Walk");
+	
+}
+
+
 void Player::TestInit()
 {
 	if (false == GameEngineInput::IsKey("PressN"))
@@ -42,11 +178,13 @@ void Player::TestInit()
 
 	{
 		Renderer = CreateComponent<GameEngineFBXRenderer>();
-		Renderer->SetFBXMesh("player.FBX", "MeshAniTexture");
+		Renderer->SetFBXMesh("Arrow.FBX", "MeshAniTexture");
+		//Renderer->CreateFBXAnimation("Player_Idle", "Arrow.FBX", { 0.01f,true });
+		//Renderer->ChangeAnimation("Player_Idle");
 
-
-		Renderer->CreateFBXAnimation("Player_Idle", "Player_Idle.FBX", {0.01f,true});
-		AnimationName.push_back("Player_Idle");
+		CheckAllAnimation();
+		/*Renderer->CreateFBXAnimation("Player_Idle", "Player_Idle.FBX", {0.01f,true});
+		AnimationName.push_back("Player_Idle");*/
 		
 		//
 		//Renderer->CreateFBXAnimation("Player_Walk_S", "Player_Walk_S.FBX", { 0.01f,true }); // 걷기
@@ -105,23 +243,24 @@ void Player::TestInit()
 		
 		////AnimationName.push_back("Player_Magic");
 	}
+	//{
+	//	float4 scale = Renderer->GetMeshScale();
+	//	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
+	//	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+	//
+	//
+	//	if (GetLevel()->DynamicThis<PhysXTestLevel>() != nullptr)
+	//	{
+	//		std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
+	//
+	//
+	//		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
+	//		m_pCapsuleComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale);
+	//	}
+	//}
 	{
-		float4 scale = Renderer->GetMeshScale();
-		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
-		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
-
-
-		if (GetLevel()->DynamicThis<PhysXTestLevel>() != nullptr)
-		{
-			std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
-
-
-			m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-			m_pCapsuleComp->CreatePhysXActors(pLevel->GetScene(), pLevel->GetPhysics(), vscale);
-		}
-	}
-	{
-		GetTransform()->SetLocalScale(float4::ONE * 30.0f);
+		GetTransform()->SetLocalScale(float4::ONE * 30.0f/**100.0f*/);
+		GetTransform()->SetLocalRotation({90,0,0});
 	}
 
 }
@@ -144,6 +283,15 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
+
+	if (true == GameEngineInput::IsDown("PressN"))
+	{
+		if (index >= AnimationName.size())
+		{
+			index = 0;
+		}
+		Renderer->ChangeAnimation(AnimationName[index++]);
+	}
 	// 서버의 관리를 받는 오브젝트라면
 	// 클라이언트의 입장에서는 
 	// 상대의 패킷으로만 움직여야 한다.
@@ -152,14 +300,14 @@ void Player::Update(float _DeltaTime)
 	//{
 	//	return;
 	//}
-	if (PlayerState::MAX == CurState)
-	{
-		NextState = PlayerState::IDLE;
-	}
-
-	NetControlType Type = GetControlType();
-	UpdateState(_DeltaTime);
-	TestMoveUpdate(_DeltaTime);
+	//if (PlayerState::MAX == CurState)
+	//{
+	//	NextState = PlayerState::IDLE;
+	//}
+	//
+	//NetControlType Type = GetControlType();
+	//UpdateState(_DeltaTime);
+	//TestMoveUpdate(_DeltaTime);
 
 	//switch (Type)
 	//{
@@ -181,14 +329,7 @@ void Player::Update(float _DeltaTime)
 //
 void Player::TestMoveUpdate(float _DeltaTime)
 {
-	//if (true == GameEngineInput::IsDown("PressN"))
-	//{
-	//	if (index >= AnimationName.size())
-	//	{
-	//		index = 0;
-	//	}
-	//	Renderer->ChangeAnimation(AnimationName[index++]);
-	//}
+
 	//if (true == GameEngineInput::IsPress("SpeedBoost") && m_pSpeed > 1000.f)
 	//{
 	//	m_pSpeed = 1000.f;

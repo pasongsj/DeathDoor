@@ -103,5 +103,6 @@ private:
 	int index = 0;
 	float m_pSpeed = 200.0f;
 	void TestMoveUpdate(float _DeltaTime);
+	void CheckAllAnimation();
 };
 
