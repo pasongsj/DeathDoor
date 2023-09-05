@@ -16,7 +16,6 @@ OfficeLevel::~OfficeLevel()
 
 void OfficeLevel::Start()
 {
-	CreateScene();
 	SetLevelType(PacketLevelType::OfficeLevel);
 	CreateScene();
 }

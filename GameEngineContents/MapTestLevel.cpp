@@ -18,7 +18,6 @@ MapTestLevel::~MapTestLevel()
 
 void MapTestLevel::Start()
 {
-	CreateScene();
 	SetLevelType(PacketLevelType::PhysXTestLevel);
 	CreateScene();
 	SetTestLevelType(TestMapType::BigCrow_Floor);

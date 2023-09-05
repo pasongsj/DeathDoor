@@ -5,8 +5,6 @@
 // 설명 : PhysX에서 공통으로 사용할 함수들
 class PhysXDefault
 {
-	friend class PhysXActor;
-
 	typedef struct 
 	{
 		float x, y, z;
@@ -119,13 +117,6 @@ public:
 	{
 		return PhysXManager::GetInst()->GetCooking();
 	}
-	template<typename Type>
-	std::shared_ptr<Type> GetParentActor()
-	{
-		std::shared_ptr<Type> ReturnActor = ParentActor.lock()->DynamicThis<Type>();
-		return ReturnActor;
-	}
-
 
 	void CreateScene()
 	{

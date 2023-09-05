@@ -1,6 +1,5 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
-#include "PhysXActor.h"
 
 // Ό³Έν : 
 class PhysXTestActor :public GameEngineActor 

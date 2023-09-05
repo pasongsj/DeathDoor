@@ -58,8 +58,6 @@ void PhysXTestActor::Update(float _DeltaTime)
 	if (true == GameEngineInput::IsDown("CamMoveUp"))
 	{
 		Movedir += GetTransform()->GetWorldUpVector() * 500.f * _DeltaTime;
-		Death();
-		return;
 		m_pCapsuleComp->SetMoveJump();
 	}
 	if (true == GameEngineInput::IsPress("CamMoveDown"))
