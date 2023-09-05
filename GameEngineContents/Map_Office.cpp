@@ -32,9 +32,11 @@ void Map_Office::InitComponent()
 
 	// 네비메쉬 위치확인용 렌더러 
 	m_pNaviRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pNaviRenderer->SetFBXMesh("Map_Office_NavMesh.fbx", "MeshTexture");
+	m_pNaviRenderer->SetFBXMesh("Map_Office_Navi.fbx", "MeshTexture");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
+
+	// 나머지 오브젝트 전부 메쉬 따로 로드해서 배치함 개같아서 안되겠다 
 
 	// float4 UnitScale = m_pRenderer->GetFBXMesh()->GetRenderUnit(0)->BoundScaleBox;
 	// float4 scale = m_pRenderer->GetMeshScale();
@@ -43,7 +45,7 @@ void Map_Office::InitComponent()
 	// 컴포넌트 
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	m_pTriangleComp->CreatePhysXActors("Map_Office_NavMesh.fbx", false);
+	m_pTriangleComp->CreatePhysXActors("Map_Office_Navi.fbx", true);
 
 	if (nullptr != m_pTriangleComp->GetStatic())
 	{
