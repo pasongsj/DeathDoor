@@ -56,9 +56,6 @@ public:
 	void PushImpulse(float4 _ImpulsePower);
 	void PushImpulseAtLocalPos(float4 _ImpulsePower, float4 _Pos);
 
-	bool PlayerStandUp(float _DeltaTime, bool _IsXAixisRotReady);
-	bool StandUp2(float _DeltaTime, bool _IsXAixisRotReady);
-
 	void TurnOffSpeedLimit()
 	{
 		m_bSpeedLimit = false;
@@ -112,7 +109,6 @@ public:
 	void ResetDynamic();
 
 	//일어설때 목표 각도구하는 함수
-	void InitializeStandUp2();
 
 	void SetMainPlayerFlags()
 	{
