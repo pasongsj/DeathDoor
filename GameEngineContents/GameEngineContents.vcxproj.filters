@@ -157,6 +157,9 @@
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="PhysXManager.cpp" />
+    <ClCompile Include="PlayerInit.cpp">
+      <Filter>Contents\PlayerTestLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -313,6 +316,9 @@
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClInclude>
     <ClInclude Include="PhysXManager.h" />
+    <ClInclude Include="PlayerDefinition.h">
+      <Filter>Contents\PlayerTestLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
