@@ -157,14 +157,11 @@
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="PhysXManager.cpp" />
-    <ClCompile Include="Map_Emptyplain.cpp">
-      <Filter>Contents\TestLevel\MapTestLevel\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerInit.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="Map_Emptyplain.cpp">
-      <Filter>Contents\TestLevel\MapTestLevel</Filter>
+      <Filter>Contents\TestLevel\MapTestLevel\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -322,14 +319,11 @@
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClInclude>
     <ClInclude Include="PhysXManager.h" />
-    <ClInclude Include="Map_Emptyplain.h">
-      <Filter>Contents\TestLevel\MapTestLevel\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerDefinition.h">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClInclude>
     <ClInclude Include="Map_Emptyplain.h">
-      <Filter>Contents\TestLevel\MapTestLevel</Filter>
+      <Filter>Contents\TestLevel\MapTestLevel\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -415,7 +409,7 @@
       <UniqueIdentifier>{f51af19b-c4ef-4a9b-a75e-fa1d33a8d783}</UniqueIdentifier>
     </Filter>
     <Filter Include="Contents\TestLevel\MapTestLevel\Actor">
-      <UniqueIdentifier>{fe3ba2f9-65ff-4f2c-b58b-3767bc5cfd53}</UniqueIdentifier>
+      <UniqueIdentifier>{e61b235a-08ef-4d2c-8b42-a38245fea2ca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

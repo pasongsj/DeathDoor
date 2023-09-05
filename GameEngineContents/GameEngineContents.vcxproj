@@ -352,10 +352,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Map_Emptyplain.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Map_Emptyplain.h" />
     <ClInclude Include="Map_Office.h">
       <SubType>
