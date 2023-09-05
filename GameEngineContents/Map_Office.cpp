@@ -45,6 +45,7 @@ void Map_Office::InitComponent()
 
 	// ÄÄÆ÷³ÍÆ® 
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
+	m_pTriangleComp->SetObjectGround();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	m_pTriangleComp->CreatePhysXActors("Map_Office_Navi.fbx", true);
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));

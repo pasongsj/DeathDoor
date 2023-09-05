@@ -19,7 +19,9 @@ void PhysXTestLevel::Start()
 
 void PhysXTestLevel::LevelChangeStart()
 {
-	CreateScene();
+	CreateScene(); //LevelChangeStart 혹은 Start어디서 하든 상관없게끔 했음
+
+
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.f,0.f,0.f });
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0,1000, .0f });

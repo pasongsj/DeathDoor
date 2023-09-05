@@ -13,7 +13,7 @@ PlayerTestLevel::~PlayerTestLevel()
 
 void PlayerTestLevel::Start()
 {
-
+	CreateScene();
 }
 
 void PlayerTestLevel::Update(float _DeltaTime)
