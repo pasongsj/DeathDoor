@@ -21,6 +21,8 @@ protected:
 
 private:
 	void InitComponent();
+	void Set_StaticObject();
+	void Set_ActiveObject();
 
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
 	std::shared_ptr<GameEngineFBXRenderer> m_pRenderer = nullptr;
