@@ -67,14 +67,16 @@ void MapTestLevel::InitTestLevel()
 			Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 2610 , -574 , -5347 }));
 		}
 	}
+		break;
 	case TestMapType::BigCrow_Floor:
 	{
 		GetMainCamera()->GetTransform()->SetLocalPosition(float4{ 0, 700, -2500 });
 
-		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>(); 
+		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
 		CreateActor<Player>();
-		
 	}
 		break;
 	}
+
+
 }
