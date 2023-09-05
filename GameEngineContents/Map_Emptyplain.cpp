@@ -26,10 +26,14 @@ void Map_Emptyplain::InitComponent()
 {
 	// 맵 렌더러 
 	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("BigCrow_Floor_Navi.fbx", "MeshTexture");
+	m_pRenderer->SetFBXMesh("BigCrow_Floor.fbx", "MeshTexture");
+
 
 	auto Unit = m_pRenderer->GetAllRenderUnit();
-	Unit[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "CenterLevelBG.png");
+	Unit[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "avarice_n_noise.png");
+	
+	/*auto UnTexUnit = m_pRenderer->GetUnTexturedUnit();
+	UnTexUnit.begin()->second->ShaderResHelper.SetTexture("DiffuseTexture", "avarice_n_noise.png");*/
 
 	// 네비메쉬 위치확인용 렌더러 
 	/*m_pNaviRenderer = CreateComponent<GameEngineFBXRenderer>();
@@ -43,7 +47,6 @@ void Map_Emptyplain::InitComponent()
 	// 컴포넌트 
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	m_pTriangleComp->CreatePhysXActors("BigCrow_Floor_Navi.fbx", true);
-	//m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 10000, 0, 10000 }));
+	m_pTriangleComp->CreatePhysXActors("BigCrow_Floor.fbx", true);
 
 }
