@@ -30,6 +30,10 @@ void MapEditorWindow::CreateSetCurActor(int _ActorType, std::shared_ptr<class Ga
 	MapActor->Renderer = CurActor->CreateComponent< GameEngineFBXRenderer>();
 	MapActor->Renderer->SetFBXMesh(FBXName, MeterialName);
 	meshscale = MapActor->Renderer->GetMeshScale();
+
+
+	// test
+	CurActor->GetTransform()->SetWorldPosition(GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition());
 }
 
 MapEditorWindow::MapEditorWindow()

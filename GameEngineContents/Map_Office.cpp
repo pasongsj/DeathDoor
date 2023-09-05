@@ -3,7 +3,6 @@
 
 #include "PhysXTriangleComponent.h"
 #include "PhysXBoxComponent.h"
-
 #include "OfficeLevel.h"
 
 Map_Office::Map_Office()
@@ -18,6 +17,8 @@ void Map_Office::Start()
 {
 	// 컴포넌트 초기화 
 	InitComponent();
+	Set_StaticObject();
+	Set_ActiveObject();
 }
 
 void Map_Office::Update(float _DeltaTime)
@@ -47,14 +48,13 @@ void Map_Office::InitComponent()
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	m_pTriangleComp->CreatePhysXActors("Map_Office_Navi.fbx", true);
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));
+}
+
+void Map_Office::Set_StaticObject()
+{
 	
+}
 
-	float4 Pos = float4{ 2610 , -574 , -5347 };
-	
-	// 박스컴포넌트 만들고, 어떤 메쉬를 사용할건지 인자로 
-	//std::shared_ptr<PhysXBoxComponent> BoxComp = CreateComponent<PhysXBoxComponent>();
-	//BoxComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	//BoxComp->CreatePhysXActors("")
-
-
+void Map_Office::Set_ActiveObject()
+{
 }
