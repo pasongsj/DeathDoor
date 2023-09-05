@@ -25,6 +25,7 @@
 #include "GameEngineFont.h"
 
 
+
 void GameEngineCore::CoreResourcesInit()
 {
 	{
@@ -182,7 +183,6 @@ void GameEngineCore::CoreResourcesInit()
 		GameEngineIndexBuffer::Create("GridRect", ArrIndex);
 		GameEngineMesh::Create("GridRect");
 	}
-
 
 	{
 		std::vector<GameEngineVertex> ArrVertex;
@@ -369,7 +369,6 @@ void GameEngineCore::CoreResourcesInit()
 		V.NORMAL.w = 0.0f;
 		V.TANGENT = float4(-1.0f, 0.0f, 0.0f, 0.0f);
 		V.BINORMAL = float4(0.0f, 0.0f, -1.0f, 0.0f);
-
 		VBVector.push_back(V);
 
 		// ÀÎµ¦½º ¹öÆÛ¸¦ ¸¸µì´Ï´Ù.
@@ -686,6 +685,15 @@ void GameEngineCore::CoreResourcesInit()
 			Pipe->SetVertexShader("MeshAniTexture.hlsl");
 			Pipe->SetRasterizer("Engine2DBase");
 			Pipe->SetPixelShader("MeshAniTexture.hlsl");
+			Pipe->SetBlendState("AlphaBlend");
+			Pipe->SetDepthState("EngineDepth");
+		}
+
+		{
+			std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("MeshAniTextureDeferred");
+			Pipe->SetVertexShader("MeshAniTextureDeferred.hlsl");
+			Pipe->SetRasterizer("Engine2DBase");
+			Pipe->SetPixelShader("MeshAniTextureDeferred.hlsl");
 			Pipe->SetBlendState("AlphaBlend");
 			Pipe->SetDepthState("EngineDepth");
 		}

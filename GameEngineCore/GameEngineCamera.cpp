@@ -52,8 +52,18 @@ void GameEngineCamera::Start()
 	Width = ViewPortData.Width;
 	Height = ViewPortData.Height;
 
-	CamTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	CamTarget->CreateDepthTexture();
+	AllRenderTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	AllRenderTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	AllRenderTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	AllRenderTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	AllRenderTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	AllRenderTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	AllRenderTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	AllRenderTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	AllRenderTarget->CreateDepthTexture();
+
+	CamForwardTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	CamForwardTarget->CreateDepthTexture();
 }
 
 void GameEngineCamera::FreeCameraSwitch()
@@ -162,13 +172,16 @@ void GameEngineCamera::Update(float _DeltaTime)
 
 }
 
+void GameEngineCamera::ViewPortSetting()
+{
+	GameEngineDevice::GetContext()->RSSetViewports(1, &ViewPortData);
+}
 
 void GameEngineCamera::Setting()
 {
 	// 랜더타겟 1개1개마다 뷰포트를 세팅해줄수 있다.
-	GameEngineDevice::GetContext()->RSSetViewports(1, &ViewPortData);
-	CamTarget->Clear();
-	CamTarget->Setting();
+	CamForwardTarget->Clear();
+	CamForwardTarget->Setting();
 }
 
 void GameEngineCamera::Render(float _DeltaTime)

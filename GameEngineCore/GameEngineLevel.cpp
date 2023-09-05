@@ -1,7 +1,6 @@
 #include "PrecompileHeader.h"
 #include "GameEngineLevel.h"
 #include "GameEngineActor.h"
-#include "GameEngineNetActor.h"
 #include "GameEngineCamera.h"
 #include "GameEngineGUI.h"
 #include "GameEngineCollision.h"
@@ -22,13 +21,13 @@ GameEngineLevel::GameEngineLevel()
 	}
 }
 
-
 void GameEngineLevel::LevelCameraInit()
 {
 	MainCamera = CreateNewCamera(0);
 
 	std::shared_ptr<GameEngineCamera> UICamera = CreateNewCamera(100);
 	UICamera->SetProjectionType(CameraType::Orthogonal);
+
 
 	LastTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 }
@@ -60,10 +59,16 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 	//	return;
 	//}
 
+	if (true == GameEngineInput::IsDown("FreeCameraSwitch"))
+	{
+		MainCamera->FreeCameraSwitch();
+		// GameEngineInput::CreateKey("FreeCameraSwitch", VK_F1);
+	}
+
 	if (true == MainCamera->IsFreeCamera())
 	{
-		MainCamera->Update(_DeltaTime);		
-		
+		MainCamera->Update(_DeltaTime);
+
 		GameEngineInput::AllReset();
 	}
 
@@ -300,10 +305,18 @@ void GameEngineLevel::Render(float _DeltaTime)
 			++LightDataObject.LightCount;
 		}
 
-		Cam->Setting();
+		//AllRenderTarget->Clear();
+		//AllRenderTarget->Setting();
+		// Cam->Setting();
+		Cam->ViewPortSetting();
+		Cam->AllRenderTarget->Clear();
+		Cam->AllRenderTarget->Setting();
 		Cam->CameraTransformUpdate();
 		Cam->Render(_DeltaTime);
-		Cam->CamTarget->Effect(_DeltaTime);
+
+		Cam->CamForwardTarget->Clear();
+		Cam->CamForwardTarget->Merge(Cam->AllRenderTarget, 0);
+		Cam->CamForwardTarget->Effect(_DeltaTime);
 
 		if (false == IsDebugRender)
 		{
@@ -320,7 +333,7 @@ void GameEngineLevel::Render(float _DeltaTime)
 	for (std::pair<int, std::shared_ptr<GameEngineCamera>> Pair : Cameras)
 	{
 		std::shared_ptr<GameEngineCamera> Camera = Pair.second;
-		std::shared_ptr<GameEngineRenderTarget> Target = Camera->GetCamTarget();
+		std::shared_ptr<GameEngineRenderTarget> Target = Camera->GetCamForwardTarget();
 
 		LastTarget->Merge(Target);
 	}
@@ -487,6 +500,8 @@ void GameEngineLevel::DestroyCamera()
 	Cameras.clear();
 }
 
+
+
 void GameEngineLevel::PushLight(std::shared_ptr<GameEngineLight> _Light)
 {
 	// 라이트가 지워질때 어떻게 하지?
@@ -497,7 +512,6 @@ void GameEngineLevel::PushLight(std::shared_ptr<GameEngineLight> _Light)
 
 	AllLight.push_back(_Light);
 }
-
 //void GameEngineLevel::SendActorPacket(float _DeltaTime)
 //{
 //	// 모든 Actor가 업데이트 된 후에 SendPacket을 하기 위함이다.

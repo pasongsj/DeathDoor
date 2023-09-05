@@ -149,6 +149,7 @@
     <FxCompile Include="GridShader.hlsl" />
     <FxCompile Include="Light.fx" />
     <FxCompile Include="MeshAniTexture.hlsl" />
+    <FxCompile Include="MeshAniTextureDeferred.hlsl" />
     <FxCompile Include="MeshTexture.hlsl" />
     <FxCompile Include="MergeShader.hlsl" />
     <FxCompile Include="RenderBaseValue.fx" />

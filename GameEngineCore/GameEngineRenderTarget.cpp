@@ -3,18 +3,18 @@
 
 GameEngineRenderUnit GameEngineRenderTarget::MergeUnit;
 
-void GameEngineRenderTarget::RenderTargetUnitInit() 
+void GameEngineRenderTarget::RenderTargetUnitInit()
 {
 	MergeUnit.SetMesh("FullRect");
 	MergeUnit.SetMaterial("Merge");
 }
 
 
-GameEngineRenderTarget::GameEngineRenderTarget() 
+GameEngineRenderTarget::GameEngineRenderTarget()
 {
 }
 
-GameEngineRenderTarget::~GameEngineRenderTarget() 
+GameEngineRenderTarget::~GameEngineRenderTarget()
 {
 	DepthTexture = nullptr;
 }
@@ -24,12 +24,13 @@ void GameEngineRenderTarget::ResCreate(std::shared_ptr<GameEngineTexture> _Textu
 {
 	Color = _Color;
 	Textures.push_back(_Texture);
+	SRVs.push_back(_Texture->GetSRV());
 	RTVs.push_back(_Texture->GetRTV());
 }
 
 void GameEngineRenderTarget::ResCreate(DXGI_FORMAT _Format, float4 _Scale, float4 _Color)
 {
-	D3D11_TEXTURE2D_DESC Desc = {0};
+	D3D11_TEXTURE2D_DESC Desc = { 0 };
 	Desc.ArraySize = 1;
 	Desc.Width = _Scale.uix();
 	Desc.Height = _Scale.uiy();
@@ -44,6 +45,7 @@ void GameEngineRenderTarget::ResCreate(DXGI_FORMAT _Format, float4 _Scale, float
 
 	std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Create(Desc);
 	Textures.push_back(Tex);
+	SRVs.push_back(Tex->GetSRV());
 	RTVs.push_back(Tex->GetRTV());
 }
 
@@ -71,8 +73,10 @@ void GameEngineRenderTarget::Clear()
 	}
 }
 
-void GameEngineRenderTarget::Setting() 
+void GameEngineRenderTarget::Setting()
 {
+	// https://learn.microsoft.com/en-us/windows/win32/direct3d11/overviews-direct3d-11-resources-limits
+
 	ID3D11RenderTargetView** RTV = &RTVs[0];
 
 	if (nullptr == RTV)
@@ -80,7 +84,7 @@ void GameEngineRenderTarget::Setting()
 		MsgAssert("랜더타겟 뷰가 존재하지 않아서 클리어가 불가능합니다.");
 	}
 
-	ID3D11DepthStencilView* DSV 
+	ID3D11DepthStencilView* DSV
 		= DepthTexture != nullptr ? DepthTexture->GetDSV() : nullptr;
 
 	if (false == DepthSetting)
@@ -89,19 +93,19 @@ void GameEngineRenderTarget::Setting()
 	}
 
 	// 지금 당장은 z값을 쓰지 않겠습니다.
-	GameEngineDevice::GetContext()->OMSetRenderTargets(1, RTV, DSV);
+	GameEngineDevice::GetContext()->OMSetRenderTargets(RTVs.size(), RTV, DSV);
 }
 
 void GameEngineRenderTarget::Reset()
 {
-	ID3D11RenderTargetView* RTV[8] = {nullptr};
+	ID3D11RenderTargetView* RTV[8] = { nullptr };
 
 	GameEngineDevice::GetContext()->OMSetRenderTargets(8, RTV, nullptr);
 }
 
 void GameEngineRenderTarget::CreateDepthTexture(int _Index)
 {
-	D3D11_TEXTURE2D_DESC Desc = {0,};
+	D3D11_TEXTURE2D_DESC Desc = { 0, };
 
 	Desc.ArraySize = 1;
 	Desc.Width = Textures[_Index]->GetWidth();

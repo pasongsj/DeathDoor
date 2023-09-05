@@ -3,7 +3,7 @@
 #include "PhysXTestActor.h"
 #include "PhysXTestPlane.h"
 #include "Player.h"
-
+#include <GameEngineCore/GameEngineCoreWindow.h>
 PhysXTestLevel::PhysXTestLevel() 
 {
 }
@@ -15,15 +15,18 @@ PhysXTestLevel::~PhysXTestLevel()
 void PhysXTestLevel::Start()
 {
 	SetLevelType(PacketLevelType::PhysXTestLevel);
-	CreateScene();
-}
-
-void PhysXTestLevel::LevelChangeStart()
-{	
+	CreateScene();	
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.f,0.f,0.f });
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0,1000, .0f });
 
+	GameEngineCoreWindow::AddDebugRenderTarget(0, "MainCameraForwardTarget", GetMainCamera()->GetCamForwardTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(0, "AllRenderTarget", GetMainCamera()->GetCamAllRenderTarget());
+
+}
+
+void PhysXTestLevel::LevelChangeStart()
+{	
 
 	{
 		std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();

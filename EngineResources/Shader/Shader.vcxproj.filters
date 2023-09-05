@@ -21,6 +21,7 @@
       <Filter>Header</Filter>
     </FxCompile>
     <FxCompile Include="GridShader.hlsl" />
+    <FxCompile Include="MeshAniTextureDeferred.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
