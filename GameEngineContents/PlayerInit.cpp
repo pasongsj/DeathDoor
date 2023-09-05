@@ -184,7 +184,7 @@ void Player::InitPlayerAnimatioin()
 	Renderer->CreateFBXAnimation("Walk", "Walk.FBX", { 0.01f,true });
 	AnimationName.push_back("Walk");
 
-	Renderer->CreateFBXAnimation("Run", "Run.FBX", { 0.5f,true });
+	Renderer->CreateFBXAnimation("Run", "Run.FBX", { 0.01f,true });
 	AnimationName.push_back("Run");
 
 	//turn
