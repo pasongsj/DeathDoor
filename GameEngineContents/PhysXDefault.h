@@ -1,9 +1,12 @@
 #pragma once
 #include "PhysXManager.h"
+#include <GameEngineCore/GameEngineCore.h>
 
 // 설명 : PhysX에서 공통으로 사용할 함수들
 class PhysXDefault
 {
+	friend class PhysXActor;
+
 	typedef struct 
 	{
 		float x, y, z;
@@ -116,6 +119,13 @@ public:
 	{
 		return PhysXManager::GetInst()->GetCooking();
 	}
+	template<typename Type>
+	std::shared_ptr<Type> GetParentActor()
+	{
+		std::shared_ptr<Type> ReturnActor = ParentActor.lock()->DynamicThis<Type>();
+		return ReturnActor;
+	}
+
 
 	void CreateScene()
 	{
@@ -128,6 +138,22 @@ public:
 		float4 TargetPos = _TargetPos;
 		PhysXManager::GetInst()->GetPvdClient()->updateCamera("PvdCam", CamPos.PhysXVec3Return(), { 0,1,0 }, TargetPos.PhysXVec3Return());
 	}
+
+
+	void Release()
+	{
+		if (m_pRigidDynamic != nullptr /*&& m_pRigidDynamic->isReleasable()*/)
+		{
+			//GetScene()->removeActor(*m_pRigidDynamic);
+			m_pRigidDynamic->release();
+		}
+		if (m_pRigidStatic != nullptr /*&& m_pRigidStatic->isReleasable()*/)
+		{
+			//GetScene()->removeActor(*m_pRigidStatic);
+			m_pRigidStatic->release();
+		}
+	}
+
 protected:
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
 	physx::PxRigidStatic* m_pRigidStatic = nullptr;
@@ -141,6 +167,8 @@ protected:
 	bool m_bAggregateObj = false;
 
 	static physx::PxAggregate* m_pAggregate;
+	std::weak_ptr<GameEngineActor> ParentActor;
+	//std::weak_ptr<PhysXDefault> m_pPhysXComponent;
 
 private:
 };

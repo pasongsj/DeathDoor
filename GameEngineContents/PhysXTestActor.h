@@ -1,7 +1,8 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include "PhysXActor.h"
 
-// 설명 :
+// 설명 : 
 class PhysXTestActor :public GameEngineActor 
 {
 public:
@@ -20,13 +21,16 @@ protected:
 	void Update(float _DeltaTime) override;
 
 
-	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 private:
+	std::shared_ptr<class GameEngineFBXRenderer> m_pRenderer = nullptr;
+
+	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 	std::shared_ptr<class PhysXBoxGeometryComponent> m_pGeometryComp = nullptr;
 	std::shared_ptr<class PhysXDynamicActorComponent> m_pDynamicActorComp = nullptr;
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
 	std::shared_ptr<class PhysXConvexComponent> m_pConvexComp = nullptr;
 	std::shared_ptr<class PhysXSphereComponent> m_pSphereComp = nullptr;
+
 	std::function<void*()> customCallback = nullptr;
 };
 

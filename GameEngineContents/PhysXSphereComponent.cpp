@@ -99,6 +99,7 @@ physx::PxRigidDynamic* PhysXSphereComponent::CreatePhysXActors(physx::PxVec3 _Ge
 	//m_pRigidDynamic->setMaxAngularVelocity(physx::PxReal(20.0f));
 	//m_pRigidDynamic->setAngularDamping(physx::PxReal(2.0f));
 
+	m_pRigidDynamic->userData = GetActor();
 	// Scene에 액터 추가
 	m_pScene->addActor(*m_pRigidDynamic);
 

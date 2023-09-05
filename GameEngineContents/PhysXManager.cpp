@@ -23,7 +23,7 @@ void PhysXManager::Simulate(float _DeltaTime)
 
 
 // 초기화
-void PhysXManager::CreatePhysics()
+void PhysXManager::Init()
 {
 	if (nullptr!=m_pPhysics)
 	{
@@ -83,6 +83,7 @@ void PhysXManager::CreateScene(const std::string_view& _Name)
 
 	if (AllScene.end() != AllScene.find(sUpperName))
 	{
+		return;
 		MsgAssert("이미 해당 레벨의 씬을 만들었습니다." + sUpperName);
 	}
 
@@ -101,7 +102,6 @@ void PhysXManager::CreateScene(const std::string_view& _Name)
 		MsgAssert("PxScene failed!");
 	}
 
-
 	m_pPvdClient = pNewScene->getScenePvdClient();
 	if (m_pPvdClient)
 	{
@@ -111,6 +111,7 @@ void PhysXManager::CreateScene(const std::string_view& _Name)
 	}
 
 	AllScene.emplace(sUpperName, pNewScene);
+	ChangeScene(sUpperName);
 }
 
 void PhysXManager::ChangeScene(const std::string_view& _Name)
@@ -119,11 +120,12 @@ void PhysXManager::ChangeScene(const std::string_view& _Name)
 
 	if (AllScene.end() == AllScene.find(sUpperName))
 	{
+		m_pScene = nullptr;
 		return;
 	}
-
 	m_pScene = AllScene[sUpperName];
 }
+
 
 
 

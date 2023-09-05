@@ -1,5 +1,7 @@
 #include "PreCompileHeader.h"
 #include "PhysXCustom.h"
+#include "Player.h"
+#include "PhysXTestActor.h"
 
 physx::PxFilterFlags CustomFilterShader
 (
@@ -71,6 +73,10 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 	while (nbPairs--)
 	{
 		physx::PxContactPair current = *pairs++;
+		if (current.contactPatches == 0)
+		{
+			continue;
+		}
 		// 액터가 가지고 있는 쉐이프를 모두 가져옴
 		physx::PxShape* tmpContactActor = current.shapes[0];
 		physx::PxShape* tmpOtherActor = current.shapes[1];
@@ -83,6 +89,7 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) //충돌이 시작된 시점
 			{
 				physx::PxRigidDynamic* pPlayer = static_cast<physx::PxRigidDynamic*>(tmpContactActor->getActor());
+				PhysXTestActor* Test = reinterpret_cast<PhysXTestActor*>(pPlayer->userData);
 				int a = 0;
 			}
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) //충돌이 유지되는동안 계속 들어옴

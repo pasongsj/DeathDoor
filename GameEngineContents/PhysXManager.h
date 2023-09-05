@@ -45,10 +45,9 @@ private:
 
 	std::map<std::string, physx::PxScene*> AllScene;
 
-	void CreatePhysics();
+	void Init();
 	void CreateScene(const std::string_view& _Name);
 	void ChangeScene(const std::string_view& _Name);
-
 
 	void Simulate(float _Deltatime);
 

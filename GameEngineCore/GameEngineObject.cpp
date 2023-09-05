@@ -1,5 +1,6 @@
 #include "PrecompileHeader.h"
 #include "GameEngineObject.h"
+#include <GameEngineContents/PhysXDefault.h>
 
 GameEngineObject::GameEngineObject() 
 {
@@ -123,6 +124,11 @@ void GameEngineObject::AllDestroy()
 {
 	if (true == IsDeath())
 	{
+		std::shared_ptr<PhysXDefault> pPhysXActor = this->DynamicThis<PhysXDefault>();
+		if (nullptr != pPhysXActor)
+		{
+			pPhysXActor->Release();
+		}
 		Destroy();
 	}
 
