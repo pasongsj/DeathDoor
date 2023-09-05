@@ -125,6 +125,15 @@ public:
 
 	void PauseSwtich();
 
+	inline void PauseOn()
+	{
+		Pause = true;
+	}
+	inline void PauseOff()
+	{
+		Pause = false;
+	}
+
 	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false);
 
 	float4 GetMeshScale()
