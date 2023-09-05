@@ -37,21 +37,30 @@ private:
 	// Struct
 	enum class PlayerState
 	{
-		IDLE,
-		WALK,
-		BASE_ATT,		// 좌클릭
-		ROLL,			// 스페이스바
-		SLIDE_ATT,		// 스페이스바+휠클릭
-		CHARGE_ATT,		// 휠클릭
-		SKILL,			// 우클릭
-		ATTED,			// 공격당함
+		IDLE,			// Idle_0, Idle_1
+		TURN,			// Cutscene_turn_half, Cutscene_turn_stopped, Cutscene_turn_end
+		WALK,			// Walk, Run
+		SKILL,			// 우클릭 Arrow, Arrow_bomb, Arrow_magic, Hookshot, Hookshot_fly
+		HOOK_FLY,		// Hookshot_fly
+		BASE_ATT,		// 좌클릭 Slash_Light_L_new, Slash_Light_R_new
+		ROLL,			// 스페이스바 Roll, Roll_slash
+		ROLL_ATT,		// 스페이스바+휠클릭 Charge_slam_overhead, Roll_slash_end
+		CHARGE_ATT,		// 휠클릭 Charge_slash_L, Charge_slash_R
+		HIT,			// 공격당함 Hit_back, Hit_idle,Hit_Recover
+		CLIMB,			// 사다리 Climbing_ladder, Climbing_ladder_down, Climbing_off_ladder_top
+		LEVER,			// 레버를 누름 Push_Lever
+		ITEM,			// 아이템을 얻음 GetItem
+		DEAD,			// 피격으로 인한 사망 Dead
+		DROWN,			// 익사 Drown
+		FALLING,		// 낙사 Falling
+		FLY,			// 높이가 차가 있을 때 FLy, Land
 		MAX,
 	};
 
 	enum class PlayerSkill
 	{
 		ARROW,
-		FIRE,
+		MAGIC,
 		BOMB,
 		HOOK,
 		MAX,
@@ -69,7 +78,8 @@ private:
 
 	// Init
 	std::atomic_int AnimationLoadCount = 0;
-	void InitPlayer();
+	void InitInputKey();
+	void InitPlayerAnimatioin();
 	std::map<PlayerState, PlayerStateParameter> FSMFunc;
 	void SetFSMFunc();
 
@@ -83,13 +93,15 @@ private:
 	void UpdateState(float _DeltaTime);
 		// Attack
 	PlayerSkill CurSkill = PlayerSkill::ARROW;
+	void SetSkill();
 	bool isRightAttack = true;
-	bool isDown = false;
 
 	float StateDuration = 2.0f;
+	bool StateChecker = false;
 	
 	// input & move
 	void CheckInput(float _DeltaTime);
+	void CheckClimbInput(float _DeltaTime);
 	void MoveUpdate(float _DeltaTime);
 
 	float4 MoveDir = float4::ZERO;
@@ -100,6 +112,7 @@ private:
 
 	//physx
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
+	void DefaultPhysX();
 
 
 	// for test
