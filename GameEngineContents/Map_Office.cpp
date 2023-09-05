@@ -2,6 +2,8 @@
 #include "Map_Office.h"
 
 #include "PhysXTriangleComponent.h"
+#include "PhysXBoxComponent.h"
+
 #include "OfficeLevel.h"
 
 Map_Office::Map_Office()
@@ -36,8 +38,6 @@ void Map_Office::InitComponent()
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
 
-	// 나머지 오브젝트 전부 메쉬 따로 로드해서 배치함 개같아서 안되겠다 
-
 	// float4 UnitScale = m_pRenderer->GetFBXMesh()->GetRenderUnit(0)->BoundScaleBox;
 	// float4 scale = m_pRenderer->GetMeshScale();
 	// physx::PxVec3 vscale = UnitScale.PhysXVec3Return();
@@ -46,9 +46,15 @@ void Map_Office::InitComponent()
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	m_pTriangleComp->CreatePhysXActors("Map_Office_Navi.fbx", true);
+	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));
+	
 
-	if (nullptr != m_pTriangleComp->GetStatic())
-	{
-		m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));
-	}
+	float4 Pos = float4{ 2610 , -574 , -5347 };
+	
+	// 박스컴포넌트 만들고, 어떤 메쉬를 사용할건지 인자로 
+	//std::shared_ptr<PhysXBoxComponent> BoxComp = CreateComponent<PhysXBoxComponent>();
+	//BoxComp->SetPhysxMaterial(0.f, 0.f, 0.f);
+	//BoxComp->CreatePhysXActors("")
+
+
 }

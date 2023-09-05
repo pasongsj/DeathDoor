@@ -3,7 +3,9 @@
 
 #include "Player.h"
 #include "Map_Office.h"
+#include "Map_Emptyplain.h"
 #include "PhysXCapsuleComponent.h"
+
 
 
 MapTestLevel::MapTestLevel()
@@ -18,7 +20,7 @@ void MapTestLevel::Start()
 {
 	SetLevelType(PacketLevelType::PhysXTestLevel);
 	CreateScene();
-	SetTestLevelType(TestMapType::Office);
+	SetTestLevelType(TestMapType::BigCrow_Floor);
 }
 
 void MapTestLevel::Update(float _DeltaTime)
@@ -64,6 +66,14 @@ void MapTestLevel::InitTestLevel()
 		{
 			Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 2610 , -574 , -5347 }));
 		}
+	}
+	case TestMapType::BigCrow_Floor:
+	{
+		GetMainCamera()->GetTransform()->SetLocalPosition(float4{ 0, 700, -2500 });
+
+		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>(); 
+		CreateActor<Player>();
+		
 	}
 		break;
 	}
