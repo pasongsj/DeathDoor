@@ -33,12 +33,9 @@ void Player::Start()
 		float4 scale = Renderer->GetMeshScale();
 		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
-		if (GetLevel()->DynamicThis<PhysXTestLevel>() != nullptr)
-		{
-			std::shared_ptr<PhysXTestLevel> pLevel = GetLevel()->DynamicThis<PhysXTestLevel>();
-			m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-			m_pCapsuleComp->CreatePhysXActors(vscale);
-		}
+		// 레벨체크 때문에 터져서 레벨체크하는부분만 주석
+		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
+		m_pCapsuleComp->CreatePhysXActors(vscale);
 	}
 
 	for (int i = 0; i < static_cast<int>(PlayerState::MAX); ++i)
