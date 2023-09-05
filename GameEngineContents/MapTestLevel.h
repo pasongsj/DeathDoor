@@ -4,6 +4,8 @@
 enum class TestMapType
 {
 	Office,
+	Cube,
+	BigCrow_Floor,
 	None,
 };
 
