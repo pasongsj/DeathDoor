@@ -157,6 +157,7 @@ protected:
 	bool m_bAggregateObj = false;
 
 	static physx::PxAggregate* m_pAggregate;
+	std::weak_ptr<GameEngineActor> ParentActor;
 
 private:
 };
