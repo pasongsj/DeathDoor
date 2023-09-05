@@ -54,10 +54,5 @@ void Map_PhysXActor::Start()
 	//m_pGeometryComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
 	//m_pGeometryComp->SetPositionSetFromParentFlag(true);
 	
-	CreatePhysXComponent();
 }
 
-void Map_PhysXActor::CreatePhysXComponent()
-{
-	SetPhysXComponent(m_pCapsuleComp);
-}

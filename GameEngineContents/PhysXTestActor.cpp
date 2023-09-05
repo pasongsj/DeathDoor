@@ -26,8 +26,19 @@ void PhysXTestActor::Start()
 	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
 	m_pRenderer->SetFBXMesh("Player.fbx", "MeshTexture");
 
+	float4 scale = m_pRenderer->GetMeshScale();
 
-	CreatePhysXComponent();
+	//m_pConvexComp = CreateComponent <PhysXConvexComponent>();
+	//m_pTriangleComp = CreateComponent <PhysXTriangleComponent>();
+	//m_pDynamicActorComp = CreateComponent <PhysXDynamicActorComponent>();
+	//m_pGeometryComp = CreateComponent<PhysXBoxGeometryComponent>();
+	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+
+	m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
+	m_pCapsuleComp->CreatePhysXActors(scale.PhysXVec3Return());
+	m_pCapsuleComp->TurnOnSpeedLimit();
+	m_pCapsuleComp->GetDynamic()->setMass(65.f);
+
 
 }
 
@@ -73,20 +84,3 @@ void PhysXTestActor::Update(float _DeltaTime)
 	//m_pSphereComp->GetDynamic()->setGlobalPose(test);
 	m_pCapsuleComp->SetMoveSpeed(Movedir * PLAYER_MAX_SPEED);
 }
-void PhysXTestActor::CreatePhysXComponent()
-{
-	float4 scale = m_pRenderer->GetMeshScale();
-
-	//m_pConvexComp = CreateComponent <PhysXConvexComponent>();
-	//m_pTriangleComp = CreateComponent <PhysXTriangleComponent>();
-	//m_pDynamicActorComp = CreateComponent <PhysXDynamicActorComponent>();
-	//m_pGeometryComp = CreateComponent<PhysXBoxGeometryComponent>();
-	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
-	SetPhysXComponent(m_pCapsuleComp);//※중요※ 무조건 해줘야함 안그럼 씬에서 안지워짐
-
-	m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-	m_pCapsuleComp->CreatePhysXActors(scale.PhysXVec3Return());
-	m_pCapsuleComp->TurnOnSpeedLimit();
-	m_pCapsuleComp->GetDynamic()->setMass(65.f);
-}
-

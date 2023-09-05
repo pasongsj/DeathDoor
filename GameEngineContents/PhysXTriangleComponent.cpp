@@ -149,6 +149,7 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool
 	}
 
 
+	m_pRigidStatic->userData = GetActor();
 	// Scene에 액터 추가
 	if (true == m_bAggregateObj)
 	{
@@ -159,7 +160,6 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool
 		m_pScene->addActor(*m_pRigidStatic);
 	}
 
-	m_pPhysXComponent = DynamicThis<PhysXTriangleComponent>();
 }
 
 void PhysXTriangleComponent::Start()

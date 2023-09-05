@@ -111,6 +111,7 @@ physx::PxRigidDynamic* PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _
 
 	// Scene에 액터 추가
 	m_pScene->addActor(*m_pRigidDynamic);
+	m_pRigidDynamic->userData = GetActor();
 	// TODO::virtualPhysXLevel에서 Callback 함수에 호출하기 위한 Dynamic 리턴
 	return m_pRigidDynamic;
 }

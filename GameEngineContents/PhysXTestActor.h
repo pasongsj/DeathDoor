@@ -3,7 +3,7 @@
 #include "PhysXActor.h"
 
 // Ό³Έν : 
-class PhysXTestActor :public GameEngineActor ,public PhysXActor
+class PhysXTestActor :public GameEngineActor 
 {
 public:
 	// constrcuter destructer
@@ -20,7 +20,6 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
-	void CreatePhysXComponent() override;
 
 private:
 	std::shared_ptr<class GameEngineFBXRenderer> m_pRenderer = nullptr;

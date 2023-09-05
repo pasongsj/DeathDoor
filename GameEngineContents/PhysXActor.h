@@ -15,26 +15,26 @@ public:
 	PhysXActor& operator=(const PhysXActor& _Other) = delete;
 	PhysXActor& operator=(PhysXActor&& _Other) noexcept = delete;
 
-	void Release()
-	{
-		if (PhysXComponent!=nullptr)
-		{
-			PhysXComponent->DynamicThis<PhysXDefault>()->ReleaseRigid();
-		}
-	}
-	template<typename Type>
-	void SetPhysXComponent(std::shared_ptr<Type> _Component)
-	{
-		PhysXComponent = _Component;
-	}
-
-	std::shared_ptr<GameEngineComponent> GetPhysXComponent()
-	{
-		return PhysXComponent;
-	}
+	//void Release()
+	//{
+	//	if (PhysXComponent!=nullptr)
+	//	{
+	//		PhysXComponent->DynamicThis<PhysXDefault>()->ReleaseRigid();
+	//	}
+	//}
+	//template<typename Type>
+	//void SetPhysXComponent(std::shared_ptr<Type> _Component)
+	//{
+	//	PhysXComponent = _Component;
+	//}
+	//
+	//std::shared_ptr<GameEngineComponent> GetPhysXComponent()
+	//{
+	//	return PhysXComponent;
+	//}
 	
 protected:
-	virtual void CreatePhysXComponent() = 0;
+	//virtual void CreatePhysXComponent() = 0;
 private:
 };
 

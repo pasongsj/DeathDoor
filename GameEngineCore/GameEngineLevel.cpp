@@ -47,20 +47,11 @@ void GameEngineLevel::Start()
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
-	//bool Check = false;
-	//for (std::pair<const int, std::shared_ptr<GameEngineCamera>>& Cam : Cameras)
-	//{
-	//	if (true == Cam.second->IsFreeCamera())
-	//	{
-	//		Cam.second->Update(_DeltaTime);
-	//		Check = true;
-	//	}
-	//}
-
-	//if (true == Check)
-	//{
-	//	return;
-	//}
+	if (true == GameEngineInput::IsDown("FreeCameraSwitch"))
+	{
+		MainCamera->FreeCameraSwitch();
+		// GameEngineInput::CreateKey("FreeCameraSwitch", VK_F1);
+	}
 
 	if (true == MainCamera->IsFreeCamera())
 	{
@@ -240,11 +231,6 @@ void GameEngineLevel::ActorRelease()
 					RelaseActor->AllRelease();
 					++ActorStart;
 					continue;
-				}
-				std::shared_ptr<PhysXActor> pPhysXActor = RelaseActor->DynamicThis<PhysXActor>();
-				if (nullptr != pPhysXActor)
-				{
-					pPhysXActor->Release();
 				}
 				RelaseActor->Release();
 				ActorStart = ActorList.erase(ActorStart);
