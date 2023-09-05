@@ -44,7 +44,7 @@ void Player::Start()
 		FSMFunc[static_cast<PlayerState>(i)] = NewStatePara;
 	}
 	SetFSMFunc();
-	m_pCapsuleComp->SetRotation(PlayerInitRotation);
+	//m_pCapsuleComp->SetRotation(PlayerInitRotation);
 }
 
 void Player::Update(float _DeltaTime)
@@ -193,7 +193,7 @@ void Player::MoveUpdate(float _DeltaTime)
 
 	float4 Rot = float4::ZERO;
 	Rot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, MoveDir);
-	m_pCapsuleComp->SetRotation(PlayerInitRotation -Rot);
+	m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -Rot);
 
 }
 

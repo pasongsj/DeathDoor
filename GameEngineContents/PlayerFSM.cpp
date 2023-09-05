@@ -255,13 +255,9 @@ void Player::SetFSMFunc()
 
 	FSMFunc[PlayerState::ROLL_ATT].Update = [this](float Delta)
 		{
-			if (true == StateChecker && true == Renderer->IsAnimationEnd())
+			if (true == Renderer->IsAnimationEnd())
 			{
 				CheckInput(Delta); // stateº¯°æ
-			}
-			if (false == StateChecker && true == Renderer->IsAnimationEnd())
-			{
-				Renderer->ChangeAnimation("Roll_slash_end");
 			}
 		};
 
