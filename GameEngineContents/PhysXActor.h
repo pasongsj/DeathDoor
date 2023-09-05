@@ -36,6 +36,5 @@ public:
 protected:
 	virtual void CreatePhysXComponent() = 0;
 private:
-	std::shared_ptr<GameEngineComponent> PhysXComponent = nullptr;
 };
 

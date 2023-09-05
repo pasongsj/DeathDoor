@@ -158,6 +158,7 @@ protected:
 
 	static physx::PxAggregate* m_pAggregate;
 	std::weak_ptr<GameEngineActor> ParentActor;
+	std::shared_ptr<GameEngineComponent> m_pPhysXComponent = nullptr;
 
 private:
 };
