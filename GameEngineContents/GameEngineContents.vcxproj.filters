@@ -160,6 +160,9 @@
     <ClCompile Include="PlayerInit.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
+    <ClCompile Include="Map_Emptyplain.cpp">
+      <Filter>Contents\TestLevel\MapTestLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -318,6 +321,9 @@
     <ClInclude Include="PhysXManager.h" />
     <ClInclude Include="PlayerDefinition.h">
       <Filter>Contents\PlayerTestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_Emptyplain.h">
+      <Filter>Contents\TestLevel\MapTestLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

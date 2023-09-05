@@ -200,6 +200,7 @@
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
     <ClCompile Include="MapTestLevel.cpp" />
+    <ClCompile Include="Map_Emptyplain.cpp" />
     <ClCompile Include="Map_Office.cpp" />
     <ClCompile Include="Mouse.cpp">
       <SubType>
@@ -351,6 +352,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Map_Emptyplain.h" />
     <ClInclude Include="Map_Office.h">
       <SubType>
       </SubType>
