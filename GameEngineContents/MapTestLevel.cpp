@@ -74,8 +74,8 @@ void MapTestLevel::InitTestLevel()
 
 		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
 		CreateActor<Player>();
-	}
 		break;
+	}
 	}
 
 
