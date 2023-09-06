@@ -38,7 +38,6 @@ private:
 	enum class PlayerState
 	{
 		IDLE,			// Idle_0, Idle_1
-		TURN,			// Cutscene_turn_half, Cutscene_turn_stopped, Cutscene_turn_end
 		WALK,			// Walk, Run
 		SKILL,			// ¿ìÅ¬¸¯ Arrow, Arrow_bomb, Arrow_magic, Hookshot, Hookshot_fly
 		HOOK_FLY,		// Hookshot_fly
@@ -99,14 +98,18 @@ private:
 	float StateDuration = 2.0f;
 	bool StateChecker = false;
 	
+	// Direction
+	float4 MoveDir = float4::FORWARD;
+	float4 NextDir = float4::ZERO;
+	void DirectionUpdate(float _DeltaTime);
+	 
+	
 	// input & move
 	float StateInputDelayTime = 0.0f;
 	void CheckInput(float _DeltaTime);
 	void CheckClimbInput(float _DeltaTime);
 	void MoveUpdate(float _DeltaTime);
 
-	float4 MoveDir = float4::FORWARD;
-	float4 NextDir = float4::ZERO;
 	float MoveSpeed;
 	bool mButton = false;
 
