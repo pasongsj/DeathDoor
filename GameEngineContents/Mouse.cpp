@@ -1,6 +1,7 @@
 #include "PrecompileHeader.h"
 #include "Mouse.h"
 #include "ContentFBXUIRenderer.h"
+#include "ContentFBXRenderer.h"
 
 Mouse::Mouse()
 {
@@ -17,6 +18,23 @@ void Mouse::Start()
 	MousePivot = CreateComponent<GameEngineComponent>();
 	MousePivot->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0.0f });
 
+	Player = CreateComponent<ContentFBXRenderer>();
+	Player->SetFBXMesh("sphere.fbx", "ContentMesh");
+	Player->GetTransform()->SetLocalPosition({ 100, 200 });
+	Player->GetTransform()->SetLocalScale({30.0f, 30.0f, 30.0f});
+	
+	std::shared_ptr<GameEngineCollision> New = CreateComponent<GameEngineCollision>();
+	New->GetTransform()->SetLocalPosition({ 100, 200 });
+	New->GetTransform()->SetLocalScale({ 100.0f, 100.0f, 100.0f });
+	New->SetColType(ColType::AABBBOX3D);
+	New->SetOrder(1);
+
+	Ray = CreateComponent<GameEngineCollision>();
+	Ray->GetTransform()->SetLocalPosition({ 0, 0 });
+	Ray->GetTransform()->SetLocalScale({ 10.0f, 10.0f, 10.0f });
+	Ray->SetColType(ColType::AABBBOX3D);
+	Ray->SetOrder(2);
+
 	MouseCursor = CreateComponent<ContentFBXUIRenderer>();
 	MouseCursor->SetFBXMesh("Mouse.FBX", "ContentMesh");
 	MouseCursor->GetTransform()->SetLocalScale({ 30, 30, 30 });
@@ -31,11 +49,12 @@ void Mouse::Start()
 			Units[i][j]->ShaderResHelper.SetTexture("DiffuseTexture", "WhiteTexture.png");
 		}
 	}
+	
 }
 
 void Mouse::Update(float _DeltaTime)
 {
-	RayCasting();
+	//RayCasting();
 	MouseRotationUpdate();
 }
 
@@ -50,6 +69,11 @@ void Mouse::RayCasting()
 		Count++;
 		return;
 	}
+
+	//if (GameEngineInput::IsDown("Click") == false)
+	//{
+	//	return;
+	//}
 
 	float4 ScreenSize = GameEngineWindow::GetScreenSize();
 	float4 MousePos = GameEngineWindow::GetMousePosition();
@@ -75,48 +99,54 @@ void Mouse::RayCasting()
 
 	float4 RayDest = RayPos;
 
-	while (true)
+
+	int count = 0;
+
+	//아무리 멀어도 카메라와의 거리는 2000보다 가까울 것이라고 가정
+	while (count < 2000)
 	{
 		RayDest += WorldRayDir;
 
+		Ray->GetTransform()->SetLocalPosition(RayDest);
+
 		//대상에 충돌했는가
-		if (RayDest.z >= 0.0f)
+
+		//아예 길이가 1000짜리 회전한 박스 OBB를 만들어서, 충돌검사를 1000단위로 하는게 나을 수도
+		//AABB 2천번보다는 OBB 2번이 빠르겠지
+		if (Ray->Collision(1, ColType::AABBBOX3D, ColType::AABBBOX3D) != nullptr)
 		{
 			break;
 		}
+
+		count++;
 	}
 }
 
 void Mouse::MouseRotationUpdate()
 {
-	float4 ScreenSize = GameEngineWindow::GetScreenSize();
+	float4 PlayerPos = Player->GetTransform()->GetWorldPosition();
 
+	float4 ScreenSize = GameEngineWindow::GetScreenSize();
 	float4 ScreenMousePos = GameEngineWindow::GetMousePosition();
+
 	float4 DecartMousePos = { ScreenMousePos.x - ScreenSize.hx(), ScreenSize.hy() - ScreenMousePos.y };
 
 	MouseCursor->GetTransform()->SetLocalPosition({DecartMousePos.x, 0.0f, -DecartMousePos.y});
 
 	std::shared_ptr<GameEngineCamera> Camera = GetLevel()->GetMainCamera();
-
 	Camera->CameraTransformUpdate();
 	
 	float4x4 ViewMat = Camera->GetView();
 	float4x4 ProjMat = Camera->GetProjection();
 	float4x4 ViewPortMat = Camera->GetViewPort();
+	float4x4 ViewProjViewPort = ViewMat * ProjMat * ViewPortMat;
 
-	float4 PlayerPos = { 100, 0, 0 };	
-	
-	PlayerPos *= ViewMat;
+	float4 PlayerScreenPos = PlayerPos * ViewProjViewPort;
+	PlayerScreenPos /= PlayerScreenPos.w;
+	PlayerScreenPos.w = 1.0f;
 
-	PlayerPos.x /= 800.0f;
-	PlayerPos.y /= 450.0f;
-	PlayerPos.z /= Camera->GetTransform()->GetWorldPosition().z;
-
-	float4 PlayerProj = PlayerPos * ProjMat;
-	float4 PlayerViewPort = PlayerProj * ViewPortMat;
-
-	float4 DecartViewPortPos = { PlayerViewPort.x - ScreenSize.hx(), ScreenSize.hy() - PlayerViewPort.y };
-	float4 PlayerToMouseDir = DecartMousePos - DecartViewPortPos;
+	float4 PlayerDecartPos = { PlayerScreenPos.x - ScreenSize.hx(), ScreenSize.hy() - PlayerScreenPos.y };
+	float4 PlayerToMouseDir = DecartMousePos - PlayerDecartPos;
 
 	PlayerToMouseDir.Normalize();
 
@@ -124,6 +154,11 @@ void Mouse::MouseRotationUpdate()
 	float ZRotAngle = acos(Cos_ZRotAngle);
 
 	ZRotAngle *= 180.0f / GameEngineMath::PIE;
+
+	if (PlayerToMouseDir.y <= 0.0f)
+	{
+		ZRotAngle *= -1.0f;
+	}
 
 	MouseCursor->GetTransform()->SetLocalRotation({ 0.0f , ZRotAngle, 0.0f });
 

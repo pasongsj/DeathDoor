@@ -18,7 +18,6 @@ public:
 	{
 		Setter = _Setter;
 
-
 		//중간에 세팅을 바꿀 수도 있는데, 만약 더 작아지면 안되니.
 		if(Setter.MaxParticle > ParticleList.size())
 		{

@@ -4,6 +4,16 @@
 
 #include <GameEngineCore/GameEngineActor.h>
 
+/*
+	DynamicParticleManager -> 기준 위치가 계속 변하는 파티클
+	(움직이는 플레이어를 따라다닌다거나 등등)
+	그래서 얘는 위치정보를 대상의 트랜스폼의 포인터로 받음
+
+	StaticParticleManager -> 가만히 서서 같은 자리에서 뿌리는 애들
+	(폭발 스파클이라든가 등등)
+	얘는 위치정보를 값으로 받음
+*/
+
 class ParticleManager : public GameEngineActor
 {
 
