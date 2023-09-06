@@ -77,17 +77,10 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 		// 액터가 가지고 있는 쉐이프를 모두 가져옴
 		physx::PxShape* tmpContactActor = current.shapes[0];
 		physx::PxShape* tmpOtherActor = current.shapes[1];
-		if (tmpContactActor->userData == nullptr|| tmpOtherActor->userData == nullptr)
+		if (tmpContactActor->userData == nullptr|| tmpOtherActor->userData == nullptr|| current.contactPatches == 0)
 		{
-			MsgAssert("부모가 없는 PhysXComponent입니다.");
-			return;
+			continue;
 		}
-		//GameEngineActor* pContactActor = reinterpret_cast<GameEngineActor*>(tmpContactActor->userData);
-		//GameEngineActor* pOtherActor = reinterpret_cast<GameEngineActor*>(tmpOtherActor->userData);
-		//if (!pContactActor->IsUpdate()|| !pOtherActor->IsUpdate())
-		//{
-		//	return;
-		//}
 
 		physx::PxFilterData ContactFilterdata = tmpContactActor->getSimulationFilterData();
 		physx::PxFilterData OtherFilterdata = tmpOtherActor->getSimulationFilterData();
