@@ -1,7 +1,7 @@
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
+#include "PhysXLevel.h"
 
-class UITestLevel : public GameEngineLevel
+class UITestLevel : public PhysXLevel
 {
 
 public:
@@ -14,6 +14,8 @@ public:
 	UITestLevel& operator=(const UITestLevel& _Other) = delete;
 	UITestLevel& operator=(UITestLevel&& _Other) noexcept = delete;
 
+	static std::shared_ptr<class GameEngineLight> NewLight;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -21,6 +23,5 @@ protected:
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
 private:
-
 };
 
