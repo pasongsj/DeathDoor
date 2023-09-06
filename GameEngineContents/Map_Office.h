@@ -29,5 +29,5 @@ private:
 	std::shared_ptr<GameEngineFBXRenderer> m_pNaviRenderer = nullptr;
 
 	const float4 m_MapRot = float4{ 0 , -135 , 0 };
-	const float4 m_MapPos = float4{ -20, -30, -30 };
+	const float4 m_MapPos = float4{ -20, -8 , -30 };
 };

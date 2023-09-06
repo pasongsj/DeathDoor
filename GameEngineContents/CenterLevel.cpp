@@ -58,7 +58,7 @@ void CenterLevel::LevelChangeStart()
 
 	std::shared_ptr<BlackScreen> pBG = CreateActor<BlackScreen>(OrderNum::TEST);
 	std::shared_ptr<GameEngineSpriteRenderer> pCenterBG = pBG->CreateComponent<GameEngineSpriteRenderer>();
-	pCenterBG->SetScaleToTexture("CenterLevelBG.png");
+	pCenterBG->SetScaleToTexture("Wait_Texture.png");
 }
 
 void CenterLevel::LevelChangeEnd()

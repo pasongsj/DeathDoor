@@ -32,8 +32,9 @@ void MapEditorWindow::CreateSetCurActor(int _ActorType, std::shared_ptr<class Ga
 	meshscale = MapActor->Renderer->GetMeshScale();
 
 
-	// test
-	CurActor->GetTransform()->SetWorldPosition(GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition());
+	// test 
+	// 네비메쉬 배치 후 짤 오브젝트 배치할때만 사용함 
+	CurActor->GetTransform()->SetWorldPosition(GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition() + float4 { 0, -600 , 1000 });
 }
 
 MapEditorWindow::MapEditorWindow()
