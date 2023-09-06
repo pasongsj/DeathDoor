@@ -48,9 +48,6 @@
     <ClCompile Include="PhysXBoxComponent.cpp">
       <Filter>Component\PhysX\Component</Filter>
     </ClCompile>
-    <ClCompile Include="PhysXDynamicActorComponent.cpp">
-      <Filter>Component\PhysX\Component</Filter>
-    </ClCompile>
     <ClCompile Include="PhysXCapsuleComponent.cpp">
       <Filter>Component\PhysX\Component</Filter>
     </ClCompile>
@@ -215,9 +212,6 @@
       <Filter>Component\PhysX\Test</Filter>
     </ClInclude>
     <ClInclude Include="PhysXBoxComponent.h">
-      <Filter>Component\PhysX\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysXDynamicActorComponent.h">
       <Filter>Component\PhysX\Component</Filter>
     </ClInclude>
     <ClInclude Include="PhysXCapsuleComponent.h">

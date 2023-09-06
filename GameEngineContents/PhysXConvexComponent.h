@@ -59,12 +59,7 @@ protected:
 
 private:
 	// Phys액터 생성에 필요한 정보
-	physx::PxPhysics* m_pPhysics =nullptr;
-	physx::PxScene* m_pScene = nullptr;
 	physx::PxCooking* m_pCooking = nullptr;
-
-	physx::PxMaterial* m_pMaterial = nullptr;
-	physx::PxShape* m_pShape = nullptr;
 
 	physx::PxConvexMesh* m_pConvexMesh = nullptr;
 	std::vector<physx::PxVec3> VertexVec;
@@ -75,7 +70,6 @@ private:
 
 	physx::PxVec3 AddUpdateForce;
 
-	bool PositionSetFromParentFlag = false;
 
 };
 

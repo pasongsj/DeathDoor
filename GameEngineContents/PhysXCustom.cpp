@@ -77,11 +77,12 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 		// 액터가 가지고 있는 쉐이프를 모두 가져옴
 		physx::PxShape* tmpContactActor = current.shapes[0];
 		physx::PxShape* tmpOtherActor = current.shapes[1];
-		if (tmpContactActor->userData == nullptr|| tmpOtherActor->userData == nullptr|| current.contactPatches == 0)
+
+		//충돌한 본인 혹은 상대의 액터가 null이면 continue
+		if (tmpContactActor->userData == nullptr|| tmpOtherActor->userData == nullptr )
 		{
 			continue;
 		}
-
 		physx::PxFilterData ContactFilterdata = tmpContactActor->getSimulationFilterData();
 		physx::PxFilterData OtherFilterdata = tmpOtherActor->getSimulationFilterData();
 		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic)&&// 플레이어
@@ -90,8 +91,7 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 			
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) //충돌이 시작된 시점
 			{
-				//physx::PxRigidDynamic* pPlayer = static_cast<physx::PxRigidDynamic*>(tmpContactActor->getActor());
-				//PhysXTestActor* Test = reinterpret_cast<PhysXTestActor*>(pPlayer->userData);
+				//userData는 void* 이기에 PhysXComponent를 소유한 액터의 포인터를 넣어 뒀음. 그걸 캐스팅하여 쓰면됨.
 				PhysXTestActor* Test = reinterpret_cast<PhysXTestActor*>(tmpContactActor->userData);
 				int a = 0;
 			}
@@ -100,13 +100,13 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 				int a = 0;
 				
 			}
-			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) //충돌이 끝나는 시점
+			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) //충돌이 끝나는 시점. 충돌 도중(eNOTIFY_TOUCH_PERSISTS)에 상대방이 죽으면 체크가 안됨
 			{				
 				PhysXTestActor* Test = reinterpret_cast<PhysXTestActor*>(tmpContactActor->userData);
-				//Test->Death();
 				int a = 0;
 			}
 		}
+
 		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic) &&// 플레이어
 			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle))  //장애물		
 		{

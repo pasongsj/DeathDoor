@@ -19,34 +19,12 @@ public:
 
 	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
 
-	inline void ReleasePhysX()
-	{
-		if (true == m_pRigidDynamic->isReleasable())
-		{
-			m_pRigidDynamic->release();
-			ParentActor.lock()->Death();
-		}
-	}
 
-	inline void SetPositionSetFromParentFlag(bool _Flag)
-	{
-		PositionSetFromParentFlag = _Flag;
-	}
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 private:
-	// Phys액터 생성에 필요한 정보
-	physx::PxScene* m_pScene = nullptr;
-	physx::PxPhysics* m_pPhysics = nullptr;
-
-	physx::PxMaterial* m_pMaterial = nullptr;
-	physx::PxShape* m_pShape = nullptr;
-
-	// 이 컴포넌트를 가지고 있는 Parent에 대한 정보
-
-	bool PositionSetFromParentFlag = false;
 };
 

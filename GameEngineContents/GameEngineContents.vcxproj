@@ -220,7 +220,6 @@
     <ClCompile Include="PhysXConvexComponent.cpp" />
     <ClCompile Include="PhysXCustom.cpp" />
     <ClCompile Include="PhysXDefault.cpp" />
-    <ClCompile Include="PhysXDynamicActorComponent.cpp" />
     <ClCompile Include="PhysXLevel.cpp">
       <SubType>
       </SubType>
@@ -378,7 +377,6 @@
     <ClInclude Include="PhysXConvexComponent.h" />
     <ClInclude Include="PhysXCustom.h" />
     <ClInclude Include="PhysXDefault.h" />
-    <ClInclude Include="PhysXDynamicActorComponent.h" />
     <ClInclude Include="PhysXLevel.h">
       <SubType>
       </SubType>
