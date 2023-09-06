@@ -43,6 +43,19 @@ public:
 		PhysXManager::GetInst()->GetPvdClient()->updateCamera("PvdCam", CamPos.PhysXVec3Return(), { 0,1,0 }, TargetPos.PhysXVec3Return());
 	}
 
+	/// <summary>
+	/// RayCast
+	/// </summary>
+	/// <param name="_vOrigin"></param> 현재 위치
+	/// <param name="_vDir"></param> 쏘는 방향
+	/// <param name="_vPoint"></param> 결과위치
+	/// <param name="_fDistance"></param> 체크거리
+	/// <returns></returns>
+	bool RayCast(const float4& _vOrigin, const float4& _vDir, OUT float4& _vPoint, float _fDistance = 1000.f)
+	{
+		return PhysXManager::GetInst()->RayCast(_vOrigin, _vDir, _vPoint, _fDistance);
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

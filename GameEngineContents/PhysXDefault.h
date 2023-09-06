@@ -118,6 +118,12 @@ public:
 		return PhysXManager::GetInst()->GetCooking();
 	}
 
+	//대상 위치, 쏘는 방향, 차이를 받을 버퍼, 최대사거리
+	bool RayCast(const float4& _vOrigin, const float4& _vDir, OUT float4& _vPoint, float _fDistance = 1000.f)
+	{
+		return PhysXManager::GetInst()->RayCast(_vOrigin, _vDir, _vPoint, _fDistance);
+	}
+
 	void CreateScene()
 	{
 		PhysXManager::GetInst()->CreateScene(GameEngineCore::GetCurLevel()->GetName());

@@ -160,3 +160,34 @@ void PhysXManager::Release()
 	}
 	PX_RELEASE(m_pFoundation);
 }
+
+bool PhysXManager::RayCast(const float4& _vOrigin, const float4& _vDir, OUT float4& _vPoint, float _fDistance)
+{
+	physx::PxVec3 vOrigin(0.f, 0.f, 0.f);
+
+	memcpy_s(&vOrigin, sizeof(physx::PxVec3), &_vOrigin, sizeof(physx::PxVec3));
+
+	physx::PxVec3 vDir(0.f, 0.f, 0.f);
+
+	float4 vDir_ = _vDir;
+	float4 vNormalizedDir = vDir_.NormalizeReturn();
+
+	memcpy_s(&vDir, sizeof(physx::PxVec3), &vNormalizedDir, sizeof(physx::PxVec3));
+
+	physx::PxRaycastBuffer tRayCastBuff;
+
+	if (true == m_pScene->raycast(vOrigin, vDir, (physx::PxReal)_fDistance, tRayCastBuff))
+	{
+		if (true == tRayCastBuff.hasBlock)
+		{
+			physx::PxRaycastHit tRayCastHit = tRayCastBuff.block;
+			memcpy_s(&_vPoint, sizeof(float4), &tRayCastHit.position, sizeof(float4));
+
+			return true;
+		}
+
+		return false;
+	}
+
+	return false;
+}
