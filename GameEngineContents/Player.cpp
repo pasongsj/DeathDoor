@@ -30,7 +30,7 @@ void Player::Start()
 
 	// physx
 	{
-		float4 scale = Renderer->GetMeshScale();
+		float4 scale = Renderer->GetMeshScale() * Renderer->GetTransform()->GetWorldScale() / Renderer->GetTransform()->GetLocalScale();
 		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		// 레벨체크 때문에 터져서 레벨체크하는부분만 주석
@@ -131,57 +131,60 @@ void Player::UpdateState(float _DeltaTime)
 void Player::CheckInput(float _DeltaTime)
 {
 	NextState = PlayerState::IDLE;
+	StateInputDelayTime -= _DeltaTime;
+	if (StateInputDelayTime < 0.0f)
+	{
+		if (true == GameEngineInput::IsPress("PlayerRoll")) // roll antmation inter이 필요함
+		{
+			NextState = PlayerState::ROLL;
+			return;
+		}
+		if (true == GameEngineInput::IsPress("PlayerLBUTTON"))
+		{
+			NextState = PlayerState::BASE_ATT;
+			return;
+		}
+		if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
+		{
+			NextState = PlayerState::SKILL;
+			return;
+		}
+		if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
+		{
+			NextState = PlayerState::CHARGE_ATT;
+			return;
+		}
+	}
 
-	if (true == GameEngineInput::IsPress("PlayerRoll"))
-	{
-		NextState = PlayerState::ROLL;
-		return;
-	}
-	if (true == GameEngineInput::IsPress("PlayerLBUTTON"))
-	{
-		NextState = PlayerState::BASE_ATT;
-		return;
-	}
-	if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
-	{
-		NextState = PlayerState::SKILL;
-		return;
-	}
-	if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
-	{
-		NextState = PlayerState::CHARGE_ATT;
-		return;
-	}
 
 
-	float4 Dir = float4::ZERO;
+	NextDir = float4::ZERO;
 	// move
 	if (true == GameEngineInput::IsPress("PlayerLeft"))
 	{
-		Dir += float4::LEFT; // 0 -90 0
+		NextDir += float4::LEFT; // 0 -90 0
 	}
 	if (true == GameEngineInput::IsPress("PlayerRight"))
 	{
-		Dir += float4::RIGHT; // 0 90 0
+		NextDir += float4::RIGHT; // 0 90 0
 
 	}
 	if (true == GameEngineInput::IsPress("PlayerUp"))
 	{
-		Dir += float4::FORWARD; // 0 0 0
+		NextDir += float4::FORWARD; // 0 0 0
 
 	}
 	if (true == GameEngineInput::IsPress("PlayerDown"))
 	{
-		Dir += float4::BACK; // 0 180 0
+		NextDir += float4::BACK; // 0 180 0
 	}
-	if (false == Dir.IsZero())
+	if (false == NextDir.IsZero())
 	{
 		NextState = PlayerState::WALK;
-		Dir.Normalize();
-		MoveDir = Dir;
+		NextDir.Normalize();
 		MoveUpdate(_DeltaTime);
-		return;
 	}
+	
 }
 
 
@@ -189,12 +192,19 @@ void Player::CheckInput(float _DeltaTime)
 void Player::MoveUpdate(float _DeltaTime)
 {
 	m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-	m_pCapsuleComp->SetMoveSpeed(MoveDir * m_pSpeed/* * _DeltaTime*/);
+	m_pCapsuleComp->SetMoveSpeed(NextDir * m_pSpeed/* * _DeltaTime*/);
 
+
+	//float4 Rot = float4::ZERO;
+	//Rot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, MoveDir);
+	//m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -Rot);
+
+	float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, _DeltaTime * 10.0f);
 
 	float4 Rot = float4::ZERO;
-	Rot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, MoveDir);
+	Rot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, NextFRot);
 	m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -Rot);
+	MoveDir = NextFRot;
 
 }
 

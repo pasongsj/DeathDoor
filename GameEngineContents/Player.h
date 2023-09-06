@@ -100,12 +100,13 @@ private:
 	bool StateChecker = false;
 	
 	// input & move
+	float StateInputDelayTime = 0.0f;
 	void CheckInput(float _DeltaTime);
 	void CheckClimbInput(float _DeltaTime);
 	void MoveUpdate(float _DeltaTime);
 
-	float4 MoveDir = float4::ZERO;
-	float4 PrevDir = float4::ZERO;
+	float4 MoveDir = float4::FORWARD;
+	float4 NextDir = float4::ZERO;
 	float MoveSpeed;
 	bool mButton = false;
 
@@ -119,7 +120,7 @@ private:
 	std::vector<std::string> AnimationName;
 	void TestInit();
 	int index = 0;
-	float m_pSpeed = 200.0f;
+	float m_pSpeed = 500.0f;
 	void TestMoveUpdate(float _DeltaTime);
 };
 

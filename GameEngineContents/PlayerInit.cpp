@@ -1,7 +1,7 @@
 #include "PreCompileHeader.h"
 #include "Player.h"
 
-
+#define PlayerScaleRatio 20.0f
 
 void Player::TestInit()
 {
@@ -22,7 +22,7 @@ void Player::TestInit()
 		//
 		//
 		//Renderer->CreateFBXAnimation("Player_Roll", "Player_Roll.FBX", { 0.01f,false });
-		//AnimationName.push_back("Player_Roll");
+		//AnimationName.push_back("Player_Roll");qw
 		//
 		//
 		////////	Renderer->CreateFBXAnimation("Player_Idle2", "Player_Idle.FBX");
@@ -89,7 +89,7 @@ void Player::TestInit()
 	//	}
 	//}
 	{
-		GetTransform()->SetLocalScale(float4::ONE * 30.0f/**100.0f*/);
+		//GetTransform()->SetLocalScale(float4::ONE * PlayerScaleRatio);
 		//GetTransform()->SetLocalRotation({ 90,0,0 });
 	}
 
@@ -158,10 +158,10 @@ void Player::InitPlayerAnimatioin()
 	Renderer->SetFBXMesh("Arrow.FBX", "MeshAniTexture");
 
 	//idle
-	Renderer->CreateFBXAnimation("Idle_0", "Idle_0.FBX", { 0.01f,true });
+	Renderer->CreateFBXAnimation("Idle_0", "Idle_0.FBX", { 0.02f,false });
 	AnimationName.push_back("Idle_0");
 
-	Renderer->CreateFBXAnimation("Idle_1", "Idle_1.FBX", { 0.01f,true });
+	Renderer->CreateFBXAnimation("Idle_1", "Idle_1.FBX", { 0.01f,false });
 	AnimationName.push_back("Idle_1");
 
 	//skill
@@ -181,10 +181,10 @@ void Player::InitPlayerAnimatioin()
 	AnimationName.push_back("Hookshot_fly");
 
 	// move
-	Renderer->CreateFBXAnimation("Walk", "Walk.FBX", { 0.01f,true });
+	Renderer->CreateFBXAnimation("Walk", "Walk.FBX", { 0.02f,true });
 	AnimationName.push_back("Walk");
 
-	Renderer->CreateFBXAnimation("Run", "Run.FBX", { 0.01f,true });
+	Renderer->CreateFBXAnimation("Run", "Run.FBX", { 0.02f,true });
 	AnimationName.push_back("Run");
 
 	//turn
@@ -289,6 +289,6 @@ void Player::InitPlayerAnimatioin()
 	//	AnimationName.push_back("Plunge_prep");	
 	//}
 
-	GetTransform()->SetLocalScale(float4::ONE * 30.0f);
+	GetTransform()->SetLocalScale(float4::ONE * PlayerScaleRatio);
 	//GetTransform()->SetLocalRotation({ 90,0,0 });
 }
