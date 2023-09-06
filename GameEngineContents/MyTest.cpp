@@ -1,6 +1,5 @@
 #include "PrecompileHeader.h"
 #include "MyTest.h"
-#include "ContentSoundPlayer.h"
 
 #include "DynamicParticleManager.h"
 
