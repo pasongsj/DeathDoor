@@ -5,6 +5,11 @@
 #include "HpBar.h"
 #include "MpBar.h"
 
+#include "MyTest.h"
+#include "Player.h"
+
+std::shared_ptr<class GameEngineLight> UITestLevel::NewLight;
+
 UITestLevel::UITestLevel()
 {
 }
@@ -16,10 +21,13 @@ UITestLevel::~UITestLevel()
 void UITestLevel::Start()
 {
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -40.0f });
-	GetMainCamera()->GetTransform()->SetLocalRotation({ 0.0f, -30.0f, 0.0f });
+	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
+	//GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 600.0f, -1000.0f });
+	//GetMainCamera()->GetTransform()->SetLocalRotation({ 45.0f, 0.0f, 0.0f });
 
 	GetCamera(100)->SetProjectionType(CameraType::Orthogonal);
+
+	NewLight = CreateActor<GameEngineLight>();
 
 	GameEngineDirectory NewDir;
 	NewDir.MoveParentToDirectory("ContentResources");
@@ -33,11 +41,11 @@ void UITestLevel::Start()
 	{
 		GameEngineFBXMesh::Load(Files[i].GetFullPath());
 	}
+	CreateScene();
 
-	//CreateActor<Mouse>();
-	CreateActor<SkillSlot>();
-	CreateActor<HpBar>();
-	CreateActor<MpBar>();
+	//CreateActor<SkillSlot>();
+	//CreateActor<HpBar>();
+	//CreateActor<MpBar>();
 }
 
 void UITestLevel::Update(float _DeltaTime)
@@ -46,6 +54,10 @@ void UITestLevel::Update(float _DeltaTime)
 
 void UITestLevel::LevelChangeStart()
 {
+	CreateActor<MyTest>();
+	//CreateActor<Mouse>();
+
+
 }
 
 void UITestLevel::LevelChangeEnd()

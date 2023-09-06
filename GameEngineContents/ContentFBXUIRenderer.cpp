@@ -8,3 +8,8 @@ ContentFBXUIRenderer::ContentFBXUIRenderer()
 ContentFBXUIRenderer::~ContentFBXUIRenderer()
 {
 }
+
+void ContentFBXUIRenderer::Start()
+{
+	PushCameraRender(100);
+}

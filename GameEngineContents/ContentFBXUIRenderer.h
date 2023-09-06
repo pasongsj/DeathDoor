@@ -15,7 +15,7 @@ public:
 	ContentFBXUIRenderer& operator=(ContentFBXUIRenderer&& _Other) noexcept = delete;
 
 protected:
-
+	void Start() override;
 private:
 
 };
