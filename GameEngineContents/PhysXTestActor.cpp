@@ -23,50 +23,31 @@ PhysXTestActor::~PhysXTestActor()
 
 void PhysXTestActor::Start()
 {
-	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	pRenderer->SetFBXMesh("Player.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
+	m_pRenderer->SetFBXMesh("Player.fbx", "MeshTexture");
 
 
-	float4 scale = pRenderer->GetMeshScale();
-	//pRenderer->GetTransform()->AddLocalPosition(float4(0.f, -scale.hy(), 0.f));
-	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
+	// 스케일은 렌더유닛0번의 boundScale 혹은 모든 유닛돌면서 boundscale가져오는 해당함수 사용(임의지정해도됨 상관없음)
+	float4 scale = m_pRenderer->GetMeshScale(); 
 
-	//m_pConvexComp = CreateComponent <PhysXConvexComponent>();
-	//m_pTriangleComp = CreateComponent <PhysXTriangleComponent>();
-	//m_pDynamicActorComp = CreateComponent <PhysXDynamicActorComponent>();
-	//m_pGeometryComp = CreateComponent<PhysXBoxGeometryComponent>();
-	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
-	//m_pSphereComp = CreateComponent<PhysXSphereComponent>();
-	if (GetLevel()->DynamicThis<PhysXTestLevel>()!= nullptr)
-	{
 
-		//m_pSphereComp->SetPhysxMaterial(100.f, 100.f, 0.f);
-		//m_pSphereComp->CreatePhysXActors(pLevel->GetScene(), pLevel-//>GetPhysics(), vscale);
-		//m_pSphereComp->GetDynamic()->setMass(1.f);
-		//m_pSphereComp->TurnOnSpeedLimit();
+	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>(); // 원하는 모양의 PhysXComponent부착
 
-		//m_pCapsuleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(vscale);
-		m_pCapsuleComp->TurnOnSpeedLimit();
-		m_pCapsuleComp->GetDynamic()->setMass(65.f);
-		//m_pConvexComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking, true, vscale);
-		//m_pTriangleComp->CreatePhysXActors("Armature.fbx", pLevel->m_pScene, pLevel->m_pPhysics, pLevel->m_pCooking,true ,vscale);
-		//m_pDynamicActorComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
+	m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);			//앞에서부터 정지마찰, 운동마찰, 반발력계수 세팅
 
-		//m_pGeometryComp->SetGravity(true);
-		//m_pGeometryComp->SetRestitution(2.f);
-		//m_pGeometryComp->CreatePhysXActors(pLevel->m_pScene, pLevel->m_pPhysics, vscale);
-		//m_pGeometryComp->SetPositionSetFromParentFlag(true);
-	}
+	m_pCapsuleComp->CreatePhysXActors(scale.PhysXVec3Return()); // 피직스 액터를 만드는 부분. 크기는 설정안하면 기본값 세팅됨
+
+	m_pCapsuleComp->TurnOnSpeedLimit();							//최대 이동속도 제한하는 함수
+	m_pCapsuleComp->GetDynamic()->setMass(65.f);				// 무게 설정 조정이 아직 필요한듯함
+
+	// PS. float4에 PhysX 관련함수 만들어뒀음 PxVec3 혹은 PxQuat(쿼터니온) 으로 쉽게 변환 가능함
 }
 
 void PhysXTestActor::Update(float _DeltaTime)
 {
-	if (m_pCapsuleComp->GetDynamic()->userData != nullptr)
-	{
-		m_pCapsuleComp->GetDynamic()->userData;
-	}
+	float4 ResultPoint = float4::ZERO;
+	m_pCapsuleComp->RayCast(this->GetTransform()->GetWorldPosition(), float4::DOWN, ResultPoint);
+	
 	float4 Movedir = float4::ZERO;
 	if (true == GameEngineInput::IsPress("CamMoveLeft"))
 	{
@@ -82,6 +63,7 @@ void PhysXTestActor::Update(float _DeltaTime)
 	{
 		Movedir += GetTransform()->GetWorldUpVector() * 500.f * _DeltaTime;
 		m_pCapsuleComp->SetMoveJump();
+		//Death();  return;
 	}
 	if (true == GameEngineInput::IsPress("CamMoveDown"))
 	{
@@ -104,5 +86,4 @@ void PhysXTestActor::Update(float _DeltaTime)
 	//test.p += test2.p;
 	//m_pSphereComp->GetDynamic()->setGlobalPose(test);
 	m_pCapsuleComp->SetMoveSpeed(Movedir * PLAYER_MAX_SPEED);
-};
-
+}

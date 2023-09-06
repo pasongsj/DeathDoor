@@ -200,8 +200,8 @@
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
     <ClCompile Include="MapTestLevel.cpp" />
+    <ClCompile Include="Map_Emptyplain.cpp" />
     <ClCompile Include="Map_Office.cpp" />
-    <ClCompile Include="Map_PhysXActor.cpp" />
     <ClCompile Include="Mouse.cpp">
       <SubType>
       </SubType>
@@ -255,6 +255,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="PlayerFSM.cpp" />
+    <ClCompile Include="PlayerInit.cpp" />
     <ClCompile Include="PlayerTestLevel.cpp" />
     <ClCompile Include="PreCompileHeader.cpp">
       <SubType>
@@ -302,7 +303,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TestMap.cpp" />
     <ClCompile Include="TestObject.cpp">
       <SubType>
       </SubType>
@@ -352,11 +352,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Map_Emptyplain.h" />
     <ClInclude Include="Map_Office.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Map_PhysXActor.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -416,6 +413,7 @@
     </ClInclude>
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBase.h" />
+    <ClInclude Include="PlayerDefinition.h" />
     <ClInclude Include="PlayerTestLevel.h" />
     <ClInclude Include="PreCompileHeader.h">
       <SubType>
@@ -459,10 +457,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="TestMap.h">
       <SubType>
       </SubType>
     </ClInclude>

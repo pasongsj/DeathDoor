@@ -3,7 +3,7 @@
 #include "PhysXLevel.h"
 
 // 설명 :
-class PhysXTestLevel : public PhysXLevel
+class PhysXTestLevel : public PhysXLevel // 반드시 레벨대신 피직스 레벨 받을것
 {
 public:
 	// constrcuter destructer

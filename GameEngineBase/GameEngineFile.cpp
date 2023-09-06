@@ -112,7 +112,9 @@ void GameEngineFile::LoadBin(GameEngineSerializer& _Data)
 
 	_Data.BufferResize(static_cast<unsigned int>(FileSize));
 
-	fread_s(_Data.GetDataPtr(), _Data.GetWriteOffSet(), FileSize, 1, FilePtr);
+	fread_s(_Data.GetDataPtr(), _Data.GetBufferSize(), FileSize, 1, FilePtr);
+
+	_Data.WriteOffset = static_cast<UINT>(FileSize);
 
 	if (nullptr != FilePtr)
 	{
@@ -147,12 +149,10 @@ void GameEngineFile::LoadText(GameEngineSerializer& _Data)
 
 std::string GameEngineFile::GetString()
 {
-
 	uintmax_t size = GetFileSize();
 	GameEngineSerializer Ser;
 	Ser.BufferResize(static_cast<unsigned int>(size + 1));
 	LoadText(Ser);
-
 	return Ser.GetString();
 }
 
@@ -166,4 +166,9 @@ GameEngineDirectory GameEngineFile::GetDirectory()
 	GameEnginePath ReturnPath = Path;
 	ReturnPath.MoveParent();
 	return GameEngineDirectory(ReturnPath.Path);
+}
+
+void GameEngineFile::ChangeExtension(std::string_view _NewExtension)
+{
+	Path.replace_extension(_NewExtension);
 }

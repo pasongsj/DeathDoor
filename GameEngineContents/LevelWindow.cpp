@@ -26,8 +26,18 @@ void LevelWindow::Start()
 
 void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _DeltaTime)
 {
-	ImGui::Text("DeltaTime : %f", _DeltaTime);
-	ImGui::Text("FrameRate : %f", 1.f / _DeltaTime);
+	m_fFrameTime += _DeltaTime;
+	if (m_fFrameTime>=1.f)
+	{
+		m_fDeltaTime = _DeltaTime;
+		m_fFrameRate = 1.f / _DeltaTime;
+
+		m_fFrameTime -= 1.f;
+	}
+
+	ImGui::Text("DeltaTime : %f", m_fDeltaTime);
+	ImGui::Text("FrameRate : %d", static_cast<int>(m_fFrameRate));
+
 	ImGui::Text("CurLevel :");
 	ImGui::SameLine();
 	ImGui::Text(m_CurLevelName.c_str());

@@ -72,8 +72,6 @@ private:
 
 	physx::PxVec3 SeesawPos;
 
-	// 이 컴포넌트를 가지고 있는 Parent에 대한 정보
-	std::weak_ptr<class GameEngineActor> ParentActor;
 
 	physx::PxVec3 AddUpdateForce;
 

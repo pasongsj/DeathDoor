@@ -1,5 +1,6 @@
 #pragma once
 #include "PhysXManager.h"
+#include <GameEngineCore/GameEngineCore.h>
 
 // 설명 : PhysX에서 공통으로 사용할 함수들
 class PhysXDefault
@@ -117,6 +118,12 @@ public:
 		return PhysXManager::GetInst()->GetCooking();
 	}
 
+	//대상 위치, 쏘는 방향, 차이를 받을 버퍼, 최대사거리
+	bool RayCast(const float4& _vOrigin, const float4& _vDir, OUT float4& _vPoint, float _fDistance = 1000.f)
+	{
+		return PhysXManager::GetInst()->RayCast(_vOrigin, _vDir, _vPoint, _fDistance);
+	}
+
 	void CreateScene()
 	{
 		PhysXManager::GetInst()->CreateScene(GameEngineCore::GetCurLevel()->GetName());
@@ -128,6 +135,20 @@ public:
 		float4 TargetPos = _TargetPos;
 		PhysXManager::GetInst()->GetPvdClient()->updateCamera("PvdCam", CamPos.PhysXVec3Return(), { 0,1,0 }, TargetPos.PhysXVec3Return());
 	}
+
+
+	void Release()
+	{
+		if (m_pRigidDynamic != nullptr && m_pRigidDynamic->isReleasable())
+		{
+			m_pRigidDynamic->release();
+		}
+		if (m_pRigidStatic != nullptr && m_pRigidStatic->isReleasable())
+		{
+			m_pRigidStatic->release();
+		}
+	}
+
 protected:
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
 	physx::PxRigidStatic* m_pRigidStatic = nullptr;
@@ -141,6 +162,8 @@ protected:
 	bool m_bAggregateObj = false;
 
 	static physx::PxAggregate* m_pAggregate;
+	std::weak_ptr<GameEngineActor> ParentActor;
+	//std::weak_ptr<PhysXDefault> m_pPhysXComponent;
 
 private:
 };

@@ -15,11 +15,13 @@ PhysXTestLevel::~PhysXTestLevel()
 void PhysXTestLevel::Start()
 {
 	SetLevelType(PacketLevelType::PhysXTestLevel);
-	CreateScene();
 }
 
 void PhysXTestLevel::LevelChangeStart()
-{	
+{
+	CreateScene(); //LevelChangeStart 혹은 Start어디서 하든 상관없게끔 했음
+
+
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.f,0.f,0.f });
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0,1000, .0f });
@@ -29,9 +31,9 @@ void PhysXTestLevel::LevelChangeStart()
 		std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
 	}
 
-	//m_pTestActor = CreateActor<PhysXTestActor>();
+	CreateActor<PhysXTestActor>();
 	CreateActor<PhysXTestPlane>();
-	 CreateActor<Player>();
+	//CreateActor<Player>();
 	
 	std::shared_ptr<PhysXTestPlane> pWallPlane = CreateActor<PhysXTestPlane>();
 }

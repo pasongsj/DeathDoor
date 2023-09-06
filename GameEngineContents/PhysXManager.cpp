@@ -23,7 +23,7 @@ void PhysXManager::Simulate(float _DeltaTime)
 
 
 // 초기화
-void PhysXManager::CreatePhysics()
+void PhysXManager::Init()
 {
 	if (nullptr!=m_pPhysics)
 	{
@@ -83,6 +83,7 @@ void PhysXManager::CreateScene(const std::string_view& _Name)
 
 	if (AllScene.end() != AllScene.find(sUpperName))
 	{
+		return;
 		MsgAssert("이미 해당 레벨의 씬을 만들었습니다." + sUpperName);
 	}
 
@@ -101,7 +102,6 @@ void PhysXManager::CreateScene(const std::string_view& _Name)
 		MsgAssert("PxScene failed!");
 	}
 
-
 	m_pPvdClient = pNewScene->getScenePvdClient();
 	if (m_pPvdClient)
 	{
@@ -111,6 +111,7 @@ void PhysXManager::CreateScene(const std::string_view& _Name)
 	}
 
 	AllScene.emplace(sUpperName, pNewScene);
+	ChangeScene(sUpperName);
 }
 
 void PhysXManager::ChangeScene(const std::string_view& _Name)
@@ -119,11 +120,12 @@ void PhysXManager::ChangeScene(const std::string_view& _Name)
 
 	if (AllScene.end() == AllScene.find(sUpperName))
 	{
+		m_pScene = nullptr;
 		return;
 	}
-
 	m_pScene = AllScene[sUpperName];
 }
+
 
 
 
@@ -157,4 +159,35 @@ void PhysXManager::Release()
 		PX_RELEASE(m_pTransport);
 	}
 	PX_RELEASE(m_pFoundation);
+}
+
+bool PhysXManager::RayCast(const float4& _vOrigin, const float4& _vDir, OUT float4& _vPoint, float _fDistance)
+{
+	physx::PxVec3 vOrigin(0.f, 0.f, 0.f);
+
+	memcpy_s(&vOrigin, sizeof(physx::PxVec3), &_vOrigin, sizeof(physx::PxVec3));
+
+	physx::PxVec3 vDir(0.f, 0.f, 0.f);
+
+	float4 vDir_ = _vDir;
+	float4 vNormalizedDir = vDir_.NormalizeReturn();
+
+	memcpy_s(&vDir, sizeof(physx::PxVec3), &vNormalizedDir, sizeof(physx::PxVec3));
+
+	physx::PxRaycastBuffer tRayCastBuff;
+
+	if (true == m_pScene->raycast(vOrigin, vDir, (physx::PxReal)_fDistance, tRayCastBuff))
+	{
+		if (true == tRayCastBuff.hasBlock)
+		{
+			physx::PxRaycastHit tRayCastHit = tRayCastBuff.block;
+			memcpy_s(&_vPoint, sizeof(float4), &tRayCastHit.position, sizeof(float4));
+
+			return true;
+		}
+
+		return false;
+	}
+
+	return false;
 }

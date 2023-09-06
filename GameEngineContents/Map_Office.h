@@ -20,6 +20,14 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-	std::shared_ptr<class PhysXBoxComponent> m_pBoxComp = nullptr;
+	void InitComponent();
+	void Set_StaticObject();
+	void Set_ActiveObject();
+
+	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
 	std::shared_ptr<GameEngineFBXRenderer> m_pRenderer = nullptr;
+	std::shared_ptr<GameEngineFBXRenderer> m_pNaviRenderer = nullptr;
+
+	const float4 m_MapRot = float4{ 0 , -135 , 0 };
+	const float4 m_MapPos = float4{ -20, -8 , -30 };
 };

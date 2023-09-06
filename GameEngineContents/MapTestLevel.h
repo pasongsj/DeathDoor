@@ -1,6 +1,14 @@
 #pragma once
 #include "PhysXLevel.h"
 
+enum class TestMapType
+{
+	Office,
+	BigCrow_Floor,
+	None,
+};
+
+
 // Ό³Έν :
 class MapTestLevel : public PhysXLevel
 {
@@ -23,5 +31,12 @@ protected:
 	void LevelChangeEnd() override;
 
 private:
+	void InitTestLevel();
 
+	inline void SetTestLevelType(TestMapType _Type)
+	{
+		m_Type = _Type;
+	}
+
+	TestMapType m_Type = TestMapType::None;
 };

@@ -13,7 +13,7 @@ PlayerTestLevel::~PlayerTestLevel()
 
 void PlayerTestLevel::Start()
 {
-
+	CreateScene();
 }
 
 void PlayerTestLevel::Update(float _DeltaTime)
@@ -27,7 +27,7 @@ void PlayerTestLevel::LevelChangeStart()
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 
 	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0 });
-	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 50.0f, 0.0f });
+	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 500.0f, 0.0f });
 
 }
 
