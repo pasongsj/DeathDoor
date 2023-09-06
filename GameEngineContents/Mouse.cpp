@@ -1,5 +1,6 @@
 #include "PrecompileHeader.h"
 #include "Mouse.h"
+#include "ContentFBXUIRenderer.h"
 
 Mouse::Mouse()
 {
@@ -13,17 +14,46 @@ void Mouse::Start()
 {
 	ShowCursor(false);
 
-	MouseCursor = CreateComponent<GameEngineFBXRenderer>();
-	MouseCursor->SetFBXMesh("Mouse.FBX", "ContentMesh");
-	MouseCursor->GetTransform()->SetLocalScale({ 50, 50, 50 });
+	MousePivot = CreateComponent<GameEngineComponent>();
+	MousePivot->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0.0f });
 
+	MouseCursor = CreateComponent<ContentFBXUIRenderer>();
+	MouseCursor->SetFBXMesh("Mouse.FBX", "ContentMesh");
+	MouseCursor->GetTransform()->SetLocalScale({ 30, 30, 30 });
+	MouseCursor->GetTransform()->SetParent(MousePivot->GetTransform());
+
+	auto Units = MouseCursor->GetAllRenderUnit();
+
+	for (int i = 0; i < Units.size(); i++)
+	{
+		for (int j = 0; j < Units[i].size(); j++)
+		{
+			Units[i][j]->ShaderResHelper.SetTexture("DiffuseTexture", "WhiteTexture.png");
+		}
+	}
 }
 
 void Mouse::Update(float _DeltaTime)
 {
+	RayCasting();
+	MouseRotationUpdate();
+}
+
+void Mouse::Render(float _DeltaTime)
+{
+}
+
+void Mouse::RayCasting()
+{
+	if (Count == 0)
+	{
+		Count++;
+		return;
+	}
+
 	float4 ScreenSize = GameEngineWindow::GetScreenSize();
 	float4 MousePos = GameEngineWindow::GetMousePosition();
-	
+
 	std::shared_ptr<GameEngineCamera> MainCamera = GetLevel()->GetMainCamera();
 	float4 CameraPos = MainCamera->GetTransform()->GetWorldPosition();
 
@@ -39,68 +69,63 @@ void Mouse::Update(float _DeltaTime)
 	float4 RayDir = { Ray_X, Raz_Y, 1.0f };
 
 	float4x4 ViewInverse = MainCamera->GetView().InverseReturn();
-	float4 ViewRayDir = DirectX::XMVector3TransformNormal(RayDir, ViewInverse);
-		
-	RayDir.Normalize();
-	
+	float4 WorldRayDir = DirectX::XMVector3TransformNormal(RayDir, ViewInverse);
+
+	WorldRayDir.Normalize();
+
 	float4 RayDest = RayPos;
-	
-	//Z값은 나중에 캐릭터의 Z값으로 변환해야함.
+
 	while (true)
 	{
-		RayDest += ViewRayDir;
+		RayDest += WorldRayDir;
 
+		//대상에 충돌했는가
 		if (RayDest.z >= 0.0f)
 		{
 			break;
 		}
 	}
-
-	//여기도 캐릭터의 Z값으로
-	RayDest.z = 0.0f;
-
-	MouseCursor->GetTransform()->SetWorldPosition(RayDest);
-
-	//현재는 0,0을 중심으로 연산했으나, 추후 캐릭터의 위치로 연산해야함.
-
-	/*
-
-	float4 PlayerPos;
-	float4 MouseDir = RayDest - PlayPos;
-	float4 NomalizedMouseDir = MouseDir.NormalizeReturn();
-
-	float Xangle = acos(NomalizedMouseDir.x);
-	Xangle *= 180.0f / GameEngineMath::PIE;
-
-	if (NmRayDest.y >= 0.0f)
-	{
-		Xangle *= -1.0f;
-	}
-
-	*/
-	float4 NmRayDest = RayDest.NormalizeReturn();
-
-	float Xangle = acos(NmRayDest.x);
-	Xangle *= 180.0f / GameEngineMath::PIE;
-
-	if (NmRayDest.y >= 0.0f)
-	{
-		Xangle *= -1.0f;
-	}
-
-	MouseCursor->GetTransform()->SetLocalRotation({0.0f, Xangle - 90.0f, 0.0f });
-
-	//MouseCursor->GetTransform()->SetLocalPosition({ MousePos.x - WindowSize.hx(), WindowSize.hy() - MousePos.y });
-	//MouseCursor->GetTransform()->SetLocalPosition(WorldMouse);
-	//MousePos = float4{ MousePos.x - WindowSize.hx(), WindowSize.hy() - MousePos.y };
-	//
-	//MousePos *= GetLevel()->GetMainCamera()->GetViewPort().InverseReturn();
-	//MousePos *= GetLevel()->GetMainCamera()->GetProjection().InverseReturn();
-	//MousePos *= GetLevel()->GetMainCamera()->GetView().InverseReturn();
-	
-	//CursorCollision->GetTransform()->SetWorldPosition(GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition() + float4{ -8, 10 } + MousePos);
 }
 
-void Mouse::Render(float _DeltaTime)
+void Mouse::MouseRotationUpdate()
 {
+	float4 ScreenSize = GameEngineWindow::GetScreenSize();
+
+	float4 ScreenMousePos = GameEngineWindow::GetMousePosition();
+	float4 DecartMousePos = { ScreenMousePos.x - ScreenSize.hx(), ScreenSize.hy() - ScreenMousePos.y };
+
+	MouseCursor->GetTransform()->SetLocalPosition({DecartMousePos.x, 0.0f, -DecartMousePos.y});
+
+	std::shared_ptr<GameEngineCamera> Camera = GetLevel()->GetMainCamera();
+
+	Camera->CameraTransformUpdate();
+	
+	float4x4 ViewMat = Camera->GetView();
+	float4x4 ProjMat = Camera->GetProjection();
+	float4x4 ViewPortMat = Camera->GetViewPort();
+
+	float4 PlayerPos = { 100, 0, 0 };	
+	
+	PlayerPos *= ViewMat;
+
+	PlayerPos.x /= 800.0f;
+	PlayerPos.y /= 450.0f;
+	PlayerPos.z /= Camera->GetTransform()->GetWorldPosition().z;
+
+	float4 PlayerProj = PlayerPos * ProjMat;
+	float4 PlayerViewPort = PlayerProj * ViewPortMat;
+
+	float4 DecartViewPortPos = { PlayerViewPort.x - ScreenSize.hx(), ScreenSize.hy() - PlayerViewPort.y };
+	float4 PlayerToMouseDir = DecartMousePos - DecartViewPortPos;
+
+	PlayerToMouseDir.Normalize();
+
+	float Cos_ZRotAngle = PlayerToMouseDir.x;
+	float ZRotAngle = acos(Cos_ZRotAngle);
+
+	ZRotAngle *= 180.0f / GameEngineMath::PIE;
+
+	MouseCursor->GetTransform()->SetLocalRotation({ 0.0f , ZRotAngle, 0.0f });
+
+	float4 worldrot1 = MouseCursor->GetTransform()->GetLocalRotation();
 }

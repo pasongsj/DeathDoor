@@ -19,6 +19,12 @@ protected:
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 private:
-	std::shared_ptr<class GameEngineFBXRenderer> MouseCursor = nullptr;
+
+	void MouseRotationUpdate();
+	void RayCasting();
+	int Count = 0;
+
+	std::shared_ptr<class GameEngineComponent> MousePivot = nullptr;
+	std::shared_ptr<class ContentFBXUIRenderer> MouseCursor = nullptr;
 };
 
