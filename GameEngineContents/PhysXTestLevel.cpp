@@ -20,8 +20,11 @@ void PhysXTestLevel::Start()
 	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.f,0.f,0.f });
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0,1000, .0f });
 
-	GameEngineCoreWindow::AddDebugRenderTarget(0, "MainCameraForwardTarget", GetMainCamera()->GetCamForwardTarget());
 	GameEngineCoreWindow::AddDebugRenderTarget(0, "AllRenderTarget", GetMainCamera()->GetCamAllRenderTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(1, "LightRenderTarget", GetMainCamera()->GetDeferredLightTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(2, "MainCameraForwardTarget", GetMainCamera()->GetCamForwardTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(3, "DeferredTarget", GetMainCamera()->GetCamDeferrdTarget());
+
 
 }
 

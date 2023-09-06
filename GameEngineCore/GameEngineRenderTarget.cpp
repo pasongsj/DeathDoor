@@ -93,7 +93,7 @@ void GameEngineRenderTarget::Setting()
 	}
 
 	// 지금 당장은 z값을 쓰지 않겠습니다.
-	GameEngineDevice::GetContext()->OMSetRenderTargets(RTVs.size(), RTV, DSV);
+	GameEngineDevice::GetContext()->OMSetRenderTargets(static_cast<UINT>(RTVs.size()), RTV, DSV);
 }
 
 void GameEngineRenderTarget::Reset()

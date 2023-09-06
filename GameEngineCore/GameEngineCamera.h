@@ -3,6 +3,7 @@
 #include "GameEngineEnum.h"
 #include <list>
 #include <map>
+#include "GameEngineRenderer.h"
 
 enum class SortType
 {
@@ -70,15 +71,32 @@ public:
 
 	void CameraTransformUpdate();
 
+	std::shared_ptr<GameEngineRenderTarget> GetCamTarget()
+	{
+		return CamTarget;
+	}
+
+
 	std::shared_ptr<GameEngineRenderTarget> GetCamForwardTarget()
 	{
 		return CamForwardTarget;
+	}
+
+	std::shared_ptr<GameEngineRenderTarget> GetCamDeferrdTarget()
+	{
+		return CamDeferrdTarget;
 	}
 
 	std::shared_ptr<GameEngineRenderTarget> GetCamAllRenderTarget()
 	{
 		return AllRenderTarget;
 	}
+
+	std::shared_ptr<GameEngineRenderTarget> GetDeferredLightTarget()
+	{
+		return DeferredLightTarget;
+	}
+
 
 	bool IsView(const TransformData& _TransData);
 
@@ -145,13 +163,16 @@ private:
 
 	void Release();
 
+	std::shared_ptr<GameEngineRenderTarget> CamTarget;
 	std::shared_ptr<GameEngineRenderTarget> CamForwardTarget;
+	std::shared_ptr<GameEngineRenderTarget> CamDeferrdTarget;
 	std::shared_ptr<GameEngineRenderTarget> AllRenderTarget;
 
-	//GameEngineRenderUnit CalLightUnit;
+	GameEngineRenderUnit CalLightUnit;
+	GameEngineRenderUnit DefferdMergeUnit;
 
 	// 빛계산의 결과물을 받기 위한 타겟.
-	std::shared_ptr<GameEngineRenderTarget> LightResultTarget;
+	std::shared_ptr<GameEngineRenderTarget> DeferredLightTarget;
 
 
 	void FreeCameraSwitch();

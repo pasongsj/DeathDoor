@@ -333,7 +333,7 @@ void GameEngineLevel::Render(float _DeltaTime)
 	for (std::pair<int, std::shared_ptr<GameEngineCamera>> Pair : Cameras)
 	{
 		std::shared_ptr<GameEngineCamera> Camera = Pair.second;
-		std::shared_ptr<GameEngineRenderTarget> Target = Camera->GetCamForwardTarget();
+		std::shared_ptr<GameEngineRenderTarget> Target = Camera->CamTarget;
 
 		LastTarget->Merge(Target);
 	}

@@ -94,7 +94,7 @@ void GameEngineRenderUnit::SetMaterial(const std::string_view& _Name)
 		ShaderResHelper.SetConstantBufferLink("UVdata", UVdata);
 	}
 
-	if (true == ShaderResHelper.IsConstantBuffer("LightDatas"))
+	if (true == ShaderResHelper.IsConstantBuffer("LightDatas") && nullptr != ParentRenderer)
 	{
 		LightDatas& Data = ParentRenderer->GetActor()->GetLevel()->LightDataObject;
 		ShaderResHelper.SetConstantBufferLink("LightDatas", Data);

@@ -22,10 +22,19 @@
     </FxCompile>
     <FxCompile Include="GridShader.hlsl" />
     <FxCompile Include="MeshAniTextureDeferred.hlsl" />
+    <FxCompile Include="DeferredCalLight.hlsl">
+      <Filter>Deffered</Filter>
+    </FxCompile>
+    <FxCompile Include="DeferredMerge.hlsl">
+      <Filter>Deffered</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
       <UniqueIdentifier>{b8743ae9-7b40-439a-af7a-90e4841873b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deffered">
+      <UniqueIdentifier>{eecdf55c-dcf8-4229-a062-1aa1a65410ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

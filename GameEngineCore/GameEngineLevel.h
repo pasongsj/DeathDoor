@@ -13,6 +13,7 @@ class GameEngineRenderer;
 class GameEngineCollision;
 class GameEngineLevel : public GameEngineObject
 {
+	friend class GameEngineCamera;
 	friend class GameEngineLight;
 	friend class GameEngineRenderer;
 	friend class GameEngineRenderUnit;

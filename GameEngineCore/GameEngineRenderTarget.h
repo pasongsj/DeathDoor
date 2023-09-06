@@ -61,6 +61,16 @@ public:
 
 	void Reset();
 
+	std::shared_ptr<GameEngineTexture> GetDepthTexture()
+	{
+		return DepthTexture;
+	}
+
+	void SetDepthTexture(std::shared_ptr<GameEngineTexture> _DepthTex)
+	{
+		DepthTexture = _DepthTex;
+	}
+
 	void CreateDepthTexture(int _Index = 0);
 
 	void Merge(std::shared_ptr<GameEngineRenderTarget> _Other, size_t _Index = 0);
