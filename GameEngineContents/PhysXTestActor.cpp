@@ -60,6 +60,7 @@ void PhysXTestActor::Update(float _DeltaTime)
 	{
 		Movedir += GetTransform()->GetWorldUpVector() * 500.f * _DeltaTime;
 		m_pCapsuleComp->SetMoveJump();
+		//Death();  return;
 	}
 	if (true == GameEngineInput::IsPress("CamMoveDown"))
 	{

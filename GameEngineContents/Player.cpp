@@ -36,6 +36,7 @@ void Player::Start()
 		// 레벨체크 때문에 터져서 레벨체크하는부분만 주석
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(vscale);
+		//m_pCapsuleComp->CreatePhysXActors(float4(270.f, 280.f, 270.f).PhysXVec3Return()); // 대략 이정도 크기였음
 	}
 
 	for (int i = 0; i < static_cast<int>(PlayerState::MAX); ++i)
