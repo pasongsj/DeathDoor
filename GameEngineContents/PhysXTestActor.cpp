@@ -4,7 +4,6 @@
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 
 #include "PhysXBoxComponent.h"
-#include "PhysXDynamicActorComponent.h"
 #include "PhysXCapsuleComponent.h"
 #include "PhysXConvexComponent.h"
 #include "PhysXTriangleComponent.h"
@@ -63,7 +62,6 @@ void PhysXTestActor::Update(float _DeltaTime)
 	{
 		Movedir += GetTransform()->GetWorldUpVector() * 500.f * _DeltaTime;
 		m_pCapsuleComp->SetMoveJump();
-		//Death();  return;
 	}
 	if (true == GameEngineInput::IsPress("CamMoveDown"))
 	{

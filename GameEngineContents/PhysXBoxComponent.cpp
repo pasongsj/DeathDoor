@@ -92,7 +92,7 @@ void PhysXBoxComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _
 	//콜백피벗 설정
 	m_pShape->setLocalPose(physx::PxTransform(Pivot));
 
-	m_pRigidDynamic->userData = GetActor();
+	m_pShape->userData = GetActor();
 	// Scene에 액터 추가
 	if (true == m_bAggregateObj)
 	{

@@ -41,12 +41,8 @@ protected:
 
 private:
 	// Phys액터 생성에 필요한 정보
-	physx::PxPhysics* m_pPhysics = nullptr;
-	physx::PxScene* m_pScene = nullptr;
 	physx::PxCooking* m_pCooking = nullptr;
 
-	physx::PxMaterial* m_pMaterial = nullptr;
-	physx::PxShape* m_pShape = nullptr;
 
 	physx::PxConvexMesh* m_pConvexMesh;
 
@@ -54,8 +50,6 @@ private:
 	std::vector<std::vector<physx::PxU32>> IndexVec;
 	std::shared_ptr<class GameEngineFBXMesh> Mesh;
 
-
-	bool PositionSetFromParentFlag = false;
 
 };
 

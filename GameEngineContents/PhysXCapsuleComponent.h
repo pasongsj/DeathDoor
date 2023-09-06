@@ -94,10 +94,6 @@ public:
 
 	//void LockAxis();
 
-	inline void SetIsMain(bool _Flag)
-	{
-		IsMain = _Flag;
-	}
 
 	//플레이어 멈추는 함수
 	void FreezeDynamic();
@@ -125,13 +121,7 @@ protected:
 	//void Render() override {}
 
 private:
-	// Phys액터 생성에 필요한 정보
-	physx::PxScene* m_pScene = nullptr;
-	physx::PxPhysics* m_pPhysics = nullptr;
 	physx::PxControllerManager* m_pCtrManager = nullptr;
-
-	physx::PxMaterial* m_pMaterial = nullptr;
-	physx::PxShape* m_pShape = nullptr;
 
 	bool m_bSpeedLimit = false;
 
