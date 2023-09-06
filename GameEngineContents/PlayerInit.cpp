@@ -187,18 +187,18 @@ void Player::InitPlayerAnimatioin()
 	Renderer->CreateFBXAnimation("Run", "Run.FBX", { 0.02f,true });
 	AnimationName.push_back("Run");
 
-	//turn
-	Renderer->CreateFBXAnimation("Cutscene_turn_half", "Cutscene_turn_half.FBX", { 0.01f,false });
-	AnimationName.push_back("Cutscene_turn_half");
+	////turn
+	//Renderer->CreateFBXAnimation("Cutscene_turn_half", "Cutscene_turn_half.FBX", { 0.01f,false });
+	//AnimationName.push_back("Cutscene_turn_half");
 
-	Renderer->CreateFBXAnimation("Cutscene_turn_stopped", "Cutscene_turn_stopped.FBX", { 0.01f,false });
-	AnimationName.push_back("Cutscene_turn_stopped");
+	//Renderer->CreateFBXAnimation("Cutscene_turn_stopped", "Cutscene_turn_stopped.FBX", { 0.01f,false });
+	//AnimationName.push_back("Cutscene_turn_stopped");
 
-	Renderer->CreateFBXAnimation("Cutscene_turn_end", "Cutscene_turn_end.FBX", { 0.01f,false });
-	AnimationName.push_back("Cutscene_turn_end");
+	//Renderer->CreateFBXAnimation("Cutscene_turn_end", "Cutscene_turn_end.FBX", { 0.01f,false });
+	//AnimationName.push_back("Cutscene_turn_end");
 
 	//roll
-	Renderer->CreateFBXAnimation("Roll", "Roll.FBX", { 0.01f,false });
+	Renderer->CreateFBXAnimation("Roll", "Roll.FBX", { 0.02f,false });
 	AnimationName.push_back("Roll");
 
 	Renderer->CreateFBXAnimation("Roll_slash", "Roll_slash.FBX", { 0.01f,false });
@@ -232,10 +232,10 @@ void Player::InitPlayerAnimatioin()
 
 	//attack
 		//left btn
-	Renderer->CreateFBXAnimation("Slash_Light_L_new", "Slash_Light_L_new.FBX", { 0.01f,false }); // ÀÏ¹Ý ÁÂÅ¬¸¯
+	Renderer->CreateFBXAnimation("Slash_Light_L_new", "Slash_Light_R_new.FBX", { 0.01f,false }); // ÀÏ¹Ý ÁÂÅ¬¸¯
 	AnimationName.push_back("Slash_Light_L_new");
 
-	Renderer->CreateFBXAnimation("Slash_Light_R_new", "Slash_Light_R_new.FBX", { 0.01f,false }); // ÀÏ¹Ý ÁÂÅ¬¸¯
+	Renderer->CreateFBXAnimation("Slash_Light_R_new", "Slash_Light_L_new.FBX", { 0.01f,false }); // ÀÏ¹Ý ÁÂÅ¬¸¯
 	AnimationName.push_back("Slash_Light_R_new");
 	// mid btn
 	Renderer->CreateFBXAnimation("Charge_slash_L", "Charge_slash_L.FBX", { 0.01f,false }); 

@@ -182,9 +182,19 @@ void Player::CheckInput(float _DeltaTime)
 	{
 		NextState = PlayerState::WALK;
 		NextDir.Normalize();
+		DirectionUpdate(_DeltaTime);
 		MoveUpdate(_DeltaTime);
 	}
 	
+}
+void Player::DirectionUpdate(float _DeltaTime)
+{
+	float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, _DeltaTime * 10.0f);
+
+	float4 Rot = float4::ZERO;
+	Rot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, NextFRot);
+	m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -Rot);
+	MoveDir = NextFRot;
 }
 
 
@@ -198,14 +208,6 @@ void Player::MoveUpdate(float _DeltaTime)
 	//float4 Rot = float4::ZERO;
 	//Rot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, MoveDir);
 	//m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -Rot);
-
-	float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, _DeltaTime * 10.0f);
-
-	float4 Rot = float4::ZERO;
-	Rot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, NextFRot);
-	m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -Rot);
-	MoveDir = NextFRot;
-
 }
 
 

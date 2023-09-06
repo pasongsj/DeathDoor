@@ -5,7 +5,6 @@
 //enum class PlayerState
 //{
 //	IDLE,			// Idle_0, Idle_1
-//	TURN,			// Cutscene_turn_half, Cutscene_turn_stopped, Cutscene_turn_end
 //	WALK,			// Walk, Run
 //	SKILL,			// 우클릭 Arrow, Arrow_bomb, Arrow_magic, Hookshot, Hookshot_fly
 //  HOOK_FLY		// Hookshot_fly
@@ -33,7 +32,7 @@
 void Player::SetFSMFunc()
 {
 	//	IDLE,// Idle_0, Idle_1
-	FSMFunc[PlayerState::IDLE].Start = [this]
+	FSMFunc[PlayerState::IDLE].Start = [this] // Idle0와 Idle1이 번갈아가며 진행됨
 		{
 			Renderer->ChangeAnimation("Idle_0");
 		};
@@ -62,43 +61,6 @@ void Player::SetFSMFunc()
 	FSMFunc[PlayerState::IDLE].End = [this]
 		{
 
-		};
-
-	//TURN // Cutscene_turn_half, Cutscene_turn_stopped, Cutscene_turn_end
-	FSMFunc[PlayerState::TURN].Start = [this]
-		{
-			//Renderer->ChangeAnimation("Cutscene_turn_half");
-		};
-
-	FSMFunc[PlayerState::TURN].Update = [this](float Delta)
-		{
-			StateDuration += Delta * 100.0f;
-
-			float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, StateDuration);
-
-
-			float4 Rot = float4::ZERO;
-			Rot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, NextFRot);
-			m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -Rot);
-
-			if (StateDuration > 1.0f)
-			{
-				CheckInput(Delta);
-			}
-			//if (true == StateChecker && true == Renderer->IsAnimationEnd())
-			//{
-			//	CheckInput(Delta); // StateChange
-			//}
-			//if (false == StateChecker && true == Renderer->IsAnimationEnd())
-			//{
-			//	Renderer->ChangeAnimation("Cutscene_turn_end");
-			//	StateChecker = true;
-			//}
-		};
-
-	FSMFunc[PlayerState::TURN].End = [this]
-		{
-			MoveDir = NextDir;
 		};
 
 	//WALK	// Walk, Run
@@ -154,30 +116,55 @@ void Player::SetFSMFunc()
 	FSMFunc[PlayerState::SKILL].Update = [this](float Delta)
 		{
 			StateDuration += Delta;
-			//switch (CurSkill)
-			//{
-			//case Player::PlayerSkill::ARROW:
-			//	Renderer->ChangeAnimation("Arrow");
-			//	break;
-			//case Player::PlayerSkill::MAGIC:
-			//	Renderer->ChangeAnimation("Arrow_magic");
-			//	break;
-			//case Player::PlayerSkill::BOMB:
-			//	Renderer->ChangeAnimation("Arrow_bomb");
-			//	break;
-			//case Player::PlayerSkill::HOOK:
-			//	Renderer->ChangeAnimation("Hookshot");
-			//	break;
-			//case Player::PlayerSkill::MAX:
-			//	break;
-			//default:
-			//	break;
-			//}
-			// 임시
-			if (true == Renderer->IsAnimationEnd())
+			if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
 			{
-				CheckInput(Delta);
+				float4 Mouse2DPos = GameEngineWindow::GetMousePosition() - GameEngineWindow::GetScreenSize().half();
+
+				Mouse2DPos.y = -Mouse2DPos.y;
+				//Mouse2DPos -= GameEngineWindow::GetScreenSize().half(); // Windows Forms to Cartesian Coordinate System
+
+				float4x4 ViewPort = GetLevel()->GetMainCamera()->GetViewPort();
+				float4x4 Proj = GetLevel()->GetMainCamera()->GetProjection();
+				float4x4 View = GetLevel()->GetMainCamera()->GetView();
+
+				float4x4 Poj = View * Proj * ViewPort;
+				float4 Player2DPos = GetTransform()->GetWorldPosition() * Poj;
+				Player2DPos /= Player2DPos.w;
+				Player2DPos.w = 1.0f;
+				Player2DPos -= GameEngineWindow::GetScreenSize().half();
+				Player2DPos.y = -Player2DPos.y;
+				float4 NDir = Mouse2DPos - Player2DPos;
+
+				NextDir = float4{ NDir.x, 0, NDir.y };
+
+
+				NextDir.Normalize();
+				DirectionUpdate(Delta);
 			}
+
+			if (true == Renderer->IsAnimationEnd() && false == GameEngineInput::IsPress("PlayerRBUTTON"))
+			{
+				//switch (CurSkill)
+				//{
+				//case Player::PlayerSkill::ARROW:
+				//	break;
+				//case Player::PlayerSkill::MAGIC:
+				//	break;
+				//case Player::PlayerSkill::BOMB:
+				//	break;
+				//case Player::PlayerSkill::HOOK:
+
+				//	break;
+				//case Player::PlayerSkill::MAX:
+				//	break;
+				//default:
+				//	break;
+				//}
+			}
+			CheckInput(Delta);
+
+			
+
 		};
 
 	FSMFunc[PlayerState::SKILL].End = [this]
@@ -301,15 +288,15 @@ void Player::SetFSMFunc()
 			{
 				Renderer->ChangeAnimation("Charge_slash_L");
 			}
-			isRightAttack = !isRightAttack;
+			//isRightAttack = !isRightAttack;
 		};
 
 	FSMFunc[PlayerState::CHARGE_ATT].Update = [this](float Delta)
 		{
 			
-			if (true == Renderer->IsAnimationEnd())
+			if (false == GameEngineInput::IsPress("PlayerMBUTTON"))
 			{
-				CheckInput(Delta);
+				NextState = PlayerState::BASE_ATT;
 			}
 		};
 
@@ -340,8 +327,8 @@ void Player::SetFSMFunc()
 				Renderer->ChangeAnimation("Hit_Recover");
 				if (true == Renderer->IsAnimationEnd())
 				{
-					//Next State
-					CheckInput(Delta);
+					NextState = PlayerState::IDLE;
+					//CheckInput(Delta);
 				}
 			}
 		};
@@ -384,7 +371,7 @@ void Player::SetFSMFunc()
 		{
 			if (true == Renderer->IsAnimationEnd())
 			{
-				CheckInput(Delta);
+				NextState = PlayerState::IDLE;
 			}
 		};
 
