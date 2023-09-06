@@ -1,9 +1,19 @@
 #include "PrecompileHeader.h"
 #include "Map_Office.h"
 
+#include "OfficeLevel.h"
+
+// physX
 #include "PhysXTriangleComponent.h"
 #include "PhysXBoxComponent.h"
-#include "OfficeLevel.h"
+#include "PhysXCapsuleComponent.h"
+
+
+// static obj
+#include "StreetLamp.h"
+#include "TrashCan.h"
+#include "Fountain.h"
+#include "SemiCircleTable.h"
 
 Map_Office::Map_Office()
 {
@@ -51,9 +61,54 @@ void Map_Office::InitComponent()
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));
 }
 
+// 전부 GetStatic 으로 변경예정임 
 void Map_Office::Set_StaticObject()
 {
-	
+	{
+		std::shared_ptr<StreetLamp> Obj = GetLevel()->CreateActor<StreetLamp>();
+		const float4 Pos = float4{ 860, -780, -5020 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<StreetLamp> Obj = GetLevel()->CreateActor<StreetLamp>();
+		const float4 Pos = float4{ 1994, -780, -5011 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<StreetLamp> Obj = GetLevel()->CreateActor<StreetLamp>();
+		const float4 Pos = float4{ 3353 , -780, -5020};
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<StreetLamp> Obj = GetLevel()->CreateActor<StreetLamp>();
+		const float4 Pos = float4{ 3761 , -780, -5020 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<StreetLamp> Obj = GetLevel()->CreateActor<StreetLamp>();
+		const float4 Pos = float4{ 3090 , -780, -5020 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+
+	// 분수대 피직스 중력미적용 함수 업데이트 이후에 추가 
+	{
+		std::shared_ptr<Fountain> Obj = GetLevel()->CreateActor<Fountain>();
+		const float4 Pos = float4{ 150 , -272, -3914 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+
+	{
+		std::shared_ptr<SemiCircleTable> Obj = GetLevel()->CreateActor<SemiCircleTable>();
+		const float4 Pos = float4{ 2956, -274, -3304 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
 }
 
 void Map_Office::Set_ActiveObject()

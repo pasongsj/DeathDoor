@@ -144,9 +144,6 @@
     <ClCompile Include="OfficeLevel.cpp">
       <Filter>Contents\OfficeLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Map_Office.cpp">
-      <Filter>Contents\OfficeLevel\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
@@ -164,6 +161,21 @@
     </ClCompile>
     <ClCompile Include="PhysXManager.cpp">
       <Filter>Component\PhysX\ParentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Map_Office.cpp">
+      <Filter>Contents\OfficeLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="StreetLamp.cpp">
+      <Filter>Contents\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TrashCan.cpp">
+      <Filter>Contents\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Fountain.cpp">
+      <Filter>Contents\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="SemiCircleTable.cpp">
+      <Filter>Contents\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="StaticParticleManager.cpp">
       <Filter>Component\ContentsRenderer\Particle</Filter>
@@ -326,9 +338,6 @@
     <ClInclude Include="OfficeLevel.h">
       <Filter>Contents\OfficeLevel</Filter>
     </ClInclude>
-    <ClInclude Include="Map_Office.h">
-      <Filter>Contents\OfficeLevel\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClInclude>
@@ -343,6 +352,21 @@
     </ClInclude>
     <ClInclude Include="PhysXManager.h">
       <Filter>Component\PhysX\ParentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_Office.h">
+      <Filter>Contents\OfficeLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="StreetLamp.h">
+      <Filter>Contents\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashCan.h">
+      <Filter>Contents\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Fountain.h">
+      <Filter>Contents\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="SemiCircleTable.h">
+      <Filter>Contents\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="ParticleStruct.h">
       <Filter>Component\ContentsRenderer\Particle</Filter>
@@ -447,6 +471,9 @@
     </Filter>
     <Filter Include="Contents\TestLevel\MapTestLevel\Actor">
       <UniqueIdentifier>{e61b235a-08ef-4d2c-8b42-a38245fea2ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Static_Object">
+      <UniqueIdentifier>{525c3b97-c219-4a66-ba48-36517941ff49}</UniqueIdentifier>
     </Filter>
     <Filter Include="Component\ContentsRenderer\Particle">
       <UniqueIdentifier>{47fef3f1-0d09-44ae-b450-d11cab6effcc}</UniqueIdentifier>
