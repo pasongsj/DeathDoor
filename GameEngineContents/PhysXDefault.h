@@ -133,14 +133,12 @@ public:
 
 	void Release()
 	{
-		if (m_pRigidDynamic != nullptr /*&& m_pRigidDynamic->isReleasable()*/)
+		if (m_pRigidDynamic != nullptr && m_pRigidDynamic->isReleasable())
 		{
-			//GetScene()->removeActor(*m_pRigidDynamic);
 			m_pRigidDynamic->release();
 		}
-		if (m_pRigidStatic != nullptr /*&& m_pRigidStatic->isReleasable()*/)
+		if (m_pRigidStatic != nullptr && m_pRigidStatic->isReleasable())
 		{
-			//GetScene()->removeActor(*m_pRigidStatic);
 			m_pRigidStatic->release();
 		}
 	}
