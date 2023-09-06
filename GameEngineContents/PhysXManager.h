@@ -81,5 +81,7 @@ private:
 		float4 TargetPos = _TargetPos;
 		m_pPvdClient->updateCamera("PvdCam", CamPos.PhysXVec3Return(), { 0,1,0 }, TargetPos.PhysXVec3Return());
 	}
+
+	bool RayCast(const float4& _vOrigin, const float4& _vDir, OUT float4& _vPoint, float _fDistance = 1000.f);
 };
 

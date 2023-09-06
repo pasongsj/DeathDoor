@@ -156,12 +156,14 @@
     <ClCompile Include="PlayerTestLevel.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="PhysXManager.cpp" />
     <ClCompile Include="PlayerInit.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="Map_Emptyplain.cpp">
       <Filter>Contents\TestLevel\MapTestLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXManager.cpp">
+      <Filter>Component\PhysX\ParentClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -318,12 +320,14 @@
     <ClInclude Include="PlayerTestLevel.h">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClInclude>
-    <ClInclude Include="PhysXManager.h" />
     <ClInclude Include="PlayerDefinition.h">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClInclude>
     <ClInclude Include="Map_Emptyplain.h">
       <Filter>Contents\TestLevel\MapTestLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXManager.h">
+      <Filter>Component\PhysX\ParentClass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

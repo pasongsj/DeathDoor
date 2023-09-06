@@ -45,6 +45,9 @@ void PhysXTestActor::Start()
 
 void PhysXTestActor::Update(float _DeltaTime)
 {
+	float4 ResultPoint = float4::ZERO;
+	m_pCapsuleComp->RayCast(this->GetTransform()->GetWorldPosition(), float4::DOWN, ResultPoint);
+	
 	float4 Movedir = float4::ZERO;
 	if (true == GameEngineInput::IsPress("CamMoveLeft"))
 	{
