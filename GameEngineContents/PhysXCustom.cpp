@@ -73,23 +73,33 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 	while (nbPairs--)
 	{
 		physx::PxContactPair current = *pairs++;
-		if (current.contactPatches == 0)
-		{
-			continue;
-		}
+
 		// 액터가 가지고 있는 쉐이프를 모두 가져옴
 		physx::PxShape* tmpContactActor = current.shapes[0];
 		physx::PxShape* tmpOtherActor = current.shapes[1];
-		physx::PxFilterData OtherFilterdata = tmpOtherActor->getSimulationFilterData();
+		if (tmpContactActor->userData == nullptr|| tmpOtherActor->userData == nullptr)
+		{
+			MsgAssert("부모가 없는 PhysXComponent입니다.");
+			return;
+		}
+		//GameEngineActor* pContactActor = reinterpret_cast<GameEngineActor*>(tmpContactActor->userData);
+		//GameEngineActor* pOtherActor = reinterpret_cast<GameEngineActor*>(tmpOtherActor->userData);
+		//if (!pContactActor->IsUpdate()|| !pOtherActor->IsUpdate())
+		//{
+		//	return;
+		//}
+
 		physx::PxFilterData ContactFilterdata = tmpContactActor->getSimulationFilterData();
+		physx::PxFilterData OtherFilterdata = tmpOtherActor->getSimulationFilterData();
 		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic)&&// 플레이어
 			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Ground))  //땅			
 		{
 			
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) //충돌이 시작된 시점
 			{
-				physx::PxRigidDynamic* pPlayer = static_cast<physx::PxRigidDynamic*>(tmpContactActor->getActor());
-				PhysXTestActor* Test = reinterpret_cast<PhysXTestActor*>(pPlayer->userData);
+				//physx::PxRigidDynamic* pPlayer = static_cast<physx::PxRigidDynamic*>(tmpContactActor->getActor());
+				//PhysXTestActor* Test = reinterpret_cast<PhysXTestActor*>(pPlayer->userData);
+				PhysXTestActor* Test = reinterpret_cast<PhysXTestActor*>(tmpContactActor->userData);
 				int a = 0;
 			}
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) //충돌이 유지되는동안 계속 들어옴
@@ -98,7 +108,9 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 				
 			}
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) //충돌이 끝나는 시점
-			{
+			{				
+				PhysXTestActor* Test = reinterpret_cast<PhysXTestActor*>(tmpContactActor->userData);
+				//Test->Death();
 				int a = 0;
 			}
 		}

@@ -94,10 +94,6 @@ public:
 
 	//void LockAxis();
 
-	inline void SetIsMain(bool _Flag)
-	{
-		IsMain = _Flag;
-	}
 
 	//플레이어 멈추는 함수
 	void FreezeDynamic();

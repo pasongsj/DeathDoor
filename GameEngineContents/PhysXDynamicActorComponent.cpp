@@ -117,7 +117,7 @@ physx::PxRigidDynamic* PhysXDynamicActorComponent::CreatePhysXActors(physx::PxVe
 	m_pRigidDynamic->setAngularDamping(physx::PxReal(2.0f));
 
 
-	m_pRigidDynamic->userData = GetActor();
+	m_pShape->userData = GetActor();
 	// Scene에 액터 추가
 	m_pScene->addActor(*m_pRigidDynamic);
 

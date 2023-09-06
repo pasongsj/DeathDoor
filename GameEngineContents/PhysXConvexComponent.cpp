@@ -120,7 +120,7 @@ void PhysXConvexComponent::CreatePhysXActors(const std::string& _MeshName, bool 
 	// 제동비율
 	//dynamic_->setAngularDamping(physx::PxReal(0.05f));
 
-	m_pRigidDynamic->userData = GetActor();
+	m_pShape->userData = GetActor();
 	// Scene에 액터 추가
 	if (true == m_bAggregateObj)
 	{
