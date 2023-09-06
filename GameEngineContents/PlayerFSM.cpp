@@ -26,7 +26,7 @@
 
 
 #define PlayerIdleTime 3.0f
-#define PlayerWalkTime 1.0f
+#define PlayerWalkTime 0.05f
 #define PlayerHitIdleTime 1.0f
 
 
@@ -40,12 +40,19 @@ void Player::SetFSMFunc()
 
 	FSMFunc[PlayerState::IDLE].Update = [this](float Delta)
 		{
-			StateDuration += Delta;
-			// state
-			if (false == StateChecker && PlayerIdleTime < StateDuration)
+			if (Renderer->IsAnimationEnd())
 			{
-				StateChecker = true;
-				Renderer->ChangeAnimation("Idle_1");
+				if (false == StateChecker)
+				{
+					Renderer->ChangeAnimation("Idle_1");
+
+				}
+				else
+				{
+					Renderer->ChangeAnimation("Idle_0");
+
+				}
+				StateChecker = !StateChecker;
 			}
 
 			CheckInput(Delta);
@@ -60,25 +67,38 @@ void Player::SetFSMFunc()
 	//TURN // Cutscene_turn_half, Cutscene_turn_stopped, Cutscene_turn_end
 	FSMFunc[PlayerState::TURN].Start = [this]
 		{
-			Renderer->ChangeAnimation("Cutscene_turn_half");
+			//Renderer->ChangeAnimation("Cutscene_turn_half");
 		};
 
 	FSMFunc[PlayerState::TURN].Update = [this](float Delta)
 		{
-			if (true == StateChecker && true == Renderer->IsAnimationEnd())
+			StateDuration += Delta * 100.0f;
+
+			float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, StateDuration);
+
+
+			float4 Rot = float4::ZERO;
+			Rot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, NextFRot);
+			m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -Rot);
+
+			if (StateDuration > 1.0f)
 			{
-				CheckInput(Delta); // StateChange
+				CheckInput(Delta);
 			}
-			if (false == StateChecker && true == Renderer->IsAnimationEnd())
-			{
-				Renderer->ChangeAnimation("Cutscene_turn_end");
-				StateChecker = true;
-			}
+			//if (true == StateChecker && true == Renderer->IsAnimationEnd())
+			//{
+			//	CheckInput(Delta); // StateChange
+			//}
+			//if (false == StateChecker && true == Renderer->IsAnimationEnd())
+			//{
+			//	Renderer->ChangeAnimation("Cutscene_turn_end");
+			//	StateChecker = true;
+			//}
 		};
 
 	FSMFunc[PlayerState::TURN].End = [this]
 		{
-
+			MoveDir = NextDir;
 		};
 
 	//WALK	// Walk, Run
@@ -223,6 +243,8 @@ void Player::SetFSMFunc()
 
 	FSMFunc[PlayerState::ROLL].Update = [this](float Delta)
 		{
+			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+			m_pCapsuleComp->SetMoveSpeed(MoveDir* m_pSpeed * 3.0f);
 			if (true == GameEngineInput::IsDown("PlayerMBUTTON"))
 			{
 				mButton = true;
@@ -235,6 +257,7 @@ void Player::SetFSMFunc()
 				}
 				else
 				{
+					StateInputDelayTime = 0.3f;
 					CheckInput(Delta);
 				}
 			}
@@ -242,7 +265,7 @@ void Player::SetFSMFunc()
 
 	FSMFunc[PlayerState::ROLL].End = [this]
 		{
-
+			
 		};
 
 
