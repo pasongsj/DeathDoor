@@ -186,6 +186,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DynamicParticleManager.cpp" />
     <ClCompile Include="GameContentsMapActor.cpp" />
     <ClCompile Include="HpBar.cpp">
       <SubType>
@@ -206,11 +207,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MyTest.cpp" />
     <ClCompile Include="OfficeLevel.cpp" />
     <ClCompile Include="MpBar.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ParticleManager.cpp" />
+    <ClCompile Include="ParticleRenderer.cpp" />
     <ClCompile Include="PhysXActor.cpp">
       <SubType>
       </SubType>
@@ -299,6 +303,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="StaticParticleManager.cpp" />
     <ClCompile Include="TestLevel.cpp">
       <SubType>
       </SubType>
@@ -335,6 +340,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="DynamicParticleManager.h" />
     <ClInclude Include="GameContentsMapActor.h" />
     <ClInclude Include="HpBar.h">
       <SubType>
@@ -361,6 +367,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MyTest.h" />
     <ClInclude Include="OfficeLevel.h">
       <SubType>
       </SubType>
@@ -369,6 +376,9 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="ParticleRenderer.h" />
+    <ClInclude Include="ParticleStruct.h" />
     <ClInclude Include="PhysXActor.h">
       <SubType>
       </SubType>
@@ -456,6 +466,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="StaticParticleManager.h" />
     <ClInclude Include="TestLevel.h">
       <SubType>
       </SubType>

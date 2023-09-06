@@ -165,6 +165,21 @@
     <ClCompile Include="PhysXManager.cpp">
       <Filter>Component\PhysX\ParentClass</Filter>
     </ClCompile>
+    <ClCompile Include="StaticParticleManager.cpp">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicParticleManager.cpp">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleRenderer.cpp">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTest.cpp">
+      <Filter>Contents\UITestLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -329,6 +344,24 @@
     <ClInclude Include="PhysXManager.h">
       <Filter>Component\PhysX\ParentClass</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleStruct.h">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleRenderer.h">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicParticleManager.h">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticParticleManager.h">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTest.h">
+      <Filter>Contents\UITestLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -414,6 +447,9 @@
     </Filter>
     <Filter Include="Contents\TestLevel\MapTestLevel\Actor">
       <UniqueIdentifier>{e61b235a-08ef-4d2c-8b42-a38245fea2ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Particle">
+      <UniqueIdentifier>{47fef3f1-0d09-44ae-b450-d11cab6effcc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
