@@ -25,6 +25,7 @@
 #include "GameEngineFont.h"
 
 
+
 void GameEngineCore::CoreResourcesInit()
 {
 	{
@@ -182,7 +183,6 @@ void GameEngineCore::CoreResourcesInit()
 		GameEngineIndexBuffer::Create("GridRect", ArrIndex);
 		GameEngineMesh::Create("GridRect");
 	}
-
 
 	{
 		std::vector<GameEngineVertex> ArrVertex;
@@ -369,7 +369,6 @@ void GameEngineCore::CoreResourcesInit()
 		V.NORMAL.w = 0.0f;
 		V.TANGENT = float4(-1.0f, 0.0f, 0.0f, 0.0f);
 		V.BINORMAL = float4(0.0f, 0.0f, -1.0f, 0.0f);
-
 		VBVector.push_back(V);
 
 		// 인덱스 버퍼를 만듭니다.
@@ -691,6 +690,15 @@ void GameEngineCore::CoreResourcesInit()
 		}
 
 		{
+			std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("MeshAniTextureDeferred");
+			Pipe->SetVertexShader("MeshAniTextureDeferred.hlsl");
+			Pipe->SetRasterizer("Engine2DBase");
+			Pipe->SetPixelShader("MeshAniTextureDeferred.hlsl");
+			Pipe->SetBlendState("AlphaBlend");
+			Pipe->SetDepthState("EngineDepth");
+		}
+
+		{
 			std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("MeshColor");
 			Pipe->SetVertexShader("MeshColor.hlsl");
 			Pipe->SetRasterizer("Engine2DBase");
@@ -716,6 +724,28 @@ void GameEngineCore::CoreResourcesInit()
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("GridShader.hlsl");
 		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("AlwayDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("DeferredCalLight");
+		Pipe->SetVertexShader("DeferredCalLight.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("DeferredCalLight.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		// 모든 오브젝트가 순서 맞춰서 다 그려진 다음에 벌어지는 일이라.
+		// 깊이라는걸 
+		Pipe->SetDepthState("AlwayDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("DeferredMerge");
+		Pipe->SetVertexShader("DeferredMerge.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("DeferredMerge.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		// 모든 오브젝트가 순서 맞춰서 다 그려진 다음에 벌어지는 일이라.
+		// 깊이라는걸 
 		Pipe->SetDepthState("AlwayDepth");
 	}
 

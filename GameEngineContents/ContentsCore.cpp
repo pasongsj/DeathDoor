@@ -32,7 +32,7 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::GameStart()
 {
-	//GameEngineGUI::GUIWindowCreate<GameEngineCoreWindow>("CoreWindow");	
+	GameEngineGUI::GUIWindowCreate<GameEngineCoreWindow>("CoreWindow");	
 
 	GameEngineGUI::GUIWindowCreate<LevelWindow>("LevelWindow");
 	GameEngineGUI::GUIWindowCreate<ServerWindow>("ServerWindow");
