@@ -26,7 +26,6 @@ public:
 
 protected:
 	void ParticlePosUpdate(float _Delta);
-
 private:
 	float4 Dir = { 0.0f, 0.0f, 0.0f };
 	float Speed = 0.0f;

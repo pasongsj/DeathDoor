@@ -15,25 +15,13 @@ public:
 
 	void SetPaticleSetter(const StaticParticleSetter& _Setter)
 	{
-		Setter.StandardDir = _Setter.StandardDir;
-		Setter.RangeDir = _Setter.RangeDir;
+		Setter = _Setter;
 
-		Setter.StandardScale = _Setter.StandardScale;
-		Setter.RangeScale = _Setter.RangeScale;
-
-		Setter.StandardPosition = _Setter.StandardPosition;
-		Setter.RangePosition = _Setter.RangePosition;
-
-		Setter.StandardSpeed = _Setter.StandardSpeed;
-		Setter.range_Speed = _Setter.range_Speed;
-
-		Setter.MaxParticle = _Setter.MaxParticle;
-		Setter.EmitInterTime = _Setter.EmitInterTime;
-		Setter.MaxLiveTime = _Setter.MaxLiveTime;
-
-		EmitCount = _Setter.EmitInterTime;
-
-		ParticleList.resize(Setter.MaxParticle, nullptr);
+		//중간에 세팅을 바꿀 수도 있는데, 만약 더 작아지면 안되니.
+		if (Setter.MaxParticle > ParticleList.size())
+		{
+			ParticleList.resize(Setter.MaxParticle, nullptr);
+		}
 	}
 
 protected:

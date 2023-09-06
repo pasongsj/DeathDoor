@@ -37,7 +37,11 @@ void StaticParticleManager::ParticleUpdate(float _Delta)
 	if (EmitCount >= Setter.EmitInterTime && isOn == true && isFull == false)
 	{
 		EmitCount = 0.0f;
-		CreateParticle();
+
+		for (int i = 0; i < Setter.EmitNum; i++)
+		{
+			CreateParticle();
+		}
 	}
 
 	if (isDisposable == true && ParticleCount == Setter.MaxParticle)
