@@ -17,7 +17,6 @@ OfficeLevel::~OfficeLevel()
 void OfficeLevel::Start()
 {
 	SetLevelType(PacketLevelType::OfficeLevel);
-	CreateScene();
 }
 
 void OfficeLevel::Update(float _DeltaTime)
@@ -26,6 +25,7 @@ void OfficeLevel::Update(float _DeltaTime)
 
 void OfficeLevel::LevelChangeStart()
 {
+	CreateScene();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);

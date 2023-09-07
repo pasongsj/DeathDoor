@@ -1,22 +1,19 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-
-// 스태틱 오브젝트 기본 템플릿 ㅇㅇ
-
 // 설명 :
-class StreetLamp : public GameEngineActor
+class FlowerPot : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	StreetLamp();
-	~StreetLamp();
+	FlowerPot();
+	~FlowerPot();
 
 	// delete Function
-	StreetLamp(const StreetLamp& _Other) = delete;
-	StreetLamp(StreetLamp&& _Other) noexcept = delete;
-	StreetLamp& operator=(const StreetLamp& _Other) = delete;
-	StreetLamp& operator=(StreetLamp&& _Other) noexcept = delete;
+	FlowerPot(const FlowerPot& _Other) = delete;
+	FlowerPot(FlowerPot&& _Other) noexcept = delete;
+	FlowerPot& operator=(const FlowerPot& _Other) = delete;
+	FlowerPot& operator=(FlowerPot&& _Other) noexcept = delete;
 
 	inline std::shared_ptr<class PhysXBoxComponent> GetPhysXComponent() const
 	{
@@ -29,7 +26,7 @@ protected:
 
 private:
 	void InitComponent();
-	
+
 	std::shared_ptr<class GameEngineFBXRenderer> m_pRenderer = nullptr;
-	std::shared_ptr<class PhysXBoxComponent> m_pComp = nullptr;
+	std::shared_ptr<class PhysXBoxComponent > m_pComp = nullptr;
 };

@@ -1,35 +1,37 @@
 #include "PrecompileHeader.h"
-#include "StreetLamp.h"
+#include "MiniDesk.h"
 
 #include "PhysXBoxComponent.h"
 
-StreetLamp::StreetLamp()
+MiniDesk::MiniDesk()
 {
 }
 
-StreetLamp::~StreetLamp()
+MiniDesk::~MiniDesk()
 {
+	
 }
 
-void StreetLamp::Start()
+void MiniDesk::Start()
 {
 	InitComponent();
 }
 
-void StreetLamp::Update(float _DeltaTime)
+void MiniDesk::Update(float _DeltaTime)
 {
 }
 
-void StreetLamp::InitComponent()
+void MiniDesk::InitComponent()
 {
 	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("GiantStreetLamp.fbx", "MeshTexture");
+	m_pRenderer->SetFBXMesh("desk.fbx", "MeshTexture");
 	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
-	MeshScale.x *= 2.2f;
-	MeshScale.z *= 2.2f;
-	
+	MeshScale.z *= 0.7f;
+	// MeshScale *= 0.75f;
+	// MeshScale *= 2.2f;
+
 	m_pComp = CreateComponent<PhysXBoxComponent>();
 	m_pComp->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
 	m_pComp->CreatePhysXActors(MeshScale.PhysXVec3Return());

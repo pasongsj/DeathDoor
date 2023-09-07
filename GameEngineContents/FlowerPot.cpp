@@ -1,35 +1,36 @@
 #include "PrecompileHeader.h"
-#include "StreetLamp.h"
+#include "FlowerPot.h"
 
 #include "PhysXBoxComponent.h"
 
-StreetLamp::StreetLamp()
+FlowerPot::FlowerPot()
 {
 }
 
-StreetLamp::~StreetLamp()
+FlowerPot::~FlowerPot()
 {
 }
 
-void StreetLamp::Start()
+void FlowerPot::Start()
 {
 	InitComponent();
 }
 
-void StreetLamp::Update(float _DeltaTime)
+void FlowerPot::Update(float _DeltaTime)
 {
 }
 
-void StreetLamp::InitComponent()
+void FlowerPot::InitComponent()
 {
 	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("GiantStreetLamp.fbx", "MeshTexture");
+	m_pRenderer->SetFBXMesh("plantBase1__2_.fbx", "MeshTexture");
 	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
-	MeshScale.x *= 2.2f;
-	MeshScale.z *= 2.2f;
-	
+	MeshScale.z *= 1.65f;
+	MeshScale.x *= 0.9f;
+	//MeshScale *= 0.85f;
+
 	m_pComp = CreateComponent<PhysXBoxComponent>();
 	m_pComp->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
 	m_pComp->CreatePhysXActors(MeshScale.PhysXVec3Return());

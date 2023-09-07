@@ -21,6 +21,8 @@ protected:
 
 private:
 	void InitComponent();
+	void InitKey();
+	void KeyUpdate(float _DeltaTime);
 	void Set_StaticObject();
 	void Set_ActiveObject();
 
