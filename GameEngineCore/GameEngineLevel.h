@@ -113,6 +113,12 @@ public:
 	{
 		return static_cast<EnumType>(LevelType);
 	}
+
+	std::list<std::shared_ptr<GameEngineLight>> GetAllLight()
+	{
+		return AllLight;
+	}
+
 protected:
 	// 레벨이 바뀌어서 시작할때
 	virtual void LevelChangeStart();
@@ -134,7 +140,6 @@ protected:
 	{
 		LevelType = _Type;
 	}
-
 
 private:
 	static bool IsDebugRender;
