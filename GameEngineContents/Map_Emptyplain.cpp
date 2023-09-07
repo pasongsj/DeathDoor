@@ -1,7 +1,6 @@
 #include "PrecompileHeader.h"
 #include "Map_Emptyplain.h"
 
-#include "PhysXTriangleComponent.h"
 #include "PhysXBoxComponent.h"
 
 Map_Emptyplain::Map_Emptyplain()
@@ -28,6 +27,8 @@ void Map_Emptyplain::InitComponent()
 	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
 	m_pRenderer->SetFBXMesh("BigCrow_Floor.fbx", "MeshTexture");
 
+	float4 MeshScale = m_pRenderer->GetMeshScale();
+
 
 	auto Unit = m_pRenderer->GetAllRenderUnit();
 	Unit[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "avarice_n_noise.png");
@@ -45,8 +46,8 @@ void Map_Emptyplain::InitComponent()
 	// physx::PxVec3 vscale = UnitScale.PhysXVec3Return();
 
 	// ÄÄÆ÷³ÍÆ® 
-	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
-	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	m_pTriangleComp->CreatePhysXActors("BigCrow_Floor.fbx", true);
+	m_pComp = CreateComponent<PhysXBoxComponent>();
+	m_pComp->SetPhysxMaterial(0.f, 0.f, 0.f);
+	m_pComp->CreatePhysXActors(MeshScale.PhysXVec3Return());
 
 }
