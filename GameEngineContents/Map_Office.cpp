@@ -29,18 +29,32 @@ Map_Office::~Map_Office()
 {
 }
 
+void Map_Office::NaviRenderSwitch()
+{
+	if (nullptr != m_pNaviRenderer)
+	{
+		if (true == m_pNaviRenderer->IsUpdate())
+		{
+			m_pNaviRenderer->Off();
+		}
+		else
+		{
+			m_pNaviRenderer->On();
+		}
+		
+	}
+}
+
 void Map_Office::Start()
 {
 	// 컴포넌트 초기화 
 	InitComponent();
-	InitKey();
 	Set_StaticObject();
 	Set_ActiveObject();
 }
 
 void Map_Office::Update(float _DeltaTime)
 {
-	KeyUpdate(_DeltaTime);
 }
 
 void Map_Office::InitComponent()
@@ -55,6 +69,8 @@ void Map_Office::InitComponent()
 	m_pNaviRenderer->SetFBXMesh("Map_Office_Navi.fbx", "MeshTexture");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
+	m_pNaviRenderer->Off();
+	
 
 	// float4 UnitScale = m_pRenderer->GetFBXMesh()->GetRenderUnit(0)->BoundScaleBox;
 	// float4 scale = m_pRenderer->GetMeshScale();
@@ -68,29 +84,7 @@ void Map_Office::InitComponent()
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));
 }
 
-void Map_Office::InitKey()
-{
-	if (false == GameEngineInput::IsKey("NaviMesh_Switch"))
-	{
-		GameEngineInput::CreateKey("NaviMesh_Swtich", 'M');
-	}
-}
 
-void Map_Office::KeyUpdate(float _DeltaTime)
-{
-	if (true == GameEngineInput::IsDown("NaviMesh_Swtich"))
-	{
-		if (true == m_pNaviRenderer->IsUpdate())
-		{
-			m_pNaviRenderer->Off();
-		}
-		else
-		{
-			m_pNaviRenderer->On();
-		}
-
-	}
-}
 
 // 피직스 업데이트 후 전부 GetStatic 으로 변경예정 
 void Map_Office::Set_StaticObject()
@@ -192,7 +186,12 @@ void Map_Office::Set_StaticObject()
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
-
+	{
+		std::shared_ptr<TrashCan> Obj = CurLevel->CreateActor<TrashCan>();
+		const float4 Pos = float4{ -100 , -314, -3110 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
 
 
 
@@ -257,6 +256,129 @@ void Map_Office::Set_StaticObject()
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
+	// 맵 좌측 일자벽 
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 0.4f, 1.0f, 8.2f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ -950.0f, -500.0f, -3050.0f };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	// 통과지점 사이 벽 
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 4.8f, 0.5f, 0.6f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 176.0f, -282.0f, -2981.0f };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 2.0f, 0.5f, 0.6f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 2026.0f, -282.0f, -2981.0f };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 0.45f, 1.0f, 4.2f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 2300.0f, -296.0f, -2390.0f };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 1.1f, 0.5f, 0.5f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 436.0f, -282.0f, -2751.0f };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+
+	// 미니오피스 뒤쪽벽
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 3.5f, 1.0f, 0.4f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 1628, -251, -1631 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+
+	// 스타트 이후 오르막길 왼벽 
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 0.55f, 2.0f, 2.7f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 1200, -770, -4400 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 0.7f, 2.0f, 1.5f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 980, -770, -4600 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 0.7f, 2.0f, 0.75f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 760, -770, -4650 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	// 스타트 이후 오르막길 오른벽
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 0.7f, 2.0f, 2.7f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 1710, -700, -4400 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 3.5f, 1.0f, 2.2f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 3000, -270, -4400 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 0.5f, 1.0f, 5.0f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 3556, -274, -3304 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+
+	// 검사구역 통과 후 언덕라인 벽
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 2.0f, 1.0f, 0.5f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 620, -250, -1330 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 2.0f, 1.0f, 0.5f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ -605, -250, -1250 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+
+
 }
 
 void Map_Office::Set_ActiveObject()

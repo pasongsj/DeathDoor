@@ -1,6 +1,9 @@
 #pragma once
 #include "PhysXLevel.h"
 
+
+// M : NaviRender OnOff 스위치 
+
 // 설명 :
 class OfficeLevel : public PhysXLevel
 {
@@ -19,6 +22,9 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+	void InitKey();
+	void KeyUpdate(float _DeltaTime);
+
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
 
@@ -30,4 +36,7 @@ private:
 
 	void Set_StartPos(std::shared_ptr<class Player> _Player);
 	const float4 m_StartPos = float4 { 2610 , -740 , -5347 };
+	
+
+	std::shared_ptr<class Map_Office> m_pMap = nullptr;
 };
