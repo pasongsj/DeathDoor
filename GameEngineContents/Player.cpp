@@ -45,18 +45,20 @@ void Player::Start()
 		FSMFunc[static_cast<PlayerState>(i)] = NewStatePara;
 	}
 	SetFSMFunc();
-	//m_pCapsuleComp->SetRotation(PlayerInitRotation);
 }
 
 void Player::Update(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsDown("PressN"))
 	{
-		if (index >= AnimationName.size())
+		if (CurState == PlayerState::IDLE)
 		{
-			index = 0;
+			NextState = PlayerState::CLIMB;
 		}
-		Renderer->ChangeAnimation(AnimationName[index++]);
+		else
+		{
+			NextState = PlayerState::IDLE;
+		}
 	}
 	DefaultPhysX();
 	if (PlayerState::SKILL != CurState)
@@ -130,11 +132,13 @@ void Player::UpdateState(float _DeltaTime)
 
 void Player::CheckInput(float _DeltaTime)
 {
-	NextState = PlayerState::IDLE;
+	
+
+	// special state input
 	StateInputDelayTime -= _DeltaTime;
 	if (StateInputDelayTime < 0.0f)
 	{
-		if (true == GameEngineInput::IsPress("PlayerRoll")) // roll antmation inter이 필요함
+		if (true == GameEngineInput::IsDown("PlayerRoll")) // roll antmation inter이 필요함
 		{
 			NextState = PlayerState::ROLL;
 			return;
@@ -156,45 +160,61 @@ void Player::CheckInput(float _DeltaTime)
 		}
 	}
 
-
-
-	NextDir = float4::ZERO;
-	// move
+	// move state input
+	float4 Dir = float4::ZERO;
 	if (true == GameEngineInput::IsPress("PlayerLeft"))
 	{
-		NextDir += float4::LEFT; // 0 -90 0
+		Dir += float4::LEFT; // 0 -90 0
 	}
 	if (true == GameEngineInput::IsPress("PlayerRight"))
 	{
-		NextDir += float4::RIGHT; // 0 90 0
-
+		Dir += float4::RIGHT; // 0 90 0
 	}
 	if (true == GameEngineInput::IsPress("PlayerUp"))
 	{
-		NextDir += float4::FORWARD; // 0 0 0
-
+		Dir += float4::FORWARD; // 0 0 0
 	}
 	if (true == GameEngineInput::IsPress("PlayerDown"))
 	{
-		NextDir += float4::BACK; // 0 180 0
+		Dir += float4::BACK; // 0 180 0
 	}
-	if (false == NextDir.IsZero())
+
+	if (false == Dir.IsZero()) //  방향 입력이 있다면
 	{
 		NextState = PlayerState::WALK;
-		NextDir.Normalize();
+		NextForwardDir = Dir.NormalizeReturn();
 		DirectionUpdate(_DeltaTime);
+
+		MoveDir = NextForwardDir;
 		MoveUpdate(_DeltaTime);
+	}
+	else // 방향 입력이 없다면
+	{
+		if (false == StateChecker && CurState == PlayerState::WALK)
+		{
+			StateChecker = true;
+			return;
+		}
+		else
+		{
+			NextState = PlayerState::IDLE;
+		}
 	}
 	
 }
 void Player::DirectionUpdate(float _DeltaTime)
 {
-	float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, _DeltaTime * 10.0f);
+	if (NextForwardDir == ForwardDir)
+	{
+		return;
+	}
+	float4 LerpDir = float4::LerpClamp(ForwardDir, NextForwardDir, _DeltaTime * 10.0f);
+	//float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, _DeltaTime * 10.0f);
 
-	float4 Rot = float4::ZERO;
-	Rot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, NextFRot);
-	m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -Rot);
-	MoveDir = NextFRot;
+	float4 CalRot = float4::ZERO;
+	CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, LerpDir);
+	m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -CalRot);
+	ForwardDir = LerpDir;
 }
 
 
@@ -202,12 +222,8 @@ void Player::DirectionUpdate(float _DeltaTime)
 void Player::MoveUpdate(float _DeltaTime)
 {
 	m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-	m_pCapsuleComp->SetMoveSpeed(NextDir * m_pSpeed/* * _DeltaTime*/);
+	m_pCapsuleComp->SetMoveSpeed(MoveDir * MoveSpeed);
 
-
-	//float4 Rot = float4::ZERO;
-	//Rot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, MoveDir);
-	//m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -Rot);
 }
 
 
@@ -248,4 +264,30 @@ void Player::SetSkill()
 	{
 		CurSkill = PlayerSkill::HOOK;
 	}
+}
+
+
+float4 Player::GetMousDirection()
+{
+	// Windows Forms to Cartesian Coordinate System
+	float4 Mouse2DPos = GameEngineWindow::GetMousePosition() - GameEngineWindow::GetScreenSize().half();
+	Mouse2DPos.y = -Mouse2DPos.y;
+
+	// 3D to 2D matrix
+	std::shared_ptr<GameEngineCamera> MainCam = GetLevel()->GetMainCamera();
+	float4x4 CamViewProjectionMat = MainCam->GetView() * MainCam->GetProjection() * MainCam->GetViewPort();
+
+	float4 Player2DPos = GetTransform()->GetWorldPosition() * CamViewProjectionMat;
+	Player2DPos /= Player2DPos.w;
+	Player2DPos.w = 1.0f;
+
+	// Windows Forms to Cartesian Coordinate System
+	Player2DPos -= GameEngineWindow::GetScreenSize().half();
+	Player2DPos.y = -Player2DPos.y;
+
+
+	float4 NDir = Mouse2DPos - Player2DPos;
+
+
+	return  float4{ NDir.x, 0, NDir.y }.NormalizeReturn();
 }

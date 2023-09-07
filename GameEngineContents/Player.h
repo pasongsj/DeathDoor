@@ -99,9 +99,11 @@ private:
 	bool StateChecker = false;
 	
 	// Direction
-	float4 MoveDir = float4::FORWARD;
-	float4 NextDir = float4::ZERO;
+	float4 NextForwardDir = float4::FORWARD; // 플레이어가 변화 할 방향
+	float4 ForwardDir = float4::FORWARD; // 플레이어가 바라보는 방향
+	float4 MoveDir = float4::FORWARD; // 플레이어가 다음으로 움직일 방향
 	void DirectionUpdate(float _DeltaTime);
+	float4 GetMousDirection();
 	 
 	
 	// input & move
@@ -110,7 +112,7 @@ private:
 	void CheckClimbInput(float _DeltaTime);
 	void MoveUpdate(float _DeltaTime);
 
-	float MoveSpeed;
+	float MoveSpeed = 500.0f;
 	bool mButton = false;
 
 
@@ -120,10 +122,8 @@ private:
 
 
 	// for test
-	std::vector<std::string> AnimationName;
-	void TestInit();
 	int index = 0;
-	float m_pSpeed = 500.0f;
-	void TestMoveUpdate(float _DeltaTime);
+	//float m_pSpeed = 500.0f;
+	//void TestMoveUpdate(float _DeltaTime);
 };
 
