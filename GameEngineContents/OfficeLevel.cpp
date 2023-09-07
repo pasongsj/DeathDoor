@@ -17,10 +17,12 @@ OfficeLevel::~OfficeLevel()
 void OfficeLevel::Start()
 {
 	SetLevelType(PacketLevelType::OfficeLevel);
+	InitKey();
 }
 
 void OfficeLevel::Update(float _DeltaTime)
 {
+	KeyUpdate(_DeltaTime);
 }
 
 void OfficeLevel::LevelChangeStart()
@@ -33,7 +35,7 @@ void OfficeLevel::LevelChangeStart()
 
 
 	CreateActor<GameEngineLight>();
-	CreateActor<Map_Office>();
+	m_pMap = CreateActor<Map_Office>();
 
 	// 플레이어 생성후 Set_StartPos함수 호출하면 해당 위치에 세팅
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
@@ -43,6 +45,25 @@ void OfficeLevel::LevelChangeStart()
 void OfficeLevel::LevelChangeEnd()
 {
 	AllActorDestroy();
+}
+
+void OfficeLevel::InitKey()
+{
+	if (false == GameEngineInput::IsKey("NaviMesh_Switch"))
+	{
+		GameEngineInput::CreateKey("NaviMesh_Swtich", 'M');
+	}
+}
+
+void OfficeLevel::KeyUpdate(float _DeltaTime)
+{
+	if (true == GameEngineInput::IsDown("NaviMesh_Swtich"))
+	{
+		if (nullptr != m_pMap)
+		{
+			m_pMap->NaviRenderSwitch();
+		}
+	}
 }
 
 void OfficeLevel::Set_StartPos(std::shared_ptr<Player> _Player)
