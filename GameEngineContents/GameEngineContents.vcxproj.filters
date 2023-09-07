@@ -189,6 +189,24 @@
     <ClCompile Include="MyTest.cpp">
       <Filter>Contents\UITestLevel</Filter>
     </ClCompile>
+    <ClCompile Include="StreetLamp_2.cpp">
+      <Filter>Contents\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniOffice.cpp">
+      <Filter>Contents\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowerPot.cpp">
+      <Filter>Contents\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniDesk.cpp">
+      <Filter>Contents\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Conveyor.cpp">
+      <Filter>Contents\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform_Wall.cpp">
+      <Filter>Contents\Static_Object\Wall</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -380,6 +398,24 @@
     <ClInclude Include="MyTest.h">
       <Filter>Contents\UITestLevel</Filter>
     </ClInclude>
+    <ClInclude Include="StreetLamp_2.h">
+      <Filter>Contents\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniOffice.h">
+      <Filter>Contents\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowerPot.h">
+      <Filter>Contents\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniDesk.h">
+      <Filter>Contents\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Conveyor.h">
+      <Filter>Contents\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform_Wall.h">
+      <Filter>Contents\Static_Object\Wall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -471,6 +507,9 @@
     </Filter>
     <Filter Include="Component\ContentsRenderer\Particle">
       <UniqueIdentifier>{47fef3f1-0d09-44ae-b450-d11cab6effcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Static_Object\Wall">
+      <UniqueIdentifier>{0dd36c88-e6ef-4b59-aa21-a028fbaaa996}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
