@@ -363,6 +363,15 @@ void GameEngineFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName
 	NewAnimation->Loop = _Params.Loop;
 	NewAnimation->Reset();
 
+	if (-1 != _Params.Start)
+	{
+		NewAnimation->Start = static_cast<unsigned int>(_Params.Start);
+	}
+	if (-1 != _Params.End)
+	{
+		NewAnimation->End = static_cast<unsigned int>(_Params.End);
+	}
+
 	BaseValue.IsAnimation = 1;
 	Animations.insert(std::make_pair(UpperName, NewAnimation));
 
