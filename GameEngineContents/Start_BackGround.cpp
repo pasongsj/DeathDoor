@@ -47,7 +47,7 @@ void Start_BackGround::Start()
     //Hall_Crow_3->ChangeAnimation("Crow_Player_Sat_Bored");
 
     Hall_Banker = CreateComponent<ContentFBXRenderer>();
-    Hall_Banker->SetFBXMesh("banker.fbx", "ContentMeshToon");
+    Hall_Banker->SetFBXMesh("banker.fbx", "ContentMesh");
     Hall_Banker->GetTransform()->SetLocalScale({ 4.0f, 4.0f, 4.0f });
     Hall_Banker->GetTransform()->SetLocalRotation({ 0.0f, 135.0f, 0.0f });
     Hall_Banker->GetTransform()->SetLocalPosition({ -17.5f, 0.0f, 10.5f });

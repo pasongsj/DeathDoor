@@ -120,5 +120,65 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	{		
 		GetLevel()->GetMainCamera()->SwtichFreeCamera();
 	}
+
+	//ºû ÄÁÆ®·Ñ·¯
+	std::list<std::shared_ptr<GameEngineLight>> Lights = GetLevel()->GetAllLight();
+	
+	bool isLight = (Lights.begin() != Lights.end());
+
+	if (isLight == false)
+	{
+		ImGui::Text("No Exist Light");
+		return;
+	}
+
+	ImGui::Text("Light Controll");
+
+	std::shared_ptr<GameEngineLight> Light = *Lights.begin();
+
+	float RotX = Light->GetTransform()->GetLocalRotation().x;
+	float RotY = Light->GetTransform()->GetLocalRotation().y;
+	float RotZ = Light->GetTransform()->GetLocalRotation().z;
+	
+	std::string LightRotText = "X : " + std::to_string(RotX) + "\nY : " + std::to_string(RotY) + "\nZ : " + std::to_string(RotX);
+	
+	ImGui::Text(LightRotText.c_str());
+
+	if (ImGui::Button("Rot_X : 10.0f"))
+	{
+		Lights.begin()->get()->GetTransform()->AddLocalRotation({ 10.0f, 0.0f, 0.0f });
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Rot_X : 90.0f"))
+	{
+		Lights.begin()->get()->GetTransform()->AddLocalRotation({ 90.0f, 0.0f, 0.0f });
+	}
+
+	if (ImGui::Button("Rot_Y : 10.0f"))
+	{
+		Lights.begin()->get()->GetTransform()->AddLocalRotation({ 0.0f, 10.0f, 0.0f });
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Rot_Y : 90.0f"))
+	{
+		Lights.begin()->get()->GetTransform()->AddLocalRotation({ 0.0f, 90.0f, 0.0f });
+	}
+
+	if (ImGui::Button("Rot_Z : 10.0f"))
+	{
+		Lights.begin()->get()->GetTransform()->AddLocalRotation({ 0.0f, 0.0f, 10.0f });
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Rot_Z : 90.0f"))
+	{
+		Lights.begin()->get()->GetTransform()->AddLocalRotation({ 0.0f, 0.0f, 90.0f });
+	}
+
 }
 
