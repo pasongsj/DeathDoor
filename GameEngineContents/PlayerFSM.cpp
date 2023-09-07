@@ -2,31 +2,13 @@
 #include "Player.h"
 #include "PhysXCapsuleComponent.h"
 #include "PlayerDefinition.h"
-//enum class PlayerState
-//{
-//	IDLE,			// Idle_0, Idle_1
-//	WALK,			// Walk, Run
-//	SKILL,			// 우클릭 Arrow, Arrow_bomb, Arrow_magic, Hookshot, Hookshot_fly
-//  HOOK_FLY		// Hookshot_fly
-//	BASE_ATT,		// 좌클릭 Slash_Light_L_new, Slash_Light_R_new
-//	ROLL,			// 스페이스바 Roll, Roll_slash
-//	SLIDE_ATT,		// 스페이스바+휠클릭 Charge_slam_overhead, Roll_slash_end
-//	CHARGE_ATT,		// 휠클릭 Charge_slash_L, Charge_slash_R
-//	HIT,			// 공격당함 Hit_back, Hit_idle,Hit_Recover
-//	CLIMB,			// 사다리 Climbing_ladder, Climbing_ladder_down, Climbing_off_ladder_top
-//	LEVER,			// 레버를 누름 Push_Lever
-//	ITEM,			// 아이템을 얻음 GetItem
-//	DEAD,			// 피격으로 인한 사망 Dead
-//	DROWN,			// 익사 Drown
-//	FALLING,		// 낙사 Falling
-//	FLY,			// 높이가 차가 있을 때 FLy, Land
-//	MAX,
-//};
 
 
 #define PlayerIdleTime 3.0f
 #define PlayerWalkTime 0.05f
 #define PlayerHitIdleTime 1.0f
+#define RollSpeedRatio 3.0f
+#define ClimbSpeedRatio 0.5f
 
 
 void Player::SetFSMFunc()
@@ -66,19 +48,33 @@ void Player::SetFSMFunc()
 	//WALK	// Walk, Run
 	FSMFunc[PlayerState::WALK].Start = [this]
 		{
-			Renderer->ChangeAnimation("Walk");
+			Renderer->ChangeAnimation("Run");
 
 		};
 
 	FSMFunc[PlayerState::WALK].Update = [this](float Delta)
 		{
-			StateDuration += Delta;
-			if (false == StateChecker && StateDuration > PlayerWalkTime)
+			//StateDuration += Delta;
+			if (true == StateChecker)
 			{
-				Renderer->ChangeAnimation("Run");
-				StateChecker = true;
+				Renderer->ChangeAnimation("Walk");
+				if (true == Renderer->IsAnimationEnd())
+				{
+					NextState = PlayerState::IDLE;
+				}
+
 			}
-			CheckInput(Delta);
+			else
+			{
+				CheckInput(Delta);
+			}
+
+
+			//if (false == StateChecker && StateDuration > PlayerWalkTime)
+			//{
+			//	Renderer->ChangeAnimation("Run");
+			//	StateChecker = true;
+			//}
 
 		};
 
@@ -118,27 +114,8 @@ void Player::SetFSMFunc()
 			StateDuration += Delta;
 			if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
 			{
-				float4 Mouse2DPos = GameEngineWindow::GetMousePosition() - GameEngineWindow::GetScreenSize().half();
-
-				Mouse2DPos.y = -Mouse2DPos.y;
-				//Mouse2DPos -= GameEngineWindow::GetScreenSize().half(); // Windows Forms to Cartesian Coordinate System
-
-				float4x4 ViewPort = GetLevel()->GetMainCamera()->GetViewPort();
-				float4x4 Proj = GetLevel()->GetMainCamera()->GetProjection();
-				float4x4 View = GetLevel()->GetMainCamera()->GetView();
-
-				float4x4 Poj = View * Proj * ViewPort;
-				float4 Player2DPos = GetTransform()->GetWorldPosition() * Poj;
-				Player2DPos /= Player2DPos.w;
-				Player2DPos.w = 1.0f;
-				Player2DPos -= GameEngineWindow::GetScreenSize().half();
-				Player2DPos.y = -Player2DPos.y;
-				float4 NDir = Mouse2DPos - Player2DPos;
-
-				NextDir = float4{ NDir.x, 0, NDir.y };
-
-
-				NextDir.Normalize();
+				// 마우스 방향을 바라보도록 함
+				NextForwardDir = GetMousDirection();
 				DirectionUpdate(Delta);
 			}
 
@@ -153,7 +130,6 @@ void Player::SetFSMFunc()
 				//case Player::PlayerSkill::BOMB:
 				//	break;
 				//case Player::PlayerSkill::HOOK:
-
 				//	break;
 				//case Player::PlayerSkill::MAX:
 				//	break;
@@ -202,13 +178,22 @@ void Player::SetFSMFunc()
 				Renderer->ChangeAnimation("Slash_Light_L_new");
 			}
 			isRightAttack = !isRightAttack;
+
+			// 마우스 방향을 바라보도록 함
+			NextForwardDir = GetMousDirection();
+
 		};
 
 	FSMFunc[PlayerState::BASE_ATT].Update = [this](float Delta)
 		{
+			DirectionUpdate(Delta);
+			MoveDir = NextForwardDir;
+			MoveUpdate(Delta);
+
 			if (true == Renderer->IsAnimationEnd())
 			{
-				CheckInput(Delta);
+				NextState = PlayerState::IDLE;
+				StateInputDelayTime = 0.3f;
 			}
 
 		};
@@ -231,7 +216,7 @@ void Player::SetFSMFunc()
 	FSMFunc[PlayerState::ROLL].Update = [this](float Delta)
 		{
 			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-			m_pCapsuleComp->SetMoveSpeed(MoveDir* m_pSpeed * 3.0f);
+			m_pCapsuleComp->SetMoveSpeed(MoveDir * MoveSpeed * RollSpeedRatio);
 			if (true == GameEngineInput::IsDown("PlayerMBUTTON"))
 			{
 				mButton = true;
@@ -244,8 +229,8 @@ void Player::SetFSMFunc()
 				}
 				else
 				{
-					StateInputDelayTime = 0.3f;
-					CheckInput(Delta);
+					StateInputDelayTime = 0.5f;
+					NextState = PlayerState::IDLE;
 				}
 			}
 		};
@@ -293,7 +278,6 @@ void Player::SetFSMFunc()
 
 	FSMFunc[PlayerState::CHARGE_ATT].Update = [this](float Delta)
 		{
-			
 			if (false == GameEngineInput::IsPress("PlayerMBUTTON"))
 			{
 				NextState = PlayerState::BASE_ATT;
@@ -344,6 +328,8 @@ void Player::SetFSMFunc()
 		{
 			Renderer->ChangeAnimation("Climbing_ladder");
 			Renderer->PauseOn();
+
+			m_pCapsuleComp->TurnOffGravity();
 		};
 
 	FSMFunc[PlayerState::CLIMB].Update = [this](float Delta)
@@ -358,7 +344,8 @@ void Player::SetFSMFunc()
 
 	FSMFunc[PlayerState::CLIMB].End = [this]
 		{
-
+			m_pCapsuleComp->TurnOnGravity();
+			Renderer->PauseOff();
 		};	
 	
 	//LEVER // 레버를 누름 Push_Lever
@@ -392,7 +379,7 @@ void Player::SetFSMFunc()
 		{
 			if (true == Renderer->IsAnimationEnd())
 			{
-				CheckInput(Delta);
+				NextState = PlayerState::IDLE;
 			}
 		};
 
@@ -498,10 +485,18 @@ void Player::CheckClimbInput(float _DeltaTime)
 	if (true == GameEngineInput::IsPress("PlayerUp"))
 	{
 		Renderer->ChangeAnimation("Climbing_ladder");
+		Renderer->PauseOff();
+		m_pCapsuleComp->SetMoveSpeed(float4::UP * MoveSpeed * ClimbSpeedRatio);
 	}
-	if (true == GameEngineInput::IsPress("PlayerDown"))
+	else if (true == GameEngineInput::IsPress("PlayerDown"))
 	{
 		Renderer->ChangeAnimation("Climbing_ladder_down");
+		Renderer->PauseOff();
+		m_pCapsuleComp->SetMoveSpeed(float4::DOWN * MoveSpeed * ClimbSpeedRatio);
 
+	}
+	else
+	{
+		Renderer->PauseOn();
 	}
 }
