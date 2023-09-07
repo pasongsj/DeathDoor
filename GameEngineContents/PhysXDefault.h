@@ -136,17 +136,43 @@ public:
 		PhysXManager::GetInst()->GetPvdClient()->updateCamera("PvdCam", CamPos.PhysXVec3Return(), { 0,1,0 }, TargetPos.PhysXVec3Return());
 	}
 
+	void DeathAndRelease()
+	{
+		if (nullptr != m_pRigidDynamic && true == m_pRigidDynamic->isReleasable())
+		{
+			m_pShape->userData = nullptr;
+			m_pRigidDynamic->release();
+			m_pRigidDynamic = nullptr;
+			ParentActor.lock()->Death();
+		}
+		if (nullptr != m_pRigidStatic && true == m_pRigidStatic->isReleasable())
+		{
+			m_pShape->userData = nullptr;
+			m_pRigidStatic->release();
+			m_pRigidStatic = nullptr;
+			ParentActor.lock()->Death();
+		}
+	}
 
 	void Release()
 	{
 		if (m_pRigidDynamic != nullptr && m_pRigidDynamic->isReleasable())
 		{
+			m_pShape->userData = nullptr;
 			m_pRigidDynamic->release();
+			m_pRigidDynamic = nullptr;
 		}
 		if (m_pRigidStatic != nullptr && m_pRigidStatic->isReleasable())
 		{
+			m_pShape->userData = nullptr;
 			m_pRigidStatic->release();
+			m_pRigidStatic = nullptr;
 		}
+	}
+
+	inline void SetPositionSetFromParentFlag(bool _Flag)
+	{
+		PositionSetFromParentFlag = _Flag;
 	}
 
 protected:
@@ -163,7 +189,17 @@ protected:
 
 	static physx::PxAggregate* m_pAggregate;
 	std::weak_ptr<GameEngineActor> ParentActor;
-	//std::weak_ptr<PhysXDefault> m_pPhysXComponent;
+
+	// Phys액터 생성에 필요한 정보
+	physx::PxScene* m_pScene = nullptr;
+	physx::PxPhysics* m_pPhysics = nullptr;
+
+	physx::PxMaterial* m_pMaterial = nullptr;
+	physx::PxShape* m_pShape = nullptr;
+
+	// 이 컴포넌트를 가지고 있는 Parent에 대한 정보
+
+	bool PositionSetFromParentFlag = false;
 
 private:
 };

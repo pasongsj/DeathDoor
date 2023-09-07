@@ -16,18 +16,21 @@ public:
 	void SetMesh(std::shared_ptr<class GameEngineMesh> _Mesh);
 	void SetMaterial(const std::string_view& _Name);
 	void Render(float _DeltaTime);
-	void SetRenderer(GameEngineRenderer* _Renderer);
+	void SetRenderer(class GameEngineRenderer* _Renderer);
 
-	GameEngineRenderer* GetRenderer()
+	class GameEngineRenderer* GetRenderer()
 	{
 		return ParentRenderer;
 	}
 
 	float4 UVdata = { 1, 1, 0, 0 };
 
-	ColorOption Color = { {1, 1, 1, 1}, {0, 0, 0, 0} };
+
+	ColorOption Color = { { 1, 1, 1, 1 }, { 0, 0, 0, 0 } };
+	
+
 private:
-	GameEngineRenderer* ParentRenderer = nullptr;
+	class GameEngineRenderer* ParentRenderer = nullptr;
 	std::shared_ptr<class GameEngineInputLayOut> InputLayOutPtr;
 	std::shared_ptr<class GameEngineMesh> Mesh;
 };

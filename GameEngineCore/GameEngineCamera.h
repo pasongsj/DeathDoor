@@ -3,6 +3,7 @@
 #include "GameEngineEnum.h"
 #include <list>
 #include <map>
+#include "GameEngineRenderer.h"
 
 enum class SortType
 {
@@ -16,8 +17,8 @@ class GameEngineRenderer;
 class GameEngineRenderTarget;
 class GameEngineCamera : public GameEngineActor
 {
-	friend GameEngineLevel;
-	friend GameEngineRenderer;
+	friend class GameEngineLevel;
+	friend class GameEngineRenderer;
 	friend class GameEngineRenderUnit;
 
 public:
@@ -46,6 +47,8 @@ public:
 		return ViewPort;
 	}
 
+	void ViewPortSetting();
+
 	void Setting();
 
 	void SetProjectionType(CameraType _Type)
@@ -53,7 +56,7 @@ public:
 		ProjectionType = _Type;
 	}
 
-	inline bool IsFreeCamera() 
+	inline bool IsFreeCamera()
 	{
 		return FreeCamera;
 	}
@@ -68,15 +71,37 @@ public:
 
 	void CameraTransformUpdate();
 
-	std::shared_ptr<GameEngineRenderTarget> GetCamTarget() 
+	std::shared_ptr<GameEngineRenderTarget> GetCamTarget()
 	{
 		return CamTarget;
 	}
 
+
+	std::shared_ptr<GameEngineRenderTarget> GetCamForwardTarget()
+	{
+		return CamForwardTarget;
+	}
+
+	std::shared_ptr<GameEngineRenderTarget> GetCamDeferrdTarget()
+	{
+		return CamDeferrdTarget;
+	}
+
+	std::shared_ptr<GameEngineRenderTarget> GetCamAllRenderTarget()
+	{
+		return AllRenderTarget;
+	}
+
+	std::shared_ptr<GameEngineRenderTarget> GetDeferredLightTarget()
+	{
+		return DeferredLightTarget;
+	}
+
+
 	bool IsView(const TransformData& _TransData);
 
 	template<typename EnumType>
-	void SetSortType(EnumType _Index, SortType _Sort) 
+	void SetSortType(EnumType _Index, SortType _Sort)
 	{
 		SetSortType(static_cast<int>(_Index), _Sort);
 	}
@@ -91,7 +116,7 @@ public:
 		ZoomRatio = _Value;
 	}
 
-	inline void AddZoomRatio(float _Value) 
+	inline void AddZoomRatio(float _Value)
 	{
 		ZoomRatio -= _Value;
 	}
@@ -101,11 +126,10 @@ public:
 		return ZoomRatio;
 	}
 
-
 protected:
 	void Start() override;
 
-private:	
+private:
 	std::map<int, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>> Units;
 
 	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>> Renderers;
@@ -137,12 +161,20 @@ private:
 	void PushRenderer(std::shared_ptr<GameEngineRenderer> _Render);
 	void PushRenderUnit(std::shared_ptr<GameEngineRenderUnit> _Unit);
 
-
 	void Release();
 
-	std::shared_ptr<GameEngineRenderTarget> CamTarget;	
-	
-	void FreeCameraSwitch();
+	std::shared_ptr<GameEngineRenderTarget> CamTarget;
+	std::shared_ptr<GameEngineRenderTarget> CamForwardTarget;
+	std::shared_ptr<GameEngineRenderTarget> CamDeferrdTarget;
+	std::shared_ptr<GameEngineRenderTarget> AllRenderTarget;
 
+	GameEngineRenderUnit CalLightUnit;
+	GameEngineRenderUnit DefferdMergeUnit;
+
+	// 빛계산의 결과물을 받기 위한 타겟.
+	std::shared_ptr<GameEngineRenderTarget> DeferredLightTarget;
+
+
+	void FreeCameraSwitch();
 };
 

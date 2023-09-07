@@ -3,6 +3,10 @@
 #include "Light.fx"
 #include "RenderBaseValue.fx"
 
+
+
+
+
 struct Input
 {
     float4 POSITION : POSITION;
@@ -34,7 +38,7 @@ struct Output
 // 그걸 픽셀 쉐이더에서하면 그걸 퐁쉐이딩
 
 // 그래픽카드에서 이뤄지는것.
-Output MeshAniTexture_VS(Input _Input)
+Output MeshAniTextureDeferred_VS(Input _Input)
 {
     Output NewOutPut = (Output)0;
     
@@ -73,15 +77,17 @@ Output MeshAniTexture_VS(Input _Input)
 Texture2D DiffuseTexture : register(t0);
 SamplerState ENGINEBASE : register(s0);
 
-struct OutTarget
+struct DeferredOutPut
 {
-    float4 CamForwardTarget : SV_Target0;
-    float4 TestTarget : SV_Target5;
+    // float4 CamForwardTarget : SV_Target0;
+    float4 DifTarget : SV_Target1;
+    float4 PosTarget : SV_Target2;
+    float4 NorTarget : SV_Target3;
 };
 
-OutTarget MeshAniTexture_PS(Output _Input)
+DeferredOutPut MeshAniTextureDeferred_PS(Output _Input)
 {
-    OutTarget NewOutPut = (OutTarget) 0;
+    DeferredOutPut NewOutPut = (DeferredOutPut) 0;
     
     // 디퓨즈컬러
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
@@ -93,18 +99,10 @@ OutTarget MeshAniTexture_PS(Output _Input)
         clip(-1);
     }
     
-    float4 DiffuseRatio = CalDiffuseLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
-    float4 SpacularRatio = CalSpacularLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);;
-    float4 AmbientRatio = CalAmbientLight(AllLight[0]);
-    
-    
-    float A = Color.w;
-    float4 ResultColor = Color * (DiffuseRatio + SpacularRatio + AmbientRatio);
-    ResultColor.a = A;
-    // Color += AllLight[0].LightColor;
-    
-    NewOutPut.CamForwardTarget = ResultColor;
-    NewOutPut.TestTarget = ResultColor;
+    NewOutPut.DifTarget = Color;
+    NewOutPut.PosTarget = _Input.VIEWPOSITION;
+    _Input.NORMAL.a = 1.0f;
+    NewOutPut.NorTarget = _Input.NORMAL;
     
     return NewOutPut;
 }
