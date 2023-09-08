@@ -185,6 +185,20 @@ public:
 		m_bStatic = _Value;
 	}
 
+	void SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0, PhysXFilterGroup _OtherFilter1 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter2 = PhysXFilterGroup::None)
+	{
+		m_pShape->setSimulationFilterData
+			(
+				physx::PxFilterData
+				(
+					static_cast<physx::PxU32>(_ThisFilter),
+					static_cast<physx::PxU32>(_OtherFilter0),
+					static_cast<physx::PxU32>(_OtherFilter1),
+					static_cast<physx::PxU32>(_OtherFilter2)
+				)
+			);
+	}
+
 protected:
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
 	physx::PxRigidStatic* m_pRigidStatic = nullptr;
