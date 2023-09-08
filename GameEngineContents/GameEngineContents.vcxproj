@@ -322,7 +322,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TextObj.cpp" />
     <ClCompile Include="Transform_Wall.cpp" />
     <ClCompile Include="TrashCan.cpp" />
     <ClCompile Include="UITestLevel.cpp">
@@ -530,7 +529,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TextObj.h" />
     <ClInclude Include="Transform_Wall.h">
       <SubType>
       </SubType>

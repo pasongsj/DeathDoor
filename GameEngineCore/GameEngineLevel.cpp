@@ -293,18 +293,12 @@ void GameEngineLevel::Render(float _DeltaTime)
 			++LightDataObject.LightCount;
 		}
 
-		//AllRenderTarget->Clear();
-		//AllRenderTarget->Setting();
-		// Cam->Setting();
+		Cam->CameraTransformUpdate();
 		Cam->ViewPortSetting();
 		Cam->AllRenderTarget->Clear();
 		Cam->AllRenderTarget->Setting();
-		Cam->CameraTransformUpdate();
 		Cam->Render(_DeltaTime);
 
-		Cam->CamForwardTarget->Clear();
-		Cam->CamForwardTarget->Merge(Cam->AllRenderTarget, 0);
-		Cam->CamForwardTarget->Effect(_DeltaTime);
 
 		if (false == IsDebugRender)
 		{
@@ -449,6 +443,24 @@ void GameEngineLevel::TextureReLoad(GameEngineLevel* _PrevLevel)
 	}
 
 	TexturePath.clear();
+}
+
+void GameEngineLevel::InitCameraRenderTarget()
+{
+	std::map<int, std::shared_ptr<GameEngineCamera>>::iterator BeginCamIter = Cameras.begin();
+	for (; BeginCamIter != Cameras.end(); ++BeginCamIter)
+	{
+		BeginCamIter->second->InitCameraRenderTarget();
+	}
+}
+
+void GameEngineLevel::ReleaseCameraRenderTarget()
+{
+	std::map<int, std::shared_ptr<GameEngineCamera>>::iterator BeginCamIter = Cameras.begin();
+	for (; BeginCamIter != Cameras.end(); ++BeginCamIter)
+	{
+		BeginCamIter->second->ReleaseCameraRenderTarget();
+	}
 }
 
 void GameEngineLevel::AllActorDestroy()

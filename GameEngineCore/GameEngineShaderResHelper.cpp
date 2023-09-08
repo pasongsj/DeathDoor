@@ -57,9 +57,40 @@ void GameEngineConstantBufferSetter::Setting()
 
 }
 
+void GameEngineConstantBufferSetter::Reset()
+{
+	Res->ResourcesClear();
+}
+
 int GameEngineStructuredBufferSetter::GetDataSize()
 {
 	return Res->GetDataSize();
+}
+
+void GameEngineStructuredBufferSetter::Reset()
+{
+	ShaderType Type = ParentShader->GetType();
+
+	switch (Type)
+	{
+	case ShaderType::None:
+	{
+		MsgAssert("어떤 쉐이더에 세팅될지 알수없는 상수버퍼 입니다.");
+		break;
+	}
+	case ShaderType::Vertex:
+	{
+		Res->VSReset(BindPoint);
+		break;
+	}
+	case ShaderType::Pixel:
+	{
+		Res->PSReset(BindPoint);
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 void GameEngineStructuredBufferSetter::Setting()
@@ -169,6 +200,11 @@ void GameEngineSamplerSetter::Setting()
 	default:
 		break;
 	}
+}
+
+void GameEngineSamplerSetter::Reset()
+{
+	Res->ResourcesClear();
 }
 
 

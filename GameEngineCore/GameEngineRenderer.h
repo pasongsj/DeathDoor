@@ -3,6 +3,15 @@
 #include "GameEngineShader.h"
 #include "EngineContentRenderingStruct.h"
 
+enum class RenderPath
+{
+	None,
+	Forward,
+	Deferred,
+	Alpha,
+	Debug,
+};
+
 class GameEngineRenderUnit : public GameEngineObjectBase, public std::enable_shared_from_this<GameEngineRenderUnit>
 {
 public:
@@ -14,7 +23,7 @@ public:
 	GameEngineRenderUnit();
 	void SetMesh(const std::string_view& _Name);
 	void SetMesh(std::shared_ptr<class GameEngineMesh> _Mesh);
-	void SetMaterial(const std::string_view& _Name);
+	void SetMaterial(const std::string_view& _Name, RenderPath _Path = RenderPath::None);
 	void Render(float _DeltaTime);
 	void SetRenderer(class GameEngineRenderer* _Renderer);
 
