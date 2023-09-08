@@ -102,7 +102,7 @@ public:
 		return m_pRigidStatic;
 	}
 
-
+	
 	physx::PxPhysics* GetPhysics()
 	{
 		return PhysXManager::GetInst()->GetPhysics();
@@ -175,6 +175,16 @@ public:
 		PositionSetFromParentFlag = _Flag;
 	}
 
+	bool IsStatic()
+	{
+		return m_bStatic;
+	}
+
+	void SetStatic(bool _Value)
+	{
+		m_bStatic = _Value;
+	}
+
 protected:
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
 	physx::PxRigidStatic* m_pRigidStatic = nullptr;
@@ -186,6 +196,7 @@ protected:
 	bool m_bObstacle = false;
 	bool m_bGround = false;
 	bool m_bAggregateObj = false;
+	bool m_bStatic = false;
 
 	static physx::PxAggregate* m_pAggregate;
 	std::weak_ptr<GameEngineActor> ParentActor;

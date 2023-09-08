@@ -27,6 +27,7 @@ void PhysXTestPlane::Start()
 
 	m_pBoxComp = CreateComponent<PhysXBoxComponent>();
 
+	m_pBoxComp->SetStatic(true);
 	m_pBoxComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	if (Count != 0)
 	{
