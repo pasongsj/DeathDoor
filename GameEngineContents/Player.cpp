@@ -31,6 +31,7 @@ void Player::Start()
 	// physx
 	{
 		float4 scale = Renderer->GetMeshScale() * Renderer->GetTransform()->GetWorldScale() / Renderer->GetTransform()->GetLocalScale();
+		// scale *= 2.0f;
 		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		// 레벨체크 때문에 터져서 레벨체크하는부분만 주석
