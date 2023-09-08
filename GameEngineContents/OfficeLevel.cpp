@@ -24,10 +24,10 @@ void OfficeLevel::Update(float _DeltaTime)
 {
 	KeyUpdate(_DeltaTime);
 
-	if (false == GetMainCamera()->IsFreeCamera())
+	/*if (false == GetMainCamera()->IsFreeCamera())
 	{
 		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4{ 0, 3000, 0});
-	}
+	}*/
 }
 
 void OfficeLevel::LevelChangeStart()

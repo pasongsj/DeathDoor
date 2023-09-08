@@ -47,5 +47,5 @@ void Transform_Wall::Set_MeshRatio(float4& _Ratio)
 	MeshScale.y *= _Ratio.y;
 	MeshScale.z *= _Ratio.z;
 
-	m_pComp->CreatePhysXActors(MeshScale.PhysXVec3Return());
+	m_pComp->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
 }
