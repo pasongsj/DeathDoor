@@ -36,7 +36,7 @@ private:
 
 	void Set_StartPos(std::shared_ptr<class Player> _Player);
 	const float4 m_StartPos = float4 { 2610 , -740 , -5347 };
-	const float4 m_TestStartPos = float4{ 0, 50, 0 };
+	const float4 m_TestStartPos = float4{ 1869, 570, 4110 };
 	
 
 	std::shared_ptr<class Map_Office> m_pMap = nullptr;
