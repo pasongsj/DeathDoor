@@ -1,6 +1,7 @@
 #pragma once
 #include "PhysXManager.h"
 #include <GameEngineCore/GameEngineCore.h>
+#include "ContentsEnum.h"
 
 // 설명 : PhysX에서 공통으로 사용할 함수들
 class PhysXDefault

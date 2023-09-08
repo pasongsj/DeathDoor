@@ -29,8 +29,8 @@
 //#pragma comment (lib, "PhysXPvdSDK_static_64.lib")
 //#pragma comment (lib, "PhysXCooking_static_64.lib")
 
-#include "PhysXDefault.h"
-#include "ContentsEnum.h"
 #include "GlobalValue.h"
+#include "ContentsEnum.h"
+#include "PhysXDefault.h"
 
 #include "ServerPacket.h"
