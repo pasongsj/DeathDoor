@@ -80,6 +80,7 @@ void GameEngineCore::EngineUpdate()
 		{
 			MainLevel->LevelChangeEnd();
 			MainLevel->ActorLevelChangeEnd();
+			MainLevel->ReleaseCameraRenderTarget();
 		}
 
 		MainLevel = NextLevel;
@@ -87,6 +88,7 @@ void GameEngineCore::EngineUpdate()
 		if (nullptr != MainLevel)
 		{
 			CurLoadLevel = MainLevel;
+			MainLevel->InitCameraRenderTarget();
 			PhysXManager::GetInst()->ChangeScene(MainLevel->GetName());
 
 			MainLevel->LevelChangeStart();

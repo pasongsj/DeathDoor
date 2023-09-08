@@ -66,9 +66,6 @@
     <ClCompile Include="ContentUIRenderer.cpp">
       <Filter>Component\ContentsRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="TextObj.cpp">
-      <Filter>Contents\TestLevel\Object</Filter>
-    </ClCompile>
     <ClCompile Include="PhysXTriangleComponent.cpp">
       <Filter>Component\PhysX\Component</Filter>
     </ClCompile>
@@ -309,9 +306,6 @@
     </ClInclude>
     <ClInclude Include="ContentUIRenderer.h">
       <Filter>Component\ContentsRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="TextObj.h">
-      <Filter>Contents\TestLevel\Object</Filter>
     </ClInclude>
     <ClInclude Include="StartMenu.h">
       <Filter>Contents\StartLevel\Actor</Filter>
