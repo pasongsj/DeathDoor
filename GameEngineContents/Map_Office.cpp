@@ -20,6 +20,9 @@
 #include "FlowerPot.h"
 #include "MiniDesk.h"
 #include "Conveyor.h"
+#include "Railing.h"
+#include "Bench.h"
+#include "MiniPost.h"
 
 Map_Office::Map_Office()
 {
@@ -41,7 +44,6 @@ void Map_Office::NaviRenderSwitch()
 		{
 			m_pNaviRenderer->On();
 		}
-		
 	}
 }
 
@@ -192,13 +194,85 @@ void Map_Office::Set_StaticObject()
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
+	{
+		std::shared_ptr<Bench> Obj = CurLevel->CreateActor<Bench>();
+		const float4 Pos = float4{ -250, -18, 300 };
+		const float4 Rot = float4{ 0, 45, 0 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+	}
 
 
+	// 난간, 아래쪽부터 순서대로 
+	{
+		std::shared_ptr<Railing> Obj = CurLevel->CreateActor<Railing>();
+		const float4 Pos = float4{ -200, -250, -850 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<Railing> Obj = CurLevel->CreateActor<Railing>();
+		const float4 Pos = float4{ 180, -250, -850 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<Railing> Obj = CurLevel->CreateActor<Railing>();
+		const float4 Pos = float4{ 400, 100, 700 };
+		const float4 Rot = float4{ 0, 45 , 0 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+	}
+	{
+		std::shared_ptr<Railing> Obj = CurLevel->CreateActor<Railing>();
+		const float4 Pos = float4{ 600, 100, 500 };
+		const float4 Rot = float4{ 0, 45 , 0 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+	}
+	{
+		std::shared_ptr<Railing> Obj = CurLevel->CreateActor<Railing>();
+		const float4 Pos = float4{ 2430, 140, 1300 };
+		const float4 Rot = float4{ 0, 5 , 0 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+	}
+	{
+		// 2260, 270 , 1121
+		// 휴지통
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 0.5f, 0.5f, 0.5f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 2220, 270, 1121 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		// 빨래건조대?
+		// 1821, 300, 1648
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 0.5f, 0.5f, 0.5f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 1741, 300, 1548 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
 
-
-
-
-
+	{
+		std::shared_ptr<MiniPost> Obj = CurLevel->CreateActor<MiniPost>();
+		const float4 Pos = float4{ 1300, 300, 680 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		std::shared_ptr<MiniPost> Obj = CurLevel->CreateActor<MiniPost>();
+		const float4 Pos = float4{ 1300, 300, 2080 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+	}
+	{
+		
+	}
 
 
 	// --------------------------------transform wall---------------------------------------------
@@ -378,6 +452,15 @@ void Map_Office::Set_StaticObject()
 		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 
+	// 초반 언덕 아래 땜빵 wall 
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		float4 Ratio = float4{ 0.5f, 0.5f, 0.7f };
+		Obj->Set_MeshRatio(Ratio);
+		const float4 Pos = float4{ 155, -400, -1150 };
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4{-20, 0, 0}, Pos));
+	}
 
 }
 

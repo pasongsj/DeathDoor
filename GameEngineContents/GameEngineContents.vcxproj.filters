@@ -207,6 +207,15 @@
     <ClCompile Include="Transform_Wall.cpp">
       <Filter>Contents\Static_Object\Wall</Filter>
     </ClCompile>
+    <ClCompile Include="Railing.cpp">
+      <Filter>Contents\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Bench.cpp">
+      <Filter>Contents\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniPost.cpp">
+      <Filter>Contents\Static_Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -415,6 +424,15 @@
     </ClInclude>
     <ClInclude Include="Transform_Wall.h">
       <Filter>Contents\Static_Object\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="Railing.h">
+      <Filter>Contents\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Bench.h">
+      <Filter>Contents\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniPost.h">
+      <Filter>Contents\Static_Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

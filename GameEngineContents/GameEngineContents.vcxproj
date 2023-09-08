@@ -165,6 +165,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bench.cpp" />
     <ClCompile Include="BlackScreen.cpp" />
     <ClCompile Include="ContentFBXRenderer.cpp">
       <SubType>
@@ -208,6 +209,7 @@
     <ClCompile Include="Map_Office.cpp" />
     <ClCompile Include="MiniDesk.cpp" />
     <ClCompile Include="MiniOffice.cpp" />
+    <ClCompile Include="MiniPost.cpp" />
     <ClCompile Include="Mouse.cpp">
       <SubType>
       </SubType>
@@ -274,6 +276,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Railing.cpp" />
     <ClCompile Include="SemiCircleTable.cpp" />
     <ClCompile Include="ServerPacket.cpp" />
     <ClCompile Include="ServerTestLevel.cpp">
@@ -328,6 +331,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bench.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BlackScreen.h" />
     <ClInclude Include="ContentFBXUIRenderer.h">
       <SubType>
@@ -389,6 +396,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MiniOffice.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MiniPost.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -458,6 +469,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ProcessMapInfo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Railing.h">
       <SubType>
       </SubType>
     </ClInclude>
