@@ -16,7 +16,7 @@ public:
 	PhysXSphereComponent& operator=(const PhysXSphereComponent& _Other) = delete;
 	PhysXSphereComponent& operator=(PhysXSphereComponent&& _Other) noexcept = delete;
 
-	physx::PxRigidDynamic* CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f });
+	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f }, bool _Static = false);
 
 
 	void SetMoveSpeed(float4 _MoveSpeed);
@@ -91,7 +91,6 @@ public:
 		m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
 	}
 
-	//void LockAxis();
 
 
 	//플레이어 멈추는 함수
@@ -104,15 +103,8 @@ public:
 	void ResetDynamic();
 
 
-	void SetMainPlayerFlags()
-	{
-		m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),
-			static_cast<physx::PxU32>(PhysXFilterGroup::Ground),
-			static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle), 0));
-		//m_pInstshape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Player), 0, 0, 0));
-		//m_pFaceshape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::PlayerFace), 0, 0, 0));
-		//m_pHeadshape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::PlayerHead), 0, 0, 0));
-	}
+	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
+	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
 
 protected:
 	void Start() override;
@@ -132,8 +124,5 @@ private:
 
 	physx::PxVec3 InitVec3;
 	physx::PxTransform RecentTransform;
-
-	// 메인플레이어 플래그
-	bool IsMain = false;
 };
 
