@@ -35,7 +35,7 @@ void OfficeLevel::LevelChangeStart()
 	CreateScene();
 
 	// camera pos test 
-	float4 CameraPos = float4{ 1700, 5800, 1000 };
+	float4 CameraPos = float4{ 1700, 3800, 4000 };
 	float4 CamRot = float4{ 90, 0, 0 };
 
 
