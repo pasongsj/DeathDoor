@@ -100,6 +100,8 @@ void Player::Update(float _DeltaTime)
 	//	break;
 	//}
 
+	// test
+	float4 MyPos = GetTransform()->GetWorldPosition();
 
 }
 
