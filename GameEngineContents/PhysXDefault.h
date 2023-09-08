@@ -181,11 +181,6 @@ public:
 		return m_bStatic;
 	}
 
-	void SetStatic(bool _Value)
-	{
-		m_bStatic = _Value;
-	}
-
 	void SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0, PhysXFilterGroup _OtherFilter1 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter2 = PhysXFilterGroup::None)
 	{
 		m_pShape->setSimulationFilterData

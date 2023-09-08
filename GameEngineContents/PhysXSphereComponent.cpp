@@ -10,9 +10,10 @@ PhysXSphereComponent::~PhysXSphereComponent()
 {
 }
 
-void PhysXSphereComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRotation)
+void PhysXSphereComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRotation, bool _Static)
 {
-	if (true == IsStatic())
+	m_bStatic = _Static;
+	if (true == m_bStatic)
 	{
 		CreateStatic(_GeoMetryScale, _GeoMetryRotation);
 	}

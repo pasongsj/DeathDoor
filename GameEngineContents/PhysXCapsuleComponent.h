@@ -17,7 +17,7 @@ public:
 	PhysXCapsuleComponent& operator=(const PhysXCapsuleComponent& _Other) = delete;
 	PhysXCapsuleComponent& operator=(PhysXCapsuleComponent&& _Other) noexcept = delete;
 
-	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f });
+	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f }, bool _Static = false);
 
 	void SetMoveSpeed(float4 _MoveSpeed);
 	void SetRotation(float4 _Rot);

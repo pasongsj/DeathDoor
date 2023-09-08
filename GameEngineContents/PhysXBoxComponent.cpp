@@ -11,9 +11,10 @@ PhysXBoxComponent::~PhysXBoxComponent()
 {
 }
 
-void PhysXBoxComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRot)
+void PhysXBoxComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRot, bool _Static)
 {
-	if (true == IsStatic())
+	m_bStatic = _Static;
+	if (true == m_bStatic)
 	{
 		CreateStatic(_GeoMetryScale, _GeoMetryRot);
 	}
