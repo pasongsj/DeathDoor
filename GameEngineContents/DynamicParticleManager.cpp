@@ -93,6 +93,13 @@ void DynamicParticleManager::CreateParticle()
 	std::shared_ptr<ParticleRenderer> NewParticle = CreateComponent<ParticleRenderer>();
 	NewParticle->SetFBXMesh(MeshName.data(), "ContentMesh");
 
+	float4 Position =
+	{
+		GameEngineRandom::MainRandom.RandomFloat(-Setter.RangePosition.x, +Setter.RangePosition.x),
+		GameEngineRandom::MainRandom.RandomFloat(-Setter.RangePosition.y, +Setter.RangePosition.y),
+		GameEngineRandom::MainRandom.RandomFloat(-Setter.RangePosition.z, +Setter.RangePosition.z)
+	};
+
 	float4 Scale =
 	{
 		GameEngineRandom::MainRandom.RandomFloat(Setter.StandardScale.x - Setter.RangeScale.x, Setter.StandardScale.x + Setter.RangeScale.x),
@@ -109,7 +116,7 @@ void DynamicParticleManager::CreateParticle()
 	float Speed = GameEngineRandom::MainRandom.RandomFloat(Setter.StandardSpeed - Setter.range_Speed, Setter.StandardSpeed + Setter.range_Speed);
 
 	NewParticle->GetTransform()->SetLocalScale(Scale);
-	NewParticle->GetTransform()->SetLocalPosition(Setter.StandardPosition->WorldPosition);
+	NewParticle->GetTransform()->SetLocalPosition(Setter.StandardPosition->WorldPosition + Position);
 	NewParticle->SetParticleInfo(Dir.NormalizeReturn(), Speed);
 
 	PushParticleToFront(NewParticle);

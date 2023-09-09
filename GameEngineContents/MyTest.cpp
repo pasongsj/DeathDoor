@@ -18,7 +18,9 @@ void MyTest::Start()
 	DynamicParticleSetter Setter;
 
 	New->SetMeshName("Sphere.fbx");
+
 	Setter.StandardPosition = &GetTransform()->GetTransDataRef();
+	Setter.RangePosition = { 10.0f, 10.0f, 10.0f };
 
 	Setter.StandardScale = { 45.0f, 45.0f, 45.0f };
 	Setter.RangeScale = { 4.5f, 4.5f, 4.5f };
