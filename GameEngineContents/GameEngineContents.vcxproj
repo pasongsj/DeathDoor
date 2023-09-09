@@ -165,6 +165,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bench.cpp" />
     <ClCompile Include="BlackScreen.cpp" />
     <ClCompile Include="ContentFBXRenderer.cpp">
       <SubType>
@@ -186,6 +187,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Conveyor.cpp" />
+    <ClCompile Include="FlowerPot.cpp" />
     <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="DynamicParticleManager.cpp" />
     <ClCompile Include="GameContentsMapActor.cpp" />
@@ -204,6 +207,9 @@
     <ClCompile Include="MapTestLevel.cpp" />
     <ClCompile Include="Map_Emptyplain.cpp" />
     <ClCompile Include="Map_Office.cpp" />
+    <ClCompile Include="MiniDesk.cpp" />
+    <ClCompile Include="MiniOffice.cpp" />
+    <ClCompile Include="MiniPost.cpp" />
     <ClCompile Include="Mouse.cpp">
       <SubType>
       </SubType>
@@ -270,6 +276,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Railing.cpp" />
     <ClCompile Include="SemiCircleTable.cpp" />
     <ClCompile Include="ServerPacket.cpp" />
     <ClCompile Include="ServerTestLevel.cpp">
@@ -306,6 +313,7 @@
     </ClCompile>
     <ClCompile Include="StreetLamp.cpp" />
     <ClCompile Include="StaticParticleManager.cpp" />
+    <ClCompile Include="StreetLamp_2.cpp" />
     <ClCompile Include="TestLevel.cpp">
       <SubType>
       </SubType>
@@ -314,7 +322,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TextObj.cpp" />
+    <ClCompile Include="Transform_Wall.cpp" />
     <ClCompile Include="TrashCan.cpp" />
     <ClCompile Include="UITestLevel.cpp">
       <SubType>
@@ -322,6 +330,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bench.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BlackScreen.h" />
     <ClInclude Include="ContentFBXUIRenderer.h">
       <SubType>
@@ -340,6 +352,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentFBXRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Conveyor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FlowerPot.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -367,6 +387,18 @@
     </ClInclude>
     <ClInclude Include="Map_Emptyplain.h" />
     <ClInclude Include="Map_Office.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MiniDesk.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MiniOffice.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MiniPost.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -439,6 +471,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Railing.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="SemiCircleTable.h">
       <SubType>
       </SubType>
@@ -481,6 +517,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="StaticParticleManager.h" />
+    <ClInclude Include="StreetLamp_2.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TestLevel.h">
       <SubType>
       </SubType>
@@ -489,7 +529,10 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TextObj.h" />
+    <ClInclude Include="Transform_Wall.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TrashCan.h">
       <SubType>
       </SubType>

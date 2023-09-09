@@ -2,7 +2,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 
-// 스태틱 액터 기본 베이스로 
+// 스태틱 오브젝트 기본 템플릿 ㅇㅇ
 
 // 설명 :
 class StreetLamp : public GameEngineActor

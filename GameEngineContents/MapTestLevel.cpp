@@ -19,8 +19,6 @@ MapTestLevel::~MapTestLevel()
 void MapTestLevel::Start()
 {
 	SetLevelType(PacketLevelType::PhysXTestLevel);
-	CreateScene();
-	SetTestLevelType(TestMapType::BigCrow_Floor);
 }
 
 void MapTestLevel::Update(float _DeltaTime)
@@ -31,7 +29,9 @@ void MapTestLevel::Update(float _DeltaTime)
 void MapTestLevel::LevelChangeStart()
 {
 	PhysXLevel::LevelChangeStart();
-	
+	CreateScene();
+	SetTestLevelType(TestMapType::BigCrow_Floor);
+
 	InitTestLevel();
 	
 	CreateActor<GameEngineLight>();

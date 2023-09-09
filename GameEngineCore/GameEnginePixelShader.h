@@ -5,6 +5,7 @@
 // Ό³Έν :
 class GameEnginePixelShader : public GameEngineResource<GameEnginePixelShader>, public GameEngineShader
 {
+	friend GameEngineShader;
 public:
 	// constrcuter destructer
 	GameEnginePixelShader();
@@ -32,9 +33,16 @@ public:
 
 	void Setting() override;
 
+	RenderPath GetRenderPath()
+	{
+		return Path;
+	}
+
+
 protected:
 
-private:
+private:	
+	RenderPath Path = RenderPath::Forward;
 	ID3D11PixelShader* ShaderPtr = nullptr;
 
 	void ShaderLoad(const std::string_view& _Path, const std::string_view& _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);

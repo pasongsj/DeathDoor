@@ -55,6 +55,13 @@ public:
 		return NewRenderTarget;
 	}
 
+	static std::shared_ptr<GameEngineRenderTarget> CreateDummy()
+	{
+		std::shared_ptr<GameEngineRenderTarget> NewRenderTarget = GameEngineResource::CreateUnNamed();
+		return NewRenderTarget;
+	}
+
+
 	void Clear();
 
 	void Setting() override;
@@ -112,6 +119,21 @@ public:
 	void AddNewTexture(DXGI_FORMAT _Format, float4 _Scale, float4 _Color)
 	{
 		ResCreate(_Format, _Scale, _Color);
+	}
+
+	void ReleaseTexture()
+	{
+		for (size_t i = 0; i < Textures.size(); i++)
+		{
+			if (nullptr != Textures[i])
+			{
+				Textures[i]->Release();
+				Textures[i] = nullptr;
+			}
+		}
+		Textures.clear();
+		RTVs.clear();
+		SRVs.clear();
 	}
 
 protected:

@@ -15,12 +15,21 @@ public:
 	Map_Office& operator=(const Map_Office& _Other) = delete;
 	Map_Office& operator=(Map_Office&& _Other) noexcept = delete;
 
+
+	std::shared_ptr<GameEngineFBXRenderer> GetNaviMeshRenderer() const
+	{
+		return m_pNaviRenderer;
+	}
+
+	void NaviRenderSwitch();
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 private:
 	void InitComponent();
+
 	void Set_StaticObject();
 	void Set_ActiveObject();
 

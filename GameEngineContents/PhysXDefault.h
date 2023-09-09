@@ -1,6 +1,7 @@
 #pragma once
 #include "PhysXManager.h"
 #include <GameEngineCore/GameEngineCore.h>
+#include "ContentsEnum.h"
 
 // 설명 : PhysX에서 공통으로 사용할 함수들
 class PhysXDefault
@@ -102,7 +103,7 @@ public:
 		return m_pRigidStatic;
 	}
 
-
+	
 	physx::PxPhysics* GetPhysics()
 	{
 		return PhysXManager::GetInst()->GetPhysics();
@@ -175,6 +176,25 @@ public:
 		PositionSetFromParentFlag = _Flag;
 	}
 
+	bool IsStatic()
+	{
+		return m_bStatic;
+	}
+
+	void SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0, PhysXFilterGroup _OtherFilter1 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter2 = PhysXFilterGroup::None)
+	{
+		m_pShape->setSimulationFilterData
+			(
+				physx::PxFilterData
+				(
+					static_cast<physx::PxU32>(_ThisFilter),
+					static_cast<physx::PxU32>(_OtherFilter0),
+					static_cast<physx::PxU32>(_OtherFilter1),
+					static_cast<physx::PxU32>(_OtherFilter2)
+				)
+			);
+	}
+
 protected:
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
 	physx::PxRigidStatic* m_pRigidStatic = nullptr;
@@ -186,6 +206,7 @@ protected:
 	bool m_bObstacle = false;
 	bool m_bGround = false;
 	bool m_bAggregateObj = false;
+	bool m_bStatic = false;
 
 	static physx::PxAggregate* m_pAggregate;
 	std::weak_ptr<GameEngineActor> ParentActor;

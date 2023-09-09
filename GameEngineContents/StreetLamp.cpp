@@ -27,9 +27,10 @@ void StreetLamp::InitComponent()
 	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
-	MeshScale *= 2.2f;
+	MeshScale.x *= 2.2f;
+	MeshScale.z *= 2.2f;
 	
 	m_pComp = CreateComponent<PhysXBoxComponent>();
 	m_pComp->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
-	m_pComp->CreatePhysXActors(MeshScale.PhysXVec3Return());
+	m_pComp->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
 }

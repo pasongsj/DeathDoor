@@ -32,7 +32,6 @@
 
 //PhysX 4.1
 #pragma warning(disable : 4996)
-#pragma warning(disable : 4099)
 #include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxConfig.h>
 #include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxPhysicsAPI.h>
 #include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxPhysXConfig.h>

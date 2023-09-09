@@ -24,6 +24,7 @@ public:
 	UINT CPUDataSize;
 
 	void Setting() override;
+	void Reset() override;
 };
 
 class GameEngineTextureSetter : public GameEngineShaderResources
@@ -39,6 +40,7 @@ class GameEngineSamplerSetter : public GameEngineShaderResources
 public:
 	std::shared_ptr<GameEngineSampler> Res;
 	void Setting() override;
+	void Reset() override;
 };
 
 
@@ -74,6 +76,7 @@ public:
 		PushData(&_Data, _Count);
 	}
 
+	void Reset() override;
 };
 
 
@@ -86,6 +89,39 @@ private:
 	std::multimap<std::string, GameEngineStructuredBufferSetter> StructuredBufferSetters;
 
 public:
+	void ReleaseAllSetter()
+	{
+		std::multimap<std::string, GameEngineConstantBufferSetter>::iterator ConstantBufferSetter = ConstantBufferSetters.begin();
+		for (; ConstantBufferSetter != ConstantBufferSetters.end(); ++ConstantBufferSetter)
+		{
+			ConstantBufferSetter->second.Reset();
+		}
+		ConstantBufferSetters.clear();
+
+
+		std::multimap<std::string, GameEngineTextureSetter>::iterator TextureSetter = TextureSetters.begin();
+		for (; TextureSetter != TextureSetters.end(); ++TextureSetter)
+		{
+			TextureSetter->second.Reset();
+		}
+		TextureSetters.clear();
+
+		std::multimap<std::string, GameEngineSamplerSetter>::iterator SamplerSetter = SamplerSetters.begin();
+		for (; SamplerSetter != SamplerSetters.end(); ++SamplerSetter)
+		{
+			SamplerSetter->second.Reset();
+		}
+		SamplerSetters.clear();
+
+
+		std::multimap<std::string, GameEngineStructuredBufferSetter>::iterator StructuredBufferSetter = StructuredBufferSetters.begin();
+		for (; StructuredBufferSetter != StructuredBufferSetters.end(); ++StructuredBufferSetter)
+		{
+			StructuredBufferSetter->second.Reset();
+		}
+		StructuredBufferSetters.clear();
+	}
+
 	GameEngineStructuredBufferSetter* GetStructuredBufferSetter(const std::string_view& _View);
 
 	GameEngineTextureSetter* GetTextureSetter(const std::string_view& _View);

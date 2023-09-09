@@ -17,23 +17,35 @@ OfficeLevel::~OfficeLevel()
 void OfficeLevel::Start()
 {
 	SetLevelType(PacketLevelType::OfficeLevel);
-	CreateScene();
+	InitKey();
 }
 
 void OfficeLevel::Update(float _DeltaTime)
 {
+	KeyUpdate(_DeltaTime);
+
+	/*if (false == GetMainCamera()->IsFreeCamera())
+	{
+		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4{ 0, 3000, 0});
+	}*/
 }
 
 void OfficeLevel::LevelChangeStart()
 {
+	CreateScene();
+
+	// camera pos test 
+	float4 CameraPos = float4{ 1700, 3800, 4000 };
+	float4 CamRot = float4{ 90, 0, 0 };
+
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
-	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
+	GetMainCamera()->GetTransform()->SetLocalRotation(CamRot);
+	GetMainCamera()->GetTransform()->SetLocalPosition(CameraPos);
 
 
 	CreateActor<GameEngineLight>();
-	CreateActor<Map_Office>();
+	m_pMap = CreateActor<Map_Office>();
 
 	// 플레이어 생성후 Set_StartPos함수 호출하면 해당 위치에 세팅
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
@@ -43,6 +55,25 @@ void OfficeLevel::LevelChangeStart()
 void OfficeLevel::LevelChangeEnd()
 {
 	AllActorDestroy();
+}
+
+void OfficeLevel::InitKey()
+{
+	if (false == GameEngineInput::IsKey("NaviMesh_Switch"))
+	{
+		GameEngineInput::CreateKey("NaviMesh_Swtich", 'M');
+	}
+}
+
+void OfficeLevel::KeyUpdate(float _DeltaTime)
+{
+	if (true == GameEngineInput::IsDown("NaviMesh_Swtich"))
+	{
+		if (nullptr != m_pMap)
+		{
+			m_pMap->NaviRenderSwitch();
+		}
+	}
 }
 
 void OfficeLevel::Set_StartPos(std::shared_ptr<Player> _Player)
@@ -61,5 +92,5 @@ void OfficeLevel::Set_StartPos(std::shared_ptr<Player> _Player)
 		return;
 	}
 	
-	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_StartPos));
+	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_TestStartPos));
 }

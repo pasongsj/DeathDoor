@@ -6,6 +6,7 @@
 #include "ServerTestLevel.h"
 #include "MapEditorLevel.h"
 #include "PhysXTestLevel.h"
+#include "PlayerTestLevel.h"
 #include "StartLevel.h"
 #include "MapTestLevel.h"
 #include "OfficeLevel.h"
@@ -79,7 +80,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		m_CurLevelName = "StartLevel";
 		GameEngineCore::ChangeLevel("StartLevel");
 	}
-	if (ImGui::Button("PlayerTestLevel") && Level->DynamicThis<StartLevel>().get() != GetLevel())
+	if (ImGui::Button("PlayerTestLevel") && Level->DynamicThis<PlayerTestLevel>().get() != GetLevel())
 	{
 		m_CurLevelName = "PlayerTestLevel";
 		GameEngineCore::ChangeLevel("PlayerTestLevel");
@@ -91,7 +92,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		GameEngineCore::ChangeLevel("MapTestLevel");
 	}
 
-	if (ImGui::Button("OfficeLevel") && Level->DynamicThis<MapTestLevel>().get() != GetLevel())
+	if (ImGui::Button("OfficeLevel") && Level->DynamicThis<OfficeLevel>().get() != GetLevel())
 	{
 		m_CurLevelName = "OfficeLevel";
 		GameEngineCore::ChangeLevel("OfficeLevel");
@@ -100,7 +101,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 
 	if (ImGui::Button("UITestLevel") && Level->DynamicThis<UITestLevel>().get() != GetLevel())
 	{
-		m_CurLevelName = "StartLevel";
+		m_CurLevelName = "UITestLevel";
 		GameEngineCore::ChangeLevel("UITestLevel");
 	}
 
