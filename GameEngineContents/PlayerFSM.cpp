@@ -9,6 +9,10 @@
 
 void Player::SetFSMFunc()
 {
+	InitFSM(PlayerState::MAX);
+
+
+
 	//	IDLE,// Idle_0, Idle_1
 	SetChangeFSMCallBack([this]
 		{

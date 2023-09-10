@@ -188,6 +188,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Conveyor.cpp" />
+    <ClCompile Include="EnemyBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyBat.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FlowerPot.cpp" />
     <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="DynamicParticleManager.cpp" />
@@ -214,7 +222,7 @@
     <ClCompile Include="MiniDesk.cpp" />
     <ClCompile Include="MiniOffice.cpp" />
     <ClCompile Include="MiniPost.cpp" />
-    <ClCompile Include="MonsterBase.cpp">
+    <ClCompile Include="MonsterAnimationTest.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -366,6 +374,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyBat.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyDefinition.h" />
     <ClInclude Include="FlowerPot.h">
       <SubType>
       </SubType>
@@ -413,7 +430,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MonsterBase.h">
+    <ClInclude Include="MonsterAnimationTest.h">
       <SubType>
       </SubType>
     </ClInclude>

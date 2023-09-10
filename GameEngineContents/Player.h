@@ -1,5 +1,4 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineBase/GameEngineNetObject.h>
 #include "PlayerDefinition.h"
 #include "FSMObjectBase.h"

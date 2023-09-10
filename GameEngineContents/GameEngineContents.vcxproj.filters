@@ -210,11 +210,17 @@
     <ClCompile Include="PlayerFSM.cpp">
       <Filter>FSMObject\Player</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterBase.cpp">
-      <Filter>FSMObject\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="FSMObjectBase.cpp">
       <Filter>FSMObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterAnimationTest.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBat.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -428,11 +434,20 @@
     <ClInclude Include="PlayerDefinition.h">
       <Filter>FSMObject\Player</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterBase.h">
-      <Filter>FSMObject\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="FSMObjectBase.h">
       <Filter>FSMObject</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterAnimationTest.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBat.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDefinition.h">
+      <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -532,7 +547,7 @@
     <Filter Include="FSMObject\Player">
       <UniqueIdentifier>{d7d0bb27-7d0a-4e1e-b795-6e8711f07cec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FSMObject\Monster">
+    <Filter Include="FSMObject\Enemy">
       <UniqueIdentifier>{a629260c-d758-43ba-bd9f-46a2479c20db}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

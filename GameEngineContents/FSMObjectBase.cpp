@@ -11,6 +11,11 @@ FSMObjectBase::~FSMObjectBase()
 
 void FSMObjectBase::Update(float _DeltaTime)
 {
+	if (true == FSMFunc.empty())
+	{
+		return;
+	}
+
 	if (CurState != NextState)  // state가 변경되는 경우
 	{
 		if (FSMFunc.end() == FSMFunc.find(NextState))

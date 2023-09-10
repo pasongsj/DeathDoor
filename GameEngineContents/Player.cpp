@@ -44,7 +44,6 @@ void Player::Start()
 	}
 
 
-	InitFSM(PlayerState::MAX);
 	SetFSMFunc();
 	Renderer->ChangeAnimation("Idle_0");
 }

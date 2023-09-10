@@ -19,21 +19,21 @@ public:
 
 protected:
 
-
+	// state
 	template<typename Enumclass>
-	inline void SetNextState(Enumclass _Num)
+	inline void SetNextState(Enumclass _Num) //다음 State 설정
 	{
 		NextState = static_cast<int>(_Num);
 	}
 
-	template<typename Enumclass>
+	template<typename Enumclass> // 현재 State Get
 	inline Enumclass GetCurState()
 	{
 		return static_cast<Enumclass>(CurState);
 	}
 
 	template<typename Enumclass>
-	inline void InitFSM(Enumclass _Num)
+	inline void InitFSM(Enumclass _Num) // FSM Function 생성
 	{
 		for (int i = 0; i < static_cast<int>(_Num); ++i)
 		{
@@ -42,8 +42,7 @@ protected:
 		}
 	}
 
-	void Update(float _DeltaTime) override;
-
+	// FSM Function 설정
 	template<typename Enumclass>
 	inline void SetFSM(Enumclass _Num, std::function<void()> _Start, std::function<void(float _Delta)> _Update, std::function<void()> _End)
 	{
@@ -58,11 +57,12 @@ protected:
 
 	}
 
-	inline void SetChangeFSMCallBack(std::function<void()> _Func)
+	inline void SetChangeFSMCallBack(std::function<void()> _Func) // FSM이 바뀔 때 마다 공통적으로 실행
 	{
 		ChangeFSMCallBack = _Func;
 	}
 
+	void Update(float _DeltaTime) override;
 private:
 	class StateFunctionParameter
 	{
