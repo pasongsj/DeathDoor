@@ -286,7 +286,7 @@ bool StartMenu::LerpArrowPos(float _DeltaTime)
 		return false;
 	}
 
-	LerpRatio += 2.0f * _DeltaTime;
+	LerpRatio += 3.0f * _DeltaTime;
 
 	float4 StartLeftArrowPos = LeftArrowPos;
 	float4 EndLeftArrowPos = { -100.0f , LeftArrowPos.y, LeftArrowPos.z};
@@ -305,7 +305,7 @@ bool StartMenu::LerpArrowPos(float _DeltaTime)
 
 bool StartMenu::HideMenu(float _DeltaTime)
 {
-	LerpRatio += 2.0f * _DeltaTime;	
+	LerpRatio += 3.0f * _DeltaTime;
 
 	if (LerpRatio >= 1.0f)
 	{
@@ -347,13 +347,17 @@ bool StartMenu::HideMenu(float _DeltaTime)
 
 bool StartMenu::AppearRealStart(float _DeltaTime)
 {
+	LerpRatio += 3.0f * _DeltaTime;
+
 	if (LerpRatio >= 1.0f)
 	{
 		LerpRatio = 0.0f;
+
+		RealStart->Window->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+		RealStart->Collision->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+
 		return true;
 	}
-
-	LerpRatio += 2.0f * _DeltaTime;
 
 	float4 StartPos = { -1200.0f, 0.0f, 0.0f };
 	float4 EndPos = { 0.0f, 0.0f, 0.0f };

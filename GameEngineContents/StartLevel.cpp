@@ -23,7 +23,8 @@ void StartLevel::Start()
 	GetCamera(100)->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
 
 	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
-	//Light->GetTransform()->SetWorldPosition({ 0.0f, 100.0f, -100.0f });
+	
+	Light->GetTransform()->SetWorldRotation({ 40.0f, 40.0f, 0.0f });
 
 }
 
@@ -34,7 +35,7 @@ void StartLevel::Update(float _DeltaTime)
 void StartLevel::LevelChangeStart()
 {
 	CreateActor<Start_BackGround>();
-	CreateActor<StartMenu>();
+	//CreateActor<StartMenu>();
 }
 
 void StartLevel::LevelChangeEnd()

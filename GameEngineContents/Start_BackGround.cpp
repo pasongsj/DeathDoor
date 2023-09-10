@@ -43,18 +43,28 @@ void Start_BackGround::Start()
     Hall_Crow_3->GetTransform()->SetLocalPosition({ 0.0f, -1.0f, 0.0f });
     Hall_Crow_3->GetTransform()->SetLocalRotation({ 0.0f, 0.0f, 0.0f });
 
+    auto Units = Hall_Crow_3->GetAllRenderUnit();
+
+    Units[4][0]->Color.MulColor = { 0.0f, 0.0f, 0.0f, 0.0f };
+    Units[5][0]->Color.MulColor = { 0.0f, 0.0f, 0.0f, 0.0f };
+
     //Hall_Crow_3->CreateFBXAnimation("Crow_Player_Sat_Bored", "Hall_Crow_3.fbx");
     //Hall_Crow_3->ChangeAnimation("Crow_Player_Sat_Bored");
 
     Hall_Banker = CreateComponent<ContentFBXRenderer>();
-    Hall_Banker->SetFBXMesh("banker.fbx", "ContentMesh");
-    Hall_Banker->GetTransform()->SetLocalScale({ 4.0f, 4.0f, 4.0f });
-    Hall_Banker->GetTransform()->SetLocalRotation({ 0.0f, 135.0f, 0.0f });
-    Hall_Banker->GetTransform()->SetLocalPosition({ -17.5f, 0.0f, 10.5f });
+    Hall_Banker->SetFBXMesh("banker.fbx", "ContentAniMesh");
+    Hall_Banker->GetTransform()->SetLocalScale({ 2.0f, 2.0f, 2.0f });
+    Hall_Banker->GetTransform()->SetLocalRotation({ 270.0f, 225.0f, 270.0f });
+    Hall_Banker->GetTransform()->SetLocalPosition({ -16.5f, 6.0f, 9.5f });
 
-    //Hall_Banker->CreateFBXAnimation("Banker_WriteLoop", "banker.fbx");
-    //Hall_Banker->ChangeAnimation("Banker_WriteLoop");
+    Hall_Banker->CreateFBXAnimation("Banker_WriteLoop", "banker.fbx");
+    Hall_Banker->ChangeAnimation("Banker_WriteLoop");
     
+    Book = CreateComponent<ContentFBXRenderer>();
+    Book->SetFBXMesh("Book.fbx", "ContentMesh");
+    Book->GetTransform()->SetLocalScale({ 1.0f, 1.0f, 1.0f });
+    Book->GetTransform()->SetLocalPosition({ -14.5f, 5.0f, 7.5f });
+
     std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> BankerUnit = Hall_Banker->GetAllRenderUnit();
     
     for (int i = 0; i < BankerUnit.size(); i++)

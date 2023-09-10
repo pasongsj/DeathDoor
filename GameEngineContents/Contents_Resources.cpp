@@ -222,7 +222,6 @@ void ContentsCore::ContentsResourcesCreate()
 		NewDir.Move("Mesh");
 		NewDir.Move("Characters");
 
-
 		std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".FBX" });
 		
 		for (size_t i = 0; i < Files.size(); i++)
@@ -247,6 +246,23 @@ void ContentsCore::ContentsResourcesCreate()
 		
 		for (size_t i = 0; i < PlayerFiles.size(); i++)
 		{
+			GameEngineFBXAnimation::Load(PlayerFiles[i].GetFullPath());
+		}
+	}
+
+
+	{
+		GameEngineDirectory NewDir;
+		NewDir.MoveParentToDirectory("ContentResources");
+		NewDir.Move("ContentResources");
+		NewDir.Move("Mesh");
+		NewDir.Move("AniMesh");
+
+		std::vector<GameEngineFile> PlayerFiles = NewDir.GetAllFile({ ".FBX" });
+
+		for (size_t i = 0; i < PlayerFiles.size(); i++)
+		{
+			GameEngineFBXMesh::Load(PlayerFiles[i].GetFullPath());
 			GameEngineFBXAnimation::Load(PlayerFiles[i].GetFullPath());
 		}
 	}
