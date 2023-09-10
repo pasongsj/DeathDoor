@@ -96,9 +96,6 @@
     <ClCompile Include="ContentUIFontRenderer.cpp">
       <Filter>Component\ContentsRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBase.cpp">
-      <Filter>Contents\Player</Filter>
-    </ClCompile>
     <ClCompile Include="LevelWindow.cpp">
       <Filter>Base\Controller</Filter>
     </ClCompile>
@@ -138,16 +135,7 @@
     <ClCompile Include="OfficeLevel.cpp">
       <Filter>Contents\OfficeLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Contents\PlayerTestLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerFSM.cpp">
-      <Filter>Contents\PlayerTestLevel</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerTestLevel.cpp">
-      <Filter>Contents\PlayerTestLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerInit.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="Map_Emptyplain.cpp">
@@ -212,6 +200,15 @@
     </ClCompile>
     <ClCompile Include="MiniPost.cpp">
       <Filter>Contents\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInit.cpp">
+      <Filter>Contents\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Contents\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFSM.cpp">
+      <Filter>Contents\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,9 +310,6 @@
     <ClInclude Include="ContentUIFontRenderer.h">
       <Filter>Component\ContentsRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBase.h">
-      <Filter>Contents\Player</Filter>
-    </ClInclude>
     <ClInclude Include="LevelWindow.h">
       <Filter>Base\Controller</Filter>
     </ClInclude>
@@ -353,13 +347,7 @@
     <ClInclude Include="OfficeLevel.h">
       <Filter>Contents\OfficeLevel</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Contents\PlayerTestLevel</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerTestLevel.h">
-      <Filter>Contents\PlayerTestLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerDefinition.h">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClInclude>
     <ClInclude Include="Map_Emptyplain.h">
@@ -427,6 +415,12 @@
     </ClInclude>
     <ClInclude Include="MiniPost.h">
       <Filter>Contents\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Contents\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDefinition.h">
+      <Filter>Contents\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

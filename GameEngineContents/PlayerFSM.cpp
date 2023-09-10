@@ -4,11 +4,7 @@
 #include "PlayerDefinition.h"
 
 
-#define PlayerIdleTime 3.0f
-#define PlayerWalkTime 0.05f
-#define PlayerHitIdleTime 1.0f
-#define RollSpeedRatio 3.0f
-#define ClimbSpeedRatio 0.5f
+
 
 
 void Player::SetFSMFunc()
@@ -252,7 +248,8 @@ void Player::SetFSMFunc()
 		{
 			if (true == Renderer->IsAnimationEnd())
 			{
-				CheckInput(Delta); // state변경
+				StateInputDelayTime = 0.5f;
+				NextState = PlayerState::IDLE; // state변경
 			}
 		};
 
