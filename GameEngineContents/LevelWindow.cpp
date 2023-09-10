@@ -105,8 +105,8 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		GameEngineCore::ChangeLevel("UITestLevel");
 	}
 
-	ImGui::Text("CurCameraMode :");
-	ImGui::SameLine(); 
+	ImGui::Text("\nCurCameraMode :");
+	//ImGui::SameLine(); 
 	if (true == GetLevel()->GetMainCamera()->IsFreeCamera())
 	{
 		m_CurCameraMode = "Free Camera Mode";
@@ -122,6 +122,27 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		GetLevel()->GetMainCamera()->SwtichFreeCamera();
 	}
 
+	//카메라 위치
+	ImGui::Text("\nMainCamera Transform");
+	ImGui::Separator();
+	
+	const TransformData& CamTransform = GetLevel()->GetMainCamera()->GetTransform()->GetTransDataRef();
+	
+	float4 CamPos = CamTransform.WorldPosition;
+	float4 CamRot = CamTransform.WorldRotation;
+
+	float4 CamViewDir = GetLevel()->GetMainCamera()->GetTransform()->GetLocalForwardVector();
+
+	ImGui::Text("Position");
+	std::string CamPosition = "X : " + std::to_string(CamPos.x) + "\nY : " + std::to_string(CamPos.y) + "\nZ : " + std::to_string(CamPos.z);
+	ImGui::Text(CamPosition.c_str());
+
+	ImGui::Text("Rotation");
+	std::string CamRotation = "X : " + std::to_string(CamRot.x) + "\nY : " + std::to_string(CamRot.y) + "\nZ : " + std::to_string(CamRot.z);
+	ImGui::Text(CamRotation.c_str());
+
+	ImGui::Separator();
+
 	//빛 컨트롤러
 	std::list<std::shared_ptr<GameEngineLight>> Lights = GetLevel()->GetAllLight();
 	
@@ -133,7 +154,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		return;
 	}
 
-	ImGui::Text("Light Controll");
+	ImGui::Text("Light Rotation");
 
 	std::shared_ptr<GameEngineLight> Light = *Lights.begin();
 
@@ -141,7 +162,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	float RotY = Light->GetTransform()->GetLocalRotation().y;
 	float RotZ = Light->GetTransform()->GetLocalRotation().z;
 	
-	std::string LightRotText = "X : " + std::to_string(RotX) + "\nY : " + std::to_string(RotY) + "\nZ : " + std::to_string(RotX);
+	std::string LightRotText = "X : " + std::to_string(RotX) + "\nY : " + std::to_string(RotY) + "\nZ : " + std::to_string(RotZ);
 	
 	ImGui::Text(LightRotText.c_str());
 
@@ -180,6 +201,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	{
 		Lights.begin()->get()->GetTransform()->AddLocalRotation({ 0.0f, 0.0f, 90.0f });
 	}
+
 
 }
 
