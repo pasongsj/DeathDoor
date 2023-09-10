@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineBase/GameEngineNetObject.h>
+#include "PlayerDefinition.h"
 
 
 
@@ -121,9 +122,5 @@ private:
 	void DefaultPhysX();
 
 
-	// for test
-	int index = 0;
-	//float m_pSpeed = 500.0f;
-	//void TestMoveUpdate(float _DeltaTime);
 };
 
