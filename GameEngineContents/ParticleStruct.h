@@ -56,6 +56,7 @@ struct DynamicParticleSetter
 
 	//플레이어의 위치 등, 지속적으로 정보를 받아야 하기 때문에 포인터로 받음
 	const TransformData* StandardPosition;
+	float4 RangePosition = {0.0f, 0.0f, 0.0f };
 
 	float StandardSpeed = 0.0f;
 	float range_Speed = 0.0f;

@@ -29,5 +29,7 @@ private:
 	std::shared_ptr<class ContentFBXRenderer> Hall_Crow_3 = nullptr;
 
 	std::shared_ptr<class ContentFBXRenderer> Hall_Banker = nullptr;
+
+	std::shared_ptr<class ContentFBXRenderer> Book = nullptr;
 };
 

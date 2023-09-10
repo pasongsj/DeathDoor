@@ -19,6 +19,8 @@ protected:
 	void Update(float _Delta) override;
 private:
 	
+	void TestRender();
+
 	void CreateKey();
 	std::shared_ptr<class ParticleRenderer> Partcle = nullptr;
 	
@@ -30,5 +32,8 @@ private:
 	std::shared_ptr<GameEngineRenderTarget> Target2 = nullptr;
 
 	std::function<bool(const std::string_view&, float, float)> UpdateFunc = nullptr;
+
+	std::shared_ptr<GameEngineFBXRenderer> TestRenderer = nullptr;
+	std::shared_ptr<GameEngineRenderer> TestRenderUnit = nullptr;
 };
 

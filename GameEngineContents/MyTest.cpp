@@ -13,71 +13,74 @@ MyTest::~MyTest()
 
 void MyTest::Start()
 {
-	std::shared_ptr<DynamicParticleManager> New  = GetLevel()->CreateActor<DynamicParticleManager>();
-	
-	DynamicParticleSetter Setter;
+	//std::shared_ptr<DynamicParticleManager> New  = GetLevel()->CreateActor<DynamicParticleManager>();
+	//
+	//DynamicParticleSetter Setter;
+	//
+	//New->SetMeshName("Sphere.fbx");
+	//
+	//Setter.StandardPosition = &GetTransform()->GetTransDataRef();
+	//Setter.RangePosition = { 10.0f, 10.0f, 10.0f };
+	//
+	//Setter.StandardScale = { 45.0f, 45.0f, 45.0f };
+	//Setter.RangeScale = { 4.5f, 4.5f, 4.5f };
+	//
+	//Setter.StandardDir = { 0.0f, 0.0f, 0.0f };
+	//Setter.RangeDir = { 1.0f, 1.0f, 0.0f};
+	//
+	//Setter.StandardSpeed = 10.0f;
+	//Setter.range_Speed = 1.0f;
+	//
+	//Setter.EmitInterTime = 0.5f;
+	//Setter.MaxLiveTime = 1.0f;
+	//Setter.MaxParticle = 30;
+	//
+	//Setter.EmitNum = 4;
+	//
+	//New->SetPaticleSetter(Setter);
+	////New->SetDisposable();
+	//New->ParticleOn();
 
-	New->SetMeshName("Sphere.fbx");
-	Setter.StandardPosition = &GetTransform()->GetTransDataRef();
-
-	Setter.StandardScale = { 45.0f, 45.0f, 45.0f };
-	Setter.RangeScale = { 4.5f, 4.5f, 4.5f };
-	
-	Setter.StandardDir = { 0.0f, 0.0f, 0.0f };
-	Setter.RangeDir = { 1.0f, 1.0f, 0.0f};
-
-	Setter.StandardSpeed = 10.0f;
-	Setter.range_Speed = 1.0f;
-
-	Setter.EmitInterTime = 0.5f;
-	Setter.MaxLiveTime = 1.0f;
-	Setter.MaxParticle = 30;
-
-	Setter.EmitNum = 4;
-
-	New->SetPaticleSetter(Setter);
-	//New->SetDisposable();
-	New->ParticleOn();
 }
 
 void MyTest::Update(float _Delta)
 {
-	float4 ScreenSize = GameEngineWindow::GetScreenSize();
-	float4 MousePos = GameEngineWindow::GetMousePosition();
+	//float4 ScreenSize = GameEngineWindow::GetScreenSize();
+	//float4 MousePos = GameEngineWindow::GetMousePosition();
 
-	std::shared_ptr<GameEngineCamera> MainCamera = GetLevel()->GetMainCamera();
-	float4 CameraPos = MainCamera->GetTransform()->GetWorldPosition();
+	//std::shared_ptr<GameEngineCamera> MainCamera = GetLevel()->GetMainCamera();
+	//float4 CameraPos = MainCamera->GetTransform()->GetWorldPosition();
 
-	float Ray_X = ((2.0f * MousePos.x) / ScreenSize.x) - 1.0f;
-	float Raz_Y = ((-2.0f * MousePos.y) / ScreenSize.y) + 1.0f;
+	//float Ray_X = ((2.0f * MousePos.x) / ScreenSize.x) - 1.0f;
+	//float Raz_Y = ((-2.0f * MousePos.y) / ScreenSize.y) + 1.0f;
 
-	float4x4 ProjMatrix = MainCamera->GetProjection();
+	//float4x4 ProjMatrix = MainCamera->GetProjection();
 
-	Ray_X = Ray_X / ProjMatrix.Arr2D[0][0];
-	Raz_Y = Raz_Y / ProjMatrix.Arr2D[1][1];
+	//Ray_X = Ray_X / ProjMatrix.Arr2D[0][0];
+	//Raz_Y = Raz_Y / ProjMatrix.Arr2D[1][1];
 
-	float4 RayPos = CameraPos;
-	float4 RayDir = { Ray_X, Raz_Y, 1.0f };
+	//float4 RayPos = CameraPos;
+	//float4 RayDir = { Ray_X, Raz_Y, 1.0f };
 
-	float4x4 ViewInverse = MainCamera->GetView().InverseReturn();
-	float4 WorldRayDir = DirectX::XMVector3TransformNormal(RayDir, ViewInverse);
+	//float4x4 ViewInverse = MainCamera->GetView().InverseReturn();
+	//float4 WorldRayDir = DirectX::XMVector3TransformNormal(RayDir, ViewInverse);
 
-	WorldRayDir.Normalize();
+	//WorldRayDir.Normalize();
 
-	float4 RayDest = RayPos;
+	//float4 RayDest = RayPos;
 
-	while (true)
-	{
-		RayDest += WorldRayDir;
+	//while (true)
+	//{
+	//	RayDest += WorldRayDir;
 
-		//대상에 충돌했는가
-		if (RayDest.z >= 0.0f)
-		{
-			break;
-		}
-	}
+	//	//대상에 충돌했는가
+	//	if (RayDest.z >= 0.0f)
+	//	{
+	//		break;
+	//	}
+	//}
 
-	GetTransform()->SetLocalPosition(RayDest);
+	//GetTransform()->SetLocalPosition(RayDest);
 
 	//float4 Rot = GetTransform()->GetLocalRotation();
 	//float4 Rot1 = New->GetTransform()->GetWorldRotation();
@@ -91,6 +94,18 @@ void MyTest::Update(float _Delta)
 	//{
 	//	UpdateFunc = nullptr;
 	//}
+}
+
+void MyTest::TestRender()
+{
+	//Target1 에 멀쩡하게 그리기
+	//Target2의 텍스쳐를 Target1로 설정 후 RenderUnit에 Blur처리하기.
+	//두개를 머지하면?
+	//근데 이러면 드로우콜이 3번인데?
+
+	//애초에 Target1에서, 멀쩡한거를 1번 Texture에 
+	//Blur된거를 2번 텍스쳐에 그리고
+	//두개를 머지하기.
 }
 
 void MyTest::CreateKey()
