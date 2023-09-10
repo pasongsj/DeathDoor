@@ -191,6 +191,10 @@
     <ClCompile Include="FlowerPot.cpp" />
     <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="DynamicParticleManager.cpp" />
+    <ClCompile Include="FSMObjectBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
     <ClCompile Include="HpBar.cpp">
       <SubType>
@@ -210,6 +214,10 @@
     <ClCompile Include="MiniDesk.cpp" />
     <ClCompile Include="MiniOffice.cpp" />
     <ClCompile Include="MiniPost.cpp" />
+    <ClCompile Include="MonsterBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Mouse.cpp">
       <SubType>
       </SubType>
@@ -367,6 +375,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DynamicParticleManager.h" />
+    <ClInclude Include="FSMObjectBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameContentsMapActor.h" />
     <ClInclude Include="HpBar.h">
       <SubType>
@@ -398,6 +410,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MiniPost.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MonsterBase.h">
       <SubType>
       </SubType>
     </ClInclude>

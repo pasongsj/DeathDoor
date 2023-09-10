@@ -202,13 +202,19 @@
       <Filter>Contents\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="PlayerInit.cpp">
-      <Filter>Contents\Player</Filter>
+      <Filter>FSMObject\Player</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Contents\Player</Filter>
+      <Filter>FSMObject\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayerFSM.cpp">
-      <Filter>Contents\Player</Filter>
+      <Filter>FSMObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterBase.cpp">
+      <Filter>FSMObject\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMObjectBase.cpp">
+      <Filter>FSMObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -417,10 +423,16 @@
       <Filter>Contents\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Contents\Player</Filter>
+      <Filter>FSMObject\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerDefinition.h">
-      <Filter>Contents\Player</Filter>
+      <Filter>FSMObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterBase.h">
+      <Filter>FSMObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMObjectBase.h">
+      <Filter>FSMObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -465,9 +477,6 @@
     </Filter>
     <Filter Include="Contents\CenterLevel">
       <UniqueIdentifier>{d44676b4-b55b-4b01-b97f-0c42b408d171}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Player">
-      <UniqueIdentifier>{d7d0bb27-7d0a-4e1e-b795-6e8711f07cec}</UniqueIdentifier>
     </Filter>
     <Filter Include="Contents\StartLevel">
       <UniqueIdentifier>{ce82898a-ce38-4483-8266-4f610cbc57f4}</UniqueIdentifier>
@@ -516,6 +525,15 @@
     </Filter>
     <Filter Include="Contents\Static_Object\Wall">
       <UniqueIdentifier>{0dd36c88-e6ef-4b59-aa21-a028fbaaa996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject">
+      <UniqueIdentifier>{a609c6fe-2488-4096-9de1-f3200194dae1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Player">
+      <UniqueIdentifier>{d7d0bb27-7d0a-4e1e-b795-6e8711f07cec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Monster">
+      <UniqueIdentifier>{a629260c-d758-43ba-bd9f-46a2479c20db}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -13,6 +13,11 @@ Player* Player::MainPlayer = nullptr;
 
 Player::Player()
 {
+	if (nullptr != MainPlayer)
+	{
+		MainPlayer->Death();
+		MainPlayer = nullptr;
+	}
 	MainPlayer = this;
 }
 
@@ -34,41 +39,37 @@ void Player::Start()
 		// scale *= 2.0f;
 		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
-		// 레벨체크 때문에 터져서 레벨체크하는부분만 주석
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(vscale);
-		//m_pCapsuleComp->CreatePhysXActors(float4(270.f, 280.f, 270.f).PhysXVec3Return()); // 대략 이정도 크기였음
 	}
 
-	for (int i = 0; i < static_cast<int>(PlayerState::MAX); ++i)
-	{
-		PlayerStateParameter NewStatePara;
-		FSMFunc[static_cast<PlayerState>(i)] = NewStatePara;
-	}
+
+	InitFSM(PlayerState::MAX);
 	SetFSMFunc();
+	Renderer->ChangeAnimation("Idle_0");
 }
 
 void Player::Update(float _DeltaTime)
 {
+	FSMObjectBase::Update(_DeltaTime);
 	if (true == GameEngineInput::IsDown("PressN"))
 	{
-		if (CurState == PlayerState::IDLE)
+		if (PlayerState::IDLE == GetCurState<PlayerState>())
 		{
-			NextState = PlayerState::CLIMB;
+			SetNextState(PlayerState::CLIMB);
+			//NextState = PlayerState::CLIMB;
 		}
 		else
 		{
-			NextState = PlayerState::IDLE;
+			SetNextState(PlayerState::IDLE);
+			//NextState = PlayerState::IDLE;1
 		}
 	}
 	DefaultPhysX();
-	if (PlayerState::SKILL != CurState)
+	if (PlayerState::SKILL != GetCurState<PlayerState>())
 	{
 		SetSkill();
-
 	}
-	UpdateState(_DeltaTime);
-
 
 	// 서버의 관리를 받는 오브젝트라면
 	// 클라이언트의 입장에서는 
@@ -107,60 +108,39 @@ void Player::Update(float _DeltaTime)
 }
 
 
-void Player::UpdateState(float _DeltaTime)
-{
-	if (CurState != NextState)
-	{
-		if (FSMFunc.end() == FSMFunc.find(NextState) || PlayerState::MAX == NextState)
-		{
-			MsgAssert("State에 해당하는 func이 생성되지 않았습니다");
-		}
-		if (nullptr != FSMFunc[CurState].End)
-		{
-			FSMFunc[CurState].End();
-		}
-		if (nullptr != FSMFunc[NextState].Start)
-		{
-			StateDuration = 0.0f;
-			StateChecker = false;
-			FSMFunc[NextState].Start();
-		}
-		CurState = NextState;
-	}
-	if (nullptr != FSMFunc[CurState].Update)
-	{
-		FSMFunc[CurState].Update(_DeltaTime);
-	}
-}
-
 void Player::CheckInput(float _DeltaTime)
 {
 	
 
 	// special state input
 	StateInputDelayTime -= _DeltaTime;
-	if (StateInputDelayTime < 0.0f)
+	if (StateInputDelayTime > 0.0f)
 	{
-		if (true == GameEngineInput::IsDown("PlayerRoll")) // roll antmation inter이 필요함
-		{
-			NextState = PlayerState::ROLL;
-			return;
-		}
-		if (true == GameEngineInput::IsPress("PlayerLBUTTON"))
-		{
-			NextState = PlayerState::BASE_ATT;
-			return;
-		}
-		if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
-		{
-			NextState = PlayerState::SKILL;
-			return;
-		}
-		if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
-		{
-			NextState = PlayerState::CHARGE_ATT;
-			return;
-		}
+		return;
+	}
+	if (true == GameEngineInput::IsDown("PlayerRoll")) // roll antmation inter이 필요함
+	{
+		SetNextState(PlayerState::ROLL);
+		//NextState = PlayerState::ROLL;
+		return;
+	}
+	if (true == GameEngineInput::IsPress("PlayerLBUTTON"))
+	{
+		SetNextState(PlayerState::BASE_ATT);
+		//NextState = PlayerState::BASE_ATT;
+		return;
+	}
+	if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
+	{
+		SetNextState(PlayerState::SKILL);
+		//NextState = PlayerState::SKILL;
+		return;
+	}
+	if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
+	{
+		SetNextState(PlayerState::CHARGE_ATT);
+		//NextState = PlayerState::CHARGE_ATT;
+		return;
 	}
 
 	// move state input
@@ -184,7 +164,7 @@ void Player::CheckInput(float _DeltaTime)
 
 	if (false == Dir.IsZero()) //  방향 입력이 있다면
 	{
-		NextState = PlayerState::WALK;
+		SetNextState(PlayerState::WALK);
 		NextForwardDir = Dir.NormalizeReturn();
 		DirectionUpdate(_DeltaTime);
 
@@ -193,14 +173,14 @@ void Player::CheckInput(float _DeltaTime)
 	}
 	else // 방향 입력이 없다면
 	{
-		if (false == StateChecker && CurState == PlayerState::WALK)
+		if (false == StateChecker && GetCurState<PlayerState>() == PlayerState::WALK)
 		{
 			StateChecker = true;
 			return;
 		}
 		else
 		{
-			NextState = PlayerState::IDLE;
+			SetNextState(PlayerState::IDLE);
 		}
 	}
 	

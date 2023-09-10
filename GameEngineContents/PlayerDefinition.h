@@ -1,7 +1,7 @@
 #pragma once
 #include "PreCompileHeader.h"
 
-#define PlayerScaleRatio 100.0f
+#define PlayerScaleRatio 20.0f
 #define PlayerIdleTime 3.0f
 #define PlayerWalkTime 0.05f
 #define PlayerHitIdleTime 1.0f
