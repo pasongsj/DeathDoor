@@ -55,6 +55,7 @@ void GameEngineCamera::Start()
 	Width = ViewPortData.Width;
 	Height = ViewPortData.Height;	
 
+	//사용할 렌더타겟을 생성하는 것이 아닌 추후 사용할 렌더타겟을 생성하기 위한 더미 타겟
 	AllRenderTarget		= GameEngineRenderTarget::CreateDummy();
 	CamTarget			= GameEngineRenderTarget::CreateDummy();
 	DeferredLightTarget = GameEngineRenderTarget::CreateDummy();
@@ -65,6 +66,7 @@ void GameEngineCamera::Start()
 
 void GameEngineCamera::InitCameraRenderTarget()
 {
+	//렌더 타겟을 실제 생성하는 곳
 
 	AllRenderTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	AllRenderTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
@@ -105,6 +107,9 @@ void GameEngineCamera::InitCameraRenderTarget()
 
 void GameEngineCamera::ReleaseCameraRenderTarget()
 {
+	//사용한 렌더타겟을 삭제하는곳
+	// 쉐이더 헬퍼가 사용하는 텍스쳐도 매번 생성되버리니 삭제함
+
 	CalLightUnit.ShaderResHelper.ReleaseAllSetter();
 	DefferdMergeUnit.ShaderResHelper.ReleaseAllSetter();
 
