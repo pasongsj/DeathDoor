@@ -20,7 +20,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-	std::shared_ptr<class PhysXBoxComponent> m_pBoxComp = nullptr;
+	std::shared_ptr<class PhysXBoxComponent> m_pBoxCompo = nullptr;
 
 };
 

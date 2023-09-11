@@ -72,38 +72,19 @@ void PhysXBoxComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _GeoMe
 
 	//피벗 설정
 	physx::PxVec3 Pivot(m_f4DynamicPivot.x, m_f4DynamicPivot.y, m_f4DynamicPivot.z);
-	m_pShape->setLocalPose(physx::PxTransform(Pivot));
-
-
-
+	m_pShape->setLocalPose(physx::PxTransform(Pivot));		
 
 	//충돌할때 필요한 필터 데이터
-	if (m_bObstacle == true)
-	{
-		m_pShape->setSimulationFilterData
+	m_pShape->setSimulationFilterData
+	(
+		physx::PxFilterData
 		(
-			physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle)
-				, static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0)
-		);
-	}
-	else if (m_bGround == true)
-	{
-		m_pShape->setSimulationFilterData
-		(
-			physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground)
-				, static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0)
-		);
-	}
-	else
-	{
-		/////////////////////////
-		m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground),
-			static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0));
-		/////////////////////////
-	}
-
-	//콜백피벗 설정
-	m_pShape->setLocalPose(physx::PxTransform(Pivot));
+			static_cast<physx::PxU32>(PhysXFilterGroup::None),
+			0,
+			0,
+			0
+		)
+	);
 
 	m_pShape->userData = GetActor();
 	// Scene에 액터 추가
@@ -177,23 +158,7 @@ void PhysXBoxComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _GeoM
 	///////////////////////////
 
 
-	//충돌할때 필요한 필터 데이터
-	if (m_bObstacle == true)
-	{
-		m_pShape->setSimulationFilterData
-		(
-			physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle)
-				, static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0)
-		);
-	}
-	else if (m_bGround == true)
-	{
-		m_pShape->setSimulationFilterData
-		(
-			physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground)
-				, static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0)
-		);
-	}
+	
 
 	//콜백피벗 설정
 	m_pShape->setLocalPose(physx::PxTransform(Pivot));

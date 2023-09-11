@@ -46,24 +46,54 @@ void CustomSimulationEventCallback::onTrigger(physx::PxTriggerPair* pairs, physx
 	{
 		physx::PxTriggerPair& current = *pairs++;
 
-		// 액터가 가지고 있는 쉐이프를 모두 가져옴
-		physx::PxRigidActor& tmpOtherActor = *current.otherActor;
-		physx::PxFilterData OtherFilterdata = current.otherShape->getSimulationFilterData();
-		physx::PxFilterData TriggerFilterdata = current.triggerShape->getSimulationFilterData();
-		physx::PxU16 tmpnbShape = current.otherActor->getNbShapes();
+		physx::PxShape* TriggerShape = current.triggerShape;
+		physx::PxShape* OtherShape = current.otherShape;
+
+		//충돌한 본인 혹은 상대의 액터가 null이면 continue
+		if (TriggerShape->userData == nullptr || OtherShape->userData == nullptr)
+		{
+			continue;
+		}
+		physx::PxFilterData TriggerFilterdata = TriggerShape->getSimulationFilterData();
+		physx::PxFilterData OtherFilterdata = OtherShape->getSimulationFilterData();
+
+		//둘 중 하나라도 충돌 필터 없으면 continue
+		if (TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::None) ||
+			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::None))
+		{
+			continue;
+		}
 
 		//C26813  : 비트플래그로 사용된 enum끼리의 비교는 == 이 아닌 bitwise and(&)로 비교하는 것이 좋음
 		//WARNING : resultFd.word0 == static_cast<physx::PxU32>(PhysXFilterGroup::Ground
 
-		if (TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle) &&
-			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic) &&			
-			current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
+		if (TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle) && // 트리거의 필터그룹
+			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic))
 		{
+			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) // 첫 충돌 했을 때
+			{
 
-			PhysXTrigger* Test = reinterpret_cast<PhysXTrigger*>(current.triggerShape->userData);
-			int a = 0;			
+				PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
+				PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
+				int a = 0;
+			}
+
+			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) // 충돌 유지시 계속 들어옴
+			{
+
+				PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
+				PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
+				int a = 0;
+			}
+
+			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) // 충돌이 끝날 때
+			{
+
+				PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
+				PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
+				int a = 0;
+			}
 		}
-
 	}
 }
 
@@ -81,12 +111,20 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 		physx::PxShape* tmpOtherActor = current.shapes[1];
 
 		//충돌한 본인 혹은 상대의 액터가 null이면 continue
-		if (tmpContactActor->userData == nullptr|| tmpOtherActor->userData == nullptr )
+		if (tmpContactActor->userData == nullptr|| tmpOtherActor->userData == nullptr)
 		{
 			continue;
 		}
 		physx::PxFilterData ContactFilterdata = tmpContactActor->getSimulationFilterData();
 		physx::PxFilterData OtherFilterdata = tmpOtherActor->getSimulationFilterData();
+
+		//둘 중 하나라도 충돌 필터 없으면 continue
+		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::None)|| 
+			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::None))
+		{
+			continue;
+		}
+
 		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic)&&// 플레이어
 			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Ground))  //땅			
 		{

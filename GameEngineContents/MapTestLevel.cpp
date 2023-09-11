@@ -26,12 +26,10 @@ void MapTestLevel::Start()
 
 void MapTestLevel::Update(float _DeltaTime)
 {
-	PhysXLevel::Update(_DeltaTime);
 }
 
 void MapTestLevel::LevelChangeStart()
 {
-	PhysXLevel::LevelChangeStart();
 	CreateScene();
 	SetTestLevelType(TestMapType::BigCrow_Floor);
 
@@ -42,7 +40,6 @@ void MapTestLevel::LevelChangeStart()
 
 void MapTestLevel::LevelChangeEnd()
 {
-	PhysXLevel::LevelChangeEnd();
 	AllActorDestroy();
 }
 
