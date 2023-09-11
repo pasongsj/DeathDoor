@@ -2,6 +2,7 @@
 #include "PlayerTestLevel.h"
 
 #include "Player.h"
+#include "MonsterAnimationTest.h"
 
 PlayerTestLevel::PlayerTestLevel()
 {
@@ -23,12 +24,12 @@ void PlayerTestLevel::Update(float _DeltaTime)
 
 void PlayerTestLevel::LevelChangeStart()
 {
-	CreateActor<Player>();
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 
-	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0 });
-	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 500.0f, 0.0f });
+	//GetMainCamera()->GetTransform()->SetLocalRotation({ 0.0f, 0.0f, 0 });
+	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
 
+	CreateActor<MonsterAnimationTest>();
 }
 
 void PlayerTestLevel::LevelChangeEnd()

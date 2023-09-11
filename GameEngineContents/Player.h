@@ -1,12 +1,11 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineBase/GameEngineNetObject.h>
 #include "PlayerDefinition.h"
-
+#include "FSMObjectBase.h"
 
 
 // Ό³Έν :
-class Player : public GameEngineActor, public GameEngineNetObject
+class Player : public FSMObjectBase, public GameEngineNetObject
 {
 public:
 	static Player* MainPlayer;
@@ -66,13 +65,6 @@ private:
 		MAX,
 	};
 
-	class PlayerStateParameter
-	{
-	public:
-		std::function<void()> Start = nullptr;
-		std::function<void(float _Delta)> Update = nullptr;
-		std::function<void()> End = nullptr;
-	};
 
 
 
@@ -80,17 +72,12 @@ private:
 	std::atomic_int AnimationLoadCount = 0;
 	void InitInputKey();
 	void InitPlayerAnimatioin();
-	std::map<PlayerState, PlayerStateParameter> FSMFunc;
 	void SetFSMFunc();
 
 	// Render
 	std::shared_ptr<GameEngineFBXRenderer> Renderer = nullptr;
 
 
-	// State
-	PlayerState CurState = PlayerState::MAX;
-	PlayerState NextState = PlayerState::IDLE;
-	void UpdateState(float _DeltaTime);
 		// Attack
 	PlayerSkill CurSkill = PlayerSkill::ARROW;
 	void SetSkill();

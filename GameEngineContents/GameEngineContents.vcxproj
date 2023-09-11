@@ -188,9 +188,21 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Conveyor.cpp" />
+    <ClCompile Include="EnemyBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyBat.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FlowerPot.cpp" />
     <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="DynamicParticleManager.cpp" />
+    <ClCompile Include="FSMObjectBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
     <ClCompile Include="HpBar.cpp">
       <SubType>
@@ -210,6 +222,10 @@
     <ClCompile Include="MiniDesk.cpp" />
     <ClCompile Include="MiniOffice.cpp" />
     <ClCompile Include="MiniPost.cpp" />
+    <ClCompile Include="MonsterAnimationTest.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Mouse.cpp">
       <SubType>
       </SubType>
@@ -358,6 +374,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyBat.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyDefinition.h" />
     <ClInclude Include="FlowerPot.h">
       <SubType>
       </SubType>
@@ -367,6 +392,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DynamicParticleManager.h" />
+    <ClInclude Include="FSMObjectBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameContentsMapActor.h" />
     <ClInclude Include="HpBar.h">
       <SubType>
@@ -398,6 +427,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MiniPost.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MonsterAnimationTest.h">
       <SubType>
       </SubType>
     </ClInclude>

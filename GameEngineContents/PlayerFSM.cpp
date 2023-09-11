@@ -9,13 +9,24 @@
 
 void Player::SetFSMFunc()
 {
+	InitFSM(PlayerState::MAX);
+
+
+
 	//	IDLE,// Idle_0, Idle_1
-	FSMFunc[PlayerState::IDLE].Start = [this] // Idle0와 Idle1이 번갈아가며 진행됨
+	SetChangeFSMCallBack([this]
+		{
+			StateDuration = 0.0f;
+			StateChecker = false;
+		});
+
+	SetFSM(PlayerState::IDLE,
+		[this]
 		{
 			Renderer->ChangeAnimation("Idle_0");
-		};
 
-	FSMFunc[PlayerState::IDLE].Update = [this](float Delta)
+		},
+		[this](float Delta)
 		{
 			if (Renderer->IsAnimationEnd())
 			{
@@ -33,22 +44,23 @@ void Player::SetFSMFunc()
 			}
 
 			CheckInput(Delta);
-
-		};
-
-	FSMFunc[PlayerState::IDLE].End = [this]
+		},
+		[this]
 		{
 
-		};
+		}
+	);
+
 
 	//WALK	// Walk, Run
-	FSMFunc[PlayerState::WALK].Start = [this]
+	SetFSM(PlayerState::WALK,
+		[this]
 		{
 			Renderer->ChangeAnimation("Run");
 
-		};
 
-	FSMFunc[PlayerState::WALK].Update = [this](float Delta)
+		},
+		[this](float Delta)
 		{
 			//StateDuration += Delta;
 			if (true == StateChecker)
@@ -56,7 +68,7 @@ void Player::SetFSMFunc()
 				Renderer->ChangeAnimation("Walk");
 				if (true == Renderer->IsAnimationEnd())
 				{
-					NextState = PlayerState::IDLE;
+					SetNextState(PlayerState::IDLE);
 				}
 
 			}
@@ -65,25 +77,18 @@ void Player::SetFSMFunc()
 				CheckInput(Delta);
 			}
 
-
-			//if (false == StateChecker && StateDuration > PlayerWalkTime)
-			//{
-			//	Renderer->ChangeAnimation("Run");
-			//	StateChecker = true;
-			//}
-
-		};
-
-	FSMFunc[PlayerState::WALK].End = [this]
+		},
+		[this]
 		{
 
-		};
+		}
+	);
 
 
 	//SKILL	// 우클릭 Arrow, Arrow_bomb, Arrow_magic, Hookshot, Hookshot_fly
-	FSMFunc[PlayerState::SKILL].Start = [this]
+	SetFSM(PlayerState::SKILL,
+		[this]
 		{
-
 			switch (CurSkill)
 			{
 			case Player::PlayerSkill::ARROW:
@@ -103,9 +108,8 @@ void Player::SetFSMFunc()
 			default:
 				break;
 			}
-		};
-
-	FSMFunc[PlayerState::SKILL].Update = [this](float Delta)
+		},
+		[this](float Delta)
 		{
 			StateDuration += Delta;
 			if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
@@ -134,36 +138,32 @@ void Player::SetFSMFunc()
 				//}
 			}
 			CheckInput(Delta);
-
-			
-
-		};
-
-	FSMFunc[PlayerState::SKILL].End = [this]
+		},
+		[this]
 		{
 
-		};
+		}
+	); 
+
 
 	//HOOK_FLY	// Hookshot_fly
-	FSMFunc[PlayerState::HOOK_FLY].Start = [this]
+	SetFSM(PlayerState::HOOK_FLY,
+		[this]
 		{
-			Renderer->ChangeAnimation("Hookshot_fly");
-
-		};
-
-	FSMFunc[PlayerState::HOOK_FLY].Update = [this](float Delta)
+			Renderer->ChangeAnimation("Hookshot_fly"); 
+		},
+		[this](float Delta)
 		{
-
-		};
-
-	FSMFunc[PlayerState::HOOK_FLY].End = [this]
+		},
+		[this]
 		{
-
-		};
+		}
+	);
 
 
 	//BASE_ATT	// 좌클릭 Slash_Light_L_new, Slash_Light_R_new
-	FSMFunc[PlayerState::BASE_ATT].Start = [this]
+	SetFSM(PlayerState::BASE_ATT,
+		[this]
 		{
 			if (true == isRightAttack)
 			{
@@ -176,11 +176,8 @@ void Player::SetFSMFunc()
 			isRightAttack = !isRightAttack;
 
 			// 마우스 방향을 바라보도록 함
-			NextForwardDir = GetMousDirection();
-
-		};
-
-	FSMFunc[PlayerState::BASE_ATT].Update = [this](float Delta)
+			NextForwardDir = GetMousDirection(); },
+		[this](float Delta)
 		{
 			DirectionUpdate(Delta);
 			MoveDir = NextForwardDir;
@@ -188,31 +185,27 @@ void Player::SetFSMFunc()
 
 			if (true == Renderer->IsAnimationEnd())
 			{
-				NextState = PlayerState::IDLE;
 				StateInputDelayTime = 0.3f;
-			}
-
-		};
-
-	FSMFunc[PlayerState::BASE_ATT].End = [this]
+				SetNextState(PlayerState::IDLE);
+			}},
+		[this]
 		{
-
-		};
+		}
+	); 
 
 
 	//ROLL	// 스페이스바 Roll, Roll_slash
 	// Roll 하는 동안 무적상태
-	FSMFunc[PlayerState::ROLL].Start = [this]
+	SetFSM(PlayerState::ROLL,
+		[this]
 		{
 			Renderer->ChangeAnimation("Roll");
 			//StateDuration = 2.0f;
-			mButton = false;
-		};
-
-	FSMFunc[PlayerState::ROLL].Update = [this](float Delta)
+			mButton = false; },
+		[this](float Delta)
 		{
 			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-			m_pCapsuleComp->SetMoveSpeed(MoveDir * MoveSpeed * RollSpeedRatio);
+			m_pCapsuleComp->SetMoveSpeed(MoveDir* MoveSpeed* RollSpeedRatio);
 			if (true == GameEngineInput::IsDown("PlayerMBUTTON"))
 			{
 				mButton = true;
@@ -221,46 +214,43 @@ void Player::SetFSMFunc()
 			{
 				if (true == mButton)
 				{
-					NextState = PlayerState::ROLL_ATT;
+					SetNextState(PlayerState::ROLL_ATT);
 				}
 				else
 				{
-					StateInputDelayTime = 0.5f;
-					NextState = PlayerState::IDLE;
+					StateInputDelayTime = 0.1f;
+					SetNextState(PlayerState::IDLE);
 				}
-			}
-		};
-
-	FSMFunc[PlayerState::ROLL].End = [this]
+			}},
+		[this]
 		{
-			
-		};
+		}
+	); 
 
 
 	//ROLL_ATT	// 스페이스바+휠클릭 Charge_slam_overhead, Roll_slash_end
-	FSMFunc[PlayerState::ROLL_ATT].Start = [this]
+	SetFSM(PlayerState::ROLL_ATT,
+		[this]
 		{
 			Renderer->ChangeAnimation("Charge_slam_overhead");
-
-		};
-
-	FSMFunc[PlayerState::ROLL_ATT].Update = [this](float Delta)
+		},
+		[this](float Delta)
 		{
 			if (true == Renderer->IsAnimationEnd())
 			{
 				StateInputDelayTime = 0.5f;
-				NextState = PlayerState::IDLE; // state변경
+				SetNextState(PlayerState::IDLE);
 			}
-		};
-
-	FSMFunc[PlayerState::ROLL_ATT].End = [this]
+		},
+		[this]
 		{
-
-		};
+		}
+	); 
 
 
 	// CHARGE_ATT// 휠클릭 Charge_slash_L, Charge_slash_R
-	FSMFunc[PlayerState::CHARGE_ATT].Start = [this]
+	SetFSM(PlayerState::CHARGE_ATT,
+		[this]
 		{
 			if (true == isRightAttack)
 			{
@@ -270,30 +260,27 @@ void Player::SetFSMFunc()
 			{
 				Renderer->ChangeAnimation("Charge_slash_L");
 			}
-			//isRightAttack = !isRightAttack;
-		};
-
-	FSMFunc[PlayerState::CHARGE_ATT].Update = [this](float Delta)
+		},
+		[this](float Delta)
 		{
-			if (false == GameEngineInput::IsPress("PlayerMBUTTON"))
-			{
-				NextState = PlayerState::BASE_ATT;
-			}
-		};
-
-	FSMFunc[PlayerState::CHARGE_ATT].End = [this]
+				if (false == GameEngineInput::IsPress("PlayerMBUTTON"))
+				{
+					SetNextState(PlayerState::BASE_ATT);
+				}
+		},
+		[this]
 		{
-
-		};
+		}
+	); 
 
 
 	//HIT  	// 공격당함 Hit_back, Hit_idle,Hit_Recover
-	FSMFunc[PlayerState::HIT].Start = [this]
+	SetFSM(PlayerState::HIT,
+		[this]
 		{
 			Renderer->ChangeAnimation("Hit_back");
-		};
-
-	FSMFunc[PlayerState::HIT].Update = [this](float Delta)
+		},
+		[this](float Delta)
 		{
 			static float IdleEndTime = 0;
 			StateDuration += Delta;
@@ -308,28 +295,26 @@ void Player::SetFSMFunc()
 				Renderer->ChangeAnimation("Hit_Recover");
 				if (true == Renderer->IsAnimationEnd())
 				{
-					NextState = PlayerState::IDLE;
-					//CheckInput(Delta);
+					SetNextState(PlayerState::IDLE);
 				}
 			}
-		};
-
-	FSMFunc[PlayerState::HIT].End = [this]
+		},
+		[this]
 		{
-
-		};
+		}
+	); 
 
 
 	//CLIMB	// 사다리 Climbing_ladder, Climbing_ladder_down, Climbing_off_ladder_top
-	FSMFunc[PlayerState::CLIMB].Start = [this]
+	SetFSM(PlayerState::CLIMB,
+		[this]
 		{
 			Renderer->ChangeAnimation("Climbing_ladder");
 			Renderer->PauseOn();
 
-			m_pCapsuleComp->TurnOffGravity();
-		};
-
-	FSMFunc[PlayerState::CLIMB].Update = [this](float Delta)
+			m_pCapsuleComp->TurnOffGravity(); 
+		},
+		[this](float Delta)
 		{
 			CheckClimbInput(Delta);
 			// 땅에 사다리 끝에 도달해였는지 체크하는 함수
@@ -337,141 +322,126 @@ void Player::SetFSMFunc()
 			//{
 			//
 			//}
-		};
-
-	FSMFunc[PlayerState::CLIMB].End = [this]
+		},
+		[this]
 		{
-			m_pCapsuleComp->TurnOnGravity();
-			Renderer->PauseOff();
-		};	
+				m_pCapsuleComp->TurnOnGravity();
+				Renderer->PauseOff(); 
+		}
+	); 
+
 	
 	//LEVER // 레버를 누름 Push_Lever
-	FSMFunc[PlayerState::LEVER].Start = [this]
+	SetFSM(PlayerState::HOOK_FLY,
+		[this]
 		{
 			Renderer->ChangeAnimation("Push_Lever");
-		};
-
-	FSMFunc[PlayerState::LEVER].Update = [this](float Delta)
+		},
+		[this](float Delta)
 		{
 			if (true == Renderer->IsAnimationEnd())
 			{
-				NextState = PlayerState::IDLE;
-			}
-		};
-
-	FSMFunc[PlayerState::LEVER].End = [this]
+				SetNextState(PlayerState::IDLE);
+			}},
+		[this]
 		{
-
-		};
+		}
+	); 
 
 
 	//ITEM
 	// 아이템을 얻음 GetItem
-	FSMFunc[PlayerState::ITEM].Start = [this]
+	SetFSM(PlayerState::HOOK_FLY,
+		[this]
 		{
 			Renderer->ChangeAnimation("GetItem");
-		};
-
-	FSMFunc[PlayerState::ITEM].Update = [this](float Delta)
+		},
+		[this](float Delta)
 		{
 			if (true == Renderer->IsAnimationEnd())
 			{
-				NextState = PlayerState::IDLE;
-			}
-		};
-
-	FSMFunc[PlayerState::ITEM].End = [this]
+				SetNextState(PlayerState::IDLE);
+			}},
+		[this]
 		{
+		}
+	); 
 
-		};
 
 
 	//DEAD
 	// 피격으로 인한 사망 Dead
-	FSMFunc[PlayerState::DEAD].Start = [this]
+	SetFSM(PlayerState::HOOK_FLY,
+		[this]
 		{
 			Renderer->ChangeAnimation("Dead");
-
-		};
-
-	FSMFunc[PlayerState::DEAD].Update = [this](float Delta)
+		},
+		[this](float Delta)
 		{
-
-		};
-
-	FSMFunc[PlayerState::DEAD].End = [this]
+		},
+		[this]
 		{
-
-		};
-
-
-
+		}
+	); 
 
 
 	//DROWN
 	// 익사 Drown
-	FSMFunc[PlayerState::DROWN].Start = [this]
+	SetFSM(PlayerState::HOOK_FLY,
+		[this]
 		{
 			Renderer->ChangeAnimation("Drown");
-
-		};
-
-	FSMFunc[PlayerState::DROWN].Update = [this](float Delta)
+		},
+		[this](float Delta)
 		{
-
-		};
-
-	FSMFunc[PlayerState::DROWN].End = [this]
+		},
+		[this]
 		{
-
-		};
+		}
+	); 
 
 
 
 	//FALLING
 	// 낙사 Falling
-	FSMFunc[PlayerState::FALLING].Start = [this]
+	SetFSM(PlayerState::HOOK_FLY,
+		[this]
 		{
 			Renderer->ChangeAnimation("Falling");
-		};
-
-	FSMFunc[PlayerState::FALLING].Update = [this](float Delta)
+		},
+		[this](float Delta)
 		{
-
-		};
-
-	FSMFunc[PlayerState::FALLING].End = [this]
+		},
+		[this]
 		{
-
-		};
+		}
+	); 
 
 
 	//FLY
 	// 높이가 차가 있을 때 Fly, Land
-	FSMFunc[PlayerState::FLY].Start = [this]
+	SetFSM(PlayerState::HOOK_FLY,
+		[this]
 		{
 			Renderer->ChangeAnimation("Fly");
-
-		};
-
-	FSMFunc[PlayerState::FLY].Update = [this](float Delta)
+		},
+		[this](float Delta)
 		{
-			// 땅에 도달하였는지 체크
-			//if ()
-			//{
-			//	Renderer->ChangeAnimation("Fly");
-			//	StateChecker = true;
-			//}
-			//if (true == StateChecker && true == Renderer->IsAnimationEnd())
-			//{
-			//	CheckInput(Delta);
-			//}
-		};
-
-	FSMFunc[PlayerState::FLY].End = [this]
+				// 땅에 도달하였는지 체크
+				//if ()
+				//{
+				//	Renderer->ChangeAnimation("Fly");
+				//	StateChecker = true;
+				//}
+				//if (true == StateChecker && true == Renderer->IsAnimationEnd())
+				//{
+				//	CheckInput(Delta);
+				//}
+		},
+		[this]
 		{
-
-		};
+		}
+	); 
 
 }
 
