@@ -557,4 +557,9 @@
       <UniqueIdentifier>{a629260c-d758-43ba-bd9f-46a2479c20db}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="PhysX 사용법.txt">
+      <Filter>Component\PhysX</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

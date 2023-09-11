@@ -67,8 +67,8 @@ void CustomSimulationEventCallback::onTrigger(physx::PxTriggerPair* pairs, physx
 		//C26813  : 비트플래그로 사용된 enum끼리의 비교는 == 이 아닌 bitwise and(&)로 비교하는 것이 좋음
 		//WARNING : resultFd.word0 == static_cast<physx::PxU32>(PhysXFilterGroup::Ground
 
-		if (TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle) && // 트리거의 필터그룹
-			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic))
+		if (TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle) && // 트리거의 필터그룹이 장애물일때
+			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic))// 충돌한놈의 필터그룹이 플레이어일때
 		{
 			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) // 첫 충돌 했을 때
 			{
@@ -125,8 +125,8 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 			continue;
 		}
 
-		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic)&&// 플레이어
-			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Ground))  //땅			
+		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic)&&// 충돌한 놈의 필터그룹이 플레이어일때
+			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Ground))		  // 충돌한 놈의 필터그룹이 땅일때
 		{
 			
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) //충돌이 시작된 시점
@@ -148,8 +148,8 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 			}
 		}
 
-		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic) &&// 플레이어
-			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle))  //땅			
+		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic) &&// 충돌한 놈의 필터그룹이 플레이어일때
+			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle))			// 충돌한 놈의 필터그룹이 장애물일때	
 		{
 
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) //충돌이 시작된 시점

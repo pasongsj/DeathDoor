@@ -1,0 +1,26 @@
+ - PhysX 사용법 - 
+
+PhysX를 사용할 "레벨"은 PhysXLevel이란것을 GameEngineLevel 대신 상속 받아서 사용합니다.
+해당 레벨은 Start 혹은 LevelChangeStart() 에서 CreateScene을 하여야 해당 레벨에서 PhysX를 사용할 수 있습니다.
+
+
+PhysX를 사용할 "액터"는 원하는 모양의 컴포넌트를 CreateComponent()를 통해 장착합니다. (PhysXTestActor에 견본 有)
+CreateComponent의 인자는 크기, 회전값, 스태틱여부 총 3가지를 넣을수 있습니다.
+
+
+만든 액터를 충돌 체크를 하고 싶을때는 SetFilterData() 를 사용합니다. (PhysXTrigger에 견본 有)
+인자의 들어가는 enum은 ContentsEnum.h 의 PhysXFilterGroup에 추가하여 사용 가능합니다.
+인자는 처음은 본인의 유형, 나머지 3개는 상대의 유형입니다. 최대 3개까지 지정 가능합니다.
+
+
+충돌체크는 PhysXCustom.cpp에서 가능합니다. (PhysXCustom에 견본 有)
+Trigger충돌은 onTrigger함수에서, 트리거가 아니라면 onContact에서 체크 가능합니다.
+PhysXComponent가 만들어질떄 보면 m_pShape->userData = GetActor()를 하고 있습니다.
+userData는 void* 라서 어떤 포인터든지 받을수 있기에, 액터를 넣어두었습니다.
+따라서 충돌했을때 가져온 Shape의 userData를 reinterpret_cast를 통해 충돌한 액터로 변환하여 사용할 수 있게 만들어두었습니다.
+불러온 해당 액터에게 콜백을 두고, 충돌했을때 호출되는 함수에서 람다로 넣어줘도 될듯 합니다.
+
+
+
+
+추가적으로 엔진 Update는 안정적인 충돌연산을 위해 120프레임으로 제한을 뒀습니다. (PhysX Simulate가 Update 더 많이 돌아야 안정적)

@@ -53,5 +53,5 @@ void PhysXTestLevel::LevelChangeEnd()
 
 void PhysXTestLevel::Update(float _DeltaTime)
 {
-	SetCameraPvd({5000,5000,5000}, m_pTestActor->GetTransform()->GetWorldRotation());
+	//SetCameraPvd({5000,5000,5000}, m_pTestActor->GetTransform()->GetWorldRotation());
 }
