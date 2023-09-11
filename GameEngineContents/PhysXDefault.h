@@ -195,6 +195,12 @@ public:
 			);
 	}
 
+	void SetTrigger()
+	{
+		m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+		m_pShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+	}
+
 protected:
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
 	physx::PxRigidStatic* m_pRigidStatic = nullptr;

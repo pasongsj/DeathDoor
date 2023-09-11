@@ -24,7 +24,7 @@ protected:
 	void LevelChangeEnd() override;
 	
 private:
-	std::shared_ptr<class PhysXTestActor> m_pTestActor = nullptr;
+	std::shared_ptr<class GameEngineActor> m_pTestActor = nullptr;
 
 };
 

@@ -12,6 +12,7 @@ PhysXTestPlane::PhysXTestPlane()
 
 PhysXTestPlane::~PhysXTestPlane() 
 {
+	Count = 0;
 }
 
 int PhysXTestPlane::Count=0;
@@ -28,12 +29,14 @@ void PhysXTestPlane::Start()
 	m_pBoxComp = CreateComponent<PhysXBoxComponent>();
 
 	m_pBoxComp->SetPhysxMaterial(0.f, 0.f, 0.f);
+	m_pBoxComp->CreatePhysXActors(vscale, GetTransform()->GetWorldRotation(), false);
 	if (Count != 0)
 	{
+		m_pBoxComp->SetPositionSetFromParentFlag(true);
 		//m_pBoxComp->SetObjectObstacle();
-		GetTransform()->AddWorldRotation(float4{ 0, 45, 10 });
+		GetTransform()->AddWorldRotation(float4{ 0, 45, 10 }); 
+		m_pBoxComp->SetTrigger();
 	}
-	m_pBoxComp->CreatePhysXActors(vscale, GetTransform()->GetWorldRotation(),true);
 	++Count;
 
 }

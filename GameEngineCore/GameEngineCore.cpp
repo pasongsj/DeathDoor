@@ -87,10 +87,12 @@ void GameEngineCore::EngineUpdate()
 		if (nullptr != MainLevel)
 		{
 			CurLoadLevel = MainLevel;
-			PhysXManager::GetInst()->ChangeScene(MainLevel->GetName());
+			MainLevel->InitCameraRenderTarget();
 
+			PhysXManager::GetInst()->ChangeScene(MainLevel->GetName()); // PhysX Scene변경 없으면 null로 만들어서 사용불가
 			MainLevel->LevelChangeStart();
-			MainLevel->ActorLevelChangeStart();
+
+			MainLevel->ActorLevelChangeStart(); // 생성했던 렌더타겟 삭제
 		}
 
 		NextLevel = nullptr;

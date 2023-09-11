@@ -31,9 +31,9 @@ void PhysXTestLevel::LevelChangeStart()
 		std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
 	}
 
-	CreateActor<PhysXTestActor>();
+	//m_pTestActor = CreateActor<PhysXTestActor>();
 	CreateActor<PhysXTestPlane>();
-	//CreateActor<Player>();
+	m_pTestActor = CreateActor<Player>();
 	
 	std::shared_ptr<PhysXTestPlane> pWallPlane = CreateActor<PhysXTestPlane>();
 }
@@ -45,5 +45,5 @@ void PhysXTestLevel::LevelChangeEnd()
 
 void PhysXTestLevel::Update(float _DeltaTime)
 {
-	//SetCameraPvd(GetTransform()->GetWorldPosition(), m_pTestActor->GetTransform()->GetWorldRotation());
+	SetCameraPvd({5000,5000,5000}, m_pTestActor->GetTransform()->GetWorldRotation());
 }
