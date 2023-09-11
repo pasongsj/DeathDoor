@@ -57,8 +57,9 @@ OutPutColor DeferredMerge_PS(Output _Input) : SV_Target0
     float4 SpacularRatio = SpcLight.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 AmbientRatio = AmbLight.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     
-    NewOutPut.Result = Color * (DiffuseRatio + SpacularRatio + AmbientRatio);
-    NewOutPut.Result.a = saturate(NewOutPut.Result.a);
+    NewOutPut.Result.xyz = Color.xyz * (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
+    NewOutPut.Result.a = saturate(Color.a);
+    // NewOutPut.Result.a = saturate(NewOutPut.Result.a);
     
     return NewOutPut;
 

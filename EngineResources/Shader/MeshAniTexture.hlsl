@@ -93,15 +93,22 @@ OutTarget MeshAniTexture_PS(Output _Input)
         clip(-1);
     }
     
-    float4 DiffuseRatio = CalDiffuseLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
-    float4 SpacularRatio = CalSpacularLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);;
-    float4 AmbientRatio = CalAmbientLight(AllLight[0]);
+    float4 DiffuseRatio = (float4) 0.0f;
+    float4 SpacularRatio = (float4) 0.0f;
+    float4 AmbientRatio = (float4) 0.0f;
     
+    for (int i = 0; i < LightCount; ++i)
+    {
+        DiffuseRatio += CalDiffuseLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[i]);
+        SpacularRatio += CalSpacularLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[i]);;
+        AmbientRatio += CalAmbientLight(AllLight[i]);
+    }
     
     float A = Color.w;
-    float4 ResultColor = Color * (DiffuseRatio + SpacularRatio + AmbientRatio);
+    float4 ResultColor = (float4) 0.0f;
+    ResultColor.xyz = Color.xyz * (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
     ResultColor.a = A;
-    // Color += AllLight[0].LightColor;
+    Color += AllLight[0].LightColor;
     
     NewOutPut.CamForwardTarget = ResultColor;
     NewOutPut.TestTarget = ResultColor;

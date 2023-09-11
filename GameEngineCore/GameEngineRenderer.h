@@ -9,6 +9,9 @@ enum class RenderPath
 	Forward,
 	Deferred,
 	Alpha,
+	Custom01,
+	Custom02,
+	Custom03,
 	Debug,
 };
 
