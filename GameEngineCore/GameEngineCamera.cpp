@@ -80,9 +80,10 @@ void GameEngineCamera::InitCameraRenderTarget()
 
 	CamTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 
-	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);// 디퓨즈 라이트
-	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // 스펙큘러 라이트
-	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // 앰비언트 라이트를 담는다.
+	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);// 디퓨즈
+	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // 스펙큘러
+	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // 앰비언트
+	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // 전체
 
 	CamForwardTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	CamDeferrdTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
@@ -241,6 +242,7 @@ void GameEngineCamera::Setting()
 
 void GameEngineCamera::Render(float _DeltaTime)
 {
+	AllRenderTarget->Clear();
 	{
 		std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator RenderGroupStartIter = Renderers.begin();
 		std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator RenderGroupEndIter = Renderers.end();
@@ -297,9 +299,19 @@ void GameEngineCamera::Render(float _DeltaTime)
 		}
 	}
 
+	AllRenderTarget->Setting();
+	DeferredLightTarget->Clear();
+
 	{
 		for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& Path : Units)
 		{
+			if (Path.first == RenderPath::Forward)
+			{
+				//AllRenderTarget->Setting();
+				//DeferredLightTarget->Setting();
+				int a = 0;
+			}
+
 			std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& UnitPath = Path.second;
 
 			std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupStartIter = UnitPath.begin();
@@ -335,9 +347,10 @@ void GameEngineCamera::Render(float _DeltaTime)
 		}
 		// 오브젝트들은 그릴만한 애들은 다 그렸다고 판단하고
 		// 빛계산의 결과가 들어갈 애들이 여기에서 세팅되고
-		DeferredLightTarget->Clear();
 		DeferredLightTarget->Setting();
 		CalLightUnit.Render(_DeltaTime);
+
+		DeferredLightTarget->Effect(_DeltaTime);
 
 		CamDeferrdTarget->Clear();
 		CamDeferrdTarget->Setting();

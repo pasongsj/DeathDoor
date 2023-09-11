@@ -26,6 +26,16 @@ void GameEngineRenderTarget::ResCreate(std::shared_ptr<GameEngineTexture> _Textu
 	Textures.push_back(_Texture);
 	SRVs.push_back(_Texture->GetSRV());
 	RTVs.push_back(_Texture->GetRTV());
+	D3D11_VIEWPORT ViewPortData;
+
+	ViewPortData.TopLeftX = 0;
+	ViewPortData.TopLeftY = 0;
+	ViewPortData.Width = _Texture->GetScale().x;
+	ViewPortData.Height = _Texture->GetScale().y;
+	ViewPortData.MinDepth = 0.0f;
+	ViewPortData.MaxDepth = 1.0f;
+
+	ViewPortDatas.push_back(ViewPortData);
 }
 
 void GameEngineRenderTarget::ResCreate(DXGI_FORMAT _Format, float4 _Scale, float4 _Color)
@@ -45,6 +55,17 @@ void GameEngineRenderTarget::ResCreate(DXGI_FORMAT _Format, float4 _Scale, float
 
 	std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Create(Desc);
 	Textures.push_back(Tex);
+
+	D3D11_VIEWPORT ViewPortData;
+
+	ViewPortData.TopLeftX = 0;
+	ViewPortData.TopLeftY = 0;
+	ViewPortData.Width = _Scale.x;
+	ViewPortData.Height = _Scale.y;
+	ViewPortData.MinDepth = 0.0f;
+	ViewPortData.MaxDepth = 1.0f;
+
+	ViewPortDatas.push_back(ViewPortData);
 	SRVs.push_back(Tex->GetSRV());
 	RTVs.push_back(Tex->GetRTV());
 }
@@ -94,6 +115,7 @@ void GameEngineRenderTarget::Setting()
 
 	// 지금 당장은 z값을 쓰지 않겠습니다.
 	GameEngineDevice::GetContext()->OMSetRenderTargets(static_cast<UINT>(RTVs.size()), RTV, DSV);
+	GameEngineDevice::GetContext()->RSSetViewports(static_cast<UINT>(ViewPortDatas.size()), &ViewPortDatas[0]);
 }
 
 void GameEngineRenderTarget::Reset()

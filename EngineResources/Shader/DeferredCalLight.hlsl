@@ -35,6 +35,7 @@ struct LightOutPut
     float4 DifLight : SV_Target0;
     float4 SpcLight : SV_Target1;
     float4 AmbLight : SV_Target2;
+    float4 ResultLight : SV_Target3;
 };
 
 Texture2D PositionTex : register(t0);
@@ -49,7 +50,7 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
     
     if (0 >= Position.a)
     {
-        // clip(-1);
+        clip(-1);
     }
     
     float4 Normal = NormalTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
@@ -68,6 +69,7 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
     NewOutPut.DifLight = DiffuseRatio;
     NewOutPut.SpcLight = SpacularRatio;
     NewOutPut.AmbLight = AmbientRatio;
+    NewOutPut.ResultLight = DiffuseRatio + SpacularRatio;
     
     return NewOutPut;
 

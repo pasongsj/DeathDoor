@@ -173,6 +173,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BloomEffect.h" />
     <ClInclude Include="BlurEffect.h">
       <SubType>
       </SubType>
@@ -569,6 +570,7 @@
     <ClInclude Include="ThirdParty\PhysX_4_1\inc\writer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BloomEffect.cpp" />
     <ClCompile Include="BlurEffect.cpp">
       <SubType>
       </SubType>

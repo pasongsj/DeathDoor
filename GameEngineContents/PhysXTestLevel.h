@@ -25,6 +25,7 @@ protected:
 	
 private:
 	std::shared_ptr<class GameEngineActor> m_pTestActor = nullptr;
+	std::shared_ptr<class BloomEffect> m_pBloom;
 
 };
 
