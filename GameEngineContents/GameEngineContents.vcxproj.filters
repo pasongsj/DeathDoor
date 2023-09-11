@@ -222,6 +222,9 @@
     <ClCompile Include="EnemyBase.cpp">
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXTrigger.cpp">
+      <Filter>Component\PhysX\Test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -448,6 +451,9 @@
     </ClInclude>
     <ClInclude Include="EnemyDefinition.h">
       <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTrigger.h">
+      <Filter>Component\PhysX\Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

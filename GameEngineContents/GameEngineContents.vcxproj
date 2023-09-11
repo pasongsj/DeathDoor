@@ -274,6 +274,7 @@
     </ClCompile>
     <ClCompile Include="PhysXTestPlane.cpp" />
     <ClCompile Include="PhysXTriangleComponent.cpp" />
+    <ClCompile Include="PhysXTrigger.cpp" />
     <ClCompile Include="PinActor.cpp">
       <SubType>
       </SubType>
@@ -487,6 +488,7 @@
     </ClInclude>
     <ClInclude Include="PhysXTestPlane.h" />
     <ClInclude Include="PhysXTriangleComponent.h" />
+    <ClInclude Include="PhysXTrigger.h" />
     <ClInclude Include="PinActor.h">
       <SubType>
       </SubType>

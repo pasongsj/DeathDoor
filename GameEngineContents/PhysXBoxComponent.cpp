@@ -155,8 +155,8 @@ void PhysXBoxComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _GeoM
 
 	// 중력이 적용되지 않도록
 	// TODO::RigidStatic으로 변경해야
-	m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
-	m_pRigidDynamic->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
+	//m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
+	//m_pRigidDynamic->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
 
 	// 충돌체의 형태
 	// 충돌체의 크기는 절반의 크기를 설정하므로 실제 Renderer의 스케일은 충돌체의 2배로 설정되어야 함
@@ -171,10 +171,10 @@ void PhysXBoxComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _GeoM
 	m_pShape->setLocalPose(physx::PxTransform(Pivot));
 
 
-	/////////////////////////
-	m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground),
-		static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0));
-	/////////////////////////
+	///////////////////////////
+	//m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground),
+	//	static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0));
+	///////////////////////////
 
 
 	//충돌할때 필요한 필터 데이터

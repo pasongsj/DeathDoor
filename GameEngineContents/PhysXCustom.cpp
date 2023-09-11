@@ -2,6 +2,7 @@
 #include "PhysXCustom.h"
 #include "Player.h"
 #include "PhysXTestActor.h"
+#include "PhysXTrigger.h"
 
 physx::PxFilterFlags CustomFilterShader
 (
@@ -54,12 +55,13 @@ void CustomSimulationEventCallback::onTrigger(physx::PxTriggerPair* pairs, physx
 		//C26813  : 비트플래그로 사용된 enum끼리의 비교는 == 이 아닌 bitwise and(&)로 비교하는 것이 좋음
 		//WARNING : resultFd.word0 == static_cast<physx::PxU32>(PhysXFilterGroup::Ground
 
-		if (OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle) &&
-			TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic) &&
+		if (TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle) &&
+			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic) &&			
 			current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
 		{
-			
-			
+
+			PhysXTrigger* Test = reinterpret_cast<PhysXTrigger*>(current.triggerShape->userData);
+			int a = 0;			
 		}
 
 	}
@@ -97,6 +99,7 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 			}
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) //충돌이 유지되는동안 계속 들어옴
 			{
+
 				int a = 0;
 				
 			}
@@ -108,19 +111,24 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 		}
 
 		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic) &&// 플레이어
-			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle))  //장애물		
+			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle))  //땅			
 		{
+
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) //충돌이 시작된 시점
 			{
+				//userData는 void* 이기에 PhysXComponent를 소유한 액터의 포인터를 넣어 뒀음. 그걸 캐스팅하여 쓰면됨.
+				PhysXTrigger* Test = reinterpret_cast<PhysXTrigger*>(tmpOtherActor->userData);
 				int a = 0;
 			}
 			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) //충돌이 유지되는동안 계속 들어옴
 			{
+
 				int a = 0;
 
 			}
-			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) //충돌이 끝나는 시점
+			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) //충돌이 끝나는 시점. 충돌 도중(eNOTIFY_TOUCH_PERSISTS)에 상대방이 죽으면 체크가 안됨
 			{
+				PhysXTrigger* Test = reinterpret_cast<PhysXTrigger*>(tmpOtherActor->userData);
 				int a = 0;
 			}
 		}

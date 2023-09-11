@@ -2,6 +2,7 @@
 #include "PhysXTestLevel.h"
 #include "PhysXTestActor.h"
 #include "PhysXTestPlane.h"
+#include "PhysXTrigger.h"
 #include "Player.h"
 #include <GameEngineCore/GameEngineCoreWindow.h>
 PhysXTestLevel::PhysXTestLevel() 
@@ -36,9 +37,11 @@ void PhysXTestLevel::LevelChangeStart()
 		std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
 	}
 
-	//m_pTestActor = CreateActor<PhysXTestActor>();
+	m_pTestActor = CreateActor<PhysXTestActor>();
 	CreateActor<PhysXTestPlane>();
-	m_pTestActor = CreateActor<Player>();
+
+	CreateActor<PhysXTrigger>();
+	//m_pTestActor = CreateActor<Player>();
 	
 	std::shared_ptr<PhysXTestPlane> pWallPlane = CreateActor<PhysXTestPlane>();
 }
