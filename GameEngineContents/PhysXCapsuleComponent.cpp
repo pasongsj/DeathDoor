@@ -339,11 +339,17 @@ void PhysXCapsuleComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _
 	relativePose.p = DynamicCenter;
 	m_pShape->setLocalPose(relativePose);
 
-	///////////////////////
-	m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),
-		static_cast<physx::PxU32>(PhysXFilterGroup::Ground), 0, 0));
-	m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),
-		static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle), 0, 0));
+	//충돌할때 필요한 필터 데이터
+	m_pShape->setSimulationFilterData
+	(
+		physx::PxFilterData
+		(
+			static_cast<physx::PxU32>(PhysXFilterGroup::None),
+			0,
+			0,
+			0
+		)
+	);
 	m_pShape->setContactOffset(0.2f);
 
 

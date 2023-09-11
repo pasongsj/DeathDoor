@@ -58,19 +58,7 @@ public:
 	inline void SetDynamicPivot(float4 _Pivot)
 	{
 		m_f4DynamicPivot = _Pivot;
-	}
-
-	//오브젝트의 필터데이터를 넣기위한 bool값을 설정하는 함수
-	inline void SetObjectObstacle()
-	{
-		m_bObstacle = true;
-	}
-	
-	//오브젝트의 필터데이터를 넣기위한 bool값을 설정하는 함수
-	inline void SetObjectGround()
-	{
-		m_bGround = true;
-	}
+	}	
 
 	inline void SetAggregateObj(bool _Flag)
 	{
@@ -209,8 +197,6 @@ protected:
 	float m_fResitution = 0.0f;
 
 	float4 m_f4DynamicPivot = {0.0f, 0.0f, 0.0f};
-	bool m_bObstacle = false;
-	bool m_bGround = false;
 	bool m_bAggregateObj = false;
 	bool m_bStatic = false;
 

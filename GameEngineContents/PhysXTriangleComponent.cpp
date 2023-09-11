@@ -88,64 +88,9 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool
 		//shape_->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
 
 		//충돌할때 필요한 필터 데이터
-			//충돌할때 필요한 필터 데이터
-		if (true == m_bObstacle)
-		{
-			m_pShape->setSimulationFilterData
-			(
-				physx::PxFilterData
-				(
-					static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle),
-					static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),
-					0,
-					0
-				)
-			);
-		}
-		else if (true == m_bGround)
-		{
-			m_pShape->setSimulationFilterData
-			(
-				physx::PxFilterData
-				(
-					static_cast<physx::PxU32>(PhysXFilterGroup::Ground),
-					static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),
-					0,
-					0
-				)
-			);
-		}
-		/*else if (true == IsWall)
-		{
-			m_pShape->setSimulationFilterData
-			(
-				physx::PxFilterData
-				(
-					static_cast<physx::PxU32>(PhysXFilterGroup::Wall),
-					static_cast<physx::PxU32>(PhysXFilterGroup::Player),
-					0,
-					0
-				)
-			);
-		}
-		else if (true == IsSlope)
-		{
-			m_pShape->setSimulationFilterData
-			(
-				physx::PxFilterData
-				(
-					static_cast<physx::PxU32>(PhysXFilterGroup::Slope),
-					static_cast<physx::PxU32>(PhysXFilterGroup::Player),
-					0,
-					0
-				)
-			);
-		}*/
-		else
-		{
-			std::string ParentName = GetActor()->GetName().data();
-			MsgTextBox("충돌 플래그가 설정되지 않았습니다. " + ParentName);
-		}
+		//충돌할때 필요한 필터 데이터
+		
+		SetFilterData(PhysXFilterGroup::Ground, PhysXFilterGroup::PlayerDynamic);		
 	}
 
 

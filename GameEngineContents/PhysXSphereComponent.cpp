@@ -222,8 +222,8 @@ void PhysXSphereComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _Ge
 	(
 		physx::PxFilterData
 		(
-			static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle),
-			static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),
+			static_cast<physx::PxU32>(PhysXFilterGroup::None),
+			0,
 			0,
 			0
 		)

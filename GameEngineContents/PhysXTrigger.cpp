@@ -15,15 +15,15 @@ void PhysXTrigger::Start()
 	GetTransform()->SetLocalPosition({ 0.f,0.f,0.f });
 	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
 	pRenderer->SetFBXMesh("Ground_Mesh.fbx", "MeshTexture");
-	pRenderer->GetTransform()->SetLocalScale({ 0.1, 0.1, 0.1 });
-	float4 scale = pRenderer->GetMeshScale();
+	pRenderer->GetTransform()->SetLocalScale({ 0.1f, 0.1f, 0.1f });
+	float4 scale = pRenderer->GetMeshScale()*0.1f;
 	physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 
-	m_pBoxComp = CreateComponent<PhysXBoxComponent>();
-	m_pBoxComp->SetObjectObstacle();
-	m_pBoxComp->CreatePhysXActors(vscale,float4::ZERO,true);
-	
-	m_pBoxComp->SetTrigger();
+	m_pBoxCompo = CreateComponent<PhysXBoxComponent>();
+	m_pBoxCompo->CreatePhysXActors(vscale,float4::ZERO,true);
+
+	m_pBoxCompo->SetFilterData(PhysXFilterGroup::Obstacle, PhysXFilterGroup::PlayerDynamic);
+	m_pBoxCompo->SetTrigger();
 	
 }
 
