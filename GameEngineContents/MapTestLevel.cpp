@@ -7,6 +7,9 @@
 #include "PhysXCapsuleComponent.h"
 
 
+#include "EnemyBat.h"
+
+
 
 MapTestLevel::MapTestLevel()
 {
@@ -73,7 +76,13 @@ void MapTestLevel::InitTestLevel()
 		GetMainCamera()->GetTransform()->SetLocalPosition(float4{ 0, 700, -2500 });
 
 		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
-		CreateActor<Player>();
+		std::shared_ptr<Player> Obj = CreateActor<Player>();
+		if (nullptr != Obj)
+		{
+			Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 1000.0f , -0.0f , -0.0f }));
+		}
+		//CreateActor<Player>();
+		CreateActor<EnemyBat>();
 		break;
 	}
 	}

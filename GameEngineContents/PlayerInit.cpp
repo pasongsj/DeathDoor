@@ -1,7 +1,6 @@
 #include "PreCompileHeader.h"
 #include "Player.h"
 
-#define PlayerScaleRatio 20.0f
 
 
 void Player::InitInputKey()

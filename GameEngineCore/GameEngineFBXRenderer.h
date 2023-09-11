@@ -97,6 +97,10 @@ public:
 
 	bool IsAnimationEnd()
 	{
+		if (nullptr == CurAnimation)
+		{
+			MsgAssert("CurAnimation이 nullptr입니다");
+		}
 		return CurAnimation->IsEnd();
 	}
 
@@ -195,7 +199,7 @@ private:
 	std::vector<         std::vector<std::shared_ptr<GameEngineRenderUnit>>> Unit;
 
 	std::map<std::string, std::shared_ptr<GameEngineFBXAnimationInfo>> Animations;
-	std::shared_ptr<GameEngineFBXAnimationInfo> CurAnimation;
+	std::shared_ptr<GameEngineFBXAnimationInfo> CurAnimation = nullptr;
 
 	// 처음에는 그냥 들고만 있다가
 	// 애니메이션이 되는순간
