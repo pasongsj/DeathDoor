@@ -13,11 +13,11 @@ Player* Player::MainPlayer = nullptr;
 
 Player::Player()
 {
-	if (nullptr != MainPlayer)
-	{
-		MainPlayer->Death();
-		MainPlayer = nullptr;
-	}
+	//if (nullptr != MainPlayer)
+	//{
+	//	MainPlayer->Death();
+	//	//MainPlayer = nullptr;
+	//}
 	MainPlayer = this;
 }
 

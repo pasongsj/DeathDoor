@@ -22,8 +22,13 @@ protected:
 	void Start() override;
 	void Update(float _DetltaTime) override;
 
+	bool InRangePlayer(float _Range);
+	float4 GetPlayerDir();
+
 
 private:
+
+
 	
 
 };
