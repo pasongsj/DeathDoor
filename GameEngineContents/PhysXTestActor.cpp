@@ -31,10 +31,9 @@ void PhysXTestActor::Start()
 
 
 	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>(); // 원하는 모양의 PhysXComponent부착
-
 	m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);			//앞에서부터 정지마찰, 운동마찰, 반발력계수 세팅
 
-	m_pCapsuleComp->CreatePhysXActors(scale.PhysXVec3Return()); // 피직스 액터를 만드는 부분. 크기는 설정안하면 기본값 세팅됨
+	m_pCapsuleComp->CreatePhysXActors(scale.PhysXVec3Return(),float4::ZERO,false,true); // 피직스 액터를 만드는 부분. 크기는 설정안하면 기본값 세팅됨
 
 	m_pCapsuleComp->TurnOnSpeedLimit();							//최대 이동속도 제한하는 함수
 	m_pCapsuleComp->GetDynamic()->setMass(65.f);				// 무게 설정 조정이 아직 필요한듯함
@@ -79,9 +78,7 @@ void PhysXTestActor::Update(float _DeltaTime)
 		//GetTransform()->AddLocalPosition(GetTransform()->GetWorldBackVector() * 500.f * _DeltaTime);
 	}
 	Movedir.Normalize();
-	//physx::PxTransform test= float4::PhysXTransformReturn(GetTransform()->GetWorldRotation(), Movedir * 1000.f * _DeltaTime);
-	//physx::PxTransform test2 = m_pSphereComp->GetDynamic()->getGlobalPose();
-	//test.p += test2.p;
-	//m_pSphereComp->GetDynamic()->setGlobalPose(test);
-	m_pCapsuleComp->SetMoveSpeed(Movedir * PLAYER_MAX_SPEED);
+
+	//m_pCapsuleComp->SetMoveSpeed(Movedir * PLAYER_MAX_SPEED);
+	m_pCapsuleComp->SetControllerMoveDir(Movedir * PLAYER_MAX_SPEED);
 }

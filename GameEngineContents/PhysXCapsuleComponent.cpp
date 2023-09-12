@@ -11,7 +11,7 @@ PhysXCapsuleComponent::~PhysXCapsuleComponent()
 {
 }
 
-void PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRotation,bool _Static)
+void PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRotation,bool _Static/* = false*/, bool _Controller/* = false*/)
 {
 	m_bStatic = _Static;
 	if (true == m_bStatic)
@@ -21,6 +21,19 @@ void PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _GeoMetryScale, flo
 	else
 	{
 		CreateDynamic(_GeoMetryScale, _GeoMetryRotation);
+		if (true == _Controller)
+		{
+			physx::PxControllerManager* ControllerManager = PxCreateControllerManager(*GetScene());
+			GetScene()->userData = ControllerManager;
+			physx::PxCapsuleControllerDesc  ControllerDesc;
+			ControllerDesc.contactOffset = 0.2f;
+			ControllerDesc.density = 0.01f;
+			ControllerDesc.height = static_cast<physx::PxF32>(_GeoMetryScale.y * 0.5f);
+			ControllerDesc.material = m_pPhysics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
+			ControllerDesc.radius = static_cast<physx::PxF32>(_GeoMetryScale.x * 0.5f);
+			ControllerDesc.upDirection = physx::PxVec3(0, 1, 0);
+			m_pController = ControllerManager->createController(ControllerDesc);\
+		}
 	}
 }
 
@@ -69,6 +82,16 @@ void PhysXCapsuleComponent::Start()
 
 void PhysXCapsuleComponent::Update(float _DeltaTime)
 {
+	if (m_pController!= nullptr)
+	{
+		if (m_pControllerDir!=float4::ZERO)
+		{
+			int a = 0;
+		}
+		m_pController->move(m_pControllerDir.PhysXVec3Return(), 1, _DeltaTime, m_pControllerFilter);
+		//m_pControllerDir = float4::ZERO;
+		return;
+	}
 	if (true == IsStatic())
 	{
 		if (true == PositionSetFromParentFlag)
@@ -95,13 +118,7 @@ void PhysXCapsuleComponent::Update(float _DeltaTime)
 		}
 	}
 	else
-	{
-		if (!(physx::PxIsFinite(m_pRigidDynamic->getGlobalPose().p.x) || physx::PxIsFinite(m_pRigidDynamic->getGlobalPose().p.y) || physx::PxIsFinite(m_pRigidDynamic->getGlobalPose().p.z))
-			&& true == IsMain)
-		{
-			m_pRigidDynamic->setGlobalPose(RecentTransform);
-		}
-
+	{		
 		// PhysX Actor의 상태에 맞춰서 부모의 Transform정보를 갱신
 		float4 tmpWorldPos = { m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z };
 		float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pRigidDynamic->getGlobalPose().q) * GameEngineMath::RadToDeg;

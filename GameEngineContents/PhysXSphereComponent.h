@@ -103,9 +103,6 @@ public:
 	void ResetDynamic();
 
 
-	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
-	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -124,5 +121,9 @@ private:
 
 	physx::PxVec3 InitVec3;
 	physx::PxTransform RecentTransform;
+
+	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
+	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
+
 };
 

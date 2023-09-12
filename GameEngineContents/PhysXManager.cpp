@@ -143,7 +143,12 @@ void PhysXManager::Release()
 	while (SceneStartIter!= SceneEndIter)
 	{
 		physx::PxScene* pScene = SceneStartIter->second;
-
+		if (pScene->userData != nullptr)
+		{
+			physx::PxControllerManager* Mgr = reinterpret_cast<physx::PxControllerManager*>(pScene->userData);
+			Mgr->getController(0)->release();
+			Mgr->release();
+		}
 		PX_RELEASE(pScene);
 
 		++SceneStartIter;

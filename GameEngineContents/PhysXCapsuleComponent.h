@@ -17,7 +17,7 @@ public:
 	PhysXCapsuleComponent& operator=(const PhysXCapsuleComponent& _Other) = delete;
 	PhysXCapsuleComponent& operator=(PhysXCapsuleComponent&& _Other) noexcept = delete;
 
-	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f }, bool _Static = false);
+	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f }, bool _Static = false,bool _Controller = false);
 
 	void SetMoveSpeed(float4 _MoveSpeed);
 	void SetRotation(float4 _Rot);
@@ -101,18 +101,19 @@ public:
 
 	//Reset 함수
 	void ResetDynamic();
-
-	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
-	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
-
+	void SetControllerMoveDir(float4 _Data)
+	{
+		m_pControllerDir = _Data;
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	//void Render() override {}
 
 private:
-	physx::PxControllerManager* m_pCtrManager = nullptr;
-
+	physx::PxControllerFilters m_pControllerFilter;
+	physx::PxController*  m_pController = nullptr;
+	float4 m_pControllerDir = float4::ZERO;
 	bool m_bSpeedLimit = false;
 
 	physx::PxVec3 GeoMetryScale;
@@ -130,5 +131,8 @@ private:
 
 	// 메인플레이어 플래그
 	bool IsMain = false;
+
+	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
+	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
 };
 

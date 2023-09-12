@@ -183,6 +183,10 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 			return false;
 		}
 
+		/////////////////////////////
+		//FbxExBoneFrame& RootFrame = CurAniData.AniFrameData[0];
+		/////////////////////////////
+
 		for (unsigned int clusterIndex = 0; clusterIndex < numOfClusters; ++clusterIndex)
 		{
 			pCurrCluster = pCurrSkin->GetCluster(clusterIndex);
@@ -213,6 +217,18 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 				// 시간을 넣어주면 그때의 본의 행렬을 가져와 준다.
 				// 커브 
 				globalTransform = currentTransformOffset.Inverse() * pLinkNode->EvaluateGlobalTransform(currTime);
+
+
+				/////////////////////////////
+				//if (0 != RootFrame.BoneMatData.size())
+				//{
+				//	FbxExBoneFrameData& RootFrameData = RootFrame.BoneMatData[fixIndex];
+				//
+				//	float4 ResetRoot = float4(-RootFrameData.T.x, RootFrameData.T.y, -RootFrameData.T.z);
+				//
+				//	globalTransform.SetT(globalTransform.GetT() + fbxsdk::FbxVector4{ ResetRoot.x, ResetRoot.y, ResetRoot.z, ResetRoot.w });
+				//}
+				/////////////////////////////
 
 				localTransform.SetS(pLinkNode->EvaluateLocalScaling(currTime));
 				localTransform.SetR(pLinkNode->EvaluateLocalRotation(currTime));
