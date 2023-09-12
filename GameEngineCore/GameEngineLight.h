@@ -30,7 +30,7 @@ struct LightData
     float DifLightPower = 1.0f;
     float SpcLightPower = 1.0f;
     float AmbLightPower = 1.0f;
-    float SpcPow = 50.0f;
+    float SpcPow = 1.0f;
     int LightType = 0;
     float PointLightRange = 100.0f;
     int Temp2;
@@ -69,9 +69,9 @@ public:
         return LightDataValue;
     }
 
+    LightData LightDataValue;
 protected:
 
 private:
-    LightData LightDataValue;
 };
 
