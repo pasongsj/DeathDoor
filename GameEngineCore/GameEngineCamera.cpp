@@ -384,13 +384,14 @@ void GameEngineCamera::CameraTransformUpdate()
 		Projection.PerspectiveFovLH(FOV, Width / Height, Near, Far);
 		float4 Dir = GetTransform()->GetLocalForwardVector();
 		float4 WorldPos = GetTransform()->GetWorldPosition();
-		Frustum.Origin = (WorldPos + Dir).DirectFloat3;
+		Frustum.Origin = (WorldPos).DirectFloat3;
 		Frustum.Near = Near;
 		Frustum.Far = Far;
-		Frustum.BottomSlope = -(60.f * GameEngineMath::DegToRad);
-		Frustum.TopSlope	= (60.f * GameEngineMath::DegToRad);
-		Frustum.LeftSlope	=  -(94.4f * GameEngineMath::DegToRad);
-		Frustum.RightSlope	= (94.4f * GameEngineMath::DegToRad);
+		Frustum.LeftSlope = -(FOV * GameEngineMath::DegToRad) * 1.1f;
+		Frustum.RightSlope = (FOV * GameEngineMath::DegToRad) * 1.1f;
+		Frustum.TopSlope = (FOV / (Width / Height) * GameEngineMath::DegToRad) * 1.1f;
+		Frustum.BottomSlope = -(FOV / (Width / Height) * GameEngineMath::DegToRad) * 1.1f;
+
 		Frustum.Orientation = GetTransform()->GetWorldQuaternion().DirectFloat4;
 		break;
 	}
