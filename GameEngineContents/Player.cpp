@@ -46,6 +46,7 @@ void Player::Start()
 
 	SetFSMFunc();
 	Renderer->ChangeAnimation("Idle_0");
+	Renderer->SetName("TestName");
 }
 
 void Player::Update(float _DeltaTime)
