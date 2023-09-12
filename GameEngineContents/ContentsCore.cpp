@@ -17,6 +17,7 @@
 #include "StartLevel.h"
 #include "OfficeLevel.h"
 #include "UITestLevel.h"
+#include "BossTestLevel.h"
 
 #include "PlayerTestLevel.h"
 
@@ -52,6 +53,7 @@ void ContentsCore::GameStart()
 	GameEngineCore::CreateLevel<MapTestLevel>();
 	GameEngineCore::CreateLevel<OfficeLevel>();
 	GameEngineCore::CreateLevel<PlayerTestLevel>();
+	GameEngineCore::CreateLevel<BossTestLevel>();
 
 	GameEngineCore::ChangeLevel("CenterLevel");
 }

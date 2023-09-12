@@ -167,6 +167,20 @@
   <ItemGroup>
     <ClCompile Include="Bench.cpp" />
     <ClCompile Include="BlackScreen.cpp" />
+    <ClCompile Include="BossLevelTestObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BossTestLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrowAnimation.cpp" />
+    <ClCompile Include="Boss_OldCrowFSM.cpp" />
     <ClCompile Include="ContentFBXRenderer.cpp">
       <SubType>
       </SubType>
@@ -188,6 +202,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Conveyor.cpp" />
+    <ClCompile Include="EnemyBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EnemyBase.cpp">
       <SubType>
       </SubType>
@@ -351,6 +369,18 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BlackScreen.h" />
+    <ClInclude Include="BossLevelTestObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BossTestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Boss_OldCrow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentFBXUIRenderer.h">
       <SubType>
       </SubType>
@@ -372,6 +402,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Conveyor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
       <SubType>
       </SubType>
     </ClInclude>
