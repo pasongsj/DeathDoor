@@ -8,6 +8,7 @@
 #include "GameEngineRenderTarget.h"
 #include "GameEngineMaterial.h"
 #include "GameEnginePixelShader.h"
+#include "GameEngineFBXRenderer.h"
 
 GameEngineCamera::GameEngineCamera()
 {
@@ -340,8 +341,8 @@ void GameEngineCamera::Render(float _DeltaTime)
 					{
 						continue;
 					}
-
-					if (false == IsView(Render->GetRenderer()->GetTransform()->GetTransDataRef()))
+					std::shared_ptr<GameEngineFBXRenderer> FbxRenderer = Render->GetRenderer()->DynamicThis<GameEngineFBXRenderer>();
+					if (FbxRenderer !=nullptr &&false == IsView(FbxRenderer->GetTransform()->GetWorldPosition(), FbxRenderer->GetMeshScale()))
 					{
 						continue;
 					}
@@ -466,7 +467,7 @@ bool GameEngineCamera::IsView(const TransformData& _TransData)
 {
 	if (true == IsFreeCamera())
 	{
-		return true;
+		//return true;
 	}
 
 	// Width, Height, Near, Far;
@@ -496,6 +497,54 @@ bool GameEngineCamera::IsView(const TransformData& _TransData)
 		DirectX::BoundingSphere Sphere;
 		Sphere.Center = _TransData.WorldPosition.DirectFloat3;
 		Sphere.Radius = _TransData.WorldScale.MaxFloat() * 0.5f;
+
+		bool IsCal = Box.Intersects(Sphere);
+
+		return IsCal;
+		break;
+	}
+	default:
+		break;
+	}
+
+	return false;
+}
+
+bool GameEngineCamera::IsView(const float4& _Pos, const float4& _Scale)
+{
+
+	if (true == IsFreeCamera())
+	{
+		return true;
+	}
+
+	// Width, Height, Near, Far;
+
+	switch (ProjectionType)
+	{
+	case CameraType::None:
+	{
+		MsgAssert("카메라 투영이 설정되지 않았습니다.");
+		break;
+	}
+	case CameraType::Perspective:
+	{
+		DirectX::BoundingSphere Sphere;
+		Sphere.Center = _Pos.DirectFloat3;
+		Sphere.Radius = _Scale.MaxFloat() * 0.5f;
+
+		bool IsCal = Frustum.Intersects(Sphere);
+
+		return IsCal;
+
+		break;
+	}
+	case CameraType::Orthogonal:
+	{
+
+		DirectX::BoundingSphere Sphere;
+		Sphere.Center = _Pos.DirectFloat3;
+		Sphere.Radius = _Scale.MaxFloat() * 0.5f;
 
 		bool IsCal = Box.Intersects(Sphere);
 
