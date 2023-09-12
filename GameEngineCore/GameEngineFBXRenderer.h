@@ -142,6 +142,10 @@ public:
 
 	float4 GetMeshScale()
 	{
+		if (ResultMeshScale != float4::ZERO)
+		{
+			return ResultMeshScale;
+		}
 		float4 f4MinBox = float4::ZERO;
 		float4 f4MaxBox = float4::ZERO;
 		float4 ResultBox = float4::ZERO;
@@ -181,6 +185,8 @@ public:
 		ResultBox.y = f4MaxBox.y - f4MinBox.y;
 		ResultBox.z = f4MaxBox.z - f4MinBox.z;
 
+		ResultMeshScale = ResultBox;
+
 		return ResultBox;
 	}
 protected:
@@ -191,6 +197,7 @@ private:
 
 	// 그게 불가능하다.
 	// 맨처음 세팅해준 메인 매쉬와완전히 연관되어 있는 매쉬여야만 가능하다.
+	float4 ResultMeshScale = float4::ZERO;
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::map<std::pair<size_t, size_t>, std::shared_ptr<GameEngineRenderUnit>> UnTexturedUnit;
 

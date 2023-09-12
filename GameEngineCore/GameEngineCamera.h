@@ -99,6 +99,7 @@ public:
 
 
 	bool IsView(const TransformData& _TransData);
+	bool IsView(const float4& _Pos,const float4& _Scale);
 
 	template<typename EnumType>
 	void SetSortType(EnumType _Index, SortType _Sort)
