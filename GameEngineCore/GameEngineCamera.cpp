@@ -329,6 +329,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 						continue;
 					}
 
+					if (false == IsView(Render->GetRenderer()->GetTransform()->GetTransDataRef()))
+					{
+						continue;
+					}
+
 					Render->Render(_DeltaTime);
 				}
 			}
@@ -375,8 +380,20 @@ void GameEngineCamera::CameraTransformUpdate()
 		break;
 	}
 	case CameraType::Perspective:
+	{
 		Projection.PerspectiveFovLH(FOV, Width / Height, Near, Far);
+		float4 Dir = GetTransform()->GetLocalForwardVector();
+		float4 WorldPos = GetTransform()->GetWorldPosition();
+		Frustum.Origin = (WorldPos + Dir).DirectFloat3;
+		Frustum.Near = Near;
+		Frustum.Far = Far;
+		Frustum.BottomSlope = -(60.f * GameEngineMath::DegToRad);
+		Frustum.TopSlope	= (60.f * GameEngineMath::DegToRad);
+		Frustum.LeftSlope	=  -(94.4f * GameEngineMath::DegToRad);
+		Frustum.RightSlope	= (94.4f * GameEngineMath::DegToRad);
+		Frustum.Orientation = GetTransform()->GetWorldQuaternion().DirectFloat4;
 		break;
+	}
 	case CameraType::Orthogonal:
 		Projection.OrthographicLH(Width * ZoomRatio, Height * ZoomRatio, Near, Far);
 		break;
@@ -448,10 +465,17 @@ bool GameEngineCamera::IsView(const TransformData& _TransData)
 		break;
 	}
 	case CameraType::Perspective:
+	{
+		DirectX::BoundingSphere Sphere;
+		Sphere.Center = _TransData.WorldPosition.DirectFloat3;
+		Sphere.Radius = _TransData.WorldScale.MaxFloat() * 0.5f;
 
-		// DirectX::BoundingFrustum Box;
+		bool IsCal = Frustum.Intersects(Sphere);
+
+		return IsCal;
 
 		break;
+	}
 	case CameraType::Orthogonal:
 	{
 
@@ -462,6 +486,7 @@ bool GameEngineCamera::IsView(const TransformData& _TransData)
 		bool IsCal = Box.Intersects(Sphere);
 
 		return IsCal;
+		break;
 	}
 	default:
 		break;
