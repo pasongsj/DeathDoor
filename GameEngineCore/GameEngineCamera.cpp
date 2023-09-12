@@ -53,7 +53,7 @@ void GameEngineCamera::Start()
 	ViewPortData.MaxDepth = 1.0f;
 
 	Width = ViewPortData.Width;
-	Height = ViewPortData.Height;	
+	Height = ViewPortData.Height;
 
 	//사용할 렌더타겟을 생성하는 것이 아닌 추후 사용할 렌더타겟을 생성하기 위한 더미 타겟
 	AllRenderTarget		= GameEngineRenderTarget::CreateDummy();
@@ -87,7 +87,7 @@ void GameEngineCamera::InitCameraRenderTarget()
 	CamForwardTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	CamDeferrdTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	CamAlphaTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	
+
 	CalLightUnit.SetMesh("FullRect");
 	CalLightUnit.SetMaterial("DeferredCalLight");
 
@@ -329,11 +329,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 						continue;
 					}
 
-					if (false == IsView(Render->GetRenderer()->GetTransform()->GetTransDataRef()))
-					{
-						continue;
-					}
-
 					Render->Render(_DeltaTime);
 				}
 			}
@@ -380,21 +375,8 @@ void GameEngineCamera::CameraTransformUpdate()
 		break;
 	}
 	case CameraType::Perspective:
-	{
 		Projection.PerspectiveFovLH(FOV, Width / Height, Near, Far);
-		float4 Dir = GetTransform()->GetLocalForwardVector();
-		float4 WorldPos = GetTransform()->GetWorldPosition();
-		Frustum.Origin = (WorldPos).DirectFloat3;
-		Frustum.Near = Near;
-		Frustum.Far = Far;
-		Frustum.LeftSlope = -(FOV * GameEngineMath::DegToRad) * 1.1f;
-		Frustum.RightSlope = (FOV * GameEngineMath::DegToRad) * 1.1f;
-		Frustum.TopSlope = (FOV / (Width / Height) * GameEngineMath::DegToRad) * 1.1f;
-		Frustum.BottomSlope = -(FOV / (Width / Height) * GameEngineMath::DegToRad) * 1.1f;
-
-		Frustum.Orientation = GetTransform()->GetWorldQuaternion().DirectFloat4;
 		break;
-	}
 	case CameraType::Orthogonal:
 		Projection.OrthographicLH(Width * ZoomRatio, Height * ZoomRatio, Near, Far);
 		break;
@@ -466,17 +448,10 @@ bool GameEngineCamera::IsView(const TransformData& _TransData)
 		break;
 	}
 	case CameraType::Perspective:
-	{
-		DirectX::BoundingSphere Sphere;
-		Sphere.Center = _TransData.WorldPosition.DirectFloat3;
-		Sphere.Radius = _TransData.WorldScale.MaxFloat() * 0.5f;
 
-		bool IsCal = Frustum.Intersects(Sphere);
-
-		return IsCal;
+		// DirectX::BoundingFrustum Box;
 
 		break;
-	}
 	case CameraType::Orthogonal:
 	{
 
@@ -487,7 +462,6 @@ bool GameEngineCamera::IsView(const TransformData& _TransData)
 		bool IsCal = Box.Intersects(Sphere);
 
 		return IsCal;
-		break;
 	}
 	default:
 		break;

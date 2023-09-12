@@ -17,7 +17,7 @@ public:
 	PhysXCapsuleComponent& operator=(const PhysXCapsuleComponent& _Other) = delete;
 	PhysXCapsuleComponent& operator=(PhysXCapsuleComponent&& _Other) noexcept = delete;
 
-	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f }, bool _Static = false,bool _Controller = false);
+	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f }, bool _Static = false, bool _Controller = false);
 
 	void SetMoveSpeed(float4 _MoveSpeed);
 	void SetRotation(float4 _Rot);
@@ -130,8 +130,8 @@ private:
 	physx::PxTransform RecentTransform;
 
 	// 메인플레이어 플래그
-	bool IsMain = false;
-
+	bool IsMain = false;	
+	
 	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
 	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
 };

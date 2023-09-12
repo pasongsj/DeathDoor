@@ -16,6 +16,9 @@ PhysXTestLevel::~PhysXTestLevel()
 void PhysXTestLevel::Start()
 {
 	SetLevelType(PacketLevelType::PhysXTestLevel);
+
+
+
 }
 
 void PhysXTestLevel::LevelChangeStart()
@@ -23,11 +26,8 @@ void PhysXTestLevel::LevelChangeStart()
 	CreateScene(); //LevelChangeStart 혹은 Start어디서 하든 상관없게끔 했음
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	//GetMainCamera()->GetTransform()->SetLocalRotation({ 0.f,90.f,0.f });
-	//GetMainCamera()->GetTransform()->SetLocalPosition({ 0.f,0.f,1000.f });
-
 	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.f,0.f,0.f });
-	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.f,1000.f,0.f });
+	GetMainCamera()->GetTransform()->SetLocalPosition({ 0,1000, .0f });
 
 	GameEngineCoreWindow::AddDebugRenderTarget(0, "AllRenderTarget", GetMainCamera()->GetCamAllRenderTarget());
 	GameEngineCoreWindow::AddDebugRenderTarget(1, "LightRenderTarget", GetMainCamera()->GetDeferredLightTarget());

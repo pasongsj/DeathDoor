@@ -11,7 +11,7 @@ PhysXCapsuleComponent::~PhysXCapsuleComponent()
 {
 }
 
-void PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRotation,bool _Static/* = false*/, bool _Controller/* = false*/)
+void PhysXCapsuleComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRotation, bool _Static/* = false*/, bool _Controller/* = false*/)
 {
 	m_bStatic = _Static;
 	if (true == m_bStatic)
@@ -32,7 +32,7 @@ void PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _GeoMetryScale, flo
 			ControllerDesc.material = m_pPhysics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
 			ControllerDesc.radius = static_cast<physx::PxF32>(_GeoMetryScale.x * 0.5f);
 			ControllerDesc.upDirection = physx::PxVec3(0, 1, 0);
-			m_pController = ControllerManager->createController(ControllerDesc);\
+			m_pController = ControllerManager->createController(ControllerDesc);
 		}
 	}
 }
@@ -82,9 +82,9 @@ void PhysXCapsuleComponent::Start()
 
 void PhysXCapsuleComponent::Update(float _DeltaTime)
 {
-	if (m_pController!= nullptr)
+	if (m_pController != nullptr)
 	{
-		if (m_pControllerDir!=float4::ZERO)
+		if (m_pControllerDir != float4::ZERO)
 		{
 			int a = 0;
 		}
@@ -118,7 +118,7 @@ void PhysXCapsuleComponent::Update(float _DeltaTime)
 		}
 	}
 	else
-	{		
+	{
 		// PhysX Actor의 상태에 맞춰서 부모의 Transform정보를 갱신
 		float4 tmpWorldPos = { m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z };
 		float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pRigidDynamic->getGlobalPose().q) * GameEngineMath::RadToDeg;
