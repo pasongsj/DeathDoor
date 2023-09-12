@@ -1,5 +1,5 @@
 
-struct LightData
+struct LightData 
 {
     float4x4 LightViewMatrix;
     float4x4 LightViewInverseMatrix;
@@ -36,7 +36,7 @@ cbuffer LightDatas : register(b12)
     LightData AllLight[64];
 };
 
-float4 CalDiffuseLight(float4 _Pos, float4 _Normal, LightData _Data)
+float4 CalDiffuseLight(float4 _Pos,  float4 _Normal, LightData _Data)
 {
     float4 ResultRatio = (float4) 0.0f;
 
@@ -45,7 +45,7 @@ float4 CalDiffuseLight(float4 _Pos, float4 _Normal, LightData _Data)
     LightRevDir.xyz = normalize(_Data.ViewLightRevDir.xyz); // L
     
     ResultRatio = max(0.0f, dot(_Normal.xyz, LightRevDir.xyz));
-    return ResultRatio;
+    return ResultRatio * _Data.DifLightPower;
 }
 
 float4 CalSpacularLight(float4 _Pos, float4 _Normal, LightData _Data)
@@ -68,7 +68,7 @@ float4 CalSpacularLight(float4 _Pos, float4 _Normal, LightData _Data)
     float Result = max(0.0f, dot(Reflection.xyz, Eye.xyz));
     
     // SpacularLight.xyzw = Result;
-    SpacularLight.xyzw = pow(Result, 10);
+    SpacularLight.xyzw = pow(Result, _Data.SpcPow);
     
     return SpacularLight;
 
