@@ -24,10 +24,13 @@ void OfficeLevel::Update(float _DeltaTime)
 {
 	KeyUpdate(_DeltaTime);
 
-	/*if (false == GetMainCamera()->IsFreeCamera())
+	// test 
+	if (false == GetMainCamera()->IsFreeCamera())
 	{
-		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4{ 0, 3000, 0});
-	}*/
+		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4 { 0, 1200, -1200 });
+	}
+
+
 }
 
 void OfficeLevel::LevelChangeStart()
@@ -35,13 +38,13 @@ void OfficeLevel::LevelChangeStart()
 	CreateScene();
 
 	// camera pos test 
-	float4 CameraPos = float4{ 1700, 3800, 4000 };
-	float4 CamRot = float4{ 90, 0, 0 };
+	/*float4 CameraPos = float4{ 1700, 3800, 4000 };
+	float4 CamRot = float4{ 90, 0, 0 };*/
 
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalRotation(CamRot);
-	GetMainCamera()->GetTransform()->SetLocalPosition(CameraPos);
+	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
+	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
 
 
 	CreateActor<GameEngineLight>();
@@ -92,5 +95,5 @@ void OfficeLevel::Set_StartPos(std::shared_ptr<Player> _Player)
 		return;
 	}
 	
-	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_TestStartPos));
+	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_StartPos));
 }
