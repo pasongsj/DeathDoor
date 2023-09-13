@@ -155,6 +155,7 @@
     <FxCompile Include="MeshTexture.hlsl" />
     <FxCompile Include="MergeShader.hlsl" />
     <FxCompile Include="RenderBaseValue.fx" />
+    <FxCompile Include="Shadow.hlsl" />
     <FxCompile Include="TextureShader.hlsl" />
     <FxCompile Include="TileMapShader.hlsl" />
     <FxCompile Include="Transform.fx" />

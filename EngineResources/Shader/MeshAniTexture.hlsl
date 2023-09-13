@@ -20,6 +20,7 @@ struct Output
     // viewport 행렬까지 레스터라이저에서 곱해준다.
     float4 POSITION : SV_POSITION;
     float4 VIEWPOSITION : POSITION;
+    float4 WVPPOSITION : POSITION5;
     float4 TEXCOORD : TEXCOORD;
     float4 NORMAL : NORMAL;
 };
@@ -61,7 +62,7 @@ Output MeshAniTexture_VS(Input _Input)
     // 스크린좌표계 이다.
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
-    
+    NewOutPut.WVPPOSITION = NewOutPut.POSITION;
     // 빛계산을 하기 위한 포지션이므로 이녀석은 뷰공간에 있어야 한다.
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
     _Input.NORMAL.w = 0.0f;
