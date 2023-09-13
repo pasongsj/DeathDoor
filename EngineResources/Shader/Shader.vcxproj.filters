@@ -28,6 +28,9 @@
     <FxCompile Include="DeferredMerge.hlsl">
       <Filter>Deffered</Filter>
     </FxCompile>
+    <FxCompile Include="Shadow.hlsl">
+      <Filter>Shadow</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -35,6 +38,9 @@
     </Filter>
     <Filter Include="Deffered">
       <UniqueIdentifier>{eecdf55c-dcf8-4229-a062-1aa1a65410ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shadow">
+      <UniqueIdentifier>{7404787f-d936-4769-8d2b-565ef904c2dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

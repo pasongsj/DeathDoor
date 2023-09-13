@@ -22,7 +22,7 @@ void BloomEffect::Start(GameEngineRenderTarget* _Target)
 	BloomBlurUnit->ShaderResHelper.SetConstantBufferLink("BlurData", Data);
 
 	Data.ScreenSize = { 1280.0f, 720.0f };
-	Data.ScreenRatio.x = 0.5f;
+	Data.ScreenRatio.x = 0.25f;
 
 	ResultTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize() * Data.ScreenRatio.x, float4::ZERONULL);
 	BlurTarget0 = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize() * Data.ScreenRatio.x, float4::ZERONULL);
