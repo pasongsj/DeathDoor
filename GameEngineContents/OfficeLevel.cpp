@@ -29,8 +29,6 @@ void OfficeLevel::Update(float _DeltaTime)
 	{
 		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4 { 0, 1200, -1200 });
 	}
-
-
 }
 
 void OfficeLevel::LevelChangeStart()

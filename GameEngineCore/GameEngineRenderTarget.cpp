@@ -22,10 +22,10 @@ GameEngineRenderTarget::~GameEngineRenderTarget()
 
 void GameEngineRenderTarget::ResCreate(std::shared_ptr<GameEngineTexture> _Texture, float4 _Color)
 {
-	Color = _Color;
 	Textures.push_back(_Texture);
 	SRVs.push_back(_Texture->GetSRV());
 	RTVs.push_back(_Texture->GetRTV());
+	Color.push_back(_Color);
 	D3D11_VIEWPORT ViewPortData;
 
 	ViewPortData.TopLeftX = 0;
@@ -68,6 +68,7 @@ void GameEngineRenderTarget::ResCreate(DXGI_FORMAT _Format, float4 _Scale, float
 	ViewPortDatas.push_back(ViewPortData);
 	SRVs.push_back(Tex->GetSRV());
 	RTVs.push_back(Tex->GetRTV());
+	Color.push_back(_Color);
 }
 
 void GameEngineRenderTarget::Clear()
@@ -82,7 +83,7 @@ void GameEngineRenderTarget::Clear()
 			return;
 		}
 
-		GameEngineDevice::GetContext()->ClearRenderTargetView(RTV, Color.Arr1D);
+		GameEngineDevice::GetContext()->ClearRenderTargetView(RTV, Color[i].Arr1D);
 	}
 
 	ID3D11DepthStencilView* DSV

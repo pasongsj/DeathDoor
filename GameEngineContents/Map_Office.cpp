@@ -98,13 +98,13 @@ void Map_Office::Create_StaticObject()
 	}
 
 	// 맵의 벽 세팅
-	Set_TransformWall(CurLevel->GetSharedThis());
+	Create_TransformWall(CurLevel->GetSharedThis());
 
 	// 메인오피스의 오브젝트 세팅
-	Set_MainOfficeObject(CurLevel->GetSharedThis());
+	Create_MainOfficeObject(CurLevel->GetSharedThis());
 
 	// 난간 오브젝트 세팅
-	Set_RailingObject(CurLevel->GetSharedThis());
+	Create_RailingObject(CurLevel->GetSharedThis());
 
 
 	{
@@ -228,7 +228,7 @@ void Map_Office::Create_ActiveObject()
 {
 }
 
-void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
+void Map_Office::Create_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 {
 	std::shared_ptr<GameEngineLevel> CurLevel = _CurLevel;
 	// -----------------------------------------transform wall---------------------------------------------
@@ -525,7 +525,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 	}
 }
 
-void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _CurLevel)
+void Map_Office::Create_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _CurLevel)
 {
 	std::shared_ptr<GameEngineLevel> CurLevel = _CurLevel;
 	
@@ -631,7 +631,7 @@ void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _Cu
 	}
 }
 
-void Map_Office::Set_RailingObject(std::shared_ptr<class GameEngineLevel> _CurLevel)
+void Map_Office::Create_RailingObject(std::shared_ptr<class GameEngineLevel> _CurLevel)
 {
 	std::shared_ptr<GameEngineLevel> CurLevel = _CurLevel;
 	// 난간, 아래쪽부터 순서대로 

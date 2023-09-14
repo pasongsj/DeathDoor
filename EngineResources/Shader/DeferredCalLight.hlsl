@@ -71,6 +71,11 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
     NewOutPut.AmbLight = AmbientRatio;
     NewOutPut.ResultLight = DiffuseRatio + SpacularRatio + AmbientRatio;
     
+    // 카메라 행렬
+    // 빛의 위치
+    // 그려져있는 빛을 기반으로한 깊이 버퍼 텍스처.
+
+    
     return NewOutPut;
 
     //NewOutPut.DifLight = float4(1.0f, 0.0f, 0.0f, 1.0f);
