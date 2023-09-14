@@ -37,7 +37,15 @@ public:
 
 	float4 UVdata = { 1, 1, 0, 0 };
 
+	struct FadeInfo
+	{
+		float Fade = 0.0f;
+		float R = 0.0f;
+		float G = 0.0f;
+		float B = 0.0f;
+	};
 
+	FadeInfo Fade;
 	ColorOption Color = { { 1, 1, 1, 1 }, { 0, 0, 0, 0 } };
 	
 

@@ -18,6 +18,7 @@
     </FxCompile>
     <FxCompile Include="ContentMeshAniShader.hlsl" />
     <FxCompile Include="ContentMeshToonShader.hlsl" />
+    <FxCompile Include="FadeDeffered.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

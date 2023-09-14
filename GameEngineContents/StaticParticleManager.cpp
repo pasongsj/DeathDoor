@@ -59,7 +59,7 @@ void StaticParticleManager::ParticleUpdate(float _Delta)
 			continue;
 		}
 
-		if (ParticleList[index]->GetUnit()->Color.MulColor.a <= 0.0f)
+		if (ParticleList[index]->LiveTime >= Setter.MaxLiveTime)
 		{
 			ParticleList[index]->Death();
 			ParticleList[index] = nullptr;
@@ -69,12 +69,23 @@ void StaticParticleManager::ParticleUpdate(float _Delta)
 			continue;
 		}
 
+		ParticleList[index]->LiveTime += _Delta;
 		ParticleList[index]->ParticlePosUpdate(_Delta);
-		ParticleList[index]->GetUnit()->Color.MulColor.a -= (1.0f / Setter.MaxLiveTime) * _Delta;
+		
+		auto Units = ParticleList[index]->GetAllRenderUnit();
+		
 
-		if (ParticleList[index]->GetUnit()->Color.MulColor.a <= 0.0f)
+		for (int i = 0; i < Units.size(); i++)
 		{
-			ParticleList[index]->GetUnit()->Color.MulColor.a = 0.0f;
+			for (int j = 0; j < Units[i].size(); j++)
+			{
+				Units[i][j]->Fade.Fade += (1.0f / Setter.MaxLiveTime) * _Delta;
+
+				if (Units[i][j]->Fade.Fade >= 1.0f)
+				{
+					Units[i][j]->Fade.Fade = 1.0f;
+				}
+			}
 		}
 	}
 }
@@ -87,7 +98,22 @@ void StaticParticleManager::CreateParticle()
 	}
 
 	std::shared_ptr<ParticleRenderer> NewParticle = CreateComponent<ParticleRenderer>();
-	NewParticle->SetFBXMesh(MeshName.data(), "ContentMesh");
+	NewParticle->SetFBXMesh(MeshName.data(), "ContentFade");
+
+	int FilterNumber = GameEngineRandom::MainRandom.RandomInt(0, 3);
+
+	auto Units = NewParticle->GetAllRenderUnit();
+
+	for (int i = 0; i < Units.size(); i++)
+	{
+		for (int j = 0; j < Units[i].size(); j++)
+		{
+			Units[i][j]->Color.MulColor = { 0.0f, 0.0f, 0.0f, 0.0f };
+			Units[i][j]->Color.PlusColor = Setter.Color;
+
+			Units[i][j]->ShaderResHelper.SetTexture("FilterTexture", "MaskType2_" + std::to_string(FilterNumber) + ".png");
+		}
+	}
 
 	float4 Scale = 
 	{

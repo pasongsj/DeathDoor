@@ -26,8 +26,10 @@ public:
 
 protected:
 	void ParticlePosUpdate(float _Delta);
+	float LiveTime = 0.0f;
 private:
-	float4 Dir = { 0.0f, 0.0f, 0.0f };
+
+	float4 Dir = float4::ZERO;
 	float Speed = 0.0f;
 };
 
