@@ -8,6 +8,8 @@
 #include "MyTest.h"
 #include "Player.h"
 
+#include <GameEngineCore/GameEngineCoreWindow.h>
+
 std::shared_ptr<class GameEngineLight> UITestLevel::NewLight;
 
 UITestLevel::UITestLevel()
@@ -41,7 +43,13 @@ void UITestLevel::Start()
 	{
 		GameEngineFBXMesh::Load(Files[i].GetFullPath());
 	}
+
 	CreateScene();
+
+	GameEngineCoreWindow::AddDebugRenderTarget(0, "AllRenderTarget", GetMainCamera()->GetCamAllRenderTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(1, "LightRenderTarget", GetMainCamera()->GetDeferredLightTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(2, "MainCameraForwardTarget", GetMainCamera()->GetCamForwardTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(3, "DeferredTarget", GetMainCamera()->GetCamDeferrdTarget());
 
 	//CreateActor<SkillSlot>();
 	//CreateActor<HpBar>();
