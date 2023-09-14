@@ -43,7 +43,24 @@ public:
 
 	float4 UVdata = { 1, 1, 0, 0 };
 
+	struct MaskInfo
+	{
+		float UV_MaskingValue = 1.0f;
+		float MaskingColor_R = 1.0f;
+		float MaskingColor_G = 0.0f;
+		float MaskingColor_B = 1.0f;
+	};
+
+	struct FadeInfo
+	{
+		float Fade = 0.0f;
+		float R = 0.0f;
+		float G = 0.0f;
+		float B = 0.0f;
+	};
+
 	FadeInfo Fade;
+	MaskInfo Mask;
 	ColorOption Color = { { 1, 1, 1, 1 }, { 0, 0, 0, 0 } };
 	
 

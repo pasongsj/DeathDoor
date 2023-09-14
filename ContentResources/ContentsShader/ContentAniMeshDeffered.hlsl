@@ -62,23 +62,35 @@ struct DeferredOutPut
     float4 NorTarget : SV_Target3;
 };
 
+cbuffer MaskInfo : register(b0)
+{
+    float UV_MaskingValue;
+    float3 MaskingColor;
+};
+
 DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
 {
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
     
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
-    float4 MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+    
+    float4 MaskColor;
+    
+    if (_Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
+    {
+        MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+    
+        if (MaskColor.a > 0.0f)
+        {
+            Color.r = lerp(Color.r, MaskingColor.r, 0.9f);
+            Color.g = lerp(Color.g, MaskingColor.g, 0.9f);
+            Color.b = lerp(Color.b, MaskingColor.b, 0.9f);
+        }
+    }
     
     if (Color.a <= 0.0f)
     {
         clip(-1);
-    }
-    
-    if (MaskColor.a > 0.0f)
-    {
-        Color.r = lerp(Color.r, 1.0f, 0.8f);
-        Color.g = lerp(0.0f, Color.g, 0.2f);
-        Color.b = lerp(0.0f, Color.b, 0.2f);
     }
     
     NewOutPut.DifTarget = Color;
@@ -87,5 +99,5 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
     NewOutPut.NorTarget = _Input.NORMAL;
     
     return NewOutPut;
-}
+ }
 

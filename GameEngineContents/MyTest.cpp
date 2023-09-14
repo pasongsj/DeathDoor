@@ -41,6 +41,7 @@ void MyTest::Start()
 		for (int j = 0; j < Units[i].size(); j++)
 		{
 			Units[i][j]->ShaderResHelper.SetTexture("MaskTexture", "CrackMask.png");
+			Units[i][j]->Mask = { 0.2f, 1.0f, 0.0f, 1.0f };
 		}
 	}
 }
