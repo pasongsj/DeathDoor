@@ -22,19 +22,11 @@ private:
 	void TestRender();
 
 	void CreateKey();
-	std::shared_ptr<class ParticleRenderer> Partcle = nullptr;
+
+	void Render2Dto3D();
+
 	
-	std::shared_ptr<GameEngineFBXRenderer> TestRd0 = nullptr;
-	std::shared_ptr<GameEngineFBXRenderer> TestRd1 = nullptr;
+	std::shared_ptr<GameEngineFBXRenderer> TestRd = nullptr;
 
-	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> MyUnits;
-
-	std::shared_ptr<GameEngineRenderTarget> Target1 = nullptr;
-	std::shared_ptr<GameEngineRenderTarget> Target2 = nullptr;
-
-	std::function<bool(const std::string_view&, float, float)> UpdateFunc = nullptr;
-
-	std::shared_ptr<GameEngineFBXRenderer> TestRenderer = nullptr;
-	std::shared_ptr<GameEngineRenderer> TestRenderUnit = nullptr;
 };
 

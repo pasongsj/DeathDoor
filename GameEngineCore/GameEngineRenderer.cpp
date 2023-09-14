@@ -104,6 +104,11 @@ void GameEngineRenderUnit::SetMaterial(const std::string_view& _Name, RenderPath
 		ShaderResHelper.SetConstantBufferLink("FadeInfo", Fade);
 	}
 
+	if (true == ShaderResHelper.IsConstantBuffer("MaskInfo"))
+	{
+		ShaderResHelper.SetConstantBufferLink("MaskInfo", Mask);
+	}
+
 	if (true == ShaderResHelper.IsConstantBuffer("LightDatas") && nullptr != ParentRenderer)
 	{
 		LightDatas& Data = ParentRenderer->GetActor()->GetLevel()->LightDataObject;

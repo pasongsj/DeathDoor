@@ -115,6 +115,18 @@ void ContentsCore::ContentsResourcesCreate()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentAniMeshDeffered");
+
+		//Pipe->SetVertexBuffer("FullRect");
+		//Pipe->SetIndexBuffer("FullRect");
+		Pipe->SetVertexShader("ContentAniMeshDeffered.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("ContentAniMeshDeffered.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshToon");
 
 		//Pipe->SetVertexBuffer("FullRect");
@@ -205,6 +217,8 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetDepthState("EngineDepth");
 	}
 
+
+
 	//{
 	//	std::shared_ptr<GameEngineTexture> Res = GameEngineTexture::Find("EngineBaseTex.png");
 	//	for (size_t y = 0; y < 10; y++)
@@ -284,6 +298,12 @@ void ContentsCore::ContentsResourcesCreate()
 		GameEngineFont::Load("¸¼Àº °íµñ");
 	}
 
+
+	//¿©±â±îÁö
+
+	// 
+	// 
+	// 
 	//{
 	//	GameEngineDirectory NewDir;
 	//	NewDir.MoveParentToDirectory("ContentResources");

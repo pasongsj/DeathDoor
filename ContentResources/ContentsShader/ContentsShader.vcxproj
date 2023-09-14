@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <FxCompile Include="ContentAnimation.fx" />
+    <FxCompile Include="ContentAniMeshDeffered.hlsl" />
     <FxCompile Include="ContentLight.fx" />
     <FxCompile Include="ContentMeshAniShader.hlsl" />
     <FxCompile Include="ContentMeshShader.hlsl" />

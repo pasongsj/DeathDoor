@@ -23,7 +23,7 @@ UITestLevel::~UITestLevel()
 void UITestLevel::Start()
 {
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
+	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -50.0f });
 	//GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 600.0f, -1000.0f });
 	//GetMainCamera()->GetTransform()->SetLocalRotation({ 45.0f, 0.0f, 0.0f });
 
