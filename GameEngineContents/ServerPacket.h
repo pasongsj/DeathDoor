@@ -33,6 +33,7 @@ enum class PacketLevelType
 	PhysXTestLevel,
 	StartLevel,
 	OfficeLevel,
+	FortressLevel,
 	ChangLevel
 };
 

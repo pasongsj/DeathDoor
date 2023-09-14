@@ -7,6 +7,10 @@
 
 GameEngineLight::GameEngineLight() 
 {
+	LightDataValue.ShadowTargetSizeX = 4096;
+	LightDataValue.ShadowTargetSizeY = 4096;
+	LightDataValue.LightNear = 0.1f;
+	LightDataValue.LightFar = 1000.1f;
 }
 
 GameEngineLight::~GameEngineLight() 
@@ -23,6 +27,11 @@ void GameEngineLight::Update(float _DeltaTime)
 void GameEngineLight::Start()
 {
 	GetLevel()->PushLight(DynamicThis<GameEngineLight>());
+
+	// 크기가 곧 그림자가 맺히는 범위와 디테일을 의미하게 된다.
+	ShadowTarget = GameEngineRenderTarget::Create(DXGI_FORMAT_R32_FLOAT, { LightDataValue.ShadowTargetSizeX, LightDataValue.ShadowTargetSizeY }, float4::RED);
+	ShadowTarget->CreateDepthTexture();
+
 }
 
 void GameEngineLight::LightUpdate(GameEngineCamera* _Camera, float _DeltaTime) 
@@ -35,4 +44,20 @@ void GameEngineLight::LightUpdate(GameEngineCamera* _Camera, float _DeltaTime)
 	LightDataValue.ViewLightDir = LightDataValue.LightDir * _Camera->GetView();
 	LightDataValue.ViewLightRevDir = -LightDataValue.ViewLightDir;
 	LightDataValue.CameraPosition = _Camera->GetTransform()->GetWorldPosition() * _Camera->GetView();
+
+
+	LightDataValue.LightViewMatrix.LookToLH(
+		GetTransform()->GetWorldPosition(),
+		GetTransform()->GetWorldForwardVector(),
+		GetTransform()->GetWorldUpVector());
+
+	LightDataValue.LightProjectionMatrix.OrthographicLH(
+		LightDataValue.ShadowTargetSizeX,
+		LightDataValue.ShadowTargetSizeY,
+		LightDataValue.LightNear,
+		LightDataValue.LightFar);
+
+	LightDataValue.LightProjectionInverseMatrix = LightDataValue.LightProjectionMatrix.InverseReturn();
+
+	LightDataValue.LightViewProjectionMatrix = LightDataValue.LightViewMatrix * LightDataValue.LightProjectionMatrix;
 }
