@@ -41,8 +41,6 @@ public:
 
 	void Draw();
 
-	float4 UVdata = { 1, 1, 0, 0 };
-
 	struct MaskInfo
 	{
 		float UV_MaskingValue = 1.0f;
@@ -58,14 +56,13 @@ public:
 		float G = 0.0f;
 		float B = 0.0f;
 	};
-	
 
 	float4 UVdata = { 1, 1, 0, 0 };
 
 	FadeInfo Fade;
 	MaskInfo Mask;
+
 	ColorOption Color = { { 1, 1, 1, 1 }, { 0, 0, 0, 0 } };
-	
 
 private:
 	class GameEngineRenderer* ParentRenderer = nullptr;
