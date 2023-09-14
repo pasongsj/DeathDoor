@@ -24,7 +24,8 @@ private:
 	void CreateKey();
 	std::shared_ptr<class ParticleRenderer> Partcle = nullptr;
 	
-	std::shared_ptr<GameEngineFBXRenderer> New = nullptr;
+	std::shared_ptr<GameEngineFBXRenderer> TestRd0 = nullptr;
+	std::shared_ptr<GameEngineFBXRenderer> TestRd1 = nullptr;
 
 	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> MyUnits;
 

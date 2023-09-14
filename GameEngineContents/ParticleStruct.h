@@ -43,6 +43,9 @@ struct StaticParticleSetter
 
 	//제거 간격, 이 시간에 따라 알파값 감소 시간이 변함 (1.0f / MaxLiveTime * Deltatime)
 	float MaxLiveTime = 0.0f;
+
+	//파티클의 색상
+	float4 Color = float4::ZERO;
 };
 
 struct DynamicParticleSetter
@@ -67,4 +70,6 @@ struct DynamicParticleSetter
 	int MaxParticle = 0;
 	float EmitInterTime = 0.0f;
 	float MaxLiveTime = 0.0f;
+
+	float4 Color = float4::ZERO;
 };
