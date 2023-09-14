@@ -225,6 +225,12 @@
     <ClCompile Include="PhysXTrigger.cpp">
       <Filter>Component\PhysX\Test</Filter>
     </ClCompile>
+    <ClCompile Include="FortressLevel.cpp">
+      <Filter>Contents\FortressLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Map_Fortress.cpp">
+      <Filter>Contents\FortressLevel\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -455,6 +461,12 @@
     <ClInclude Include="PhysXTrigger.h">
       <Filter>Component\PhysX\Test</Filter>
     </ClInclude>
+    <ClInclude Include="FortressLevel.h">
+      <Filter>Contents\FortressLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_Fortress.h">
+      <Filter>Contents\FortressLevel\Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -555,6 +567,12 @@
     </Filter>
     <Filter Include="FSMObject\Enemy">
       <UniqueIdentifier>{a629260c-d758-43ba-bd9f-46a2479c20db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\FortressLevel">
+      <UniqueIdentifier>{e22fafa8-2651-4605-9d3a-1361ad8bf611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\FortressLevel\Actor">
+      <UniqueIdentifier>{23756f21-8374-45c9-b3ab-2c88693dde53}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
