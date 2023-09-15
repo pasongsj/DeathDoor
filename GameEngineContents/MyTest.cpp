@@ -13,42 +13,35 @@ MyTest::~MyTest()
 
 void MyTest::Start()
 {
-	//아래 테스트	
-	{
-		GameEngineDirectory NewDir;
-		NewDir.MoveParentToDirectory("ContentResources");
-		NewDir.Move("ContentResources");
-		NewDir.Move("Mesh");
-		NewDir.Move("TestBoss");
-
-		std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".FBX" });
-
-		for (size_t i = 0; i < Files.size(); i++)
-		{
-			GameEngineFBXMesh::Load(Files[i].GetFullPath());
-		}
-	}
-
 	TestRd = CreateComponent<GameEngineFBXRenderer>();
-	TestRd->SetFBXMesh("OldCrow.fbx", "ContentAniMeshDeffered");
-	TestRd->CreateFBXAnimation("Dash", "OldCrow_Dash.FBX", { 0.035f, true });
-	TestRd->ChangeAnimation("Dash");
+	TestRd->SetFBXMesh("_E_BAT_Black Variant_MESH.fbx", "ContentFade");
+	TestRd->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
 
 	auto Units = TestRd->GetAllRenderUnit();
-
+	
 	for (int i = 0; i < Units.size(); i++)
 	{
 		for (int j = 0; j < Units[i].size(); j++)
 		{
-			Units[i][j]->ShaderResHelper.SetTexture("MaskTexture", "CrackMask.png");
-			Units[i][j]->Mask = { 0.2f, 1.0f, 0.0f, 1.0f };
+			Units[i][j]->ShaderResHelper.SetTexture("FilterTexture", "MaskType2_1.png");
 		}
 	}
+
+
 }
 
 void MyTest::Update(float _Delta)
 {
-
+	auto Units = TestRd->GetAllRenderUnit();
+	
+	for (int i = 0; i < Units.size(); i++)
+	{
+		for (int j = 0; j < Units[i].size(); j++)
+		{
+			Units[i][j]->Fade.Fade += 0.1f * _Delta;
+		}
+	}
+	//Render2Dto3D();
 }
 
 void MyTest::TestRender()
