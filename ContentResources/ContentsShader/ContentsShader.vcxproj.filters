@@ -26,4 +26,7 @@
       <UniqueIdentifier>{eef00498-d33d-45be-9baa-d6003f492226}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="쉐이더 사용법.txt" />
+  </ItemGroup>
 </Project>

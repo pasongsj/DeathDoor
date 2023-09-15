@@ -79,12 +79,20 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
     if (_Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
     {
         MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
-    
+        
+        float3 Pink = float3(0.96f, 0.75f, 0.77f);
+        float3 Magenta = float3(1.0f, 0.0f, 1.0f);
+        
         if (MaskColor.a > 0.0f)
         {
-            Color.r = lerp(Color.r, MaskingColor.r, 0.9f);
-            Color.g = lerp(Color.g, MaskingColor.g, 0.9f);
-            Color.b = lerp(Color.b, MaskingColor.b, 0.9f);
+            //Color.r = lerp(Color.r, MaskingColor.r, 0.9f);
+            //Color.g = lerp(Color.g, MaskingColor.g, 0.9f);
+            //Color.b = lerp(Color.b, MaskingColor.b, 0.9f);
+            Color.rgb = Magenta;
+        
+            //float4 MaxLight = -normalize(AllLight[0].ViewLightDir);
+            //MaxLight.a = 1.0f;
+            //NewOutPut.NorTarget = MaxLight;
         }
     }
     

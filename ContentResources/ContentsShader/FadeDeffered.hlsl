@@ -103,45 +103,58 @@ DeferredOutPut FadeDeferred_PS(Output _Input)
         clip(-1);
     }
     
+    //float UVsize = 1.0f / 512.0f;
+    //
+    //float2 BaseUV = _Input.TEXCOORD.xy;
+    //float2 StartUV = float2(BaseUV.x - 2.0f * UVsize, BaseUV.y - 2.0f * UVsize);
+    //float2 CurUV = StartUV;
+    //
+    //for (int i = 0; i < 5; i++)
+    //{
+    //    for (int j = 0; j < 5; j++)
+    //    {
+    //        float4 CurFliterColor = FilterTexture.Sample(ENGINEBASE, CurUV);
+    //        
+    //        if (CurFliterColor.r <= Delta)
+    //        {
+    //            Color.rgb = float3(0.0f, 1.0f, 1.0f);
+    //            break;
+    //        }
+    //
+    //        CurUV += float2(UVsize, 0);
+    //    }
+    //
+    //    CurUV = float2(StartUV.x , StartUV.y + (i + 1) * UVsize);
+    //}
+    
+    float2 UVsize = (1.0f / 1600.0f, 1.0f / 900.0f);
+    
+    float2 BaseUV = _Input.TEXCOORD.xy;
+    float2 StartUV = float2(BaseUV.x - 2.0f * UVsize.x, BaseUV.y - 2.0f * UVsize.y);
+    float2 CurUV = StartUV;
+    
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            float4 CurFliterColor = FilterTexture.Sample(ENGINEBASE, CurUV);
+            
+            if (CurFliterColor.r <= Delta)
+            {
+                Color.rgb = float3(1.0f, 0.0f, 1.0f);
+                break;
+            }
+    
+            CurUV += float2(UVsize.x, 0);
+        }
+    
+        CurUV = float2(StartUV.x , StartUV.y + (i + 1) * UVsize.y);
+    }
+    
     if (Color.a <= 0.0f)
     {
         clip(-1);
     }
-    
-    //float4 PixelPos = _Input.POSITION;
-    
-    // float DistSquare = (PixelPos.x - CirclePos.x) * (PixelPos.x - CirclePos.x) + (PixelPos.y - CirclePos.y) * (PixelPos.y - CirclePos.y);
-    
-    //if (DistSquare <= Distance * Distance * 0.25f)
-    //{
-    //    clip(-1);
-    //}
-    
-    // 디퍼드 렌더링은 반투명을 표현 못해서 이건 안됨.
-    // 그렇다고 포워드로 한다? 얘는 파티클이 주로 쓰는 놈이라 파티클이 많아지면 부하가 너무 많음.
-    
-   //else if (DistSquare > Distance * Distance * 0.25f && DistSquare <= Distance * Distance)
-   //{
-   //   //Distance * 0.5f ~ Distance;
-   //   //0 ~ 1.0f;
-   //   
-   //   float DistRatio = sqrt(DistSquare) / Distance;
-   //   
-   //   DistRatio *= 2.0f;
-   //   DistRatio -= 1.0f;
-   //   
-   //   Color *= DistRatio;
-   //}
-    
-    //디퍼드니까 빛계산은 나중에 ㄱㄱ
-    
-    //float4 DiffuseRatio = CalDiffuseLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
-    //float4 SpacularRatio = CalSpacularLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);;
-    //float4 AmbientRatio = CalAmbientLight(AllLight[0]);
-    //
-    //float A = Color.w;
-    //float4 ResultColor = Color * (DiffuseRatio + SpacularRatio + AmbientRatio);
-    //ResultColor.a = A;
     
     OutPut.DifTarget = Color;
     
