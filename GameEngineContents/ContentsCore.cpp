@@ -16,6 +16,7 @@
 
 #include "StartLevel.h"
 #include "OfficeLevel.h"
+#include "FortressLevel.h"
 #include "UITestLevel.h"
 
 #include "PlayerTestLevel.h"
@@ -51,6 +52,7 @@ void ContentsCore::GameStart()
 	GameEngineCore::CreateLevel<UITestLevel>();
 	GameEngineCore::CreateLevel<MapTestLevel>();
 	GameEngineCore::CreateLevel<OfficeLevel>();
+	GameEngineCore::CreateLevel<FortressLevel>();
 	GameEngineCore::CreateLevel<PlayerTestLevel>();
 
 	GameEngineCore::ChangeLevel("CenterLevel");
