@@ -2,34 +2,38 @@
 #include "EnemyBase.h"
 
 // 설명 :
-class EnemyFirePlant : public EnemyBase
+class EnemyMage : public EnemyBase
 {
 public:
 	// constrcuter destructer
-	EnemyFirePlant();
-	~EnemyFirePlant();
+	EnemyMage();
+	~EnemyMage();
 
 	// delete Function
-	EnemyFirePlant(const EnemyFirePlant& _Other) = delete;
-	EnemyFirePlant(EnemyFirePlant&& _Other) noexcept = delete;
-	EnemyFirePlant& operator=(const EnemyFirePlant& _Other) = delete;
-	EnemyFirePlant& operator=(EnemyFirePlant&& _Other) noexcept = delete;
+	EnemyMage(const EnemyMage& _Other) = delete;
+	EnemyMage(EnemyMage&& _Other) noexcept = delete;
+	EnemyMage& operator=(const EnemyMage& _Other) = delete;
+	EnemyMage& operator=(EnemyMage&& _Other) noexcept = delete;
 
 	std::shared_ptr<class PhysXCapsuleComponent> GetPhysXComponent() const
 	{
 		return m_pCapsuleComp;
 	}
+
 protected:
 	void InitAniamtion() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 private:
-	enum class EnemyFireFlowerState
+
+	enum class EnemyMageState
 	{
 		IDLE,
-		BITE,
-		DIE,
+		SHOOT,
+		TELEPORT,// 사라짐
+		TELEPORT_IN, // 등장
+		DEATH,
 		MAX
 	};
 
@@ -37,4 +41,3 @@ private:
 
 	void SetFSMFUNC();
 };
-

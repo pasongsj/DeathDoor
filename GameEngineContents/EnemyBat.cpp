@@ -16,15 +16,15 @@ EnemyBat::~EnemyBat()
 
 void EnemyBat::InitAniamtion()
 {
-	BatRender = CreateComponent<GameEngineFBXRenderer>();
-	BatRender->SetFBXMesh("_E_BAT_Black Variant_MESH.FBX", "MeshAniTexture");
+	EnemyRenderer = CreateComponent<GameEngineFBXRenderer>();
+	EnemyRenderer->SetFBXMesh("_E_BAT_Black Variant_MESH.FBX", "MeshAniTexture");
 
-	BatRender->CreateFBXAnimation("IDLE", "_E_BAT_Black Variant_IDLE.fbx", { 0.02f,true });
-	//BatRender->CreateFBXAnimation("FLY", "_E_BAT_Black Variant_FLY.fbx", { 0.02f,true });
-	BatRender->CreateFBXAnimation("BITE", "_E_BAT_Black Variant_BITE.fbx", { 0.02f,false });
-	BatRender->CreateFBXAnimation("IDLE_FLOOR", "_E_BAT_Black Variant_IDLE_FLOOR.fbx", { 0.02f,true });
-	BatRender->CreateFBXAnimation("SHOCK", "_E_BAT_Black Variant_SHOCK.fbx", { 0.02f,false });
-	BatRender->ChangeAnimation("IDLE");
+	EnemyRenderer->CreateFBXAnimation("IDLE", "_E_BAT_Black Variant_IDLE.fbx", { 0.02f,true });
+	//EnemyRenderer->CreateFBXAnimation("FLY", "_E_BAT_Black Variant_FLY.fbx", { 0.02f,true });
+	EnemyRenderer->CreateFBXAnimation("BITE", "_E_BAT_Black Variant_BITE.fbx", { 0.02f,false });
+	EnemyRenderer->CreateFBXAnimation("IDLE_FLOOR", "_E_BAT_Black Variant_IDLE_FLOOR.fbx", { 0.02f,true });
+	EnemyRenderer->CreateFBXAnimation("SHOCK", "_E_BAT_Black Variant_SHOCK.fbx", { 0.02f,false });
+	EnemyRenderer->ChangeAnimation("IDLE");
 }
 
 void EnemyBat::Start()
@@ -34,7 +34,7 @@ void EnemyBat::Start()
 
 	// physx
 	{
-		float4 scale = BatRender->GetMeshScale() * BatRender->GetTransform()->GetWorldScale() / BatRender->GetTransform()->GetLocalScale();
+		float4 scale = EnemyRenderer->GetMeshScale() * EnemyRenderer->GetTransform()->GetWorldScale() / EnemyRenderer->GetTransform()->GetLocalScale();
 		// scale *= 2.0f;
 		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
@@ -62,12 +62,13 @@ void EnemyBat::IdleMove(float _DeltaTime)
 
 void EnemyBat::AggroMove(float _DeltaTime)
 {
-	float4 PlayerDir = GetPlayerDir();
-	float4 CalRot = float4::ZERO;
-	CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, PlayerDir);
-	m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -CalRot);
+	//EnemyBase::AggroDir(m_pCapsuleComp);
+	//float4 PlayerDir = GetPlayerDir();
+	//float4 CalRot = float4::ZERO;
+	//CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, PlayerDir);
+	//m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -CalRot);
 
-	m_pCapsuleComp->SetMoveSpeed(PlayerDir * BAT_MOVE_SPEED);
+	m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp) * BAT_MOVE_SPEED);
 
 }
 
@@ -87,7 +88,7 @@ void EnemyBat::SetFSMFUNC()
 	SetFSM(EnemyBatState::IDLE,
 		[this]
 		{
-			BatRender->ChangeAnimation("IDLE");
+			EnemyRenderer->ChangeAnimation("IDLE");
 		},
 		[this](float Delta)
 		{
@@ -106,7 +107,7 @@ void EnemyBat::SetFSMFUNC()
 	SetFSM(EnemyBatState::FLY,
 		[this]
 		{
-			//BatRender->ChangeAnimation("FLY");
+			//EnemyRenderer->ChangeAnimation("FLY");
 
 		},
 		[this](float Delta)
@@ -130,11 +131,11 @@ void EnemyBat::SetFSMFUNC()
 	SetFSM(EnemyBatState::BITE,
 		[this]
 		{
-			BatRender->ChangeAnimation("BITE");
+			EnemyRenderer->ChangeAnimation("BITE");
 		},
 		[this](float Delta)
 		{
-			if (true == BatRender->IsAnimationEnd())
+			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(EnemyBatState::IDLE);
 			}
@@ -148,7 +149,7 @@ void EnemyBat::SetFSMFUNC()
 	SetFSM(EnemyBatState::SHOCK,
 		[this]
 		{
-			BatRender->ChangeAnimation("SHOCK");
+			EnemyRenderer->ChangeAnimation("SHOCK");
 		},
 		[this](float Delta)
 		{

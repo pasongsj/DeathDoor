@@ -9,6 +9,7 @@
 
 #include "EnemyBat.h"
 #include "EnemyFirePlant.h"
+#include "EnemyMage.h"
 #include "MonsterAnimationTest.h"
 
 
@@ -82,8 +83,8 @@ void MapTestLevel::InitTestLevel()
 		}
 		//CreateActor<MonsterAnimationTest>();
 		//CreateActor<Player>();
-		//CreateActor<EnemyBat>();
-		std::shared_ptr<EnemyFirePlant> monster =  CreateActor<EnemyFirePlant>();
+		CreateActor<EnemyMage>();
+		//std::shared_ptr<EnemyFirePlant> monster =  CreateActor<EnemyFirePlant>();
 		//if (nullptr != monster)
 		//{
 		//	monster->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 0.0f , 100.0f , -0.0f }));

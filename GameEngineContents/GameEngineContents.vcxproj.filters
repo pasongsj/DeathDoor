@@ -234,6 +234,9 @@
     <ClCompile Include="EnemyFirePlant.cpp">
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyMage.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -471,6 +474,9 @@
       <Filter>Contents\FortressLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="EnemyFirePlant.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMage.h">
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
