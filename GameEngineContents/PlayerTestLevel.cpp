@@ -1,8 +1,10 @@
 #include "PreCompileHeader.h"
 #include "PlayerTestLevel.h"
+#include "PhysXCapsuleComponent.h"
 
 #include "Player.h"
 #include "MonsterAnimationTest.h"
+#include "EnemyFirePlant.h"
 
 PlayerTestLevel::PlayerTestLevel()
 {
@@ -29,7 +31,8 @@ void PlayerTestLevel::LevelChangeStart()
 	//GetMainCamera()->GetTransform()->SetLocalRotation({ 0.0f, 0.0f, 0 });
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
 
-	CreateActor<MonsterAnimationTest>();
+	//CreateActor<MonsterAnimationTest>();
+	CreateActor<EnemyFirePlant>();
 }
 
 void PlayerTestLevel::LevelChangeEnd()
