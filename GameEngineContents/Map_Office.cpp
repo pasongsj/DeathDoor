@@ -98,13 +98,13 @@ void Map_Office::Create_StaticObject()
 	}
 
 	// 맵의 벽 세팅
-	Set_TransformWall(CurLevel->GetSharedThis());
+	Create_TransformWall(CurLevel->GetSharedThis());
 
 	// 메인오피스의 오브젝트 세팅
-	Set_MainOfficeObject(CurLevel->GetSharedThis());
+	Create_MainOfficeObject(CurLevel->GetSharedThis());
 
 	// 난간 오브젝트 세팅
-	Set_RailingObject(CurLevel->GetSharedThis());
+	Create_RailingObject(CurLevel->GetSharedThis());
 
 
 	{
@@ -228,7 +228,7 @@ void Map_Office::Create_ActiveObject()
 {
 }
 
-void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
+void Map_Office::Create_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 {
 	std::shared_ptr<GameEngineLevel> CurLevel = _CurLevel;
 	// -----------------------------------------transform wall---------------------------------------------
@@ -240,7 +240,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 2220, 270, 1121 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		// 빨래건조대?
@@ -250,7 +250,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 1741, 300, 1548 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		// 메인오피스 바로우측 화분 
@@ -260,7 +260,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		const float4 Pos = float4{ 3380, 519, 2600 };
 		const float4 Rot = float4{ 0, -25, 0 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		// 메인오피스 중앙 화분 
@@ -270,7 +270,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		const float4 Pos = float4{ 2270, 535, 3280 };
 		const float4 Rot = float4{ 0, 0, 0 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		// 메인오피스 중앙 화분 우측 바
@@ -280,7 +280,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		const float4 Pos = float4{ 2900, 535, 3300 };
 		const float4 Rot = float4{ 0, -20, 0 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		// 오피스 초반 책상사이 주변 벽
@@ -289,7 +289,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ -327, -274, -1900 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -297,7 +297,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 150, -274, -1900 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -305,7 +305,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 480, -274, -1900 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 
 	// Office Start 지점 주변 벽 
@@ -315,7 +315,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 150, -490, -4920 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -323,7 +323,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 2750, -490, -4920 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -331,7 +331,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 4100.0f, -781.0f, -5330.0f };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	// 맵 좌측 일자벽 
 	{
@@ -340,7 +340,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ -950.0f, -500.0f, -3050.0f };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	// 통과지점 사이 벽 
 	{
@@ -349,7 +349,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 176.0f, -282.0f, -2981.0f };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -357,7 +357,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 2026.0f, -282.0f, -2981.0f };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -365,7 +365,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 2300.0f, -296.0f, -2390.0f };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -373,7 +373,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 436.0f, -282.0f, -2751.0f };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 
 	// 미니오피스 뒤쪽벽
@@ -383,7 +383,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 1628, -251, -1631 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 
 	// 스타트 이후 오르막길 왼벽 
@@ -393,7 +393,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 1200, -770, -4400 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -401,7 +401,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 980, -770, -4600 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -409,7 +409,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 760, -770, -4650 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	// 스타트 이후 오르막길 오른벽
 	{
@@ -418,7 +418,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 1710, -700, -4400 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -426,7 +426,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 3000, -270, -4400 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -434,7 +434,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 3556, -274, -3304 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 
 	// 검사구역 통과 후 언덕라인 벽
@@ -444,7 +444,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 620, -250, -1330 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -452,7 +452,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ -605, -250, -1250 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 
 	{
@@ -462,7 +462,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 155, -400, -1150 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4{ -20, 0, 0 }, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4{ -20, 0, 0 }, Pos));
 	}
 
 	{
@@ -472,7 +472,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		Obj->Set_MeshRatio(Ratio);
 		const float4 Pos = float4{ 2063, 600, 4924 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		// 데스크 왼쪽 
@@ -482,7 +482,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		const float4 Pos = float4{ 1480, 600, 5035 };
 		const float4 Rot = float4{ 0, 35, 0 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		// 데스크 오른쪽
@@ -492,7 +492,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		const float4 Pos = float4{ 2643, 600, 5035 };
 		const float4 Rot = float4{ 0, -35, 0 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 
 	// 메인오피스 벽
@@ -503,7 +503,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		const float4 Pos = float4{ 3045, 853, 4748 };
 		const float4 Rot = float4{ 0, 45, 0 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -512,7 +512,7 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		const float4 Pos = float4{ 1127, 880, 4733 };
 		const float4 Rot = float4{ 0, -45, 0 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -521,11 +521,11 @@ void Map_Office::Set_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel)
 		const float4 Pos = float4{ 3823, 853, 3306 };
 		const float4 Rot = float4{ 0, 90, 0 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 }
 
-void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _CurLevel)
+void Map_Office::Create_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _CurLevel)
 {
 	std::shared_ptr<GameEngineLevel> CurLevel = _CurLevel;
 	
@@ -537,7 +537,7 @@ void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _Cu
 		float4 Ratio = float4{ 1, 0.5f, 0.7f };
 		Obj->Set_MeshRatio(Ratio);
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -546,7 +546,7 @@ void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _Cu
 		float4 Ratio = float4{ 1, 0.5f, 0.6f };
 		Obj->Set_MeshRatio(Ratio);
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -555,7 +555,7 @@ void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _Cu
 		float4 Ratio = float4{ 1, 0.5f, 0.55f };
 		Obj->Set_MeshRatio(Ratio);
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -564,7 +564,7 @@ void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _Cu
 		float4 Ratio = float4{ 0.8f, 0.5f, 0.55f };
 		Obj->Set_MeshRatio(Ratio);
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -573,7 +573,7 @@ void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _Cu
 		float4 Ratio = float4{ 0.8f, 0.5f, 0.55f };
 		Obj->Set_MeshRatio(Ratio);
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -582,7 +582,7 @@ void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _Cu
 		float4 Ratio = float4{ 0.8f, 0.5f, 0.55f };
 		Obj->Set_MeshRatio(Ratio);
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -591,7 +591,7 @@ void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _Cu
 		float4 Ratio = float4{ 0.8f, 0.5f, 0.55f };
 		Obj->Set_MeshRatio(Ratio);
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -600,7 +600,7 @@ void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _Cu
 		float4 Ratio = float4{ 0.8f, 0.5f, 0.55f };
 		Obj->Set_MeshRatio(Ratio);
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -609,7 +609,7 @@ void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _Cu
 		float4 Ratio = float4{ 0.8f, 0.5f, 0.55f };
 		Obj->Set_MeshRatio(Ratio);
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
@@ -618,11 +618,20 @@ void Map_Office::Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _Cu
 		float4 Ratio = float4{ 0.2f, 0.2f, 0.2f };
 		Obj->Set_MeshRatio(Ratio);
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+	}
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		const float4 Pos = float4{ 2800, 576, 4906 };
+		const float4 Rot = float4{ 0, 25, 0 };
+		float4 Ratio = float4{ 1.5f, 0.5f, 0.5f };
+		Obj->Set_MeshRatio(Ratio);
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 }
 
-void Map_Office::Set_RailingObject(std::shared_ptr<class GameEngineLevel> _CurLevel)
+void Map_Office::Create_RailingObject(std::shared_ptr<class GameEngineLevel> _CurLevel)
 {
 	std::shared_ptr<GameEngineLevel> CurLevel = _CurLevel;
 	// 난간, 아래쪽부터 순서대로 
@@ -667,14 +676,23 @@ void Map_Office::Set_RailingObject(std::shared_ptr<class GameEngineLevel> _CurLe
 		float4 MeshRatio = float4{ 0.2f, 1.2f, 1.5f };
 		Obj->Set_MeshRatio(MeshRatio);
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
 	}
 	{
-		std::shared_ptr<Railing> Obj = CurLevel->CreateActor<Railing>();
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		const float4 Pos = float4{ 2580, 300, 2250 };
+		const float4 Rot = float4{ 0, 64, 0 };
+		float4 MeshRatio = float4{ 0.2f, 1.2f, 1.5f };
+		Obj->Set_MeshRatio(MeshRatio);
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+	}
+	{
+		/*std::shared_ptr<Railing> Obj = CurLevel->CreateActor<Railing>();
 		const float4 Pos = float4{ 2580, 300, 2250 };
 		const float4 Rot = float4{ 0, 64, 0 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
-		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));*/
 	}
 	{
 		std::shared_ptr<Railing> Obj = CurLevel->CreateActor<Railing>();

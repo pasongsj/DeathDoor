@@ -29,7 +29,7 @@ void Player::InitInputKey()
 
 
 
-void Player::InitPlayerAnimatioin()
+void Player::InitPlayerAnimation()
 {
 	Renderer = CreateComponent<GameEngineFBXRenderer>();
 	Renderer->SetFBXMesh("Player.FBX", "MeshAniTexture");

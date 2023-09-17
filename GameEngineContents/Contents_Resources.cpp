@@ -115,6 +115,18 @@ void ContentsCore::ContentsResourcesCreate()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentAniMeshDeffered");
+
+		//Pipe->SetVertexBuffer("FullRect");
+		//Pipe->SetIndexBuffer("FullRect");
+		Pipe->SetVertexShader("ContentAniMeshDeffered.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("ContentAniMeshDeffered.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshToon");
 
 		//Pipe->SetVertexBuffer("FullRect");
@@ -122,6 +134,19 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetVertexShader("ContentMeshToonShader.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("ContentMeshToonShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentFade");
+
+		//Pipe->SetVertexBuffer("FullRect");
+		//Pipe->SetIndexBuffer("FullRect");
+		Pipe->SetVertexShader("FadeDeffered.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("FadeDeffered.hlsl");
 		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
@@ -192,6 +217,8 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetDepthState("EngineDepth");
 	}
 
+
+
 	//{
 	//	std::shared_ptr<GameEngineTexture> Res = GameEngineTexture::Find("EngineBaseTex.png");
 	//	for (size_t y = 0; y < 10; y++)
@@ -229,16 +256,31 @@ void ContentsCore::ContentsResourcesCreate()
 			GameEngineFBXMesh::Load(Files[i].GetFullPath());
 		}
 		
+
+		// ----------------------------------- Map -------------------------------------
 		NewDir.MoveParent();
 		NewDir.Move("Map");
+		NewDir.Move("Office");
 		
-		std::vector<GameEngineFile> MapFiles = NewDir.GetAllFile({ ".FBX" });
+		std::vector<GameEngineFile> MapOfficeFiles = NewDir.GetAllFile({ ".FBX" });
 		
-		for (size_t i = 0; i < MapFiles.size(); i++)
+		for (size_t i = 0; i < MapOfficeFiles.size(); i++)
 		{
-			GameEngineFBXMesh::Load(MapFiles[i].GetFullPath());
+			GameEngineFBXMesh::Load(MapOfficeFiles[i].GetFullPath());
 		}
 
+		NewDir.MoveParent();
+		NewDir.Move("Fortress");
+
+		std::vector<GameEngineFile> MapFortressFiles = NewDir.GetAllFile({ ".FBX" });
+
+		for (size_t i = 0; i < MapFortressFiles.size(); i++)
+		{
+			GameEngineFBXMesh::Load(MapFortressFiles[i].GetFullPath());
+		}
+
+
+		NewDir.MoveParent();
 		NewDir.MoveParent();
 		NewDir.Move("Animations");
 		
@@ -271,6 +313,12 @@ void ContentsCore::ContentsResourcesCreate()
 		GameEngineFont::Load("¸¼Àº °íµñ");
 	}
 
+
+	//¿©±â±îÁö
+
+	// 
+	// 
+	// 
 	//{
 	//	GameEngineDirectory NewDir;
 	//	NewDir.MoveParentToDirectory("ContentResources");

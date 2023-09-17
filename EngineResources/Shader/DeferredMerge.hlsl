@@ -48,17 +48,36 @@ OutPutColor DeferredMerge_PS(Output _Input) : SV_Target0
     
     float4 Color = DifColor.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     
-    if (0 >= Color.a)
-    {
-        clip(-1);
-    }
+    //if (0 >= Color.a)
+    //{
+    //    clip(-1);
+    //}
     
     float4 DiffuseRatio = DifLight.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 SpacularRatio = SpcLight.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 AmbientRatio = AmbLight.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     
-    NewOutPut.Result.xyz = Color.xyz * (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
-    NewOutPut.Result.a = saturate(Color.a);
+    
+    //if (내 앞에 물체가 있다면)
+    //{
+    //     DiffuseRatio.xyz *= 0.01f;
+    //     SpacularRatio.xyz *= 0.01f;
+    //     AmbientRatio.xyz *= 0.01f;
+    //    나의 빛은 약해져야 한다.
+    //}
+        
+    
+        if (Color.a)
+        {
+        //      0.1f
+            NewOutPut.Result.xyz = Color.xyz * (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
+            NewOutPut.Result.a = saturate(Color.a + (DiffuseRatio.w + SpacularRatio.w + AmbientRatio.w));
+        }
+        else
+        {
+            NewOutPut.Result.xyz = (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
+            NewOutPut.Result.a = saturate(NewOutPut.Result.x);
+        }
     // NewOutPut.Result.a = saturate(NewOutPut.Result.a);
     
     return NewOutPut;

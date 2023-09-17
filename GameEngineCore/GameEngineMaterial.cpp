@@ -246,7 +246,7 @@ void GameEngineMaterial::SetRasterizer(const std::string_view& _Value)
 	}
 }
 
-void GameEngineMaterial::RenderingPipeLineSetting()
+void GameEngineMaterial::Setting()
 {
 	// 랜더라고 하는 부분은 랜더링 파이프라인을 한바뀌 돌리는 것.
 	// InputAssembler1();

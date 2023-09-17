@@ -33,9 +33,9 @@ private:
 	void Create_StaticObject();
 	void Create_ActiveObject();
 
-	void Set_TransformWall(std::shared_ptr<class GameEngineLevel> _CurLevel);
-	void Set_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _CurLevel);
-	void Set_RailingObject(std::shared_ptr<class GameEngineLevel> _CurLevel);
+	void Create_TransformWall(std::shared_ptr<class GameEngineLevel> _CurLevel);
+	void Create_MainOfficeObject(std::shared_ptr<class GameEngineLevel> _CurLevel);
+	void Create_RailingObject(std::shared_ptr<class GameEngineLevel> _CurLevel);
 
 
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;

@@ -18,6 +18,8 @@ enum class RenderPath
 class GameEngineRenderUnit : public GameEngineObjectBase, public std::enable_shared_from_this<GameEngineRenderUnit>
 {
 public:
+	bool IsShadow = false;
+
 	GameEngineShaderResHelper ShaderResHelper;
 	std::shared_ptr<class GameEngineMaterial> Material;
 
@@ -35,11 +37,32 @@ public:
 		return ParentRenderer;
 	}
 
+	void Setting();
+
+	void Draw();
+
+	struct MaskInfo
+	{
+		float UV_MaskingValue = 1.0f;
+		float MaskingColor_R = 1.0f;
+		float MaskingColor_G = 0.0f;
+		float MaskingColor_B = 1.0f;
+	};
+
+	struct FadeInfo
+	{
+		float Fade = 0.0f;
+		float R = 0.0f;
+		float G = 0.0f;
+		float B = 0.0f;
+	};
+
 	float4 UVdata = { 1, 1, 0, 0 };
 
+	FadeInfo Fade;
+	MaskInfo Mask;
 
 	ColorOption Color = { { 1, 1, 1, 1 }, { 0, 0, 0, 0 } };
-	
 
 private:
 	class GameEngineRenderer* ParentRenderer = nullptr;
@@ -60,7 +83,7 @@ public:
 	float4 Mouse;
 };
 
-// ¼³¸í :
+// ì„¤ëª… :
 class GameEngineRenderer : public GameEngineComponent
 {
 	friend class GameEngineCamera;
@@ -77,10 +100,10 @@ public:
 	GameEngineRenderer& operator=(const GameEngineRenderer& _Other) = delete;
 	GameEngineRenderer& operator=(GameEngineRenderer&& _Other) noexcept = delete;
 
-	// ÆÄÀÌÇÁ¶óÀÎÀÌ ¼¼ÆÃµÇ¾î ÀÖ°í
-	// ¾î¶² ½¦ÀÌ´õ¸¦ »ç¿ëÇß´Ù´Â °É ¾Ë¾Æ¾ß ÇÏ°í
-	// ±× ½¦ÀÌ´õ¿¡¼­ ¾î¶² ÅØ½ºÃ³¸¦ »ç¿ëÇß°í
-	// ¾î¶² »ùÇÃ·¯ ¾î¶² »ó¼ö¹öÆÛ¸¦ »ç¿ëÇß´ÂÁö¸¦ ¾Ë¾Æ¾ß ÇÑ´Ù.
+	// íŒŒì´í”„ë¼ì¸ì´ ì„¸íŒ…ë˜ì–´ ìˆê³ 
+	// ì–´ë–¤ ì‰ì´ë”ë¥¼ ì‚¬ìš©í–ˆë‹¤ëŠ” ê±¸ ì•Œì•„ì•¼ í•˜ê³ 
+	// ê·¸ ì‰ì´ë”ì—ì„œ ì–´ë–¤ í…ìŠ¤ì²˜ë¥¼ ì‚¬ìš©í–ˆê³ 
+	// ì–´ë–¤ ìƒ˜í”ŒëŸ¬ ì–´ë–¤ ìƒìˆ˜ë²„í¼ë¥¼ ì‚¬ìš©í–ˆëŠ”ì§€ë¥¼ ì•Œì•„ì•¼ í•œë‹¤.
 
 	void SetMaterial(const std::string_view& _Name, int _index = 0);
 	void SetMesh(const std::string_view& _Name, int _index = 0);
@@ -90,13 +113,13 @@ public:
 	std::shared_ptr<GameEngineRenderUnit> CreateRenderUnit(std::string_view _Mesh, std::string_view _Material);
 	std::shared_ptr<GameEngineRenderUnit> CreateRenderUnitToIndex(unsigned int _Index);
 
-	// ·£´õÀ¯´ÏÆ®¸¦ ¸¸µç´Ù.
+	// ëœë”ìœ ë‹ˆíŠ¸ë¥¼ ë§Œë“ ë‹¤.
 	std::shared_ptr<GameEngineRenderUnit> CreateRenderUnit();
 
-	// ¿©±â¼­ ¸®ÅÏµÈ ÆÄÀÌÇÁ¶óÀÎÀ» ¼öÁ¤ÇÏ¸é ÀÌ ÆÄÀÌÇÁ¶óÀÎÀ» »ç¿ëÇÏ´Â ¸ğµç ¾ÖµéÀÌ ¹Ù²î°Ô µÈ´Ù.
+	// ì—¬ê¸°ì„œ ë¦¬í„´ëœ íŒŒì´í”„ë¼ì¸ì„ ìˆ˜ì •í•˜ë©´ ì´ íŒŒì´í”„ë¼ì¸ì„ ì‚¬ìš©í•˜ëŠ” ëª¨ë“  ì• ë“¤ì´ ë°”ë€Œê²Œ ëœë‹¤.
 	std::shared_ptr<GameEngineMaterial> GetMaterial(int _index = 0);
 
-	// ÀÌ°É »ç¿ëÇÏ°ÔµÇ¸é ÀÌ ·£´õ·¯ÀÇ À¯´ÏÆ®´Â ÀÚ½Å¸¸ÀÇ Å¬·Ğ ÆÄÀÌÇÁ¶óÀÎÀ» °¡Áö°Ô µÈ´Ù.
+	// ì´ê±¸ ì‚¬ìš©í•˜ê²Œë˜ë©´ ì´ ëœë”ëŸ¬ì˜ ìœ ë‹ˆíŠ¸ëŠ” ìì‹ ë§Œì˜ í´ë¡  íŒŒì´í”„ë¼ì¸ì„ ê°€ì§€ê²Œ ëœë‹¤.
 	// std::shared_ptr<GameEngineMaterial> GetPipeLineClone(int _index = 0);
 
 	inline GameEngineShaderResHelper& GetShaderResHelper(int _index = 0)
@@ -116,8 +139,8 @@ public:
 		return RenderCamera;
 	}
 
-	// ¾÷µ¥ÀÌÆ®¿¡¼­ ÇÒ°ÍÀÌ±â ¶§¹®¿¡ ±×³É ÇÏ°Ú½À´Ï´Ù. 
-	// ·£´õ µµÁß¿¡ Ä«¸Ş¶ó¸¦ ¹Ù²Ù°Å³ª ÇÑ´Ù¸é ÀÌ»óÇÑ ÀÏÀÌ ¹ß»ıÇÒ¼ö ÀÖ´Ù.
+	// ì—…ë°ì´íŠ¸ì—ì„œ í• ê²ƒì´ê¸° ë•Œë¬¸ì— ê·¸ëƒ¥ í•˜ê² ìŠµë‹ˆë‹¤. 
+	// ëœë” ë„ì¤‘ì— ì¹´ë©”ë¼ë¥¼ ë°”ê¾¸ê±°ë‚˜ í•œë‹¤ë©´ ì´ìƒí•œ ì¼ì´ ë°œìƒí• ìˆ˜ ìˆë‹¤.
 
 	std::shared_ptr<GameEngineRenderUnit> GetUnit(unsigned int _Index = 0)
 	{
@@ -135,6 +158,33 @@ public:
 	}
 
 
+	void ShadowOn(size_t _UnitIndex = -1)
+	{
+		if (_UnitIndex == -1)
+		{
+			for (size_t i = 0; i < Units.size(); i++)
+			{
+				Units[i]->IsShadow = true;
+			}
+			return;
+		}
+
+		Units[_UnitIndex]->IsShadow = true;
+	}
+
+	void ShadowOff(size_t _UnitIndex = -1)
+	{
+		if (_UnitIndex == -1)
+		{
+			for (size_t i = 0; i < Units.size(); i++)
+			{
+				Units[i]->IsShadow = false;
+			}
+			return;
+		}
+
+		Units[_UnitIndex]->IsShadow = false;
+	}
 
 protected:
 	void Start();
@@ -156,8 +206,8 @@ private:
 
 	std::vector<std::shared_ptr<GameEngineRenderUnit>> Units;
 
-	// Pipe¿Í
-	//// GameEngineShaderResHelper °¡ ÇÕÃÄÁ®¾ß ·£´õ¸µ ÀÌ µÇ´Â ½ÄÀÌ µË´Ï´Ù.
+	// Pipeì™€
+	//// GameEngineShaderResHelper ê°€ í•©ì³ì ¸ì•¼ ëœë”ë§ ì´ ë˜ëŠ” ì‹ì´ ë©ë‹ˆë‹¤.
 	//std::shared_ptr<class GameEngineMaterial> Pipe;
 	//GameEngineShaderResHelper ShaderResHelper;
 

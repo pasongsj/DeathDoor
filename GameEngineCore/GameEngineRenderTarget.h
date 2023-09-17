@@ -135,6 +135,7 @@ public:
 		RTVs.clear();
 		SRVs.clear();
 		ViewPortDatas.clear();
+		Color.clear();
 	}
 
 protected:
@@ -145,7 +146,7 @@ private:
 
 	bool DepthSetting = true;
 
-	float4 Color = { 0.0f, 0.0f, 0.0f, 0.0f };
+	std::vector<float4> Color;
 
 	std::vector<std::shared_ptr<GameEnginePostProcess>> Effects;
 

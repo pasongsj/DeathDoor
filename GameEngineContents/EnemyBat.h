@@ -32,7 +32,6 @@ private:
 		IDLE,
 		FLY,
 		BITE,
-		IDLE_FLOOR,
 		SHOCK,
 		MAX
 	};

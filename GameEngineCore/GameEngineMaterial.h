@@ -45,7 +45,7 @@ public:
 		FILL_MODE = _Value;
 	}
 
-	void RenderingPipeLineSetting();
+	void Setting() override;
 	void Render();
 
 	std::shared_ptr<GameEngineMaterial> Clone();
@@ -55,6 +55,17 @@ public:
 		return IsCloneValue;
 	}
 
+	// void InputAssembler1();
+	void VertexShader();
+	// void InputAssembler2();
+	void HullShader();
+	void Tessellator();
+	void DomainShader();
+	void GeometryShaeder();
+	void Rasterizer();
+	void PixelShader();
+	void OutputMerger();
+
 protected:
 
 private:
@@ -63,19 +74,7 @@ private:
 	// 고정기능 단계 => 내가 옵션정도만 넘겨서 만드는 단계
 	// 프로그래밍 가능 단계 => 특정 규칙만 지키면 나머지는 이제 내가 마음대로 짤수 있는 단계를 의미한다.
 	// 쉐이더 계열은 다 프로그래밍 가능 단계 단계와 
-	// 나머지들은 고정기능 단계라고 부른다.
-
-	// void InputAssembler1();
-	void VertexShader();
-	// void InputAssembler2();
-	void HullShader(); 
-	void Tessellator(); 
-	void DomainShader(); 
-	void GeometryShaeder(); 
-	void Rasterizer();
-	void PixelShader();
-	void OutputMerger();
-
+	// 나머지들은 고정기능 단계라고 부른다.	
 
 	D3D11_FILL_MODE FILL_MODE = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 

@@ -23,14 +23,14 @@ struct LightData
     float4 ViewLightDir;
     float4 ViewLightRevDir;
     float4 CameraPosition;
-    float LightTargetSizeX;
-    float LightTargetSizeY;
+    float ShadowTargetSizeX;
+    float ShadowTargetSizeY;
     float LightNear;
     float LightFar;
     float DifLightPower = 1.0f;
     float SpcLightPower = 1.0f;
     float AmbLightPower = 1.0f;
-    float SpcPow = 50.0f;
+    float SpcPow = 1.0f;
     int LightType = 0;
     float PointLightRange = 100.0f;
     int Temp2;
@@ -69,9 +69,16 @@ public:
         return LightDataValue;
     }
 
+    std::shared_ptr<class GameEngineRenderTarget> GetShadowTarget()
+    {
+        return ShadowTarget;
+    }
+
+    LightData LightDataValue;
+
 protected:
 
 private:
-    LightData LightDataValue;
+    std::shared_ptr<class GameEngineRenderTarget> ShadowTarget;
 };
 

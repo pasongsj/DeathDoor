@@ -18,10 +18,15 @@
     </FxCompile>
     <FxCompile Include="ContentMeshAniShader.hlsl" />
     <FxCompile Include="ContentMeshToonShader.hlsl" />
+    <FxCompile Include="FadeDeffered.hlsl" />
+    <FxCompile Include="ContentAniMeshDeffered.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
       <UniqueIdentifier>{eef00498-d33d-45be-9baa-d6003f492226}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="쉐이더 사용법.txt" />
   </ItemGroup>
 </Project>

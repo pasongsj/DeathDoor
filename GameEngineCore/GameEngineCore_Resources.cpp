@@ -208,41 +208,41 @@ void GameEngineCore::CoreResourcesInit()
 		std::vector<GameEngineVertex> Vertex;
 		Vertex.resize(24);
 		// 앞면
-		Vertex[0] = { float4(-0.5f, 0.5f, 0.5f) , float4(0.0f, 0.0f) };
-		Vertex[1] = { float4(0.5f, 0.5f, 0.5f)  , float4(1.0f, 0.0f) };
-		Vertex[2] = { float4(0.5f, -0.5f, 0.5f) , float4(1.0f, 1.0f) };
-		Vertex[3] = { float4(-0.5f, -0.5f, 0.5f), float4(0.0f, 1.0f) };
+		Vertex[0] = { float4(-0.5f, 0.5f, 0.5f) , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, 1.0f) };
+		Vertex[1] = { float4(0.5f, 0.5f, 0.5f)  , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, 1.0f) };
+		Vertex[2] = { float4(0.5f, -0.5f, 0.5f) , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, 1.0f) };
+		Vertex[3] = { float4(-0.5f, -0.5f, 0.5f), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, 1.0f) };
 
 		// 뒷면
-		Vertex[4] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(180) , float4(0.0f, 0.0f) };
-		Vertex[5] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(180)  , float4(1.0f, 0.0f) };
-		Vertex[6] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(180) , float4(1.0f, 1.0f) };
-		Vertex[7] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(180), float4(0.0f, 1.0f) };
+		Vertex[4] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(180) , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
+		Vertex[5] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(180)  , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
+		Vertex[6] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(180) , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
+		Vertex[7] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(180), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
 
 		// 왼쪽
-		Vertex[8] = { float4(-0.5f, 0.5f, 0.5f).RotaitonYDegReturn(90) , float4(0.0f, 0.0f) };
-		Vertex[9] = { float4(0.5f, 0.5f, 0.5f).RotaitonYDegReturn(90)  , float4(1.0f, 0.0f) };
-		Vertex[10] = { float4(0.5f, -0.5f, 0.5f).RotaitonYDegReturn(90) , float4(1.0f, 1.0f) };
-		Vertex[11] = { float4(-0.5f, -0.5f, 0.5f).RotaitonYDegReturn(90), float4(0.0f, 1.0f) };
+		Vertex[8] = { float4(-0.5f, 0.5f, 0.5f).RotaitonYDegReturn(-90) , float4(0.0f, 0.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
+		Vertex[9] = { float4(0.5f, 0.5f, 0.5f).RotaitonYDegReturn(-90)  , float4(1.0f, 0.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
+		Vertex[10] = { float4(0.5f, -0.5f, 0.5f).RotaitonYDegReturn(-90) , float4(1.0f, 1.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
+		Vertex[11] = { float4(-0.5f, -0.5f, 0.5f).RotaitonYDegReturn(-90), float4(0.0f, 1.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
 
 		// 오른쪽
-		Vertex[12] = { float4(-0.5f, 0.5f, 0.5f).RotaitonYDegReturn(-90) , float4(0.0f, 0.0f) };
-		Vertex[13] = { float4(0.5f, 0.5f, 0.5f).RotaitonYDegReturn(-90)  , float4(1.0f, 0.0f) };
-		Vertex[14] = { float4(0.5f, -0.5f, 0.5f).RotaitonYDegReturn(-90) , float4(1.0f, 1.0f) };
-		Vertex[15] = { float4(-0.5f, -0.5f, 0.5f).RotaitonYDegReturn(-90), float4(0.0f, 1.0f) };
+		Vertex[12] = { float4(-0.5f, 0.5f, 0.5f).RotaitonYDegReturn(90) , float4(0.0f, 0.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
+		Vertex[13] = { float4(0.5f, 0.5f, 0.5f).RotaitonYDegReturn(90)  , float4(1.0f, 0.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
+		Vertex[14] = { float4(0.5f, -0.5f, 0.5f).RotaitonYDegReturn(90) , float4(1.0f, 1.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
+		Vertex[15] = { float4(-0.5f, -0.5f, 0.5f).RotaitonYDegReturn(90), float4(0.0f, 1.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
 
 
 		// 위
-		Vertex[16] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(90) , float4(0.0f, 0.0f) };
-		Vertex[17] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(90)  , float4(1.0f, 0.0f) };
-		Vertex[18] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(90) , float4(1.0f, 1.0f) };
-		Vertex[19] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(90), float4(0.0f, 1.0f) };
+		Vertex[16] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(-90) , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
+		Vertex[17] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(-90)  , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
+		Vertex[18] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(-90) , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
+		Vertex[19] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(-90), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
 
 		// 아래
-		Vertex[20] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(-90) , float4(0.0f, 0.0f) };
-		Vertex[21] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(-90)  , float4(1.0f, 0.0f) };
-		Vertex[22] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(-90) , float4(1.0f, 1.0f) };
-		Vertex[23] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(-90), float4(0.0f, 1.0f) };
+		Vertex[20] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(90) , float4(0.0f, 0.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
+		Vertex[21] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(90)  , float4(1.0f, 0.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
+		Vertex[22] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(90) , float4(1.0f, 1.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
+		Vertex[23] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(90), float4(0.0f, 1.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
 
 
 		GameEngineVertexBuffer::Create("Box", Vertex);
@@ -250,46 +250,29 @@ void GameEngineCore::CoreResourcesInit()
 
 	{
 		std::vector<int> Index;
+		// Index.resize(36);
+		for (int i = 0; i < 6; i++)
+		{
+			Index.push_back(i * 4 + 2);
+			Index.push_back(i * 4 + 1);
+			Index.push_back(i * 4 + 0);
 
-		Index.push_back(0);
-		Index.push_back(1);
-		Index.push_back(1);
-		Index.push_back(2);
-		Index.push_back(2);
-		Index.push_back(3);
-		Index.push_back(3);
-		Index.push_back(0);
+			Index.push_back(i * 4 + 3);
+			Index.push_back(i * 4 + 2);
+			Index.push_back(i * 4 + 0);
+		}
 
-		Index.push_back(4 + 0);
-		Index.push_back(4 + 1);
-		Index.push_back(4 + 1);
-		Index.push_back(4 + 2);
-		Index.push_back(4 + 2);
-		Index.push_back(4 + 3);
-		Index.push_back(4 + 3);
-		Index.push_back(4 + 0);
-
-		Index.push_back(8 + 0);
-		Index.push_back(8 + 1);
-		Index.push_back(8 + 1);
-		Index.push_back(8 + 2);
-		Index.push_back(8 + 2);
-		Index.push_back(8 + 3);
-		Index.push_back(8 + 3);
-		Index.push_back(8 + 0);
-
-		Index.push_back(12 + 0);
-		Index.push_back(12 + 1);
-		Index.push_back(12 + 1);
-		Index.push_back(12 + 2);
-		Index.push_back(12 + 2);
-		Index.push_back(12 + 3);
-		Index.push_back(12 + 3);
-		Index.push_back(12 + 0);
 
 		GameEngineIndexBuffer::Create("DebugBox", Index);
-		std::shared_ptr<GameEngineMesh> Mesh = GameEngineMesh::Create("DebugBox", "Box", "DebugBox");
-		Mesh->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		{
+			std::shared_ptr<GameEngineMesh> Mesh = GameEngineMesh::Create("DebugBox", "Box", "DebugBox");
+			Mesh->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		}
+
+		{
+			std::shared_ptr<GameEngineMesh> Mesh = GameEngineMesh::Create("Box", "Box", "DebugBox");
+			Mesh->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		}
 	}
 
 
@@ -475,7 +458,33 @@ void GameEngineCore::CoreResourcesInit()
 		GameEngineBlend::Create("MergeBlend", Desc);
 	}
 
+	{
+		// 블랜드
+		D3D11_BLEND_DESC Desc = { 0, };
 
+		// 자동으로 알파부분을 제거해서 출력해주는 건데
+		// 졸라느립니다.
+		// Desc.AlphaToCoverageEnable = false;
+
+		// 
+		Desc.AlphaToCoverageEnable = false;
+		// 블랜드를 여러개 넣을거냐
+		// TRUE면 블랜드를 여러개 넣습니다.
+		// false면 몇개의 랜더타겟이 있건 0번에 세팅된 걸로 전부다 블랜드.
+		Desc.IndependentBlendEnable = false;
+
+		Desc.RenderTarget[0].BlendEnable = true;
+		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+		GameEngineBlend::Create("OneBlend", Desc);
+	}
 
 	{
 		D3D11_DEPTH_STENCIL_DESC Desc = { 0, };
@@ -724,7 +733,7 @@ void GameEngineCore::CoreResourcesInit()
 		Pipe->SetVertexShader("BloomShader.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("BloomShader.hlsl");
-		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetBlendState("OneBlend");
 		Pipe->SetDepthState("AlwayDepth");
 	}
 
@@ -734,7 +743,7 @@ void GameEngineCore::CoreResourcesInit()
 		Pipe->SetVertexShader("BloomBlur.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("BloomBlur.hlsl");
-		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetBlendState("OneBlend");
 		Pipe->SetDepthState("AlwayDepth");
 	}
 
@@ -766,6 +775,15 @@ void GameEngineCore::CoreResourcesInit()
 		Pipe->SetBlendState("AlphaBlend");
 		// 모든 오브젝트가 순서 맞춰서 다 그려진 다음에 벌어지는 일이라.
 		// 깊이라는걸 
+		Pipe->SetDepthState("AlwayDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Shadow");
+		//Pipe->SetVertexShader("DebugMeshRender.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("Shadow.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("AlwayDepth");
 	}
 
