@@ -31,7 +31,7 @@ void Player::Start()
 {
 	//init
 	InitInputKey();
-	InitPlayerAnimatioin();
+	InitPlayerAnimation();
 
 	// physx
 	{

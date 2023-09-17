@@ -71,7 +71,7 @@ private:
 	// Init
 	std::atomic_int AnimationLoadCount = 0;
 	void InitInputKey();
-	void InitPlayerAnimatioin();
+	void InitPlayerAnimation();
 	void SetFSMFunc();
 
 	// Render
