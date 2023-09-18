@@ -103,30 +103,6 @@ DeferredOutPut FadeDeferred_PS(Output _Input)
         clip(-1);
     }
     
-    //float UVsize = 1.0f / 512.0f;
-    //
-    //float2 BaseUV = _Input.TEXCOORD.xy;
-    //float2 StartUV = float2(BaseUV.x - 2.0f * UVsize, BaseUV.y - 2.0f * UVsize);
-    //float2 CurUV = StartUV;
-    //
-    //for (int i = 0; i < 5; i++)
-    //{
-    //    for (int j = 0; j < 5; j++)
-    //    {
-    //        float4 CurFliterColor = FilterTexture.Sample(ENGINEBASE, CurUV);
-    //        
-    //        if (CurFliterColor.r <= Delta)
-    //        {
-    //            Color.rgb = float3(0.0f, 1.0f, 1.0f);
-    //            break;
-    //        }
-    //
-    //        CurUV += float2(UVsize, 0);
-    //    }
-    //
-    //    CurUV = float2(StartUV.x , StartUV.y + (i + 1) * UVsize);
-    //}
-    
     float2 UVsize = (1.0f / 1600.0f, 1.0f / 900.0f);
     
     float2 BaseUV = _Input.TEXCOORD.xy;
