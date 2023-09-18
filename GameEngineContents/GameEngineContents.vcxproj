@@ -209,6 +209,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EnemyGrunt.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyMage.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FlowerPot.cpp" />
     <ClCompile Include="FortressLevel.cpp" />
     <ClCompile Include="Fountain.cpp" />
@@ -410,6 +418,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EnemyGrunt.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyMage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="FlowerPot.h">
       <SubType>
       </SubType>
@@ -428,6 +444,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameContentsMapActor.h" />
+    <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="HpBar.h">
       <SubType>
       </SubType>

@@ -1,6 +1,7 @@
 #include "PreCompileHeader.h"
 #include "EnemyBase.h"
 #include "Player.h"
+#include "PhysXCapsuleComponent.h"
 
 EnemyBase::EnemyBase()
 {
@@ -45,4 +46,13 @@ float4 EnemyBase::GetPlayerDir()
 	EnemyPos.y = 0;
 
 	return (PlayerPos - EnemyPos).NormalizeReturn();
+}
+
+
+float4 EnemyBase::AggroDir(std::shared_ptr< PhysXCapsuleComponent> _Comp, float4 DefaultDir)
+{
+	float4 PlayerDir = GetPlayerDir();
+	DefaultDir.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, PlayerDir);
+	_Comp->SetRotation( -DefaultDir);
+	return PlayerDir;
 }
