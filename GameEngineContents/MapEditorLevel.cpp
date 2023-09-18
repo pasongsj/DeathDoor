@@ -15,9 +15,17 @@ void MapEditorLevel::Start()
 {
 	SetLevelType(PacketLevelType::MapEditorLevel);
 
+	// 오피스
+	// float4 { 35.0f, 0.0f, 0.0f };
+	// float4 { 2800.0f, 230.0f, -6300.0f };
+
+	// 포트리스 
+	// 
+
+
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalRotation({ 35.0f, 0.0f, 0.0f });
-	GetMainCamera()->GetTransform()->SetLocalPosition( float4{ 2800 , 230 , -6300 });
+	GetMainCamera()->GetTransform()->SetLocalRotation({ 0.0f, 0.0f, 0.0f });
+	GetMainCamera()->GetTransform()->SetLocalPosition( { 0.0f, 1500.0f , -1250.0f });
 	
 	CreateActor<GameEngineLight>();
 }

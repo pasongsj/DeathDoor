@@ -49,21 +49,26 @@ void Map_Fortress::InitComponent()
 {
 	// 맵 렌더러 
 	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("Map_Office.fbx", "MeshTexture");
+	m_pRenderer->SetFBXMesh("Fortress_FullMap.fbx", "MeshTexture");
+	// m_pRenderer->GetTransform()->SetLocalScale(float4{ -1, 1, 1 });
 	m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer->GetTransform()->SetLocalPosition(m_MapPos);
+	// m_pRenderer->Off();
+	// float4 Scale = m_pRenderer->GetTransform()->GetLocalScale();
+
 
 	// 네비메쉬 위치확인용 렌더러 
 	m_pNaviRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pNaviRenderer->SetFBXMesh("Map_Office_Navi_Blend.fbx", "MeshTexture");
+	m_pNaviRenderer->SetFBXMesh("Fortrss_FullMap_Navi.fbx", "MeshTexture");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
 	m_pNaviRenderer->Off();
 
 	
-	/*m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
+	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	m_pTriangleComp->CreatePhysXActors("Map_Office_Navi_Blend.fbx", true);
-	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));*/
+	m_pTriangleComp->CreatePhysXActors("Fortrss_FullMap_Navi.fbx", true);
+	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));
 }
 
 void Map_Fortress::Create_StaticObject()

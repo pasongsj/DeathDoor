@@ -38,6 +38,6 @@ private:
 	std::shared_ptr<GameEngineFBXRenderer> m_pRenderer = nullptr;
 	std::shared_ptr<GameEngineFBXRenderer> m_pNaviRenderer = nullptr;
 
-	const float4 m_MapRot = float4{ 0 , 0 , 0 };
+	const float4 m_MapRot = float4{ 0 , -130 , 0 };
 	const float4 m_MapPos = float4{ 0, 0 , 0 };
 };

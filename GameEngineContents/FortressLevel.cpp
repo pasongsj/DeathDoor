@@ -23,6 +23,11 @@ void FortressLevel::Start()
 void FortressLevel::Update(float _DeltaTime)
 {
 	KeyUpdate(_DeltaTime);
+
+	if (false == GetMainCamera()->IsFreeCamera())
+	{
+		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4{ 0, 1200, -1200 });
+	}
 }
 
 void FortressLevel::InitKey()
@@ -53,6 +58,11 @@ void FortressLevel::LevelChangeStart()
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
 
 	CreateActor<GameEngineLight>();
+
+	m_pMap = CreateActor<Map_Fortress>();
+
+	std::shared_ptr<Player> Obj = CreateActor<Player>();
+	Set_StartPos(Obj);
 }
 
 void FortressLevel::LevelChangeEnd()
@@ -60,11 +70,21 @@ void FortressLevel::LevelChangeEnd()
 	AllActorDestroy();
 }
 
-void FortressLevel::LoadMapFBX()
-{
-	
-}
-
 void FortressLevel::Set_StartPos(std::shared_ptr<class Player> _Player)
 {
+	if (nullptr == _Player)
+	{
+		MsgAssert("Player 가 nullptr 입니다.");
+		return;
+	}
+
+	std::shared_ptr<PhysXCapsuleComponent> Comp = _Player->GetPhysXComponent();
+
+	if (nullptr == Comp)
+	{
+		MsgAssert("Player 의 PhysXComponent가 nullptr 입니다.");
+		return;
+	}
+
+	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_StartPos));
 }
