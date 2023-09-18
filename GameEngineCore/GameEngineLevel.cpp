@@ -233,6 +233,22 @@ void GameEngineLevel::ActorRelease()
 					++ActorStart;
 					continue;
 				}
+				std::shared_ptr<GameEngineLight> ReleaseLight = RelaseActor->DynamicThis<GameEngineLight>();
+				if (nullptr != ReleaseLight)
+				{
+					std::list<std::shared_ptr<GameEngineLight>>::iterator LightStart = AllLight.begin();
+					std::list<std::shared_ptr<GameEngineLight>>::iterator LightEnd = AllLight.end();
+					for (; LightStart != LightEnd;)
+					{
+						if (*LightStart == ReleaseLight)
+						{
+							ReleaseLight->ReleaseShadowRenderTarget();
+							AllLight.erase(LightStart);
+							break;
+						}
+						++LightStart;
+					}
+				}
 				RelaseActor->Release();
 				ActorStart = ActorList.erase(ActorStart);
 			}
@@ -454,6 +470,11 @@ void GameEngineLevel::InitCameraRenderTarget()
 	{
 		BeginCamIter->second->InitCameraRenderTarget();
 	}
+
+	for (std::shared_ptr<GameEngineLight> Light : AllLight)
+	{
+		Light->InitShadowRenderTarget();
+	}
 }
 
 void GameEngineLevel::ReleaseCameraRenderTarget()
@@ -462,6 +483,11 @@ void GameEngineLevel::ReleaseCameraRenderTarget()
 	for (; BeginCamIter != Cameras.end(); ++BeginCamIter)
 	{
 		BeginCamIter->second->ReleaseCameraRenderTarget();
+	}
+
+	for (std::shared_ptr<GameEngineLight> Light : AllLight)
+	{
+		Light->ReleaseShadowRenderTarget();
 	}
 }
 

@@ -63,6 +63,7 @@ void GameEngineCamera::Start()
 	CamForwardTarget	= GameEngineRenderTarget::CreateDummy();
 	CamDeferrdTarget	= GameEngineRenderTarget::CreateDummy();
 	CamAlphaTarget		= GameEngineRenderTarget::CreateDummy();
+
 }
 
 void GameEngineCamera::InitCameraRenderTarget()
@@ -104,7 +105,6 @@ void GameEngineCamera::InitCameraRenderTarget()
 	DefferdMergeUnit.ShaderResHelper.SetTexture("DifLight", DeferredLightTarget->GetTexture(0));
 	DefferdMergeUnit.ShaderResHelper.SetTexture("SpcLight", DeferredLightTarget->GetTexture(1));
 	DefferdMergeUnit.ShaderResHelper.SetTexture("AmbLight", DeferredLightTarget->GetTexture(2));
-
 }
 
 void GameEngineCamera::ReleaseCameraRenderTarget()
