@@ -34,12 +34,12 @@ Output ContentAniMeshDeferred_VS(Input _Input)
     float4 InputNormal = _Input.NORMAL;
     InputNormal.w = 0.0f;
     
-   if (IsAnimation != 0)
-   {
-       Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
-       InputPos.w = 1.0f;
-       InputNormal.w = 0.0f;
-   }
+    //if (IsAnimation != 0)
+    //{
+    //    Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+    //    InputPos.w = 1.0f;
+    //    InputNormal.w = 0.0f;
+    //}
     
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
@@ -72,14 +72,13 @@ cbuffer MaskInfo : register(b0)
 
 DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
 {
-    
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
     
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
     float4 MaskColor;
     
-    if (_Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
+    if (UV_MaskingValue >= 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
     {
         MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
         
@@ -87,16 +86,16 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
         float3 Magenta = float3(1.0f, 0.0f, 1.0f);
         
         if (MaskColor.a > 0.0f)
-        {
-            //Color.r = lerp(Color.r, MaskingColor.r, 0.9f);
-            //Color.g = lerp(Color.g, MaskingColor.g, 0.9f);
-            //Color.b = lerp(Color.b, MaskingColor.b, 0.9f);
+        {            
             Color.rgb = Magenta;
-        
-            NewOutPut.aaaTarget = Color;
+            //NewOutPut.CamForwardTarget = ResultColor;
+            //NewOutPut.TestTarget = ResultColor;
             //float4 MaxLight = -normalize(AllLight[0].ViewLightDir);
+            //
             //MaxLight.a = 1.0f;
+            //
             //NewOutPut.NorTarget = MaxLight;
+            //NewOutPut.PosTarget = _Input.VIEWPOSITION;
         }
     }
     
