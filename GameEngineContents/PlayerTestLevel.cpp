@@ -26,13 +26,15 @@ void PlayerTestLevel::Update(float _DeltaTime)
 
 void PlayerTestLevel::LevelChangeStart()
 {
+	CreateActor<GameEngineLight>();
+
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 
 	//GetMainCamera()->GetTransform()->SetLocalRotation({ 0.0f, 0.0f, 0 });
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
 
-	//CreateActor<MonsterAnimationTest>();
-	CreateActor<EnemyFirePlant>();
+	CreateActor<MonsterAnimationTest>();
+	//CreateActor<EnemyFirePlant>();
 }
 
 void PlayerTestLevel::LevelChangeEnd()

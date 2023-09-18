@@ -12,13 +12,13 @@ EnemyFirePlant::~EnemyFirePlant()
 
 void EnemyFirePlant::InitAniamtion()
 {
-	FlowerRender = CreateComponent<GameEngineFBXRenderer>();
-	FlowerRender->SetFBXMesh("_E_FIREPLANT_MESH.FBX", "MeshAniTexture");
+	EnemyRenderer = CreateComponent<GameEngineFBXRenderer>();
+	EnemyRenderer->SetFBXMesh("_E_FIREPLANT_MESH.FBX", "MeshAniTexture");
 
-	FlowerRender->CreateFBXAnimation("IDLE", "_E_FIREPLANT_IDLE.fbx", { 0.02f,true });
-	FlowerRender->CreateFBXAnimation("BITE", "_E_FIREPLANT_BITE.fbx", { 0.02f,false });
-	FlowerRender->CreateFBXAnimation("DIE", "_E_FIREPLANT_DIE.fbx", { 0.02f,false });
-	FlowerRender->ChangeAnimation("IDLE");
+	EnemyRenderer->CreateFBXAnimation("IDLE", "_E_FIREPLANT_IDLE.fbx", { 0.02f,true });
+	EnemyRenderer->CreateFBXAnimation("BITE", "_E_FIREPLANT_BITE.fbx", { 0.02f,false });
+	EnemyRenderer->CreateFBXAnimation("DIE", "_E_FIREPLANT_DIE.fbx", { 0.02f,false });
+	EnemyRenderer->ChangeAnimation("IDLE");
 }
 
 void EnemyFirePlant::Start()
@@ -28,7 +28,7 @@ void EnemyFirePlant::Start()
 	// physx
 	{
 		//  임시 값조정 필요
-		float4 scale = FlowerRender->GetMeshScale() * 0.0003f;
+		float4 scale = EnemyRenderer->GetMeshScale() * 0.0003f;
 		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
@@ -45,16 +45,6 @@ void EnemyFirePlant::Update(float _DeltaTime)
 }
 
 
-void EnemyFirePlant::AggroMove()
-{
-	float4 PlayerDir = GetPlayerDir();
-	float4 CalRot = float4::ZERO;
-	CalRot.x = 90.0f;
-	CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, PlayerDir);
-	m_pCapsuleComp->SetRotation(-CalRot);
-}
-
-
 void EnemyFirePlant::SetFSMFUNC()
 {
 	InitFSM(EnemyFireFlowerState::MAX);
@@ -66,7 +56,7 @@ void EnemyFirePlant::SetFSMFUNC()
 	SetFSM(EnemyFireFlowerState::IDLE,
 		[this]
 		{
-			FlowerRender->ChangeAnimation("IDLE");
+			EnemyRenderer->ChangeAnimation("IDLE");
 		},
 		[this](float Delta)
 		{
@@ -84,13 +74,13 @@ void EnemyFirePlant::SetFSMFUNC()
 	SetFSM(EnemyFireFlowerState::BITE,
 		[this]
 		{
-			FlowerRender->ChangeAnimation("BITE");
-			AggroMove();
+			EnemyRenderer->ChangeAnimation("BITE");
+			AggroDir(m_pCapsuleComp, FirePlantDefaultDir);
 			// fire 투사체 발사 
 		},
 		[this](float Delta)
 		{
-			if (true == FlowerRender->IsAnimationEnd())
+			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(EnemyFireFlowerState::IDLE);
 				return;
@@ -104,11 +94,11 @@ void EnemyFirePlant::SetFSMFUNC()
 	SetFSM(EnemyFireFlowerState::DIE,
 		[this]
 		{
-			FlowerRender->ChangeAnimation("DIE");
+			EnemyRenderer->ChangeAnimation("DIE");
 		},
 		[this](float Delta)
 		{
-			if (true == FlowerRender->IsAnimationEnd())
+			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				// Die
 				return;

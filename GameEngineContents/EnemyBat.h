@@ -36,7 +36,6 @@ private:
 		MAX
 	};
 
-	std::shared_ptr<class GameEngineFBXRenderer> BatRender = nullptr;
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 
 	void IdleMove(float _DeltaTime);
