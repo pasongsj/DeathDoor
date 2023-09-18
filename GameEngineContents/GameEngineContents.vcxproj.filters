@@ -138,6 +138,10 @@
     <ClCompile Include="PlayerTestLevel.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXManager.cpp" />
+    <ClCompile Include="PlayerInit.cpp">
+      <Filter>Contents\PlayerTestLevel</Filter>
+    </ClCompile>
     <ClCompile Include="Map_Emptyplain.cpp">
       <Filter>Contents\TestLevel\MapTestLevel\Actor</Filter>
     </ClCompile>
@@ -192,6 +196,9 @@
     <ClCompile Include="Transform_Wall.cpp">
       <Filter>Contents\Static_Object\Wall</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>Contents\Boss</Filter>
+    </ClCompile>
     <ClCompile Include="Railing.cpp">
       <Filter>Contents\Static_Object</Filter>
     </ClCompile>
@@ -225,6 +232,21 @@
     <ClCompile Include="PhysXTrigger.cpp">
       <Filter>Component\PhysX\Test</Filter>
     </ClCompile>
+    <ClCompile Include="Boss_OldCrowFSM.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrowAnimation.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrow.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="BossLevelTestObject.cpp">
+      <Filter>Contents\BossTestLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="BossTestLevel.cpp">
+      <Filter>Contents\BossTestLevel</Filter>
+    </ClCompile>
     <ClCompile Include="FortressLevel.cpp">
       <Filter>Contents\FortressLevel</Filter>
     </ClCompile>
@@ -233,6 +255,9 @@
     </ClCompile>
     <ClCompile Include="EnemyFirePlant.cpp">
       <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBase.cpp">
+      <Filter>Contents\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -431,6 +456,9 @@
     <ClInclude Include="Transform_Wall.h">
       <Filter>Contents\Static_Object\Wall</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>Contents\Boss</Filter>
+    </ClInclude>
     <ClInclude Include="Railing.h">
       <Filter>Contents\Static_Object</Filter>
     </ClInclude>
@@ -464,6 +492,15 @@
     <ClInclude Include="PhysXTrigger.h">
       <Filter>Component\PhysX\Test</Filter>
     </ClInclude>
+    <ClInclude Include="Boss_OldCrow.h">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClInclude>
+    <ClInclude Include="BossLevelTestObject.h">
+      <Filter>Contents\BossTestLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="BossTestLevel.h">
+      <Filter>Contents\BossTestLevel</Filter>
+    </ClInclude>
     <ClInclude Include="FortressLevel.h">
       <Filter>Contents\FortressLevel</Filter>
     </ClInclude>
@@ -472,6 +509,9 @@
     </ClInclude>
     <ClInclude Include="EnemyFirePlant.h">
       <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBase.h">
+      <Filter>Contents\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -553,6 +593,9 @@
     <Filter Include="Contents\PlayerTestLevel">
       <UniqueIdentifier>{f51af19b-c4ef-4a9b-a75e-fa1d33a8d783}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Boss">
+      <UniqueIdentifier>{a635cc47-31d0-4194-b57f-905191ef2785}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Contents\TestLevel\MapTestLevel\Actor">
       <UniqueIdentifier>{e61b235a-08ef-4d2c-8b42-a38245fea2ca}</UniqueIdentifier>
     </Filter>
@@ -564,6 +607,15 @@
     </Filter>
     <Filter Include="Contents\Static_Object\Wall">
       <UniqueIdentifier>{0dd36c88-e6ef-4b59-aa21-a028fbaaa996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\BossTestLevel">
+      <UniqueIdentifier>{5c11a7c5-e976-45af-b6d5-61102129526f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\BossTestLevel\Actor">
+      <UniqueIdentifier>{bad7ed96-cfac-451b-9af5-06faa3884ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Boss\OldCrow">
+      <UniqueIdentifier>{8663efb8-203a-4317-893f-0e2b22e1a943}</UniqueIdentifier>
     </Filter>
     <Filter Include="FSMObject">
       <UniqueIdentifier>{a609c6fe-2488-4096-9de1-f3200194dae1}</UniqueIdentifier>

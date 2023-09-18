@@ -112,6 +112,14 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		GameEngineCore::ChangeLevel("UITestLevel");
 	}
 
+	if (ImGui::Button("BossTestLevel") && Level->DynamicThis<UITestLevel>().get() != GetLevel())
+	{
+		m_CurLevelName = "BossTestLevel";
+		GameEngineCore::ChangeLevel("BossTestLevel");
+	}
+
+	ImGui::Text("CurCameraMode :");
+	ImGui::SameLine(); 
 	ImGui::Text("\nCurCameraMode :");
 	//ImGui::SameLine(); 
 	if (true == GetLevel()->GetMainCamera()->IsFreeCamera())
