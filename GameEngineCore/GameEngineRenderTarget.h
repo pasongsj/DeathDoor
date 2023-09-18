@@ -27,6 +27,8 @@ class GameEngineRenderTarget : public GameEngineResource<GameEngineRenderTarget>
 	friend class GameEngineCoreWindow;
 	friend class GameEngineCore;
 public:
+	static void AllTargetReset();
+
 	// constrcuter destructer
 	GameEngineRenderTarget();
 	~GameEngineRenderTarget();
@@ -66,7 +68,7 @@ public:
 
 	void Setting() override;
 
-	void Reset();
+	static void Reset();
 
 	std::shared_ptr<GameEngineTexture> GetDepthTexture()
 	{
@@ -119,10 +121,14 @@ public:
 	void AddNewTexture(DXGI_FORMAT _Format, float4 _Scale, float4 _Color)
 	{
 		ResCreate(_Format, _Scale, _Color);
-	}
+	}	
 
 	void ReleaseTexture()
 	{
+		if (nullptr!=DepthTexture)
+		{
+			DepthTexture->Release();
+		}
 		for (size_t i = 0; i < Textures.size(); i++)
 		{
 			if (nullptr != Textures[i])

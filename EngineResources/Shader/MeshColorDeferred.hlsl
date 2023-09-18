@@ -30,7 +30,7 @@ struct Output
 // 그걸 픽셀 쉐이더에서하면 그걸 퐁쉐이딩
 
 // 그래픽카드에서 이뤄지는것.
-Output MeshColor_VS(Input _Input)
+Output MeshColorDeferred_VS(Input _Input)
 {
     Output NewOutPut = (Output)0;
     
@@ -50,27 +50,25 @@ Output MeshColor_VS(Input _Input)
     return NewOutPut;
 }
 
-float4 MeshColor_PS(Output _Input) : SV_Target0
+struct DeferredOutPut
 {
-    float4 Color = BaseColor;
+    // float4 CamForwardTarget : SV_Target0;
+    float4 DifTarget : SV_Target1;
+    float4 PosTarget : SV_Target2;
+    float4 NorTarget : SV_Target3;
+};
+
+DeferredOutPut MeshColorDeferred_PS(Output _Input)
+{
+    DeferredOutPut NewOutPut = (DeferredOutPut) 0;
     
-    // 디퓨즈 라이트
+    // 디퓨즈컬러
+    NewOutPut.DifTarget = BaseColor;
+    NewOutPut.PosTarget = _Input.VIEWPOSITION;
+    _Input.NORMAL.a = 1.0f;
+    NewOutPut.NorTarget = _Input.NORMAL;
     
-    if (Color.a <= 0.0f)
-    {
-        clip(-1);
-    }
-    
-    float4 DiffuseRatio = CalDiffuseLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
-    float4 SpacularRatio = CalSpacularLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);;
-    float4 AmbientRatio = CalAmbientLight(AllLight[0]);
-    
-    
-    float A = Color.w;
-    float4 ResultColor = Color * (DiffuseRatio + SpacularRatio + AmbientRatio);
-    ResultColor.a = A;
-    // Color += AllLight[0].LightColor;
-    
-    return ResultColor;
+    return NewOutPut;
+
 }
 

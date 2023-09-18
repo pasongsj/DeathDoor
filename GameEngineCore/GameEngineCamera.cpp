@@ -63,6 +63,7 @@ void GameEngineCamera::Start()
 	CamForwardTarget	= GameEngineRenderTarget::CreateDummy();
 	CamDeferrdTarget	= GameEngineRenderTarget::CreateDummy();
 	CamAlphaTarget		= GameEngineRenderTarget::CreateDummy();
+
 }
 
 void GameEngineCamera::InitCameraRenderTarget()
@@ -104,7 +105,6 @@ void GameEngineCamera::InitCameraRenderTarget()
 	DefferdMergeUnit.ShaderResHelper.SetTexture("DifLight", DeferredLightTarget->GetTexture(0));
 	DefferdMergeUnit.ShaderResHelper.SetTexture("SpcLight", DeferredLightTarget->GetTexture(1));
 	DefferdMergeUnit.ShaderResHelper.SetTexture("AmbLight", DeferredLightTarget->GetTexture(2));
-
 }
 
 void GameEngineCamera::ReleaseCameraRenderTarget()
@@ -352,7 +352,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 		// 여기에서 이미 그림자를 그려야하는 애들은 다 그려져 있어야 합니다.
 		for (std::shared_ptr<GameEngineLight> Light : GetLevel()->AllLight)
 		{
-			Light->GetShadowTarget()->Clear();
 			Light->GetShadowTarget()->Setting();
 
 			for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& Path : Units)
@@ -392,6 +391,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 						Render->GetRenderer()->GetTransform()->SetCameraMatrix(Light->GetLightData().LightViewMatrix, Light->GetLightData().LightProjectionMatrix);
 						Render->Setting();
 						std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Find("Shadow");
+						Pipe->VertexShader();
 						Pipe->Rasterizer();
 						Pipe->PixelShader();
 						Pipe->OutputMerger();
@@ -400,10 +400,19 @@ void GameEngineCamera::Render(float _DeltaTime)
 				}
 			}
 		}
+
+		GameEngineRenderTarget::Reset();
+
 		// 오브젝트들은 그릴만한 애들은 다 그렸다고 판단하고
-		// 빛계산의 결과가 들어갈 애들이 여기에서 세팅되고
+		// 빛계산의 결과가 들어갈 애들이 여기에서 세팅됨
+		
 		DeferredLightTarget->Setting();
-		CalLightUnit.Render(_DeltaTime);
+		// 빛이 1개라면 잘 동작할 것이다.
+		for (std::shared_ptr<GameEngineLight> Light : GetLevel()->AllLight)
+		{
+			CalLightUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetTexture(0));
+			CalLightUnit.Render(_DeltaTime);
+		}
 
 		DeferredLightTarget->Effect(_DeltaTime);
 
