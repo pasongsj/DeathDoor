@@ -23,6 +23,7 @@ struct Output
     float4 NORMAL : NORMAL;
 };
 
+
 Output ContentAniMeshDeferred_VS(Input _Input)
 {
     Output NewOutPut = (Output) 0;
@@ -33,12 +34,12 @@ Output ContentAniMeshDeferred_VS(Input _Input)
     float4 InputNormal = _Input.NORMAL;
     InputNormal.w = 0.0f;
     
-    if (IsAnimation != 0)
-    {
-        Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
-        InputPos.w = 1.0f;
-        InputNormal.w = 0.0f;
-    }
+   if (IsAnimation != 0)
+   {
+       Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+       InputPos.w = 1.0f;
+       InputNormal.w = 0.0f;
+   }
     
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
@@ -60,6 +61,7 @@ struct DeferredOutPut
     float4 DifTarget : SV_Target1;
     float4 PosTarget : SV_Target2;
     float4 NorTarget : SV_Target3;
+    float4 aaaTarget : SV_Target6;
 };
 
 cbuffer MaskInfo : register(b0)
@@ -70,6 +72,7 @@ cbuffer MaskInfo : register(b0)
 
 DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
 {
+    
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
     
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
@@ -90,6 +93,7 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
             //Color.b = lerp(Color.b, MaskingColor.b, 0.9f);
             Color.rgb = Magenta;
         
+            NewOutPut.aaaTarget = Color;
             //float4 MaxLight = -normalize(AllLight[0].ViewLightDir);
             //MaxLight.a = 1.0f;
             //NewOutPut.NorTarget = MaxLight;
