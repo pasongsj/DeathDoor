@@ -28,7 +28,6 @@ cbuffer FadeData : register(b1)
     float4 FadeValue;
 }
 
-
 Texture2D DiffuseTex : register(t0);
 SamplerState WRAPSAMPLER : register(s0);
 
@@ -47,6 +46,7 @@ float4 Fade_PS(OutPut _Value) : SV_Target0
     {
         Color.xyz += Value*0.1f;
     }
+    
     //Color = saturate(Color);
     return Color;
 }
