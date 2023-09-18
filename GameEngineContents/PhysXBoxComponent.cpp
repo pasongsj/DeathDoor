@@ -182,8 +182,7 @@ void PhysXBoxComponent::Start()
 }
 
 void PhysXBoxComponent::Update(float _DeltaTime)
-{
-
+{	
 	if (true == IsStatic())
 	{
 		if (true == PositionSetFromParentFlag)
@@ -211,22 +210,7 @@ void PhysXBoxComponent::Update(float _DeltaTime)
 	}
 	else
 	{
-		if (false == PositionSetFromParentFlag)
-		{
-			// PhysX Actor의 상태에 맞춰서 부모의 Transform정보를 갱신
-			float4 tmpWorldPos =
-			{
-				m_pRigidDynamic->getGlobalPose().p.x
-				, m_pRigidDynamic->getGlobalPose().p.y
-				, m_pRigidDynamic->getGlobalPose().p.z
-			};
-
-			float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pRigidDynamic->getGlobalPose().q) * GameEngineMath::RadToDeg;
-
-			ParentActor.lock()->GetTransform()->SetWorldRotation(float4{ EulerRot.x, EulerRot.y, EulerRot.z });
-			ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
-		}
-		else
+		if (true == PositionSetFromParentFlag)
 		{
 			float4 tmpQuat = ParentActor.lock()->GetTransform()->GetWorldRotation().EulerDegToQuaternion();
 
@@ -235,13 +219,46 @@ void PhysXBoxComponent::Update(float _DeltaTime)
 				ParentActor.lock()->GetTransform()->GetWorldPosition().x,
 				ParentActor.lock()->GetTransform()->GetWorldPosition().y,
 				ParentActor.lock()->GetTransform()->GetWorldPosition().z,
-				physx::PxQuat(tmpQuat.x, tmpQuat.y, tmpQuat.z, tmpQuat.w)
+				physx::PxQuat
+				(
+					tmpQuat.x,
+					tmpQuat.y,
+					tmpQuat.z,
+					tmpQuat.w
+				)
 			);
 
 			// 부모의 Transform정보를 바탕으로 PhysX Actor의 트랜스폼을 갱신
-			m_pRigidDynamic->setKinematicTarget(tmpPxTransform);
-			//m_pRigidDynamic->setGlobalPose(tmpPxTransform);
+			m_pRigidDynamic->setGlobalPose(tmpPxTransform);
 			// TODO::회전도 처리해야함. DegreeToQuat
+			return;
 		}
+		// PhysX Actor의 상태에 맞춰서 부모의 Transform정보를 갱신
+		float4 tmpWorldPos = { m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z };
+		float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pRigidDynamic->getGlobalPose().q) * GameEngineMath::RadToDeg;
+
+		ParentActor.lock()->GetTransform()->SetWorldRotation(float4{ EulerRot.x, EulerRot.y, EulerRot.z });
+		ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
+
+		if (m_bSpeedLimit == true)
+		{
+			SpeedLimit();
+		}
+	}
+}
+
+void PhysXBoxComponent::SpeedLimit()
+{
+	physx::PxVec3 Velo = m_pRigidDynamic->getLinearVelocity();
+	physx::PxVec2 Velo2D(Velo.x, Velo.z);
+
+	if (Velo2D.magnitude() > PLAYER_MAX_SPEED)
+	{
+		Velo2D.normalize();
+		Velo2D *= PLAYER_MAX_SPEED;
+		Velo.x = Velo2D.x;
+		Velo.z = Velo2D.y;
+
+		m_pRigidDynamic->setLinearVelocity(Velo);
 	}
 }

@@ -274,6 +274,9 @@
     <ClCompile Include="Frog_Lever.cpp">
       <Filter>Contents\FortressLevel\Active_Object</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXContollerComponent.cpp">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -543,6 +546,9 @@
     </ClInclude>
     <ClInclude Include="Frog_Lever.h">
       <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXContollerComponent.h">
+      <Filter>Component\PhysX\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

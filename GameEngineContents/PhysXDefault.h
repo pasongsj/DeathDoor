@@ -161,6 +161,10 @@ public:
 
 	inline void SetPositionSetFromParentFlag(bool _Flag)
 	{
+		if (nullptr!= m_pRigidDynamic)
+		{
+			m_pRigidDynamic->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, _Flag);
+		}
 		PositionSetFromParentFlag = _Flag;
 	}
 

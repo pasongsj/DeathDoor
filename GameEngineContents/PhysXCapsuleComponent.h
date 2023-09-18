@@ -17,15 +17,11 @@ public:
 	PhysXCapsuleComponent& operator=(const PhysXCapsuleComponent& _Other) = delete;
 	PhysXCapsuleComponent& operator=(PhysXCapsuleComponent&& _Other) noexcept = delete;
 
-	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f }, bool _Static = false);
+	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f }, bool _Static = false, bool _Controller = false);
 
 	void SetMoveSpeed(float4 _MoveSpeed);
 	void SetRotation(float4 _Rot);
 	void SetMoveJump();
-	void SetMoveDive(float _Rot);
-
-	// RigidDynamic을 CCT에서 해제하는 함수
-	void SetDynamicIdle();
 
 	inline physx::PxVec3 GetLinearVelocity()
 	{
@@ -101,34 +97,21 @@ public:
 
 	//Reset 함수
 	void ResetDynamic();
-
-	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
-	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	//void Render() override {}
 
 private:
-	physx::PxControllerManager* m_pCtrManager = nullptr;
-
 	bool m_bSpeedLimit = false;
 
 	physx::PxVec3 GeoMetryScale;
 
 	//속도제한 함수
 	void SpeedLimit();
-
-	float StandUpTargetYAxisAngle = 0.0f;
-	float StandUpStartYAxisAngle = 0.0f;
-	float StandUpProgressYAxisAngle = 0.0f;
-
-	physx::PxVec3 InitVec3;
-	physx::PxVec3 TargetVec3;
 	physx::PxTransform RecentTransform;
-
-	// 메인플레이어 플래그
-	bool IsMain = false;
+	
+	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
+	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
 };
 

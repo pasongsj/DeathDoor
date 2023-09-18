@@ -54,7 +54,7 @@ void GameEngineCamera::Start()
 	ViewPortData.MaxDepth = 1.0f;
 
 	Width = ViewPortData.Width;
-	Height = ViewPortData.Height;	
+	Height = ViewPortData.Height;
 
 	//사용할 렌더타겟을 생성하는 것이 아닌 추후 사용할 렌더타겟을 생성하기 위한 더미 타겟
 	AllRenderTarget		= GameEngineRenderTarget::CreateDummy();
@@ -89,7 +89,7 @@ void GameEngineCamera::InitCameraRenderTarget()
 	CamForwardTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	CamDeferrdTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	CamAlphaTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	
+
 	CalLightUnit.SetMesh("FullRect");
 	CalLightUnit.SetMaterial("DeferredCalLight");
 

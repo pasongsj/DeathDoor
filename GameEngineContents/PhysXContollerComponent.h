@@ -1,29 +1,27 @@
 #pragma once
+
 #include <GameEngineCore/GameEngineComponent.h>
 #include "PhysXDefault.h"
 
 // 설명 :
-class PhysXSphereComponent : public GameEngineComponent, public PhysXDefault
+class PhysXContollerComponent : public GameEngineComponent, public PhysXDefault
 {
 public:
 	// constrcuter destructer
-	PhysXSphereComponent();
-	~PhysXSphereComponent();
+	PhysXContollerComponent();
+	~PhysXContollerComponent();
 
 	// delete Function
-	PhysXSphereComponent(const PhysXSphereComponent& _Other) = delete;
-	PhysXSphereComponent(PhysXSphereComponent&& _Other) noexcept = delete;
-	PhysXSphereComponent& operator=(const PhysXSphereComponent& _Other) = delete;
-	PhysXSphereComponent& operator=(PhysXSphereComponent&& _Other) noexcept = delete;
+	PhysXContollerComponent(const PhysXContollerComponent& _Other) = delete;
+	PhysXContollerComponent(PhysXContollerComponent&& _Other) noexcept = delete;
+	PhysXContollerComponent& operator=(const PhysXContollerComponent& _Other) = delete;
+	PhysXContollerComponent& operator=(PhysXContollerComponent&& _Other) noexcept = delete;
 
 	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f }, bool _Static = false);
 
-
 	void SetMoveSpeed(float4 _MoveSpeed);
-
-
-	// RigidDynamic을 CCT에서 해제하는 함수
-	void SetDynamicIdle();
+	void SetRotation(float4 _Rot);
+	void SetMoveJump();
 
 	inline physx::PxVec3 GetLinearVelocity()
 	{
@@ -39,7 +37,6 @@ public:
 	{
 		// 고정된 축을 해제
 		m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, false);
-		m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, false);
 		m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, false);
 
 		m_pRigidDynamic->addForce(physx::PxVec3(0.0f, 0.01f, 0.0f), physx::PxForceMode::eIMPULSE);
@@ -50,10 +47,10 @@ public:
 		return float4(m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z);
 	}
 
+	void SetPlayerStartPos(float4 _Pos);
 
 	void PushImpulse(float4 _ImpulsePower);
 	void PushImpulseAtLocalPos(float4 _ImpulsePower, float4 _Pos);
-
 
 	void TurnOffSpeedLimit()
 	{
@@ -92,7 +89,6 @@ public:
 	}
 
 
-
 	//플레이어 멈추는 함수
 	void FreezeDynamic();
 
@@ -101,17 +97,19 @@ public:
 
 	//Reset 함수
 	void ResetDynamic();
-
-
+	void SetControllerMoveDir(float4 _Data)
+	{
+		m_pControllerDir = _Data;
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	//void Render() override {}
 
 private:
-	// Phys액터 생성에 필요한 정보
-	physx::PxControllerManager* m_pCtrManager = nullptr;
-
+	physx::PxControllerFilters m_pControllerFilter;
+	physx::PxController*  m_pController = nullptr;
+	float4 m_pControllerDir = float4::ZERO;
 	bool m_bSpeedLimit = false;
 
 	physx::PxVec3 GeoMetryScale;
@@ -119,11 +117,12 @@ private:
 	//속도제한 함수
 	void SpeedLimit();
 
-	physx::PxVec3 InitVec3;
-	physx::PxTransform RecentTransform;	
+	physx::PxTransform RecentTransform;
+
+	// 메인플레이어 플래그
+	bool IsMain = false;	
 	
 	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
 	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
-
 };
 
