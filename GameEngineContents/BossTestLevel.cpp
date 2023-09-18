@@ -16,8 +16,8 @@ BossTestLevel::~BossTestLevel()
 }
 
 void BossTestLevel::Start()
-{
-
+{	
+	CreateActor<GameEngineLight>();
 }
 
 void BossTestLevel::Update(float _DeltaTime)

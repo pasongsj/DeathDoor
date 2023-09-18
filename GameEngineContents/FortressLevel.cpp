@@ -24,6 +24,9 @@ void FortressLevel::Update(float _DeltaTime)
 {
 	KeyUpdate(_DeltaTime);
 
+
+	float4 Pos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+
 	if (false == GetMainCamera()->IsFreeCamera())
 	{
 		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4{ 0, 1200, -1200 });
@@ -62,6 +65,7 @@ void FortressLevel::LevelChangeStart()
 	m_pMap = CreateActor<Map_Fortress>();
 
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
+	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_StartPos(Obj);
 }
 

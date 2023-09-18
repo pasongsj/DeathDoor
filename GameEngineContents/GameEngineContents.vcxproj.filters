@@ -152,16 +152,16 @@
       <Filter>Contents\OfficeLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="StreetLamp.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="TrashCan.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="Fountain.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="SemiCircleTable.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="StaticParticleManager.cpp">
       <Filter>Component\ContentsRenderer\Particle</Filter>
@@ -179,34 +179,34 @@
       <Filter>Contents\UITestLevel</Filter>
     </ClCompile>
     <ClCompile Include="StreetLamp_2.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="MiniOffice.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="FlowerPot.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="MiniDesk.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="Conveyor.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="Transform_Wall.cpp">
-      <Filter>Contents\Static_Object\Wall</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object\Wall</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBase.cpp">
       <Filter>Contents\Boss</Filter>
     </ClCompile>
     <ClCompile Include="Railing.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="Bench.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="MiniPost.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="PlayerInit.cpp">
       <Filter>FSMObject\Player</Filter>
@@ -264,6 +264,15 @@
     </ClCompile>
     <ClCompile Include="EnemyGrunt.cpp">
       <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SecretTile.cpp">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Crate.cpp">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Frog_Lever.cpp">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -415,16 +424,16 @@
       <Filter>Contents\OfficeLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="StreetLamp.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="TrashCan.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="Fountain.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="SemiCircleTable.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="ParticleStruct.h">
       <Filter>Component\ContentsRenderer\Particle</Filter>
@@ -445,34 +454,34 @@
       <Filter>Contents\UITestLevel</Filter>
     </ClInclude>
     <ClInclude Include="StreetLamp_2.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="MiniOffice.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="FlowerPot.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="MiniDesk.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="Conveyor.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="Transform_Wall.h">
-      <Filter>Contents\Static_Object\Wall</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object\Wall</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBase.h">
       <Filter>Contents\Boss</Filter>
     </ClInclude>
     <ClInclude Include="Railing.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="Bench.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="MiniPost.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>FSMObject\Player</Filter>
@@ -526,6 +535,15 @@
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="SecretTile.h">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Crate.h">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Frog_Lever.h">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -612,14 +630,8 @@
     <Filter Include="Contents\TestLevel\MapTestLevel\Actor">
       <UniqueIdentifier>{e61b235a-08ef-4d2c-8b42-a38245fea2ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Static_Object">
-      <UniqueIdentifier>{525c3b97-c219-4a66-ba48-36517941ff49}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\ContentsRenderer\Particle">
       <UniqueIdentifier>{47fef3f1-0d09-44ae-b450-d11cab6effcc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Static_Object\Wall">
-      <UniqueIdentifier>{0dd36c88-e6ef-4b59-aa21-a028fbaaa996}</UniqueIdentifier>
     </Filter>
     <Filter Include="Contents\BossTestLevel">
       <UniqueIdentifier>{5c11a7c5-e976-45af-b6d5-61102129526f}</UniqueIdentifier>
@@ -644,6 +656,15 @@
     </Filter>
     <Filter Include="Contents\FortressLevel\Actor">
       <UniqueIdentifier>{23756f21-8374-45c9-b3ab-2c88693dde53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel\Static_Object">
+      <UniqueIdentifier>{525c3b97-c219-4a66-ba48-36517941ff49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel\Static_Object\Wall">
+      <UniqueIdentifier>{0dd36c88-e6ef-4b59-aa21-a028fbaaa996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\FortressLevel\Active_Object">
+      <UniqueIdentifier>{7135283d-a1cc-4778-9c28-fd7e7f68f16e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
