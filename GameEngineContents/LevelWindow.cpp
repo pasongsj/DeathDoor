@@ -99,7 +99,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		GameEngineCore::ChangeLevel("OfficeLevel");
 	}
 
-	if (ImGui::Button("FortressLevel") && Level->DynamicThis<OfficeLevel>().get() != GetLevel())
+	if (ImGui::Button("FortressLevel") && Level->DynamicThis<FortressLevel>().get() != GetLevel())
 	{
 		m_CurLevelName = "FortressLevel";
 		GameEngineCore::ChangeLevel("FortressLevel");
