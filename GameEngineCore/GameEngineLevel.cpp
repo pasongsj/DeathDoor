@@ -31,8 +31,10 @@ void GameEngineLevel::LevelCameraInit()
 	std::shared_ptr<GameEngineCamera> UICamera = CreateNewCamera(100);
 	UICamera->SetProjectionType(CameraType::Orthogonal);
 
-
-	LastTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	if (nullptr==LastTarget)
+	{
+		LastTarget = GameEngineRenderTarget::CreateDummy();
+	}
 }
 
 GameEngineLevel::~GameEngineLevel()
@@ -243,7 +245,7 @@ void GameEngineLevel::ActorRelease()
 						if (*LightStart == ReleaseLight)
 						{
 							ReleaseLight->ReleaseShadowRenderTarget();
-							AllLight.erase(LightStart);
+							LightStart = AllLight.erase(LightStart);
 							break;
 						}
 						++LightStart;
@@ -471,10 +473,7 @@ void GameEngineLevel::InitCameraRenderTarget()
 		BeginCamIter->second->InitCameraRenderTarget();
 	}
 
-	for (std::shared_ptr<GameEngineLight> Light : AllLight)
-	{
-		Light->InitShadowRenderTarget();
-	}
+	LastTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 }
 
 void GameEngineLevel::ReleaseCameraRenderTarget()
@@ -484,11 +483,7 @@ void GameEngineLevel::ReleaseCameraRenderTarget()
 	{
 		BeginCamIter->second->ReleaseCameraRenderTarget();
 	}
-
-	for (std::shared_ptr<GameEngineLight> Light : AllLight)
-	{
-		Light->ReleaseShadowRenderTarget();
-	}
+	LastTarget->ReleaseTexture();
 }
 
 void GameEngineLevel::AllActorDestroy()
@@ -515,7 +510,6 @@ void GameEngineLevel::AllActorDestroy()
 
 		ActorRelease();
 	}
-
 	LevelCameraInit();
 }
 
@@ -524,6 +518,7 @@ void GameEngineLevel::DestroyCamera()
 	for (std::pair<int, std::shared_ptr<GameEngineCamera>> _Cam : Cameras)
 	{
 		_Cam.second->Renderers.clear();
+		_Cam.second->ReleaseCameraRenderTarget();
 	}
 	Cameras.clear();
 }
@@ -537,7 +532,6 @@ void GameEngineLevel::PushLight(std::shared_ptr<GameEngineLight> _Light)
 
 	//_Light->LightDataPtr = &LightInst;
 	//++LightDataObject.LightCount;
-
 	AllLight.push_back(_Light);
 }
 //void GameEngineLevel::SendActorPacket(float _DeltaTime)

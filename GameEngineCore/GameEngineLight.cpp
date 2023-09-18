@@ -26,11 +26,10 @@ void GameEngineLight::Update(float _DeltaTime)
 
 void GameEngineLight::Start()
 {
-	GetLevel()->PushLight(DynamicThis<GameEngineLight>());
-
 	// 크기가 곧 그림자가 맺히는 범위와 디테일을 의미하게 된다.
 	ShadowTarget = GameEngineRenderTarget::CreateDummy();
 	InitShadowRenderTarget();
+	GetLevel()->PushLight(DynamicThis<GameEngineLight>());
 }
 
 void GameEngineLight::LightUpdate(GameEngineCamera* _Camera, float _DeltaTime) 
@@ -73,4 +72,5 @@ void GameEngineLight::InitShadowRenderTarget()
 void GameEngineLight::ReleaseShadowRenderTarget()
 {
 	ShadowTarget->ReleaseTexture();
+	ShadowTarget = nullptr;
 }
