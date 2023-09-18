@@ -2,6 +2,8 @@
 #include "EnemyBat.h"
 #include "PhysXCapsuleComponent.h"
 
+#define IDLEMOVEROT float4{0,10.0f,0}
+#define BAT_MOVE_SPEED 200.0f
 
 
 EnemyBat::EnemyBat()
@@ -48,8 +50,6 @@ void EnemyBat::Update(float _DeltaTime)
 	FSMObjectBase::Update(_DeltaTime);
 }
 
-#define IDLEMOVEROT float4{0,10.0f,0}
-#define BAT_MOVE_SPEED 200.0f
 
 void EnemyBat::IdleMove(float _DeltaTime)
 {
@@ -144,18 +144,6 @@ void EnemyBat::SetFSMFUNC()
 		}
 	);
 
-	SetFSM(EnemyBatState::IDLE_FLOOR,
-		[this]
-		{
-			BatRender->ChangeAnimation("IDLE_FLOOR");
-		},
-		[this](float Delta)
-		{
-		},
-		[this]
-		{
-		}
-	);
 
 	SetFSM(EnemyBatState::SHOCK,
 		[this]
