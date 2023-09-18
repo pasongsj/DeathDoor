@@ -1,8 +1,8 @@
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
+#include "PhysXLevel.h"
 
 // 설명 : 보스 테스트용 레벨
-class BossTestLevel : public GameEngineLevel
+class BossTestLevel : public PhysXLevel
 {
 public:
 	// constrcuter destructer

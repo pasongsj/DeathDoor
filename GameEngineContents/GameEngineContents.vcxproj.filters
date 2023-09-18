@@ -139,12 +139,6 @@
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="PhysXManager.cpp" />
-    <ClCompile Include="BossTestLevel.cpp">
-      <Filter>Contents\BossTestLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="BossLevelTestObject.cpp">
-      <Filter>Contents\BossTestLevel\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerInit.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
@@ -205,15 +199,6 @@
     <ClCompile Include="EnemyBase.cpp">
       <Filter>Contents\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Boss_OldCrow.cpp">
-      <Filter>Contents\Boss\OldCrow</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss_OldCrowFSM.cpp">
-      <Filter>Contents\Boss\OldCrow</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss_OldCrowAnimation.cpp">
-      <Filter>Contents\Boss\OldCrow</Filter>
-    </ClCompile>
     <ClCompile Include="Railing.cpp">
       <Filter>Contents\Static_Object</Filter>
     </ClCompile>
@@ -247,6 +232,21 @@
     <ClCompile Include="PhysXTrigger.cpp">
       <Filter>Component\PhysX\Test</Filter>
     </ClCompile>
+    <ClCompile Include="Boss_OldCrowFSM.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrowAnimation.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrow.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="BossLevelTestObject.cpp">
+      <Filter>Contents\BossTestLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="BossTestLevel.cpp">
+      <Filter>Contents\BossTestLevel</Filter>
+    </ClCompile>
     <ClCompile Include="FortressLevel.cpp">
       <Filter>Contents\FortressLevel</Filter>
     </ClCompile>
@@ -255,6 +255,9 @@
     </ClCompile>
     <ClCompile Include="EnemyFirePlant.cpp">
       <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBase.cpp">
+      <Filter>Contents\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -456,15 +459,6 @@
     <ClInclude Include="EnemyBase.h">
       <Filter>Contents\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="BossLevelTestObject.h">
-      <Filter>Contents\BossTestLevel\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="BossTestLevel.h">
-      <Filter>Contents\BossTestLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="Boss_OldCrow.h">
-      <Filter>Contents\Boss\OldCrow</Filter>
-    </ClInclude>
     <ClInclude Include="Railing.h">
       <Filter>Contents\Static_Object</Filter>
     </ClInclude>
@@ -498,6 +492,15 @@
     <ClInclude Include="PhysXTrigger.h">
       <Filter>Component\PhysX\Test</Filter>
     </ClInclude>
+    <ClInclude Include="Boss_OldCrow.h">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClInclude>
+    <ClInclude Include="BossLevelTestObject.h">
+      <Filter>Contents\BossTestLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="BossTestLevel.h">
+      <Filter>Contents\BossTestLevel</Filter>
+    </ClInclude>
     <ClInclude Include="FortressLevel.h">
       <Filter>Contents\FortressLevel</Filter>
     </ClInclude>
@@ -506,6 +509,9 @@
     </ClInclude>
     <ClInclude Include="EnemyFirePlant.h">
       <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBase.h">
+      <Filter>Contents\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

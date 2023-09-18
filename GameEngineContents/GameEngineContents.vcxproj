@@ -167,18 +167,13 @@
   <ItemGroup>
     <ClCompile Include="Bench.cpp" />
     <ClCompile Include="BlackScreen.cpp" />
-    <ClCompile Include="BossLevelTestObject.cpp">
+    <ClCompile Include="BossBase.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BossTestLevel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Boss_OldCrow.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="BossLevelTestObject.cpp" />
+    <ClCompile Include="BossTestLevel.cpp" />
+    <ClCompile Include="Boss_OldCrow.cpp" />
     <ClCompile Include="Boss_OldCrowAnimation.cpp" />
     <ClCompile Include="Boss_OldCrowFSM.cpp" />
     <ClCompile Include="ContentFBXRenderer.cpp">
@@ -202,10 +197,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Conveyor.cpp" />
-    <ClCompile Include="EnemyBase.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="EnemyBase.cpp">
       <SubType>
       </SubType>
@@ -375,18 +366,13 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BlackScreen.h" />
-    <ClInclude Include="BossLevelTestObject.h">
+    <ClInclude Include="BossBase.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="BossTestLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Boss_OldCrow.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="BossLevelTestObject.h" />
+    <ClInclude Include="BossTestLevel.h" />
+    <ClInclude Include="Boss_OldCrow.h" />
     <ClInclude Include="ContentFBXUIRenderer.h">
       <SubType>
       </SubType>
@@ -408,10 +394,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Conveyor.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="EnemyBase.h">
       <SubType>
       </SubType>
     </ClInclude>

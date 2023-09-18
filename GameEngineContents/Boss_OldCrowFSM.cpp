@@ -2,52 +2,20 @@
 
 #include "Boss_OldCrow.h"
 
-void Boss_OldCrow::StateMachineInit()
+void Boss_OldCrow::SetFSMFUNC()
 {
-	//Idle
-	{
-		BossStateParameter IdleState;
+	SetFSM(Boss_OldCrowState::IDLE,
+		[this]
+		{
+			BossRender->ChangeAnimation("DASH");
+		},
+		[this](float Delta)
+		{
 
-		IdleState.Start = [this]()
-			{
-				EnemyRenderer->ChangeAnimation("Dash");
-			};
+		},
+		[this]
+		{
+		}
+	);
 
-		IdleState.Update = [this](float _DeltaTIme)
-			{
-				if (EnemyRenderer->IsAnimationEnd())
-				{
-					int a = 0;
-				}
-			};
-
-		IdleState.End = [this]()
-			{
-				int a = 0;
-			};
-
-		StateMap[Boss_OldCrowState::IDLE] = IdleState;
-	}
-
-	ChangeState(StateMap[Boss_OldCrowState::IDLE]);
 }
-
-////Idle
-//{
-//	BossStateParameter IdleParameter;
-//
-//	IdleParameter.Start = [this]()
-//		{
-//
-//		};
-//
-//	IdleParameter.Update = [this](float _DeltaTIme)
-//		{
-//
-//		};
-//
-//	IdleParameter.End = [this]()
-//		{
-//
-//		};
-//}

@@ -1,7 +1,7 @@
 #include "PreCompileHeader.h"
 
-#include "BossLevelTestObject.h";
-#include "Boss_OldCrow.h";
+#include "BossLevelTestObject.h"
+#include "Boss_OldCrow.h"
 
 #include "BossTestLevel.h"
 
@@ -27,6 +27,8 @@ void BossTestLevel::Update(float _DeltaTime)
 
 void BossTestLevel::LevelChangeStart()
 {
+	CreateScene();
+
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 
 	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0 });
