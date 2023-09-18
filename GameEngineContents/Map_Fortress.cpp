@@ -8,6 +8,9 @@
 #include "PhysXBoxComponent.h"
 #include "PhysXCapsuleComponent.h"
 
+#include "SecretTile.h"
+#include "Crate.h"
+
 Map_Fortress::Map_Fortress()
 {
 }
@@ -48,11 +51,11 @@ void Map_Fortress::Update(float _DeltaTime)
 void Map_Fortress::InitComponent()
 {
 	// ¸Ê ·»´õ·¯ 
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("Fortress_FullMap.fbx", "MeshTexture");
-	// m_pRenderer->GetTransform()->SetLocalScale(float4{ -1, 1, 1 });
-	m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer->GetTransform()->SetLocalPosition(m_MapPos);
+	//m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
+	//m_pRenderer->SetFBXMesh("Fortress_FullMap.fbx", "MeshTexture");
+	//// m_pRenderer->GetTransform()->SetLocalScale(float4{ -1, 1, 1 });
+	//m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
+	//m_pRenderer->GetTransform()->SetLocalPosition(m_MapPos);
 	// m_pRenderer->Off();
 	// float4 Scale = m_pRenderer->GetTransform()->GetLocalScale();
 
@@ -62,7 +65,7 @@ void Map_Fortress::InitComponent()
 	m_pNaviRenderer->SetFBXMesh("Fortrss_FullMap_Navi.fbx", "MeshTexture");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
-	m_pNaviRenderer->Off();
+	//m_pNaviRenderer->Off();
 
 	
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
@@ -83,6 +86,9 @@ void Map_Fortress::Create_StaticObject()
 
 void Map_Fortress::Create_ActiveObject()
 {
+	//test 
+	std::shared_ptr<SecretTile> Tile = GetLevel()->CreateActor<SecretTile>();
+	std::shared_ptr<Crate> Obj = GetLevel()->CreateActor<Crate>();
 }
 
 void Map_Fortress::Create_TransformWall(std::shared_ptr<class GameEngineLevel> _CurLevel)

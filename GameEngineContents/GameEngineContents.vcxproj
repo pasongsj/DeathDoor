@@ -197,6 +197,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Conveyor.cpp" />
+    <ClCompile Include="Crate.cpp" />
     <ClCompile Include="EnemyBase.cpp">
       <SubType>
       </SubType>
@@ -221,6 +222,7 @@
     <ClCompile Include="FortressLevel.cpp" />
     <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="DynamicParticleManager.cpp" />
+    <ClCompile Include="Frog_Lever.cpp" />
     <ClCompile Include="FSMObjectBase.cpp">
       <SubType>
       </SubType>
@@ -316,6 +318,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Railing.cpp" />
+    <ClCompile Include="SecretTile.cpp" />
     <ClCompile Include="SemiCircleTable.cpp" />
     <ClCompile Include="ServerPacket.cpp" />
     <ClCompile Include="ServerTestLevel.cpp">
@@ -405,6 +408,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Crate.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EnemyBase.h">
       <SubType>
       </SubType>
@@ -439,6 +446,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DynamicParticleManager.h" />
+    <ClInclude Include="Frog_Lever.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="FSMObjectBase.h">
       <SubType>
       </SubType>
@@ -556,6 +567,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Railing.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SecretTile.h">
       <SubType>
       </SubType>
     </ClInclude>
