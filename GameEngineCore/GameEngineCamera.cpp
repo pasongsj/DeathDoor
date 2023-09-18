@@ -345,32 +345,51 @@ void GameEngineCamera::Render(float _DeltaTime)
 					std::shared_ptr<GameEngineFBXRenderer> FbxRenderer = Render->GetRenderer()->DynamicThis<GameEngineFBXRenderer>();
 					if (FbxRenderer !=nullptr /*&&false == IsView(FbxRenderer->GetTransform()->GetWorldPosition(), FbxRenderer->GetMeshScale())*/)
 					{
-						for (size_t i = 0; i < FbxRenderer->GetAllRenderUnit().size(); i++)
+						//GameEngineTransform TForm;
+						//TForm.SetLocalPosition(Render->GetUnitPos());
+						//TForm.SetLocalScale(Render->GetUnitScale());
+						//TForm.SetParent(FbxRenderer->GetTransform());
+						//FbxRenderer->GetTransform()->CalChild();
+						float4x4 RenderUnitMat;
+						RenderUnitMat.Identity();
+						RenderUnitMat.Transformation(Render->GetUnitScale(),float4::ZERO, Render->GetUnitPos());
+						RenderUnitMat *= FbxRenderer->GetTransform()->GetWorldMatrixRef();
+						float4 Pos = float4(RenderUnitMat._30, RenderUnitMat._31, RenderUnitMat._32, RenderUnitMat._33);
+						//Pos*=GetView();
+						//Pos *= GetProjection();
+						//Pos.w = 1.0f;
+						//Pos *= GetViewPort();
+						if (false == IsView(Pos, Render->GetUnitScale()))
 						{
-							for (size_t j = 0; j < FbxRenderer->GetAllRenderUnit()[i].size(); j++)
-							{
-								if (FbxRenderer->GetAllRenderUnit()[i][j] == Render)
-								{
-									float4 Scale = FbxRenderer->GetFBXMesh()->GetRenderUnit(i)->BoundScaleBox;
-									float4 Min = FbxRenderer->GetFBXMesh()->GetRenderUnit(i)->MinBoundBox;
-									float4 Max = FbxRenderer->GetFBXMesh()->GetRenderUnit(i)->MaxBoundBox;
-									float4 Pos = (Max + Min) / 2.f;
-									//Pos*=GetView();
-									//Pos *= GetProjection();
-									//Pos.w = 1.0f;
-									//Pos *= GetViewPort();
-									Pos *= FbxRenderer->GetTransform()->GetWorldViewProjectionMatrix();
-									if (true == IsView(Pos, Scale))
-									{
-										Render->Render(_DeltaTime);
-										break;
-									}
-								}
-								
-							}
-							break;
+							continue;
 						}
-						continue;
+						
+						//for (size_t i = 0; i < FbxRenderer->GetAllRenderUnit().size(); i++)
+						//{
+						//	for (size_t j = 0; j < FbxRenderer->GetAllRenderUnit()[i].size(); j++)
+						//	{
+						//		if (FbxRenderer->GetAllRenderUnit()[i][j] == Render)
+						//		{
+						//			float4 Scale = FbxRenderer->GetFBXMesh()->GetRenderUnit(i)->BoundScaleBox;
+						//			float4 Min = FbxRenderer->GetFBXMesh()->GetRenderUnit(i)->MinBoundBox;
+						//			float4 Max = FbxRenderer->GetFBXMesh()->GetRenderUnit(i)->MaxBoundBox;
+						//			float4 Pos = (Max + Min) / 2.f;
+						//			//Pos*=GetView();
+						//			//Pos *= GetProjection();
+						//			//Pos.w = 1.0f;
+						//			//Pos *= GetViewPort();
+						//			Pos *= FbxRenderer->GetTransform()->GetWorldViewProjectionMatrix();
+						//			if (true == IsView(Pos, Scale))
+						//			{
+						//				Render->Render(_DeltaTime);
+						//				break;
+						//			}
+						//		}
+						//		
+						//	}
+						//	break;
+						//}
+						//continue;
 					}
 
 					Render->Render(_DeltaTime);
@@ -595,7 +614,7 @@ bool GameEngineCamera::IsView(const float4& _Pos, const float4& _Scale)
 
 	if (true == IsFreeCamera())
 	{
-		return true;
+		//return true;
 	}
 
 	// Width, Height, Near, Far;

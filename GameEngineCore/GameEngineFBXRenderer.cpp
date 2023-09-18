@@ -159,6 +159,7 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 	// 너 몇개 가지고 있어.
 	for (size_t UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
 	{
+		int a = FindFBXMesh->GetRenderUnitCount();
 		SetFBXMesh(_Name, _Material, UnitCount);
 	}
 }
@@ -214,6 +215,8 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 			for (size_t j = 0; j < Count; j++)
 			{
 				Unit[i][j] = CreateRenderUnit();
+				Unit[i][j]->SetUnitPos(FBXMesh->GetRenderUnit(i)->MeshPos);
+				Unit[i][j]->SetUnitScale(FBXMesh->GetRenderUnit(i)->BoundScaleBox);
 			}
 		}
 	}

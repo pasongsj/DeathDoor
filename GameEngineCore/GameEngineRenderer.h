@@ -2,6 +2,7 @@
 #include "GameEngineComponent.h"
 #include "GameEngineShader.h"
 #include "EngineContentRenderingStruct.h"
+#include "GameEngineFBXMesh.h"
 
 enum class RenderPath
 {
@@ -36,6 +37,15 @@ public:
 	{
 		return ParentRenderer;
 	}
+	std::shared_ptr<class GameEngineFBXMesh> GetFbxMesh()
+	{
+		std::shared_ptr<GameEngineFBXMesh> FbxMesh = std::dynamic_pointer_cast<GameEngineFBXMesh>(Mesh);
+		if (nullptr != FbxMesh)
+		{
+			return FbxMesh;
+		}
+		return nullptr;
+	}
 
 	void Setting();
 
@@ -45,8 +55,26 @@ public:
 
 	ColorOption Color = { { 1, 1, 1, 1 }, { 0, 0, 0, 0 } };
 	
+	void SetUnitPos(float4 _Pos)
+	{
+		UnitPos = _Pos;
+	}
+	void SetUnitScale(float4 _Scale)
+	{
+		UnitScale = _Scale;
+	}
+	float4 GetUnitPos()
+	{
+		return UnitPos;
+	}
+	float4 GetUnitScale()
+	{
+		return UnitScale;
+	}
 
 private:
+	float4 UnitScale = float4::ZERO;
+	float4 UnitPos = float4::ZERO;
 	class GameEngineRenderer* ParentRenderer = nullptr;
 	std::shared_ptr<class GameEngineInputLayOut> InputLayOutPtr;
 	std::shared_ptr<class GameEngineMesh> Mesh;
