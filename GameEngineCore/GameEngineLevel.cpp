@@ -279,6 +279,10 @@ void GameEngineLevel::Render(float _DeltaTime)
 		}
 	}
 
+	for (std::shared_ptr<GameEngineLight> Light : AllLight)
+	{
+		Light->GetShadowTarget()->Clear();
+	}
 
 	for (std::pair<int, std::shared_ptr<GameEngineCamera>> Pair : Cameras)
 	{

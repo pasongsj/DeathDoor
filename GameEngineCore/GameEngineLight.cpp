@@ -10,7 +10,7 @@ GameEngineLight::GameEngineLight()
 	LightDataValue.ShadowTargetSizeX = 4096;
 	LightDataValue.ShadowTargetSizeY = 4096;
 	LightDataValue.LightNear = 0.1f;
-	LightDataValue.LightFar = 1000.1f;
+	LightDataValue.LightFar = 1000.f;
 }
 
 GameEngineLight::~GameEngineLight() 
@@ -31,12 +31,15 @@ void GameEngineLight::Start()
 	// 크기가 곧 그림자가 맺히는 범위와 디테일을 의미하게 된다.
 	ShadowTarget = GameEngineRenderTarget::Create(DXGI_FORMAT_R32_FLOAT, { LightDataValue.ShadowTargetSizeX, LightDataValue.ShadowTargetSizeY }, float4::RED);
 	ShadowTarget->CreateDepthTexture();
+	ShadowTarget->SetName("Shadow");
 
 }
 
 void GameEngineLight::LightUpdate(GameEngineCamera* _Camera, float _DeltaTime) 
 {
 	// GetTransform()->SetCameraMatrix(_Camera->GetView(), _Camera->GetProjection());
+
+	LightDataValue.CameraViewInverseMatrix = _Camera->GetView().InverseReturn();
 
 	LightDataValue.LightPos = GetTransform()->GetWorldPosition();
 	LightDataValue.LightDir = GetTransform()->GetLocalForwardVector();

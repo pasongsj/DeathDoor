@@ -27,6 +27,8 @@ class GameEngineRenderTarget : public GameEngineResource<GameEngineRenderTarget>
 	friend class GameEngineCoreWindow;
 	friend class GameEngineCore;
 public:
+	static void AllTargetReset();
+
 	// constrcuter destructer
 	GameEngineRenderTarget();
 	~GameEngineRenderTarget();
@@ -66,7 +68,7 @@ public:
 
 	void Setting() override;
 
-	void Reset();
+	static void Reset();
 
 	std::shared_ptr<GameEngineTexture> GetDepthTexture()
 	{
