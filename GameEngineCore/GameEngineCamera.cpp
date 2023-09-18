@@ -355,7 +355,12 @@ void GameEngineCamera::Render(float _DeltaTime)
 									float4 Min = FbxRenderer->GetFBXMesh()->GetRenderUnit(i)->MinBoundBox;
 									float4 Max = FbxRenderer->GetFBXMesh()->GetRenderUnit(i)->MaxBoundBox;
 									float4 Pos = (Max + Min) / 2.f;
-									if (true == IsView(FbxRenderer->GetTransform()->GetWorldPosition()+ Pos, FbxRenderer->GetTransform()->GetLocalScale()*Scale))
+									//Pos*=GetView();
+									//Pos *= GetProjection();
+									//Pos.w = 1.0f;
+									//Pos *= GetViewPort();
+									Pos *= FbxRenderer->GetTransform()->GetWorldViewProjectionMatrix();
+									if (true == IsView(Pos, Scale))
 									{
 										Render->Render(_DeltaTime);
 										break;
@@ -476,10 +481,10 @@ void GameEngineCamera::CameraTransformUpdate()
 		Frustum.Origin = (WorldPos).DirectFloat3;
 		Frustum.Near = Near;
 		Frustum.Far = Far;
-		Frustum.LeftSlope = -(FOV * GameEngineMath::DegToRad) * 1.1f;
-		Frustum.RightSlope = (FOV * GameEngineMath::DegToRad) * 1.1f;
-		Frustum.TopSlope = (FOV / (Width / Height) * GameEngineMath::DegToRad) * 1.1f;
-		Frustum.BottomSlope = -(FOV / (Width / Height) * GameEngineMath::DegToRad) * 1.1f;
+		Frustum.LeftSlope = -(FOV * GameEngineMath::DegToRad) * 0.7f;
+		Frustum.RightSlope = (FOV * GameEngineMath::DegToRad) * 0.7f;
+		Frustum.TopSlope = (FOV / (Width / Height) * GameEngineMath::DegToRad) * 0.7f;
+		Frustum.BottomSlope = -(FOV / (Width / Height) * GameEngineMath::DegToRad) * 0.7f;
 
 		Frustum.Orientation = GetTransform()->GetWorldQuaternion().DirectFloat4;
 		break;
