@@ -237,6 +237,9 @@
     <ClCompile Include="EnemyMage.cpp">
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyGrunt.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -479,6 +482,10 @@
     <ClInclude Include="EnemyMage.h">
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyGrunt.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">

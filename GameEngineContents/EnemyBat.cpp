@@ -1,9 +1,7 @@
 #include "PreCompileHeader.h"
 #include "EnemyBat.h"
-#include "PhysXCapsuleComponent.h"
 
-#define IDLEMOVEROT float4{0,10.0f,0}
-#define BAT_MOVE_SPEED 200.0f
+
 
 
 EnemyBat::EnemyBat()

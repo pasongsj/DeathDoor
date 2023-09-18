@@ -1,7 +1,6 @@
 #include "PreCompileHeader.h"
 #include "EnemyFirePlant.h"
 #include "PhysXCapsuleComponent.h"
-#define FirePlantDefaultDir float4(90.0f,0.0f,0.0f)
 
 EnemyFirePlant::EnemyFirePlant()
 {

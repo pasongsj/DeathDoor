@@ -1,6 +1,6 @@
 #include "PreCompileHeader.h"
 #include "EnemyMage.h"
-#include "PhysXCapsuleComponent.h"
+
 
 EnemyMage::EnemyMage() 
 {

@@ -1,6 +1,7 @@
 #pragma once
 #include "FSMObjectBase.h"
 #include "EnemyDefinition.h"
+#include "PhysXCapsuleComponent.h"
 
 // Ό³Έν :
 class EnemyBase : public FSMObjectBase
