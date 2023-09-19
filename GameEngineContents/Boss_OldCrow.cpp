@@ -16,16 +16,20 @@ Boss_OldCrow::~Boss_OldCrow()
 void Boss_OldCrow::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * 20.0f);
+
+	std::shared_ptr<GameEngineComponent> Pivot = CreateComponent<GameEngineComponent>();
+	BossRender->GetTransform()->SetParent(Pivot->GetTransform());
+
+	Pivot->GetTransform()->AddLocalRotation({90, 0, 0});
 
 	// physx
 	{
-		//float4 scale = BossRender->GetMeshScale() * BossRender->GetTransform()->GetWorldScale() / BossRender->GetTransform()->GetLocalScale();
-		//// scale *= 2.0f;
-		//physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
-		//m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
-		//m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		//m_pCapsuleComp->CreatePhysXActors(vscale);
+		float4 scale = BossRender->GetMeshScale() * BossRender->GetTransform()->GetWorldScale() / BossRender->GetTransform()->GetLocalScale();
+		// scale *= 2.0f;
+		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
+		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
+		m_pCapsuleComp->CreatePhysXActors(vscale);
 	}
 
 	SetFSMFUNC();
