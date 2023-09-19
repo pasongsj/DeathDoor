@@ -313,7 +313,7 @@ void Map_Office::Create_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
 		float4 Ratio = float4{ 5.1f, 1.0f, 0.5f };
 		Obj->Set_MeshRatio(Ratio);
-		const float4 Pos = float4{ 150, -490, -4920 };
+		const float4 Pos = float4{ 220, -490, -4920 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
