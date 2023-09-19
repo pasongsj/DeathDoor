@@ -53,16 +53,7 @@ void PhysXSphereComponent::Start()
 
 void PhysXSphereComponent::Update(float _DeltaTime)
 {
-	if (m_pController != nullptr)
-	{
-		if (m_pControllerDir != float4::ZERO)
-		{
-			int a = 0;
-		}
-		m_pController->move(m_pControllerDir.PhysXVec3Return(), 1, _DeltaTime, m_pControllerFilter);
-		//m_pControllerDir = float4::ZERO;
-		return;
-	}
+	
 	if (true == IsStatic())
 	{
 		if (true == PositionSetFromParentFlag)

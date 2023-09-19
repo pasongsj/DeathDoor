@@ -244,7 +244,7 @@
     </ClCompile>
     <ClCompile Include="PhysXBoxComponent.cpp" />
     <ClCompile Include="PhysXCapsuleComponent.cpp" />
-    <ClCompile Include="PhysXContollerComponent.cpp" />
+    <ClCompile Include="PhysXControllerComponent.cpp" />
     <ClCompile Include="PhysXConvexComponent.cpp" />
     <ClCompile Include="PhysXCustom.cpp" />
     <ClCompile Include="PhysXDefault.cpp" />
@@ -458,7 +458,7 @@
     </ClInclude>
     <ClInclude Include="PhysXBoxComponent.h" />
     <ClInclude Include="PhysXCapsuleComponent.h" />
-    <ClInclude Include="PhysXContollerComponent.h" />
+    <ClInclude Include="PhysXControllerComponent.h" />
     <ClInclude Include="PhysXConvexComponent.h" />
     <ClInclude Include="PhysXCustom.h" />
     <ClInclude Include="PhysXDefault.h" />

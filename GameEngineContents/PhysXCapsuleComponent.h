@@ -47,8 +47,6 @@ public:
 		return float4(m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z);
 	}
 
-	void SetPlayerStartPos(float4 _Pos);
-
 	void PushImpulse(float4 _ImpulsePower);
 	void PushImpulseAtLocalPos(float4 _ImpulsePower, float4 _Pos);
 
@@ -109,7 +107,7 @@ private:
 
 	//속도제한 함수
 	void SpeedLimit();
-	physx::PxTransform RecentTransform;
+	physx::PxControllerFilters m_pControllerFilter;
 	
 	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
 	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);

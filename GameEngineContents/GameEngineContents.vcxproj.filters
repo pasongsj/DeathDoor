@@ -225,7 +225,7 @@
     <ClCompile Include="PhysXTrigger.cpp">
       <Filter>Component\PhysX\Test</Filter>
     </ClCompile>
-    <ClCompile Include="PhysXContollerComponent.cpp">
+    <ClCompile Include="PhysXControllerComponent.cpp">
       <Filter>Component\PhysX\Component</Filter>
     </ClCompile>
   </ItemGroup>
@@ -458,7 +458,7 @@
     <ClInclude Include="PhysXTrigger.h">
       <Filter>Component\PhysX\Test</Filter>
     </ClInclude>
-    <ClInclude Include="PhysXContollerComponent.h">
+    <ClInclude Include="PhysXControllerComponent.h">
       <Filter>Component\PhysX\Component</Filter>
     </ClInclude>
   </ItemGroup>
