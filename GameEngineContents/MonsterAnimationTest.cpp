@@ -21,8 +21,8 @@ void MonsterAnimationTest::Start()
 	Renderer->CreateFBXAnimation("4", "_E_GRUNT_JUMP_START.fbx");
 	Renderer->CreateFBXAnimation("5", "_E_GRUNT_JUMP_MAIN.fbx");
 	Renderer->CreateFBXAnimation("6", "_E_GRUNT_HIT.fbx");
-	Renderer->ChangeAnimation("1");
-	Renderer->GetTransform()->SetLocalScale(float4::ONE * 10000.0f);
+	Renderer->ChangeAnimation("5");
+	Renderer->GetTransform()->SetLocalScale(float4::ONE * 100.0f);
 	//Renderer->GetTransform()->SetLocalRotation({ 0.0f,0.0f, -90.0f });
 
 	if (false == GameEngineInput::IsKey("PressN"))
