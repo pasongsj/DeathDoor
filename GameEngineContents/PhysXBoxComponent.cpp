@@ -240,10 +240,7 @@ void PhysXBoxComponent::Update(float _DeltaTime)
 		ParentActor.lock()->GetTransform()->SetWorldRotation(float4{ EulerRot.x, EulerRot.y, EulerRot.z });
 		ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
 
-		if (m_bSpeedLimit == true)
-		{
-			SpeedLimit();
-		}
+		
 	}
 }
 

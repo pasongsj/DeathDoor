@@ -29,6 +29,10 @@ protected:
 	float4 GetPlayerDir();
 
 	float4 AggroDir(std::shared_ptr<class PhysXCapsuleComponent> _Comp, float4 DefaultDir = float4::ZERO);
+
+
+	bool CheckHit();
+
 private:
 
 

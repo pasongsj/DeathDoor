@@ -274,8 +274,11 @@
     <ClCompile Include="Frog_Lever.cpp">
       <Filter>Contents\FortressLevel\Active_Object</Filter>
     </ClCompile>
-    <ClCompile Include="PhysXContollerComponent.cpp">
+    <ClCompile Include="PhysXControllerComponent.cpp">
       <Filter>Component\PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBrute.cpp">
+      <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -547,8 +550,11 @@
     <ClInclude Include="Frog_Lever.h">
       <Filter>Contents\FortressLevel\Active_Object</Filter>
     </ClInclude>
-    <ClInclude Include="PhysXContollerComponent.h">
+    <ClInclude Include="PhysXControllerComponent.h">
       <Filter>Component\PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBrute.h">
+      <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

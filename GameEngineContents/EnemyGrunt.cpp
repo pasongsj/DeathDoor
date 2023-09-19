@@ -67,16 +67,6 @@ void EnemyGrunt::AggroMove(float _DeltaTime)
 	}
 }
 
-bool EnemyGrunt::CheckHit()
-{
-	//if ()// 플레이어로부터 공격을 받는다면 )
-	//{
-	//	
-	//	return true;
-	//}
-	return false;
-}
-
 
 void EnemyGrunt::SetFSMFUNC()
 {

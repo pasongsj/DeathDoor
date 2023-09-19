@@ -40,7 +40,7 @@ bool EnemyBase::InRangePlayer(float _Range)
 
 float4 EnemyBase::GetPlayerDir()
 {
-	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+	float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
 	PlayerPos.y = 0;
 	float4 EnemyPos = GetTransform()->GetWorldPosition();
 	EnemyPos.y = 0;
@@ -52,7 +52,18 @@ float4 EnemyBase::GetPlayerDir()
 float4 EnemyBase::AggroDir(std::shared_ptr< PhysXCapsuleComponent> _Comp, float4 DefaultDir)
 {
 	float4 PlayerDir = GetPlayerDir();
-	DefaultDir.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, PlayerDir);
-	_Comp->SetRotation( -DefaultDir);
+	float4 Rot = float4::ZERO;
+	Rot.y = float4::GetAngleVectorToVectorDeg360(PlayerDir, float4::FORWARD);
+	_Comp->SetRotation( Rot - DefaultDir);
 	return PlayerDir;
+}
+
+bool EnemyBase::CheckHit()
+{
+	//if ()// 플레이어로부터 공격을 받는다면 )
+	//{
+	//	
+	//	return true;
+	//}
+	return false;
 }
