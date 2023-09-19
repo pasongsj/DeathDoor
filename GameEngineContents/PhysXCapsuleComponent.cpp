@@ -40,7 +40,7 @@ void PhysXCapsuleComponent::SetRotation(float4 _Rot)
 
 void PhysXCapsuleComponent::SetMoveJump()
 {
-	m_pRigidDynamic->addForce(physx::PxVec3(0.0f, PLAYER_JUMP_FORCE, 0.0f), physx::PxForceMode::eIMPULSE);
+	//m_pRigidDynamic->addForce(physx::PxVec3(0.0f, PLAYER_JUMP_FORCE, 0.0f), physx::PxForceMode::eIMPULSE);
 }
 
 
@@ -134,15 +134,6 @@ void PhysXCapsuleComponent::PushImpulseAtLocalPos(float4 _ImpulsePower, float4 _
 
 	physx::PxRigidBodyExt::addForceAtPos(*m_pRigidDynamic, physx::PxVec3(_Pos.x, _Pos.y * 0.9f, _Pos.z),
 		physx::PxVec3(_ImpulsePower.x, _ImpulsePower.y, _ImpulsePower.z), physx::PxForceMode::eIMPULSE, true);
-}
-
-void PhysXCapsuleComponent::SetPlayerStartPos(float4 _Pos)
-{
-	physx::PxTransform tmpPxTransform(_Pos.x, _Pos.y, _Pos.z);
-
-	// 부모의 Transform정보를 바탕으로 PhysX Actor의 트랜스폼을 갱신
-	m_pRigidDynamic->setGlobalPose(tmpPxTransform);
-	RecentTransform = tmpPxTransform;
 }
 
 void PhysXCapsuleComponent::SpeedLimit()
