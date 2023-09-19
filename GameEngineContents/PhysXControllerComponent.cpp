@@ -33,7 +33,7 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 
 void PhysXControllerComponent::SetMoveSpeed(float4 _MoveSpeed)
 {
-	m_pController->move(_MoveSpeed.PhysXVec3Return(), 1, 0.000001f, m_pControllerFilter);
+	m_pControllerDir = _MoveSpeed;
 }
 
 
@@ -45,15 +45,8 @@ void PhysXControllerComponent::Start()
 
 void PhysXControllerComponent::Update(float _DeltaTime)
 {	
-	if (m_pControllerDir != float4::ZERO)
-	{
-		int a = 0;
-	}
 	m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y-SCENE_GRAVITY, m_pControllerDir.z).PhysXVec3Return() * _DeltaTime, 1, _DeltaTime, m_pControllerFilter);
-
 	
-
-
 	float4 tmpWorldPos = { static_cast<float>(m_pController->getPosition().x), static_cast<float>(m_pController->getPosition().y), static_cast<float>(m_pController->getPosition().z) };
 
 	ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);

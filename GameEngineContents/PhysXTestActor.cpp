@@ -33,6 +33,9 @@ void PhysXTestActor::Start()
 
 	m_pControllerComp = CreateComponent<PhysXControllerComponent>(); // 원하는 모양의 PhysXComponent부착
 	m_pControllerComp->CreatePhysXActors(scale.PhysXVec3Return());
+
+	//m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>(); // 원하는 모양의 PhysXComponent부착
+	//m_pCapsuleComp->CreatePhysXActors(scale.PhysXVec3Return());
 	//m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);			//앞에서부터 정지마찰, 운동마찰, 반발력계수 세팅
 	//
 	//m_pCapsuleComp->CreatePhysXActors(scale.PhysXVec3Return(),float4::ZERO,false); // 피직스 액터를 만드는 부분. 크기는 설정안하면 기본값 세팅됨
@@ -79,6 +82,7 @@ void PhysXTestActor::Update(float _DeltaTime)
 		//GetTransform()->AddLocalPosition(GetTransform()->GetWorldBackVector() * 500.f * _DeltaTime);
 	}
 	Movedir.Normalize();
+	Movedir.y *= 50.f;
 	m_pControllerComp->SetControllerMoveDir(Movedir*500.f);
 	//m_pCapsuleComp->SetMoveSpeed(Movedir * PLAYER_MAX_SPEED);
 	//m_pCapsuleComp->SetControllerMoveDir(Movedir * PLAYER_MAX_SPEED);
