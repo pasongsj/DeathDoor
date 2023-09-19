@@ -41,7 +41,7 @@ private:
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 	void AggroMove(float _DeltaTime);
 	void SetFSMFUNC();
-	bool CheckHit();
+	
 
 	float StateDuration = 0.0f;
 	bool StateChecker = false;
