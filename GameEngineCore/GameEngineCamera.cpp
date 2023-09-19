@@ -345,11 +345,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 					std::shared_ptr<GameEngineFBXRenderer> FbxRenderer = Render->GetRenderer()->DynamicThis<GameEngineFBXRenderer>();
 					if (FbxRenderer !=nullptr /*&&false == IsView(FbxRenderer->GetTransform()->GetWorldPosition(), FbxRenderer->GetMeshScale())*/)
 					{
-						//GameEngineTransform TForm;
-						//TForm.SetLocalPosition(Render->GetUnitPos());
-						//TForm.SetLocalScale(Render->GetUnitScale());
-						//TForm.SetParent(FbxRenderer->GetTransform());
-						//FbxRenderer->GetTransform()->CalChild();
 						float4x4 RenderUnitMat;
 						RenderUnitMat.Identity();
 						RenderUnitMat.Transformation(Render->GetUnitScale(),float4::ZERO, Render->GetUnitPos());
