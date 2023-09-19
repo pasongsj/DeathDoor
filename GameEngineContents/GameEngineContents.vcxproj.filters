@@ -277,6 +277,9 @@
     <ClCompile Include="PhysXContollerComponent.cpp">
       <Filter>Component\PhysX\Component</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBrute.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -549,6 +552,9 @@
     </ClInclude>
     <ClInclude Include="PhysXContollerComponent.h">
       <Filter>Component\PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBrute.h">
+      <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
