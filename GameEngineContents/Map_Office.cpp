@@ -175,13 +175,13 @@ void Map_Office::Create_StaticObject()
 	}
 	{
 		std::shared_ptr<MiniDesk> Obj = CurLevel->CreateActor<MiniDesk>();
-		const float4 Pos = float4{ -312, -250, -2120 };
+		const float4 Pos = float4{ -382, -250, -2120 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<MiniDesk> Obj = CurLevel->CreateActor<MiniDesk>();
-		const float4 Pos = float4{ 25, -250, -2120 };
+		const float4 Pos = float4{ 100.f, -250, -2120 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
@@ -287,7 +287,7 @@ void Map_Office::Create_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
 		float4 Ratio = float4{ 0.7f, 0.4f, 0.7f };
 		Obj->Set_MeshRatio(Ratio);
-		const float4 Pos = float4{ -327, -274, -1900 };
+		const float4 Pos = float4{ -397, -274, -1900 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
@@ -295,7 +295,7 @@ void Map_Office::Create_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
 		float4 Ratio = float4{ 1.2f, 0.5f, 0.7f };
 		Obj->Set_MeshRatio(Ratio);
-		const float4 Pos = float4{ 150, -274, -1900 };
+		const float4 Pos = float4{ 220, -274, -1900 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
@@ -313,7 +313,7 @@ void Map_Office::Create_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
 		float4 Ratio = float4{ 5.1f, 1.0f, 0.5f };
 		Obj->Set_MeshRatio(Ratio);
-		const float4 Pos = float4{ 220, -490, -4920 };
+		const float4 Pos = float4{ 150, -490, -4920 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
