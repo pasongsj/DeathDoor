@@ -124,14 +124,14 @@ void PhysXManager::ChangeScene(const std::string_view& _Name)
 		return;
 	}
 	m_pScene = AllScene[sUpperName];
-#ifdef _DEBUG
-	if (true == m_pPvd->isConnected())
-	{
-		m_pPvd->disconnect();
-	}
-	bool bConnect = m_pPvd->connect(*m_pTransport, physx::PxPvdInstrumentationFlag::eALL);
-
-#endif
+//#ifdef _DEBUG
+//	if (true == m_pPvd->isConnected())
+//	{
+//		m_pPvd->disconnect();
+//	}
+//	bool bConnect = m_pPvd->connect(*m_pTransport, physx::PxPvdInstrumentationFlag::eALL);
+//
+//#endif
 }
 
 
@@ -167,10 +167,10 @@ void PhysXManager::Release()
 	PX_RELEASE(m_pCooking);
 	if (nullptr!=m_pPvd)
 	{
-		m_pPvd->disconnect();
-		PX_RELEASE(m_pTransport);
+		//m_pPvd->disconnect();
 		m_pPvd->release();
 		m_pPvd = nullptr;
+		PX_RELEASE(m_pTransport);
 	}
 	PX_RELEASE(m_pFoundation);
 }
