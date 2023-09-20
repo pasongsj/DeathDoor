@@ -72,6 +72,7 @@ OutPutColor DeferredMerge_PS(Output _Input) : SV_Target0
         //      0.1f
             NewOutPut.Result.xyz = Color.xyz * (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
             NewOutPut.Result.a = saturate(Color.a + (DiffuseRatio.w + SpacularRatio.w + AmbientRatio.w));
+            NewOutPut.Result.a = 1.0f;
         }
         else
         {

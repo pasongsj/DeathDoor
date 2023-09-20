@@ -10,7 +10,9 @@ GameEngineLight::GameEngineLight()
 	LightDataValue.ShadowTargetSizeX = 4096;
 	LightDataValue.ShadowTargetSizeY = 4096;
 	LightDataValue.LightNear = 0.1f;
-	LightDataValue.LightFar = 1000.f;
+	LightDataValue.LightFar = 3000.f;
+	ShadowRange.x = 1024.0f;
+	ShadowRange.y = 1024.0f;
 }
 
 GameEngineLight::~GameEngineLight() 
@@ -52,8 +54,8 @@ void GameEngineLight::LightUpdate(GameEngineCamera* _Camera, float _DeltaTime)
 		GetTransform()->GetWorldUpVector());
 
 	LightDataValue.LightProjectionMatrix.OrthographicLH(
-		LightDataValue.ShadowTargetSizeX,
-		LightDataValue.ShadowTargetSizeY,
+		ShadowRange.x,
+		ShadowRange.y,
 		LightDataValue.LightNear,
 		LightDataValue.LightFar);
 
@@ -66,7 +68,6 @@ void GameEngineLight::InitShadowRenderTarget()
 {
 	ShadowTarget->AddNewTexture(DXGI_FORMAT_R32_FLOAT, { LightDataValue.ShadowTargetSizeX, LightDataValue.ShadowTargetSizeY }, float4::RED);
 	ShadowTarget->CreateDepthTexture();
-	ShadowTarget->SetName("Shadow");
 }
 
 void GameEngineLight::ReleaseShadowRenderTarget()
