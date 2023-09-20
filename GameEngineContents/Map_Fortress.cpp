@@ -60,6 +60,7 @@ void Map_Fortress::InitComponent()
 	m_pRenderer_Part1->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Part1->GetTransform()->SetLocalPosition(float4 { -8480, 140, -7360 });
 	
+	
 	m_pRenderer_Part2 = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Part2->SetFBXMesh("Fortress_Part2.fbx", "ContentMesh");
 	m_pRenderer_Part2->GetTransform()->SetLocalRotation(m_MapRot);
@@ -69,6 +70,35 @@ void Map_Fortress::InitComponent()
 	m_pRenderer_Part3->SetFBXMesh("Fortress_Part3.fbx", "ContentMesh");
 	m_pRenderer_Part3->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Part3->GetTransform()->SetLocalPosition(float4{ -3844, 100 , -12898 });
+
+	auto AllUnit = m_pRenderer_Part3->GetAllRenderUnit();
+	auto UnTextureUnit = m_pRenderer_Part3->GetUnTexturedUnit();
+	
+	AllUnit[47][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	AllUnit[48][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	AllUnit[49][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+
+	// uv 박살 , 이후 수정필요 
+	AllUnit[50][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	// AllUnit[50][0]->UVdata = { 0.07f, 0.07f, 0.0f, 0.0f };
+	AllUnit[50][1]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	AllUnit[50][2]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+
+	m_pRenderer_Part4 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part4->SetFBXMesh("Fortress_Part4.fbx", "ContentMesh");
+	m_pRenderer_Part4->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part4->GetTransform()->SetLocalPosition(float4{ -6474, 190 , -12078 });
+
+	m_pRenderer_Part5 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part5->SetFBXMesh("Fortress_Part5.fbx", "ContentMesh");
+	m_pRenderer_Part5->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part5->GetTransform()->SetLocalPosition(float4{ -4464, 320 , -15492 });
+
+	m_pRenderer_Part6 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part6->SetFBXMesh("Fortress_Part6.fbx", "ContentMesh");
+	m_pRenderer_Part6->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part6->GetTransform()->SetLocalPosition(float4{ -5222, 574 , -14561 });
+
 
 
 
@@ -98,11 +128,7 @@ void Map_Fortress::Create_StaticObject()
 
 void Map_Fortress::Create_ActiveObject()
 {
-	//test 
-	std::shared_ptr<SecretTile> Tile = GetLevel()->CreateActor<SecretTile>();
-	std::shared_ptr<Crate> Obj = GetLevel()->CreateActor<Crate>();
-	std::shared_ptr<Ladder> NewLadder = GetLevel()->CreateActor<Ladder>();
-	NewLadder->GetTransform()->SetWorldPosition(float4 { 200, 200, 0 });
+	
 	
 }
 

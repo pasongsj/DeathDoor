@@ -3,6 +3,8 @@
 
 #include "PhysXBoxComponent.h"
 
+
+
 Map_Emptyplain::Map_Emptyplain()
 {
 }
@@ -49,5 +51,8 @@ void Map_Emptyplain::InitComponent()
 	m_pComp = CreateComponent<PhysXBoxComponent>();
 	m_pComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	m_pComp->CreatePhysXActors(MeshScale.PhysXVec3Return(),float4::ZERO,true);
+
+
+	
 
 }
