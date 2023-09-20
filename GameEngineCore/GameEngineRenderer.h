@@ -73,8 +73,8 @@ public:
 	}
 
 private:
-	float4 UnitScale = float4::ZERO;
-	float4 UnitPos = float4::ZERO;
+	float4 UnitScale = float4::ZERONULL;
+	float4 UnitPos = float4::ZERONULL;
 	class GameEngineRenderer* ParentRenderer = nullptr;
 	std::shared_ptr<class GameEngineInputLayOut> InputLayOutPtr;
 	std::shared_ptr<class GameEngineMesh> Mesh;

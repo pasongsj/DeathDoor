@@ -343,48 +343,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 						continue;
 					}
 					std::shared_ptr<GameEngineFBXRenderer> FbxRenderer = Render->GetRenderer()->DynamicThis<GameEngineFBXRenderer>();
-					if (FbxRenderer !=nullptr /*&&false == IsView(FbxRenderer->GetTransform()->GetWorldPosition(), FbxRenderer->GetMeshScale())*/)
-					{
-						float4x4 RenderUnitMat;
-						RenderUnitMat.Identity();
-						RenderUnitMat.Transformation(Render->GetUnitScale(),float4::ZERO, Render->GetUnitPos());
-						RenderUnitMat *= FbxRenderer->GetTransform()->GetWorldMatrixRef();
-						float4 Pos = float4(RenderUnitMat._30, RenderUnitMat._31, RenderUnitMat._32, RenderUnitMat._33);
-						//Pos*=GetView();
-						//Pos *= GetProjection();
-						//Pos.w = 1.0f;
-						//Pos *= GetViewPort();
-						if (false == IsView(Pos, Render->GetUnitScale()))
+					if (FbxRenderer !=nullptr && Render->GetUnitPos()!= float4::ZERONULL)					{
+						if (false == IsView(Render->GetUnitPos(), Render->GetUnitScale()))
 						{
 							continue;
-						}
-						
-						//for (size_t i = 0; i < FbxRenderer->GetAllRenderUnit().size(); i++)
-						//{
-						//	for (size_t j = 0; j < FbxRenderer->GetAllRenderUnit()[i].size(); j++)
-						//	{
-						//		if (FbxRenderer->GetAllRenderUnit()[i][j] == Render)
-						//		{
-						//			float4 Scale = FbxRenderer->GetFBXMesh()->GetRenderUnit(i)->BoundScaleBox;
-						//			float4 Min = FbxRenderer->GetFBXMesh()->GetRenderUnit(i)->MinBoundBox;
-						//			float4 Max = FbxRenderer->GetFBXMesh()->GetRenderUnit(i)->MaxBoundBox;
-						//			float4 Pos = (Max + Min) / 2.f;
-						//			//Pos*=GetView();
-						//			//Pos *= GetProjection();
-						//			//Pos.w = 1.0f;
-						//			//Pos *= GetViewPort();
-						//			Pos *= FbxRenderer->GetTransform()->GetWorldViewProjectionMatrix();
-						//			if (true == IsView(Pos, Scale))
-						//			{
-						//				Render->Render(_DeltaTime);
-						//				break;
-						//			}
-						//		}
-						//		
-						//	}
-						//	break;
-						//}
-						//continue;
+						}						
 					}
 
 					Render->Render(_DeltaTime);
@@ -490,6 +453,7 @@ void GameEngineCamera::CameraTransformUpdate()
 	case CameraType::Perspective:
 	{
 		Projection.PerspectiveFovLH(FOV, Width / Height, Near, Far);
+
 		float4 Dir = GetTransform()->GetLocalForwardVector();
 		float4 WorldPos = GetTransform()->GetWorldPosition();
 		Frustum.Origin = (WorldPos).DirectFloat3;

@@ -165,7 +165,6 @@ public:
 	float4 MinBoundBox;
 	float4 MaxBoundBox;
 	float4 BoundScaleBox;
-	float4 MeshPos;
 
 	//       자신의 정보를 
 	//       들고 있던 node

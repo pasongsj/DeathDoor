@@ -704,9 +704,6 @@ void GameEngineFBXMesh::VertexBufferCheck()
 			if (RenderUnit.MinBoundBox.y > VtxData[controlPointIndex].POSITION.y) { RenderUnit.MinBoundBox.y = VtxData[controlPointIndex].POSITION.y; }
 			if (RenderUnit.MinBoundBox.z > VtxData[controlPointIndex].POSITION.z) { RenderUnit.MinBoundBox.z = VtxData[controlPointIndex].POSITION.z; }
 		}
-		RenderUnit.MeshPos.x = (RenderUnit.MaxBoundBox.x + RenderUnit.MinBoundBox.x) * 0.5f;
-		RenderUnit.MeshPos.y = (RenderUnit.MaxBoundBox.y + RenderUnit.MinBoundBox.y) * 0.5f;
-		RenderUnit.MeshPos.z = (RenderUnit.MaxBoundBox.z + RenderUnit.MinBoundBox.z) * 0.5f;
 		RenderUnit.BoundScaleBox.x = RenderUnit.MaxBoundBox.x - RenderUnit.MinBoundBox.x;
 		RenderUnit.BoundScaleBox.y = RenderUnit.MaxBoundBox.y - RenderUnit.MinBoundBox.y;
 		RenderUnit.BoundScaleBox.z = RenderUnit.MaxBoundBox.z - RenderUnit.MinBoundBox.z;

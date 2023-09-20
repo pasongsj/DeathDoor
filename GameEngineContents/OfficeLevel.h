@@ -40,4 +40,5 @@ private:
 	
 
 	std::shared_ptr<class Map_Office> m_pMap = nullptr;
+	std::shared_ptr<class PhysXTestActor> m_pTestActor = nullptr;
 };

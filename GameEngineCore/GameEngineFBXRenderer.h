@@ -140,6 +140,35 @@ public:
 
 	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false);
 
+	void CalculateUnitPos()
+	{
+		float4 f4MinPos = float4::ZERO;
+		float4 f4MaxPos = float4::ZERO;
+		float4 f4Scale = float4::ZERO;
+		float4 ResultPos = float4::ZERO;
+		float4 Quat = Quat.EulerDegToQuaternion();
+		float4x4 RenderUnitMat = float4x4::Zero;
+		for (size_t i = 0; i < Unit.size(); i++)
+		{
+			f4MinPos = FBXMesh->GetRenderUnit(i)->MinBoundBox;
+			f4MaxPos = FBXMesh->GetRenderUnit(i)->MaxBoundBox;
+			f4Scale = FBXMesh->GetRenderUnit(i)->BoundScaleBox;
+			ResultPos = (f4MinPos + f4MaxPos) * 0.5f;
+
+			RenderUnitMat.Compose(f4Scale, Quat, ResultPos);
+			RenderUnitMat *= GetTransform()->GetWorldMatrixRef();
+			//RenderUnitMat *= GetTransform()->GetLocalWorldMatrixRef();
+
+			float4 Pos = float4(RenderUnitMat._30, RenderUnitMat._31, RenderUnitMat._32, RenderUnitMat._33);
+
+			for (size_t j = 0; j < Unit[i].size(); j++)
+			{
+				Unit[i][j]->SetUnitPos(Pos);
+				Unit[i][j]->SetUnitScale(f4Scale);
+			}
+		}
+	}
+
 	float4 GetMeshScale()
 	{
 		if (ResultMeshScale != float4::ZERO)

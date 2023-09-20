@@ -83,5 +83,5 @@ void PhysXTestActor::Update(float _DeltaTime)
 	//physx::PxTransform test2 = m_pSphereComp->GetDynamic()->getGlobalPose();
 	//test.p += test2.p;
 	//m_pSphereComp->GetDynamic()->setGlobalPose(test);
-	m_pCapsuleComp->SetMoveSpeed(Movedir * PLAYER_MAX_SPEED);
+	m_pCapsuleComp->SetMoveSpeed(Movedir * PLAYER_MAX_SPEED*2.f);
 }

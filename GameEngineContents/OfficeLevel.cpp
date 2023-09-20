@@ -4,6 +4,7 @@
 #include "Map_Office.h"
 #include "Player.h"
 #include "PhysXCapsuleComponent.h"
+#include "PhysXTestActor.h"
 
 
 OfficeLevel::OfficeLevel()
@@ -27,7 +28,7 @@ void OfficeLevel::Update(float _DeltaTime)
 	// test 
 	if (false == GetMainCamera()->IsFreeCamera())
 	{
-		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4 { 0, 1200, -1200 });
+		GetMainCamera()->GetTransform()->SetWorldPosition(m_pTestActor->GetTransform()->GetWorldPosition() + float4 { 0, 1200, -1200 });
 	}
 
 
@@ -50,9 +51,11 @@ void OfficeLevel::LevelChangeStart()
 	CreateActor<GameEngineLight>();
 	m_pMap = CreateActor<Map_Office>();
 
+	m_pTestActor = CreateActor<PhysXTestActor>();
+	m_pTestActor->GetCapsule()->SetPlayerStartPos(m_StartPos);
 	// 플레이어 생성후 Set_StartPos함수 호출하면 해당 위치에 세팅
-	std::shared_ptr<Player> Obj = CreateActor<Player>();
-	Set_StartPos(Obj);
+	//std::shared_ptr<Player> Obj = CreateActor<Player>();
+	//Set_StartPos(Obj);
 }
 
 void OfficeLevel::LevelChangeEnd()

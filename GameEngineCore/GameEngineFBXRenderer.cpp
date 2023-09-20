@@ -214,8 +214,6 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 			for (size_t j = 0; j < Count; j++)
 			{
 				Unit[i][j] = CreateRenderUnit();
-				Unit[i][j]->SetUnitPos(FBXMesh->GetRenderUnit(i)->MeshPos);
-				Unit[i][j]->SetUnitScale(FBXMesh->GetRenderUnit(i)->BoundScaleBox);
 			}
 		}
 	}

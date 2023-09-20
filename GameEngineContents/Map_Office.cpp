@@ -65,6 +65,7 @@ void Map_Office::InitComponent()
 	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
 	m_pRenderer->SetFBXMesh("Map_Office.fbx", "MeshTexture");
 	m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer->CalculateUnitPos();
 
 	// 네비메쉬 위치확인용 렌더러 
 	m_pNaviRenderer = CreateComponent<GameEngineFBXRenderer>();
