@@ -22,6 +22,11 @@ GameEngineLevel::GameEngineLevel()
 	{
 		GameEngineInput::CreateKey("FreeCameraSwitch", VK_F1);
 	}
+
+	FXAATarget = GameEngineRenderTarget::CreateDummy();
+	FXAATarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	FXAAUnit.SetMesh("FullRect");
+	FXAAUnit.SetMaterial("FXAA");
 }
 
 void GameEngineLevel::LevelCameraInit()
@@ -344,7 +349,14 @@ void GameEngineLevel::Render(float _DeltaTime)
 
 	LastTarget->Setting();
 
-	GameEngineDevice::GetBackBufferTarget()->Merge(LastTarget);
+	FXAATarget->Clear();
+	FXAATarget->Setting();
+	
+	FXAAUnit.ShaderResHelper.SetTexture("ScreenTexture", LastTarget->GetTexture(0));
+	
+	FXAAUnit.Render(0.0f);
+
+	GameEngineDevice::GetBackBufferTarget()->Merge(FXAATarget);
 
 	static bool GUIRender = true;
 
@@ -474,6 +486,7 @@ void GameEngineLevel::InitCameraRenderTarget()
 	}
 
 	LastTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	
 }
 
 void GameEngineLevel::ReleaseCameraRenderTarget()

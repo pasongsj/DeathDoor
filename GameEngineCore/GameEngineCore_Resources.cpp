@@ -827,6 +827,15 @@ void GameEngineCore::CoreResourcesInit()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("FXAA");
+		Pipe->SetVertexShader("FXAA.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("FXAA.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("AlwayDepth");
+	}
+
+	{
 		GameEngineFont::Load("±Ã¼­");
 	}
 }

@@ -22,7 +22,6 @@
     <FxCompile Include="ContentAniMeshDeffered.hlsl" />
     <FxCompile Include="HorizonBlur.hlsl" />
     <FxCompile Include="VerticalBlur.hlsl" />
-    <FxCompile Include="FXAA.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
