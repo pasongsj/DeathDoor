@@ -15,11 +15,16 @@ public:
 	PhysXTestActor& operator=(const PhysXTestActor& _Other) = delete;
 	PhysXTestActor& operator=(PhysXTestActor&& _Other) noexcept = delete;
 
+	std::shared_ptr<class PhysXCapsuleComponent>  GetCapsule()
+	{
+		return m_pCapsuleComp;
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 	
+
 
 private:
 	std::shared_ptr<class GameEngineFBXRenderer> m_pRenderer = nullptr;

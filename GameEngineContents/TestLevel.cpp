@@ -2,6 +2,7 @@
 #include "TestLevel.h"
 
 #include <GameEngineCore/GameEngineFBXAnimation.h>
+#include <GameEngineCore/GameEngineLight.h>
 
 #include "TestObject.h"
 #include "Player.h"
@@ -40,6 +41,8 @@ void TestLevel::Start()
 
 	}
 
+	CreateActor<TestObject>();
+	CreateActor<GameEngineLight>();
 }
 
 void TestLevel::Update(float _DeltaTime)

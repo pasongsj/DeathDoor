@@ -67,6 +67,7 @@ void Map_Office::InitComponent()
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->SetFBXMesh("Map_Office.fbx", "ContentMesh");
 	m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer->CalculateUnitPos();
 
 	// 일부러 텍스쳐 안입힌 상태에서, 찾아서 하면 될듯 
 	auto AllUnit = m_pRenderer->GetAllRenderUnit();
