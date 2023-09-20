@@ -16,10 +16,12 @@
     <FxCompile Include="ContentLight.fx">
       <Filter>Header</Filter>
     </FxCompile>
-    <FxCompile Include="ContentMeshAniShader.hlsl" />
+    <FxCompile Include="ContentAnitMeshForward.hlsl" />
     <FxCompile Include="ContentMeshToonShader.hlsl" />
     <FxCompile Include="FadeDeffered.hlsl" />
     <FxCompile Include="ContentAniMeshDeffered.hlsl" />
+    <FxCompile Include="HorizonBlur.hlsl" />
+    <FxCompile Include="VerticalBlur.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

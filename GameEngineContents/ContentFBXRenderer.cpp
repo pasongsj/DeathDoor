@@ -1,6 +1,8 @@
 #include "PrecompileHeader.h"
 #include "ContentFBXRenderer.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
+
 ContentFBXRenderer::ContentFBXRenderer()
 {
 }
@@ -30,8 +32,23 @@ void ContentFBXRenderer::SetCrack()
 	{
 		for (int j = 0; j < AllUnits[i].size(); j++)
 		{
-			AllUnits[i][j]->SetMaterial("ContentAniMeshDeffered");
-			AllUnits[i][j]->ShaderResHelper.SetTexture("MaskTexture", "CrackMask.png");
+			int Index = GameEngineRandom::MainRandom.RandomInt(1, 4);
+
+			AllUnits[i][j]->ShaderResHelper.SetTexture("MaskTexture", "CrackMask" + std::to_string(Index) + ".png");
+			AllUnits[i][j]->Mask.UV_MaskingValue = 0.0f;
+		}
+	}
+}
+
+void ContentFBXRenderer::SetCrackAmount(float _Amount)
+{
+	auto AllUnits = GetAllRenderUnit();
+
+	for (int i = 0; i < AllUnits.size(); i++)
+	{
+		for (int j = 0; j < AllUnits[i].size(); j++)
+		{
+			AllUnits[i][j]->Mask.UV_MaskingValue = _Amount;
 		}
 	}
 }
@@ -44,8 +61,7 @@ void ContentFBXRenderer::SetFade(const std::string_view& _MaskTextureName)
 	{
 		for (int j = 0; j < AllUnits[i].size(); j++)
 		{
-			AllUnits[i][j]->SetMaterial("ContentFade");
-			AllUnits[i][j]->ShaderResHelper.SetTexture("FilterTexture", _MaskTextureName);
+			AllUnits[i][j]->ShaderResHelper.SetTexture("MaskTexture", _MaskTextureName);
 		}
 	}
 }

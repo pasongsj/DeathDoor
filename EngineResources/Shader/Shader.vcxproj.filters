@@ -41,6 +41,7 @@
       <Filter>PostEffect</Filter>
     </FxCompile>
     <FxCompile Include="MeshColorDeferred.hlsl" />
+    <FxCompile Include="FXAA.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

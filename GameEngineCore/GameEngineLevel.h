@@ -148,6 +148,10 @@ private:
 
 	// 모든 카메라의 내용이 다 종합된.
 	std::shared_ptr<GameEngineRenderTarget> LastTarget;
+	
+	//안티에일리어싱
+	std::shared_ptr<GameEngineRenderTarget> FXAATarget;
+	GameEngineRenderUnit FXAAUnit;
 
 	//      이름           경로
 	std::map<std::string, std::string> TexturePath;
