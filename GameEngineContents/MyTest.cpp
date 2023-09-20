@@ -23,7 +23,7 @@ void MyTest::Start()
 	{
 		for (int j = 0; j < Units[i].size(); j++)
 		{
-			Units[i][j]->ShaderResHelper.SetTexture("FilterTexture", "MaskType2_1.png");
+			Units[i][j]->ShaderResHelper.SetTexture("MaskTexture", "MaskType2_1.png");
 		}
 	}
 
@@ -32,15 +32,15 @@ void MyTest::Start()
 
 void MyTest::Update(float _Delta)
 {
-	auto Units = TestRd->GetAllRenderUnit();
-	
-	for (int i = 0; i < Units.size(); i++)
-	{
-		for (int j = 0; j < Units[i].size(); j++)
-		{
-			Units[i][j]->Fade.Fade += 0.1f * _Delta;
-		}
-	}
+	//auto Units = TestRd->GetAllRenderUnit();
+	//
+	//for (int i = 0; i < Units.size(); i++)
+	//{
+	//	for (int j = 0; j < Units[i].size(); j++)
+	//	{
+	//		Units[i][j]->Fade.Fade += 0.1f * _Delta;
+	//	}
+	//}
 	//Render2Dto3D();
 }
 
