@@ -74,7 +74,14 @@ public:
         return ShadowTarget;
     }
 
+    void SetShadowRange(float4 _Value)
+    {
+        ShadowRange = _Value;
+    }
+
     LightData LightDataValue;
+    float4 ShadowRange;
+
     void InitShadowRenderTarget();
     void ReleaseShadowRenderTarget();
 

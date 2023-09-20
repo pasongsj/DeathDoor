@@ -58,12 +58,13 @@ void GameEngineCamera::Start()
 	Height = ViewPortData.Height;
 
 	//사용할 렌더타겟을 생성하는 것이 아닌 추후 사용할 렌더타겟을 생성하기 위한 더미 타겟
-	AllRenderTarget		= GameEngineRenderTarget::CreateDummy();
-	CamTarget			= GameEngineRenderTarget::CreateDummy();
-	DeferredLightTarget = GameEngineRenderTarget::CreateDummy();
-	CamForwardTarget	= GameEngineRenderTarget::CreateDummy();
-	CamDeferrdTarget	= GameEngineRenderTarget::CreateDummy();
-	CamAlphaTarget		= GameEngineRenderTarget::CreateDummy();
+	AllRenderTarget			= GameEngineRenderTarget::CreateDummy();
+	CamTarget				= GameEngineRenderTarget::CreateDummy();
+	DeferredLightTarget		= GameEngineRenderTarget::CreateDummy();
+	CamForwardTarget		= GameEngineRenderTarget::CreateDummy();
+	CamDeferrdTarget		= GameEngineRenderTarget::CreateDummy();
+	CamAlphaTarget			= GameEngineRenderTarget::CreateDummy();
+	DeferredPostLightTarget = GameEngineRenderTarget::CreateDummy();
 
 }
 
@@ -92,6 +93,10 @@ void GameEngineCamera::InitCameraRenderTarget()
 	CamDeferrdTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	CamAlphaTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 
+	DeferredPostLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	DeferredPostLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); 
+	DeferredPostLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+
 	CalLightUnit.SetMesh("FullRect");
 	CalLightUnit.SetMaterial("DeferredCalLight");
 
@@ -100,12 +105,20 @@ void GameEngineCamera::InitCameraRenderTarget()
 	CalLightUnit.ShaderResHelper.SetTexture("PositionTex", AllRenderTarget->GetTexture(2));
 	CalLightUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
 
+	LightPostUnit.SetMesh("FullRect");
+	LightPostUnit.SetMaterial("DeferredPostLight");
+
+	LightPostUnit.ShaderResHelper.SetTexture("DifLightTex", DeferredLightTarget->GetTexture(0));
+	LightPostUnit.ShaderResHelper.SetTexture("SpcLightTex", DeferredLightTarget->GetTexture(1));
+	LightPostUnit.ShaderResHelper.SetTexture("AmbLightTex", DeferredLightTarget->GetTexture(2));
+	LightPostUnit.ShaderResHelper.SetTexture("ShadowTestTex", DeferredLightTarget->GetTexture(3));
+
 	DefferdMergeUnit.SetMesh("FullRect");
 	DefferdMergeUnit.SetMaterial("DeferredMerge");
 	DefferdMergeUnit.ShaderResHelper.SetTexture("DifColor", AllRenderTarget->GetTexture(1));
-	DefferdMergeUnit.ShaderResHelper.SetTexture("DifLight", DeferredLightTarget->GetTexture(0));
-	DefferdMergeUnit.ShaderResHelper.SetTexture("SpcLight", DeferredLightTarget->GetTexture(1));
-	DefferdMergeUnit.ShaderResHelper.SetTexture("AmbLight", DeferredLightTarget->GetTexture(2));
+	DefferdMergeUnit.ShaderResHelper.SetTexture("DifLight", DeferredPostLightTarget->GetTexture(0));
+	DefferdMergeUnit.ShaderResHelper.SetTexture("SpcLight", DeferredPostLightTarget->GetTexture(1));
+	DefferdMergeUnit.ShaderResHelper.SetTexture("AmbLight", DeferredPostLightTarget->GetTexture(2));
 }
 
 void GameEngineCamera::ReleaseCameraRenderTarget()
@@ -114,6 +127,7 @@ void GameEngineCamera::ReleaseCameraRenderTarget()
 	// 쉐이더 헬퍼가 사용하는 텍스쳐도 매번 생성되버리니 삭제함
 
 	CalLightUnit.ShaderResHelper.ReleaseAllSetter();
+	LightPostUnit.ShaderResHelper.ReleaseAllSetter();
 	DefferdMergeUnit.ShaderResHelper.ReleaseAllSetter();
 
 	AllRenderTarget->ReleaseTexture();
@@ -328,7 +342,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 				std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator EndRenderer = RenderGroup.end();
 
 				float ScaleTime = _DeltaTime * GameEngineTime::GlobalTime.GetRenderOrderTimeScale(RenderGroupStartIter->first);
-
+				//CameraTransformUpdate();
 				for (; StartRenderer != EndRenderer; ++StartRenderer)
 				{
 					std::shared_ptr<GameEngineRenderUnit>& Render = *StartRenderer;
@@ -397,7 +411,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 						}
 
 						Render->GetRenderer()->GetTransform()->SetCameraMatrix(Light->GetLightData().LightViewMatrix, Light->GetLightData().LightProjectionMatrix);
-						Render->Setting();
+						Render->ShadowSetting();
 						std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Find("Shadow");
 						Pipe->VertexShader();
 						Pipe->Rasterizer();
@@ -416,13 +430,22 @@ void GameEngineCamera::Render(float _DeltaTime)
 		
 		DeferredLightTarget->Setting();
 		// 빛이 1개라면 잘 동작할 것이다.
+
+		GetLevel()->LightDataObject.LightCount = 0;
 		for (std::shared_ptr<GameEngineLight> Light : GetLevel()->AllLight)
 		{
 			CalLightUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetTexture(0));
 			CalLightUnit.Render(_DeltaTime);
+			++GetLevel()->LightDataObject.LightCount;
 		}
 
+		// 빛계산이 끝나고 디퍼드 머지가 되기전에
+		// 한번 빛을 수정하고 들어갈 것이다.
 		DeferredLightTarget->Effect(_DeltaTime);
+
+		DeferredPostLightTarget->Clear();
+		DeferredPostLightTarget->Setting();
+		LightPostUnit.Render(_DeltaTime);
 
 		CamDeferrdTarget->Clear();
 		CamDeferrdTarget->Setting();
@@ -465,6 +488,7 @@ void GameEngineCamera::CameraTransformUpdate()
 
 		float4 Dir = GetTransform()->GetLocalForwardVector();
 		float4 WorldPos = GetTransform()->GetWorldPosition();
+		//WorldPos.y = -WorldPos.y;
 		Frustum.Origin = (WorldPos).DirectFloat3;
 		Frustum.Near = Near;
 		Frustum.Far = Far;

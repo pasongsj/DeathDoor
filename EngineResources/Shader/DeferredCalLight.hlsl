@@ -35,7 +35,7 @@ struct LightOutPut
     float4 DifLight : SV_Target0;
     float4 SpcLight : SV_Target1;
     float4 AmbLight : SV_Target2;
-    float4 ResultLight : SV_Target3;
+    float4 ShadowTest : SV_Target3;
 };
 
 Texture2D PositionTex : register(t0);
@@ -62,12 +62,11 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
     float4 SpacularRatio = (float4) 0.0f;
     float4 AmbientRatio = (float4) 0.0f;
     
-    for (int i = 0; i < LightCount; ++i)
-    {
-        DiffuseRatio += CalDiffuseLight(Position, Normal, AllLight[i]);
-        SpacularRatio += CalSpacularLight(Position, Normal, AllLight[i]);;
-        AmbientRatio += CalAmbientLight(AllLight[i]);
-    }
+    LightData LData = AllLight[LightCount];
+    
+    DiffuseRatio += CalDiffuseLight(Position, Normal, LData);
+    SpacularRatio += CalSpacularLight(Position, Normal, LData);;
+    AmbientRatio += CalAmbientLight(LData);
     
     // 디뷰즈 라이트가 비춰진 곳이라면
     if (DiffuseRatio.x > 0.0f)
@@ -77,10 +76,11 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
         // 빛이존재하므로
         // 그림자도 존재해야할지 판단한다.
         // 어느 world 
-        float4 WorldPos = mul(WorldViewPos, AllLight[0].CameraViewInverseMatrix);
+        float4 WorldPos = mul(float4(WorldViewPos.xyz, 1.0f), LData.CameraViewInverseMatrix);
+        WorldPos.w = 1.0f;
         
         // 빛을 기준으로한 포지션으로 바꿨다.
-        float4 LightPos = mul(WorldPos, AllLight[0].LightViewProjectionMatrix);
+        float4 LightPos = mul(WorldPos, LData.LightViewProjectionMatrix);
         
         // worldviewprojection 
         // 이 곱해지면 그건 -1~1사이의 공간입니까?
@@ -93,13 +93,16 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
         
         // 가장 외각을 약간 깎아내서 
         if (
-            0.001f < ShadowUV.x && 0.999f > ShadowUV.x
+            fShadowDepth > 0.0f
+            && 0.001f < ShadowUV.x && 0.999f > ShadowUV.x
             && 0.001f < ShadowUV.y && 0.999f > ShadowUV.y
             && LightProjection.z >= (fShadowDepth + 0.001f)
             )
         {
-            DiffuseRatio *= 0.01f;
-            SpacularRatio *= 0.01f;
+            NewOutPut.ShadowTest.x = 1.0f;
+            NewOutPut.ShadowTest.a = 1.0f;
+            // DiffuseRatio *= 0.01f;
+            // SpacularRatio *= 0.01f;
         }
         
     }
@@ -107,7 +110,6 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
     NewOutPut.DifLight = DiffuseRatio;
     NewOutPut.SpcLight = SpacularRatio;
     NewOutPut.AmbLight = AmbientRatio;
-    NewOutPut.ResultLight = DiffuseRatio + SpacularRatio + AmbientRatio;
     
     // 카메라 행렬
     // 빛의 위치

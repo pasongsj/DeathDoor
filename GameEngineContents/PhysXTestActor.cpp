@@ -24,11 +24,11 @@ PhysXTestActor::~PhysXTestActor()
 void PhysXTestActor::Start()
 {
 	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("Player.fbx", "MeshAniTextureDeferred");
-	m_pRenderer->GetTransform()->SetLocalScale(m_pRenderer->GetTransform()->GetLocalScale() * 100.f);
+	m_pRenderer->SetFBXMesh("PLAYER_MESH.fbx", "MeshAniTextureDeferred");
+	m_pRenderer->GetTransform()->SetLocalScale(m_pRenderer->GetTransform()->GetLocalScale()*5.f);
 
 	// 스케일은 렌더유닛0번의 boundScale 혹은 모든 유닛돌면서 boundscale가져오는 해당함수 사용(임의지정해도됨 상관없음)
-	float4 scale = m_pRenderer->GetMeshScale() * 100.f;
+	float4 scale = m_pRenderer->GetMeshScale() * 5.f;
 	
 
 	m_pControllerComp = CreateComponent<PhysXControllerComponent>(); // 원하는 모양의 PhysXComponent부착
