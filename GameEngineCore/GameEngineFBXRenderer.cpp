@@ -265,7 +265,15 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 
 	if (RenderUnit->ShaderResHelper.IsTexture("DiffuseTexture"))
 	{
+		
 		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_MeshIndex, _SubSetIndex);
+
+		// 텍스쳐이름 확인용 test 코드 
+		if (MatData.DifTextureName == "Ruin_CobbleStone_Dirt_Tile_HoD.png")
+		{
+			int a = 0;
+		}
+		
 
 		if (nullptr != GameEngineTexture::Find(MatData.DifTextureName))
 		{

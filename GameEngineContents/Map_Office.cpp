@@ -8,6 +8,8 @@
 #include "PhysXBoxComponent.h"
 #include "PhysXCapsuleComponent.h"
 
+#include "ContentFBXRenderer.h"
+
 
 // static obj
 #include "Transform_Wall.h"
@@ -62,10 +64,39 @@ void Map_Office::Update(float _DeltaTime)
 void Map_Office::InitComponent()
 {
 	// 맵 렌더러 
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("Map_Office.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("Map_Office.fbx", "ContentMesh");
 	m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 
+	// 일부러 텍스쳐 안입힌 상태에서, 찾아서 하면 될듯 
+	auto AllUnit = m_pRenderer->GetAllRenderUnit();
+	auto Unit = m_pRenderer->GetUnTexturedUnit();
+
+	AllUnit[124][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[124][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+	
+	AllUnit[684][1]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[684][1]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+
+	AllUnit[1398][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[1398][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+
+	// 74 , 80 , 128, 683  , 684
+	AllUnit[683][1]->UVdata = { 0.2f, 0.2f, 0.0f, 0.0f };
+	AllUnit[684][2]->UVdata = { 0.2f, 0.2f, 0.0f, 0.0f };
+
+	// test
+	// 5 - 456
+	// 6 - 012678
+	// 7 - 789
+	// 8 - 01234567
+
+	// ---
+	// 4 - 678 
+	// 5 - 23489
+	// 6 - 09
+	// 7 - 0~~9 
+	int a = 0;
 	// 네비메쉬 위치확인용 렌더러 
 	m_pNaviRenderer = CreateComponent<GameEngineFBXRenderer>();
 	m_pNaviRenderer->SetFBXMesh("Map_Office_Navi_Blend.fbx", "MeshTexture");

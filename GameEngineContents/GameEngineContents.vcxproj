@@ -236,6 +236,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Ladder.cpp" />
     <ClCompile Include="LevelWindow.cpp">
       <SubType>
       </SubType>
@@ -466,6 +467,10 @@
     <ClInclude Include="GameContentsMapActor.h" />
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="HpBar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Ladder.h">
       <SubType>
       </SubType>
     </ClInclude>
