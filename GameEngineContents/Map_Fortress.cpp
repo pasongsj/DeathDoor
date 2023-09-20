@@ -10,6 +10,8 @@
 
 #include "SecretTile.h"
 #include "Crate.h"
+#include "Ladder.h"
+
 
 Map_Fortress::Map_Fortress()
 {
@@ -89,6 +91,9 @@ void Map_Fortress::Create_ActiveObject()
 	//test 
 	std::shared_ptr<SecretTile> Tile = GetLevel()->CreateActor<SecretTile>();
 	std::shared_ptr<Crate> Obj = GetLevel()->CreateActor<Crate>();
+	std::shared_ptr<Ladder> NewLadder = GetLevel()->CreateActor<Ladder>();
+	NewLadder->GetTransform()->SetWorldPosition(float4 { 200, 200, 0 });
+	
 }
 
 void Map_Fortress::Create_TransformWall(std::shared_ptr<class GameEngineLevel> _CurLevel)

@@ -280,6 +280,9 @@
     <ClCompile Include="EnemyBrute.cpp">
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Ladder.cpp">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -555,6 +558,9 @@
     </ClInclude>
     <ClInclude Include="EnemyBrute.h">
       <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Ladder.h">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
