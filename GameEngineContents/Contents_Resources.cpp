@@ -91,13 +91,13 @@ void ContentsCore::ContentsResourcesCreate()
 	}
 
 	{
-		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMesh");
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshForward");
 
 		//Pipe->SetVertexBuffer("FullRect");
 		//Pipe->SetIndexBuffer("FullRect");
-		Pipe->SetVertexShader("ContentMeshShader.hlsl");
+		Pipe->SetVertexShader("ContentMeshForward.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
-		Pipe->SetPixelShader("ContentMeshShader.hlsl");
+		Pipe->SetPixelShader("ContentMeshForward.hlsl");
 		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}

@@ -22,31 +22,23 @@ struct Output
     float4 VIEWPOSITION : POSITION;
     float4 TEXCOORD : TEXCOORD;
     float4 NORMAL : NORMAL;
+    float4 WORLDPOSITION : POSITION1;
 };
 
-
-cbuffer ColorOption : register(b1)
+struct PointLight
 {
-    float4 MulColor;
-    float4 AddColor;
+    float3 RGB;
+    float4 Position;
+    float MaxDist;
+    float Intensity;
 };
 
-cbuffer UVData : register(b2)
+cbuffer AllPointLight : register(b3)
 {
-    float2 MulUV;
-    float2 AddUV;
+    int PointLightNum;
+    PointLight PointLights[16];
 };
 
-// 빛계산을 통해서 빛의 반사를 구현하고 나면
-// 그 빛을 계산하는 시점에 따라서 예전에는 구분을 했다.
-// 이제는 구분이 거의 의미가 없다.
-// 빛이라는 컬러를 구해내는 것이 된다.
-
-// 그걸 버텍스 쉐이더에서하면 그걸 점단위로 하면 플랫쉐이딩
-// 그걸 버텍스 쉐이더에서하면 그걸 고로쉐이딩
-// 그걸 픽셀 쉐이더에서하면 그걸 퐁쉐이딩
-
-// 그래픽카드에서 이뤄지는것.
 Output ContentAniMeshForward_VS(Input _Input)
 {
     Output NewOutPut = (Output) 0;
@@ -60,7 +52,6 @@ Output ContentAniMeshForward_VS(Input _Input)
     if (IsAnimation != 0)
     {
         Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
-       // SkinningNormal(InputNormal, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
         InputPos.w = 1.0f;
         InputNormal.w = 0.0f;
     }
@@ -68,10 +59,11 @@ Output ContentAniMeshForward_VS(Input _Input)
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
     
-    // 빛계산을 하기 위한 포지션이므로 이녀석은 뷰공간에 있어야 한다.
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
     _Input.NORMAL.w = 0.0f;
     NewOutPut.NORMAL = mul(InputNormal, WorldView);
+    
+    NewOutPut.WORLDPOSITION = mul(InputPos, WorldMatrix);
     
     return NewOutPut;
 }
@@ -89,7 +81,24 @@ SamplerState ENGINEBASE : register(s0);
 OutputTarget ContentAniMeshForward_PS(Output _Input)
 {
     OutputTarget PS_OutPut = (OutputTarget) 0.0f;
+    
+    float4 ResultPointLight = (float4) 0.0f;
+    
+    for (int i = 0; i < PointLightNum; i++)
+    {
+        float3 PointLightDir = PointLights[i].Position.xyz - _Input.WORLDPOSITION.xyz;
+        float3 PointLightNormal = normalize(PointLightDir);
+    
+        float PointLightDiffuse = max(0.0f, dot(_Input.NORMAL.xyz, PointLightNormal));
+        float PointLightDistance = distance(PointLights[i].Position.xyz, _Input.WORLDPOSITION.xyz);
+    
+        float4 LightColor = float4(PointLights[i].RGB, 1.0f);
+
+        float4 PointLightColor = LightColor * PointLightDiffuse * (1.0f - saturate(PointLightDistance / PointLights[i].MaxDist));
         
+        ResultPointLight += PointLights[i].Intensity * PointLightColor;
+    }
+    
     float4 DiffuseRatio = CalDiffuseLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
     float4 SpacularRatio = CalSpacularLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
     float4 AmbientRatio = CalAmbientLight(AllLight[0]);
@@ -99,7 +108,7 @@ OutputTarget ContentAniMeshForward_PS(Output _Input)
     
     float MaskAlpha = MaskColor.w;
     
-    MaskResultColor = 2.0f * MaskColor * (DiffuseRatio + SpacularRatio + AmbientRatio);
+    MaskResultColor = 2.0f * MaskColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
     MaskResultColor += float4(0.8f, 0.0f, 0.5f, 1.0f);
     MaskResultColor.a = MaskAlpha;
     
@@ -107,7 +116,7 @@ OutputTarget ContentAniMeshForward_PS(Output _Input)
     float4 DiffuseColor = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
     float DiffuseAlpha = DiffuseColor.w;
-    DiffuseResultColor = DiffuseColor * (DiffuseRatio + SpacularRatio + AmbientRatio);
+    DiffuseResultColor = DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
     DiffuseResultColor.a = DiffuseAlpha;
     
     //DiffuseResultColor = ceil(DiffuseResultColor * 10.0f) / 10.0f;
