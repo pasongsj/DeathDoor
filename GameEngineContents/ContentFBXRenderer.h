@@ -18,6 +18,7 @@ public:
 	
 	void SetFade(const std::string_view& _MaskTextureName = "MaskType2_0.png");
 	void SetCrack();
+	void SetCrackAmount(float _Amount);
 
 	void FadeOut(float _MaxTime, float _DeltaTime);
 	void FadeIn(float _MaxTime, float _DeltaTime);

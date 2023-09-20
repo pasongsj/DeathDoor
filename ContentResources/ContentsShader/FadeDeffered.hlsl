@@ -75,7 +75,7 @@ Output FadeDeferred_VS(Input _Input)
 }
 
 Texture2D DiffuseTexture : register(t0);
-Texture2D FilterTexture : register(t1);
+Texture2D MaskTexture : register(t1);
 
 SamplerState ENGINEBASE : register(s0);
 
@@ -96,7 +96,7 @@ DeferredOutPut FadeDeferred_PS(Output _Input)
     Color *= MulColor;
     Color += AddColor;
     
-    float4 FilterColor = FilterTexture.Sample(ENGINEBASE,_Input.TEXCOORD.xy);
+    float4 FilterColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
     if (FilterColor.r <= Delta)
     {
@@ -113,7 +113,7 @@ DeferredOutPut FadeDeferred_PS(Output _Input)
     {
         for (int j = 0; j < 5; j++)
         {
-            float4 CurFliterColor = FilterTexture.Sample(ENGINEBASE, CurUV);
+            float4 CurFliterColor = MaskTexture.Sample(ENGINEBASE, CurUV);
             
             if (CurFliterColor.r <= Delta)
             {
