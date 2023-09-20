@@ -47,7 +47,7 @@ cbuffer UVData : register(b2)
 // 그걸 픽셀 쉐이더에서하면 그걸 퐁쉐이딩
 
 // 그래픽카드에서 이뤄지는것.
-Output ContentMeshAniTexture_VS(Input _Input)
+Output ContentAniMeshForward_VS(Input _Input)
 {
     Output NewOutPut = (Output) 0;
     
@@ -65,12 +65,6 @@ Output ContentMeshAniTexture_VS(Input _Input)
         InputNormal.w = 0.0f;
     }
     
-    // 자신의 로컬공간에서 애니메이션을 시키고
-    // NewOutPut.POSITION = mul(_Input.POSITION, ArrAniMationMatrix[_Input.BLENDINDICES[0]].Mat);
-    
-    // 빛 
-    
-    // 스크린좌표계 이다.
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
     
@@ -82,38 +76,45 @@ Output ContentMeshAniTexture_VS(Input _Input)
     return NewOutPut;
 }
 
+struct OutputTarget
+{
+    float4 CamForwardTarget : SV_Target0;
+    float4 BlurTarget : SV_Target6;
+};
+
 Texture2D DiffuseTexture : register(t0);
+Texture2D MaskTexture : register(t1);
 SamplerState ENGINEBASE : register(s0);
 
-float4 ContentMeshAniTexture_PS(Output _Input) : SV_Target0
+OutputTarget ContentAniMeshForward_PS(Output _Input)
 {
-    _Input.TEXCOORD.xy *= MulUV;
-    _Input.TEXCOORD.xy += AddUV;
-    
-    // 디퓨즈컬러
-    float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
-    
-    // 디퓨즈 라이트
-    
-    if (Color.a <= 0.0f)
-    {
-        clip(-1);
-    }
-    
+    OutputTarget PS_OutPut = (OutputTarget) 0.0f;
+        
     float4 DiffuseRatio = CalDiffuseLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
-    float4 SpacularRatio = CalSpacularLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);;
+    float4 SpacularRatio = CalSpacularLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
     float4 AmbientRatio = CalAmbientLight(AllLight[0]);
     
+    float4 MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+    float4 MaskResultColor = (float4) 0.0f;
     
-    float A = Color.w;
-    float4 ResultColor = Color * (DiffuseRatio + SpacularRatio + AmbientRatio);
-    ResultColor.a = A;
+    float MaskAlpha = MaskColor.w;
     
-    ResultColor *= MulColor;
-    ResultColor += AddColor;
+    MaskResultColor = 2.0f * MaskColor * (DiffuseRatio + SpacularRatio + AmbientRatio);
+    MaskResultColor += float4(0.8f, 0.0f, 0.5f, 1.0f);
+    MaskResultColor.a = MaskAlpha;
     
-    // Color += AllLight[0].LightColor;
+    float4 DiffuseResultColor = (float4) 0.0f;
+    float4 DiffuseColor = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
-    return ResultColor;
+    float DiffuseAlpha = DiffuseColor.w;
+    DiffuseResultColor = DiffuseColor * (DiffuseRatio + SpacularRatio + AmbientRatio);
+    DiffuseResultColor.a = DiffuseAlpha;
+    
+    //DiffuseResultColor = ceil(DiffuseResultColor * 10.0f) / 10.0f;
+    
+    PS_OutPut.CamForwardTarget = DiffuseResultColor;
+    PS_OutPut.BlurTarget = MaskResultColor;
+    
+    return PS_OutPut;
 }
 

@@ -61,7 +61,7 @@ struct DeferredOutPut
     float4 DifTarget : SV_Target1;
     float4 PosTarget : SV_Target2;
     float4 NorTarget : SV_Target3;
-    float4 aaaTarget : SV_Target6;
+    float4 BlurTarget : SV_Target6;
 };
 
 cbuffer MaskInfo : register(b0)
@@ -87,15 +87,9 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
         
         if (MaskColor.a > 0.0f)
         {            
-            Color.rgb = Magenta;
-            //NewOutPut.CamForwardTarget = ResultColor;
-            //NewOutPut.TestTarget = ResultColor;
-            //float4 MaxLight = -normalize(AllLight[0].ViewLightDir);
-            //
-            //MaxLight.a = 1.0f;
-            //
-            //NewOutPut.NorTarget = MaxLight;
-            //NewOutPut.PosTarget = _Input.VIEWPOSITION;
+            NewOutPut.BlurTarget = float4(Magenta, MaskColor.a);
+            Color = NewOutPut.BlurTarget;
+
         }
     }
     
