@@ -138,6 +138,10 @@
     <ClCompile Include="PlayerTestLevel.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
+    <ClCompile Include="PhysXManager.cpp" />
+    <ClCompile Include="PlayerInit.cpp">
+      <Filter>Contents\PlayerTestLevel</Filter>
+    </ClCompile>
     <ClCompile Include="Map_Emptyplain.cpp">
       <Filter>Contents\TestLevel\MapTestLevel\Actor</Filter>
     </ClCompile>
@@ -148,16 +152,16 @@
       <Filter>Contents\OfficeLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="StreetLamp.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="TrashCan.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="Fountain.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="SemiCircleTable.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="StaticParticleManager.cpp">
       <Filter>Component\ContentsRenderer\Particle</Filter>
@@ -175,31 +179,34 @@
       <Filter>Contents\UITestLevel</Filter>
     </ClCompile>
     <ClCompile Include="StreetLamp_2.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="MiniOffice.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="FlowerPot.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="MiniDesk.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="Conveyor.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="Transform_Wall.cpp">
-      <Filter>Contents\Static_Object\Wall</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>Contents\Boss</Filter>
     </ClCompile>
     <ClCompile Include="Railing.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="Bench.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="MiniPost.cpp">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="PlayerInit.cpp">
       <Filter>FSMObject\Player</Filter>
@@ -225,6 +232,21 @@
     <ClCompile Include="PhysXTrigger.cpp">
       <Filter>Component\PhysX\Test</Filter>
     </ClCompile>
+    <ClCompile Include="Boss_OldCrowFSM.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrowAnimation.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrow.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="BossLevelTestObject.cpp">
+      <Filter>Contents\BossTestLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="BossTestLevel.cpp">
+      <Filter>Contents\BossTestLevel</Filter>
+    </ClCompile>
     <ClCompile Include="FortressLevel.cpp">
       <Filter>Contents\FortressLevel</Filter>
     </ClCompile>
@@ -232,6 +254,30 @@
       <Filter>Contents\FortressLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="EnemyFirePlant.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBase.cpp">
+      <Filter>Contents\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMage.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGrunt.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SecretTile.cpp">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Crate.cpp">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Frog_Lever.cpp">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXControllerComponent.cpp">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBrute.cpp">
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
@@ -384,16 +430,16 @@
       <Filter>Contents\OfficeLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="StreetLamp.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="TrashCan.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="Fountain.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="SemiCircleTable.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="ParticleStruct.h">
       <Filter>Component\ContentsRenderer\Particle</Filter>
@@ -414,31 +460,34 @@
       <Filter>Contents\UITestLevel</Filter>
     </ClInclude>
     <ClInclude Include="StreetLamp_2.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="MiniOffice.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="FlowerPot.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="MiniDesk.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="Conveyor.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="Transform_Wall.h">
-      <Filter>Contents\Static_Object\Wall</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>Contents\Boss</Filter>
     </ClInclude>
     <ClInclude Include="Railing.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="Bench.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="MiniPost.h">
-      <Filter>Contents\Static_Object</Filter>
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>FSMObject\Player</Filter>
@@ -464,6 +513,15 @@
     <ClInclude Include="PhysXTrigger.h">
       <Filter>Component\PhysX\Test</Filter>
     </ClInclude>
+    <ClInclude Include="Boss_OldCrow.h">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClInclude>
+    <ClInclude Include="BossLevelTestObject.h">
+      <Filter>Contents\BossTestLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="BossTestLevel.h">
+      <Filter>Contents\BossTestLevel</Filter>
+    </ClInclude>
     <ClInclude Include="FortressLevel.h">
       <Filter>Contents\FortressLevel</Filter>
     </ClInclude>
@@ -471,6 +529,31 @@
       <Filter>Contents\FortressLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="EnemyFirePlant.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBase.h">
+      <Filter>Contents\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMage.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGrunt.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="SecretTile.h">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Crate.h">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Frog_Lever.h">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXControllerComponent.h">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBrute.h">
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
@@ -553,17 +636,23 @@
     <Filter Include="Contents\PlayerTestLevel">
       <UniqueIdentifier>{f51af19b-c4ef-4a9b-a75e-fa1d33a8d783}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Boss">
+      <UniqueIdentifier>{a635cc47-31d0-4194-b57f-905191ef2785}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Contents\TestLevel\MapTestLevel\Actor">
       <UniqueIdentifier>{e61b235a-08ef-4d2c-8b42-a38245fea2ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Static_Object">
-      <UniqueIdentifier>{525c3b97-c219-4a66-ba48-36517941ff49}</UniqueIdentifier>
     </Filter>
     <Filter Include="Component\ContentsRenderer\Particle">
       <UniqueIdentifier>{47fef3f1-0d09-44ae-b450-d11cab6effcc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Static_Object\Wall">
-      <UniqueIdentifier>{0dd36c88-e6ef-4b59-aa21-a028fbaaa996}</UniqueIdentifier>
+    <Filter Include="Contents\BossTestLevel">
+      <UniqueIdentifier>{5c11a7c5-e976-45af-b6d5-61102129526f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\BossTestLevel\Actor">
+      <UniqueIdentifier>{bad7ed96-cfac-451b-9af5-06faa3884ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Boss\OldCrow">
+      <UniqueIdentifier>{8663efb8-203a-4317-893f-0e2b22e1a943}</UniqueIdentifier>
     </Filter>
     <Filter Include="FSMObject">
       <UniqueIdentifier>{a609c6fe-2488-4096-9de1-f3200194dae1}</UniqueIdentifier>
@@ -579,6 +668,15 @@
     </Filter>
     <Filter Include="Contents\FortressLevel\Actor">
       <UniqueIdentifier>{23756f21-8374-45c9-b3ab-2c88693dde53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel\Static_Object">
+      <UniqueIdentifier>{525c3b97-c219-4a66-ba48-36517941ff49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel\Static_Object\Wall">
+      <UniqueIdentifier>{0dd36c88-e6ef-4b59-aa21-a028fbaaa996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\FortressLevel\Active_Object">
+      <UniqueIdentifier>{7135283d-a1cc-4778-9c28-fd7e7f68f16e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

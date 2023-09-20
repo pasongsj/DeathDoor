@@ -27,15 +27,12 @@ protected:
 
 
 private:
-	// ¸Ê ·Îµå 
-	void LoadMapFBX();
-
 	// 2800, 230, -6300
-	const float4 m_CameraPos = float4{ 0, 0 , -1000 };
-	const float4 m_CameraRot = float4{ 0 , 0 , 0 };
+	const float4 m_CameraPos = float4{ 0, 1500 , -1250 };
+	const float4 m_CameraRot = float4{ 55 , 0 , 0 };
 
 	void Set_StartPos(std::shared_ptr<class Player> _Player);
-	const float4 m_StartPos = float4{ 0, 0, 0 };
+	const float4 m_StartPos = float4::ZERONULL;
 	// const float4 m_TestStartPos = float4{ 1869, 570, 4110 };
 
 

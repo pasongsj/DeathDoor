@@ -136,6 +136,7 @@ private:
 	std::map<int, SortType> SortValues;
 
 	DirectX::BoundingOrientedBox Box;
+	DirectX::BoundingFrustum Frustum;
 
 	bool FreeCamera = false;
 

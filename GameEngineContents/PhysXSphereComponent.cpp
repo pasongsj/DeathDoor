@@ -52,8 +52,7 @@ void PhysXSphereComponent::Start()
 }
 
 void PhysXSphereComponent::Update(float _DeltaTime)
-{
-
+{	
 	if (true == IsStatic())
 	{
 		if (true == PositionSetFromParentFlag)
@@ -81,6 +80,29 @@ void PhysXSphereComponent::Update(float _DeltaTime)
 	}
 	else
 	{
+		if (true == PositionSetFromParentFlag)
+		{
+			float4 tmpQuat = ParentActor.lock()->GetTransform()->GetWorldRotation().EulerDegToQuaternion();
+
+			physx::PxTransform tmpPxTransform
+			(
+				ParentActor.lock()->GetTransform()->GetWorldPosition().x,
+				ParentActor.lock()->GetTransform()->GetWorldPosition().y,
+				ParentActor.lock()->GetTransform()->GetWorldPosition().z,
+				physx::PxQuat
+				(
+					tmpQuat.x,
+					tmpQuat.y,
+					tmpQuat.z,
+					tmpQuat.w
+				)
+			);
+
+			// 부모의 Transform정보를 바탕으로 PhysX Actor의 트랜스폼을 갱신
+			m_pRigidDynamic->setGlobalPose(tmpPxTransform);
+			// TODO::회전도 처리해야함. DegreeToQuat
+			return;
+		}
 		// PhysX Actor의 상태에 맞춰서 부모의 Transform정보를 갱신
 		float4 tmpWorldPos = { m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z };
 		float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pRigidDynamic->getGlobalPose().q) * GameEngineMath::RadToDeg;

@@ -31,8 +31,10 @@ void GameEngineLevel::LevelCameraInit()
 	std::shared_ptr<GameEngineCamera> UICamera = CreateNewCamera(100);
 	UICamera->SetProjectionType(CameraType::Orthogonal);
 
-
-	LastTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	if (nullptr==LastTarget)
+	{
+		LastTarget = GameEngineRenderTarget::CreateDummy();
+	}
 }
 
 GameEngineLevel::~GameEngineLevel()
@@ -233,6 +235,22 @@ void GameEngineLevel::ActorRelease()
 					++ActorStart;
 					continue;
 				}
+				std::shared_ptr<GameEngineLight> ReleaseLight = RelaseActor->DynamicThis<GameEngineLight>();
+				if (nullptr != ReleaseLight)
+				{
+					std::list<std::shared_ptr<GameEngineLight>>::iterator LightStart = AllLight.begin();
+					std::list<std::shared_ptr<GameEngineLight>>::iterator LightEnd = AllLight.end();
+					for (; LightStart != LightEnd;)
+					{
+						if (*LightStart == ReleaseLight)
+						{
+							ReleaseLight->ReleaseShadowRenderTarget();
+							LightStart = AllLight.erase(LightStart);
+							break;
+						}
+						++LightStart;
+					}
+				}
 				RelaseActor->Release();
 				ActorStart = ActorList.erase(ActorStart);
 			}
@@ -279,6 +297,10 @@ void GameEngineLevel::Render(float _DeltaTime)
 		}
 	}
 
+	for (std::shared_ptr<GameEngineLight> Light : AllLight)
+	{
+		Light->GetShadowTarget()->Clear();
+	}
 
 	for (std::pair<int, std::shared_ptr<GameEngineCamera>> Pair : Cameras)
 	{
@@ -450,6 +472,8 @@ void GameEngineLevel::InitCameraRenderTarget()
 	{
 		BeginCamIter->second->InitCameraRenderTarget();
 	}
+
+	LastTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 }
 
 void GameEngineLevel::ReleaseCameraRenderTarget()
@@ -459,6 +483,7 @@ void GameEngineLevel::ReleaseCameraRenderTarget()
 	{
 		BeginCamIter->second->ReleaseCameraRenderTarget();
 	}
+	LastTarget->ReleaseTexture();
 }
 
 void GameEngineLevel::AllActorDestroy()
@@ -485,7 +510,6 @@ void GameEngineLevel::AllActorDestroy()
 
 		ActorRelease();
 	}
-
 	LevelCameraInit();
 }
 
@@ -494,6 +518,7 @@ void GameEngineLevel::DestroyCamera()
 	for (std::pair<int, std::shared_ptr<GameEngineCamera>> _Cam : Cameras)
 	{
 		_Cam.second->Renderers.clear();
+		_Cam.second->ReleaseCameraRenderTarget();
 	}
 	Cameras.clear();
 }
@@ -507,7 +532,6 @@ void GameEngineLevel::PushLight(std::shared_ptr<GameEngineLight> _Light)
 
 	//_Light->LightDataPtr = &LightInst;
 	//++LightDataObject.LightCount;
-
 	AllLight.push_back(_Light);
 }
 //void GameEngineLevel::SendActorPacket(float _DeltaTime)

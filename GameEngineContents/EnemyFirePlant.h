@@ -23,6 +23,7 @@ protected:
 	void InitAniamtion() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
+
 private:
 	enum class EnemyFireFlowerState
 	{
@@ -32,10 +33,7 @@ private:
 		MAX
 	};
 
-	std::shared_ptr<class GameEngineFBXRenderer> FlowerRender = nullptr;
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
-
-	void AggroMove();
 
 	void SetFSMFUNC();
 };

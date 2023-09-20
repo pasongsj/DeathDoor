@@ -167,6 +167,15 @@
   <ItemGroup>
     <ClCompile Include="Bench.cpp" />
     <ClCompile Include="BlackScreen.cpp" />
+    <ClCompile Include="BossBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BossLevelTestObject.cpp" />
+    <ClCompile Include="BossTestLevel.cpp" />
+    <ClCompile Include="Boss_OldCrow.cpp" />
+    <ClCompile Include="Boss_OldCrowAnimation.cpp" />
+    <ClCompile Include="Boss_OldCrowFSM.cpp" />
     <ClCompile Include="ContentFBXRenderer.cpp">
       <SubType>
       </SubType>
@@ -188,6 +197,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Conveyor.cpp" />
+    <ClCompile Include="Crate.cpp" />
     <ClCompile Include="EnemyBase.cpp">
       <SubType>
       </SubType>
@@ -196,7 +206,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EnemyBrute.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EnemyFirePlant.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyGrunt.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyMage.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -204,6 +226,7 @@
     <ClCompile Include="FortressLevel.cpp" />
     <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="DynamicParticleManager.cpp" />
+    <ClCompile Include="Frog_Lever.cpp" />
     <ClCompile Include="FSMObjectBase.cpp">
       <SubType>
       </SubType>
@@ -250,6 +273,7 @@
     </ClCompile>
     <ClCompile Include="PhysXBoxComponent.cpp" />
     <ClCompile Include="PhysXCapsuleComponent.cpp" />
+    <ClCompile Include="PhysXControllerComponent.cpp" />
     <ClCompile Include="PhysXConvexComponent.cpp" />
     <ClCompile Include="PhysXCustom.cpp" />
     <ClCompile Include="PhysXDefault.cpp" />
@@ -299,6 +323,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Railing.cpp" />
+    <ClCompile Include="SecretTile.cpp" />
     <ClCompile Include="SemiCircleTable.cpp" />
     <ClCompile Include="ServerPacket.cpp" />
     <ClCompile Include="ServerTestLevel.cpp">
@@ -357,6 +382,13 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BlackScreen.h" />
+    <ClInclude Include="BossBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BossLevelTestObject.h" />
+    <ClInclude Include="BossTestLevel.h" />
+    <ClInclude Include="Boss_OldCrow.h" />
     <ClInclude Include="ContentFBXUIRenderer.h">
       <SubType>
       </SubType>
@@ -381,6 +413,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Crate.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EnemyBase.h">
       <SubType>
       </SubType>
@@ -389,8 +425,20 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EnemyBrute.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EnemyDefinition.h" />
     <ClInclude Include="EnemyFirePlant.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyGrunt.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyMage.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -407,11 +455,16 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DynamicParticleManager.h" />
+    <ClInclude Include="Frog_Lever.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="FSMObjectBase.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="GameContentsMapActor.h" />
+    <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="HpBar.h">
       <SubType>
       </SubType>
@@ -475,6 +528,7 @@
     </ClInclude>
     <ClInclude Include="PhysXBoxComponent.h" />
     <ClInclude Include="PhysXCapsuleComponent.h" />
+    <ClInclude Include="PhysXControllerComponent.h" />
     <ClInclude Include="PhysXConvexComponent.h" />
     <ClInclude Include="PhysXCustom.h" />
     <ClInclude Include="PhysXDefault.h" />
@@ -523,6 +577,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Railing.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SecretTile.h">
       <SubType>
       </SubType>
     </ClInclude>

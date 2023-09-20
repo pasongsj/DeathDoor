@@ -75,6 +75,8 @@ public:
     }
 
     LightData LightDataValue;
+    void InitShadowRenderTarget();
+    void ReleaseShadowRenderTarget();
 
 protected:
 
