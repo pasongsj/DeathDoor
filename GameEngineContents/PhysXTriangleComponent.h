@@ -16,7 +16,7 @@ public:
 	PhysXTriangleComponent(PhysXTriangleComponent&& _Other) noexcept = delete;
 	PhysXTriangleComponent& operator=(const PhysXTriangleComponent& _Other) = delete;
 	PhysXTriangleComponent& operator=(PhysXTriangleComponent&& _Other) noexcept = delete;
-	
+
 	void CreatePhysXActors(const std::string& _MeshName,bool _InverseIndex = true, float _Ratio = 1.f, float4 _GeoMetryRot = { 0.0f, 0.0f });
 
 
@@ -30,8 +30,6 @@ private:
 	// Phys액터 생성에 필요한 정보
 	physx::PxCooking* m_pCooking = nullptr;
 
-
-	physx::PxConvexMesh* m_pConvexMesh;
 
 	std::vector<std::vector<physx::PxVec3>> VertexVec;
 	std::vector<std::vector<physx::PxU32>> IndexVec;

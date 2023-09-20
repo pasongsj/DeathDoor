@@ -16,7 +16,8 @@ public:
 	PhysXControllerComponent& operator=(const PhysXControllerComponent& _Other) = delete;
 	PhysXControllerComponent& operator=(PhysXControllerComponent&& _Other) noexcept = delete;
 
-	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f });
+	void CreatePhysXActors(float4 _GeoMetryScale = float4(2.0f, 2.0f, 2.0f), float4 _GeoMetryRotation = float4::ZERO);
+	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f, 2.0f, 2.0f), float4 _GeoMetryRotation = float4::ZERO);
 
 	void SetMoveSpeed(float4 _MoveSpeed);
 

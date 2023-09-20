@@ -423,3 +423,47 @@ void GameEngineFBXRenderer::Update(float _DeltaTime)
 
 	CurAnimation->Update(_DeltaTime);
 }
+
+float4 GameEngineFBXRenderer::GetMeshScale()
+{
+	float4 f4MinBox = float4::ZERO;
+	float4 f4MaxBox = float4::ZERO;
+	float4 ResultBox = float4::ZERO;
+	for (size_t i = 0; i < FBXMesh->GetRenderUnitCount(); i++)
+	{
+		float4 f4TempMinBox = float4::ZERO;
+		float4 f4TempMaxBox = float4::ZERO;
+		f4TempMinBox = FBXMesh->GetRenderUnit(i)->MinBoundBox;
+		f4TempMaxBox = FBXMesh->GetRenderUnit(i)->MaxBoundBox;
+		if (f4MinBox.x > f4TempMinBox.x)
+		{
+			f4MinBox.x = f4TempMinBox.x;
+		}
+		if (f4MinBox.y > f4TempMinBox.y)
+		{
+			f4MinBox.y = f4TempMinBox.y;
+		}
+		if (f4MinBox.z > f4TempMinBox.z)
+		{
+			f4MinBox.z = f4TempMinBox.z;
+		}
+
+		if (f4MaxBox.x < f4TempMaxBox.x)
+		{
+			f4MaxBox.x = f4TempMaxBox.x;
+		}
+		if (f4MaxBox.y < f4TempMaxBox.y)
+		{
+			f4MaxBox.y = f4TempMaxBox.y;
+		}
+		if (f4MaxBox.z < f4TempMaxBox.z)
+		{
+			f4MaxBox.z = f4TempMaxBox.z;
+		}
+	}
+	ResultBox.x = f4MaxBox.x - f4MinBox.x;
+	ResultBox.y = f4MaxBox.y - f4MinBox.y;
+	ResultBox.z = f4MaxBox.z - f4MinBox.z;
+
+	return ResultBox;
+}

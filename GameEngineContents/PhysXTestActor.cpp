@@ -2,6 +2,7 @@
 #include "PhysXTestActor.h"
 
 #include <GameEngineCore/GameEngineFBXRenderer.h>
+#include <GameEngineCore/GameEngineDebug3D.h>
 
 #include "PhysXBoxComponent.h"
 #include "PhysXCapsuleComponent.h"

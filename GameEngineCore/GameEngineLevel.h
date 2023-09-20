@@ -28,6 +28,10 @@ public:
 	{
 		IsDebugRender = !IsDebugRender;
 	}
+	bool GetDebugRender()
+	{
+		return IsDebugRender;
+	}
 
 	GameEngineTimeEvent TimeEvent;
 
