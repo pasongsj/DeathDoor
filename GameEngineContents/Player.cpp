@@ -45,7 +45,7 @@ void Player::Start()
 
 
 	SetFSMFunc();
-	Renderer->ChangeAnimation("Idle_0");
+	Renderer->ChangeAnimation("IDLE0");
 }
 
 void Player::Update(float _DeltaTime)
@@ -194,7 +194,7 @@ void Player::DirectionUpdate(float _DeltaTime)
 	//float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, _DeltaTime * 10.0f);
 
 	float4 CalRot = float4::ZERO;
-	CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, LerpDir);
+	CalRot.y = float4::GetAngleVectorToVectorDeg360(PlayerDefaultDir, LerpDir);
 	m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -CalRot);
 	ForwardDir = LerpDir;
 }

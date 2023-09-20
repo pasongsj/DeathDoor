@@ -32,80 +32,73 @@ void Player::InitInputKey()
 void Player::InitPlayerAnimation()
 {
 	Renderer = CreateComponent<GameEngineFBXRenderer>();
-	Renderer->SetFBXMesh("Player.FBX", "MeshAniTexture");
+	Renderer->SetFBXMesh("PLAYER_MESH.FBX", "MeshAniTexture");
 
 	//idle
-	Renderer->CreateFBXAnimation("Idle_0", "Crow_Player_Idle_0.FBX", { 0.02f,false });
-	Renderer->CreateFBXAnimation("Idle_1", "Crow_Player_Idle_1.FBX", { 0.01f,false });
+	Renderer->CreateFBXAnimation("IDLE0", "PLAYER_IDLE_0.FBX", { 0.02f,false });
+	Renderer->CreateFBXAnimation("IDLE1", "PLAYER_IDLE_1.FBX", { 0.01f,false });
 
 	//skill
-	Renderer->CreateFBXAnimation("Arrow", "Crow_Player_Arrow.FBX", { 0.01f,false });
-	Renderer->CreateFBXAnimation("Arrow_bomb", "Crow_Player_Arrow_bomb.FBX", { 0.01f,false });
-	Renderer->CreateFBXAnimation("Arrow_magic", "Crow_Player_Arrow_magic.FBX", { 0.01f,false });
-	Renderer->CreateFBXAnimation("Hookshot", "Crow_Player_Hookshot.FBX", { 0.01f,false });
-	Renderer->CreateFBXAnimation("Hookshot_fly", "Crow_Player_Hookshot_fly.FBX", { 0.01f,true });
+	Renderer->CreateFBXAnimation("ARROW", "PLAYER_ARROW.FBX", { 0.01f,false });
+	Renderer->CreateFBXAnimation("BOMB", "PLAYER_ARROW_BOMB.FBX", { 0.01f,false });
+	Renderer->CreateFBXAnimation("BOMB_END", "PLAYER_ARROW_BOMB_END.FBX", { 0.01f,false });
+	Renderer->CreateFBXAnimation("MAGIC", "PLAYER_ARROW_MAGIC.FBX", { 0.01f,false });
+	Renderer->CreateFBXAnimation("HOOK", "PLAYER_HOOK_SHOT.FBX", { 0.01f,false });
+	Renderer->CreateFBXAnimation("HOOKE_FLY", "PLAYER_HOOKSHOT_FLY.FBX", { 0.01f,true });
 
 	// move
-	Renderer->CreateFBXAnimation("Walk", "Crow_Player_Walk.FBX", { 0.02f,false ,0,5});
-	Renderer->CreateFBXAnimation("Run", "Crow_Player_Run.FBX", { 0.02f,true });
+	Renderer->CreateFBXAnimation("WALK", "PLAYER_WALK.FBX", { 0.02f,false ,0,5});
+	Renderer->CreateFBXAnimation("RUN", "PLAYER_RUN.FBX", { 0.02f,true });
 
 	//roll
-	Renderer->CreateFBXAnimation("Roll", "Crow_Player_Roll.FBX", { 0.02f,false });
-	Renderer->CreateFBXAnimation("Roll_slash", "Crow_Player_Roll_slash.FBX", { 0.01f,false });
-	Renderer->CreateFBXAnimation("Charge_slam_overhead", "Crow_Player_Charge_slam_overhead.FBX", { 0.01f,false });// 구르기 마우스 휠
-	Renderer->CreateFBXAnimation("Roll_slash_end", "Crow_Player_Roll_slash_end.FBX", { 0.01f,false });
+	Renderer->CreateFBXAnimation("ROLL", "PLAYER_ROLL.FBX", { 0.02f,false });
+	Renderer->CreateFBXAnimation("ROLL_SLASH", "PLAYER_ROLL_SLASH.FBX", { 0.01f,false });
+	//Renderer->CreateFBXAnimation("Charge_slam_overhead", "Crow_Player_Charge_slam_overhead.FBX", { 0.01f,false });// 구르기 마우스 휠
+	Renderer->CreateFBXAnimation("ROLL_SLASH_END", "PLAYER_ROLL_SLASH_END.FBX", { 0.01f,false });
 
 	//hit 공격당함
-	Renderer->CreateFBXAnimation("Hit_back", "Crow_Player_Hit_back.FBX", { 0.01f,false });
-	Renderer->CreateFBXAnimation("Hit_idle", "Crow_Player_Hit_idle.FBX", { 0.01f,true });
-	Renderer->CreateFBXAnimation("Hit_Recover", "Crow_Player_Hit_Recover.FBX", { 0.01f,false });
+	Renderer->CreateFBXAnimation("HIT_BACK", "PLAYER_HIT_BACK.FBX", { 0.01f,false });
+	Renderer->CreateFBXAnimation("HIT_IDLE", "PLAYER_HIT_IDLE.FBX", { 0.01f,true });
+	Renderer->CreateFBXAnimation("HIT_RECOVER", "PLAYER_HIT_RECOVER.FBX", { 0.01f,false });
 
 	//climb
-	Renderer->CreateFBXAnimation("Climbing_ladder", "Crow_Player_Climbing_ladder.FBX", { 0.02f,true });
-	Renderer->CreateFBXAnimation("Climbing_ladder_down", "Crow_Player_Climbing_ladder_down.FBX", { 0.02f,true });
-	Renderer->CreateFBXAnimation("Climbing_off_ladder_top", "Crow_Player_Climbing_off_ladder_top.FBX", { 0.02f,false });
+	Renderer->CreateFBXAnimation("CLIMBING_LADDER", "PLAYER_CLIMBING_LADDER.FBX", { 0.02f,true });
+	Renderer->CreateFBXAnimation("CLIMBING_LADDER_DOWN", "PLAYER_CLIMBING_LADDER_DOWN.FBX", { 0.02f,true });
+	Renderer->CreateFBXAnimation("CLIMBING_OFF_LADDER_TOP", "PLAYER_CLIMBING_OFF_LADDER_TOP.FBX", { 0.02f,false });
 
 	//attack
 		//left btn
-	Renderer->CreateFBXAnimation("Slash_Light_L_new", "Crow_Player_Slash_Light_R_new.FBX", { 0.01f,false }); // 일반 좌클릭
-	Renderer->CreateFBXAnimation("Slash_Light_R_new", "Crow_Player_Slash_Light_L_new.FBX", { 0.01f,false }); // 일반 좌클릭
+	Renderer->CreateFBXAnimation("SLASH_LIGHT_L", "PLAYER_SLASH_LIGHT_R.FBX", { 0.01f,false }); // 일반 좌클릭
+	Renderer->CreateFBXAnimation("SLASH_LIGHT_R", "PLAYER_SLASH_LIGHT_L.FBX", { 0.01f,false }); // 일반 좌클릭
 	// mid btn
-	Renderer->CreateFBXAnimation("Charge_slash_L", "Crow_Player_Charge_slash_L.FBX", { 0.01f,false }); 
-	Renderer->CreateFBXAnimation("Charge_slash_R", "Crow_Player_Charge_slash_R.FBX", { 0.01f,false }); 
+	Renderer->CreateFBXAnimation("CHARGE_SLASH_L", "PLAYER_CHARGE_SLASH_L.FBX", { 0.01f,false }); 
+	Renderer->CreateFBXAnimation("CHARGE_SLASH_R", "PLAYER_CHARGE_SLASH_R.FBX", { 0.01f,false }); 
+	Renderer->CreateFBXAnimation("CHARGE_MAX_L", "PLAYER_CHARGE_MAX_L.FBX", { 0.01f,true }); 
+	Renderer->CreateFBXAnimation("CHARGE_MAX_R", "PLAYER_CHARGE_MAX_R.FBX", { 0.01f,true });
 
 	//interaction
-	Renderer->CreateFBXAnimation("Push_Lever", "Crow_Player_Push_Lever.FBX", { 0.01f,false });
-	Renderer->CreateFBXAnimation("GetItem", "Crow_Player_GetItem.FBX", { 0.01f,false }); // 체크필요
+	Renderer->CreateFBXAnimation("PUSH_LEVER", "PLAYER_PUSH_LEVER.FBX", { 0.01f,false });
+	Renderer->CreateFBXAnimation("GETITEM", "PLAYER_GETITEM.FBX", { 0.01f,false }); // 체크필요
 
 	// Dead
-	Renderer->CreateFBXAnimation("Dead", "Crow_Player_Dead.FBX", { 0.01f,true });
-	Renderer->CreateFBXAnimation("Drown", "Crow_Player_Drown.FBX", { 0.01f,true }); //물에 빠짐
-	Renderer->CreateFBXAnimation("Falling", "Crow_Player_Falling.FBX", { 0.01f,true }); // 바닥에 떨어짐
+	Renderer->CreateFBXAnimation("Dead", "PLAYER_DEAD.FBX", { 0.01f,true });
+	Renderer->CreateFBXAnimation("DROWN", "PLAYER_DROWN.FBX", { 0.01f,true }); //물에 빠짐
 
-	// fly & land
-	Renderer->CreateFBXAnimation("Fly", "Crow_Player_Fly.FBX", { 0.01f,true }); // 체크필요
-	Renderer->CreateFBXAnimation("Land", "Crow_Player_Land.FBX", { 0.01f,false }); // 착지
-	//{
-	//// 잘 모르겠는 애니메이션
+	// falling & land
+	Renderer->CreateFBXAnimation("FALLING", "PLAYER_FALLING.FBX", { 0.01f,true }); // 체크필요
+	Renderer->CreateFBXAnimation("LAND", "PLAYER_LAND.FBX", { 0.01f,false }); // 착지
 
-	//	Renderer->CreateFBXAnimation("Injured_fall", "Crow_Player_Injured_fall.FBX", { 0.01f,true }); // 돌려야함
-	//	AnimationName.push_back("Injured_fall");
 
-	//	Renderer->CreateFBXAnimation("Injured_getup", "Crow_Player_Injured_getup.FBX", { 0.01f,true });
-	//	AnimationName.push_back("Injured_getup");
+	// 추가 애니메이션
+	//Renderer->CreateFBXAnimation("21", "PLAYER_IDLE_FEAR.fbx");
+	//Renderer->CreateFBXAnimation("22", "PLAYER_INJURED_FALL.fbx");
+	//Renderer->CreateFBXAnimation("23", "PLAYER_INJURED_GETUP.fbx");
+	//Renderer->CreateFBXAnimation("24", "PLAYER_INJURED_LAND.fbx");
+	//Renderer->CreateFBXAnimation("26", "PLAYER_PLUNGE.fbx");
+	//Renderer->CreateFBXAnimation("27", "PLAYER_PLUNGE_LAND.fbx");
+	//Renderer->CreateFBXAnimation("36", "PLAYER_SNEAK.fbx");
+	//Renderer->CreateFBXAnimation("30", "PLAYER_ROLL_HEAVY.fbx");
 
-	//	Renderer->CreateFBXAnimation("Injured_land", "Crow_Player_Injured_land.FBX", { 0.01f,true });
-	//	AnimationName.push_back("Injured_land");
-	// 
-	// 	Renderer->CreateFBXAnimation("Plunge", "Crow_Player_Plunge.FBX", { 0.01f,true });
-	//	AnimationName.push_back("Plunge");	
-	//
-	//	Renderer->CreateFBXAnimation("Plunge_land", "Crow_Player_Plunge_land.FBX", { 0.01f,true });
-	//	AnimationName.push_back("Plunge_land");	
-	//	
-	//	Renderer->CreateFBXAnimation("Plunge_prep", "Crow_Player_Plunge_prep.FBX", { 0.01f,true });
-	//	AnimationName.push_back("Plunge_prep");	
-	//}
 
 	GetTransform()->SetLocalScale(float4::ONE * PlayerScaleRatio);
 }

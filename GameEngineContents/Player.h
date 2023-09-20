@@ -51,8 +51,7 @@ private:
 		ITEM,			// 아이템을 얻음 GetItem
 		DEAD,			// 피격으로 인한 사망 Dead
 		DROWN,			// 익사 Drown
-		FALLING,		// 낙사 Falling
-		FLY,			// 높이가 차가 있을 때 FLy, Land
+		FALLING,			// 높이가 차가 있을 때 falling, Land
 		MAX,
 	};
 

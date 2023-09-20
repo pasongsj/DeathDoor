@@ -23,7 +23,7 @@ void Player::SetFSMFunc()
 	SetFSM(PlayerState::IDLE,
 		[this]
 		{
-			Renderer->ChangeAnimation("Idle_0");
+			Renderer->ChangeAnimation("IDLE0");
 
 		},
 		[this](float Delta)
@@ -32,12 +32,12 @@ void Player::SetFSMFunc()
 			{
 				if (false == StateChecker)
 				{
-					Renderer->ChangeAnimation("Idle_1");
+					Renderer->ChangeAnimation("IDLE1");
 
 				}
 				else
 				{
-					Renderer->ChangeAnimation("Idle_0");
+					Renderer->ChangeAnimation("IDLE0");
 
 				}
 				StateChecker = !StateChecker;
@@ -56,7 +56,7 @@ void Player::SetFSMFunc()
 	SetFSM(PlayerState::WALK,
 		[this]
 		{
-			Renderer->ChangeAnimation("Run");
+			Renderer->ChangeAnimation("RUN");
 
 
 		},
@@ -65,7 +65,7 @@ void Player::SetFSMFunc()
 			//StateDuration += Delta;
 			if (true == StateChecker)
 			{
-				Renderer->ChangeAnimation("Walk");
+				Renderer->ChangeAnimation("WALK");
 				if (true == Renderer->IsAnimationEnd())
 				{
 					SetNextState(PlayerState::IDLE);
@@ -92,16 +92,16 @@ void Player::SetFSMFunc()
 			switch (CurSkill)
 			{
 			case Player::PlayerSkill::ARROW:
-				Renderer->ChangeAnimation("Arrow");
+				Renderer->ChangeAnimation("ARROW");
 				break;
 			case Player::PlayerSkill::MAGIC:
-				Renderer->ChangeAnimation("Arrow_magic");
+				Renderer->ChangeAnimation("MAGIC");
 				break;
 			case Player::PlayerSkill::BOMB:
-				Renderer->ChangeAnimation("Arrow_bomb");
+				Renderer->ChangeAnimation("BOMB");
 				break;
 			case Player::PlayerSkill::HOOK:
-				Renderer->ChangeAnimation("Hookshot");
+				Renderer->ChangeAnimation("HOOK");
 				break;
 			case Player::PlayerSkill::MAX:
 				break;
@@ -167,11 +167,11 @@ void Player::SetFSMFunc()
 		{
 			if (true == isRightAttack)
 			{
-				Renderer->ChangeAnimation("Slash_Light_R_new");
+				Renderer->ChangeAnimation("SLASH_LIGHT_R");
 			}
 			else
 			{
-				Renderer->ChangeAnimation("Slash_Light_L_new");
+				Renderer->ChangeAnimation("SLASH_LIGHT_L");
 			}
 			isRightAttack = !isRightAttack;
 
@@ -199,7 +199,7 @@ void Player::SetFSMFunc()
 	SetFSM(PlayerState::ROLL,
 		[this]
 		{
-			Renderer->ChangeAnimation("Roll");
+			Renderer->ChangeAnimation("ROLL");
 			//StateDuration = 2.0f;
 			mButton = false; },
 		[this](float Delta)
@@ -232,7 +232,7 @@ void Player::SetFSMFunc()
 	SetFSM(PlayerState::ROLL_ATT,
 		[this]
 		{
-			Renderer->ChangeAnimation("Charge_slam_overhead");
+			Renderer->ChangeAnimation("ROLL_SLASH_END");
 		},
 		[this](float Delta)
 		{
@@ -254,19 +254,31 @@ void Player::SetFSMFunc()
 		{
 			if (true == isRightAttack)
 			{
-				Renderer->ChangeAnimation("Charge_slash_R");
+				Renderer->ChangeAnimation("CHARGE_SLASH_R");
 			}
 			else
 			{
-				Renderer->ChangeAnimation("Charge_slash_L");
+				Renderer->ChangeAnimation("CHARGE_SLASH_L");
 			}
 		},
 		[this](float Delta)
 		{
-				if (false == GameEngineInput::IsPress("PlayerMBUTTON"))
+			if (true == Renderer->IsAnimationEnd())
+			{
+				if (true == isRightAttack)
 				{
-					SetNextState(PlayerState::BASE_ATT);
+					Renderer->ChangeAnimation("CHARGE_MAX_R");
 				}
+				else
+				{
+					Renderer->ChangeAnimation("CHARGE_MAX_L");
+				}
+			}
+
+			if (false == GameEngineInput::IsPress("PlayerMBUTTON"))
+			{
+				SetNextState(PlayerState::BASE_ATT);
+			}
 		},
 		[this]
 		{
@@ -278,7 +290,7 @@ void Player::SetFSMFunc()
 	SetFSM(PlayerState::HIT,
 		[this]
 		{
-			Renderer->ChangeAnimation("Hit_back");
+			Renderer->ChangeAnimation("HIT_BACK");
 		},
 		[this](float Delta)
 		{
@@ -286,13 +298,13 @@ void Player::SetFSMFunc()
 			StateDuration += Delta;
 			if (false == StateChecker && true == Renderer->IsAnimationEnd())
 			{
-				Renderer->ChangeAnimation("Player_HitIdle");
+				Renderer->ChangeAnimation("HIT_IDLE");
 				StateChecker = true;
 				IdleEndTime = StateDuration + PlayerHitIdleTime;
 			}
 			if (true == StateChecker && StateDuration > IdleEndTime)
 			{
-				Renderer->ChangeAnimation("Hit_Recover");
+				Renderer->ChangeAnimation("HIT_RECOVER");
 				if (true == Renderer->IsAnimationEnd())
 				{
 					SetNextState(PlayerState::IDLE);
@@ -309,7 +321,7 @@ void Player::SetFSMFunc()
 	SetFSM(PlayerState::CLIMB,
 		[this]
 		{
-			Renderer->ChangeAnimation("Climbing_ladder");
+			Renderer->ChangeAnimation("CLIMBING_LADDER");
 			Renderer->PauseOn();
 
 			m_pCapsuleComp->TurnOffGravity(); 
@@ -332,10 +344,10 @@ void Player::SetFSMFunc()
 
 	
 	//LEVER // 레버를 누름 Push_Lever
-	SetFSM(PlayerState::HOOK_FLY,
+	SetFSM(PlayerState::LEVER,
 		[this]
 		{
-			Renderer->ChangeAnimation("Push_Lever");
+			Renderer->ChangeAnimation("PUSH_LEVER");
 		},
 		[this](float Delta)
 		{
@@ -351,10 +363,10 @@ void Player::SetFSMFunc()
 
 	//ITEM
 	// 아이템을 얻음 GetItem
-	SetFSM(PlayerState::HOOK_FLY,
+	SetFSM(PlayerState::ITEM,
 		[this]
 		{
-			Renderer->ChangeAnimation("GetItem");
+			Renderer->ChangeAnimation("GETITEM");
 		},
 		[this](float Delta)
 		{
@@ -371,10 +383,10 @@ void Player::SetFSMFunc()
 
 	//DEAD
 	// 피격으로 인한 사망 Dead
-	SetFSM(PlayerState::HOOK_FLY,
+	SetFSM(PlayerState::DEAD,
 		[this]
 		{
-			Renderer->ChangeAnimation("Dead");
+			Renderer->ChangeAnimation("DEAD");
 		},
 		[this](float Delta)
 		{
@@ -387,10 +399,10 @@ void Player::SetFSMFunc()
 
 	//DROWN
 	// 익사 Drown
-	SetFSM(PlayerState::HOOK_FLY,
+	SetFSM(PlayerState::DROWN,
 		[this]
 		{
-			Renderer->ChangeAnimation("Drown");
+			Renderer->ChangeAnimation("DROWN");
 		},
 		[this](float Delta)
 		{
@@ -402,28 +414,14 @@ void Player::SetFSMFunc()
 
 
 
-	//FALLING
-	// 낙사 Falling
-	SetFSM(PlayerState::HOOK_FLY,
-		[this]
-		{
-			Renderer->ChangeAnimation("Falling");
-		},
-		[this](float Delta)
-		{
-		},
-		[this]
-		{
-		}
-	); 
 
 
 	//FLY
-	// 높이가 차가 있을 때 Fly, Land
-	SetFSM(PlayerState::HOOK_FLY,
+	// 높이가 차가 있을 때 Falling, Land
+	SetFSM(PlayerState::FALLING,
 		[this]
 		{
-			Renderer->ChangeAnimation("Fly");
+			Renderer->ChangeAnimation("FALLING");
 		},
 		[this](float Delta)
 		{
