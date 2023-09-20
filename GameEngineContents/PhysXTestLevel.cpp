@@ -1,13 +1,15 @@
 #include "PreCompileHeader.h"
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
+#include <GameEngineCore/BloomEffect.h>
+
 #include "PhysXTestLevel.h"
 #include "PhysXTestActor.h"
 #include "PhysXTestPlane.h"
+#include "PhysXBoxComponent.h"
 #include "PhysXTrigger.h"
 #include "Player.h"
-#include <GameEngineCore/BloomEffect.h>
-#include "PhysXBoxComponent.h"
+
 PhysXTestLevel::PhysXTestLevel() 
 {
 }

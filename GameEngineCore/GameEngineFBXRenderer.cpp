@@ -413,6 +413,35 @@ void GameEngineFBXRenderer::ChangeAnimation(const std::string& _AnimationName, b
 	CurAnimation = FindIter->second;
 }
 
+void GameEngineFBXRenderer::CalculateUnitPos()
+{
+	float4 f4MinPos = float4::ZERO;
+	float4 f4MaxPos = float4::ZERO;
+	float4 f4Scale = float4::ZERO;
+	float4 ResultPos = float4::ZERO;
+	float4 Quat = Quat.EulerDegToQuaternion();
+	float4x4 RenderUnitMat = float4x4::Zero;
+	for (size_t i = 0; i < Unit.size(); i++)
+	{
+		f4MinPos = FBXMesh->GetRenderUnit(i)->MinBoundBox;
+		f4MaxPos = FBXMesh->GetRenderUnit(i)->MaxBoundBox;
+		f4Scale = FBXMesh->GetRenderUnit(i)->BoundScaleBox;
+		ResultPos = (f4MinPos + f4MaxPos) * 0.5f;
+
+		RenderUnitMat.Compose(f4Scale, Quat, ResultPos);
+		RenderUnitMat *= GetTransform()->GetWorldMatrixRef();
+		//RenderUnitMat *= GetTransform()->GetLocalWorldMatrixRef();
+
+		float4 Pos = float4(RenderUnitMat._30, RenderUnitMat._31, RenderUnitMat._32, RenderUnitMat._33);
+
+		for (size_t j = 0; j < Unit[i].size(); j++)
+		{
+			Unit[i][j]->SetUnitPos(Pos);
+			Unit[i][j]->SetUnitScale(f4Scale);
+		}
+	}
+}
+
 
 void GameEngineFBXRenderer::Update(float _DeltaTime)
 {
@@ -422,4 +451,48 @@ void GameEngineFBXRenderer::Update(float _DeltaTime)
 	}
 
 	CurAnimation->Update(_DeltaTime);
+}
+
+float4 GameEngineFBXRenderer::GetMeshScale()
+{
+	float4 f4MinBox = float4::ZERO;
+	float4 f4MaxBox = float4::ZERO;
+	float4 ResultBox = float4::ZERO;
+	for (size_t i = 0; i < FBXMesh->GetRenderUnitCount(); i++)
+	{
+		float4 f4TempMinBox = float4::ZERO;
+		float4 f4TempMaxBox = float4::ZERO;
+		f4TempMinBox = FBXMesh->GetRenderUnit(i)->MinBoundBox;
+		f4TempMaxBox = FBXMesh->GetRenderUnit(i)->MaxBoundBox;
+		if (f4MinBox.x > f4TempMinBox.x)
+		{
+			f4MinBox.x = f4TempMinBox.x;
+		}
+		if (f4MinBox.y > f4TempMinBox.y)
+		{
+			f4MinBox.y = f4TempMinBox.y;
+		}
+		if (f4MinBox.z > f4TempMinBox.z)
+		{
+			f4MinBox.z = f4TempMinBox.z;
+		}
+
+		if (f4MaxBox.x < f4TempMaxBox.x)
+		{
+			f4MaxBox.x = f4TempMaxBox.x;
+		}
+		if (f4MaxBox.y < f4TempMaxBox.y)
+		{
+			f4MaxBox.y = f4TempMaxBox.y;
+		}
+		if (f4MaxBox.z < f4TempMaxBox.z)
+		{
+			f4MaxBox.z = f4TempMaxBox.z;
+		}
+	}
+	ResultBox.x = f4MaxBox.x - f4MinBox.x;
+	ResultBox.y = f4MaxBox.y - f4MinBox.y;
+	ResultBox.z = f4MaxBox.z - f4MinBox.z;
+
+	return ResultBox;
 }

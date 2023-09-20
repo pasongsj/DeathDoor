@@ -1,5 +1,7 @@
 #include "PreCompileHeader.h"
 #include "PhysXDefault.h"
+#include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineTransform.h>
 #include <math.h>
 
 physx::PxAggregate* PhysXDefault::m_pAggregate = nullptr;
@@ -42,6 +44,42 @@ float4 PhysXDefault::ToEulerAngles(const physx::PxQuat& q) {
     float cosy_cosp = 1 - 2 * (y * y + z * z);
 	angles.z = std::atan2(siny_cosp, cosy_cosp);
 	return angles;
+}
+
+void PhysXDefault::SetWorldPosWithParent(float4 _Pos, float4 _Rot)
+{
+    if (nullptr != m_pRigidDynamic)
+    {
+        if (_Rot == float4::ZERONULL)
+        {
+            ParentActor.lock()->GetTransform()->SetWorldPosition(_Pos);
+            m_pRigidDynamic->setGlobalPose(float4::PhysXTransformReturn(ParentActor.lock()->GetTransform()->GetWorldRotation(), _Pos));
+        }
+        else
+        {
+
+            ParentActor.lock()->GetTransform()->SetWorldPosition(_Pos);
+            ParentActor.lock()->GetTransform()->SetWorldRotation(_Rot);
+            m_pRigidDynamic->setGlobalPose(float4::PhysXTransformReturn(_Rot, _Pos));
+        }
+        return;
+    }
+    if (nullptr != m_pRigidStatic)
+    {
+        if (_Rot == float4::ZERONULL)
+        {
+            ParentActor.lock()->GetTransform()->SetWorldPosition(_Pos);
+            m_pRigidStatic->setGlobalPose(float4::PhysXTransformReturn(ParentActor.lock()->GetTransform()->GetWorldRotation(), _Pos));
+        }
+        else
+        {
+
+            ParentActor.lock()->GetTransform()->SetWorldPosition(_Pos);
+            ParentActor.lock()->GetTransform()->SetWorldRotation(_Rot);
+            m_pRigidStatic->setGlobalPose(float4::PhysXTransformReturn(_Rot, _Pos));
+        }
+        return;
+    }
 }
 
 float4 PhysXDefault::GetQuaternionEulerAngles(float4 rot)
@@ -150,4 +188,52 @@ PhysXDefault::vector PhysXDefault::matrixMultiply(matrix m, vector v)
 {
     vector mm = { dotProduct(m.i, v), dotProduct(m.j, v), dotProduct(m.k, v) };
     return mm;
+}
+
+void PhysXDefault::DeathAndRelease()
+{
+    if (nullptr != m_pRigidDynamic && true == m_pRigidDynamic->isReleasable())
+    {
+        m_pShape->userData = nullptr;
+        m_pRigidDynamic->release();
+        m_pRigidDynamic = nullptr;
+        ParentActor.lock()->Death();
+    }
+    if (nullptr != m_pRigidStatic && true == m_pRigidStatic->isReleasable())
+    {
+        m_pShape->userData = nullptr;
+        m_pRigidStatic->release();
+        m_pRigidStatic = nullptr;
+        ParentActor.lock()->Death();
+    }
+}
+
+void PhysXDefault::Release()
+{
+    if (m_pRigidDynamic != nullptr && m_pRigidDynamic->isReleasable())
+    {
+        m_pShape->userData = nullptr;
+        m_pRigidDynamic->release();
+        m_pRigidDynamic = nullptr;
+    }
+    if (m_pRigidStatic != nullptr && m_pRigidStatic->isReleasable())
+    {
+        m_pShape->userData = nullptr;
+        m_pRigidStatic->release();
+        m_pRigidStatic = nullptr;
+    }
+}
+
+void PhysXDefault::SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0, PhysXFilterGroup _OtherFilter1, PhysXFilterGroup _OtherFilter2)
+{
+    m_pShape->setSimulationFilterData
+    (
+        physx::PxFilterData
+        (
+            static_cast<physx::PxU32>(_ThisFilter),
+            static_cast<physx::PxU32>(_OtherFilter0),
+            static_cast<physx::PxU32>(_OtherFilter1),
+            static_cast<physx::PxU32>(_OtherFilter2)
+        )
+    );
 }

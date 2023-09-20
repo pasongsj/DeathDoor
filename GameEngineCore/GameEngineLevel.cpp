@@ -22,6 +22,10 @@ GameEngineLevel::GameEngineLevel()
 	{
 		GameEngineInput::CreateKey("FreeCameraSwitch", VK_F1);
 	}
+	if (false == GameEngineInput::IsKey("DebugSwitch"))
+	{
+		GameEngineInput::CreateKey("DebugSwitch", VK_F7);
+	}
 
 	FXAATarget = GameEngineRenderTarget::CreateDummy();
 	FXAATarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
@@ -58,6 +62,10 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 	{
 		MainCamera->FreeCameraSwitch();
 		// GameEngineInput::CreateKey("FreeCameraSwitch", VK_F1);
+	}
+	if (true == GameEngineInput::IsDown("DebugSwitch"))
+	{
+		IsDebugSwitch();
 	}
 
 

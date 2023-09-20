@@ -17,7 +17,8 @@ public:
 	PhysXCapsuleComponent& operator=(const PhysXCapsuleComponent& _Other) = delete;
 	PhysXCapsuleComponent& operator=(PhysXCapsuleComponent&& _Other) noexcept = delete;
 
-	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f }, bool _Static = false, bool _Controller = false);
+	void CreatePhysXActors(float4 _GeoMetryScale = float4(2.0f, 2.0f, 2.0f), float4 _GeoMetryRotation = float4::ZERO, bool _Static = false);
+	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = float4::ZERO, bool _Static = false);
 
 	void SetMoveSpeed(float4 _MoveSpeed);
 	void SetRotation(float4 _Rot);
@@ -98,7 +99,6 @@ public:
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-	//void Render() override {}
 
 private:
 	bool m_bSpeedLimit = false;
@@ -107,7 +107,6 @@ private:
 
 	//속도제한 함수
 	void SpeedLimit();
-	physx::PxControllerFilters m_pControllerFilter;
 	
 	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
 	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
