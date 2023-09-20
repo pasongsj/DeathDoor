@@ -28,12 +28,6 @@ public:
 	// 가속도를 추가
 	void AddAngularVelocity(float4 _Velocity);
 
-	// RigidBody->Actor || Actor->RigidBody 플래그
-	inline void SetPositionSetFromParentFlag(bool _Flag)
-	{
-		PositionSetFromParentFlag = _Flag;
-	}
-
 	// RigidBody의 질량을 취득
 	inline physx::PxReal GetMass()
 	{

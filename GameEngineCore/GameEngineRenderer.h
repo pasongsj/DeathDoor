@@ -2,6 +2,7 @@
 #include "GameEngineComponent.h"
 #include "GameEngineShader.h"
 #include "EngineContentRenderingStruct.h"
+#include "GameEngineFBXMesh.h"
 
 enum class RenderPath
 {
@@ -36,6 +37,15 @@ public:
 	{
 		return ParentRenderer;
 	}
+	std::shared_ptr<class GameEngineFBXMesh> GetFbxMesh()
+	{
+		std::shared_ptr<GameEngineFBXMesh> FbxMesh = std::dynamic_pointer_cast<GameEngineFBXMesh>(Mesh);
+		if (nullptr != FbxMesh)
+		{
+			return FbxMesh;
+		}
+		return nullptr;
+	}
 
 	void Setting();
 
@@ -63,8 +73,27 @@ public:
 	MaskInfo Mask;
 
 	ColorOption Color = { { 1, 1, 1, 1 }, { 0, 0, 0, 0 } };
+	
+	void SetUnitPos(float4 _Pos)
+	{
+		UnitPos = _Pos;
+	}
+	void SetUnitScale(float4 _Scale)
+	{
+		UnitScale = _Scale;
+	}
+	float4 GetUnitPos()
+	{
+		return UnitPos;
+	}
+	float4 GetUnitScale()
+	{
+		return UnitScale;
+	}
 
 private:
+	float4 UnitScale = float4::ZERONULL;
+	float4 UnitPos = float4::ZERONULL;
 	class GameEngineRenderer* ParentRenderer = nullptr;
 	std::shared_ptr<class GameEngineInputLayOut> InputLayOutPtr;
 	std::shared_ptr<class GameEngineMesh> Mesh;
@@ -83,7 +112,7 @@ public:
 	float4 Mouse;
 };
 
-// 설명 :
+// ���� :
 class GameEngineRenderer : public GameEngineComponent
 {
 	friend class GameEngineCamera;
@@ -100,10 +129,10 @@ public:
 	GameEngineRenderer& operator=(const GameEngineRenderer& _Other) = delete;
 	GameEngineRenderer& operator=(GameEngineRenderer&& _Other) noexcept = delete;
 
-	// 파이프라인이 세팅되어 있고
-	// 어떤 쉐이더를 사용했다는 걸 알아야 하고
-	// 그 쉐이더에서 어떤 텍스처를 사용했고
-	// 어떤 샘플러 어떤 상수버퍼를 사용했는지를 알아야 한다.
+	// ������������ ���õǾ� �ְ�
+	// � ���̴��� ����ߴٴ� �� �˾ƾ� �ϰ�
+	// �� ���̴����� � �ؽ�ó�� ����߰�
+	// � ���÷� � ������۸� ����ߴ����� �˾ƾ� �Ѵ�.
 
 	void SetMaterial(const std::string_view& _Name, int _index = 0);
 	void SetMesh(const std::string_view& _Name, int _index = 0);
@@ -113,13 +142,13 @@ public:
 	std::shared_ptr<GameEngineRenderUnit> CreateRenderUnit(std::string_view _Mesh, std::string_view _Material);
 	std::shared_ptr<GameEngineRenderUnit> CreateRenderUnitToIndex(unsigned int _Index);
 
-	// 랜더유니트를 만든다.
+	// ��������Ʈ�� �����.
 	std::shared_ptr<GameEngineRenderUnit> CreateRenderUnit();
 
-	// 여기서 리턴된 파이프라인을 수정하면 이 파이프라인을 사용하는 모든 애들이 바뀌게 된다.
+	// ���⼭ ���ϵ� ������������ �����ϸ� �� ������������ ����ϴ� ��� �ֵ��� �ٲ�� �ȴ�.
 	std::shared_ptr<GameEngineMaterial> GetMaterial(int _index = 0);
 
-	// 이걸 사용하게되면 이 랜더러의 유니트는 자신만의 클론 파이프라인을 가지게 된다.
+	// �̰� ����ϰԵǸ� �� �������� ����Ʈ�� �ڽŸ��� Ŭ�� ������������ ������ �ȴ�.
 	// std::shared_ptr<GameEngineMaterial> GetPipeLineClone(int _index = 0);
 
 	inline GameEngineShaderResHelper& GetShaderResHelper(int _index = 0)
@@ -139,8 +168,8 @@ public:
 		return RenderCamera;
 	}
 
-	// 업데이트에서 할것이기 때문에 그냥 하겠습니다. 
-	// 랜더 도중에 카메라를 바꾸거나 한다면 이상한 일이 발생할수 있다.
+	// ������Ʈ���� �Ұ��̱� ������ �׳� �ϰڽ��ϴ�. 
+	// ���� ���߿� ī�޶� �ٲٰų� �Ѵٸ� �̻��� ���� �߻��Ҽ� �ִ�.
 
 	std::shared_ptr<GameEngineRenderUnit> GetUnit(unsigned int _Index = 0)
 	{
@@ -206,8 +235,8 @@ private:
 
 	std::vector<std::shared_ptr<GameEngineRenderUnit>> Units;
 
-	// Pipe와
-	//// GameEngineShaderResHelper 가 합쳐져야 랜더링 이 되는 식이 됩니다.
+	// Pipe��
+	//// GameEngineShaderResHelper �� �������� ������ �� �Ǵ� ���� �˴ϴ�.
 	//std::shared_ptr<class GameEngineMaterial> Pipe;
 	//GameEngineShaderResHelper ShaderResHelper;
 
