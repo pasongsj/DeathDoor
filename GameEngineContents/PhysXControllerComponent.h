@@ -31,9 +31,10 @@ protected:
 
 private:
 	physx::PxControllerFilters m_pControllerFilter;
-	physx::PxController*  m_pController = nullptr;
+	physx::PxController* m_pController = nullptr;
 	float4 m_pControllerDir = float4::ZERO;
 	bool m_bSpeedLimit = false;
 
-	physx::PxVec3 GeoMetryScale;};
+	physx::PxVec3 GeoMetryScale;
+};
 

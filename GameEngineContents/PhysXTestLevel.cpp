@@ -7,6 +7,7 @@
 #include "PhysXTrigger.h"
 #include "Player.h"
 #include <GameEngineCore/BloomEffect.h>
+#include "PhysXBoxComponent.h"
 PhysXTestLevel::PhysXTestLevel() 
 {
 }
@@ -44,7 +45,9 @@ void PhysXTestLevel::LevelChangeStart()
 	}
 
 	m_pTestActor = CreateActor<PhysXTestActor>();
-	CreateActor<PhysXTestPlane>();
+	
+	std::shared_ptr<PhysXTestPlane> test = CreateActor<PhysXTestPlane>();
+	test->GetComp()->SetWorldPosWithParent(float4(100, 0, 100));
 
 	CreateActor<PhysXTrigger>();
 	std::shared_ptr<PhysXTestPlane> pWallPlane = CreateActor<PhysXTestPlane>();

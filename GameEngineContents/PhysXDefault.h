@@ -27,8 +27,6 @@ public:
 	PhysXDefault& operator=(const PhysXDefault& _Other) = delete;
 	PhysXDefault& operator=(PhysXDefault&& _Other) noexcept = delete;
 
-	// 필터링 셋팅
-	void SetupFiltering(physx::PxShape* _Shape, physx::PxU32 _FilterGroup, physx::PxU32 _FilterMask);
 	float4 ToEulerAngles(const physx::PxQuat& q);
 
 	//정지마찰계수설정
@@ -68,6 +66,42 @@ public:
 	inline void AddActorAggregate(physx::PxActor* _Actor)
 	{
 		m_pAggregate->addActor(*_Actor);
+	}
+
+	void SetWorldPosWithParent(float4 _Pos,float4 _Rot = float4::ZERONULL)
+	{
+		if (nullptr != m_pRigidDynamic)
+		{
+			if (_Rot == float4::ZERONULL)
+			{
+				ParentActor.lock()->GetTransform()->SetWorldPosition(_Pos);
+				m_pRigidDynamic->setGlobalPose(float4::PhysXTransformReturn(ParentActor.lock()->GetTransform()->GetWorldRotation(), _Pos));
+			}
+			else
+			{
+
+				ParentActor.lock()->GetTransform()->SetWorldPosition(_Pos);
+				ParentActor.lock()->GetTransform()->SetWorldRotation(_Rot);
+				m_pRigidDynamic->setGlobalPose(float4::PhysXTransformReturn(_Rot, _Pos));
+			}
+			return;
+		}
+		if (nullptr != m_pRigidStatic)
+		{
+			if (_Rot == float4::ZERONULL)
+			{
+				ParentActor.lock()->GetTransform()->SetWorldPosition(_Pos);
+				m_pRigidStatic->setGlobalPose(float4::PhysXTransformReturn(ParentActor.lock()->GetTransform()->GetWorldRotation(), _Pos));
+			}
+			else
+			{
+
+				ParentActor.lock()->GetTransform()->SetWorldPosition(_Pos);
+				ParentActor.lock()->GetTransform()->SetWorldRotation(_Rot);
+				m_pRigidStatic->setGlobalPose(float4::PhysXTransformReturn(_Rot, _Pos));
+			}
+			return;
+		}
 	}
 
 	//쿼터니언 관련 함수
