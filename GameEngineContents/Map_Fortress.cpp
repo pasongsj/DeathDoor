@@ -3,6 +3,8 @@
 
 #include "FortressLevel.h"
 
+#include "ContentFBXRenderer.h"
+
 // physX
 #include "PhysXTriangleComponent.h"
 #include "PhysXBoxComponent.h"
@@ -53,13 +55,21 @@ void Map_Fortress::Update(float _DeltaTime)
 void Map_Fortress::InitComponent()
 {
 	// 맵 렌더러 
-	//m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	//m_pRenderer->SetFBXMesh("Fortress_FullMap.fbx", "MeshTexture");
-	//// m_pRenderer->GetTransform()->SetLocalScale(float4{ -1, 1, 1 });
-	//m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
-	//m_pRenderer->GetTransform()->SetLocalPosition(m_MapPos);
-	// m_pRenderer->Off();
-	// float4 Scale = m_pRenderer->GetTransform()->GetLocalScale();
+	m_pRenderer_Part1 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part1->SetFBXMesh("Fortress_Part1.fbx", "ContentMesh");
+	m_pRenderer_Part1->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part1->GetTransform()->SetLocalPosition(float4 { -8480, 140, -7360 });
+	
+	m_pRenderer_Part2 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part2->SetFBXMesh("Fortress_Part2.fbx", "ContentMesh");
+	m_pRenderer_Part2->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part2->GetTransform()->SetLocalPosition(float4{ -8334, 100, -6458 });
+
+	m_pRenderer_Part3 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part3->SetFBXMesh("Fortress_Part3.fbx", "ContentMesh");
+	m_pRenderer_Part3->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part3->GetTransform()->SetLocalPosition(float4{ -3844, 100 , -12898 });
+
 
 
 	// 네비메쉬 위치확인용 렌더러 
