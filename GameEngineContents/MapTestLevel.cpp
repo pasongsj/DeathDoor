@@ -13,6 +13,7 @@
 #include "EnemyMage.h"
 #include "EnemyGrunt.h"
 #include "EnemyBrute.h"
+#include "EnemyGhoul.h"
 #include "MonsterAnimationTest.h"
 
 //test 
@@ -99,7 +100,7 @@ void MapTestLevel::InitTestLevel()
 		}
 		//CreateActor<MonsterAnimationTest>();
 		//CreateActor<Player>();
-		CreateActor<EnemyFirePlant>();
+		CreateActor<EnemyGhoul>();
 		//std::shared_ptr<EnemyFirePlant> monster =  CreateActor<EnemyFirePlant>();
 		//if (nullptr != monster)
 		//{
