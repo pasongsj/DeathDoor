@@ -127,7 +127,7 @@ void PhysXCapsuleComponent::Update(float _DeltaTime)
 	{
 		float4 ShapePos = float4(m_pShape->getLocalPose().p.x, m_pShape->getLocalPose().p.y, m_pShape->getLocalPose().p.z);
 		float4 ResultPos = ParentActor.lock()->GetTransform()->GetWorldPosition();
-		ResultPos.y += ShapePos.y*1.25f;
+		ResultPos.y += ShapePos.y;
 		GetTransform()->SetWorldRotation(ParentActor.lock()->GetTransform()->GetWorldRotation());
 		GetTransform()->SetWorldPosition(ResultPos);
 		//GetTransform()->SetWorldPosition(ParentActor.lock()->GetTransform()->GetWorldPosition());
@@ -260,7 +260,7 @@ void PhysXCapsuleComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _G
 
 
 	//ÇÇ¹þ ¼³Á¤
-	float CapsuleHeight = ScaledHeight * 1.f;
+	float CapsuleHeight = ScaledHeight * 1.8;
 	physx::PxVec3 DynamicCenter = physx::PxVec3{ 0.0f, CapsuleHeight, 0.0f };
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 	relativePose.p = DynamicCenter;
@@ -342,7 +342,7 @@ void PhysXCapsuleComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _
 	physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.01f);
 
 	//ÇÇ¹þ ¼³Á¤
-	float CapsuleHeight = ScaledHeight * 1.f;
+	float CapsuleHeight = ScaledHeight * 1.8f;
 	physx::PxVec3 DynamicCenter = physx::PxVec3{ 0.0f, CapsuleHeight, 0.0f };
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 	relativePose.p = DynamicCenter;
