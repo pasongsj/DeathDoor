@@ -17,10 +17,17 @@ public:
 	EnemyBase& operator=(const EnemyBase& _Other) = delete;
 	EnemyBase& operator=(EnemyBase&& _Other) noexcept = delete;
 
+	std::shared_ptr<class PhysXCapsuleComponent> GetPhysXComponent() const
+	{
+		return m_pCapsuleComp;
+	}
+
 protected:
 	std::shared_ptr<class GameEngineFBXRenderer> EnemyRenderer = nullptr;
+	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 
 	virtual void InitAniamtion() {};
+
 	void Start() override;
 	void Update(float _DetltaTime) override;
 
@@ -34,7 +41,6 @@ protected:
 	bool CheckHit();
 
 private:
-
 
 	
 
