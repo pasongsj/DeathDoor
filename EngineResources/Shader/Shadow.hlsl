@@ -37,5 +37,5 @@ Output Shadow_VS(Input _Value)
 float4 Shadow_PS(Output _Value) : SV_Target0
 {
     // 깊이값이 완성된
-    return float4(_Value.Pos5.z / _Value.Pos5.w, 0.0f, 0.0f, 1.0f);
+    return float4(max(0.0f, _Value.Pos5.z / _Value.Pos5.w), 0.0f, 0.0f, 1.0f);
 }

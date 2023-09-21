@@ -113,6 +113,24 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternion(CurData.Q, NextData.Q, CurFrameTime);
 		AnimationBoneData[i].Pos = float4::Lerp(CurData.T, NextData.T, CurFrameTime);
 
+		/////////////////////////////////////// 수정 필요 ///////////////////////////////////////
+		//// 블랜드 change animation을 했고 그 이후로 0.2초가 지나지 않았다면
+		//if (/*블랜드중이라면*/false)
+		//{
+		//	// 0.2초를 0~1초 바꿔야 합니다.
+		//
+		//
+		//	// 0~0.2
+		//	// 0~1로 바꾼 값을 
+		//	float BlendRatio = 0.0f;
+		//
+		//
+		//	AnimationBoneData[i].Scale = float4::Lerp(ParentRenderer->PrevAnimationBoneDatas[i].Scale, AnimationBoneData[i].Scale, BlendRatio);
+		//	AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternion(CurData.Q, NextData.Q, CurFrameTime);
+		//	AnimationBoneData[i].Pos = float4::Lerp(CurData.T, NextData.T, CurFrameTime);
+		//}
+		/////////////////////////////////////// 수정 필요 ///////////////////////////////////////
+
 		size_t Size = sizeof(float4x4);
 
 		float4x4 Mat = float4x4::Affine(AnimationBoneData[i].Scale, AnimationBoneData[i].RotQuaternion, AnimationBoneData[i].Pos);

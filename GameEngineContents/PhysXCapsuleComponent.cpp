@@ -260,7 +260,7 @@ void PhysXCapsuleComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _G
 
 
 	//ÇÇ¹þ ¼³Á¤
-	float CapsuleHeight = ScaledHeight * 1.8;
+	float CapsuleHeight = ScaledHeight * 1.8f;
 	physx::PxVec3 DynamicCenter = physx::PxVec3{ 0.0f, CapsuleHeight, 0.0f };
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 	relativePose.p = DynamicCenter;

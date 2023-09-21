@@ -321,13 +321,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 	{
 		for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& Path : Units)
 		{
-			if (Path.first == RenderPath::Forward)
-			{
-				//AllRenderTarget->Setting();
-				//DeferredLightTarget->Setting();
-				int a = 0;
-			}
-
 			std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& UnitPath = Path.second;
 
 			std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupStartIter = UnitPath.begin();
@@ -424,9 +417,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 		}
 
 		GameEngineRenderTarget::Reset();
-
-		// 오브젝트들은 그릴만한 애들은 다 그렸다고 판단하고
-		// 빛계산의 결과가 들어갈 애들이 여기에서 세팅됨
 		
 		DeferredLightTarget->Setting();
 		// 빛이 1개라면 잘 동작할 것이다.
@@ -454,14 +444,13 @@ void GameEngineCamera::Render(float _DeltaTime)
 		CamForwardTarget->Clear();
 		CamForwardTarget->Merge(AllRenderTarget, 0);
 
-		// ??
-		// CamAlphaTarget
+		CamAlphaTarget->Clear();
+		CamAlphaTarget->Merge(AllRenderTarget, 6);
 
 		CamTarget->Clear();
 		CamTarget->Merge(CamForwardTarget);
 		CamTarget->Merge(CamDeferrdTarget);
-
-		// CamTarget->Merge(CamAlphaTarget);
+		CamTarget->Merge(CamAlphaTarget);
 	}
 
 }
