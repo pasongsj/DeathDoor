@@ -20,6 +20,7 @@
 #include "SecretTile.h"
 #include "Ladder.h"
 #include "Crate.h"
+#include "Frog_Lever.h"
 
 
 
@@ -85,12 +86,13 @@ void MapTestLevel::InitTestLevel()
 		GetMainCamera()->GetTransform()->SetLocalPosition(float4{ 0, 700, -2500 });
 		CreateActor<SecretTile>();
 		GetLevel()->CreateActor<Crate>();
+
 		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
 		NewLadder->GetTransform()->SetLocalRotation(float4{ 0, 90 , 0 });
 		NewLadder->GetTransform()->SetWorldPosition(float4{ 500, 50, -400 });
-
-
 		NewLadder->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4{ 0, 90 , 0 }, float4{ 500, 50, -400 }));
+
+		std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
 
 		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
 		std::shared_ptr<Player> Obj = CreateActor<Player>();

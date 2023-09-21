@@ -46,8 +46,7 @@ private:
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part7 = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part8 = nullptr;
 	
-	
-	
+
 	const float4 m_MapRot = float4{ 0 , -130 , 0 };
 	const float4 m_MapPos = float4{ 0, 0 , 0 };
 };
