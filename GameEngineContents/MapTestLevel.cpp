@@ -19,6 +19,7 @@
 #include "SecretTile.h"
 #include "Ladder.h"
 #include "Crate.h"
+#include "CapsulTestActor.h"
 
 
 
@@ -100,6 +101,7 @@ void MapTestLevel::InitTestLevel()
 		//CreateActor<MonsterAnimationTest>();
 		//CreateActor<Player>();
 		CreateActor<EnemyFirePlant>();
+		CreateActor<CapsulTestActor>();
 		//std::shared_ptr<EnemyFirePlant> monster =  CreateActor<EnemyFirePlant>();
 		//if (nullptr != monster)
 		//{

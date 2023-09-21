@@ -423,10 +423,11 @@ void GameEngineCore::CoreResourcesInit()
 
 			VBVector.push_back(V);
 
-			UINT iStackCount = 16; // 가로 분할 개수입니다.
+			UINT iStackCount = 21; // 가로 분할 개수입니다.
+			// 0  1  2  3  4  5  6  7  /^8 9 10 11 12^/  13  14  15  16  17  18  19  20
 			UINT iSliceCount = 16; // 세로분할 개수
 
-			float yRotAngle = GameEngineMath::PIE / (float)iStackCount;
+			float yRotAngle = GameEngineMath::PIE / (float)iStackCount - (iStackCount - iSliceCount);
 			float zRotAngle = (GameEngineMath::PIE * 2) / (float)iSliceCount;
 
 			// UV의 가로세로 간격값을 구한다.
@@ -436,20 +437,32 @@ void GameEngineCore::CoreResourcesInit()
 			for (UINT y = 1; y < iStackCount; ++y)
 			{
 				// 각 간격에 대한 각도값
-				float phi = y * yRotAngle;
+				int tmpy = y;
+				float phi = tmpy * yRotAngle;
+				if (y >= iSliceCount / 2)
+				{
+					if (y < iStackCount - iSliceCount / 2)
+					{
+						tmpy = iSliceCount / 2 - 1;
+					}
+					else
+					{
+						tmpy = y - (iStackCount - iSliceCount);
+					}
+				}
 				for (UINT z = 0; z < iSliceCount + 1; ++z)
 				{
 					float theta = z * zRotAngle;
 					V.POSITION = float4{
-						Radius * sinf(y * yRotAngle) * cosf(z * zRotAngle),
-						Radius * cosf(y * yRotAngle),
-						Radius * sinf(y * yRotAngle) * sinf(z * zRotAngle),
+						Radius * sinf(tmpy * yRotAngle) * cosf(z * zRotAngle),
+						Radius * cosf(tmpy * yRotAngle),
+						Radius * sinf(tmpy * yRotAngle) * sinf(z * zRotAngle),
 						1.0f // 위치 크기 값에 영향을 주기 위해서
 					};
 
 					// V.Pos *= GameEngineRandom::RandomFloat(-0.9f, 0.1f);
 
-					V.TEXCOORD = float4(yUvRatio * z, zUvRatio * y);
+					V.TEXCOORD = float4(yUvRatio * z, zUvRatio * tmpy);
 					V.NORMAL = V.POSITION.NormalizeReturn();
 					V.NORMAL.w = 0.0f;
 

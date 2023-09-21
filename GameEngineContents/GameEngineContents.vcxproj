@@ -176,6 +176,10 @@
     <ClCompile Include="Boss_OldCrow.cpp" />
     <ClCompile Include="Boss_OldCrowAnimation.cpp" />
     <ClCompile Include="Boss_OldCrowFSM.cpp" />
+    <ClCompile Include="CapsulTestActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentFBXRenderer.cpp">
       <SubType>
       </SubType>
@@ -390,6 +394,10 @@
     <ClInclude Include="BossLevelTestObject.h" />
     <ClInclude Include="BossTestLevel.h" />
     <ClInclude Include="Boss_OldCrow.h" />
+    <ClInclude Include="CapsulTestActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentFBXUIRenderer.h">
       <SubType>
       </SubType>

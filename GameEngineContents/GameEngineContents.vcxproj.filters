@@ -283,6 +283,9 @@
     <ClCompile Include="Ladder.cpp">
       <Filter>Contents\FortressLevel\Active_Object</Filter>
     </ClCompile>
+    <ClCompile Include="CapsulTestActor.cpp">
+      <Filter>Contents\TestLevel\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -561,6 +564,9 @@
     </ClInclude>
     <ClInclude Include="Ladder.h">
       <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsulTestActor.h">
+      <Filter>Contents\TestLevel\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

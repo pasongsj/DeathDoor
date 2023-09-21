@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "MonsterAnimationTest.h"
 #include "EnemyFirePlant.h"
+#include "CapsulTestActor.h"
 
 PlayerTestLevel::PlayerTestLevel()
 {
@@ -33,7 +34,8 @@ void PlayerTestLevel::LevelChangeStart()
 	//GetMainCamera()->GetTransform()->SetLocalRotation({ 0.0f, 0.0f, 0 });
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
 
-	CreateActor<MonsterAnimationTest>();
+	//CreateActor<MonsterAnimationTest>();
+	CreateActor<CapsulTestActor>();
 	//CreateActor<EnemyFirePlant>();
 }
 

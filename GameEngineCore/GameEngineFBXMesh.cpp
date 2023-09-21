@@ -748,7 +748,10 @@ void GameEngineFBXMesh::VertexBufferCheck()
 
 				++VtxId;
 			}
-
+			if (nullptr == pGeometryElementMaterial)
+			{
+				continue;
+			}
 			int materialId = pGeometryElementMaterial->GetIndexArray().GetAt(PolygonIndex);
 			IdxData[materialId].push_back(IndexArray[0]);
 			IdxData[materialId].push_back(IndexArray[2]);
