@@ -46,14 +46,16 @@ void PhysXTestLevel::LevelChangeStart()
 		std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
 	}
 
-	//m_pTestActor = CreateActor<PhysXTestActor>();
+	m_pTestActor = CreateActor<PhysXTestActor>();
+	m_pTestActor->SetName("TestActor");
 	
 	std::shared_ptr<PhysXTestPlane> test = CreateActor<PhysXTestPlane>();
 	test->GetComp()->SetWorldPosWithParent(float4(100, 0, 100));
 
-	CreateActor<PhysXTrigger>();
+	std::shared_ptr<PhysXTrigger> testTrigger = CreateActor<PhysXTrigger>();
+	testTrigger->SetName("TestTrigger");
 	std::shared_ptr<PhysXTestPlane> pWallPlane = CreateActor<PhysXTestPlane>();
-	m_pTestActor = CreateActor<Player>();
+	//m_pTestActor = CreateActor<Player>();
 	
 	
 }
