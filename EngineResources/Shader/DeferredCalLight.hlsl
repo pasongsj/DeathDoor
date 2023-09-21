@@ -93,7 +93,7 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
         
         // 가장 외각을 약간 깎아내서 
         if (
-            fShadowDepth > 0.0f
+            fShadowDepth >= 0.0f
             && 0.001f < ShadowUV.x && 0.999f > ShadowUV.x
             && 0.001f < ShadowUV.y && 0.999f > ShadowUV.y
             && LightProjection.z >= (fShadowDepth + 0.001f)

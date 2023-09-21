@@ -32,7 +32,8 @@ public:
 	bool Loop = true;
 	bool EndValue = false;
 
-	// Event
+	float BlendIn = 0.2f;
+	float BlendOut = 0.2f;
 
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
@@ -171,6 +172,9 @@ private:
 	// Structure Buffer¶û ¸µÅ©°¡ µÇ´Â ³à¼®.
 	std::vector<float4x4> AnimationBoneMatrixs;
 
+	float BlendTime; // 0.2
+	float CurBlendTime; // 0.2
+	std::vector<AnimationBoneData> PrevAnimationBoneDatas;
 
 	std::vector<AnimationBoneData> AnimationBoneDatas;;
 };
