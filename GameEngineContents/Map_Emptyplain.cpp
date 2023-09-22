@@ -2,6 +2,7 @@
 #include "Map_Emptyplain.h"
 
 #include "PhysXBoxComponent.h"
+#include "ContentFBXRenderer.h"
 
 
 
@@ -26,8 +27,8 @@ void Map_Emptyplain::Update(float _DeltaTime)
 void Map_Emptyplain::InitComponent()
 {
 	// ¸Ê ·»´õ·¯ 
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("BigCrow_Floor.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("BigCrow_Floor.fbx", "ContentMeshForward");
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
 

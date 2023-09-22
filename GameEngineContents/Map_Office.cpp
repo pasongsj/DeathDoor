@@ -75,32 +75,39 @@ void Map_Office::InitComponent()
 
 	AllUnit[124][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
 	AllUnit[124][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
-	
+
+	AllUnit[683][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ruin_CobbleStone_Dirt_Tile_HoD.png");
+	AllUnit[683][0]->UVdata = { 0.1f, 0.1f, 0.0f, 0.0f };
+
+	AllUnit[683][1]->ShaderResHelper.SetTexture("DiffuseTexture", "Ruin_CobbleStone_Dirt_Tile_HoD.png");
+	AllUnit[683][1]->UVdata = { 0.1f, 0.1f, 0.0f, 0.0f };
+
+	AllUnit[684][0]->ShaderResHelper.SetTexture("DiffuseTexture", "DetailMap_GroundVariationLighter.png");
+	//AllUnit[684][0]->UVdata = { 0.1f, 0.1f, 0.0f, 0.0f };
+
 	AllUnit[684][1]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
 	AllUnit[684][1]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
 
-	AllUnit[1398][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
-	AllUnit[1398][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+	AllUnit[684][2]->ShaderResHelper.SetTexture("DiffuseTexture", "Ruin_CobbleStone_Dirt_Tile_HoD.png");
+	AllUnit[684][2]->UVdata = { 0.1f, 0.1f, 0.0f, 0.0f };
 
-	// 74 , 80 , 128, 683  , 684
-	AllUnit[683][1]->UVdata = { 0.2f, 0.2f, 0.0f, 0.0f };
-	AllUnit[684][2]->UVdata = { 0.2f, 0.2f, 0.0f, 0.0f };
+	AllUnit[1227][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[1227][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
 
-	// test
-	// 5 - 456
-	// 6 - 012678
-	// 7 - 789
-	// 8 - 01234567
+	AllUnit[1229][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[1229][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
 
-	// ---
-	// 4 - 678 
-	// 5 - 23489
-	// 6 - 09
-	// 7 - 0~~9 
-	int a = 0;
+	AllUnit[1339][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[1339][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+
+
+	/*AllUnit[683][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[124][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };*/
+
+
 	// 네비메쉬 위치확인용 렌더러 
 	m_pNaviRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pNaviRenderer->SetFBXMesh("Map_Office_Navi_Blend.fbx", "MeshTexture");
+	m_pNaviRenderer->SetFBXMesh("Map_Office_NaviMesh_Fix.fbx", "MeshTexture");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
 	m_pNaviRenderer->Off();
@@ -113,7 +120,7 @@ void Map_Office::InitComponent()
 	// 컴포넌트 
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	m_pTriangleComp->CreatePhysXActors("Map_Office_Navi_Blend.fbx", true);
+	m_pTriangleComp->CreatePhysXActors("Map_Office_NaviMesh_Fix.fbx", true);
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));
 }
 

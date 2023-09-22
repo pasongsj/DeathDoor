@@ -27,7 +27,7 @@ void SemiCircleTable::InitComponent()
 	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
-	MeshScale *= 1.2f;
+	// MeshScale *= 1.2f;
 
 	m_pComp = CreateComponent<PhysXBoxComponent>();
 	m_pComp->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
