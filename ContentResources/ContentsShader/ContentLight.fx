@@ -36,6 +36,45 @@ cbuffer LightDatas : register(b12)
     LightData AllLight[64];
 };
 
+struct PointLight
+{
+    float3 RGB;
+    float4 Position;
+    float MaxDist;
+    float Intensity;
+};
+
+cbuffer AllPointLight : register(b13)
+{
+    int PointLightNum;
+    float4x4 ViewInverse;
+    PointLight PointLights[16];
+};
+
+float4 CalPointLight_WorldSpace(float4 _Pos, float4 _Normal, PointLight _PointLight)
+{
+    float4 ResultPointLight = (float4) 0.0f;
+    
+    float4 WorldPos = _Pos;
+    float4 WorldNormal = _Normal;
+    
+    float4 WorldNormalDir = normalize(WorldNormal);
+    
+    float3 PointLightDir = _PointLight.Position.xyz - WorldPos.xyz;
+    float3 PointLightNormal = normalize(PointLightDir);
+
+    float PointLightDiffuse = max(0.0f, dot(WorldNormalDir.xyz, PointLightNormal));
+    float PointLightDistance = distance(_PointLight.Position.xyz, WorldPos.xyz);
+    
+    float4 LightColor = float4(_PointLight.RGB, 1.0f);
+
+    float4 PointLightColor = LightColor * PointLightDiffuse * (1.0f - saturate(PointLightDistance / _PointLight.MaxDist));
+    
+    ResultPointLight = _PointLight.Intensity * PointLightColor;
+    
+    return ResultPointLight;
+}
+
 float4 CalDiffuseLight(float4 _Pos,  float4 _Normal, LightData _Data)
 {
     float4 ResultRatio = (float4) 0.0f;
