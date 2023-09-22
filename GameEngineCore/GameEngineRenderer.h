@@ -56,7 +56,7 @@ public:
 
 	struct MaskInfo
 	{
-		float UV_MaskingValue = 1.0f;
+		float UV_MaskingValue = 0.0f;
 		float MaskingColor_R = 1.0f;
 		float MaskingColor_G = 0.0f;
 		float MaskingColor_B = 1.0f;

@@ -34,19 +34,18 @@ Output ContentAniMeshDeferred_VS(Input _Input)
     float4 InputNormal = _Input.NORMAL;
     InputNormal.w = 0.0f;
     
-    //if (IsAnimation != 0)
-    //{
-    //    Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
-    //    InputPos.w = 1.0f;
-    //    InputNormal.w = 0.0f;
-    //}
+    if (IsAnimation != 0)
+    {
+        Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+        InputPos.w = 1.0f;
+        InputNormal.w = 0.0f;
+    }
     
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
     NewOutPut.WVPPOSITION = NewOutPut.POSITION;
     
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
-    _Input.NORMAL.w = 0.0f;
     NewOutPut.NORMAL = mul(InputNormal, WorldView);
     
     return NewOutPut;
@@ -78,7 +77,7 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
     
     float4 MaskColor;
     
-    if (UV_MaskingValue >= 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
+    if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
     {
         MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
         
@@ -89,7 +88,6 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
         {            
             NewOutPut.BlurTarget = float4(Magenta, MaskColor.a);
             Color = NewOutPut.BlurTarget;
-
         }
     }
     

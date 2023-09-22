@@ -131,7 +131,7 @@
     <FxCompile Include="ContentAniMeshDeffered.hlsl" />
     <FxCompile Include="ContentLight.fx" />
     <FxCompile Include="ContentAnitMeshForward.hlsl" />
-    <FxCompile Include="ContentMeshShader.hlsl" />
+    <FxCompile Include="ContentMeshForward.hlsl" />
     <FxCompile Include="ContentMeshToonShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>

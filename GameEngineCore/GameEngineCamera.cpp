@@ -88,6 +88,7 @@ void GameEngineCamera::InitCameraRenderTarget()
 	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // ½ºÆåÅ§·¯
 	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // ¾Úºñ¾ðÆ®
 	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // ÀüÃ¼
+	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // Æ÷ÀÎÆ®¶óÀÌÆ®
 
 	CamForwardTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	CamDeferrdTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
@@ -101,7 +102,11 @@ void GameEngineCamera::InitCameraRenderTarget()
 	CalLightUnit.SetMaterial("DeferredCalLight");
 
 	LightDatas& Data = GetLevel()->LightDataObject;
+	AllPointLight& PointLight = GetLevel()->PointLights;
+
 	CalLightUnit.ShaderResHelper.SetConstantBufferLink("LightDatas", Data);
+	CalLightUnit.ShaderResHelper.SetConstantBufferLink("AllPointLight", PointLight);
+
 	CalLightUnit.ShaderResHelper.SetTexture("PositionTex", AllRenderTarget->GetTexture(2));
 	CalLightUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
 
@@ -119,6 +124,7 @@ void GameEngineCamera::InitCameraRenderTarget()
 	DefferdMergeUnit.ShaderResHelper.SetTexture("DifLight", DeferredPostLightTarget->GetTexture(0));
 	DefferdMergeUnit.ShaderResHelper.SetTexture("SpcLight", DeferredPostLightTarget->GetTexture(1));
 	DefferdMergeUnit.ShaderResHelper.SetTexture("AmbLight", DeferredPostLightTarget->GetTexture(2));
+	DefferdMergeUnit.ShaderResHelper.SetTexture("PointLightTex", DeferredLightTarget->GetTexture(4));
 }
 
 void GameEngineCamera::ReleaseCameraRenderTarget()

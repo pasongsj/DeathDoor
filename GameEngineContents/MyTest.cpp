@@ -14,18 +14,19 @@ MyTest::~MyTest()
 void MyTest::Start()
 {
 	TestRd = CreateComponent<GameEngineFBXRenderer>();
-	TestRd->SetFBXMesh("_E_BAT_Black Variant_MESH.fbx", "ContentFade");
+	TestRd->SetFBXMesh("_E_BAT_Black Variant_MESH.fbx", "ContentMeshForward");
 	TestRd->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
+	TestRd->GetTransform()->SetLocalPosition({ -50.0f, 0.0f, 0.0f });
 
 	auto Units = TestRd->GetAllRenderUnit();
-	
-	for (int i = 0; i < Units.size(); i++)
-	{
-		for (int j = 0; j < Units[i].size(); j++)
-		{
-			Units[i][j]->ShaderResHelper.SetTexture("MaskTexture", "MaskType2_1.png");
-		}
-	}
+	//
+	//for (int i = 0; i < Units.size(); i++)
+	//{
+	//	for (int j = 0; j < Units[i].size(); j++)
+	//	{
+	//		Units[i][j]->ShaderResHelper.SetTexture("MaskTexture", "MaskType2_1.png");
+	//	}
+	//}
 
 
 }
