@@ -2,6 +2,7 @@
 #include "ContentAnimation.fx"
 #include "ContentLight.fx"
 #include "ContentRenderBaseValue.fx"
+#include "ContentFunction.fx"
 
 struct Input
 {
@@ -23,6 +24,7 @@ struct Output
     float4 SPECULALIGHT : TEXCOORD3;
     float4 AMBIENTLIGHT : TEXCOORD4;
 };
+
 
 Output ContentAniMeshForward_VS(Input _Input)
 {
@@ -74,6 +76,7 @@ struct OutputTarget
 
 Texture2D DiffuseTexture : register(t0);
 Texture2D MaskTexture : register(t1);
+Texture2D CrackTexture : register(t2);
 
 SamplerState ENGINEBASE : register(s0);
 
@@ -91,12 +94,19 @@ OutputTarget ContentAniMeshForward_PS(Output _Input)
     float4 SpacularRatio = _Input.SPECULALIGHT;
     float4 AmbientRatio = _Input.AMBIENTLIGHT;
     
+    //Crack
     MaskResultColor = MaskColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
     MaskResultColor += float4(0.8f, 0.0f, 0.5f, 1.0f);
     MaskResultColor.a = MaskAlpha;
     
     float4 DiffuseResultColor = (float4) 0.0f;
     float4 DiffuseColor = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+    
+    //Fade
+    if (Delta > 0.0f)
+    {
+        DiffuseColor *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
+    }
     
     float DiffuseAlpha = DiffuseColor.w;
     DiffuseResultColor = DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);

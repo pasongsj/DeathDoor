@@ -24,22 +24,6 @@ void ContentFBXRenderer::SetAllUnitTexture(const std::string_view& _SettingName,
 	}
 }
 
-void ContentFBXRenderer::SetCrack()
-{
-	auto AllUnits = GetAllRenderUnit();
-
-	for (int i = 0; i < AllUnits.size(); i++)
-	{
-		for (int j = 0; j < AllUnits[i].size(); j++)
-		{
-			int Index = GameEngineRandom::MainRandom.RandomInt(1, 4);
-
-			AllUnits[i][j]->ShaderResHelper.SetTexture("MaskTexture", "CrackMask" + std::to_string(Index) + ".png");
-			AllUnits[i][j]->Mask.UV_MaskingValue = 0.0f;
-		}
-	}
-}
-
 void ContentFBXRenderer::SetCrackAmount(float _Amount)
 {
 	auto AllUnits = GetAllRenderUnit();
@@ -53,7 +37,20 @@ void ContentFBXRenderer::SetCrackAmount(float _Amount)
 	}
 }
 
-void ContentFBXRenderer::SetFade(const std::string_view& _MaskTextureName)
+void ContentFBXRenderer::SetCrackMask()
+{
+	auto AllUnits = GetAllRenderUnit();
+
+	for (int i = 0; i < AllUnits.size(); i++)
+	{
+		for (int j = 0; j < AllUnits[i].size(); j++)
+		{
+			AllUnits[i][j]->ShaderResHelper.SetTexture("MaskTexture", "CrackMask.png");
+		}
+	}
+}
+
+void ContentFBXRenderer::SetFadeMask(const std::string_view& _MaskTextureName)
 {
 	auto AllUnits = GetAllRenderUnit();
 
@@ -104,3 +101,21 @@ void ContentFBXRenderer::FadeIn(float _MaxTime, float _DeltaTime)
 	}
 }
 
+void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::string _SettingName)
+{
+	std::string UpperSettingName = GameEngineString::ToUpper(_SettingName);
+
+	if (UpperSettingName != "CONTENTANIMESHDEFFERED" &&
+		UpperSettingName != "CONTENTANIMESHFORWARD" &&
+		UpperSettingName != "CONTENTMESHFORWARD" &&
+		UpperSettingName != "CONTENTMESHDEFFERED")
+	{
+		MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentAniMeshForward, ContentMeshForward, ContentMeshDeffered 중 하나여야 합니다.");
+		return;
+	}
+
+	GameEngineFBXRenderer::SetFBXMesh(_MeshName, _SettingName);
+
+	SetCrackMask();
+	SetFadeMask();
+}

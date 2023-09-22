@@ -35,13 +35,6 @@ Output ContentAniMeshDeferred_VS(Input _Input)
     float4 InputNormal = _Input.NORMAL;
     InputNormal.w = 0.0f;
     
-    if (IsAnimation != 0)
-    {
-        Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
-        InputPos.w = 1.0f;
-        InputNormal.w = 0.0f;
-    }
-    
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
     NewOutPut.WVPPOSITION = NewOutPut.POSITION;
@@ -54,7 +47,6 @@ Output ContentAniMeshDeferred_VS(Input _Input)
 
 Texture2D DiffuseTexture : register(t0);
 Texture2D MaskTexture : register(t1);
-Texture2D CrackTexture : register(t1);
 
 SamplerState ENGINEBASE : register(s0);
 
@@ -73,23 +65,6 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
     
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
-    float4 MaskColor;
-    
-    //Crack
-    if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
-    {
-        MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
-        
-        float3 Pink = float3(0.96f, 0.75f, 0.77f);
-        float3 Magenta = float3(1.0f, 0.0f, 1.0f);
-        
-        if (MaskColor.a > 0.0f)
-        {            
-            NewOutPut.BlurTarget = float4(Magenta, MaskColor.a);
-            Color = NewOutPut.BlurTarget;
-        }
-    }
-    
     if (Color.a <= 0.0f)
     {
         clip(-1);
@@ -98,7 +73,6 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
     //Fade
     if (Delta > 0.0f)
     {
-        NewOutPut.BlurTarget *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
         Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
     }
     
@@ -108,5 +82,5 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
     NewOutPut.NorTarget = _Input.NORMAL;
     
     return NewOutPut;
- }
+}
 

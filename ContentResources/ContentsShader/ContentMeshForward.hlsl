@@ -2,6 +2,7 @@
 #include "ContentAnimation.fx"
 #include "ContentLight.fx"
 #include "ContentRenderBaseValue.fx"
+#include "ContentFunction.fx"
 
 struct Input
 {
@@ -18,18 +19,6 @@ struct Output
     float4 DIFFUSELIGHT : TEXCOORD2;
     float4 SPECULALIGHT : TEXCOORD3;
     float4 AMBIENTLIGHT : TEXCOORD4;
-};
-
-cbuffer ColorOption : register(b1)
-{
-    float4 MulColor;
-    float4 AddColor;
-};
-
-cbuffer UVData : register(b2)
-{
-    float2 MulUV;
-    float2 AddUV;
 };
 
 Output ContentMeshTexture_VS(Input _Input)
@@ -69,6 +58,8 @@ Output ContentMeshTexture_VS(Input _Input)
 }
 
 Texture2D DiffuseTexture : register(t0);
+Texture2D MaskTexture : register(t1);
+
 SamplerState ENGINEBASE : register(s0);
 
 float4 ContentMeshTexture_PS(Output _Input) : SV_Target0
@@ -88,6 +79,13 @@ float4 ContentMeshTexture_PS(Output _Input) : SV_Target0
         clip(-1);
     }
     
+    //Fade
+    if(Delta > 0.0f)
+    {
+        DiffuseColor *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
+    }
+    
+    /**/
     float4 DiffuseResultColor = (float4) 0.0f;
     
     float4 ResultPointLight = _Input.POINTLIGHT;
@@ -98,6 +96,9 @@ float4 ContentMeshTexture_PS(Output _Input) : SV_Target0
     float DiffuseAlpha = DiffuseColor.w;
     DiffuseResultColor = DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
     DiffuseResultColor.a = DiffuseAlpha;
+    
+    //Å÷½¦ÀÌ´õ  
+    //ResultColor = ceil(ResultColor * 5.0f) / 5.0f;
     
     return DiffuseResultColor;
 }
