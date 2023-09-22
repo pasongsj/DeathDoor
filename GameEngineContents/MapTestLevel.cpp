@@ -92,7 +92,7 @@ void MapTestLevel::InitTestLevel()
 		NewLadder->GetTransform()->SetWorldPosition(float4{ 500, 50, -400 });
 		NewLadder->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4{ 0, 90 , 0 }, float4{ 500, 50, -400 }));
 
-		std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
+		// std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
 
 		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
 		std::shared_ptr<Player> Obj = CreateActor<Player>();
