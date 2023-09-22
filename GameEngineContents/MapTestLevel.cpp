@@ -5,13 +5,22 @@
 #include "Map_Office.h"
 #include "Map_Emptyplain.h"
 #include "PhysXCapsuleComponent.h"
+#include "PhysXBoxComponent.h"
 
 
 #include "EnemyBat.h"
 #include "EnemyFirePlant.h"
 #include "EnemyMage.h"
 #include "EnemyGrunt.h"
+#include "EnemyBrute.h"
+#include "EnemyGhoul.h"
 #include "MonsterAnimationTest.h"
+
+//test 
+#include "SecretTile.h"
+#include "Ladder.h"
+#include "Crate.h"
+#include "Frog_Lever.h"
 
 
 
@@ -75,6 +84,15 @@ void MapTestLevel::InitTestLevel()
 	case TestMapType::BigCrow_Floor:
 	{
 		GetMainCamera()->GetTransform()->SetLocalPosition(float4{ 0, 700, -2500 });
+		CreateActor<SecretTile>();
+		GetLevel()->CreateActor<Crate>();
+
+		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
+		NewLadder->GetTransform()->SetLocalRotation(float4{ 0, 90 , 0 });
+		NewLadder->GetTransform()->SetWorldPosition(float4{ 500, 50, -400 });
+		NewLadder->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4{ 0, 90 , 0 }, float4{ 500, 50, -400 }));
+
+		std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
 
 		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
 		std::shared_ptr<Player> Obj = CreateActor<Player>();
@@ -84,12 +102,15 @@ void MapTestLevel::InitTestLevel()
 		}
 		//CreateActor<MonsterAnimationTest>();
 		//CreateActor<Player>();
-		CreateActor<EnemyGrunt>();
+		CreateActor<EnemyGhoul>();
 		//std::shared_ptr<EnemyFirePlant> monster =  CreateActor<EnemyFirePlant>();
 		//if (nullptr != monster)
 		//{
 		//	monster->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 0.0f , 100.0f , -0.0f }));
 		//}
+
+		//test 
+		
 		break;
 	}
 	}

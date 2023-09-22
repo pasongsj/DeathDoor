@@ -158,7 +158,7 @@ void GameEngineRenderTarget::Merge(std::shared_ptr<GameEngineRenderTarget> _Othe
 {
 	Setting();
 
-	MergeUnit.ShaderResHelper.SetTexture("DiffuseTex", _Other->Textures[0]);
+	MergeUnit.ShaderResHelper.SetTexture("DiffuseTex", _Other->Textures[_Index]);
 	MergeUnit.Render(0.0f);
 	MergeUnit.ShaderResHelper.AllResourcesReset();
 
@@ -191,4 +191,17 @@ void GameEngineRenderTarget::Effect(float _DeltaTime)
 void GameEngineRenderTarget::EffectInit(std::shared_ptr<GameEnginePostProcess> _PostProcess)
 {
 	_PostProcess->Start(this);
+}
+
+void GameEngineRenderTarget::ChangeViewPort(float4 _Scale, int _Index)
+{
+	D3D11_VIEWPORT ViewPortData;
+	ViewPortData.TopLeftX = 0;
+	ViewPortData.TopLeftY = 0;
+	ViewPortData.Width = static_cast<float>(_Scale.uix());
+	ViewPortData.Height = static_cast<float>(_Scale.uiy());
+	ViewPortData.MinDepth = 0.0f;
+	ViewPortData.MaxDepth = 1.0f;
+
+	ViewPortDatas[_Index] = ViewPortData;
 }

@@ -8,6 +8,8 @@
 #include "PhysXBoxComponent.h"
 #include "PhysXCapsuleComponent.h"
 
+#include "ContentFBXRenderer.h"
+
 
 // static obj
 #include "Transform_Wall.h"
@@ -62,10 +64,40 @@ void Map_Office::Update(float _DeltaTime)
 void Map_Office::InitComponent()
 {
 	// 맵 렌더러 
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("Map_Office.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("Map_Office.fbx", "ContentMesh");
 	m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer->CalculateUnitPos();
 
+	// 일부러 텍스쳐 안입힌 상태에서, 찾아서 하면 될듯 
+	auto AllUnit = m_pRenderer->GetAllRenderUnit();
+	auto Unit = m_pRenderer->GetUnTexturedUnit();
+
+	AllUnit[124][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[124][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+	
+	AllUnit[684][1]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[684][1]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+
+	AllUnit[1398][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[1398][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+
+	// 74 , 80 , 128, 683  , 684
+	AllUnit[683][1]->UVdata = { 0.2f, 0.2f, 0.0f, 0.0f };
+	AllUnit[684][2]->UVdata = { 0.2f, 0.2f, 0.0f, 0.0f };
+
+	// test
+	// 5 - 456
+	// 6 - 012678
+	// 7 - 789
+	// 8 - 01234567
+
+	// ---
+	// 4 - 678 
+	// 5 - 23489
+	// 6 - 09
+	// 7 - 0~~9 
+	int a = 0;
 	// 네비메쉬 위치확인용 렌더러 
 	m_pNaviRenderer = CreateComponent<GameEngineFBXRenderer>();
 	m_pNaviRenderer->SetFBXMesh("Map_Office_Navi_Blend.fbx", "MeshTexture");
@@ -175,13 +207,13 @@ void Map_Office::Create_StaticObject()
 	}
 	{
 		std::shared_ptr<MiniDesk> Obj = CurLevel->CreateActor<MiniDesk>();
-		const float4 Pos = float4{ -312, -250, -2120 };
+		const float4 Pos = float4{ -382, -250, -2120 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
 	{
 		std::shared_ptr<MiniDesk> Obj = CurLevel->CreateActor<MiniDesk>();
-		const float4 Pos = float4{ 25, -250, -2120 };
+		const float4 Pos = float4{ 100.f, -250, -2120 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
@@ -287,7 +319,7 @@ void Map_Office::Create_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
 		float4 Ratio = float4{ 0.7f, 0.4f, 0.7f };
 		Obj->Set_MeshRatio(Ratio);
-		const float4 Pos = float4{ -327, -274, -1900 };
+		const float4 Pos = float4{ -397, -274, -1900 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}
@@ -295,7 +327,7 @@ void Map_Office::Create_TransformWall(std::shared_ptr<GameEngineLevel> _CurLevel
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
 		float4 Ratio = float4{ 1.2f, 0.5f, 0.7f };
 		Obj->Set_MeshRatio(Ratio);
-		const float4 Pos = float4{ 150, -274, -1900 };
+		const float4 Pos = float4{ 220, -274, -1900 };
 		Obj->GetTransform()->SetLocalPosition(Pos);
 		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, Pos));
 	}

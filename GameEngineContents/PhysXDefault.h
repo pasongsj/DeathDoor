@@ -27,8 +27,6 @@ public:
 	PhysXDefault& operator=(const PhysXDefault& _Other) = delete;
 	PhysXDefault& operator=(PhysXDefault&& _Other) noexcept = delete;
 
-	// 필터링 셋팅
-	void SetupFiltering(physx::PxShape* _Shape, physx::PxU32 _FilterGroup, physx::PxU32 _FilterMask);
 	float4 ToEulerAngles(const physx::PxQuat& q);
 
 	//정지마찰계수설정
@@ -69,6 +67,8 @@ public:
 	{
 		m_pAggregate->addActor(*_Actor);
 	}
+
+	void SetWorldPosWithParent(float4 _Pos, float4 _Rot = float4::ZERONULL);
 
 	//쿼터니언 관련 함수
 	float4 GetQuaternionEulerAngles(float4 rot);
@@ -125,39 +125,9 @@ public:
 		PhysXManager::GetInst()->GetPvdClient()->updateCamera("PvdCam", CamPos.PhysXVec3Return(), { 0,1,0 }, TargetPos.PhysXVec3Return());
 	}
 
-	void DeathAndRelease()
-	{
-		if (nullptr != m_pRigidDynamic && true == m_pRigidDynamic->isReleasable())
-		{
-			m_pShape->userData = nullptr;
-			m_pRigidDynamic->release();
-			m_pRigidDynamic = nullptr;
-			ParentActor.lock()->Death();
-		}
-		if (nullptr != m_pRigidStatic && true == m_pRigidStatic->isReleasable())
-		{
-			m_pShape->userData = nullptr;
-			m_pRigidStatic->release();
-			m_pRigidStatic = nullptr;
-			ParentActor.lock()->Death();
-		}
-	}
+	void DeathAndRelease();
 
-	void Release()
-	{
-		if (m_pRigidDynamic != nullptr && m_pRigidDynamic->isReleasable())
-		{
-			m_pShape->userData = nullptr;
-			m_pRigidDynamic->release();
-			m_pRigidDynamic = nullptr;
-		}
-		if (m_pRigidStatic != nullptr && m_pRigidStatic->isReleasable())
-		{
-			m_pShape->userData = nullptr;
-			m_pRigidStatic->release();
-			m_pRigidStatic = nullptr;
-		}
-	}
+	void Release();
 
 	inline void SetPositionSetFromParentFlag(bool _Flag)
 	{
@@ -173,25 +143,14 @@ public:
 		return m_bStatic;
 	}
 
-	void SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0, PhysXFilterGroup _OtherFilter1 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter2 = PhysXFilterGroup::None)
-	{
-		m_pShape->setSimulationFilterData
-			(
-				physx::PxFilterData
-				(
-					static_cast<physx::PxU32>(_ThisFilter),
-					static_cast<physx::PxU32>(_OtherFilter0),
-					static_cast<physx::PxU32>(_OtherFilter1),
-					static_cast<physx::PxU32>(_OtherFilter2)
-				)
-			);
-	}
+	void SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0, PhysXFilterGroup _OtherFilter1 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter2 = PhysXFilterGroup::None);
 
 	void SetTrigger()
 	{
 		m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
 		m_pShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
 	}
+
 
 protected:
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
@@ -213,11 +172,9 @@ protected:
 
 	physx::PxMaterial* m_pMaterial = nullptr;
 	physx::PxShape* m_pShape = nullptr;
-
-	// 이 컴포넌트를 가지고 있는 Parent에 대한 정보
+	
 
 	bool PositionSetFromParentFlag = false;
-
 private:
 };
 

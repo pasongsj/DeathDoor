@@ -54,6 +54,8 @@ void UITestLevel::Start()
 	//CreateActor<SkillSlot>();
 	//CreateActor<HpBar>();
 	//CreateActor<MpBar>();
+
+	AddPointLight({ .Color = {1.0f, 0.0f, 1.0f},.Position = {0.0f, 50.0f, 0.0f},.MaxDist = 100.0f,.Intensity = 5.0f });
 }
 
 void UITestLevel::Update(float _DeltaTime)

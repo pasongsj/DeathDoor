@@ -280,6 +280,12 @@
     <ClCompile Include="EnemyBrute.cpp">
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Ladder.cpp">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGhoul.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -554,6 +560,12 @@
       <Filter>Component\PhysX\Component</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBrute.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Ladder.h">
+      <Filter>Contents\FortressLevel\Active_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGhoul.h">
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

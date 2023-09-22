@@ -15,10 +15,7 @@ public:
 	EnemyGrunt& operator=(const EnemyGrunt& _Other) = delete;
 	EnemyGrunt& operator=(EnemyGrunt&& _Other) noexcept = delete;
 
-	//std::shared_ptr<class PhysXCapsuleComponent> GetPhysXComponent() const
-	//{
-	//	return m_pCapsuleComp;
-	//}
+
 
 protected:
 	void InitAniamtion() override;
@@ -38,7 +35,6 @@ private:
 		MAX
 	};
 
-	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 	void AggroMove(float _DeltaTime);
 	void SetFSMFUNC();
 	

@@ -1,12 +1,15 @@
 #include "PreCompileHeader.h"
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
+#include <GameEngineCore/BloomEffect.h>
+
 #include "PhysXTestLevel.h"
 #include "PhysXTestActor.h"
 #include "PhysXTestPlane.h"
+#include "PhysXBoxComponent.h"
 #include "PhysXTrigger.h"
 #include "Player.h"
-#include <GameEngineCore/BloomEffect.h>
+
 PhysXTestLevel::PhysXTestLevel() 
 {
 }
@@ -44,9 +47,13 @@ void PhysXTestLevel::LevelChangeStart()
 	}
 
 	m_pTestActor = CreateActor<PhysXTestActor>();
-	CreateActor<PhysXTestPlane>();
+	m_pTestActor->SetName("TestActor");
+	
+	std::shared_ptr<PhysXTestPlane> test = CreateActor<PhysXTestPlane>();
+	test->GetComp()->SetWorldPosWithParent(float4(100, 0, 100));
 
-	CreateActor<PhysXTrigger>();
+	std::shared_ptr<PhysXTrigger> testTrigger = CreateActor<PhysXTrigger>();
+	testTrigger->SetName("TestTrigger");
 	std::shared_ptr<PhysXTestPlane> pWallPlane = CreateActor<PhysXTestPlane>();
 	//m_pTestActor = CreateActor<Player>();
 	

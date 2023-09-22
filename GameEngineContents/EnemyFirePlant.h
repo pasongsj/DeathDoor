@@ -15,10 +15,7 @@ public:
 	EnemyFirePlant& operator=(const EnemyFirePlant& _Other) = delete;
 	EnemyFirePlant& operator=(EnemyFirePlant&& _Other) noexcept = delete;
 
-	std::shared_ptr<class PhysXCapsuleComponent> GetPhysXComponent() const
-	{
-		return m_pCapsuleComp;
-	}
+	
 protected:
 	void InitAniamtion() override;
 	void Start() override;
@@ -33,7 +30,6 @@ private:
 		MAX
 	};
 
-	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 
 	void SetFSMFUNC();
 };

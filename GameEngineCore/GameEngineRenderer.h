@@ -2,6 +2,7 @@
 #include "GameEngineComponent.h"
 #include "GameEngineShader.h"
 #include "EngineContentRenderingStruct.h"
+#include "GameEngineFBXMesh.h"
 
 enum class RenderPath
 {
@@ -22,7 +23,6 @@ public:
 
 	GameEngineShaderResHelper ShaderResHelper;
 	std::shared_ptr<class GameEngineMaterial> Material;
-
 	std::function<void(float)> RenderFunction;
 
 	GameEngineRenderUnit();
@@ -36,10 +36,23 @@ public:
 	{
 		return ParentRenderer;
 	}
+	std::shared_ptr<class GameEngineFBXMesh> GetFbxMesh()
+	{
+		std::shared_ptr<GameEngineFBXMesh> FbxMesh = std::dynamic_pointer_cast<GameEngineFBXMesh>(Mesh);
+		if (nullptr != FbxMesh)
+		{
+			return FbxMesh;
+		}
+		return nullptr;
+	}
 
 	void Setting();
 
 	void Draw();
+
+	void ShadowOn();
+
+	void ShadowSetting();
 
 	struct MaskInfo
 	{
@@ -63,11 +76,32 @@ public:
 	MaskInfo Mask;
 
 	ColorOption Color = { { 1, 1, 1, 1 }, { 0, 0, 0, 0 } };
+	
+	void SetUnitPos(float4 _Pos)
+	{
+		UnitPos = _Pos;
+	}
+	void SetUnitScale(float4 _Scale)
+	{
+		UnitScale = _Scale;
+	}
+	float4 GetUnitPos()
+	{
+		return UnitPos;
+	}
+	float4 GetUnitScale()
+	{
+		return UnitScale;
+	}
 
 private:
-	class GameEngineRenderer* ParentRenderer = nullptr;
-	std::shared_ptr<class GameEngineInputLayOut> InputLayOutPtr;
-	std::shared_ptr<class GameEngineMesh> Mesh;
+	float4 UnitScale = float4::ZERONULL;
+	float4 UnitPos = float4::ZERONULL;
+	class GameEngineRenderer* ParentRenderer = nullptr;	
+	std::shared_ptr<class GameEngineInputLayOut> InputLayOutPtr = nullptr;
+	std::shared_ptr<class GameEngineMesh> Mesh = nullptr;
+	std::shared_ptr<class GameEngineInputLayOut> ShadowInputLayOutPtr = nullptr;
+
 };
 
 
@@ -139,7 +173,6 @@ public:
 		return RenderCamera;
 	}
 
-	// 업데이트에서 할것이기 때문에 그냥 하겠습니다. 
 	// 랜더 도중에 카메라를 바꾸거나 한다면 이상한 일이 발생할수 있다.
 
 	std::shared_ptr<GameEngineRenderUnit> GetUnit(unsigned int _Index = 0)
@@ -164,12 +197,12 @@ public:
 		{
 			for (size_t i = 0; i < Units.size(); i++)
 			{
-				Units[i]->IsShadow = true;
+				Units[i]->ShadowOn();
 			}
 			return;
 		}
 
-		Units[_UnitIndex]->IsShadow = true;
+		Units[_UnitIndex]->ShadowOn();
 	}
 
 	void ShadowOff(size_t _UnitIndex = -1)
@@ -202,15 +235,9 @@ private:
 
 	float CalZ = 0.0f;
 
-	GameEngineCamera* RenderCamera;
+	GameEngineCamera* RenderCamera = nullptr;
 
 	std::vector<std::shared_ptr<GameEngineRenderUnit>> Units;
-
-	// Pipe와
-	//// GameEngineShaderResHelper 가 합쳐져야 랜더링 이 되는 식이 됩니다.
-	//std::shared_ptr<class GameEngineMaterial> Pipe;
-	//GameEngineShaderResHelper ShaderResHelper;
-
 
 	void RenderTransformUpdate(GameEngineCamera* _Camera);
 };

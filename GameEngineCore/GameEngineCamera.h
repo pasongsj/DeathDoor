@@ -97,8 +97,14 @@ public:
 		return DeferredLightTarget;
 	}
 
+	std::shared_ptr<GameEngineRenderTarget> GetDeferredPostLightTarget()
+	{
+		return DeferredPostLightTarget;
+	}
+
 
 	bool IsView(const TransformData& _TransData);
+	bool IsView(const float4& _Pos,const float4& _Scale);
 
 	template<typename EnumType>
 	void SetSortType(EnumType _Index, SortType _Sort)
@@ -169,8 +175,10 @@ private:
 	std::shared_ptr<GameEngineRenderTarget> CamDeferrdTarget;
 	std::shared_ptr<GameEngineRenderTarget> CamAlphaTarget;
 	std::shared_ptr<GameEngineRenderTarget> AllRenderTarget;
+	std::shared_ptr<GameEngineRenderTarget> DeferredPostLightTarget;
 
 	GameEngineRenderUnit CalLightUnit;
+	GameEngineRenderUnit LightPostUnit;
 	GameEngineRenderUnit DefferdMergeUnit;
 
 	// 빛계산의 결과물을 받기 위한 타겟.

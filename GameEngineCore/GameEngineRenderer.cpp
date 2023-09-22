@@ -146,11 +146,41 @@ void GameEngineRenderUnit::Setting()
 	ShaderResHelper.Setting();
 }
 
+void GameEngineRenderUnit::ShadowSetting()
+{
+	if (nullptr == Mesh)
+	{
+		MsgAssert("매쉬가 존재하지 않는 유니트 입니다");
+	}
+
+	if (nullptr == Material)
+	{
+		MsgAssert("파이프라인이 존재하지 않는 유니트 입니다");
+	}
+
+	ShadowInputLayOutPtr->Setting();
+
+	Mesh->Setting();
+	Material->Setting();
+	ShaderResHelper.Setting();
+}
+
 void GameEngineRenderUnit::Draw()
 {
 	UINT IndexCount = Mesh->IndexBufferPtr->GetIndexCount();
 	GameEngineDevice::GetContext()->DrawIndexed(IndexCount, 0, 0);
+}
 
+void GameEngineRenderUnit::ShadowOn()
+{
+	IsShadow = true;
+
+	std::shared_ptr<GameEngineVertexShader> ShadowPtr = GameEngineVertexShader::Find("Shadow.hlsl");
+	if (nullptr == ShadowInputLayOutPtr)
+	{
+		ShadowInputLayOutPtr = std::make_shared<GameEngineInputLayOut>();
+		ShadowInputLayOutPtr->ResCreate(Mesh->GetVertexBuffer(), ShadowPtr);
+	}
 }
 
 void GameEngineRenderUnit::Render(float _DeltaTime)
@@ -259,13 +289,22 @@ void GameEngineRenderer::CalSortZ(GameEngineCamera* _Camera)
 
 }
 
-std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateRenderUnit()
+std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateRenderUnit() 
 {
 	std::shared_ptr<GameEngineRenderUnit> Unit = std::make_shared<GameEngineRenderUnit>();
 
 	Unit->SetRenderer(this);
 	Units.push_back(Unit);
 
+	return Unit;
+}
+
+std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateRenderUnit(std::string_view _Mesh, std::string_view _Material)
+{
+	std::shared_ptr<GameEngineRenderUnit> Unit = CreateRenderUnit();
+
+	Unit->SetMesh(_Mesh);
+	Unit->SetMaterial(_Material);
 	return Unit;
 }
 
