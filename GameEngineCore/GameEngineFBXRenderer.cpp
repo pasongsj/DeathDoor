@@ -287,7 +287,9 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_MeshIndex, _SubSetIndex);
 
 		// 텍스쳐이름 확인용 test 코드 
-		if (MatData.DifTextureName == "Ruin_CobbleStone_Dirt_Tile_HoD.png")
+		// 683 0 
+		// 683 1 
+		if (MatData.DifTextureName == "Floormark_Check.png")
 		{
 			int a = 0;
 		}
