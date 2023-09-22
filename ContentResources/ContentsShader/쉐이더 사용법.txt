@@ -22,8 +22,9 @@ ContentFBXRenderer로 생성한 후에 머티리얼 세팅
 ContentAniMeshForward
 ContentAniMeshDeffered
 ContentMeshForward
+ContentMeshDeffered
 
-머티리얼은 이거 세개중 아무거나 하면 됨.
+머티리얼은 이거중 아무거나 하면 됨.
 Mask텍스쳐는 기본으로 설정이 되어 있는데, 바꾸고 싶으면 SetFadeMask호출하면 됩니다.
 
 이후, Fade 효과를 넣고싶은 시점에
@@ -41,8 +42,9 @@ ContentFBXRenderer로 생성한 후에 머티리얼 세팅
 ContentAniMeshForward
 ContentAniMeshDeffered
 ContentMeshForward
+ContentMeshDeffered
 
-머티리얼은 이거 세개중 아무거나 하면 됨.
+머티리얼은 이거중 아무거나 하면 됨.
 
 이후, SetCrackAmount를 호출해서, 인자에 0~1사이의 원하는 값을 넣어주면
 Crack의 양이 조절됨.

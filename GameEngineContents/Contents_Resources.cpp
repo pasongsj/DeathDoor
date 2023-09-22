@@ -103,6 +103,18 @@ void ContentsCore::ContentsResourcesCreate()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshDeffered");
+
+		//Pipe->SetVertexBuffer("FullRect");
+		//Pipe->SetIndexBuffer("FullRect");
+		Pipe->SetVertexShader("ContentMeshDeffered.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("ContentMeshDeffered.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentAniMeshForward");
 
 		//Pipe->SetVertexBuffer("FullRect");

@@ -107,9 +107,10 @@ void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::str
 
 	if (UpperSettingName != "CONTENTANIMESHDEFFERED" &&
 		UpperSettingName != "CONTENTANIMESHFORWARD" &&
-		UpperSettingName != "CONTENTMESHFORWARD")
+		UpperSettingName != "CONTENTMESHFORWARD" &&
+		UpperSettingName != "CONTENTMESHDEFFERED")
 	{
-		MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentAniMeshForward, ContentMeshForward 중 하나여야 합니다.");
+		MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentAniMeshForward, ContentMeshForward, ContentMeshDeffered 중 하나여야 합니다.");
 		return;
 	}
 

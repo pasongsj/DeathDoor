@@ -37,6 +37,9 @@
     <FxCompile Include="ContentTextureShader.hlsl">
       <Filter>BasicShader</Filter>
     </FxCompile>
+    <FxCompile Include="ContentMeshDeffered.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
