@@ -39,6 +39,7 @@ Texture2D DifColor : register(t0);
 Texture2D DifLight : register(t1);
 Texture2D SpcLight : register(t2);
 Texture2D AmbLight : register(t3);
+Texture2D PointLightTex : register(t4);
 SamplerState POINTWRAP : register(s0);
 
 OutPutColor DeferredMerge_PS(Output _Input) : SV_Target0
@@ -56,7 +57,7 @@ OutPutColor DeferredMerge_PS(Output _Input) : SV_Target0
     float4 DiffuseRatio = DifLight.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 SpacularRatio = SpcLight.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     float4 AmbientRatio = AmbLight.Sample(POINTWRAP, _Input.TEXCOORD.xy);
-    
+    float4 PointLight = PointLightTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     
     //if (내 앞에 물체가 있다면)
     //{
@@ -67,17 +68,17 @@ OutPutColor DeferredMerge_PS(Output _Input) : SV_Target0
     //}
         
     
-        if (Color.a)
-        {
-        //      0.1f
-            NewOutPut.Result.xyz = Color.xyz * (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
-            NewOutPut.Result.a = saturate(Color.a + (DiffuseRatio.w + SpacularRatio.w + AmbientRatio.w));
-        }
-        else
-        {
-            NewOutPut.Result.xyz = (DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
-            NewOutPut.Result.a = saturate(NewOutPut.Result.x);
-        }
+    if (Color.a)
+    {
+    //      0.1f
+        NewOutPut.Result.xyz = Color.xyz * (PointLight.xyz + DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
+        NewOutPut.Result.a = saturate(Color.a + (PointLight.w + DiffuseRatio.w + SpacularRatio.w + AmbientRatio.w));
+    }
+    else
+    {
+        NewOutPut.Result.xyz = (PointLight.xyz + DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
+        NewOutPut.Result.a = saturate(NewOutPut.Result.x);
+    }
     // NewOutPut.Result.a = saturate(NewOutPut.Result.a);
     
     return NewOutPut;

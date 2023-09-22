@@ -21,7 +21,8 @@ struct Output
     float4 POSITION : SV_POSITION;
     float4 VIEWPOSITION : POSITION;
     float4 TEXCOORD : TEXCOORD;
-    float4 NORMAL : NORMAL;
+    float4 VIEWNORMAL : NORMAL;
+    float4 WORLDNORMAL : NORMAL1;
     float4 WORLDPOSITION : POSITION1;
 };
 
@@ -36,6 +37,7 @@ struct PointLight
 cbuffer AllPointLight : register(b3)
 {
     int PointLightNum;
+    float4x4 ViewInverse;
     PointLight PointLights[16];
 };
 
@@ -49,20 +51,20 @@ Output ContentAniMeshForward_VS(Input _Input)
     float4 InputNormal = _Input.NORMAL;
     InputNormal.w = 0.0f;
     
-    if (IsAnimation != 0)
-    {
-        Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
-        InputPos.w = 1.0f;
-        InputNormal.w = 0.0f;
-    }
+   if (IsAnimation != 0)
+   {
+       Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+       InputPos.w = 1.0f;
+       InputNormal.w = 0.0f;
+   }
     
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
     
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
     _Input.NORMAL.w = 0.0f;
-    NewOutPut.NORMAL = mul(InputNormal, WorldView);
-    
+    NewOutPut.VIEWNORMAL = mul(InputNormal, WorldView);
+    NewOutPut.WORLDNORMAL = mul(InputNormal, WorldMatrix);
     NewOutPut.WORLDPOSITION = mul(InputPos, WorldMatrix);
     
     return NewOutPut;
@@ -83,13 +85,14 @@ OutputTarget ContentAniMeshForward_PS(Output _Input)
     OutputTarget PS_OutPut = (OutputTarget) 0.0f;
     
     float4 ResultPointLight = (float4) 0.0f;
+    float3 WorldNormal = normalize(_Input.WORLDNORMAL);
     
     for (int i = 0; i < PointLightNum; i++)
     {
         float3 PointLightDir = PointLights[i].Position.xyz - _Input.WORLDPOSITION.xyz;
         float3 PointLightNormal = normalize(PointLightDir);
     
-        float PointLightDiffuse = max(0.0f, dot(_Input.NORMAL.xyz, PointLightNormal));
+        float PointLightDiffuse = max(0.0f, dot(WorldNormal.xyz, PointLightNormal));
         float PointLightDistance = distance(PointLights[i].Position.xyz, _Input.WORLDPOSITION.xyz);
     
         float4 LightColor = float4(PointLights[i].RGB, 1.0f);
@@ -99,8 +102,8 @@ OutputTarget ContentAniMeshForward_PS(Output _Input)
         ResultPointLight += PointLights[i].Intensity * PointLightColor;
     }
     
-    float4 DiffuseRatio = CalDiffuseLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
-    float4 SpacularRatio = CalSpacularLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
+    float4 DiffuseRatio = CalDiffuseLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[0]);
+    float4 SpacularRatio = CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[0]);
     float4 AmbientRatio = CalAmbientLight(AllLight[0]);
     
     float4 MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);

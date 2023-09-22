@@ -36,6 +36,7 @@ struct LightOutPut
     float4 SpcLight : SV_Target1;
     float4 AmbLight : SV_Target2;
     float4 ResultLight : SV_Target3;
+    float4 PointLight : SV_Target4;
 };
 
 Texture2D PositionTex : register(t0);
@@ -51,7 +52,7 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
     // Position
     float4 Position = PositionTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
     
-    if (0 >= Position.a)
+        if (0 >= Position.a)
     {
         clip(-1);
     }
@@ -61,57 +62,64 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
     float4 DiffuseRatio = (float4) 0.0f;
     float4 SpacularRatio = (float4) 0.0f;
     float4 AmbientRatio = (float4) 0.0f;
+    float4 PointLight = (float4) 0.0f;
+    
+    for (int Index = 0; Index < PointLightNum; ++Index)
+    {
+        PointLight += CalPointLight(Position, Normal, PointLights[Index]);
+    }
     
     for (int i = 0; i < LightCount; ++i)
     {
         DiffuseRatio += CalDiffuseLight(Position, Normal, AllLight[i]);
-        SpacularRatio += CalSpacularLight(Position, Normal, AllLight[i]);;
+        SpacularRatio += CalSpacularLight(Position, Normal, AllLight[i]);
         AmbientRatio += CalAmbientLight(AllLight[i]);
     }
     
-    // 디뷰즈 라이트가 비춰진 곳이라면
+// 디뷰즈 라이트가 비춰진 곳이라면
     if (DiffuseRatio.x > 0.0f)
     {
         float4 WorldViewPos = Position;
         WorldViewPos.a = 1.0f;
-        // 빛이존재하므로
-        // 그림자도 존재해야할지 판단한다.
-        // 어느 world 
+    // 빛이존재하므로
+    // 그림자도 존재해야할지 판단한다.
+    // 어느 world 
         float4 WorldPos = mul(WorldViewPos, AllLight[0].CameraViewInverseMatrix);
         
-        // 빛을 기준으로한 포지션으로 바꿨다.
+    // 빛을 기준으로한 포지션으로 바꿨다.
         float4 LightPos = mul(WorldPos, AllLight[0].LightViewProjectionMatrix);
         
-        // worldviewprojection 
-        // 이 곱해지면 그건 -1~1사이의 공간입니까?
-        // w에 곱해지기전의 z값을 보관해 놓은 값이 됩니다.
+    // worldviewprojection 
+    // 이 곱해지면 그건 -1~1사이의 공간입니까?
+    // w에 곱해지기전의 z값을 보관해 놓은 값이 됩니다.
         float3 LightProjection = LightPos.xyz / LightPos.w;
-        // 모든 값은 -1~1사이의 값이 됩니다.
+    // 모든 값은 -1~1사이의 값이 됩니다.
         
         float2 ShadowUV = float2(LightProjection.x * 0.5f + 0.5f, LightProjection.y * -0.5f + 0.5f);
         float fShadowDepth = ShadowTex.Sample(POINTWRAP, float2(ShadowUV.x, ShadowUV.y)).r;
         
-        // 가장 외각을 약간 깎아내서 
+    // 가장 외각을 약간 깎아내서 
         if (
-            0.001f < ShadowUV.x && 0.999f > ShadowUV.x
-            && 0.001f < ShadowUV.y && 0.999f > ShadowUV.y
-            && LightProjection.z >= (fShadowDepth + 0.001f)
-            )
+        0.001f < ShadowUV.x && 0.999f > ShadowUV.x
+        && 0.001f < ShadowUV.y && 0.999f > ShadowUV.y
+        && LightProjection.z >= (fShadowDepth + 0.001f)
+        )
         {
             DiffuseRatio *= 0.01f;
             SpacularRatio *= 0.01f;
         }
-        
     }
     
     NewOutPut.DifLight = DiffuseRatio;
     NewOutPut.SpcLight = SpacularRatio;
     NewOutPut.AmbLight = AmbientRatio;
-    NewOutPut.ResultLight = DiffuseRatio + SpacularRatio + AmbientRatio;
+    NewOutPut.PointLight = PointLight;
     
-    // 카메라 행렬
-    // 빛의 위치
-    // 그려져있는 빛을 기반으로한 깊이 버퍼 텍스처.
+    NewOutPut.ResultLight = PointLight + DiffuseRatio + SpacularRatio + AmbientRatio;
+    
+// 카메라 행렬
+// 빛의 위치
+// 그려져있는 빛을 기반으로한 깊이 버퍼 텍스처.
 
     
     return NewOutPut;
@@ -122,5 +130,5 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
     
     // return NewOutPut;
 
-}
+    }
 

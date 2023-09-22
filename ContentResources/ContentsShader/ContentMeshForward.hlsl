@@ -15,7 +15,8 @@ struct Output
     float4 POSITION : SV_POSITION;
     float4 VIEWPOSITION : POSITION;
     float4 TEXCOORD : TEXCOORD;
-    float4 NORMAL : NORMAL;
+    float4 VIEWNORMAL : NORMAL;
+    float4 WORLDNORMAL : NORMAL1;
     float4 WORLDPOSITION : POSITION3;
 };
 
@@ -42,11 +43,13 @@ struct PointLight
 cbuffer AllPointLight : register(b4)
 {
     int PointLightNum;
+    float4x4 ViewInverse;
     PointLight PointLights[16];
 };
 
 Output ContentMeshTexture_VS(Input _Input)
 {
+    
     Output NewOutPut = (Output) 0;
     
     float4 InputPos = _Input.POSITION;
@@ -57,11 +60,12 @@ Output ContentMeshTexture_VS(Input _Input)
     
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
-
+    
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
     _Input.NORMAL.w = 0.0f;
-    NewOutPut.NORMAL = mul(InputNormal, WorldView);
     
+    NewOutPut.VIEWNORMAL = mul(InputNormal, WorldView);
+    NewOutPut.WORLDNORMAL = mul(InputNormal, WorldMatrix);
     NewOutPut.WORLDPOSITION = mul(_Input.POSITION, WorldMatrix);
     
     return NewOutPut;
@@ -86,13 +90,14 @@ float4 ContentMeshTexture_PS(Output _Input) : SV_Target0
     }
     
     float4 ResultPointLight = (float4) 0.0f;
+    float3 WorldNormal = normalize(_Input.WORLDNORMAL);
     
     for (int i = 0; i < PointLightNum; i++)
     {
         float3 PointLightDir = PointLights[i].Position.xyz - _Input.WORLDPOSITION.xyz;
         float3 PointLightNormal = normalize(PointLightDir);
-    
-        float PointLightDiffuse = max(0.0f, dot(_Input.NORMAL.xyz, PointLightNormal));
+        
+        float PointLightDiffuse = max(0.0f, dot(WorldNormal.xyz, PointLightNormal));
         float PointLightDistance = distance(PointLights[i].Position.xyz, _Input.WORLDPOSITION.xyz);
     
         float4 LightColor = float4(PointLights[i].RGB, 1.0f);
@@ -102,8 +107,8 @@ float4 ContentMeshTexture_PS(Output _Input) : SV_Target0
         ResultPointLight += PointLights[i].Intensity * PointLightColor;
     }
     
-    float4 DiffuseRatio = CalDiffuseLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
-    float4 SpacularRatio = CalSpacularLight(_Input.VIEWPOSITION, _Input.NORMAL, AllLight[0]);
+    float4 DiffuseRatio = CalDiffuseLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[0]);
+    float4 SpacularRatio = CalSpacularLight(_Input.VIEWPOSITION, _Input.VIEWNORMAL, AllLight[0]);
     float4 AmbientRatio = CalAmbientLight(AllLight[0]);
     
     float A = Color.w;

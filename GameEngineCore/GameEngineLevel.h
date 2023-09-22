@@ -24,6 +24,7 @@ struct PointLight
 struct AllPointLight
 {
 	int Num = 0;
+	float4x4 ViewInverse;
 	PointLight Lights[16];
 };
 

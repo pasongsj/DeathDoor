@@ -321,6 +321,7 @@ void GameEngineLevel::Render(float _DeltaTime)
 		}
 
 		Cam->CameraTransformUpdate();
+		PointLights.ViewInverse = GetMainCamera()->GetView().InverseReturn();
 		Cam->ViewPortSetting();
 		Cam->Render(_DeltaTime);
 
