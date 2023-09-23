@@ -62,6 +62,8 @@ public:
 	int Start = -1;
 	int End = -1;
 	std::vector<float> FrameTime = std::vector<float>();
+	float BlendIn = 0.2f;
+	float BlendOut = 0.2f;
 };
 
 
@@ -139,7 +141,7 @@ public:
 		Pause = false;
 	}
 
-	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false);
+	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false, float _BlendTime = -1.0f);
 
 	void CalculateUnitPos();
 
@@ -172,10 +174,13 @@ private:
 	// Structure Buffer¶û ¸µÅ©°¡ µÇ´Â ³à¼®.
 	std::vector<float4x4> AnimationBoneMatrixs;
 
-	float BlendTime; // 0.2
-	float CurBlendTime; // 0.2
-	std::vector<AnimationBoneData> PrevAnimationBoneDatas;
+	float BlendTime = 0.0f; // 0.2
+	float CurBlendTime = 0.0f; // 0.2
 
-	std::vector<AnimationBoneData> AnimationBoneDatas;;
+	void UpdateBlend(float _DeltaTime);
+
+	std::vector <AnimationBoneData> PrevAnimationBoneDatas;
+
+	std::vector<AnimationBoneData> AnimationBoneDatas;
 };
 
