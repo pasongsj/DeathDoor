@@ -39,9 +39,6 @@
     <ClCompile Include="SinkBox_4x4.cpp">
       <Filter>Contents\PlayLevel\MapActor</Filter>
     </ClCompile>
-    <ClCompile Include="ContentFBXRenderer.cpp">
-      <Filter>Component\ContentsRenderer</Filter>
-    </ClCompile>
     <ClCompile Include="PhysXTestActor.cpp">
       <Filter>Component\PhysX\Test</Filter>
     </ClCompile>
@@ -59,12 +56,6 @@
     </ClCompile>
     <ClCompile Include="StartLevel.cpp">
       <Filter>Contents\StartLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="ContentSpriteRenderer.cpp">
-      <Filter>Component\ContentsRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="ContentUIRenderer.cpp">
-      <Filter>Component\ContentsRenderer</Filter>
     </ClCompile>
     <ClCompile Include="PhysXTriangleComponent.cpp">
       <Filter>Component\PhysX\Component</Filter>
@@ -93,9 +84,6 @@
     <ClCompile Include="StartMenu.cpp">
       <Filter>Contents\StartLevel\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="ContentUIFontRenderer.cpp">
-      <Filter>Component\ContentsRenderer</Filter>
-    </ClCompile>
     <ClCompile Include="LevelWindow.cpp">
       <Filter>Base\Controller</Filter>
     </ClCompile>
@@ -117,9 +105,6 @@
     <ClCompile Include="UITestLevel.cpp">
       <Filter>Contents\UITestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="ContentFBXUIRenderer.cpp">
-      <Filter>Component\ContentsRenderer</Filter>
-    </ClCompile>
     <ClCompile Include="SkillSlot.cpp">
       <Filter>Contents\UI</Filter>
     </ClCompile>
@@ -131,9 +116,6 @@
     </ClCompile>
     <ClCompile Include="MapTestLevel.cpp">
       <Filter>Contents\TestLevel\MapTestLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="OfficeLevel.cpp">
-      <Filter>Contents\OfficeLevel</Filter>
     </ClCompile>
     <ClCompile Include="PlayerTestLevel.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
@@ -286,6 +268,24 @@
     <ClCompile Include="EnemyGhoul.cpp">
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="OfficeLevel.cpp">
+      <Filter>Contents\OfficeLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentFBXRenderer.cpp">
+      <Filter>Component\ContentsRenderer\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentFBXUIRenderer.cpp">
+      <Filter>Component\ContentsRenderer\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentSpriteRenderer.cpp">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentUIRenderer.cpp">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentUIFontRenderer.cpp">
+      <Filter>Component\ContentsRenderer\Font</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -329,9 +329,6 @@
     <ClInclude Include="SinkBox_4x4.h">
       <Filter>Contents\PlayLevel\MapActor</Filter>
     </ClInclude>
-    <ClInclude Include="ContentFBXRenderer.h">
-      <Filter>Component\ContentsRenderer</Filter>
-    </ClInclude>
     <ClInclude Include="PhysXTestActor.h">
       <Filter>Component\PhysX\Test</Filter>
     </ClInclude>
@@ -374,17 +371,8 @@
     <ClInclude Include="StartLevel.h">
       <Filter>Contents\StartLevel</Filter>
     </ClInclude>
-    <ClInclude Include="ContentSpriteRenderer.h">
-      <Filter>Component\ContentsRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentUIRenderer.h">
-      <Filter>Component\ContentsRenderer</Filter>
-    </ClInclude>
     <ClInclude Include="StartMenu.h">
       <Filter>Contents\StartLevel\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentUIFontRenderer.h">
-      <Filter>Component\ContentsRenderer</Filter>
     </ClInclude>
     <ClInclude Include="LevelWindow.h">
       <Filter>Base\Controller</Filter>
@@ -405,9 +393,6 @@
     <ClInclude Include="UITestLevel.h">
       <Filter>Contents\UITestLevel</Filter>
     </ClInclude>
-    <ClInclude Include="ContentFBXUIRenderer.h">
-      <Filter>Component\ContentsRenderer</Filter>
-    </ClInclude>
     <ClInclude Include="SkillSlot.h">
       <Filter>Contents\UI</Filter>
     </ClInclude>
@@ -419,9 +404,6 @@
     </ClInclude>
     <ClInclude Include="MapTestLevel.h">
       <Filter>Contents\TestLevel\MapTestLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="OfficeLevel.h">
-      <Filter>Contents\OfficeLevel</Filter>
     </ClInclude>
     <ClInclude Include="PlayerTestLevel.h">
       <Filter>Contents\PlayerTestLevel</Filter>
@@ -568,6 +550,24 @@
     <ClInclude Include="EnemyGhoul.h">
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="OfficeLevel.h">
+      <Filter>Contents\OfficeLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentFBXRenderer.h">
+      <Filter>Component\ContentsRenderer\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentFBXUIRenderer.h">
+      <Filter>Component\ContentsRenderer\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentSpriteRenderer.h">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentUIRenderer.h">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentUIFontRenderer.h">
+      <Filter>Component\ContentsRenderer\Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -689,6 +689,15 @@
     </Filter>
     <Filter Include="Contents\FortressLevel\Map_Object">
       <UniqueIdentifier>{7135283d-a1cc-4778-9c28-fd7e7f68f16e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\FBX">
+      <UniqueIdentifier>{13009e0f-7393-4e64-9b5c-980fbd9824fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\2DSprite">
+      <UniqueIdentifier>{99f73c34-7bb5-4548-ab4d-16a358905eea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Font">
+      <UniqueIdentifier>{f2100704-c978-4a25-8800-aaeb62a193e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
