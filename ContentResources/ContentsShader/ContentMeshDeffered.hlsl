@@ -52,9 +52,9 @@ SamplerState ENGINEBASE : register(s0);
 
 struct DeferredOutPut
 {
-    float4 DifTarget : SV_Target1;
-    float4 PosTarget : SV_Target2;
-    float4 NorTarget : SV_Target3;
+    float4 DifTarget  : SV_Target1;
+    float4 PosTarget  : SV_Target2;
+    float4 NorTarget  : SV_Target3;
     float4 BlurTarget : SV_Target6;
 };
 
@@ -63,7 +63,15 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
 {
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
     
+    //UV값 변경
+    _Input.TEXCOORD.xy *= MulUV;
+    _Input.TEXCOORD.xy += AddUV;
+    
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+    
+    //텍스쳐 색상 변경
+    Color *= MulColor;
+    Color += AddColor;
     
     if (Color.a <= 0.0f)
     {
