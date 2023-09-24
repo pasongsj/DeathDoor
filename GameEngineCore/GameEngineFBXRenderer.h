@@ -62,8 +62,8 @@ public:
 	int Start = -1;
 	int End = -1;
 	std::vector<float> FrameTime = std::vector<float>();
-	float BlendIn = 0.2f;
-	float BlendOut = 0.2f;
+	float BlendIn = 0.01f;
+	float BlendOut = 0.01f;
 };
 
 
