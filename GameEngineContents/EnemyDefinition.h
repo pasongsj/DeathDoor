@@ -8,3 +8,4 @@
 
 #define FirePlantDefaultDir float4(90.0f,0.0f,0.0f)
 #define EnemyBruteDefaultDir float4(0.0f,90.0f,0.0f)
+#define EnemyBruteGoldDefaultDir float4(0.0f,90.0f,0.0f)
