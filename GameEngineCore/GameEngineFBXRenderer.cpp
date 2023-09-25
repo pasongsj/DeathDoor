@@ -159,6 +159,22 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 
 	FindFBXMesh->Initialize();
 
+	const std::vector<Bone>& Bones = FindFBXMesh->GetAllBone();
+
+	if (Bones.size() != AnimationBoneDatas.size())
+	{
+		AnimationBoneDatas.resize(Bones.size());
+
+		for (size_t i = 0; i < Bones.size(); i++)
+		{
+			float4x4 Offset = Bones[i].BonePos.Offset;
+
+			Offset.Decompose(AnimationBoneDatas[i].Scale, AnimationBoneDatas[i].RotQuaternion, AnimationBoneDatas[i].Pos);
+
+			AnimationBoneDatas[i].RotEuler = AnimationBoneDatas[i].RotQuaternion.QuaternionToEulerDeg();
+		}
+	}
+
 	// 너 몇개 가지고 있어.
 	for (size_t UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
 	{
@@ -512,6 +528,18 @@ void GameEngineFBXRenderer::Update(float _DeltaTime)
 		return;
 	}
 	CurAnimation->Update(_DeltaTime);
+
+	const TransformData& TransFormData = GetTransform()->GetTransDataRef();
+
+	for (size_t i = 0; i < AttachTransformValue.size(); i++)
+	{
+		AttachTransformInfo& Data = AttachTransformValue[i];
+
+		AnimationBoneData& Info = AnimationBoneDatas[Data.Index];
+
+		Data.Transform->SetLocalPosition(Info.Pos + TransFormData.LocalPosition);
+		Data.Transform->SetLocalRotation(Info.RotEuler/* + TransFormData.LocalQuaternion.QuaternionToEulerDeg()*/);
+	}
 }
 
 float4 GameEngineFBXRenderer::GetMeshScale()
@@ -556,4 +584,45 @@ float4 GameEngineFBXRenderer::GetMeshScale()
 	ResultBox.z = f4MaxBox.z - f4MinBox.z;
 
 	return ResultBox;
+}
+
+
+AnimationBoneData GameEngineFBXRenderer::GetBoneData(std::string _Name)
+{
+	Bone* BoneData = FBXMesh->FindBone(_Name);
+
+	AnimationBoneData Data;
+
+	if (nullptr == BoneData)
+	{
+		MsgAssert(std::string(_Name) + "존재하지 않는 본의 데이터를 찾으려고 했습니다.");
+		return Data;
+	}
+
+
+	Data = GetBoneData(BoneData->Index);
+
+	const TransformData& TransFormData = GetTransform()->GetTransDataRef();
+	Data.Pos += TransFormData.LocalPosition;
+	Data.RotEuler = Data.RotQuaternion.QuaternionToEulerDeg();
+
+	return Data;
+}
+
+void GameEngineFBXRenderer::SetAttachTransform(std::string_view _Name, GameEngineTransform* _Transform)
+{
+	Bone* BoneData = FBXMesh->FindBone(_Name.data());
+
+	if (nullptr == BoneData)
+	{
+		MsgAssert(std::string(_Name) + "존재하지 않는 본의 데이터를 찾으려고 했습니다.");
+		return;
+	}
+
+	SetAttachTransform(BoneData->Index, _Transform);
+}
+
+void GameEngineFBXRenderer::SetAttachTransform(int Index, GameEngineTransform* _Transform)
+{
+	AttachTransformValue.push_back({ Index, _Transform });
 }

@@ -77,6 +77,12 @@ public:
 	float4 RotEuler;
 };
 
+struct AttachTransformInfo
+{
+	int Index = -1;
+	GameEngineTransform* Transform;
+};
+
 // Ό³Έν :
 class GameEngineFBXRenderer : public GameEngineRenderer
 {
@@ -143,6 +149,17 @@ public:
 
 	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false, float _BlendTime = -1.0f);
 
+	AnimationBoneData GetBoneData(std::string _Name);
+
+	AnimationBoneData GetBoneData(int _Index)
+	{
+		return AnimationBoneDatas[_Index];
+	}
+
+	void SetAttachTransform(std::string_view _Name, GameEngineTransform* _Transform);
+
+	void SetAttachTransform(int Index, GameEngineTransform* _Transform);
+
 	void CalculateUnitPos();
 
 	float4 GetMeshScale();
@@ -182,5 +199,7 @@ private:
 	std::vector <AnimationBoneData> PrevAnimationBoneDatas;
 
 	std::vector<AnimationBoneData> AnimationBoneDatas;
+
+	std::vector<AttachTransformInfo> AttachTransformValue;
 };
 
