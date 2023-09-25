@@ -618,6 +618,7 @@ public:
 
 	static std::shared_ptr<GameEngineFBXMesh> Load(const std::string& _Path, const std::string& _Name);
 
+	static void UnLoad(const std::string& _Name);
 
 	std::shared_ptr<GameEngineMesh> GetGameEngineMesh(size_t _MeshIndex, size_t _SubIndex);
 
@@ -663,14 +664,17 @@ public:
 
 	void Initialize();
 
+	void Release();
 
 	//void UserLoad(const std::string_view& _Path/*GameEngineFile& _File*/);
 	//void UserSave(const std::string_view& _Path/*GameEngineFile& _File*/);
-
 	//void UserSave(const std::string_view& _Path, size_t Index);
-
 	//void UserSave(const std::string_view& _Path, std::vector<size_t> _Indexs);
 
+	const std::vector<Bone>& GetAllBone()
+	{
+		return AllBones;
+	}
 protected:
 	// 매쉬가 있어
 
