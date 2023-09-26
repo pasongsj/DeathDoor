@@ -206,7 +206,16 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EnemyBrute.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyBruteGold.cpp" />
     <ClCompile Include="EnemyFirePlant.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyGhoul.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -232,6 +241,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Ladder.cpp" />
     <ClCompile Include="LevelWindow.cpp">
       <SubType>
       </SubType>
@@ -269,6 +279,7 @@
     </ClCompile>
     <ClCompile Include="PhysXBoxComponent.cpp" />
     <ClCompile Include="PhysXCapsuleComponent.cpp" />
+    <ClCompile Include="PhysXControllerComponent.cpp" />
     <ClCompile Include="PhysXConvexComponent.cpp" />
     <ClCompile Include="PhysXCustom.cpp" />
     <ClCompile Include="PhysXDefault.cpp" />
@@ -420,8 +431,17 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EnemyBrute.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyBruteGold.h" />
     <ClInclude Include="EnemyDefinition.h" />
     <ClInclude Include="EnemyFirePlant.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyGhoul.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -457,6 +477,10 @@
     <ClInclude Include="GameContentsMapActor.h" />
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="HpBar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Ladder.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -519,6 +543,7 @@
     </ClInclude>
     <ClInclude Include="PhysXBoxComponent.h" />
     <ClInclude Include="PhysXCapsuleComponent.h" />
+    <ClInclude Include="PhysXControllerComponent.h" />
     <ClInclude Include="PhysXConvexComponent.h" />
     <ClInclude Include="PhysXCustom.h" />
     <ClInclude Include="PhysXDefault.h" />

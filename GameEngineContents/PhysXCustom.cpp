@@ -94,6 +94,34 @@ void CustomSimulationEventCallback::onTrigger(physx::PxTriggerPair* pairs, physx
 				int a = 0;
 			}
 		}
+
+		if (TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::LeverTrigger) && // 트리거 필터 그룹 레버
+			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic))    // 충돌한놈의 필터그룹이 플레이어일때
+		{
+			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) // 첫 충돌 했을 때
+			{
+
+				PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
+				PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
+				int a = 0;
+			}
+
+			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) // 충돌 유지시 계속 들어옴
+			{
+
+				PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
+				PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
+				int a = 0;
+			}
+
+			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) // 충돌이 끝날 때
+			{
+
+				PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
+				PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
+				int a = 0;
+			}
+		}
 	}
 }
 

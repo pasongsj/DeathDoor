@@ -3,6 +3,8 @@
 
 #include "FortressLevel.h"
 
+#include "ContentFBXRenderer.h"
+
 // physX
 #include "PhysXTriangleComponent.h"
 #include "PhysXBoxComponent.h"
@@ -10,6 +12,8 @@
 
 #include "SecretTile.h"
 #include "Crate.h"
+#include "Ladder.h"
+
 
 Map_Fortress::Map_Fortress()
 {
@@ -51,13 +55,56 @@ void Map_Fortress::Update(float _DeltaTime)
 void Map_Fortress::InitComponent()
 {
 	// 맵 렌더러 
-	//m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	//m_pRenderer->SetFBXMesh("Fortress_FullMap.fbx", "MeshTexture");
-	//// m_pRenderer->GetTransform()->SetLocalScale(float4{ -1, 1, 1 });
-	//m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
-	//m_pRenderer->GetTransform()->SetLocalPosition(m_MapPos);
-	// m_pRenderer->Off();
-	// float4 Scale = m_pRenderer->GetTransform()->GetLocalScale();
+	m_pRenderer_Part1 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part1->SetFBXMesh("Fortress_Part1.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part1->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part1->GetTransform()->SetLocalPosition(float4 { -8480, 140, -7360 });
+	m_pRenderer_Part1->CalculateUnitPos();
+	
+	m_pRenderer_Part2 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part2->SetFBXMesh("Fortress_Part2.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part2->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part2->GetTransform()->SetLocalPosition(float4{ -8334, 100, -6458 });
+	m_pRenderer_Part2->CalculateUnitPos();
+
+	m_pRenderer_Part3 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part3->SetFBXMesh("Fortress_Part3.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part3->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part3->GetTransform()->SetLocalPosition(float4{ -3844, 100 , -12898 });
+	m_pRenderer_Part3->CalculateUnitPos();
+
+	auto AllUnit = m_pRenderer_Part3->GetAllRenderUnit();
+	auto UnTextureUnit = m_pRenderer_Part3->GetUnTexturedUnit();
+	
+	AllUnit[47][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	AllUnit[48][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	AllUnit[49][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+
+	// uv 박살 , 이후 수정필요 
+	AllUnit[50][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	// AllUnit[50][0]->UVdata = { 0.07f, 0.07f, 0.0f, 0.0f };
+	AllUnit[50][1]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	AllUnit[50][2]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+
+	m_pRenderer_Part4 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part4->SetFBXMesh("Fortress_Part4.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part4->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part4->GetTransform()->SetLocalPosition(float4{ -6474, 190 , -12078 });
+	m_pRenderer_Part4->CalculateUnitPos();
+
+	m_pRenderer_Part5 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part5->SetFBXMesh("Fortress_Part5.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part5->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part5->GetTransform()->SetLocalPosition(float4{ -4464, 320 , -15492 });
+	m_pRenderer_Part5->CalculateUnitPos();
+
+	// 위치조정필요 
+	/*m_pRenderer_Part6 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part6->SetFBXMesh("Fortress_Part6.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part6->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part6->GetTransform()->SetLocalPosition(float4{ -5222, 574 , -14561 });
+	m_pRenderer_Part6->CalculateUnitPos();*/
+
 
 
 	// 네비메쉬 위치확인용 렌더러 
@@ -86,9 +133,8 @@ void Map_Fortress::Create_StaticObject()
 
 void Map_Fortress::Create_ActiveObject()
 {
-	//test 
-	std::shared_ptr<SecretTile> Tile = GetLevel()->CreateActor<SecretTile>();
-	std::shared_ptr<Crate> Obj = GetLevel()->CreateActor<Crate>();
+	
+	
 }
 
 void Map_Fortress::Create_TransformWall(std::shared_ptr<class GameEngineLevel> _CurLevel)

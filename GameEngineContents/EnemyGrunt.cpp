@@ -32,11 +32,11 @@ void EnemyGrunt::InitAniamtion()
 void EnemyGrunt::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * 5000.0f);
+	GetTransform()->SetLocalScale(float4::ONE * 20.0f);
 
 	// physx
 	{
-		float4 scale = EnemyRenderer->GetMeshScale() * EnemyRenderer->GetTransform()->GetWorldScale() / EnemyRenderer->GetTransform()->GetLocalScale() * 0.001f;
+		float4 scale = EnemyRenderer->GetMeshScale() * EnemyRenderer->GetTransform()->GetWorldScale() / EnemyRenderer->GetTransform()->GetLocalScale();
 		// scale *= 2.0f;
 		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
@@ -65,16 +65,6 @@ void EnemyGrunt::AggroMove(float _DeltaTime)
 		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp) * GRUNT_MOVE_SPEED * 2.0f);
 
 	}
-}
-
-bool EnemyGrunt::CheckHit()
-{
-	//if ()// 플레이어로부터 공격을 받는다면 )
-	//{
-	//	
-	//	return true;
-	//}
-	return false;
 }
 
 

@@ -2,6 +2,7 @@
 #include "SecretTile.h"
 
 #include "PhysXBoxComponent.h"
+#include "ContentFBXRenderer.h"
 
 SecretTile::SecretTile()
 {
@@ -23,8 +24,10 @@ void SecretTile::Update(float _DeltaTime)
 // 배율 임시 
 void SecretTile::InitComponent()
 {
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("FrogTile.fbx", "MeshTexture");
+	GetTransform()->SetWorldPosition(float4{ -450, 5, 0 });
+
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("FrogTile.fbx", "ContentMeshDeffered");
 	float4 Scale = m_pRenderer->GetTransform()->GetLocalScale();
 	Scale.x *= 1.2f;
 	Scale.z *= 1.2f;
@@ -36,10 +39,8 @@ void SecretTile::InitComponent()
 	MeshScale.z *= 1.2f;
 
 
-
-	
-
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
 	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
+	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 }

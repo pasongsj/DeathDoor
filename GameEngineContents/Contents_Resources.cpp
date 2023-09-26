@@ -91,25 +91,37 @@ void ContentsCore::ContentsResourcesCreate()
 	}
 
 	{
-		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMesh");
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshForward");
 
 		//Pipe->SetVertexBuffer("FullRect");
 		//Pipe->SetIndexBuffer("FullRect");
-		Pipe->SetVertexShader("ContentMeshShader.hlsl");
+		Pipe->SetVertexShader("ContentMeshForward.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
-		Pipe->SetPixelShader("ContentMeshShader.hlsl");
+		Pipe->SetPixelShader("ContentMeshForward.hlsl");
 		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
 
 	{
-		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentAniMesh");
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshDeffered");
 
 		//Pipe->SetVertexBuffer("FullRect");
 		//Pipe->SetIndexBuffer("FullRect");
-		Pipe->SetVertexShader("ContentMeshAniShader.hlsl");
+		Pipe->SetVertexShader("ContentMeshDeffered.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
-		Pipe->SetPixelShader("ContentMeshAniShader.hlsl");
+		Pipe->SetPixelShader("ContentMeshDeffered.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentAniMeshForward");
+
+		//Pipe->SetVertexBuffer("FullRect");
+		//Pipe->SetIndexBuffer("FullRect");
+		Pipe->SetVertexShader("ContentAnitMeshForward.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("ContentAnitMeshForward.hlsl");
 		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
@@ -127,31 +139,6 @@ void ContentsCore::ContentsResourcesCreate()
 	}
 
 	{
-		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshToon");
-
-		//Pipe->SetVertexBuffer("FullRect");
-		//Pipe->SetIndexBuffer("FullRect");
-		Pipe->SetVertexShader("ContentMeshToonShader.hlsl");
-		Pipe->SetRasterizer("Engine2DBase");
-		Pipe->SetPixelShader("ContentMeshToonShader.hlsl");
-		Pipe->SetBlendState("AlphaBlend");
-		Pipe->SetDepthState("EngineDepth");
-	}
-
-
-	{
-		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentFade");
-
-		//Pipe->SetVertexBuffer("FullRect");
-		//Pipe->SetIndexBuffer("FullRect");
-		Pipe->SetVertexShader("FadeDeffered.hlsl");
-		Pipe->SetRasterizer("Engine2DBase");
-		Pipe->SetPixelShader("FadeDeffered.hlsl");
-		Pipe->SetBlendState("AlphaBlend");
-		Pipe->SetDepthState("EngineDepth");
-	}
-
-	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Content2DTexture");
 
 		//Pipe->SetVertexBuffer("FullRect");
@@ -159,6 +146,26 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetVertexShader("ContentTextureShader.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("ContentTextureShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("HorizonBlur");
+
+		Pipe->SetVertexShader("HorizonBlur.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("HorizonBlur.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("VerticalBlur");
+
+		Pipe->SetVertexShader("VerticalBlur.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("VerticalBlur.hlsl");
 		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}

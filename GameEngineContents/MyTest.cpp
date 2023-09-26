@@ -14,8 +14,13 @@ MyTest::~MyTest()
 void MyTest::Start()
 {
 	TestRd = CreateComponent<GameEngineFBXRenderer>();
-	TestRd->SetFBXMesh("_E_BAT_Black Variant_MESH.fbx", "ContentFade");
+	TestRd->SetFBXMesh("_E_BAT_Black Variant_MESH.fbx", "ContentAniMeshDeffered");
+
 	TestRd->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
+	TestRd->GetTransform()->SetLocalPosition({ -50.0f, 0.0f, 0.0f });
+	
+	TestRd->CreateFBXAnimation("Fly", "_E_BAT_Black Variant_FLY.fbx");
+	TestRd->ChangeAnimation("Fly");
 
 	auto Units = TestRd->GetAllRenderUnit();
 	
@@ -23,25 +28,15 @@ void MyTest::Start()
 	{
 		for (int j = 0; j < Units[i].size(); j++)
 		{
-			Units[i][j]->ShaderResHelper.SetTexture("FilterTexture", "MaskType2_1.png");
+			Units[i][j]->ShaderResHelper.SetTexture("MaskTexture", "MaskType2_1.png");
+			Units[i][j]->Fade.Fade += 0.3f;
 		}
 	}
-
-
 }
 
 void MyTest::Update(float _Delta)
 {
-	auto Units = TestRd->GetAllRenderUnit();
-	
-	for (int i = 0; i < Units.size(); i++)
-	{
-		for (int j = 0; j < Units[i].size(); j++)
-		{
-			Units[i][j]->Fade.Fade += 0.1f * _Delta;
-		}
-	}
-	//Render2Dto3D();
+
 }
 
 void MyTest::TestRender()

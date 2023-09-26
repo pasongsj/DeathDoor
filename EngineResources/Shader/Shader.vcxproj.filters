@@ -5,7 +5,6 @@
     <FxCompile Include="MergeShader.hlsl" />
     <FxCompile Include="DebugMeshRender.hlsl" />
     <FxCompile Include="TileMapShader.hlsl" />
-    <FxCompile Include="BlurShader.hlsl" />
     <FxCompile Include="MeshTexture.hlsl" />
     <FxCompile Include="MeshAniTexture.hlsl" />
     <FxCompile Include="Animation.fx">
@@ -31,6 +30,23 @@
     <FxCompile Include="Shadow.hlsl">
       <Filter>Shadow</Filter>
     </FxCompile>
+    <FxCompile Include="MeshColor.hlsl" />
+    <FxCompile Include="BlurShader.hlsl">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="BloomBlur.hlsl">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="BloomShader.hlsl">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="MeshColorDeferred.hlsl" />
+    <FxCompile Include="FXAA.hlsl" />
+    <FxCompile Include="DeferredPostLight.hlsl">
+      <Filter>Deffered</Filter>
+    </FxCompile>
+    <FxCompile Include="MeshTextureAlpha.hlsl" />
+    <FxCompile Include="MeshTextureDeferred.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -41,6 +57,9 @@
     </Filter>
     <Filter Include="Shadow">
       <UniqueIdentifier>{7404787f-d936-4769-8d2b-565ef904c2dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostEffect">
+      <UniqueIdentifier>{ff86fbcb-6fa5-4c97-b0d2-73dcbb8a61e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

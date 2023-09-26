@@ -11,7 +11,12 @@ PhysXCapsuleComponent::~PhysXCapsuleComponent()
 {
 }
 
-void PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRotation,bool _Static)
+void PhysXCapsuleComponent::CreatePhysXActors(float4 _GeoMetryScale, float4 _GeoMetryRotation, bool _Static)
+{
+	CreatePhysXActors(_GeoMetryScale.PhysXVec3Return(), _GeoMetryRotation, _Static);
+}
+
+void PhysXCapsuleComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRotation, bool _Static/* = false*/)
 {
 	m_bStatic = _Static;
 	if (true == m_bStatic)
@@ -20,12 +25,16 @@ void PhysXCapsuleComponent::CreatePhysXActors( physx::PxVec3 _GeoMetryScale, flo
 	}
 	else
 	{
-		CreateDynamic(_GeoMetryScale, _GeoMetryRotation);
+		CreateDynamic(_GeoMetryScale, _GeoMetryRotation);		
 	}
+
+	GetTransform()->SetWorldScale(float4(_GeoMetryScale.x , _GeoMetryScale.y, _GeoMetryScale.z ));	
+	GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
 }
 
 void PhysXCapsuleComponent::SetMoveSpeed(float4 _MoveSpeed)
 {
+
 	//Y축은 중력에 의해 가속도를 받지만 X,Z는 가속도를 없애서 정속 이동을 하게끔 함
 	m_pRigidDynamic->setLinearVelocity({ 0,GetLinearVelocity().y,0});
 	// 캐릭터의 방향을 힘으로 조절
@@ -40,26 +49,9 @@ void PhysXCapsuleComponent::SetRotation(float4 _Rot)
 
 void PhysXCapsuleComponent::SetMoveJump()
 {
-	m_pRigidDynamic->addForce(physx::PxVec3(0.0f, PLAYER_JUMP_FORCE, 0.0f), physx::PxForceMode::eIMPULSE);
+	//m_pRigidDynamic->addForce(physx::PxVec3(0.0f, PLAYER_JUMP_FORCE, 0.0f), physx::PxForceMode::eIMPULSE);
 }
 
-void PhysXCapsuleComponent::SetMoveDive(float _Rot)
-{
-	float4 DirVec = float4::AngleToDirection2DToDeg(_Rot);
-	DirVec *= 1.0f;
-	m_pRigidDynamic->addForce(physx::PxVec3(DirVec.y, PLAYER_JUMP_FORCE * 0.5f, DirVec.x), physx::PxForceMode::eIMPULSE);
-}
-
-void PhysXCapsuleComponent::SetDynamicIdle()
-{
-	// 고정된 축을 해제
-	m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, false);
-	m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, false);
-	m_pRigidDynamic->setRigidDynamicLockFlag(physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, false);
-
-	// Kinematic을 사용했을 경우, RigidDynamic으로 돌아갈 수 있도록 Flag해제
-	//dynamic_->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, false);
-}
 
 void PhysXCapsuleComponent::Start()
 {
@@ -88,7 +80,6 @@ void PhysXCapsuleComponent::Update(float _DeltaTime)
 					tmpQuat.w
 				)
 			);
-
 			// 부모의 Transform정보를 바탕으로 PhysX Actor의 트랜스폼을 갱신
 			m_pRigidStatic->setGlobalPose(tmpPxTransform);
 			// TODO::회전도 처리해야함. DegreeToQuat
@@ -96,23 +87,50 @@ void PhysXCapsuleComponent::Update(float _DeltaTime)
 	}
 	else
 	{
-		if (!(physx::PxIsFinite(m_pRigidDynamic->getGlobalPose().p.x) || physx::PxIsFinite(m_pRigidDynamic->getGlobalPose().p.y) || physx::PxIsFinite(m_pRigidDynamic->getGlobalPose().p.z))
-			&& true == IsMain)
+		if (true == PositionSetFromParentFlag)
 		{
-			m_pRigidDynamic->setGlobalPose(RecentTransform);
+			float4 tmpQuat = ParentActor.lock()->GetTransform()->GetWorldRotation().EulerDegToQuaternion();
+
+			physx::PxTransform tmpPxTransform
+			(
+				ParentActor.lock()->GetTransform()->GetWorldPosition().x,
+				ParentActor.lock()->GetTransform()->GetWorldPosition().y,
+				ParentActor.lock()->GetTransform()->GetWorldPosition().z,
+				physx::PxQuat
+				(
+					tmpQuat.x,
+					tmpQuat.y,
+					tmpQuat.z,
+					tmpQuat.w
+				)
+			);
+
+			// 부모의 Transform정보를 바탕으로 PhysX Actor의 트랜스폼을 갱신
+			m_pRigidDynamic->setGlobalPose(tmpPxTransform);
 		}
-
-		// PhysX Actor의 상태에 맞춰서 부모의 Transform정보를 갱신
-		float4 tmpWorldPos = { m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z };
-		float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pRigidDynamic->getGlobalPose().q) * GameEngineMath::RadToDeg;
-
-		ParentActor.lock()->GetTransform()->SetWorldRotation(float4{ EulerRot.x, EulerRot.y, EulerRot.z });
-		ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
-
-		if (m_bSpeedLimit == true)
+		else
 		{
-			SpeedLimit();
+			// PhysX Actor의 상태에 맞춰서 부모의 Transform정보를 갱신
+			float4 tmpWorldPos = { m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z };
+			float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pRigidDynamic->getGlobalPose().q) * GameEngineMath::RadToDeg;
+
+			ParentActor.lock()->GetTransform()->SetWorldRotation(float4{ EulerRot.x, EulerRot.y, EulerRot.z });
+			ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
+
+			if (m_bSpeedLimit == true)
+			{
+				SpeedLimit();
+			}
 		}
+	}
+	if (true == GetLevel()->GetDebugRender())
+	{
+		float4 ShapePos = float4(m_pShape->getLocalPose().p.x, m_pShape->getLocalPose().p.y, m_pShape->getLocalPose().p.z);
+		float4 ResultPos = ParentActor.lock()->GetTransform()->GetWorldPosition();
+		ResultPos.y += ShapePos.y * 0.5f;
+		GetTransform()->SetWorldRotation(ParentActor.lock()->GetTransform()->GetWorldRotation());
+		GetTransform()->SetWorldPosition(ResultPos);
+		//GetTransform()->SetWorldPosition(ParentActor.lock()->GetTransform()->GetWorldPosition());
 	}
 }
 
@@ -134,15 +152,6 @@ void PhysXCapsuleComponent::PushImpulseAtLocalPos(float4 _ImpulsePower, float4 _
 
 	physx::PxRigidBodyExt::addForceAtPos(*m_pRigidDynamic, physx::PxVec3(_Pos.x, _Pos.y * 0.9f, _Pos.z),
 		physx::PxVec3(_ImpulsePower.x, _ImpulsePower.y, _ImpulsePower.z), physx::PxForceMode::eIMPULSE, true);
-}
-
-void PhysXCapsuleComponent::SetPlayerStartPos(float4 _Pos)
-{
-	physx::PxTransform tmpPxTransform(_Pos.x, _Pos.y, _Pos.z);
-
-	// 부모의 Transform정보를 바탕으로 PhysX Actor의 트랜스폼을 갱신
-	m_pRigidDynamic->setGlobalPose(tmpPxTransform);
-	RecentTransform = tmpPxTransform;
 }
 
 void PhysXCapsuleComponent::SpeedLimit()
@@ -251,7 +260,7 @@ void PhysXCapsuleComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _G
 
 
 	//피벗 설정
-	float CapsuleHeight = ScaledHeight * 1.f;
+	float CapsuleHeight = ScaledHeight * 1.8f;
 	physx::PxVec3 DynamicCenter = physx::PxVec3{ 0.0f, CapsuleHeight, 0.0f };
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 	relativePose.p = DynamicCenter;
@@ -333,7 +342,7 @@ void PhysXCapsuleComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _
 	physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.01f);
 
 	//피벗 설정
-	float CapsuleHeight = ScaledHeight * 1.f;
+	float CapsuleHeight = ScaledHeight * 1.8f;
 	physx::PxVec3 DynamicCenter = physx::PxVec3{ 0.0f, CapsuleHeight, 0.0f };
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 	relativePose.p = DynamicCenter;

@@ -39,7 +39,7 @@ private:
 
 
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
-	std::shared_ptr<GameEngineFBXRenderer> m_pRenderer = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
 	std::shared_ptr<GameEngineFBXRenderer> m_pNaviRenderer = nullptr;
 
 	const float4 m_MapRot = float4{ 0 , -135 , 0 };

@@ -63,4 +63,5 @@ void CenterLevel::LevelChangeStart()
 
 void CenterLevel::LevelChangeEnd()
 {
+	AllActorDestroy();
 }

@@ -17,16 +17,35 @@ public:
 	PhysXBoxComponent& operator=(const PhysXBoxComponent& _Other) = delete;
 	PhysXBoxComponent& operator=(PhysXBoxComponent&& _Other) noexcept = delete;
 
+	void CreatePhysXActors(float4 _GeoMetryScale = float4(2.0f,2.0f,2.0f), float4 _GeoMetryRot = float4::ZERO, bool _Static = false);
 	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO,bool _Static = false);
 
-	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
-	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
+	void TurnOffSpeedLimit()
+	{
+		m_bSpeedLimit = false;
+	}
 
+	void TurnOnSpeedLimit()
+	{
+		m_bSpeedLimit = true;
+	}
+
+	void SwitchSpeedLimit()
+	{
+		m_bSpeedLimit = !m_bSpeedLimit;
+	}
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 private:
+	bool m_bSpeedLimit = false;
+
+	//속도제한 함수
+	void SpeedLimit();
+
+	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
+	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
 };
 

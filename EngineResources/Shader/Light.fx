@@ -16,8 +16,8 @@ struct LightData
     float4 ViewLightDir;
     float4 ViewLightRevDir;
     float4 CameraPosition;
-    float LightTargetSizeX;
-    float LightTargetSizeY;
+    float ShadowTargetSizeX;
+    float ShadowTargetSizeY;
     float LightNear;
     float LightFar;
     float DifLightPower;
@@ -35,6 +35,51 @@ cbuffer LightDatas : register(b12)
     int LightCount;
     LightData AllLight[64];
 };
+
+
+struct PointLight
+{
+    float3 RGB;
+    float4 Position;
+    float MaxDist;
+    float Intensity;
+};
+
+cbuffer AllPointLight : register(b13)
+{
+    int PointLightNum;
+    float4x4 ViewInverse;
+    PointLight PointLights[16];
+};
+
+float4 CalPointLight(float4 _Pos, float4 _Normal, PointLight _PointLight)
+{
+    float4 ResultPointLight = (float4) 0.0f;
+    
+    float4 InputNormal = _Normal;
+    float4 InputPos = _Pos;
+    
+    InputPos.w = 1.0f;
+    InputNormal.w = 1.0f;
+    
+    float4 WorldPos = mul(InputPos, ViewInverse);
+    float4 WorldNormal = mul(InputNormal, ViewInverse);
+    float4 WorldNormalDir = normalize(WorldNormal);
+    
+    float3 PointLightDir = _PointLight.Position.xyz - WorldPos.xyz;
+    float3 PointLightNormal = normalize(PointLightDir);
+
+    float PointLightDiffuse = max(0.0f, dot(WorldNormalDir.xyz, PointLightNormal));
+    float PointLightDistance = distance(_PointLight.Position.xyz, WorldPos.xyz);
+    
+    float4 LightColor = float4(_PointLight.RGB, 1.0f);
+
+    float4 PointLightColor = LightColor * PointLightDiffuse * (1.0f - saturate(PointLightDistance / _PointLight.MaxDist));
+    
+    ResultPointLight = _PointLight.Intensity * PointLightColor;
+    
+    return ResultPointLight;
+}
 
 float4 CalDiffuseLight(float4 _Pos,  float4 _Normal, LightData _Data)
 {

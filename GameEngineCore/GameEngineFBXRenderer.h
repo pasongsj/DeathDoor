@@ -32,7 +32,8 @@ public:
 	bool Loop = true;
 	bool EndValue = false;
 
-	// Event
+	float BlendIn = 0.2f;
+	float BlendOut = 0.2f;
 
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
@@ -61,6 +62,8 @@ public:
 	int Start = -1;
 	int End = -1;
 	std::vector<float> FrameTime = std::vector<float>();
+	float BlendIn = 0.01f;
+	float BlendOut = 0.01f;
 };
 
 
@@ -72,6 +75,12 @@ public:
 	float4 RotQuaternion;
 	float4 Pos;
 	float4 RotEuler;
+};
+
+struct AttachTransformInfo
+{
+	int Index = -1;
+	GameEngineTransform* Transform;
 };
 
 // 설명 :
@@ -138,51 +147,22 @@ public:
 		Pause = false;
 	}
 
-	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false);
+	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false, float _BlendTime = -1.0f);
 
-	float4 GetMeshScale()
+	AnimationBoneData GetBoneData(std::string _Name);
+
+	AnimationBoneData GetBoneData(int _Index)
 	{
-		float4 f4MinBox = float4::ZERO;
-		float4 f4MaxBox = float4::ZERO;
-		float4 ResultBox = float4::ZERO;
-		for (size_t i = 0; i < FBXMesh->GetRenderUnitCount(); i++)
-		{
-			float4 f4TempMinBox = float4::ZERO;
-			float4 f4TempMaxBox = float4::ZERO;
-			f4TempMinBox = FBXMesh->GetRenderUnit(i)->MinBoundBox;
-			f4TempMaxBox = FBXMesh->GetRenderUnit(i)->MaxBoundBox;
-			if (f4MinBox.x > f4TempMinBox.x)
-			{
-				f4MinBox.x = f4TempMinBox.x;
-			}
-			if (f4MinBox.y > f4TempMinBox.y)
-			{
-				f4MinBox.y = f4TempMinBox.y;
-			}
-			if (f4MinBox.z > f4TempMinBox.z)
-			{
-				f4MinBox.z = f4TempMinBox.z;
-			}
-
-			if (f4MaxBox.x < f4TempMaxBox.x)
-			{
-				f4MaxBox.x = f4TempMaxBox.x;
-			}
-			if (f4MaxBox.y < f4TempMaxBox.y)
-			{
-				f4MaxBox.y = f4TempMaxBox.y;
-			}
-			if (f4MaxBox.z < f4TempMaxBox.z)
-			{
-				f4MaxBox.z = f4TempMaxBox.z;
-			}
-		}
-		ResultBox.x = f4MaxBox.x - f4MinBox.x;
-		ResultBox.y = f4MaxBox.y - f4MinBox.y;
-		ResultBox.z = f4MaxBox.z - f4MinBox.z;
-
-		return ResultBox;
+		return AnimationBoneDatas[_Index];
 	}
+
+	void SetAttachTransform(std::string_view _Name, GameEngineTransform* _Transform);
+
+	void SetAttachTransform(int Index, GameEngineTransform* _Transform);
+
+	void CalculateUnitPos();
+
+	float4 GetMeshScale();
 protected:
 	// void Render(float _DeltaTime) override;
 
@@ -191,6 +171,7 @@ private:
 
 	// 그게 불가능하다.
 	// 맨처음 세팅해준 메인 매쉬와완전히 연관되어 있는 매쉬여야만 가능하다.
+	float4 ResultMeshScale = float4::ZERO;
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::map<std::pair<size_t, size_t>, std::shared_ptr<GameEngineRenderUnit>> UnTexturedUnit;
 
@@ -210,7 +191,15 @@ private:
 	// Structure Buffer랑 링크가 되는 녀석.
 	std::vector<float4x4> AnimationBoneMatrixs;
 
+	float BlendTime = 0.0f; // 0.2
+	float CurBlendTime = 0.0f; // 0.2
 
-	std::vector<AnimationBoneData> AnimationBoneDatas;;
+	void UpdateBlend(float _DeltaTime);
+
+	std::vector <AnimationBoneData> PrevAnimationBoneDatas;
+
+	std::vector<AnimationBoneData> AnimationBoneDatas;
+
+	std::vector<AttachTransformInfo> AttachTransformValue;
 };
 

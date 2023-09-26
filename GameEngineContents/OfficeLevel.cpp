@@ -35,17 +35,13 @@ void OfficeLevel::LevelChangeStart()
 {
 	CreateScene();
 
-	// camera pos test 
-	/*float4 CameraPos = float4{ 1700, 3800, 4000 };
-	float4 CamRot = float4{ 90, 0, 0 };*/
-
-
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
 
 
-	CreateActor<GameEngineLight>();
+	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
+	Light->GetTransform()->SetLocalRotation(float4{ 60, 0, 0 });
 	m_pMap = CreateActor<Map_Office>();
 
 	// 플레이어 생성후 Set_StartPos함수 호출하면 해당 위치에 세팅

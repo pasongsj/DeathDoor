@@ -15,10 +15,7 @@ public:
 	EnemyBat& operator=(const EnemyBat& _Other) = delete;
 	EnemyBat& operator=(EnemyBat&& _Other) noexcept = delete;
 
-	std::shared_ptr<class PhysXCapsuleComponent> GetPhysXComponent() const
-	{
-		return m_pCapsuleComp;
-	}
+	
 
 protected:
 	void InitAniamtion() override;
@@ -36,7 +33,6 @@ private:
 		MAX
 	};
 
-	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 
 	void IdleMove(float _DeltaTime);
 

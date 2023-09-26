@@ -2,6 +2,7 @@
 #include "ContentAnimation.fx"
 #include "ContentLight.fx"
 #include "ContentRenderBaseValue.fx"
+#include "ContentFunction.fx"
 
 struct Input
 {
@@ -34,19 +35,18 @@ Output ContentAniMeshDeferred_VS(Input _Input)
     float4 InputNormal = _Input.NORMAL;
     InputNormal.w = 0.0f;
     
-   if (IsAnimation != 0)
-   {
-       Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
-       InputPos.w = 1.0f;
-       InputNormal.w = 0.0f;
-   }
+    if (IsAnimation != 0)
+    {
+        Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+        InputPos.w = 1.0f;
+        InputNormal.w = 0.0f;
+    }
     
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
     NewOutPut.WVPPOSITION = NewOutPut.POSITION;
     
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
-    _Input.NORMAL.w = 0.0f;
     NewOutPut.NORMAL = mul(InputNormal, WorldView);
     
     return NewOutPut;
@@ -54,6 +54,8 @@ Output ContentAniMeshDeferred_VS(Input _Input)
 
 Texture2D DiffuseTexture : register(t0);
 Texture2D MaskTexture : register(t1);
+Texture2D CrackTexture : register(t1);
+
 SamplerState ENGINEBASE : register(s0);
 
 struct DeferredOutPut
@@ -61,25 +63,20 @@ struct DeferredOutPut
     float4 DifTarget : SV_Target1;
     float4 PosTarget : SV_Target2;
     float4 NorTarget : SV_Target3;
-    float4 aaaTarget : SV_Target6;
+    float4 BlurTarget : SV_Target6;
 };
 
-cbuffer MaskInfo : register(b0)
-{
-    float UV_MaskingValue;
-    float3 MaskingColor;
-};
 
 DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
 {
-    
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
     
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
     float4 MaskColor;
     
-    if (_Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
+    //Crack
+    if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
     {
         MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
         
@@ -87,22 +84,22 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
         float3 Magenta = float3(1.0f, 0.0f, 1.0f);
         
         if (MaskColor.a > 0.0f)
-        {
-            //Color.r = lerp(Color.r, MaskingColor.r, 0.9f);
-            //Color.g = lerp(Color.g, MaskingColor.g, 0.9f);
-            //Color.b = lerp(Color.b, MaskingColor.b, 0.9f);
-            Color.rgb = Magenta;
-        
-            NewOutPut.aaaTarget = Color;
-            //float4 MaxLight = -normalize(AllLight[0].ViewLightDir);
-            //MaxLight.a = 1.0f;
-            //NewOutPut.NorTarget = MaxLight;
+        {            
+            NewOutPut.BlurTarget = float4(Magenta, MaskColor.a);
+            Color = NewOutPut.BlurTarget;
         }
     }
     
     if (Color.a <= 0.0f)
     {
         clip(-1);
+    }
+    
+    //Fade
+    if (Delta > 0.0f)
+    {
+        NewOutPut.BlurTarget *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
+        Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
     }
     
     NewOutPut.DifTarget = Color;

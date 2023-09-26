@@ -12,8 +12,6 @@ PhysXTriangleComponent::~PhysXTriangleComponent()
 {
 }
 
-//_MeshName(불러올 매시의 이름), _Scene, _Physics, _Cooking (InitPhysics 에서 불러온 값), _InverseIndex(Index를 역순으로 할지에 대한 bool값), 
-// _GeoMetryScale(스케일값), _GeoMetryRot(로테이션값)
 void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool _InverseIndex, float _Ratio /*= 1.f*/, float4 _GeoMetryRot /*= { 0.0f, 0.0f }*/)
 {
 	m_pPhysics = GetPhysics();

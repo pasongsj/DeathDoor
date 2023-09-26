@@ -22,6 +22,15 @@ GameEngineLevel::GameEngineLevel()
 	{
 		GameEngineInput::CreateKey("FreeCameraSwitch", VK_F1);
 	}
+	if (false == GameEngineInput::IsKey("DebugSwitch"))
+	{
+		GameEngineInput::CreateKey("DebugSwitch", VK_F7);
+	}
+
+	FXAATarget = GameEngineRenderTarget::CreateDummy();
+	FXAATarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	FXAAUnit.SetMesh("FullRect");
+	FXAAUnit.SetMaterial("FXAA");
 }
 
 void GameEngineLevel::LevelCameraInit()
@@ -31,8 +40,10 @@ void GameEngineLevel::LevelCameraInit()
 	std::shared_ptr<GameEngineCamera> UICamera = CreateNewCamera(100);
 	UICamera->SetProjectionType(CameraType::Orthogonal);
 
-
-	LastTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	if (nullptr==LastTarget)
+	{
+		LastTarget = GameEngineRenderTarget::CreateDummy();
+	}
 }
 
 GameEngineLevel::~GameEngineLevel()
@@ -51,6 +62,10 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 	{
 		MainCamera->FreeCameraSwitch();
 		// GameEngineInput::CreateKey("FreeCameraSwitch", VK_F1);
+	}
+	if (true == GameEngineInput::IsDown("DebugSwitch"))
+	{
+		IsDebugSwitch();
 	}
 
 
@@ -233,6 +248,22 @@ void GameEngineLevel::ActorRelease()
 					++ActorStart;
 					continue;
 				}
+				std::shared_ptr<GameEngineLight> ReleaseLight = RelaseActor->DynamicThis<GameEngineLight>();
+				if (nullptr != ReleaseLight)
+				{
+					std::list<std::shared_ptr<GameEngineLight>>::iterator LightStart = AllLight.begin();
+					std::list<std::shared_ptr<GameEngineLight>>::iterator LightEnd = AllLight.end();
+					for (; LightStart != LightEnd;)
+					{
+						if (*LightStart == ReleaseLight)
+						{
+							ReleaseLight->ReleaseShadowRenderTarget();
+							LightStart = AllLight.erase(LightStart);
+							break;
+						}
+						++LightStart;
+					}
+				}
 				RelaseActor->Release();
 				ActorStart = ActorList.erase(ActorStart);
 			}
@@ -279,6 +310,10 @@ void GameEngineLevel::Render(float _DeltaTime)
 		}
 	}
 
+	for (std::shared_ptr<GameEngineLight> Light : AllLight)
+	{
+		Light->GetShadowTarget()->Clear();
+	}
 
 	for (std::pair<int, std::shared_ptr<GameEngineCamera>> Pair : Cameras)
 	{
@@ -294,6 +329,7 @@ void GameEngineLevel::Render(float _DeltaTime)
 		}
 
 		Cam->CameraTransformUpdate();
+		PointLights.ViewInverse = GetMainCamera()->GetView().InverseReturn();
 		Cam->ViewPortSetting();
 		Cam->Render(_DeltaTime);
 
@@ -322,7 +358,14 @@ void GameEngineLevel::Render(float _DeltaTime)
 
 	LastTarget->Setting();
 
-	GameEngineDevice::GetBackBufferTarget()->Merge(LastTarget);
+	FXAATarget->Clear();
+	FXAATarget->Setting();
+	
+	FXAAUnit.ShaderResHelper.SetTexture("ScreenTexture", LastTarget->GetTexture(0));
+	
+	FXAAUnit.Render(0.0f);
+
+	GameEngineDevice::GetBackBufferTarget()->Merge(FXAATarget);
 
 	static bool GUIRender = true;
 
@@ -450,6 +493,9 @@ void GameEngineLevel::InitCameraRenderTarget()
 	{
 		BeginCamIter->second->InitCameraRenderTarget();
 	}
+
+	LastTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	
 }
 
 void GameEngineLevel::ReleaseCameraRenderTarget()
@@ -459,6 +505,7 @@ void GameEngineLevel::ReleaseCameraRenderTarget()
 	{
 		BeginCamIter->second->ReleaseCameraRenderTarget();
 	}
+	LastTarget->ReleaseTexture();
 }
 
 void GameEngineLevel::AllActorDestroy()
@@ -485,7 +532,6 @@ void GameEngineLevel::AllActorDestroy()
 
 		ActorRelease();
 	}
-
 	LevelCameraInit();
 }
 
@@ -494,6 +540,7 @@ void GameEngineLevel::DestroyCamera()
 	for (std::pair<int, std::shared_ptr<GameEngineCamera>> _Cam : Cameras)
 	{
 		_Cam.second->Renderers.clear();
+		_Cam.second->ReleaseCameraRenderTarget();
 	}
 	Cameras.clear();
 }
@@ -507,7 +554,6 @@ void GameEngineLevel::PushLight(std::shared_ptr<GameEngineLight> _Light)
 
 	//_Light->LightDataPtr = &LightInst;
 	//++LightDataObject.LightCount;
-
 	AllLight.push_back(_Light);
 }
 //void GameEngineLevel::SendActorPacket(float _DeltaTime)

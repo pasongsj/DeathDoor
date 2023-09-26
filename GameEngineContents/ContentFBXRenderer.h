@@ -16,12 +16,15 @@ public:
 
 	void SetAllUnitTexture(const std::string_view& _SettingName, const std::string_view& _ImageName);
 	
-	void SetFade(const std::string_view& _MaskTextureName = "MaskType2_0.png");
-	void SetCrack();
+	void SetFadeMask(const std::string_view& _MaskTextureName = "MaskType2_0.png");
+	
+	void SetCrackMask();
+	void SetCrackAmount(float _Amount);
 
 	void FadeOut(float _MaxTime, float _DeltaTime);
 	void FadeIn(float _MaxTime, float _DeltaTime);
 
+	void SetFBXMesh(const std::string& _MeshName, const std::string _SettingName) override;
 protected:
 
 private:

@@ -8,6 +8,7 @@
 #include "GameEngineRenderTarget.h"
 #include "GameEngineMaterial.h"
 #include "GameEnginePixelShader.h"
+#include "GameEngineFBXRenderer.h"
 #include "GameEngineLight.h"
 
 GameEngineCamera::GameEngineCamera()
@@ -54,15 +55,17 @@ void GameEngineCamera::Start()
 	ViewPortData.MaxDepth = 1.0f;
 
 	Width = ViewPortData.Width;
-	Height = ViewPortData.Height;	
+	Height = ViewPortData.Height;
 
 	//사용할 렌더타겟을 생성하는 것이 아닌 추후 사용할 렌더타겟을 생성하기 위한 더미 타겟
-	AllRenderTarget		= GameEngineRenderTarget::CreateDummy();
-	CamTarget			= GameEngineRenderTarget::CreateDummy();
-	DeferredLightTarget = GameEngineRenderTarget::CreateDummy();
-	CamForwardTarget	= GameEngineRenderTarget::CreateDummy();
-	CamDeferrdTarget	= GameEngineRenderTarget::CreateDummy();
-	CamAlphaTarget		= GameEngineRenderTarget::CreateDummy();
+	AllRenderTarget			= GameEngineRenderTarget::CreateDummy();
+	CamTarget				= GameEngineRenderTarget::CreateDummy();
+	DeferredLightTarget		= GameEngineRenderTarget::CreateDummy();
+	CamForwardTarget		= GameEngineRenderTarget::CreateDummy();
+	CamDeferrdTarget		= GameEngineRenderTarget::CreateDummy();
+	CamAlphaTarget			= GameEngineRenderTarget::CreateDummy();
+	DeferredPostLightTarget = GameEngineRenderTarget::CreateDummy();
+
 }
 
 void GameEngineCamera::InitCameraRenderTarget()
@@ -85,26 +88,43 @@ void GameEngineCamera::InitCameraRenderTarget()
 	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // 스펙큘러
 	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // 앰비언트
 	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // 전체
+	DeferredLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); // 포인트라이트
 
 	CamForwardTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	CamDeferrdTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	CamAlphaTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	
+
+	DeferredPostLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	DeferredPostLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL); 
+	DeferredPostLightTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+
 	CalLightUnit.SetMesh("FullRect");
 	CalLightUnit.SetMaterial("DeferredCalLight");
 
 	LightDatas& Data = GetLevel()->LightDataObject;
+	AllPointLight& PointLight = GetLevel()->PointLights;
+
 	CalLightUnit.ShaderResHelper.SetConstantBufferLink("LightDatas", Data);
+	CalLightUnit.ShaderResHelper.SetConstantBufferLink("AllPointLight", PointLight);
+
 	CalLightUnit.ShaderResHelper.SetTexture("PositionTex", AllRenderTarget->GetTexture(2));
 	CalLightUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
+
+	LightPostUnit.SetMesh("FullRect");
+	LightPostUnit.SetMaterial("DeferredPostLight");
+
+	LightPostUnit.ShaderResHelper.SetTexture("DifLightTex", DeferredLightTarget->GetTexture(0));
+	LightPostUnit.ShaderResHelper.SetTexture("SpcLightTex", DeferredLightTarget->GetTexture(1));
+	LightPostUnit.ShaderResHelper.SetTexture("AmbLightTex", DeferredLightTarget->GetTexture(2));
+	LightPostUnit.ShaderResHelper.SetTexture("ShadowTestTex", DeferredLightTarget->GetTexture(3));
 
 	DefferdMergeUnit.SetMesh("FullRect");
 	DefferdMergeUnit.SetMaterial("DeferredMerge");
 	DefferdMergeUnit.ShaderResHelper.SetTexture("DifColor", AllRenderTarget->GetTexture(1));
-	DefferdMergeUnit.ShaderResHelper.SetTexture("DifLight", DeferredLightTarget->GetTexture(0));
-	DefferdMergeUnit.ShaderResHelper.SetTexture("SpcLight", DeferredLightTarget->GetTexture(1));
-	DefferdMergeUnit.ShaderResHelper.SetTexture("AmbLight", DeferredLightTarget->GetTexture(2));
-
+	DefferdMergeUnit.ShaderResHelper.SetTexture("DifLight", DeferredPostLightTarget->GetTexture(0));
+	DefferdMergeUnit.ShaderResHelper.SetTexture("SpcLight", DeferredPostLightTarget->GetTexture(1));
+	DefferdMergeUnit.ShaderResHelper.SetTexture("AmbLight", DeferredPostLightTarget->GetTexture(2));
+	DefferdMergeUnit.ShaderResHelper.SetTexture("PointLightTex", DeferredLightTarget->GetTexture(4));
 }
 
 void GameEngineCamera::ReleaseCameraRenderTarget()
@@ -113,6 +133,7 @@ void GameEngineCamera::ReleaseCameraRenderTarget()
 	// 쉐이더 헬퍼가 사용하는 텍스쳐도 매번 생성되버리니 삭제함
 
 	CalLightUnit.ShaderResHelper.ReleaseAllSetter();
+	LightPostUnit.ShaderResHelper.ReleaseAllSetter();
 	DefferdMergeUnit.ShaderResHelper.ReleaseAllSetter();
 
 	AllRenderTarget->ReleaseTexture();
@@ -306,13 +327,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 	{
 		for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& Path : Units)
 		{
-			if (Path.first == RenderPath::Forward)
-			{
-				//AllRenderTarget->Setting();
-				//DeferredLightTarget->Setting();
-				int a = 0;
-			}
-
 			std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& UnitPath = Path.second;
 
 			std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>::iterator RenderGroupStartIter = UnitPath.begin();
@@ -327,7 +341,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 				std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator EndRenderer = RenderGroup.end();
 
 				float ScaleTime = _DeltaTime * GameEngineTime::GlobalTime.GetRenderOrderTimeScale(RenderGroupStartIter->first);
-
+				//CameraTransformUpdate();
 				for (; StartRenderer != EndRenderer; ++StartRenderer)
 				{
 					std::shared_ptr<GameEngineRenderUnit>& Render = *StartRenderer;
@@ -341,6 +355,13 @@ void GameEngineCamera::Render(float _DeltaTime)
 					{
 						continue;
 					}
+					std::shared_ptr<GameEngineFBXRenderer> FbxRenderer = Render->GetRenderer()->DynamicThis<GameEngineFBXRenderer>();
+					if (FbxRenderer !=nullptr && Render->GetUnitPos()!= float4::ZERONULL)					{
+						if (false == IsView(Render->GetUnitPos(), Render->GetUnitScale()))
+						{
+							continue;
+						}						
+					}
 
 					Render->Render(_DeltaTime);
 				}
@@ -352,7 +373,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 		// 여기에서 이미 그림자를 그려야하는 애들은 다 그려져 있어야 합니다.
 		for (std::shared_ptr<GameEngineLight> Light : GetLevel()->AllLight)
 		{
-			Light->GetShadowTarget()->Clear();
 			Light->GetShadowTarget()->Setting();
 
 			for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& Path : Units)
@@ -390,8 +410,9 @@ void GameEngineCamera::Render(float _DeltaTime)
 						}
 
 						Render->GetRenderer()->GetTransform()->SetCameraMatrix(Light->GetLightData().LightViewMatrix, Light->GetLightData().LightProjectionMatrix);
-						Render->Setting();
+						Render->ShadowSetting();
 						std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Find("Shadow");
+						Pipe->VertexShader();
 						Pipe->Rasterizer();
 						Pipe->PixelShader();
 						Pipe->OutputMerger();
@@ -400,12 +421,27 @@ void GameEngineCamera::Render(float _DeltaTime)
 				}
 			}
 		}
-		// 오브젝트들은 그릴만한 애들은 다 그렸다고 판단하고
-		// 빛계산의 결과가 들어갈 애들이 여기에서 세팅되고
-		DeferredLightTarget->Setting();
-		CalLightUnit.Render(_DeltaTime);
 
+		GameEngineRenderTarget::Reset();
+		
+		DeferredLightTarget->Setting();
+		// 빛이 1개라면 잘 동작할 것이다.
+
+		GetLevel()->LightDataObject.LightCount = 0;
+		for (std::shared_ptr<GameEngineLight> Light : GetLevel()->AllLight)
+		{
+			CalLightUnit.ShaderResHelper.SetTexture("ShadowTex", Light->GetShadowTarget()->GetTexture(0));
+			CalLightUnit.Render(_DeltaTime);
+			++GetLevel()->LightDataObject.LightCount;
+		}
+
+		// 빛계산이 끝나고 디퍼드 머지가 되기전에
+		// 한번 빛을 수정하고 들어갈 것이다.
 		DeferredLightTarget->Effect(_DeltaTime);
+
+		DeferredPostLightTarget->Clear();
+		DeferredPostLightTarget->Setting();
+		LightPostUnit.Render(_DeltaTime);
 
 		CamDeferrdTarget->Clear();
 		CamDeferrdTarget->Setting();
@@ -414,14 +450,13 @@ void GameEngineCamera::Render(float _DeltaTime)
 		CamForwardTarget->Clear();
 		CamForwardTarget->Merge(AllRenderTarget, 0);
 
-		// ??
-		// CamAlphaTarget
+		CamAlphaTarget->Clear();
+		CamAlphaTarget->Merge(AllRenderTarget, 6);
 
 		CamTarget->Clear();
 		CamTarget->Merge(CamForwardTarget);
 		CamTarget->Merge(CamDeferrdTarget);
-
-		// CamTarget->Merge(CamAlphaTarget);
+		CamTarget->Merge(CamAlphaTarget);
 	}
 
 }
@@ -443,8 +478,23 @@ void GameEngineCamera::CameraTransformUpdate()
 		break;
 	}
 	case CameraType::Perspective:
+	{
 		Projection.PerspectiveFovLH(FOV, Width / Height, Near, Far);
+
+		float4 Dir = GetTransform()->GetLocalForwardVector();
+		float4 WorldPos = GetTransform()->GetWorldPosition();
+		//WorldPos.y = -WorldPos.y;
+		Frustum.Origin = (WorldPos).DirectFloat3;
+		Frustum.Near = Near;
+		Frustum.Far = Far;
+		Frustum.LeftSlope = -(FOV * GameEngineMath::DegToRad) * 0.7f;
+		Frustum.RightSlope = (FOV * GameEngineMath::DegToRad) * 0.7f;
+		Frustum.TopSlope = (FOV / (Width / Height) * GameEngineMath::DegToRad) * 0.7f;
+		Frustum.BottomSlope = -(FOV / (Width / Height) * GameEngineMath::DegToRad) * 0.7f;
+
+		Frustum.Orientation = GetTransform()->GetWorldQuaternion().DirectFloat4;
 		break;
+	}
 	case CameraType::Orthogonal:
 		Projection.OrthographicLH(Width * ZoomRatio, Height * ZoomRatio, Near, Far);
 		break;
@@ -503,7 +553,7 @@ bool GameEngineCamera::IsView(const TransformData& _TransData)
 {
 	if (true == IsFreeCamera())
 	{
-		return true;
+		//return true;
 	}
 
 	// Width, Height, Near, Far;
@@ -516,10 +566,17 @@ bool GameEngineCamera::IsView(const TransformData& _TransData)
 		break;
 	}
 	case CameraType::Perspective:
+	{
+		DirectX::BoundingSphere Sphere;
+		Sphere.Center = _TransData.WorldPosition.DirectFloat3;
+		Sphere.Radius = _TransData.WorldScale.MaxFloat() * 0.5f;
 
-		// DirectX::BoundingFrustum Box;
+		bool IsCal = Frustum.Intersects(Sphere);
+
+		return IsCal;
 
 		break;
+	}
 	case CameraType::Orthogonal:
 	{
 
@@ -530,6 +587,55 @@ bool GameEngineCamera::IsView(const TransformData& _TransData)
 		bool IsCal = Box.Intersects(Sphere);
 
 		return IsCal;
+		break;
+	}
+	default:
+		break;
+	}
+
+	return false;
+}
+
+bool GameEngineCamera::IsView(const float4& _Pos, const float4& _Scale)
+{
+
+	if (true == IsFreeCamera())
+	{
+		//return true;
+	}
+
+	// Width, Height, Near, Far;
+
+	switch (ProjectionType)
+	{
+	case CameraType::None:
+	{
+		MsgAssert("카메라 투영이 설정되지 않았습니다.");
+		break;
+	}
+	case CameraType::Perspective:
+	{
+		DirectX::BoundingSphere Sphere;
+		Sphere.Center = _Pos.DirectFloat3;
+		Sphere.Radius = _Scale.MaxFloat() * 0.5f;
+
+		bool IsCal = Frustum.Intersects(Sphere);
+
+		return IsCal;
+
+		break;
+	}
+	case CameraType::Orthogonal:
+	{
+
+		DirectX::BoundingSphere Sphere;
+		Sphere.Center = _Pos.DirectFloat3;
+		Sphere.Radius = _Scale.MaxFloat() * 0.5f;
+
+		bool IsCal = Box.Intersects(Sphere);
+
+		return IsCal;
+		break;
 	}
 	default:
 		break;

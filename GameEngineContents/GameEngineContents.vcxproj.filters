@@ -251,7 +251,7 @@
       <Filter>Contents\FortressLevel</Filter>
     </ClCompile>
     <ClCompile Include="Map_Fortress.cpp">
-      <Filter>Contents\FortressLevel\Actor</Filter>
+      <Filter>Contents\FortressLevel\Map</Filter>
     </ClCompile>
     <ClCompile Include="EnemyFirePlant.cpp">
       <Filter>FSMObject\Enemy</Filter>
@@ -266,13 +266,28 @@
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="SecretTile.cpp">
-      <Filter>Contents\FortressLevel\Active_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="Crate.cpp">
-      <Filter>Contents\FortressLevel\Active_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="Frog_Lever.cpp">
-      <Filter>Contents\FortressLevel\Active_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXControllerComponent.cpp">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBrute.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Ladder.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGhoul.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBruteGold.cpp">
+      <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -520,7 +535,7 @@
       <Filter>Contents\FortressLevel</Filter>
     </ClInclude>
     <ClInclude Include="Map_Fortress.h">
-      <Filter>Contents\FortressLevel\Actor</Filter>
+      <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
     <ClInclude Include="EnemyFirePlant.h">
       <Filter>FSMObject\Enemy</Filter>
@@ -536,13 +551,28 @@
     </ClInclude>
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="SecretTile.h">
-      <Filter>Contents\FortressLevel\Active_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="Crate.h">
-      <Filter>Contents\FortressLevel\Active_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="Frog_Lever.h">
-      <Filter>Contents\FortressLevel\Active_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXControllerComponent.h">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBrute.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Ladder.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGhoul.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBruteGold.h">
+      <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -654,16 +684,16 @@
     <Filter Include="Contents\FortressLevel">
       <UniqueIdentifier>{e22fafa8-2651-4605-9d3a-1361ad8bf611}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\FortressLevel\Actor">
-      <UniqueIdentifier>{23756f21-8374-45c9-b3ab-2c88693dde53}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Contents\OfficeLevel\Static_Object">
       <UniqueIdentifier>{525c3b97-c219-4a66-ba48-36517941ff49}</UniqueIdentifier>
     </Filter>
     <Filter Include="Contents\OfficeLevel\Static_Object\Wall">
       <UniqueIdentifier>{0dd36c88-e6ef-4b59-aa21-a028fbaaa996}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\FortressLevel\Active_Object">
+    <Filter Include="Contents\FortressLevel\Map">
+      <UniqueIdentifier>{23756f21-8374-45c9-b3ab-2c88693dde53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\FortressLevel\Map_Object">
       <UniqueIdentifier>{7135283d-a1cc-4778-9c28-fd7e7f68f16e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

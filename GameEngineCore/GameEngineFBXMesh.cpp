@@ -8,7 +8,8 @@ GameEngineFBXMesh::GameEngineFBXMesh()
 }
 
 GameEngineFBXMesh::~GameEngineFBXMesh()
-{
+{	
+	Release();
 }
 
 
@@ -18,6 +19,27 @@ std::shared_ptr<GameEngineFBXMesh> GameEngineFBXMesh::Load(const std::string& _P
 	Res->SetPath(_Path);
 	Res->LoadMesh(_Path, _Name);
 	return Res;
+}
+
+void GameEngineFBXMesh::UnLoad(const std::string& _Name)
+{
+	GameEngineResource::Remove(_Name);
+	return;
+}
+
+void GameEngineFBXMesh::Release()
+{
+	MeshInfos.clear();
+	MeshInfos.shrink_to_fit();
+	AllBones.clear();
+	AllBones.shrink_to_fit();
+	RenderUnitInfos.clear();
+	RenderUnitInfos.shrink_to_fit();
+	AllBoneStructuredBuffers = nullptr; // 본정보체
+	AllFindMap.clear();
+	ClusterData.clear();
+	ClusterData.shrink_to_fit();
+
 }
 
 //
@@ -704,7 +726,6 @@ void GameEngineFBXMesh::VertexBufferCheck()
 			if (RenderUnit.MinBoundBox.y > VtxData[controlPointIndex].POSITION.y) { RenderUnit.MinBoundBox.y = VtxData[controlPointIndex].POSITION.y; }
 			if (RenderUnit.MinBoundBox.z > VtxData[controlPointIndex].POSITION.z) { RenderUnit.MinBoundBox.z = VtxData[controlPointIndex].POSITION.z; }
 		}
-
 		RenderUnit.BoundScaleBox.x = RenderUnit.MaxBoundBox.x - RenderUnit.MinBoundBox.x;
 		RenderUnit.BoundScaleBox.y = RenderUnit.MaxBoundBox.y - RenderUnit.MinBoundBox.y;
 		RenderUnit.BoundScaleBox.z = RenderUnit.MaxBoundBox.z - RenderUnit.MinBoundBox.z;

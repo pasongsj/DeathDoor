@@ -11,6 +11,11 @@ PhysXBoxComponent::~PhysXBoxComponent()
 {
 }
 
+void PhysXBoxComponent::CreatePhysXActors(float4 _GeoMetryScale, float4 _GeoMetryRotation, bool _Static)
+{
+	CreatePhysXActors(_GeoMetryScale.PhysXVec3Return(), _GeoMetryRotation, _Static);
+}
+
 void PhysXBoxComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRot, bool _Static)
 {
 	m_bStatic = _Static;
@@ -22,6 +27,9 @@ void PhysXBoxComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _
 	{
 		CreateDynamic(_GeoMetryScale, _GeoMetryRot);
 	}
+
+	GetTransform()->SetWorldScale(float4(_GeoMetryScale.x, _GeoMetryScale.y, _GeoMetryScale.z));
+	GameEngineDebug::DrawBox(GetLevel()->GetMainCamera().get(), GetTransform());
 }
 
 void PhysXBoxComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRot)
@@ -183,8 +191,31 @@ void PhysXBoxComponent::Start()
 
 void PhysXBoxComponent::Update(float _DeltaTime)
 {
-
 	if (true == IsStatic())
+	{
+		if (true == PositionSetFromParentFlag)
+		{
+			float4 tmpQuat = ParentActor.lock()->GetTransform()->GetWorldRotation().EulerDegToQuaternion();
+
+			physx::PxTransform tmpPxTransform
+			(
+				ParentActor.lock()->GetTransform()->GetWorldPosition().x,
+				ParentActor.lock()->GetTransform()->GetWorldPosition().y,
+				ParentActor.lock()->GetTransform()->GetWorldPosition().z,
+				physx::PxQuat
+				(
+					tmpQuat.x,
+					tmpQuat.y,
+					tmpQuat.z,
+					tmpQuat.w
+				)
+			);
+			// 부모의 Transform정보를 바탕으로 PhysX Actor의 트랜스폼을 갱신
+			m_pRigidStatic->setGlobalPose(tmpPxTransform);
+			// TODO::회전도 처리해야함. DegreeToQuat
+		}
+	}
+	else
 	{
 		if (true == PositionSetFromParentFlag)
 		{
@@ -205,43 +236,42 @@ void PhysXBoxComponent::Update(float _DeltaTime)
 			);
 
 			// 부모의 Transform정보를 바탕으로 PhysX Actor의 트랜스폼을 갱신
-			m_pRigidStatic->setGlobalPose(tmpPxTransform);
-			// TODO::회전도 처리해야함. DegreeToQuat
+			m_pRigidDynamic->setGlobalPose(tmpPxTransform);
 		}
-	}
-	else
-	{
-		if (false == PositionSetFromParentFlag)
+		else
 		{
 			// PhysX Actor의 상태에 맞춰서 부모의 Transform정보를 갱신
-			float4 tmpWorldPos =
-			{
-				m_pRigidDynamic->getGlobalPose().p.x
-				, m_pRigidDynamic->getGlobalPose().p.y
-				, m_pRigidDynamic->getGlobalPose().p.z
-			};
-
+			float4 tmpWorldPos = { m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z };
 			float4 EulerRot = PhysXDefault::GetQuaternionEulerAngles(m_pRigidDynamic->getGlobalPose().q) * GameEngineMath::RadToDeg;
 
 			ParentActor.lock()->GetTransform()->SetWorldRotation(float4{ EulerRot.x, EulerRot.y, EulerRot.z });
 			ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
-		}
-		else
-		{
-			float4 tmpQuat = ParentActor.lock()->GetTransform()->GetWorldRotation().EulerDegToQuaternion();
 
-			physx::PxTransform tmpPxTransform
-			(
-				ParentActor.lock()->GetTransform()->GetWorldPosition().x,
-				ParentActor.lock()->GetTransform()->GetWorldPosition().y,
-				ParentActor.lock()->GetTransform()->GetWorldPosition().z,
-				physx::PxQuat(tmpQuat.x, tmpQuat.y, tmpQuat.z, tmpQuat.w)
-			);
-
-			// 부모의 Transform정보를 바탕으로 PhysX Actor의 트랜스폼을 갱신
-			m_pRigidDynamic->setKinematicTarget(tmpPxTransform);
-			//m_pRigidDynamic->setGlobalPose(tmpPxTransform);
-			// TODO::회전도 처리해야함. DegreeToQuat
+			if (m_bSpeedLimit == true)
+			{
+				SpeedLimit();
+			}
 		}
+	}
+	if (true == GetLevel()->GetDebugRender())
+	{
+		GetTransform()->SetWorldRotation(ParentActor.lock()->GetTransform()->GetWorldRotation());
+		GetTransform()->SetWorldPosition(ParentActor.lock()->GetTransform()->GetWorldPosition());
+	}
+}
+
+void PhysXBoxComponent::SpeedLimit()
+{
+	physx::PxVec3 Velo = m_pRigidDynamic->getLinearVelocity();
+	physx::PxVec2 Velo2D(Velo.x, Velo.z);
+
+	if (Velo2D.magnitude() > PLAYER_MAX_SPEED)
+	{
+		Velo2D.normalize();
+		Velo2D *= PLAYER_MAX_SPEED;
+		Velo.x = Velo2D.x;
+		Velo.z = Velo2D.y;
+
+		m_pRigidDynamic->setLinearVelocity(Velo);
 	}
 }

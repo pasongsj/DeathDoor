@@ -35,8 +35,17 @@ private:
 	void Create_TransformWall(std::shared_ptr<class GameEngineLevel> _CurLevel);
 
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
-	std::shared_ptr<GameEngineFBXRenderer> m_pRenderer = nullptr;
 	std::shared_ptr<GameEngineFBXRenderer> m_pNaviRenderer = nullptr;
+
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part1 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part2 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part3 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part4 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part5 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part6 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part7 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part8 = nullptr;
+	
 
 	const float4 m_MapRot = float4{ 0 , -130 , 0 };
 	const float4 m_MapPos = float4{ 0, 0 , 0 };

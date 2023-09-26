@@ -16,7 +16,10 @@ public:
 	PhysXSphereComponent& operator=(const PhysXSphereComponent& _Other) = delete;
 	PhysXSphereComponent& operator=(PhysXSphereComponent&& _Other) noexcept = delete;
 
-	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = { 0.0f , 0.0f }, bool _Static = false);
+	void CreatePhysXActors(float4 _GeoMetryScale = float4(2.0f, 2.0f, 2.0f), float4 _GeoMetryRotation = float4::ZERO, bool _Static = false);
+
+	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = float4::ZERO, bool _Static = false);
+
 
 
 	void SetMoveSpeed(float4 _MoveSpeed);
@@ -103,9 +106,6 @@ public:
 	void ResetDynamic();
 
 
-	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
-	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -122,7 +122,10 @@ private:
 	//속도제한 함수
 	void SpeedLimit();
 
-	physx::PxVec3 InitVec3;
-	physx::PxTransform RecentTransform;
+	physx::PxTransform RecentTransform;	
+	
+	void CreateStatic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
+	void CreateDynamic(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO);
+
 };
 

@@ -6,6 +6,28 @@
 #include <GameEngineCore/GameEngineLight.h>
 #include <GameEngineCore/GameEngineRenderTarget.h>
 
+struct RGB
+{
+	float R;
+	float G;
+	float B;
+};
+
+struct PointLight
+{
+	RGB Color;
+	float4 Position;
+	float MaxDist;
+	float Intensity;
+};
+
+struct AllPointLight
+{
+	int Num = 0;
+	float4x4 ViewInverse;
+	PointLight Lights[16];
+};
+
 // 설명 :
 class GameEngineActor;
 class GameEngineCamera;
@@ -27,6 +49,10 @@ public:
 	static void IsDebugSwitch()
 	{
 		IsDebugRender = !IsDebugRender;
+	}
+	bool GetDebugRender()
+	{
+		return IsDebugRender;
 	}
 
 	GameEngineTimeEvent TimeEvent;
@@ -148,6 +174,10 @@ private:
 
 	// 모든 카메라의 내용이 다 종합된.
 	std::shared_ptr<GameEngineRenderTarget> LastTarget;
+	
+	//안티에일리어싱
+	std::shared_ptr<GameEngineRenderTarget> FXAATarget;
+	GameEngineRenderUnit FXAAUnit;
 
 	//      이름           경로
 	std::map<std::string, std::string> TexturePath;
@@ -196,5 +226,17 @@ private:
 
 	void InitCameraRenderTarget();
 	void ReleaseCameraRenderTarget();
+
+public:
+
+	//포인트 라이트는 일단 설치하고 나면, 값을 수정할 일이 없다고 가정할게요.
+
+	void AddPointLight(const PointLight& _Light)
+	{
+		PointLights.Num++;
+		PointLights.Lights[PointLights.Num - 1] = _Light;
+	}
+
+	AllPointLight PointLights;
 };
 

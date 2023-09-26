@@ -36,16 +36,19 @@ void Player::Start()
 	// physx
 	{
 		float4 scale = Renderer->GetMeshScale() * Renderer->GetTransform()->GetWorldScale() / Renderer->GetTransform()->GetLocalScale();
-		// scale *= 2.0f;
+		//6scale *= 5.0f;
 		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(vscale);
+
+		// lever 충돌테스트 
+		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic, PhysXFilterGroup::LeverTrigger);
 	}
 
 
 	SetFSMFunc();
-	Renderer->ChangeAnimation("Idle_0");
+	Renderer->ChangeAnimation("IDLE0");
 }
 
 void Player::Update(float _DeltaTime)
@@ -194,7 +197,7 @@ void Player::DirectionUpdate(float _DeltaTime)
 	//float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, _DeltaTime * 10.0f);
 
 	float4 CalRot = float4::ZERO;
-	CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, LerpDir);
+	CalRot.y = float4::GetAngleVectorToVectorDeg360(PlayerDefaultDir, LerpDir);
 	m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -CalRot);
 	ForwardDir = LerpDir;
 }

@@ -7,6 +7,7 @@ GameEngineFBXAnimation::GameEngineFBXAnimation()
 
 GameEngineFBXAnimation::~GameEngineFBXAnimation()
 {
+	void Release();
 }
 
 std::shared_ptr<GameEngineFBXAnimation> GameEngineFBXAnimation::Load(const std::string& _Path, const std::string& _Name)
@@ -273,8 +274,8 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 
 		// ALLNODE[0].Node->GetAnimationEvaluator();
 
-		for (size_t i = 0; i < ALLNODE.size(); i++)
-		{
+		//for (size_t i = 0; i < ALLNODE.size(); i++)
+		//{
 
 			//FbxAnimEvaluator* AnimEvaluator = ALLNODE[i].Node->GetAnimationEvaluator();
 
@@ -304,7 +305,7 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 					// 시간을 넣어주면 그때의 본의 행렬을 가져와 준다.
 					// 커브 
 
-					fbxsdk::FbxNode* Node = ALLNODE[i].Node;
+					fbxsdk::FbxNode* Node = _Node;
 
 					globalTransform = currentTransformOffset.Inverse() * Node->EvaluateGlobalTransform(currTime);
 
@@ -322,7 +323,7 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 				}
 			}
 
-		}
+		//}
 
 
 		int a = 0;
@@ -473,4 +474,11 @@ void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr <GameEngineFBXM
 	}
 
 	AnimationDatas;
+}
+
+void GameEngineFBXAnimation::Release()
+{
+	AnimationDatas.clear();
+	// 지금 사이즈 크기로 메모리를 줄인다.
+	AnimationDatas.shrink_to_fit();
 }

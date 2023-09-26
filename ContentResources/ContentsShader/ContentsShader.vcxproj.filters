@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <FxCompile Include="ContentMeshShader.hlsl" />
-    <FxCompile Include="ContentTextureShader.hlsl" />
-    <FxCompile Include="FadeShader.hlsl" />
     <FxCompile Include="ContentRenderBaseValue.fx">
       <Filter>Header</Filter>
     </FxCompile>
@@ -16,14 +13,43 @@
     <FxCompile Include="ContentLight.fx">
       <Filter>Header</Filter>
     </FxCompile>
-    <FxCompile Include="ContentMeshAniShader.hlsl" />
-    <FxCompile Include="ContentMeshToonShader.hlsl" />
-    <FxCompile Include="FadeDeffered.hlsl" />
-    <FxCompile Include="ContentAniMeshDeffered.hlsl" />
+    <FxCompile Include="ContentFunction.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentAniMeshDeffered.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentAnitMeshForward.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentMeshForward.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="HorizonBlur.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="VerticalBlur.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="FadeShader.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentTextureShader.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentMeshDeffered.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
       <UniqueIdentifier>{eef00498-d33d-45be-9baa-d6003f492226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BasicShader">
+      <UniqueIdentifier>{24666e1f-3261-4f9e-a4ac-6c039f585046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect">
+      <UniqueIdentifier>{2377ce25-5fd9-4978-8079-f666b2ee70ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
