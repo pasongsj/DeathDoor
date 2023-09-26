@@ -211,7 +211,6 @@ void GameEngineCore::CoreResourcesInit()
 		GameEngineMesh::Create("FullRect");
 	}
 
-
 	{
 		std::vector<GameEngineVertex> Vertex;
 		Vertex.resize(24);
@@ -222,43 +221,44 @@ void GameEngineCore::CoreResourcesInit()
 		Vertex[3] = { float4(-0.5f, -0.5f, 0.5f), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, 1.0f) };
 
 		// 뒷면
-		Vertex[4] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(180) , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
-		Vertex[5] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(180)  , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
-		Vertex[6] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(180) , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
-		Vertex[7] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(180), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
+		Vertex[4] = { Vertex[0].POSITION.RotaitonXDegReturn(180) , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
+		Vertex[5] = { Vertex[1].POSITION.RotaitonXDegReturn(180)  , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
+		Vertex[6] = { Vertex[2].POSITION.RotaitonXDegReturn(180) , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
+		Vertex[7] = { Vertex[3].POSITION.RotaitonXDegReturn(180), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
 
 		// 왼쪽
-		Vertex[8] = { float4(-0.5f, 0.5f, 0.5f).RotaitonYDegReturn(-90) , float4(0.0f, 0.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
-		Vertex[9] = { float4(0.5f, 0.5f, 0.5f).RotaitonYDegReturn(-90)  , float4(1.0f, 0.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
-		Vertex[10] = { float4(0.5f, -0.5f, 0.5f).RotaitonYDegReturn(-90) , float4(1.0f, 1.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
-		Vertex[11] = { float4(-0.5f, -0.5f, 0.5f).RotaitonYDegReturn(-90), float4(0.0f, 1.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
+		Vertex[8] = { Vertex[0].POSITION.RotaitonYDegReturn(-90) , float4(0.0f, 0.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
+		Vertex[9] = { Vertex[1].POSITION.RotaitonYDegReturn(-90)  , float4(1.0f, 0.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
+		Vertex[10] = { Vertex[2].POSITION.RotaitonYDegReturn(-90) , float4(1.0f, 1.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
+		Vertex[11] = { Vertex[3].POSITION.RotaitonYDegReturn(-90), float4(0.0f, 1.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
 
 		// 오른쪽
-		Vertex[12] = { float4(-0.5f, 0.5f, 0.5f).RotaitonYDegReturn(90) , float4(0.0f, 0.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
-		Vertex[13] = { float4(0.5f, 0.5f, 0.5f).RotaitonYDegReturn(90)  , float4(1.0f, 0.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
-		Vertex[14] = { float4(0.5f, -0.5f, 0.5f).RotaitonYDegReturn(90) , float4(1.0f, 1.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
-		Vertex[15] = { float4(-0.5f, -0.5f, 0.5f).RotaitonYDegReturn(90), float4(0.0f, 1.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
+		Vertex[12] = { Vertex[0].POSITION.RotaitonYDegReturn(90) , float4(0.0f, 0.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
+		Vertex[13] = { Vertex[1].POSITION.RotaitonYDegReturn(90)  , float4(1.0f, 0.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
+		Vertex[14] = { Vertex[2].POSITION.RotaitonYDegReturn(90) , float4(1.0f, 1.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
+		Vertex[15] = { Vertex[3].POSITION.RotaitonYDegReturn(90), float4(0.0f, 1.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
 
 
 		// 위
-		Vertex[16] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(-90) , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
-		Vertex[17] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(-90)  , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
-		Vertex[18] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(-90) , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
-		Vertex[19] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(-90), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
+		Vertex[16] = { Vertex[0].POSITION.RotaitonXDegReturn(-90) , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
+		Vertex[17] = { Vertex[1].POSITION.RotaitonXDegReturn(-90)  , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
+		Vertex[18] = { Vertex[2].POSITION.RotaitonXDegReturn(-90) , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
+		Vertex[19] = { Vertex[3].POSITION.RotaitonXDegReturn(-90), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
 
 		// 아래
-		Vertex[20] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(90) , float4(0.0f, 0.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
-		Vertex[21] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(90)  , float4(1.0f, 0.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
-		Vertex[22] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(90) , float4(1.0f, 1.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
-		Vertex[23] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(90), float4(0.0f, 1.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
+		Vertex[20] = { Vertex[0].POSITION.RotaitonXDegReturn(90) , float4(0.0f, 0.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
+		Vertex[21] = { Vertex[1].POSITION.RotaitonXDegReturn(90)  , float4(1.0f, 0.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
+		Vertex[22] = { Vertex[2].POSITION.RotaitonXDegReturn(90) , float4(1.0f, 1.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
+		Vertex[23] = { Vertex[3].POSITION.RotaitonXDegReturn(90), float4(0.0f, 1.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
 
 
 		GameEngineVertexBuffer::Create("Box", Vertex);
 	}
 
-	{
+
 		std::vector<int> Index;
-		// Index.resize(36);
+		Index.resize(36);
+
 		for (int i = 0; i < 6; i++)
 		{
 			Index.push_back(i * 4 + 2);
@@ -270,10 +270,29 @@ void GameEngineCore::CoreResourcesInit()
 			Index.push_back(i * 4 + 0);
 		}
 
-
 		GameEngineIndexBuffer::Create("DebugBox", Index);
+	
+		std::vector<int> Index2;
+		for (int i = 0; i < 6; i++)
+		{
+			Index2.push_back(i * 4 + 0);
+			Index2.push_back(i * 4 + 1);
+			Index2.push_back(i * 4 + 2);
+
+			Index2.push_back(i * 4 + 2);
+			Index2.push_back(i * 4 + 3);
+			Index2.push_back(i * 4 + 0);
+		}
+	
+		GameEngineIndexBuffer::Create("PhysXDebugBox", Index2);
+	
 		{
 			std::shared_ptr<GameEngineMesh> Mesh = GameEngineMesh::Create("DebugBox", "Box", "DebugBox");
+			Mesh->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		}
+
+		{
+			std::shared_ptr<GameEngineMesh> Mesh = GameEngineMesh::Create("PhysXDebugBox", "Box", "PhysXDebugBox");
 			Mesh->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 		}
 
@@ -281,8 +300,8 @@ void GameEngineCore::CoreResourcesInit()
 			std::shared_ptr<GameEngineMesh> Mesh = GameEngineMesh::Create("Box", "Box", "DebugBox");
 			Mesh->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		}
-	}
-
+	
+	
 
 	// Sphere
 		// 스피어

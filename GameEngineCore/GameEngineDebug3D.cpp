@@ -76,7 +76,7 @@ namespace GameEngineDebug
 			switch (Type)
 			{
 			case GameEngineDebug::DebugDrawType::Box:
-				DebugRenderUnit.SetMesh("DebugBox");
+				DebugRenderUnit.SetMesh("PhysXDebugBox");
 				break;
 			case GameEngineDebug::DebugDrawType::Sphere:
 				DebugRenderUnit.SetMesh("DebugSphere");
