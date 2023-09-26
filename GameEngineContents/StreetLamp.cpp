@@ -2,6 +2,7 @@
 #include "StreetLamp.h"
 
 #include "PhysXBoxComponent.h"
+#include "ContentFBXRenderer.h"
 
 StreetLamp::StreetLamp()
 {
@@ -22,8 +23,8 @@ void StreetLamp::Update(float _DeltaTime)
 
 void StreetLamp::InitComponent()
 {
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("GiantStreetLamp.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("GiantStreetLamp.fbx", "ContentMeshDeffered");
 	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();

@@ -2,6 +2,7 @@
 #include "MiniDesk.h"
 
 #include "PhysXBoxComponent.h"
+#include "ContentFBXRenderer.h"
 
 MiniDesk::MiniDesk()
 {
@@ -23,8 +24,8 @@ void MiniDesk::Update(float _DeltaTime)
 
 void MiniDesk::InitComponent()
 {
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("desk.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("desk.fbx", "ContentMeshDeffered");
 	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();

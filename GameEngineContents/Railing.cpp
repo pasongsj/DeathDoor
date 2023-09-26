@@ -3,6 +3,8 @@
 
 #include "PhysXBoxComponent.h"
 
+#include "ContentFBXRenderer.h"
+
 Railing::Railing()
 {
 }
@@ -22,8 +24,8 @@ void Railing::Update(float _DeltaTime)
 
 void Railing::InitComponent()
 {
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("railing.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("railing.fbx", "ContentMeshDeffered");
 	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
