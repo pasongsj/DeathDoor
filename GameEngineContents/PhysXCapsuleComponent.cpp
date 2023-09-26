@@ -361,6 +361,7 @@ void PhysXCapsuleComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _
 	);
 	m_pShape->setContactOffset(0.2f);
 
+	m_pShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	// Scene에 액터 추가
 	m_pShape->userData = GetActor();
