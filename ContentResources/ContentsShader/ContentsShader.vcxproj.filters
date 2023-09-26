@@ -40,6 +40,9 @@
     <FxCompile Include="ContentMeshDeffered.hlsl">
       <Filter>BasicShader</Filter>
     </FxCompile>
+    <FxCompile Include="Rain.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

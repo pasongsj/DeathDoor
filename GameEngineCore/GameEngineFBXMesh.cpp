@@ -39,7 +39,7 @@ void GameEngineFBXMesh::Release()
 	AllFindMap.clear();
 	ClusterData.clear();
 	ClusterData.shrink_to_fit();
-
+	IsInit = false;
 }
 
 //
@@ -262,13 +262,14 @@ Bone* GameEngineFBXMesh::FindBone(std::string _Name)
 		MsgAssert("본을 찾는 작업을 하지 않은 매쉬입니다");
 	}
 
-	if (AllFindMap.end() == AllFindMap.find(_Name))
+	std::string sUpperName = GameEngineString::ToUpper(_Name);
+
+	if (AllFindMap.end() == AllFindMap.find(sUpperName))
 	{
 		return nullptr;
 	}
 
-	return AllFindMap[_Name];
-
+	return AllFindMap[sUpperName];
 }
 
 bool GameEngineFBXMesh::IsOddNegativeScale(const fbxsdk::FbxAMatrix& TotalMatrix)
