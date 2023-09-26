@@ -3,6 +3,7 @@
 #include "GameEngineConstantBuffer.h"
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
+#include "GameEngineGeometryShader.h"
 #include "GameEngineStructuredBuffer.h"
 
 GameEngineShader::GameEngineShader()
@@ -170,6 +171,19 @@ void GameEngineShader::AutoCompile(GameEngineFile& _File)
 		}
 	}
 
+	{
+		size_t EntryIndex = ShaderCode.find("_GS(");
+		// unsigned __int64 == max°ªÀÌ std::string::npos
+		if (EntryIndex != std::string::npos)
+		{
+			{
+				size_t FirstIndex = ShaderCode.find_last_of(" ", EntryIndex);
+				std::string EntryName = ShaderCode.substr(FirstIndex + 1, EntryIndex - FirstIndex - 1);
+				EntryName += "_GS";
+				GameEngineGeometryShader::Load(_File.GetFullPath(), EntryName);
+			}
+		}
+	}
 
 	{
 		size_t EntryIndex = ShaderCode.find("_PS(");

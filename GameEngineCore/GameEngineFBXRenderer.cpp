@@ -120,6 +120,11 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 
 		float4x4 Mat = float4x4::Affine(AnimationBoneData[i].Scale, AnimationBoneData[i].RotQuaternion, AnimationBoneData[i].Pos);
 
+		// 오프셋을 곱하지 않은 본행렬의 부모가 진짜 우리가 생각하는 월드이고
+		ParentRenderer->AnimationBoneMatrixsNotOffset[i] = Mat;
+
+		// 오프셋을 곱해주는 녀석은 버텍스에 곱해지기 위한 녀석이 된다.
+
 		AnimationBoneMatrix[i] = BoneData->BonePos.Offset * Mat;
 	}
 }
@@ -254,6 +259,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 		}
 
 		AnimationBoneMatrixs.resize(Count);
+		AnimationBoneMatrixsNotOffset.resize(Count);
 		AnimationBoneDatas.resize(Count);
 	}
 
@@ -322,31 +328,6 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 
 	return RenderUnit;
 }
-
-//void GameEngineFBXRenderer::Render(float _DeltaTime)
-//{
-	// GameEngineRenderer::Render(_DeltaTime);
-
-	//for (size_t UnitIndex = 0; UnitIndex < Unit.size(); UnitIndex++)
-	//{
-	//	for (size_t SubSetIndex = 0; SubSetIndex < Unit[UnitIndex].size(); SubSetIndex++)
-	//	{
-	//		if (nullptr == Unit[UnitIndex][SubSetIndex]->Pipe)
-	//		{
-	//			continue;
-	//		}
-
-	//		//if (nullptr == Unit[UnitIndex][SubSetIndex].GetMaterial()->GetPixelShader()->GetIsDeffered())
-	//		//{
-	//		//	continue;
-	//		//}
-
-	//		Unit[UnitIndex][SubSetIndex]->Render(_DeltaTime);
-	//	}
-	//}
-//}
-
-
 
 void GameEngineFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBXName, const AnimationCreateParams& _Params, int _Index)
 {
@@ -535,10 +516,21 @@ void GameEngineFBXRenderer::Update(float _DeltaTime)
 	{
 		AttachTransformInfo& Data = AttachTransformValue[i];
 
-		AnimationBoneData& Info = AnimationBoneDatas[Data.Index];
+		// 오프셋이 곱해지지 않은 행렬이 실제 본의 위치를 담고 있는 행렬이다.
+		// 버텍스는 오프셋을 기반으로 만들어져있기 때문이다.
+		float4x4 Mat = AnimationBoneMatrixsNotOffset[Data.Index];
+		Mat *= TransFormData.WorldMatrix;
 
-		Data.Transform->SetLocalPosition(Info.Pos + TransFormData.LocalPosition);
-		Data.Transform->SetLocalRotation(Info.RotEuler/* + TransFormData.LocalQuaternion.QuaternionToEulerDeg()*/);
+		float4 Scale;
+		float4 Rot;
+		float4 Pos;
+
+		Mat.Decompose(Scale, Rot, Pos);
+
+		// 세팅할때 월드로 해줘야 한다. 
+		// 정말 너무 다양한 상황이 있을수 있기 때문에 월드로 변경해서 넣어줘야 한다.
+		Data.Transform->SetWorldRotation(Rot.QuaternionToEulerDeg() + Data.OffsetRot);
+		Data.Transform->SetWorldPosition(Pos + Data.OffsetPos);
 	}
 }
 
@@ -609,9 +601,11 @@ AnimationBoneData GameEngineFBXRenderer::GetBoneData(std::string _Name)
 	return Data;
 }
 
-void GameEngineFBXRenderer::SetAttachTransform(std::string_view _Name, GameEngineTransform* _Transform)
+void GameEngineFBXRenderer::SetAttachTransform(std::string_view _Name, GameEngineTransform* _Transform, float4 _OffsetPos, float4 _OffsetRot)
 {
-	Bone* BoneData = FBXMesh->FindBone(_Name.data());
+	std::string UpperName = GameEngineString::ToUpper(_Name);
+
+	Bone* BoneData = FBXMesh->FindBone(UpperName);
 
 	if (nullptr == BoneData)
 	{
@@ -619,10 +613,19 @@ void GameEngineFBXRenderer::SetAttachTransform(std::string_view _Name, GameEngin
 		return;
 	}
 
-	SetAttachTransform(BoneData->Index, _Transform);
+	SetAttachTransform(BoneData->Index, _Transform, _OffsetPos, _OffsetRot);
 }
 
-void GameEngineFBXRenderer::SetAttachTransform(int Index, GameEngineTransform* _Transform)
+void GameEngineFBXRenderer::SetAttachTransform(int Index, GameEngineTransform* _Transform, float4 _OffsetPos, float4 _OffsetRot)
 {
-	AttachTransformValue.push_back({ Index, _Transform });
+	float4x4 Rot;
+	float4x4 Pos;
+
+	Rot.RotationDeg(_OffsetRot);
+	Pos.Pos(_OffsetPos);
+
+	// OffsetMat.Affine(float4(1.0f, 1.0f, 1.0f), _OffsetRot.EulerDegToQuaternion(), _OffsetPos);
+
+
+	AttachTransformValue.push_back({ Index, _Transform, _OffsetPos, _OffsetRot, Rot * Pos });
 }

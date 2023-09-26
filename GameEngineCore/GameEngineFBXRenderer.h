@@ -81,6 +81,9 @@ struct AttachTransformInfo
 {
 	int Index = -1;
 	GameEngineTransform* Transform;
+	float4 OffsetPos = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	float4 OffsetRot = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4x4 OffsetMat;
 };
 
 // ¼³¸í :
@@ -156,9 +159,9 @@ public:
 		return AnimationBoneDatas[_Index];
 	}
 
-	void SetAttachTransform(std::string_view _Name, GameEngineTransform* _Transform);
+	void SetAttachTransform(std::string_view _Name, GameEngineTransform* _Transform, float4 _OffsetPos = float4(0.0f, 0.0f, 0.0f, 1.0f), float4 _OffsetRot = float4(0.0f, 0.0f, 0.0f, 0.0f));
 
-	void SetAttachTransform(int Index, GameEngineTransform* _Transform);
+	void SetAttachTransform(int Index, GameEngineTransform* _Transform, float4 _OffsetPos = float4(0.0f, 0.0f, 0.0f, 1.0f), float4 _OffsetRot = float4(0.0f, 0.0f, 0.0f, 0.0f));
 
 	void CalculateUnitPos();
 
@@ -190,6 +193,8 @@ private:
 
 	// Structure Buffer¶û ¸µÅ©°¡ µÇ´Â ³à¼®.
 	std::vector<float4x4> AnimationBoneMatrixs;
+
+	std::vector<float4x4> AnimationBoneMatrixsNotOffset;
 
 	float BlendTime = 0.0f; // 0.2
 	float CurBlendTime = 0.0f; // 0.2
