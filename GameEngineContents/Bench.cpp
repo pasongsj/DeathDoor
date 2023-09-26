@@ -3,6 +3,8 @@
 
 #include "PhysXBoxComponent.h"
 
+#include "ContentFBXRenderer.h"
+
 Bench::Bench()
 {
 }
@@ -22,8 +24,8 @@ void Bench::Update(float _DeltaTime)
 
 void Bench::InitComponent()
 {
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("bench.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("bench.fbx", "ContentMeshDeffered");
 	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
