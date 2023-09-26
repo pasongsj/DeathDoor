@@ -127,7 +127,7 @@ void PhysXCapsuleComponent::Update(float _DeltaTime)
 	{
 		float4 ShapePos = float4(m_pShape->getLocalPose().p.x, m_pShape->getLocalPose().p.y, m_pShape->getLocalPose().p.z);
 		float4 ResultPos = ParentActor.lock()->GetTransform()->GetWorldPosition();
-		ResultPos.y += ShapePos.y;
+		ResultPos.y += ShapePos.y * 0.5f;
 		GetTransform()->SetWorldRotation(ParentActor.lock()->GetTransform()->GetWorldRotation());
 		GetTransform()->SetWorldPosition(ResultPos);
 		//GetTransform()->SetWorldPosition(ParentActor.lock()->GetTransform()->GetWorldPosition());
