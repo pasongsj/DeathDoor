@@ -106,6 +106,8 @@ private:
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 	void DefaultPhysX();
 
+	
+
 
 };
 

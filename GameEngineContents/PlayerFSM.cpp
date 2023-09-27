@@ -202,7 +202,11 @@ void Player::SetFSMFunc()
 		{
 			Renderer->ChangeAnimation("ROLL");
 			//StateDuration = 2.0f;
-			mButton = false; },
+			mButton = false; 
+			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
+
+		},
 		[this](float Delta)
 		{
 			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
@@ -219,7 +223,7 @@ void Player::SetFSMFunc()
 				}
 				else
 				{
-					StateInputDelayTime = 0.1f;
+					StateInputDelayTime = 0.05f;
 					SetNextState(PlayerState::IDLE);
 				}
 			}},

@@ -35,8 +35,7 @@ void EnemyBruteGold::Start()
 
 	// physx
 	{
-		float4 scale = EnemyRenderer->GetMeshScale() * EnemyRenderer->GetTransform()->GetWorldScale() / EnemyRenderer->GetTransform()->GetLocalScale() * 0.1f;
-		// scale *= 2.0f;
+		float4 scale = EnemyRenderer->GetMeshScale() * EnemyRenderer->GetTransform()->GetWorldScale() / EnemyRenderer->GetTransform()->GetLocalScale() * 0.5f;
 		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);

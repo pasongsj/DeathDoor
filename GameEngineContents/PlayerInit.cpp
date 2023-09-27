@@ -99,7 +99,11 @@ void Player::InitPlayerAnimation()
 	//Renderer->CreateFBXAnimation("36", "PLAYER_SNEAK.fbx");
 	//Renderer->CreateFBXAnimation("30", "PLAYER_ROLL_HEAVY.fbx");
 
-
+	//std::shared_ptr<GameEngineActor> Pivot = GetLevel()->CreateActor<GameEngineActor>();
+	//Pivot->GetTransform()->SetParent(GetTransform());
+	//Pivot->GetTransform()->SetLocalPosition(float4::FORWARD * 10.0f);
+	//Renderer->GetTransform()->SetParent(Pivot->GetTransform());
+	Renderer->GetTransform()->SetLocalPosition(float4::BACK * 10.0f);
 	GetTransform()->SetLocalScale(float4::ONE * PlayerScaleRatio);
 }
 
