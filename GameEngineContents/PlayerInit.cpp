@@ -68,8 +68,8 @@ void Player::InitPlayerAnimation()
 
 	//attack
 		//left btn
-	Renderer->CreateFBXAnimation("SLASH_LIGHT_L", "PLAYER_SLASH_LIGHT_R.FBX", { 0.01f,false }); // ÀÏ¹Ý ÁÂÅ¬¸¯
-	Renderer->CreateFBXAnimation("SLASH_LIGHT_R", "PLAYER_SLASH_LIGHT_L.FBX", { 0.01f,false }); // ÀÏ¹Ý ÁÂÅ¬¸¯
+	Renderer->CreateFBXAnimation("SLASH_LIGHT_L", "PLAYER_SLASH_LIGHT_R.FBX", { 0.02f,false }); // ÀÏ¹Ý ÁÂÅ¬¸¯
+	Renderer->CreateFBXAnimation("SLASH_LIGHT_R", "PLAYER_SLASH_LIGHT_L.FBX", { 0.02f,false }); // ÀÏ¹Ý ÁÂÅ¬¸¯
 	// mid btn
 	Renderer->CreateFBXAnimation("CHARGE_SLASH_L", "PLAYER_CHARGE_SLASH_L.FBX", { 0.01f,false }); 
 	Renderer->CreateFBXAnimation("CHARGE_SLASH_R", "PLAYER_CHARGE_SLASH_R.FBX", { 0.01f,false }); 

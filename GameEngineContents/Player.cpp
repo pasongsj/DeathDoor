@@ -73,6 +73,8 @@ void Player::Update(float _DeltaTime)
 		SetSkill();
 	}
 
+	m_pCapsuleComp->GetDynamic()->setMass(65);
+
 	// 서버의 관리를 받는 오브젝트라면
 	// 클라이언트의 입장에서는 
 	// 상대의 패킷으로만 움직여야 한다.
@@ -109,10 +111,20 @@ void Player::Update(float _DeltaTime)
 
 }
 
-
 void Player::CheckInput(float _DeltaTime)
 {
-	
+	float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
+	//PlayerGroundPos.y -= 2.0f;
+	float4 CollPoint = float4::ZERO;
+	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
+	{
+		float4 PPos = GetTransform()->GetWorldPosition();
+		if (PPos.y > CollPoint.y + 30.0f)
+		{
+			SetNextState(PlayerState::FALLING);
+			return;
+		}
+	}
 
 	// special state input
 	StateInputDelayTime -= _DeltaTime;
@@ -171,7 +183,7 @@ void Player::CheckInput(float _DeltaTime)
 		DirectionUpdate(_DeltaTime);
 
 		MoveDir = NextForwardDir;
-		MoveUpdate(_DeltaTime);
+		MoveUpdate(PlayerMoveSpeed);
 	}
 	else // 방향 입력이 없다면
 	{
@@ -204,10 +216,10 @@ void Player::DirectionUpdate(float _DeltaTime)
 
 
 
-void Player::MoveUpdate(float _DeltaTime)
+void Player::MoveUpdate(float _MoveVec)
 {
 	m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-	m_pCapsuleComp->SetMoveSpeed(MoveDir * MoveSpeed);
+	m_pCapsuleComp->SetMoveSpeed(MoveDir * _MoveVec);
 
 }
 
@@ -225,6 +237,21 @@ void Player::DefaultPhysX()
 {
 	// physx
 	{
+		float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
+		PlayerGroundPos.y -= 2.0f;
+		float4 CollPoint = float4::ZERO;
+		if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f) && PlayerState::CLIMB != GetCurState< PlayerState>())
+		{
+			float4 PPos = GetTransform()->GetWorldPosition();
+			if (PPos.y > CollPoint.y + 10.0f)
+			{
+				return;
+			}
+		}
+		if (PlayerState::FALLING == GetCurState< PlayerState>())
+		{
+			return;
+		}
 		m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 		m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 	}

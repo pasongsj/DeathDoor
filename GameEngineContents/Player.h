@@ -86,8 +86,8 @@ private:
 	bool StateChecker = false;
 	
 	// Direction
-	float4 NextForwardDir = float4::FORWARD; // 플레이어가 변화 할 방향
-	float4 ForwardDir = float4::FORWARD; // 플레이어가 바라보는 방향
+	float4 NextForwardDir = float4::BACK; // 플레이어가 변화 할 방향
+	float4 ForwardDir = float4::BACK; // 플레이어가 바라보는 방향
 	float4 MoveDir = float4::FORWARD; // 플레이어가 다음으로 움직일 방향
 	void DirectionUpdate(float _DeltaTime);
 	float4 GetMousDirection();
@@ -97,9 +97,8 @@ private:
 	float StateInputDelayTime = 0.0f;
 	void CheckInput(float _DeltaTime);
 	void CheckClimbInput(float _DeltaTime);
-	void MoveUpdate(float _DeltaTime);
+	void MoveUpdate(float _MoveVec);
 
-	float MoveSpeed = 500.0f;
 	bool mButton = false;
 
 
