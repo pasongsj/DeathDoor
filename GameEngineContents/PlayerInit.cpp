@@ -68,8 +68,8 @@ void Player::InitPlayerAnimation()
 
 	//attack
 		//left btn
-	Renderer->CreateFBXAnimation("SLASH_LIGHT_L", "PLAYER_SLASH_LIGHT_R.FBX", { 0.01f,false }); // ÀÏ¹Ý ÁÂÅ¬¸¯
-	Renderer->CreateFBXAnimation("SLASH_LIGHT_R", "PLAYER_SLASH_LIGHT_L.FBX", { 0.01f,false }); // ÀÏ¹Ý ÁÂÅ¬¸¯
+	Renderer->CreateFBXAnimation("SLASH_LIGHT_L", "PLAYER_SLASH_LIGHT_R.FBX", { 0.02f,false }); // ÀÏ¹Ý ÁÂÅ¬¸¯
+	Renderer->CreateFBXAnimation("SLASH_LIGHT_R", "PLAYER_SLASH_LIGHT_L.FBX", { 0.02f,false }); // ÀÏ¹Ý ÁÂÅ¬¸¯
 	// mid btn
 	Renderer->CreateFBXAnimation("CHARGE_SLASH_L", "PLAYER_CHARGE_SLASH_L.FBX", { 0.01f,false }); 
 	Renderer->CreateFBXAnimation("CHARGE_SLASH_R", "PLAYER_CHARGE_SLASH_R.FBX", { 0.01f,false }); 
@@ -99,7 +99,11 @@ void Player::InitPlayerAnimation()
 	//Renderer->CreateFBXAnimation("36", "PLAYER_SNEAK.fbx");
 	//Renderer->CreateFBXAnimation("30", "PLAYER_ROLL_HEAVY.fbx");
 
-
+	//std::shared_ptr<GameEngineActor> Pivot = GetLevel()->CreateActor<GameEngineActor>();
+	//Pivot->GetTransform()->SetParent(GetTransform());
+	//Pivot->GetTransform()->SetLocalPosition(float4::FORWARD * 10.0f);
+	//Renderer->GetTransform()->SetParent(Pivot->GetTransform());
+	Renderer->GetTransform()->SetLocalPosition(float4::BACK * 10.0f);
 	GetTransform()->SetLocalScale(float4::ONE * PlayerScaleRatio);
 }
 

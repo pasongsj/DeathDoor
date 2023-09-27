@@ -103,7 +103,7 @@ void MapTestLevel::InitTestLevel()
 		}
 		//CreateActor<MonsterAnimationTest>();
 		//CreateActor<Player>();
-		CreateActor<EnemyBruteGold>();
+		//CreateActor<EnemyBruteGold>();
 		//std::shared_ptr<EnemyFirePlant> monster =  CreateActor<EnemyFirePlant>();
 		//if (nullptr != monster)
 		//{
