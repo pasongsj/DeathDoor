@@ -33,20 +33,17 @@ void EnemyGhoul::InitAniamtion()
 	EnemyRenderer->ChangeAnimation("IDLE_BOW");
 }
 
-#define GHOUL_SCALE_RATIO 100.0f
+
 void EnemyGhoul::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * GHOUL_SCALE_RATIO);
+	GetTransform()->SetLocalScale(float4::ONE * ENEMY_GHOUL_RENDER_SCALE);
 
 	// physx
 	{
-		float4 scale = EnemyRenderer->GetMeshScale() * EnemyRenderer->GetTransform()->GetWorldScale() / EnemyRenderer->GetTransform()->GetLocalScale() * 0.5f;
-		// scale *= 2.0f;
-		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(vscale);
+		m_pCapsuleComp->CreatePhysXActors(ENEMY_GHOUL_PHYSX_SCALE);
 	}
 	SetFSMFUNC();
 }

@@ -31,15 +31,13 @@ void EnemyBruteGold::InitAniamtion()
 void EnemyBruteGold::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * 20.0f);
+	GetTransform()->SetLocalScale(float4::ONE * ENEMY_BRUTEGOLD_RENDER_SCALE);
 
 	// physx
 	{
-		float4 scale = EnemyRenderer->GetMeshScale() * EnemyRenderer->GetTransform()->GetWorldScale() / EnemyRenderer->GetTransform()->GetLocalScale() * 0.5f;
-		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(vscale);
+		m_pCapsuleComp->CreatePhysXActors(ENEMY_BRUTEGOLD_PHYSX_SCALE);
 	}
 	SetFSMFUNC();
 }

@@ -102,7 +102,7 @@ void MapTestLevel::InitTestLevel()
 			Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 1000.0f , -0.0f , -0.0f }));
 		}
 		
-		CreateActor<EnemyMage>();
+		CreateActor<EnemyBrute>();
 		
 		break;
 	}
@@ -112,8 +112,6 @@ void MapTestLevel::InitTestLevel()
 }
 //#include "EnemyBat.h"
 //#include "EnemyFirePlant.h"
-//#include "EnemyMage.h"
-//#include "EnemyGrunt.h"
 //#include "EnemyBrute.h"
 //#include "EnemyGhoul.h"
 //#include "EnemyBruteGold.h"

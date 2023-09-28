@@ -22,26 +22,23 @@ void EnemyGrunt::InitAniamtion()
 	EnemyRenderer->CreateFBXAnimation("JUMP_START", "_E_GRUNT_JUMP_START.fbx", { 0.02f,false });
 	EnemyRenderer->CreateFBXAnimation("JUMP_MAIN", "_E_GRUNT_JUMP_MAIN.fbx", { 0.02f,false });
 	EnemyRenderer->CreateFBXAnimation("HIT", "_E_GRUNT_HIT.fbx", { 0.02f,false });
-	//_E_MAGE_SHOOT_THREE.fbx
-	//_E_MAGE_SPIRAL.fbx
+
 
 	EnemyRenderer->ChangeAnimation("IDLE");
 }
 
 
+
 void EnemyGrunt::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * 20.0f);
+	GetTransform()->SetLocalScale(float4::ONE * ENEMY_GRUNT_RENDER_SCALE);
 
 	// physx
 	{
-		float4 scale = EnemyRenderer->GetMeshScale() * EnemyRenderer->GetTransform()->GetWorldScale() / EnemyRenderer->GetTransform()->GetLocalScale();
-		// scale *= 2.0f;
-		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(vscale);
+		m_pCapsuleComp->CreatePhysXActors(ENEMY_GRUNT_PHYSX_SCALE);
 	}
 	SetFSMFUNC();
 }
