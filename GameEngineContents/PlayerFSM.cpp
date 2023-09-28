@@ -115,11 +115,10 @@ void Player::SetFSMFunc()
 			if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
 			{
 				// 마우스 방향을 바라보도록 함
-				NextForwardDir = GetMousDirection();
-				DirectionUpdate(Delta);
+				MoveDir = GetMousDirection();
 			}
 
-			if (true == Renderer->IsAnimationEnd() && false == GameEngineInput::IsPress("PlayerRBUTTON"))
+			if (/*true == Renderer->IsAnimationEnd() && */false == GameEngineInput::IsPress("PlayerRBUTTON"))
 			{
 				//switch (CurSkill)
 				//{
@@ -175,12 +174,10 @@ void Player::SetFSMFunc()
 			isRightAttack = !isRightAttack;
 
 			// 마우스 방향을 바라보도록 함
-			NextForwardDir = GetMousDirection(); 
+			MoveDir = GetMousDirection(); 
 		},
 		[this](float Delta)
 		{
-			DirectionUpdate(Delta);
-			MoveDir = NextForwardDir;
 			MoveUpdate(PlayerAttMoveSpeed);
 			
 
@@ -201,16 +198,20 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			Renderer->ChangeAnimation("ROLL");
-			//StateDuration = 2.0f;
 			mButton = false; 
-			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
+
+			// Player의 Speed를 초기화한다.
+			MoveUpdate(0.0f);
+
+			//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+			//m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 
 		},
 		[this](float Delta)
 		{
-			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-			m_pCapsuleComp->SetMoveSpeed(MoveDir* PlayerMoveSpeed* RollSpeedRatio);
+			MoveUpdate(PlayerMoveSpeed * RollSpeedRatio);
+			//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+			//m_pCapsuleComp->SetMoveSpeed(MoveDir* PlayerMoveSpeed* RollSpeedRatio);
 			if (true == GameEngineInput::IsDown("PlayerMBUTTON"))
 			{
 				mButton = true;
@@ -229,6 +230,7 @@ void Player::SetFSMFunc()
 			}},
 		[this]
 		{
+			MoveUpdate(0.0f);
 		}
 	); 
 

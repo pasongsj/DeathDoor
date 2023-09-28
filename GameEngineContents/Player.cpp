@@ -59,21 +59,23 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
+	DirectionUpdate(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
+	DefaultPhysX();
+
+
+	// input
 	if (true == GameEngineInput::IsDown("PressN"))
 	{
 		if (PlayerState::IDLE == GetCurState<PlayerState>())
 		{
 			SetNextState(PlayerState::CLIMB);
-			//NextState = PlayerState::CLIMB;
 		}
 		else
 		{
 			SetNextState(PlayerState::IDLE);
-			//NextState = PlayerState::IDLE;1
 		}
 	}
-	DefaultPhysX();
 	if (PlayerState::SKILL != GetCurState<PlayerState>())
 	{
 		SetSkill();
@@ -81,36 +83,6 @@ void Player::Update(float _DeltaTime)
 
 	m_pCapsuleComp->GetDynamic()->setMass(65);
 
-	// 서버의 관리를 받는 오브젝트라면
-	// 클라이언트의 입장에서는 
-	// 상대의 패킷으로만 움직여야 한다.
-	//// 2가지로 나뉘게 된다.
-	//if (AnimationLoadCount < 13)
-	//{
-	//	return;
-	//}
-	//if (PlayerState::MAX == CurState)
-	//{
-	//	NextState = PlayerState::IDLE;
-	//}
-	//
-	//NetControlType Type = GetControlType();
-	//TestMoveUpdate(_DeltaTime);
-
-	//switch (Type)
-	//{
-	//case NetControlType::None:
-	//	UserUpdate(_DeltaTime);
-	//	break;
-	//case NetControlType::UserControl:
-	//	UserUpdate(_DeltaTime);
-	//	break;
-	//case NetControlType::ServerControl:
-	//	ServerUpdate(_DeltaTime);
-	//	break;
-	//default:
-	//	break;
-	//}
 
 	// test
 	float4 MyPos = GetTransform()->GetWorldPosition();
@@ -119,8 +91,8 @@ void Player::Update(float _DeltaTime)
 
 void Player::CheckInput(float _DeltaTime)
 {
+	// Falling Check
 	float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
-	//PlayerGroundPos.y -= 2.0f;
 	float4 CollPoint = float4::ZERO;
 	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 	{
@@ -132,6 +104,7 @@ void Player::CheckInput(float _DeltaTime)
 		}
 	}
 
+	// Attack Check
 	// special state input
 	StateInputDelayTime -= _DeltaTime;
 	if (StateInputDelayTime > 0.0f)
@@ -141,28 +114,25 @@ void Player::CheckInput(float _DeltaTime)
 	if (true == GameEngineInput::IsDown("PlayerRoll")) // roll antmation inter이 필요함
 	{
 		SetNextState(PlayerState::ROLL);
-		//NextState = PlayerState::ROLL;
 		return;
 	}
 	if (true == GameEngineInput::IsPress("PlayerLBUTTON"))
 	{
 		SetNextState(PlayerState::BASE_ATT);
-		//NextState = PlayerState::BASE_ATT;
 		return;
 	}
 	if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
 	{
 		SetNextState(PlayerState::SKILL);
-		//NextState = PlayerState::SKILL;
 		return;
 	}
 	if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
 	{
 		SetNextState(PlayerState::CHARGE_ATT);
-		//NextState = PlayerState::CHARGE_ATT;
 		return;
 	}
 
+	// Move Check
 	// move state input
 	float4 Dir = float4::ZERO;
 	if (true == GameEngineInput::IsPress("PlayerLeft"))
@@ -185,13 +155,11 @@ void Player::CheckInput(float _DeltaTime)
 	if (false == Dir.IsZero()) //  방향 입력이 있다면
 	{
 		SetNextState(PlayerState::WALK);
-		NextForwardDir = Dir.NormalizeReturn();
-		DirectionUpdate(_DeltaTime);
-
-		MoveDir = NextForwardDir;
+		//DirectionUpdate(_DeltaTime);
+		MoveDir = Dir.NormalizeReturn();
 		MoveUpdate(PlayerMoveSpeed);
 	}
-	else // 방향 입력이 없다면
+	else // 방향 입력이 없다면 IDLE
 	{
 		if (false == StateChecker && GetCurState<PlayerState>() == PlayerState::WALK)
 		{
@@ -207,11 +175,11 @@ void Player::CheckInput(float _DeltaTime)
 }
 void Player::DirectionUpdate(float _DeltaTime)
 {
-	if (NextForwardDir == ForwardDir)
+	if (MoveDir == ForwardDir)
 	{
 		return;
 	}
-	float4 LerpDir = float4::LerpClamp(ForwardDir, NextForwardDir, _DeltaTime * 10.0f);
+	float4 LerpDir = float4::LerpClamp(ForwardDir, MoveDir, _DeltaTime * 10.0f);
 	//float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, _DeltaTime * 10.0f);
 
 	float4 CalRot = float4::ZERO;
@@ -226,7 +194,6 @@ void Player::MoveUpdate(float _MoveVec)
 {
 	m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 	m_pCapsuleComp->SetMoveSpeed(MoveDir * _MoveVec);
-
 }
 
 
@@ -257,8 +224,9 @@ void Player::DefaultPhysX()
 		{
 			return;
 		}
-		m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-		m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
+		MoveUpdate(0.0f);
+		//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+		//m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 	}
 }
 
