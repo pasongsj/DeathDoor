@@ -73,20 +73,24 @@ private:
 	void InitPlayerAnimation();
 	void SetFSMFunc();
 
-	// Render
+	// Component
+		// Render
 	std::shared_ptr<GameEngineFBXRenderer> Renderer = nullptr;
+		//physx
+	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 
+
+	// State
+	float StateDuration = 2.0f;
+	bool StateChecker = false;
 
 		// Attack
 	PlayerSkill CurSkill = PlayerSkill::ARROW;
 	void SetSkill();
 	bool isRightAttack = true;
-
-	float StateDuration = 2.0f;
-	bool StateChecker = false;
 	
 	// Direction
-	float4 NextForwardDir = float4::BACK; // 플레이어가 변화 할 방향
+	//float4 NextForwardDir = float4::BACK; // 플레이어가 변화 할 방향
 	float4 ForwardDir = float4::BACK; // 플레이어가 바라보는 방향
 	float4 MoveDir = float4::FORWARD; // 플레이어가 다음으로 움직일 방향
 	void DirectionUpdate(float _DeltaTime);
@@ -102,8 +106,6 @@ private:
 	bool mButton = false;
 
 
-	//physx
-	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 	void DefaultPhysX();
 
 	
