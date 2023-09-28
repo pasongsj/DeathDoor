@@ -178,10 +178,10 @@ void Player::SetFSMFunc()
 
 			// 마우스 방향을 바라보도록 함
 			MoveDir = GetMousDirection(); 
+			MoveUpdate(PlayerAttMoveSpeed);
 		},
 		[this](float Delta)
 		{
-			MoveUpdate(PlayerAttMoveSpeed);
 
 			if (true == Renderer->IsAnimationEnd())
 			{

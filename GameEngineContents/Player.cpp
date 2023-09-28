@@ -227,7 +227,7 @@ void Player::DefaultPhysX()
 				return;
 			}
 		}
-		if (PlayerState::FALLING == GetCurState< PlayerState>())
+		if (PlayerState::FALLING == GetCurState< PlayerState>() || PlayerState::BASE_ATT == GetCurState<PlayerState>())
 		{
 			return;
 		}
