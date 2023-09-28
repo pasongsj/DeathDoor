@@ -61,7 +61,7 @@ void EnemyGhoul::Update(float _DeltaTime)
 
 void EnemyGhoul::AggroMove(float _DeltaTime)
 {
-	if (false == StateChecker)
+	if (false == GetStateChecker())
 	{
 		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp, EnemyGhoulDir) * GHOUL_MOVE_SPEED);
 	}
@@ -78,8 +78,8 @@ void EnemyGhoul::SetFSMFUNC()
 
 	SetChangeFSMCallBack([this]
 		{
-			StateDuration = 0.0f;
-			StateChecker = false;
+			//StateDuration = 0.0f;
+			//StateChecker = false;
 		});
 
 
@@ -110,10 +110,11 @@ void EnemyGhoul::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			if (false == StateChecker && true == EnemyRenderer->IsAnimationEnd())
+			if (false == GetStateChecker() && true == EnemyRenderer->IsAnimationEnd())
 			{
 				EnemyRenderer->ChangeAnimation("RUN_BOW");
-				StateChecker = true;
+				SetStateCheckerOn();
+				//StateChecker = true;
 			}
 			AggroMove(Delta);
 			if (true == InRangePlayer(1000.0f))

@@ -55,7 +55,7 @@ void EnemyBruteGold::Update(float _DeltaTime)
 
 void EnemyBruteGold::AggroMove(float _DeltaTime)
 {
-	if (false == StateChecker)
+	if (false == GetStateChecker())
 	{
 		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp, EnemyBruteGoldDefaultDir) * GRUNT_MOVE_SPEED);
 	}
@@ -73,8 +73,8 @@ void EnemyBruteGold::SetFSMFUNC()
 
 	SetChangeFSMCallBack([this]
 		{
-			StateDuration = 0.0f;
-			StateChecker = false;
+			//StateDuration = 0.0f;
+			//StateChecker = false;
 		});
 
 
@@ -112,28 +112,30 @@ void EnemyBruteGold::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			StateDuration += Delta;
+			//StateDuration += Delta;
 			if (true == CheckHit())
 			{
 				SetNextState(EnemyBruteGoldState::BREAK);
 				return;
 			}
-			if (false == StateChecker && true == EnemyRenderer->IsAnimationEnd())
+			if (false == GetStateChecker() && true == EnemyRenderer->IsAnimationEnd())
 			{
 				EnemyRenderer->ChangeAnimation("RUN");
-				StateChecker = true;
+				SetStateCheckerOn();
+				//StateChecker = true;
 			}
 			if (true == InRangePlayer(300.0f))
 			{
 				SetNextState(EnemyBruteGoldState::SWING);
 				return;
 			}
-			if (StateDuration > 5)
+			if (GetStateDuration() > 5)
 			{
 				if (true == InRangePlayer(1500.0f))
 				{
 					SetNextState(EnemyBruteGoldState::THROW);
-					StateDuration = 0.0f;
+					ResetStateDuration();
+					//StateDuration = 0.0f;
 					return;
 				}
 			}

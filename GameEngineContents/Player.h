@@ -80,9 +80,6 @@ private:
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 
 
-	// State
-	float StateDuration = 2.0f;
-	bool StateChecker = false;
 
 		// Attack
 	PlayerSkill CurSkill = PlayerSkill::ARROW;

@@ -56,7 +56,7 @@ void EnemyGrunt::Update(float _DeltaTime)
 
 void EnemyGrunt::AggroMove(float _DeltaTime)
 {
-	if (false == StateChecker)
+	if (false == GetStateChecker())
 	{
 		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp) * GRUNT_MOVE_SPEED);
 	}
@@ -74,8 +74,8 @@ void EnemyGrunt::SetFSMFUNC()
 
 	SetChangeFSMCallBack([this]
 		{
-			StateDuration = 0.0f;
-			StateChecker = false;
+			//StateDuration = 0.0f;
+			//StateChecker = false;
 		});
 
 
@@ -118,10 +118,11 @@ void EnemyGrunt::SetFSMFUNC()
 				SetNextState(EnemyGruntState::HIT);
 				return;
 			}
-			if (false == StateChecker && true == EnemyRenderer->IsAnimationEnd())
+			if (false == GetStateChecker() && true == EnemyRenderer->IsAnimationEnd())
 			{
 				EnemyRenderer->ChangeAnimation("RUN");
-				StateChecker = true;
+				SetStateCheckerOn();
+				//StateChecker = true;
 			}
 			if (true == InRangePlayer(200.0f))
 			{
@@ -149,8 +150,8 @@ void EnemyGrunt::SetFSMFUNC()
 				SetNextState(EnemyGruntState::HIT);
 				return;
 			}
-			StateDuration += Delta;
-			if (StateDuration > 0.5f)
+			//StateDuration += Delta;
+			if (GetStateDuration() > 0.5f)
 			{
 				if (false == InRangePlayer(350.0f))
 				{
@@ -177,10 +178,11 @@ void EnemyGrunt::SetFSMFUNC()
 			static float4 JumpDir;
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				if (false == StateChecker)
+				if (false == GetStateChecker())
 				{
 					EnemyRenderer->ChangeAnimation("JUMP_MAIN");
-					StateChecker = true;
+					SetStateCheckerOn();
+					//StateChecker = true;
 					JumpDir = AggroDir(m_pCapsuleComp);
 					JumpDir.y = 1.0f;
 					m_pCapsuleComp->SetMoveSpeed(JumpDir * GRUNT_JUMP_SPEED);

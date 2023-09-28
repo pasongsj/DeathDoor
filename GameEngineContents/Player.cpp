@@ -119,9 +119,10 @@ void Player::CheckDirInput(float _DeltaTime)
 	}
 	else // 방향 입력이 없다면 IDLE
 	{
-		if (false == StateChecker && GetCurState<PlayerState>() == PlayerState::WALK)
+		if (false == GetStateChecker() && GetCurState<PlayerState>() == PlayerState::WALK)
 		{
-			StateChecker = true;
+			SetStateCheckerOn();
+			//StateChecker = true;
 			return;
 		}
 		else
