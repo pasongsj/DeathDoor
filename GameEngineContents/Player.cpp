@@ -27,7 +27,7 @@ Player::~Player()
 {
 }
 
-
+#define PLAYER_PHYSX_SCALE float4{0.0f, 75.0f, 50.0f}
 
 void Player::Start()
 {
@@ -38,12 +38,12 @@ void Player::Start()
 	// physx
 	{
 
-		float4 scale = Renderer->GetMeshScale() * Renderer->GetTransform()->GetWorldScale() / Renderer->GetTransform()->GetLocalScale() * 0.4f;
-		//6scale *= 5.0f;
-		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
+		//float4 scale = Renderer->GetMeshScale() * Renderer->GetTransform()->GetWorldScale() / Renderer->GetTransform()->GetLocalScale() * 0.4f;
+		//6scale *= 5.0f; 26 32
+		//physx::PxVec3 vscale = physx::PxVec3(0.0f, 70, 50.0f);// y가 높이 z 가 둘레
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(vscale);
+		m_pCapsuleComp->CreatePhysXActors(PLAYER_PHYSX_SCALE);
 		//m_pCapsuleComp->SetDynamicPivot(float4::FORWARD * 100.0f);
 
 		// lever 충돌테스트 
@@ -119,9 +119,10 @@ void Player::CheckDirInput(float _DeltaTime)
 	}
 	else // 방향 입력이 없다면 IDLE
 	{
-		if (false == StateChecker && GetCurState<PlayerState>() == PlayerState::WALK)
+		if (false == GetStateChecker() && GetCurState<PlayerState>() == PlayerState::WALK)
 		{
-			StateChecker = true;
+			SetStateCheckerOn();
+			//StateChecker = true;
 			return;
 		}
 		else

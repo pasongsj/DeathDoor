@@ -27,19 +27,17 @@ void EnemyMage::InitAniamtion()
 }
 
 
+
 void EnemyMage::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * 30.0f);
+	GetTransform()->SetLocalScale(float4::ONE * ENEMY_MAGE_RENDER_SCALE);
 
 	// physx
 	{
-		float4 scale = EnemyRenderer->GetMeshScale() * EnemyRenderer->GetTransform()->GetWorldScale() / EnemyRenderer->GetTransform()->GetLocalScale();
-		// scale *= 2.0f;
-		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(vscale);
+		m_pCapsuleComp->CreatePhysXActors(ENEMY_MAGE_PHYSX_SCALE);
 	}
 	SetFSMFUNC();
 }

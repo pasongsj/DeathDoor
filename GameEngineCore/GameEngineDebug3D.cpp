@@ -101,7 +101,7 @@ namespace GameEngineDebug
 				DrawData.WorldMatrix.Decompose(TempScale, TempRotation, TempPosition);
 				//TempScale.y *= 2.f;
 				//TempScale.x = TempScale.z;
-
+				TempScale.x = TempScale.z;
 				float4x4 MatScale, MatRot, MatPos;
 				MatScale.Scale(TempScale * 3.0f);
 				MatRot = TempRotation.QuaternionToRotationMatrix();

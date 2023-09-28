@@ -101,16 +101,8 @@ void MapTestLevel::InitTestLevel()
 		{
 			Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 1000.0f , -0.0f , -0.0f }));
 		}
-		//CreateActor<MonsterAnimationTest>();
-		//CreateActor<Player>();
-		//CreateActor<EnemyBruteGold>();
-		//std::shared_ptr<EnemyFirePlant> monster =  CreateActor<EnemyFirePlant>();
-		//if (nullptr != monster)
-		//{
-		//	monster->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 0.0f , 100.0f , -0.0f }));
-		//}
-
-		//test 
+		
+		CreateActor<EnemyBrute>();
 		
 		break;
 	}
@@ -118,3 +110,8 @@ void MapTestLevel::InitTestLevel()
 
 
 }
+//#include "EnemyBat.h"
+//#include "EnemyFirePlant.h"
+//#include "EnemyBrute.h"
+//#include "EnemyGhoul.h"
+//#include "EnemyBruteGold.h"

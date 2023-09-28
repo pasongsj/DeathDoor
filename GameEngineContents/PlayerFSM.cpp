@@ -16,8 +16,8 @@ void Player::SetFSMFunc()
 	//	IDLE,// Idle_0, Idle_1
 	SetChangeFSMCallBack([this]
 		{
-			StateDuration = 0.0f;
-			StateChecker = false;
+			//StateDuration = 0.0f;
+			//StateChecker = false;
 		});
 
 	SetFSM(PlayerState::IDLE,
@@ -30,7 +30,7 @@ void Player::SetFSMFunc()
 		{
 			if (Renderer->IsAnimationEnd())
 			{
-				if (false == StateChecker)
+				if (false == GetStateChecker())
 				{
 					Renderer->ChangeAnimation("IDLE1");
 
@@ -40,7 +40,8 @@ void Player::SetFSMFunc()
 					Renderer->ChangeAnimation("IDLE0");
 
 				}
-				StateChecker = !StateChecker;
+				SetStateChecker(!GetStateChecker());
+				//StateChecker = !StateChecker;
 			}
 			CheckState(Delta);
 
@@ -63,7 +64,7 @@ void Player::SetFSMFunc()
 		[this](float Delta)
 		{
 			//StateDuration += Delta;
-			if (true == StateChecker)
+			if (true == GetStateChecker())
 			{
 				Renderer->ChangeAnimation("WALK");
 				if (true == Renderer->IsAnimationEnd())
@@ -108,10 +109,11 @@ void Player::SetFSMFunc()
 			default:
 				break;
 			}
+			MoveUpdate(0.0f);
 		},
 		[this](float Delta)
 		{
-			StateDuration += Delta;
+			//StateDuration += Delta;
 			if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
 			{
 				// 마우스 방향을 바라보도록 함
@@ -265,6 +267,7 @@ void Player::SetFSMFunc()
 			{
 				Renderer->ChangeAnimation("CHARGE_SLASH_L");
 			}
+			MoveUpdate(0.0f);
 		},
 		[this](float Delta)
 		{
@@ -300,14 +303,15 @@ void Player::SetFSMFunc()
 		[this](float Delta)
 		{
 			static float IdleEndTime = 0;
-			StateDuration += Delta;
-			if (false == StateChecker && true == Renderer->IsAnimationEnd())
+			//StateDuration += Delta;
+			if (false == GetStateChecker() && true == Renderer->IsAnimationEnd())
 			{
 				Renderer->ChangeAnimation("HIT_IDLE");
-				StateChecker = true;
-				IdleEndTime = StateDuration + PlayerHitIdleTime;
+				SetStateCheckerOn();
+				//StateChecker = true;
+				IdleEndTime = GetStateDuration() + PlayerHitIdleTime;
 			}
-			if (true == StateChecker && StateDuration > IdleEndTime)
+			if (true == GetStateChecker() && GetStateDuration() > IdleEndTime)
 			{
 				Renderer->ChangeAnimation("HIT_RECOVER");
 				if (true == Renderer->IsAnimationEnd())
@@ -333,12 +337,8 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta)
 		{
+			// 땅에 or 사다리 끝에 도달해였는지 체크하는 함수
 			CheckClimbInput(Delta);
-			// 땅에 사다리 끝에 도달해였는지 체크하는 함수
-			//if ()
-			//{
-			//
-			//}
 		},
 		[this]
 		{
@@ -359,7 +359,8 @@ void Player::SetFSMFunc()
 			if (true == Renderer->IsAnimationEnd())
 			{
 				SetNextState(PlayerState::IDLE);
-			}},
+			}
+		},
 		[this]
 		{
 		}
@@ -378,7 +379,8 @@ void Player::SetFSMFunc()
 			if (true == Renderer->IsAnimationEnd())
 			{
 				SetNextState(PlayerState::IDLE);
-			}},
+			}
+		},
 		[this]
 		{
 		}

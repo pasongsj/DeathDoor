@@ -21,18 +21,18 @@ void EnemyFirePlant::InitAniamtion()
 	EnemyRenderer->ChangeAnimation("IDLE");
 }
 
+
+
+
 void EnemyFirePlant::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * 5000.0f); // 임시 값조정 필요
+	GetTransform()->SetLocalScale(float4::ONE * ENEMY_FIREPLANT_RENDER_SCALE); // 임시 값조정 필요
 	// physx
 	{
-		//  임시 값조정 필요
-		float4 scale = EnemyRenderer->GetMeshScale() * 0.0003f;
-		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(vscale, float4(-90.0f, 0.0f, 0.0f));
+		m_pCapsuleComp->CreatePhysXActors(ENEMY_FIREPLANT_PHYSX_SCALE/*, float4(-90.0f, 0.0f, 0.0f)*/);
 		m_pCapsuleComp->TurnOffGravity();
 	}
 	SetFSMFUNC();

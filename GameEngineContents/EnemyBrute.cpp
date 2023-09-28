@@ -28,19 +28,17 @@ void EnemyBrute::InitAniamtion()
 
 
 
+
 void EnemyBrute::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * 20.0f);
+	GetTransform()->SetLocalScale(float4::ONE * ENEMY_BRUTE_RENDER_SCALE);
 
 	// physx
 	{
-		float4 scale = EnemyRenderer->GetMeshScale() * EnemyRenderer->GetTransform()->GetWorldScale() / EnemyRenderer->GetTransform()->GetLocalScale() * 0.1f;
-		// scale *= 2.0f;
-		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(vscale);
+		m_pCapsuleComp->CreatePhysXActors(ENEMY_BRUTE_PHYSX_SCALE);
 	}
 	SetFSMFUNC();
 }
@@ -56,7 +54,7 @@ void EnemyBrute::Update(float _DeltaTime)
 
 void EnemyBrute::AggroMove(float _DeltaTime)
 {
-	if (false == StateChecker)
+	if (false == GetStateChecker())
 	{
 		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp, EnemyBruteDefaultDir) * GRUNT_MOVE_SPEED);
 	}
@@ -74,8 +72,8 @@ void EnemyBrute::SetFSMFUNC()
 
 	SetChangeFSMCallBack([this]
 		{
-			StateDuration = 0.0f;
-			StateChecker = false;
+			//StateDuration = 0.0f;
+			//StateChecker = false;
 		});
 
 
@@ -113,28 +111,30 @@ void EnemyBrute::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			StateDuration += Delta;
+			//StateDuration += Delta;
 			if (true == CheckHit())
 			{
 				SetNextState(EnemyBruteState::BREAK);
 				return;
 			}
-			if (false == StateChecker && true == EnemyRenderer->IsAnimationEnd())
+			if (false == GetStateChecker() && true == EnemyRenderer->IsAnimationEnd())
 			{
 				EnemyRenderer->ChangeAnimation("RUN");
-				StateChecker = true;
+				SetStateCheckerOn();
+				//StateChecker = true;
 			}
 			if (true == InRangePlayer(300.0f))
 			{
 				SetNextState(EnemyBruteState::SWING);
 				return;
 			}
-			if (StateDuration > 5)
+			if (GetStateDuration() > 5)
 			{
 				if (true == InRangePlayer(1500.0f))
 				{
 					SetNextState(EnemyBruteState::THROW);
-					StateDuration = 0.0f;
+					ResetStateDuration();
+					//StateDuration = 0.0f;
 					return;
 				}
 			}
