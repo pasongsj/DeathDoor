@@ -99,7 +99,12 @@ private:
 	
 	// input & move
 	float StateInputDelayTime = 0.0f;
-	void CheckInput(float _DeltaTime);
+
+	void CheckFalling();
+	void CheckDirInput(float _DeltaTime);
+	void CheckStateInput(float _DeltaTime);
+	void CheckState(float _DeltaTime);
+
 	void CheckClimbInput(float _DeltaTime);
 	void MoveUpdate(float _MoveVec);
 
