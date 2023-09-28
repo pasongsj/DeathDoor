@@ -37,7 +37,7 @@ void Player::Start()
 
 	// physx
 	{
-		
+
 		float4 scale = Renderer->GetMeshScale() * Renderer->GetTransform()->GetWorldScale() / Renderer->GetTransform()->GetLocalScale() * 0.4f;
 		//6scale *= 5.0f;
 		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
@@ -48,7 +48,7 @@ void Player::Start()
 
 		// lever 충돌테스트 
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic, PhysXFilterGroup::LeverTrigger);
-	} 
+	}
 
 
 	//GetLevel()->CreateActor< PlayerAttackRange>();
@@ -89,51 +89,9 @@ void Player::Update(float _DeltaTime)
 
 }
 
-void Player::CheckInput(float _DeltaTime)
+
+void Player::CheckDirInput(float _DeltaTime)
 {
-	// Falling Check
-	float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
-	float4 CollPoint = float4::ZERO;
-	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
-	{
-		float4 PPos = GetTransform()->GetWorldPosition();
-		if (PPos.y > CollPoint.y + 60.0f)
-		{
-			SetNextState(PlayerState::FALLING);
-			return;
-		}
-	}
-
-	// Attack Check
-	// special state input
-	StateInputDelayTime -= _DeltaTime;
-	if (StateInputDelayTime > 0.0f)
-	{
-		return;
-	}
-	if (true == GameEngineInput::IsDown("PlayerRoll")) // roll antmation inter이 필요함
-	{
-		SetNextState(PlayerState::ROLL);
-		return;
-	}
-	if (true == GameEngineInput::IsPress("PlayerLBUTTON"))
-	{
-		SetNextState(PlayerState::BASE_ATT);
-		return;
-	}
-	if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
-	{
-		SetNextState(PlayerState::SKILL);
-		return;
-	}
-	if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
-	{
-		SetNextState(PlayerState::CHARGE_ATT);
-		return;
-	}
-
-	// Move Check
-	// move state input
 	float4 Dir = float4::ZERO;
 	if (true == GameEngineInput::IsPress("PlayerLeft"))
 	{
@@ -171,8 +129,57 @@ void Player::CheckInput(float _DeltaTime)
 			SetNextState(PlayerState::IDLE);
 		}
 	}
-	
 }
+
+void Player::CheckStateInput(float _DeltaTime)
+{
+	if (true == GameEngineInput::IsDown("PlayerRoll")) // roll antmation inter이 필요함
+	{
+		SetNextState(PlayerState::ROLL);
+	}
+	else if (true == GameEngineInput::IsPress("PlayerLBUTTON"))
+	{
+		SetNextState(PlayerState::BASE_ATT);
+	}
+	else if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
+	{
+		SetNextState(PlayerState::SKILL);
+	}
+	else if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
+	{
+		SetNextState(PlayerState::CHARGE_ATT);
+	}
+}
+
+void Player::CheckFalling()
+{
+	// Falling Check
+	float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
+	float4 CollPoint = float4::ZERO;
+	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
+	{
+		float4 PPos = GetTransform()->GetWorldPosition();
+		if (PPos.y > CollPoint.y + 60.0f)
+		{
+			SetNextState(PlayerState::FALLING);
+			return;
+		}
+	}
+}
+void Player::CheckState(float _DeltaTime)
+{
+	StateInputDelayTime -= _DeltaTime;
+	if (StateInputDelayTime > 0.0f)
+	{
+		return;
+	}
+	CheckDirInput(_DeltaTime);
+	CheckStateInput(_DeltaTime);
+	CheckFalling();
+}
+
+
+
 void Player::DirectionUpdate(float _DeltaTime)
 {
 	if (MoveDir == ForwardDir)
