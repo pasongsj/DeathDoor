@@ -109,6 +109,7 @@ void Player::SetFSMFunc()
 			default:
 				break;
 			}
+			MoveUpdate(0.0f);
 		},
 		[this](float Delta)
 		{
@@ -266,6 +267,7 @@ void Player::SetFSMFunc()
 			{
 				Renderer->ChangeAnimation("CHARGE_SLASH_L");
 			}
+			MoveUpdate(0.0f);
 		},
 		[this](float Delta)
 		{
@@ -335,12 +337,8 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta)
 		{
+			// 땅에 or 사다리 끝에 도달해였는지 체크하는 함수
 			CheckClimbInput(Delta);
-			// 땅에 사다리 끝에 도달해였는지 체크하는 함수
-			//if ()
-			//{
-			//
-			//}
 		},
 		[this]
 		{
@@ -361,7 +359,8 @@ void Player::SetFSMFunc()
 			if (true == Renderer->IsAnimationEnd())
 			{
 				SetNextState(PlayerState::IDLE);
-			}},
+			}
+		},
 		[this]
 		{
 		}
@@ -380,7 +379,8 @@ void Player::SetFSMFunc()
 			if (true == Renderer->IsAnimationEnd())
 			{
 				SetNextState(PlayerState::IDLE);
-			}},
+			}
+		},
 		[this]
 		{
 		}
