@@ -55,48 +55,48 @@ void Map_Fortress::Update(float _DeltaTime)
 void Map_Fortress::InitComponent()
 {
 	// 맵 렌더러 
-	m_pRenderer_Part1 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part1->SetFBXMesh("Fortress_Part1.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part1->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part1->GetTransform()->SetLocalPosition(float4 { -8480, 140, -7360 });
-	m_pRenderer_Part1->CalculateUnitPos();
-	
-	m_pRenderer_Part2 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part2->SetFBXMesh("Fortress_Part2.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part2->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part2->GetTransform()->SetLocalPosition(float4{ -8334, 100, -6458 });
-	m_pRenderer_Part2->CalculateUnitPos();
+	//m_pRenderer_Part1 = CreateComponent<ContentFBXRenderer>();
+	//m_pRenderer_Part1->SetFBXMesh("Fortress_Part1.fbx", "ContentMeshDeffered");
+	//m_pRenderer_Part1->GetTransform()->SetLocalRotation(m_MapRot);
+	//m_pRenderer_Part1->GetTransform()->SetLocalPosition(float4 { -8480, 140, -7360 });
+	//m_pRenderer_Part1->CalculateUnitPos();
+	//
+	//m_pRenderer_Part2 = CreateComponent<ContentFBXRenderer>();
+	//m_pRenderer_Part2->SetFBXMesh("Fortress_Part2.fbx", "ContentMeshDeffered");
+	//m_pRenderer_Part2->GetTransform()->SetLocalRotation(m_MapRot);
+	//m_pRenderer_Part2->GetTransform()->SetLocalPosition(float4{ -8334, 100, -6458 });
+	//m_pRenderer_Part2->CalculateUnitPos();
 
-	m_pRenderer_Part3 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part3->SetFBXMesh("Fortress_Part3.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part3->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part3->GetTransform()->SetLocalPosition(float4{ -3844, 100 , -12898 });
-	m_pRenderer_Part3->CalculateUnitPos();
+	//m_pRenderer_Part3 = CreateComponent<ContentFBXRenderer>();
+	//m_pRenderer_Part3->SetFBXMesh("Fortress_Part3.fbx", "ContentMeshDeffered");
+	//m_pRenderer_Part3->GetTransform()->SetLocalRotation(m_MapRot);
+	//m_pRenderer_Part3->GetTransform()->SetLocalPosition(float4{ -3844, 100 , -12898 });
+	//m_pRenderer_Part3->CalculateUnitPos();
 
-	auto AllUnit = m_pRenderer_Part3->GetAllRenderUnit();
-	auto UnTextureUnit = m_pRenderer_Part3->GetUnTexturedUnit();
-	
-	AllUnit[47][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
-	AllUnit[48][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
-	AllUnit[49][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	//auto AllUnit = m_pRenderer_Part3->GetAllRenderUnit();
+	//auto UnTextureUnit = m_pRenderer_Part3->GetUnTexturedUnit();
+	//
+	//AllUnit[47][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	//AllUnit[48][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	//AllUnit[49][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
 
-	// uv 박살 , 이후 수정필요 
-	AllUnit[50][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
-	// AllUnit[50][0]->UVdata = { 0.07f, 0.07f, 0.0f, 0.0f };
-	AllUnit[50][1]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
-	AllUnit[50][2]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	//// uv 박살 , 이후 수정필요 
+	//AllUnit[50][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	//// AllUnit[50][0]->UVdata = { 0.07f, 0.07f, 0.0f, 0.0f };
+	//AllUnit[50][1]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+	//AllUnit[50][2]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
 
-	m_pRenderer_Part4 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part4->SetFBXMesh("Fortress_Part4.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part4->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part4->GetTransform()->SetLocalPosition(float4{ -6474, 190 , -12078 });
-	m_pRenderer_Part4->CalculateUnitPos();
+	//m_pRenderer_Part4 = CreateComponent<ContentFBXRenderer>();
+	//m_pRenderer_Part4->SetFBXMesh("Fortress_Part4.fbx", "ContentMeshDeffered");
+	//m_pRenderer_Part4->GetTransform()->SetLocalRotation(m_MapRot);
+	//m_pRenderer_Part4->GetTransform()->SetLocalPosition(float4{ -6474, 190 , -12078 });
+	//m_pRenderer_Part4->CalculateUnitPos();
 
-	m_pRenderer_Part5 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part5->SetFBXMesh("Fortress_Part5.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part5->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part5->GetTransform()->SetLocalPosition(float4{ -4464, 320 , -15492 });
-	m_pRenderer_Part5->CalculateUnitPos();
+	//m_pRenderer_Part5 = CreateComponent<ContentFBXRenderer>();
+	//m_pRenderer_Part5->SetFBXMesh("Fortress_Part5.fbx", "ContentMeshDeffered");
+	//m_pRenderer_Part5->GetTransform()->SetLocalRotation(m_MapRot);
+	//m_pRenderer_Part5->GetTransform()->SetLocalPosition(float4{ -4464, 320 , -15492 });
+	//m_pRenderer_Part5->CalculateUnitPos();
 
 	// 위치조정필요 
 	/*m_pRenderer_Part6 = CreateComponent<ContentFBXRenderer>();
@@ -109,7 +109,7 @@ void Map_Fortress::InitComponent()
 
 	// 네비메쉬 위치확인용 렌더러 
 	m_pNaviRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pNaviRenderer->SetFBXMesh("Fortrss_FullMap_Navi.fbx", "MeshTexture");
+	m_pNaviRenderer->SetFBXMesh("Fortress_FullMap_NavMesh.fbx", "MeshTexture");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
 	//m_pNaviRenderer->Off();
@@ -117,7 +117,7 @@ void Map_Fortress::InitComponent()
 	
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	m_pTriangleComp->CreatePhysXActors("Fortrss_FullMap_Navi.fbx", true);
+	m_pTriangleComp->CreatePhysXActors("Fortress_FullMap_NavMesh.fbx", true);
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));
 }
 
