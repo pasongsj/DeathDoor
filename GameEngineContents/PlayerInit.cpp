@@ -87,9 +87,9 @@ void Player::InitPlayerAnimation()
 	Renderer->CreateFBXAnimation("FALLING", "PLAYER_FALLING.FBX", { 0.01f,true }); // 체크필요
 	Renderer->CreateFBXAnimation("LAND", "PLAYER_LAND.FBX", { 0.01f,false }); // 착지
 
-	Renderer->SetAnimationStartFunc("ROLL", 30, []()
+	Renderer->SetAnimationStartFunc("ROLL", 10, [=]()
 		{
-			MsgTextBox("hello");
+			GetLevel()->IsDebugSwitch();
 		});
 
 	// 추가 애니메이션

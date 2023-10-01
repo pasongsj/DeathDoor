@@ -66,12 +66,17 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 		{
 			if (true == Loop)
 			{
-				CurFrame = Start;
+				CurFrame = Start;	
 			}
 			else
 			{
 				CurFrame = End - 1;
 				EndValue = true;
+			}
+
+			for (std::pair<const UINT, AnimStartFunc>& PairStartFunc : StartFunc)
+			{
+				PairStartFunc.second.bStart = false;
 			}
 		}
 	}
@@ -85,9 +90,13 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 
 	if (StartFunc.end() != StartFunc.find(CurFrame))
 	{
-		StartFunc.find(CurFrame)->second();
+		if (StartFunc[CurFrame].bStart == false && StartFunc[CurFrame].pFunc != nullptr)
+		{
+			StartFunc[CurFrame].pFunc();
+			StartFunc[CurFrame].bStart = true;
+		}
 		int a = 0;
-		//더이상 하면 안되는것인지 아니면 계속 이대로 같은것 돌리는것인지 결정해야함
+		//더이상 하면 안되는것인지 아니면 계속 이대로 같은것 돌리는것인지?
 	}
 
 	// mesh      subset
@@ -343,7 +352,7 @@ void GameEngineFBXRenderer::SetAnimationStartFunc(const std::string_view& _Name,
 		MsgAssert("해당 이름의 애니메이션이 없습니다." + sUpperName);
 		return;
 	}
-	std::weak_ptr<GameEngineFBXAnimationInfo> AnimInfo = Animations.find(sUpperName)->second;
+	std::weak_ptr<GameEngineFBXAnimationInfo> AnimInfo = Animations[sUpperName];
 	long long iMaxFrame = AnimInfo.lock()->FBXAnimationData->FrameCount;
 	if (iMaxFrame <= _Index)
 	{
@@ -351,8 +360,9 @@ void GameEngineFBXRenderer::SetAnimationStartFunc(const std::string_view& _Name,
 		MsgAssert("설정하려는 인덱스가 " + sUpperName + "의 최대 프레임인 " + sMaxFrame + " 을(를) 넘었습니다");
 		return;
 	}
+	AnimInfo.lock()->StartFunc[_Index].bStart = false;
+	AnimInfo.lock()->StartFunc[_Index].pFunc = _Func;
 
-	AnimInfo.lock()->StartFunc.insert(std::make_pair(_Index, _Func));
 }
 
 void GameEngineFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBXName, const AnimationCreateParams& _Params, int _Index)
