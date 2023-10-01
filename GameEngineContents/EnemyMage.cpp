@@ -31,13 +31,13 @@ void EnemyMage::InitAniamtion()
 void EnemyMage::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * ENEMY_MAGE_RENDER_SCALE);
+	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_MAGE);
 
 	// physx
 	{
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(ENEMY_MAGE_PHYSX_SCALE);
+		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_MAGE);
 	}
 	SetFSMFUNC();
 }

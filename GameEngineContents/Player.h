@@ -79,12 +79,13 @@ private:
 		//physx
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 
-
-
 		// Attack
 	PlayerSkill CurSkill = PlayerSkill::ARROW;
 	void SetSkill();
 	bool isRightAttack = true;
+	// 베이스어택 3타에 대한 딜레이 체크용
+	int AttackStack = 0;
+	float StackDuration = 0.0f;
 	
 	// Direction
 	//float4 NextForwardDir = float4::BACK; // 플레이어가 변화 할 방향
@@ -94,7 +95,7 @@ private:
 	float4 GetMousDirection();
 	 
 	
-	// input & move
+	// State Controll
 	float StateInputDelayTime = 0.0f;
 
 	void CheckFalling();
@@ -103,9 +104,8 @@ private:
 	void CheckState(float _DeltaTime);
 
 	void CheckClimbInput(float _DeltaTime);
-	void MoveUpdate(float _MoveVec);
+	void MoveUpdate(float _MoveVec, float4 _Dir = float4::ZERONULL);	//MoveDir에 해당하는 값만 처리하기 때문에
 
-	bool mButton = false;
 
 
 	void DefaultPhysX();

@@ -38,13 +38,9 @@ void Player::Start()
 	// physx
 	{
 
-		//float4 scale = Renderer->GetMeshScale() * Renderer->GetTransform()->GetWorldScale() / Renderer->GetTransform()->GetLocalScale() * 0.4f;
-		//6scale *= 5.0f; 26 32
-		//physx::PxVec3 vscale = physx::PxVec3(0.0f, 70, 50.0f);// y가 높이 z 가 둘레
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PLAYER_PHYSX_SCALE);
-		//m_pCapsuleComp->SetDynamicPivot(float4::FORWARD * 100.0f);
 
 		// lever 충돌테스트 
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic, PhysXFilterGroup::LeverTrigger);
@@ -64,7 +60,7 @@ void Player::Update(float _DeltaTime)
 	DefaultPhysX();
 
 
-	// input
+	// input 사다리타기 추후 trigger로 변경할 예정
 	if (true == GameEngineInput::IsDown("PressN"))
 	{
 		if (PlayerState::IDLE == GetCurState<PlayerState>())
@@ -76,11 +72,18 @@ void Player::Update(float _DeltaTime)
 			SetNextState(PlayerState::IDLE);
 		}
 	}
+	// state와 상관없이 스킬 변경 가능
 	if (PlayerState::SKILL != GetCurState<PlayerState>())
 	{
 		SetSkill();
 	}
 
+	StackDuration -= _DeltaTime;
+	if (StackDuration < 0.0f)
+	{
+		AttackStack = 0;
+	}
+	// 뭔지? 모름?
 	m_pCapsuleComp->GetDynamic()->setMass(65);
 
 
@@ -197,11 +200,17 @@ void Player::DirectionUpdate(float _DeltaTime)
 }
 
 
-
-void Player::MoveUpdate(float _MoveVec)
+void Player::MoveUpdate(float _MoveVec, float4 _Dir)
 {
 	m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-	m_pCapsuleComp->SetMoveSpeed(MoveDir * _MoveVec);
+	if (float4::ZERONULL == _Dir)
+	{
+		m_pCapsuleComp->SetMoveSpeed(MoveDir * _MoveVec);
+	}
+	else
+	{
+		m_pCapsuleComp->SetMoveSpeed(_Dir * _MoveVec);
+	}
 }
 
 

@@ -179,17 +179,22 @@ void Player::SetFSMFunc()
 			isRightAttack = !isRightAttack;
 
 			// 마우스 방향을 바라보도록 함
-			MoveDir = GetMousDirection(); 
+			MoveDir = GetMousDirection();
+			StackDuration = 0.55f;
+			if (++AttackStack >= 3)
+			{
+				StateInputDelayTime = 0.25f;
+			}
 		},
 		[this](float Delta)
 		{
 			MoveUpdate(PlayerAttMoveSpeed);
-
 			if (true == Renderer->IsAnimationEnd())
 			{
-				StateInputDelayTime = 0.1f;
+				//StateInputDelayTime = 0.1f;
 				SetNextState(PlayerState::IDLE);
-			}},
+			}
+		},
 		[this]
 		{
 		}
@@ -202,7 +207,6 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			Renderer->ChangeAnimation("ROLL");
-			mButton = false; 
 
 			// Player의 Speed를 초기화한다.
 			MoveUpdate(0.0f);
@@ -215,11 +219,11 @@ void Player::SetFSMFunc()
 
 			if (true == GameEngineInput::IsDown("PlayerMBUTTON"))
 			{
-				mButton = true;
+				SetStateCheckerOn();
 			}
 			if (true == Renderer->IsAnimationEnd())
 			{
-				if (true == mButton)
+				if (true == GetStateChecker())
 				{
 					SetNextState(PlayerState::ROLL_ATT);
 				}
@@ -433,13 +437,11 @@ void Player::SetFSMFunc()
 		[this](float Delta)
 		{
 			float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
-			//PlayerGroundPos.y -= 2.0f;
+			PlayerGroundPos.y += 100.0f; // 피직스 컴포넌트 중력값으로 보정되기 전 위치가 측정되는 오류 해결
 			float4 CollPoint = float4::ZERO;
 			if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 			{
-				float4 CPos = GetTransform()->GetWorldPosition();
-				
-				if (CollPoint.y + 10.0f > CPos.y)// 땅에 도달하였는지 체크
+				if (CollPoint.y + 10.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
 				{
 					SetNextState(PlayerState::IDLE);
 					return;
@@ -462,16 +464,16 @@ void Player::CheckClimbInput(float _DeltaTime)
 	{
 		Renderer->ChangeAnimation("Climbing_ladder");
 		Renderer->PauseOff();
-		m_pCapsuleComp->SetMoveSpeed(float4::UP * PlayerMoveSpeed * ClimbSpeedRatio);
+		MoveUpdate(PlayerMoveSpeed * ClimbSpeedRatio, float4::UP);
+		//m_pCapsuleComp->SetMoveSpeed(float4::UP * PlayerMoveSpeed * ClimbSpeedRatio);
 	}
 	else if (true == GameEngineInput::IsPress("PlayerDown"))
 	{
 		float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
-		PlayerGroundPos.y = -1000.0f;
 		float4 CollPoint = float4::ZERO;
-		if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::UP, CollPoint))
+		if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint))
 		{
-			if (CollPoint.y + 2.0f > GetTransform()->GetWorldPosition().y)
+			if (CollPoint.y + 5.0f > GetTransform()->GetWorldPosition().y)
 			{
 				SetNextState(PlayerState::IDLE);
 				return;
@@ -480,7 +482,8 @@ void Player::CheckClimbInput(float _DeltaTime)
 
 		Renderer->ChangeAnimation("Climbing_ladder_down");
 		Renderer->PauseOff();
-		m_pCapsuleComp->SetMoveSpeed(float4::DOWN * PlayerMoveSpeed * ClimbSpeedRatio);
+		MoveUpdate(PlayerMoveSpeed * ClimbSpeedRatio, float4::DOWN);
+		//m_pCapsuleComp->SetMoveSpeed(float4::DOWN * PlayerMoveSpeed * ClimbSpeedRatio);s
 
 	}
 	else

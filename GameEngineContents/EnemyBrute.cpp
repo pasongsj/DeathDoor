@@ -32,13 +32,13 @@ void EnemyBrute::InitAniamtion()
 void EnemyBrute::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * ENEMY_BRUTE_RENDER_SCALE);
+	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_BRUTE);
 
 	// physx
 	{
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(ENEMY_BRUTE_PHYSX_SCALE);
+		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_BRUTE);
 	}
 	SetFSMFUNC();
 }
@@ -56,11 +56,11 @@ void EnemyBrute::AggroMove(float _DeltaTime)
 {
 	if (false == GetStateChecker())
 	{
-		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp, EnemyBruteDefaultDir) * GRUNT_MOVE_SPEED);
+		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE) * GRUNT_MOVE_SPEED);
 	}
 	else
 	{
-		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp, EnemyBruteDefaultDir) * GRUNT_MOVE_SPEED * 2.0f);
+		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE) * GRUNT_MOVE_SPEED * 2.0f);
 
 	}
 }
@@ -107,7 +107,7 @@ void EnemyBrute::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("WALK");
-			AggroDir(m_pCapsuleComp, EnemyBruteDefaultDir);
+			AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 		},
 		[this](float Delta)
 		{
@@ -152,7 +152,7 @@ void EnemyBrute::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("SLAM");
-			AggroDir(m_pCapsuleComp, EnemyBruteDefaultDir);
+			AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
 		},
 		[this](float Delta)
@@ -172,7 +172,7 @@ void EnemyBrute::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("SWING");
-			AggroDir(m_pCapsuleComp, EnemyBruteDefaultDir);
+			AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
 		},
 		[this](float Delta)
@@ -191,7 +191,7 @@ void EnemyBrute::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("THROW");
-			AggroDir(m_pCapsuleComp, EnemyBruteDefaultDir);
+			AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 		},
 		[this](float Delta)
 		{
