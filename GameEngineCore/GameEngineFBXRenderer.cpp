@@ -83,6 +83,12 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 		NextFrame = 0;
 	}
 
+	if (StartFunc.end() != StartFunc.find(CurFrame))
+	{
+		StartFunc.find(CurFrame)->second();
+		int a = 0;
+		//더이상 하면 안되는것인지 아니면 계속 이대로 같은것 돌리는것인지 결정해야함
+	}
 
 	// mesh      subset
 	std::vector<std::vector< std::shared_ptr<GameEngineRenderUnit>>>& Units = ParentRenderer->GetAllRenderUnit();
@@ -327,6 +333,26 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 
 
 	return RenderUnit;
+}
+
+void GameEngineFBXRenderer::SetAnimationStartFunc(const std::string_view& _Name, UINT _Index, std::function<void()> _Func)
+{	
+	std::string sUpperName = GameEngineString::ToUpper(_Name);
+	if (Animations.end() == Animations.find(sUpperName))
+	{
+		MsgAssert("해당 이름의 애니메이션이 없습니다." + sUpperName);
+		return;
+	}
+	std::weak_ptr<GameEngineFBXAnimationInfo> AnimInfo = Animations.find(sUpperName)->second;
+	long long iMaxFrame = AnimInfo.lock()->FBXAnimationData->FrameCount;
+	if (iMaxFrame <= _Index)
+	{
+		std::string sMaxFrame = std::to_string(iMaxFrame);
+		MsgAssert("설정하려는 인덱스가 " + sUpperName + "의 최대 프레임인 " + sMaxFrame + " 을(를) 넘었습니다");
+		return;
+	}
+
+	AnimInfo.lock()->StartFunc.insert(std::make_pair(_Index, _Func));
 }
 
 void GameEngineFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBXName, const AnimationCreateParams& _Params, int _Index)

@@ -33,7 +33,6 @@ void Player::InitPlayerAnimation()
 {
 	Renderer = CreateComponent<GameEngineFBXRenderer>();
 	Renderer->SetFBXMesh("PLAYER_MESH.FBX", "MeshAniTexture");
-
 	//idle
 	Renderer->CreateFBXAnimation("IDLE0", "PLAYER_IDLE_0.FBX", { 0.02f,false });
 	Renderer->CreateFBXAnimation("IDLE1", "PLAYER_IDLE_1.FBX", { 0.01f,false });
@@ -88,6 +87,10 @@ void Player::InitPlayerAnimation()
 	Renderer->CreateFBXAnimation("FALLING", "PLAYER_FALLING.FBX", { 0.01f,true }); // 체크필요
 	Renderer->CreateFBXAnimation("LAND", "PLAYER_LAND.FBX", { 0.01f,false }); // 착지
 
+	Renderer->SetAnimationStartFunc("ROLL", 30, []()
+		{
+			MsgTextBox("hello");
+		});
 
 	// 추가 애니메이션
 	//Renderer->CreateFBXAnimation("21", "PLAYER_IDLE_FEAR.fbx");
