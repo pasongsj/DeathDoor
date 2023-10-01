@@ -9,4 +9,4 @@
 #define ClimbSpeedRatio 0.5f
 #define PlayerDefaultDir float4::BACK
 #define PlayerMoveSpeed 500.0f
-#define PlayerAttMoveSpeed 500.0f
+#define PlayerAttMoveSpeed 300.0f

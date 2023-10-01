@@ -31,13 +31,13 @@ void EnemyBruteGold::InitAniamtion()
 void EnemyBruteGold::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * ENEMY_BRUTEGOLD_RENDER_SCALE);
+	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_BRUTEGOLD);
 
 	// physx
 	{
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(ENEMY_BRUTEGOLD_PHYSX_SCALE);
+		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_BRUTEGOLD);
 	}
 	SetFSMFUNC();
 }
@@ -55,11 +55,11 @@ void EnemyBruteGold::AggroMove(float _DeltaTime)
 {
 	if (false == GetStateChecker())
 	{
-		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp, EnemyBruteGoldDefaultDir) * GRUNT_MOVE_SPEED);
+		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTEGOLD) * GRUNT_MOVE_SPEED);
 	}
 	else
 	{
-		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp, EnemyBruteGoldDefaultDir) * GRUNT_MOVE_SPEED * 2.0f);
+		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTEGOLD) * GRUNT_MOVE_SPEED * 2.0f);
 
 	}
 }
@@ -106,7 +106,7 @@ void EnemyBruteGold::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("WALK");
-			AggroDir(m_pCapsuleComp, EnemyBruteGoldDefaultDir);
+			AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTEGOLD);
 		},
 		[this](float Delta)
 		{
@@ -151,7 +151,7 @@ void EnemyBruteGold::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("SLAM");
-			AggroDir(m_pCapsuleComp, EnemyBruteGoldDefaultDir);
+			AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTEGOLD);
 
 		},
 		[this](float Delta)
@@ -171,7 +171,7 @@ void EnemyBruteGold::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("SWING");
-			AggroDir(m_pCapsuleComp, EnemyBruteGoldDefaultDir);
+			AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTEGOLD);
 
 		},
 		[this](float Delta)
@@ -190,7 +190,7 @@ void EnemyBruteGold::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("THROW");
-			AggroDir(m_pCapsuleComp, EnemyBruteGoldDefaultDir);
+			AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTEGOLD);
 		},
 		[this](float Delta)
 		{

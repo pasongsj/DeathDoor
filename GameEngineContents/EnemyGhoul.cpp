@@ -37,13 +37,13 @@ void EnemyGhoul::InitAniamtion()
 void EnemyGhoul::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * ENEMY_GHOUL_RENDER_SCALE);
+	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_GHOUL);
 
 	// physx
 	{
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(ENEMY_GHOUL_PHYSX_SCALE);
+		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_GHOUL);
 	}
 	SetFSMFUNC();
 }

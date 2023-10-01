@@ -27,6 +27,7 @@ private:
 		IDLE,
 		BITE,
 		DIE,
+		HIT,
 		MAX
 	};
 

@@ -102,7 +102,7 @@ void MapTestLevel::InitTestLevel()
 			Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 1000.0f , -0.0f , -0.0f }));
 		}
 		
-		CreateActor<EnemyBrute>();
+		CreateActor<EnemyFirePlant>();
 		
 		break;
 	}
