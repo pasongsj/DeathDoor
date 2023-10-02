@@ -4,7 +4,7 @@
 
 struct AnimStartFunc
 {
-	bool bStart = false;
+	bool bStart = true;
 	std::function<void()> pFunc = nullptr;
 };
 

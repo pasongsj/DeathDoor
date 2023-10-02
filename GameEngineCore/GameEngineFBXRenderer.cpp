@@ -47,7 +47,16 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 		// 여분의 시간이 중요합니다.
 		CurFrameTime -= CurInter;
 		++CurFrame;
-
+		if (StartFunc.end() != StartFunc.find(CurFrame))
+		{
+			if (StartFunc[CurFrame].bStart == false && StartFunc[CurFrame].pFunc != nullptr)
+			{
+				StartFunc[CurFrame].pFunc();
+				StartFunc[CurFrame].bStart = true;
+			}
+			int a = 0;
+			//더이상 하면 안되는것인지 아니면 계속 이대로 같은것 돌리는것인지?
+		}
 		if (false == bOnceStart && CurFrame == 0)
 		{
 			bOnceStart = true;
@@ -72,12 +81,12 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 			{
 				CurFrame = End - 1;
 				EndValue = true;
+				for (std::pair<const UINT, AnimStartFunc>& PairStartFunc : StartFunc)
+				{
+					PairStartFunc.second.bStart = false;
+				}
 			}
 
-			for (std::pair<const UINT, AnimStartFunc>& PairStartFunc : StartFunc)
-			{
-				PairStartFunc.second.bStart = false;
-			}
 		}
 	}
 	
@@ -85,18 +94,7 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 	unsigned int NextFrame = CurFrame + 1;
 	if (NextFrame >= End)
 	{
-		NextFrame = 0;
-	}
-
-	if (StartFunc.end() != StartFunc.find(CurFrame))
-	{
-		if (StartFunc[CurFrame].bStart == false && StartFunc[CurFrame].pFunc != nullptr)
-		{
-			StartFunc[CurFrame].pFunc();
-			StartFunc[CurFrame].bStart = true;
-		}
-		int a = 0;
-		//더이상 하면 안되는것인지 아니면 계속 이대로 같은것 돌리는것인지?
+		NextFrame = Start;
 	}
 
 	// mesh      subset
@@ -150,7 +148,10 @@ void GameEngineFBXAnimationInfo::Reset()
 	CurFrame = 0;
 	PlayTime = 0.0f;
 	EndValue = false;
-	// Start = 0;
+	for (std::pair<const UINT, AnimStartFunc>& PairStartFunc : StartFunc)
+	{
+		PairStartFunc.second.bStart = false;
+	}
 }
 
 bool GameEngineFBXAnimationInfo::IsEnd()
@@ -352,16 +353,15 @@ void GameEngineFBXRenderer::SetAnimationStartFunc(const std::string_view& _Name,
 		MsgAssert("해당 이름의 애니메이션이 없습니다." + sUpperName);
 		return;
 	}
-	std::weak_ptr<GameEngineFBXAnimationInfo> AnimInfo = Animations[sUpperName];
-	long long iMaxFrame = AnimInfo.lock()->FBXAnimationData->FrameCount;
-	if (iMaxFrame <= _Index)
+	std::shared_ptr< GameEngineFBXAnimationInfo> Info = Animations[sUpperName];
+	//std::weak_ptr<GameEngineFBXAnimationInfo> AnimInfo = Animations[sUpperName];
+	if ((Info->Start > _Index) || (_Index >= Info->End))
 	{
-		std::string sMaxFrame = std::to_string(iMaxFrame);
-		MsgAssert("설정하려는 인덱스가 " + sUpperName + "의 최대 프레임인 " + sMaxFrame + " 을(를) 넘었습니다");
+		MsgAssert("설정하려는 인덱스가 " + sUpperName + "의 최대 프레임인 " + std::to_string(Info->Start)+","+ std::to_string(Info->End) + " 을(를) 넘었습니다");
 		return;
 	}
-	AnimInfo.lock()->StartFunc[_Index].bStart = false;
-	AnimInfo.lock()->StartFunc[_Index].pFunc = _Func;
+	Info->StartFunc[_Index].pFunc = _Func;
+	Info->StartFunc[_Index].bStart = false;
 
 }
 
