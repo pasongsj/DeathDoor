@@ -54,8 +54,6 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 				StartFunc[CurFrame].pFunc();
 				StartFunc[CurFrame].bStart = true;
 			}
-			int a = 0;
-			//더이상 하면 안되는것인지 아니면 계속 이대로 같은것 돌리는것인지?
 		}
 		if (false == bOnceStart && CurFrame == 0)
 		{
