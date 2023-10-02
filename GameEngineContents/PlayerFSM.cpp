@@ -185,10 +185,11 @@ void Player::SetFSMFunc()
 			{
 				StateInputDelayTime = 0.25f;
 			}
+			MoveUpdate(PlayerAttMoveSpeed);
 		},
 		[this](float Delta)
 		{
-			MoveUpdate(PlayerAttMoveSpeed);
+			
 			if (true == Renderer->IsAnimationEnd())
 			{
 				//StateInputDelayTime = 0.1f;
