@@ -316,6 +316,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerAttackRange.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PlayerFSM.cpp" />
     <ClCompile Include="PlayerInit.cpp" />
     <ClCompile Include="PlayerTestLevel.cpp" />
@@ -581,6 +585,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerAttackRange.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PlayerDefinition.h" />
     <ClInclude Include="PlayerTestLevel.h" />
     <ClInclude Include="PreCompileHeader.h">

@@ -15,4 +15,6 @@ enum class PhysXFilterGroup //PhysX 충돌 용 그룹
 	GroundTrigger = (1 << 3),		// 트리거
 
 	LeverTrigger = (1 << 4 ),	    // Frog_Lever
+	PlayerSkill = (1 << 5),
+	MonsterDynamic = (1 << 6),
 };

@@ -289,6 +289,9 @@
     <ClCompile Include="EnemyBruteGold.cpp">
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerAttackRange.cpp">
+      <Filter>FSMObject\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -573,6 +576,9 @@
     </ClInclude>
     <ClInclude Include="EnemyBruteGold.h">
       <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackRange.h">
+      <Filter>FSMObject\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -78,6 +78,8 @@ private:
 	std::shared_ptr<GameEngineFBXRenderer> Renderer = nullptr;
 		//physx
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
+		//Range
+	std::shared_ptr<GameEngineActor> AttackRange = nullptr;
 
 		// Attack
 	PlayerSkill CurSkill = PlayerSkill::ARROW;
