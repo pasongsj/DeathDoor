@@ -143,7 +143,7 @@ public:
 		return m_bStatic;
 	}
 
-	void SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0, PhysXFilterGroup _OtherFilter1 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter2 = PhysXFilterGroup::None);
+	void SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter1 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter2 = PhysXFilterGroup::None);
 
 	void SetTrigger()
 	{
