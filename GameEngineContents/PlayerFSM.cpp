@@ -186,6 +186,8 @@ void Player::SetFSMFunc()
 				StateInputDelayTime = 0.25f;
 			}
 			MoveUpdate(PlayerAttMoveSpeed);
+
+			AttackRange->On();
 		},
 		[this](float Delta)
 		{
@@ -198,6 +200,7 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			AttackRange->Off();
 		}
 	); 
 

@@ -5,7 +5,7 @@
 #include "PhysXTestLevel.h"
 #include "PhysXCapsuleComponent.h"
 
-//#include "PlayerAttackRange.h"
+#include "PlayerAttackRange.h"
 
 
 #define PlayerInitRotation float4{ 90,0,0 }
@@ -46,8 +46,9 @@ void Player::Start()
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic, PhysXFilterGroup::LeverTrigger);
 	}
 
-
-	//GetLevel()->CreateActor< PlayerAttackRange>();
+	//m_pCapsuleComp->SetDynamicPivot()
+	AttackRange = GetLevel()->CreateActor< PlayerAttackRange>();
+	AttackRange->Off();
 
 	SetFSMFunc();
 	Renderer->ChangeAnimation("IDLE0");

@@ -46,7 +46,7 @@ void CustomSimulationEventCallback::onTrigger(physx::PxTriggerPair* pairs, physx
 	{
 		physx::PxTriggerPair& current = *pairs++;
 
-		physx::PxShape* TriggerShape = current.triggerShape;
+		physx::PxShape* TriggerShape = current.triggerShape; // 트리거의 모양
 		physx::PxShape* OtherShape = current.otherShape;
 
 		//충돌한 본인 혹은 상대의 액터가 null이면 continue
@@ -63,65 +63,74 @@ void CustomSimulationEventCallback::onTrigger(physx::PxTriggerPair* pairs, physx
 		{
 			continue;
 		}
+		// 실제 데이터가 있는 경우
+		// 필터 두개를 make_pair
+		
+
+		if (GlobalValue::PhysXCollision.end() == GlobalValue::PhysXCollision.find(std::make_pair(static_cast<UINT>(TriggerFilterdata.word0), static_cast<UINT>(OtherFilterdata.word0)))||
+			GlobalValue::PhysXCollision.end() == GlobalValue::PhysXCollision.find(std::make_pair(static_cast<UINT>(OtherFilterdata.word0), static_cast<UINT>(TriggerFilterdata.word0)))
+			) // 두개의 충돌을 체크한다면
+		{
+			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) // 첫 충돌 했을 때
+			{
+
+				GameEngineActor* TestTrigger = reinterpret_cast<GameEngineActor*>(TriggerShape->userData);
+				GameEngineActor* TestActor = reinterpret_cast<GameEngineActor*>(OtherShape->userData);
+				TestTrigger->isPhysXCollision = true;
+				TestActor->isPhysXCollision = true;
+				int a = 0;
+			}
+
+			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) // 충돌이 끝날 때
+			{
+
+				GameEngineActor* TestTrigger = reinterpret_cast<GameEngineActor*>(TriggerShape->userData);
+				GameEngineActor* TestActor = reinterpret_cast<GameEngineActor*>(OtherShape->userData);
+				TestTrigger->isPhysXCollision = false;
+				TestActor->isPhysXCollision = false;
+				int a = 0;
+			}
+		}
+		
+		// 두개의 충돌을 체크한다면
+		// 
+
+		//CheckPhysXCollision 에서 찾아보고
+		// 
+		//있으면  true/ false 변경
+		// 
 
 		//C26813  : 비트플래그로 사용된 enum끼리의 비교는 == 이 아닌 bitwise and(&)로 비교하는 것이 좋음
 		//WARNING : resultFd.word0 == static_cast<physx::PxU32>(PhysXFilterGroup::Ground
 
-		if (TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle) && // 트리거의 필터그룹이 장애물일때
-			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic))// 충돌한놈의 필터그룹이 플레이어일때
-		{
-			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) // 첫 충돌 했을 때
-			{
 
-				PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
-				PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
-				int a = 0;
-			}
-
-			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) // 충돌 유지시 계속 들어옴
-			{
-
-				PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
-				PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
-				int a = 0;
-			}
-
-			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) // 충돌이 끝날 때
-			{
-
-				PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
-				PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
-				int a = 0;
-			}
-		}
-
-		if (TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::LeverTrigger) && // 트리거 필터 그룹 레버
-			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic))    // 충돌한놈의 필터그룹이 플레이어일때
-		{
-			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) // 첫 충돌 했을 때
-			{
-
-				PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
-				PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
-				int a = 0;
-			}
-
-			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) // 충돌 유지시 계속 들어옴
-			{
-
-				PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
-				PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
-				int a = 0;
-			}
-
-			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) // 충돌이 끝날 때
-			{
-
-				PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
-				PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
-				int a = 0;
-			}
-		}
+		//if (TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::LeverTrigger) && // 트리거 필터 그룹 레버
+		//	OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic))    // 충돌한놈의 필터그룹이 플레이어일때
+		//{
+		//	if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) // 첫 충돌 했을 때
+		//	{
+		//
+		//		PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
+		//		PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
+		//		int a = 0;
+		//	}
+		//
+		//	if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) // 충돌 유지시 계속 들어옴
+		//	{
+		//
+		//		PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
+		//		PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
+		//		int a = 0;
+		//	}
+		//
+		//	if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) // 충돌이 끝날 때
+		//	{
+		//
+		//		PhysXTrigger* TestTrigger = reinterpret_cast<PhysXTrigger*>(TriggerShape->userData);
+		//		PhysXTestActor* TestActor = reinterpret_cast<PhysXTestActor*>(OtherShape->userData);
+		//		int a = 0;
+		//	}
+		//}
 	}
 }
 
