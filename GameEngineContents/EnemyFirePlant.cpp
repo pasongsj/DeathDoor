@@ -35,6 +35,8 @@ void EnemyFirePlant::Start()
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_FIREPLANT, DEFAULT_DIR_FIREPLANT);
 		//m_pCapsuleComp->TurnOffGravity();
+		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic, PhysXFilterGroup::PlayerSkill);
+
 	}
 	SetFSMFUNC();
 
@@ -42,6 +44,10 @@ void EnemyFirePlant::Start()
 
 void EnemyFirePlant::Update(float _DeltaTime)
 {
+	if (true == isPhysXCollision)
+	{
+		int a = 0;
+	}
 	FSMObjectBase::Update(_DeltaTime);
 }
 
