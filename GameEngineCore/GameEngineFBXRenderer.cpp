@@ -76,15 +76,16 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 			if (true == Loop)
 			{
 				CurFrame = Start;	
+
+				for (std::pair<const UINT, AnimStartFunc>& PairStartFunc : StartFunc)
+				{
+					PairStartFunc.second.bStart = false;
+				}
 			}
 			else
 			{
 				CurFrame = End - 1;
 				EndValue = true;
-				for (std::pair<const UINT, AnimStartFunc>& PairStartFunc : StartFunc)
-				{
-					PairStartFunc.second.bStart = false;
-				}
 			}
 
 		}
