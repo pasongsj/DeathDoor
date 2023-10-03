@@ -35,7 +35,7 @@ public:
 
 	void SetOrder(int _Order) override;
 
-	std::atomic_bool isPhysXCollision = false;
+	std::atomic_uint isPhysXCollision = 0;
 
 protected:
 	virtual void Start() {}
