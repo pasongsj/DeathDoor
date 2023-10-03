@@ -286,6 +286,9 @@
     <ClCompile Include="ContentUIFontRenderer.cpp">
       <Filter>Component\ContentsRenderer\Font</Filter>
     </ClCompile>
+    <ClCompile Include="GlowEffect.cpp">
+      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -567,6 +570,9 @@
     </ClInclude>
     <ClInclude Include="ContentUIFontRenderer.h">
       <Filter>Component\ContentsRenderer\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="GlowEffect.h">
+      <Filter>Component\ContentsRenderer\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

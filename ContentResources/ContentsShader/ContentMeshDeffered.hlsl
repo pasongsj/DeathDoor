@@ -55,7 +55,7 @@ struct DeferredOutPut
     float4 DifTarget  : SV_Target1;
     float4 PosTarget  : SV_Target2;
     float4 NorTarget  : SV_Target3;
-    float4 BlurTarget : SV_Target6;
+    float4 BlurTarget : SV_Target7;
 };
 
 

@@ -74,10 +74,10 @@ float4 ContentMeshTexture_PS(Output _Input) : SV_Target0
     DiffuseColor *= MulColor;
     DiffuseColor += AddColor;
     
-    if (DiffuseColor.a <= 0.0f)
-    {
-        clip(-1);
-    }
+    //if (DiffuseColor.a <= 0.0f)
+    //{
+    //    clip(-1);
+    //}
     
     //Fade
     if(Delta > 0.0f)

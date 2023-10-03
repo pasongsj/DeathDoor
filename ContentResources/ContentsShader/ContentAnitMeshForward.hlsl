@@ -36,12 +36,12 @@ Output ContentAniMeshForward_VS(Input _Input)
     float4 InputNormal = _Input.NORMAL;
     InputNormal.w = 0.0f;
     
-   if (IsAnimation != 0)
-   {
-       Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
-       InputPos.w = 1.0f;
-       InputNormal.w = 0.0f;
-   }
+    if (IsAnimation != 0)
+    {
+        Skinning(InputPos, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+        InputPos.w = 1.0f;
+        InputNormal.w = 0.0f;
+    }
     
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
@@ -85,8 +85,6 @@ OutputTarget ContentAniMeshForward_PS(Output _Input)
     OutputTarget PS_OutPut = (OutputTarget) 0.0f;
     
     float4 MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
-    float4 MaskResultColor = (float4) 0.0f;
-    
     float MaskAlpha = MaskColor.a;
     
     float4 ResultPointLight = _Input.POINTLIGHT;
@@ -94,13 +92,22 @@ OutputTarget ContentAniMeshForward_PS(Output _Input)
     float4 SpacularRatio = _Input.SPECULALIGHT;
     float4 AmbientRatio = _Input.AMBIENTLIGHT;
     
-    //Crack
-    MaskResultColor = MaskColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
-    MaskResultColor += float4(0.8f, 0.0f, 0.5f, 1.0f);
-    MaskResultColor.a = MaskAlpha;
-    
     float4 DiffuseResultColor = (float4) 0.0f;
-    float4 DiffuseColor = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+    float4 DiffuseColor = (float4) 0.0f;
+    
+    float Intensity = 1.0f;
+    
+    if (MaskAlpha > 0.0f)
+    {
+        DiffuseColor = MaskColor * float4(1.0f, 0.2f, 1.0f, 0.0f);
+        DiffuseColor.a = 1.0f;
+        
+        Intensity = 6.0f;
+    }
+    else
+    {
+        DiffuseColor = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+    }
     
     //Fade
     if (Delta > 0.0f)
@@ -109,12 +116,15 @@ OutputTarget ContentAniMeshForward_PS(Output _Input)
     }
     
     float DiffuseAlpha = DiffuseColor.w;
-    DiffuseResultColor = DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
+    DiffuseResultColor = Intensity * DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
     DiffuseResultColor.a = DiffuseAlpha;
     
     PS_OutPut.CamForwardTarget = DiffuseResultColor;
-    PS_OutPut.BlurTarget = MaskResultColor;
+    
+    if (MaskAlpha > 0.0f)
+    {
+        PS_OutPut.BlurTarget = DiffuseResultColor;
+    }
     
     return PS_OutPut;
 }
-
