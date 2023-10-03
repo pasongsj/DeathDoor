@@ -12,12 +12,12 @@ EnemyFirePlant::~EnemyFirePlant()
 
 void EnemyFirePlant::InitAniamtion()
 {
-	EnemyRenderer = CreateComponent<GameEngineFBXRenderer>();
-	EnemyRenderer->SetFBXMesh("_E_FIREPLANT_MESH.FBX", "MeshAniTexture");
+	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
+	EnemyRenderer->SetFBXMesh("_E_FIREPLANT_MESH.FBX", "ContentAniMeshDeffered");
 
 	EnemyRenderer->CreateFBXAnimation("IDLE", "_E_FIREPLANT_IDLE.fbx", { 0.02f,true });
 	EnemyRenderer->CreateFBXAnimation("BITE", "_E_FIREPLANT_BITE.fbx", { 0.02f,false });
-	EnemyRenderer->CreateFBXAnimation("HIT", "_E_FIREPLANT_HIT.fbx", { 0.02f,false });
+	EnemyRenderer->CreateFBXAnimation("HIT", "_E_FIREPLANT_HIT.fbx", { 0.04f,false });
 	EnemyRenderer->CreateFBXAnimation("DIE", "_E_FIREPLANT_DIE.fbx", { 0.02f,false });
 	EnemyRenderer->ChangeAnimation("IDLE");
 }
@@ -41,19 +41,29 @@ void EnemyFirePlant::Start()
 	SetFSMFUNC();
 
 }
+bool EnemyFirePlant::CheckAttack()
+{
+	UINT HitFromPlayer = static_cast<UINT>(isPhysXCollision);
+	
+	if ( 0 < (HitFromPlayer & static_cast<UINT>(PhysXFilterGroup::PlayerSkill)))
+	{
+		return true;
+	}
+	return false;
+}
 
 void EnemyFirePlant::Update(float _DeltaTime)
 {
-	if ((isPhysXCollision & 1) == 1)
-	{
-		int a = 0;
-	}
-	UINT playerDy = static_cast<UINT>(PhysXFilterGroup::PlayerSkill);
-	UINT ColPlayer = isPhysXCollision & playerDy;
-	if (0 < ColPlayer)
-	{
-		int a = 0;
-	}
+	//if ((isPhysXCollision & 1) == 1)
+	//{
+	//	int a = 0;
+	//}
+	//UINT playerDy = static_cast<UINT>(PhysXFilterGroup::PlayerSkill);
+	//UINT ColPlayer = isPhysXCollision & playerDy;
+	//if (0 < ColPlayer)
+	//{
+	//	int a = 0;
+	//}
 	FSMObjectBase::Update(_DeltaTime);
 }
 
@@ -73,6 +83,11 @@ void EnemyFirePlant::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if (true == CheckAttack())
+			{
+				SetNextState(EnemyFireFlowerState::HIT);
+				return;
+			}
 			if (true == InRangePlayer(1000.0f))
 			{
 				SetNextState(EnemyFireFlowerState::BITE);
@@ -93,6 +108,11 @@ void EnemyFirePlant::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if (true == CheckAttack())
+			{
+				SetNextState(EnemyFireFlowerState::HIT);
+				return;
+			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(EnemyFireFlowerState::IDLE);

@@ -34,5 +34,7 @@ private:
 
 	void SetFSMFUNC();
 
+	bool CheckAttack();
+
 };
 
