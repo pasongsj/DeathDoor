@@ -33,7 +33,6 @@ void Player::InitPlayerAnimation()
 {
 	Renderer = CreateComponent<GameEngineFBXRenderer>();
 	Renderer->SetFBXMesh("PLAYER_MESH.FBX", "MeshAniTexture");
-
 	//idle
 	Renderer->CreateFBXAnimation("IDLE0", "PLAYER_IDLE_0.FBX", { 0.02f,false });
 	Renderer->CreateFBXAnimation("IDLE1", "PLAYER_IDLE_1.FBX", { 0.01f,false });

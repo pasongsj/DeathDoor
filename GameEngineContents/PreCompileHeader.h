@@ -14,6 +14,8 @@
 #include <GameEngineCore/GameEngineUIRenderer.h>
 #include <GameEngineCore/GameEngineFontRenderer.h>
 
+#include "ContentFBXRenderer.h"
+
 //PhysX 4.1
 //#pragma warning(disable : 4099)
 //#pragma warning(disable : 4996)

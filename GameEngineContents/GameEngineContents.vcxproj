@@ -237,6 +237,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
+    <ClCompile Include="GlowEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="HpBar.cpp">
       <SubType>
       </SubType>
@@ -480,6 +484,10 @@
     </ClInclude>
     <ClInclude Include="GameContentsMapActor.h" />
     <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="GlowEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="HpBar.h">
       <SubType>
       </SubType>
