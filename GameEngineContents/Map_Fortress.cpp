@@ -78,6 +78,12 @@ void Map_Fortress::Create_Ground()
 	m_pRenderer_Cube->GetTransform()->SetLocalPosition(float4{ -3910, -800, -300 });
 	m_pRenderer_Cube->CalculateUnitPos();
 
+	m_pRenderer_Cube2 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Cube2->SetFBXMesh("Fortress_Cube_2.fbx", "ContentMeshDeffered");
+	m_pRenderer_Cube2->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Cube2->GetTransform()->SetLocalPosition(float4{ -11735, -120, 18625 });
+	m_pRenderer_Cube2->CalculateUnitPos();
+
 	m_pRenderer_Section2 = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Section2->SetFBXMesh("Fortress_Section_2.fbx", "ContentMeshDeffered");
 	m_pRenderer_Section2->GetTransform()->SetLocalRotation(m_MapRot);
@@ -160,6 +166,42 @@ void Map_Fortress::Create_Partition()
 	m_pRenderer_Part10->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Part10->GetTransform()->SetLocalPosition(float4{ -14460, -80, 13570 });
 	m_pRenderer_Part10->CalculateUnitPos();
+
+	m_pRenderer_Part11 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part11->SetFBXMesh("Fortress_Part_11.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part11->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part11->GetTransform()->SetLocalPosition(float4{ -16020, 113, 13870 });
+	m_pRenderer_Part11->CalculateUnitPos();
+
+	m_pRenderer_Part12 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part12->SetFBXMesh("Fortress_Part_12.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part12->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part12->GetTransform()->SetLocalPosition(float4{ -9970, 284, 11910 });
+	m_pRenderer_Part12->CalculateUnitPos();
+
+	m_pRenderer_Part13 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part13->SetFBXMesh("Fortress_Part_13.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part13->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part13->GetTransform()->SetLocalPosition(float4{ -10980, 400, 18075 });
+	m_pRenderer_Part13->CalculateUnitPos();
+
+	m_pRenderer_Part14 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part14->SetFBXMesh("Fortress_Part_14.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part14->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part14->GetTransform()->SetLocalPosition(float4{ -9156, -50, 16337 });
+	m_pRenderer_Part14->CalculateUnitPos();
+
+	m_pRenderer_Part15 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part15->SetFBXMesh("Fortress_Part_15.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part15->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part15->GetTransform()->SetLocalPosition(float4{ -14090, 250, 19250 });
+	m_pRenderer_Part15->CalculateUnitPos();
+
+	m_pRenderer_Part16 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part16->SetFBXMesh("Fortress_Part_16.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part16->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part16->GetTransform()->SetLocalPosition(float4{ -14782, 285, 17658 });
+	m_pRenderer_Part16->CalculateUnitPos();
 
 }
 

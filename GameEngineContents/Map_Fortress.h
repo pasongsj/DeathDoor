@@ -47,6 +47,7 @@ private:
 
 	// Cube
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Cube = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Cube2 = nullptr;
 	
 	// 분할 obj 파트 
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part1 = nullptr;
@@ -61,7 +62,13 @@ private:
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part10 = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part11 = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part12 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part13 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part14 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part15 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part16 = nullptr;
 	
+
+
 
 	const float4 m_MapRot = float4{ 0 , -130 , 0 };
 	const float4 m_MapPos = float4{ 0, 0 , 0 };
