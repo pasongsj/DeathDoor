@@ -61,7 +61,7 @@ void FortressLevel::LevelChangeStart()
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
 
 	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
-	Light->GetTransform()->SetLocalRotation(float4{ 0, 90 , 0 });
+	Light->GetTransform()->SetLocalRotation(float4{ 45, 90 , 0 });
 
 	m_pMap = CreateActor<Map_Fortress>();
 

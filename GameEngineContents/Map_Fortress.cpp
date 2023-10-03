@@ -48,30 +48,47 @@ void Map_Fortress::Start()
 
 void Map_Fortress::Update(float _DeltaTime)
 {
+	
 }
 
-
-// 임시로 오피스로 적용 
 void Map_Fortress::InitComponent()
 {
-	// 맵 렌더러 
-	//m_pRenderer_Part1 = CreateComponent<ContentFBXRenderer>();
-	//m_pRenderer_Part1->SetFBXMesh("Fortress_Part1.fbx", "ContentMeshDeffered");
-	//m_pRenderer_Part1->GetTransform()->SetLocalRotation(m_MapRot);
-	//m_pRenderer_Part1->GetTransform()->SetLocalPosition(float4 { -8480, 140, -7360 });
-	//m_pRenderer_Part1->CalculateUnitPos();
-	//
-	//m_pRenderer_Part2 = CreateComponent<ContentFBXRenderer>();
-	//m_pRenderer_Part2->SetFBXMesh("Fortress_Part2.fbx", "ContentMeshDeffered");
-	//m_pRenderer_Part2->GetTransform()->SetLocalRotation(m_MapRot);
-	//m_pRenderer_Part2->GetTransform()->SetLocalPosition(float4{ -8334, 100, -6458 });
-	//m_pRenderer_Part2->CalculateUnitPos();
+	// 바닥 
+	Create_Ground();
 
-	//m_pRenderer_Part3 = CreateComponent<ContentFBXRenderer>();
-	//m_pRenderer_Part3->SetFBXMesh("Fortress_Part3.fbx", "ContentMeshDeffered");
-	//m_pRenderer_Part3->GetTransform()->SetLocalRotation(m_MapRot);
-	//m_pRenderer_Part3->GetTransform()->SetLocalPosition(float4{ -3844, 100 , -12898 });
-	//m_pRenderer_Part3->CalculateUnitPos();
+	// 파티션 분할 
+	Create_Partition();
+
+	// 네비메쉬  
+	Create_PhysXComponent();
+}
+
+void Map_Fortress::Create_Ground()
+{
+	// 맵 렌더러 
+	m_pRenderer_Section1 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Section1->SetFBXMesh("Fortress_Section_1.fbx", "ContentMeshDeffered");
+	m_pRenderer_Section1->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Section1->GetTransform()->SetLocalPosition(float4{ -4770, 19317, 4610 });
+	m_pRenderer_Section1->CalculateUnitPos();
+
+	m_pRenderer_Cube = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Cube->SetFBXMesh("Fortress_Cube.fbx", "ContentMeshDeffered");
+	m_pRenderer_Cube->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Cube->GetTransform()->SetLocalPosition(float4{ -3910, -800, -300 });
+	m_pRenderer_Cube->CalculateUnitPos();
+
+	m_pRenderer_Section2 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Section2->SetFBXMesh("Fortress_Section_2.fbx", "ContentMeshDeffered");
+	m_pRenderer_Section2->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Section2->GetTransform()->SetLocalPosition(float4{ -5894, -8, 3716 });
+	m_pRenderer_Section2->CalculateUnitPos();
+
+	m_pRenderer_Section3 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Section3->SetFBXMesh("Fortress_Section_3.fbx", "ContentMeshDeffered");
+	m_pRenderer_Section3->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Section3->GetTransform()->SetLocalPosition(float4{ -1900, -604, 3160 });
+	m_pRenderer_Section3->CalculateUnitPos();
 
 	//auto AllUnit = m_pRenderer_Part3->GetAllRenderUnit();
 	//auto UnTextureUnit = m_pRenderer_Part3->GetUnTexturedUnit();
@@ -80,41 +97,32 @@ void Map_Fortress::InitComponent()
 	//AllUnit[48][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
 	//AllUnit[49][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
 
-	//// uv 박살 , 이후 수정필요 
-	//AllUnit[50][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
-	//// AllUnit[50][0]->UVdata = { 0.07f, 0.07f, 0.0f, 0.0f };
-	//AllUnit[50][1]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
-	//AllUnit[50][2]->ShaderResHelper.SetTexture("DiffuseTexture", "Ground_AncientBlueStone_ForestDungeon_Var02_DIFF_brightness.png");
+}
 
-	//m_pRenderer_Part4 = CreateComponent<ContentFBXRenderer>();
-	//m_pRenderer_Part4->SetFBXMesh("Fortress_Part4.fbx", "ContentMeshDeffered");
-	//m_pRenderer_Part4->GetTransform()->SetLocalRotation(m_MapRot);
-	//m_pRenderer_Part4->GetTransform()->SetLocalPosition(float4{ -6474, 190 , -12078 });
-	//m_pRenderer_Part4->CalculateUnitPos();
+void Map_Fortress::Create_Partition()
+{
+	m_pRenderer_Part1 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part1->SetFBXMesh("Fortress_Part_1.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part1->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part1->GetTransform()->SetLocalPosition(float4{ -330, 300, 430 });
+	m_pRenderer_Part1->CalculateUnitPos();
 
-	//m_pRenderer_Part5 = CreateComponent<ContentFBXRenderer>();
-	//m_pRenderer_Part5->SetFBXMesh("Fortress_Part5.fbx", "ContentMeshDeffered");
-	//m_pRenderer_Part5->GetTransform()->SetLocalRotation(m_MapRot);
-	//m_pRenderer_Part5->GetTransform()->SetLocalPosition(float4{ -4464, 320 , -15492 });
-	//m_pRenderer_Part5->CalculateUnitPos();
+	m_pRenderer_Part2 = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer_Part2->SetFBXMesh("Fortress_Part_2.fbx", "ContentMeshDeffered");
+	m_pRenderer_Part2->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pRenderer_Part2->GetTransform()->SetLocalPosition(float4{ -9220, 328, 11650 });
+	m_pRenderer_Part2->CalculateUnitPos();
+}
 
-	// 위치조정필요 
-	/*m_pRenderer_Part6 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part6->SetFBXMesh("Fortress_Part6.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part6->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part6->GetTransform()->SetLocalPosition(float4{ -5222, 574 , -14561 });
-	m_pRenderer_Part6->CalculateUnitPos();*/
-
-
-
+void Map_Fortress::Create_PhysXComponent()
+{
 	// 네비메쉬 위치확인용 렌더러 
-	m_pNaviRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pNaviRenderer->SetFBXMesh("Fortress_FullMap_NavMesh.fbx", "MeshTexture");
+	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pNaviRenderer->SetFBXMesh("Fortress_FullMap_NavMesh.fbx", "ContentMeshDeffered");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
-	//m_pNaviRenderer->Off();
+	// m_pNaviRenderer->Off();
 
-	
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	m_pTriangleComp->CreatePhysXActors("Fortress_FullMap_NavMesh.fbx", true);
