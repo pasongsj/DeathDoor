@@ -357,7 +357,6 @@ void PhysXCapsuleComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 	relativePose.p = DynamicCenter;
 
-	//relativePose.p = DynamicCenter;
 	m_pShape->setLocalPose(relativePose);
 
 	//충돌할때 필요한 필터 데이터
