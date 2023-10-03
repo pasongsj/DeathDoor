@@ -102,7 +102,6 @@ protected:
 
 private:
 	bool m_bSpeedLimit = false;
-
 	physx::PxVec3 GeoMetryScale;
 
 	//속도제한 함수

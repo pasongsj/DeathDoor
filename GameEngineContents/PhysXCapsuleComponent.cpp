@@ -260,14 +260,23 @@ void PhysXCapsuleComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _G
 
 
 	//피벗 설정
-	float CapsuleHeight = ScaledHeight * 1.8f;
-	physx::PxVec3 DynamicCenter = physx::PxVec3{ 0.0f, CapsuleHeight, 0.0f };
+	m_fShapeCenter = float4(0.f, ScaledHeight * 1.8f, 0.f);
+	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 	relativePose.p = DynamicCenter;
 	m_pShape->setLocalPose(relativePose);
-	
-	m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic),
-		static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle), 0, 0));
+
+	//충돌할때 필요한 필터 데이터
+	m_pShape->setSimulationFilterData
+	(
+		physx::PxFilterData
+		(
+			static_cast<physx::PxU32>(PhysXFilterGroup::None),
+			0,
+			0,
+			0
+		)
+	);
 	m_pShape->setContactOffset(0.2f);
 
 
@@ -342,10 +351,13 @@ void PhysXCapsuleComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _
 	physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.01f);
 
 	//피벗 설정
-	float CapsuleHeight = ScaledHeight * 1.8f;
-	physx::PxVec3 DynamicCenter = physx::PxVec3{ 0.0f, CapsuleHeight, 0.0f };
+	m_fShapeCenter = float4(0.f,ScaledHeight * 1.8f,0.f);
+	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
+	DynamicCenter += m_f4DynamicPivot.PhysXVec3Return();
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 	relativePose.p = DynamicCenter;
+
+	//relativePose.p = DynamicCenter;
 	m_pShape->setLocalPose(relativePose);
 
 	//충돌할때 필요한 필터 데이터

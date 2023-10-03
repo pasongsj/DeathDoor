@@ -56,6 +56,11 @@ public:
 	inline void SetDynamicPivot(float4 _Pivot)
 	{
 		m_f4DynamicPivot = _Pivot;
+		m_f4DynamicPivot += m_fShapeCenter;
+		physx::PxTransform Transform;
+		Transform = physx::PxTransform(m_pShape->getLocalPose().q);
+		Transform.p = m_f4DynamicPivot.PhysXVec3Return();
+		m_pShape->setLocalPose(Transform);
 	}	
 
 	inline void SetAggregateObj(bool _Flag)
@@ -159,7 +164,7 @@ protected:
 	float m_fDynamicFriction = 0.0f;
 	float m_fResitution = 0.0f;
 
-	float4 m_f4DynamicPivot = {0.0f, 0.0f, 0.0f};
+	float4 m_f4DynamicPivot = float4::ZERO;
 	bool m_bAggregateObj = false;
 	bool m_bStatic = false;
 
@@ -174,6 +179,7 @@ protected:
 	physx::PxShape* m_pShape = nullptr;
 	
 
+	float4 m_fShapeCenter = float4::ZERO;
 	bool PositionSetFromParentFlag = false;
 private:
 };
