@@ -106,8 +106,8 @@ void Map_Office::InitComponent()
 
 
 	// 네비메쉬 위치확인용 렌더러 
-	m_pNaviRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pNaviRenderer->SetFBXMesh("Map_Office_NaviMesh_Fix.fbx", "MeshTexture");
+	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pNaviRenderer->SetFBXMesh("Map_Office_NaviMesh_Fix.fbx", "ContentMeshDeffered");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
 	m_pNaviRenderer->Off();
