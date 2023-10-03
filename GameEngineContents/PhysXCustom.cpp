@@ -58,8 +58,8 @@ void CustomSimulationEventCallback::onTrigger(physx::PxTriggerPair* pairs, physx
 		physx::PxFilterData OtherFilterdata = OtherShape->getSimulationFilterData();
 
 		//둘 중 하나라도 충돌 필터 없으면 continue
-		if (TriggerFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::None) ||
-			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::None))
+		if (0 == TriggerFilterdata.word0 /* & static_cast<physx::PxU32>(PhysXFilterGroup::None)*/ ||
+			0 == OtherFilterdata.word0 /*& static_cast<physx::PxU32>(PhysXFilterGroup::None)*/)
 		{
 			continue;
 		}
@@ -67,17 +67,18 @@ void CustomSimulationEventCallback::onTrigger(physx::PxTriggerPair* pairs, physx
 		// 필터 두개를 make_pair
 		
 
-		if (GlobalValue::PhysXCollision.end() == GlobalValue::PhysXCollision.find(std::make_pair(static_cast<UINT>(TriggerFilterdata.word0), static_cast<UINT>(OtherFilterdata.word0)))||
-			GlobalValue::PhysXCollision.end() == GlobalValue::PhysXCollision.find(std::make_pair(static_cast<UINT>(OtherFilterdata.word0), static_cast<UINT>(TriggerFilterdata.word0)))
+		if (GlobalValue::PhysXCollision.end() != GlobalValue::PhysXCollision.find(std::make_pair(static_cast<UINT>(TriggerFilterdata.word0), static_cast<UINT>(OtherFilterdata.word0)))||
+			GlobalValue::PhysXCollision.end() != GlobalValue::PhysXCollision.find(std::make_pair(static_cast<UINT>(OtherFilterdata.word0), static_cast<UINT>(TriggerFilterdata.word0)))
 			) // 두개의 충돌을 체크한다면
 		{
+			std::atomic_uint filterbit = (static_cast<UINT>(TriggerFilterdata.word0) | static_cast<UINT>(OtherFilterdata.word0));
 			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) // 첫 충돌 했을 때
 			{
 
 				GameEngineActor* TestTrigger = reinterpret_cast<GameEngineActor*>(TriggerShape->userData);
 				GameEngineActor* TestActor = reinterpret_cast<GameEngineActor*>(OtherShape->userData);
-				TestTrigger->isPhysXCollision = true;
-				TestActor->isPhysXCollision = true;
+				TestTrigger->isPhysXCollision |= filterbit;
+				TestActor->isPhysXCollision |= filterbit;
 				int a = 0;
 			}
 
@@ -86,8 +87,8 @@ void CustomSimulationEventCallback::onTrigger(physx::PxTriggerPair* pairs, physx
 
 				GameEngineActor* TestTrigger = reinterpret_cast<GameEngineActor*>(TriggerShape->userData);
 				GameEngineActor* TestActor = reinterpret_cast<GameEngineActor*>(OtherShape->userData);
-				TestTrigger->isPhysXCollision = false;
-				TestActor->isPhysXCollision = false;
+				TestTrigger->isPhysXCollision = ~(~TestTrigger->isPhysXCollision | filterbit);
+				TestActor->isPhysXCollision = ~(~TestActor->isPhysXCollision | filterbit);
 				int a = 0;
 			}
 		}

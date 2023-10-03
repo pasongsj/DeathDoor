@@ -44,7 +44,13 @@ void EnemyFirePlant::Start()
 
 void EnemyFirePlant::Update(float _DeltaTime)
 {
-	if (true == isPhysXCollision)
+	if ((isPhysXCollision & 1) == 1)
+	{
+		int a = 0;
+	}
+	UINT playerDy = static_cast<UINT>(PhysXFilterGroup::PlayerSkill);
+	UINT ColPlayer = isPhysXCollision & playerDy;
+	if (0 < ColPlayer)
 	{
 		int a = 0;
 	}
