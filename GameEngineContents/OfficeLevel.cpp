@@ -4,7 +4,6 @@
 #include "Map_Office.h"
 #include "Player.h"
 #include "PhysXCapsuleComponent.h"
-#include "GlowEffect.h"
 
 OfficeLevel::OfficeLevel()
 {
@@ -18,9 +17,6 @@ void OfficeLevel::Start()
 {
 	SetLevelType(PacketLevelType::OfficeLevel);
 	InitKey();
-	
-	std::shared_ptr<GlowEffect> NewEffect = GetMainCamera()->GetDeferredLightTarget()->CreateEffect<GlowEffect>();
-	NewEffect->Init(DynamicThis<GameEngineLevel>(), 3.5f);
 }
 
 void OfficeLevel::Update(float _DeltaTime)
