@@ -1,6 +1,7 @@
 #include "PrecompileHeader.h"
 #include "Fountain.h"
 #include "PhysXBoxComponent.h"
+#include "ContentFBXRenderer.h"
 
 
 Fountain::Fountain()
@@ -22,8 +23,8 @@ void Fountain::Update(float _DeltaTime)
 
 void Fountain::InitComponent()
 {
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("Fountain__1_.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("Fountain__1_.fbx", "ContentMeshDeffered");
 	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();

@@ -40,6 +40,14 @@ void GameEngineCore::CoreResourcesInit()
 		{
 			GameEngineTexture::Load(File[i].GetFullPath());
 		}
+
+		std::vector<GameEngineFile> FBXFile = NewDir.GetAllFile({ ".FBX", });
+
+
+		for (size_t i = 0; i < FBXFile.size(); i++)
+		{
+			GameEngineFBXMesh::Load(FBXFile[i].GetFullPath());
+		}
 	}
 
 
@@ -203,7 +211,6 @@ void GameEngineCore::CoreResourcesInit()
 		GameEngineMesh::Create("FullRect");
 	}
 
-
 	{
 		std::vector<GameEngineVertex> Vertex;
 		Vertex.resize(24);
@@ -214,43 +221,44 @@ void GameEngineCore::CoreResourcesInit()
 		Vertex[3] = { float4(-0.5f, -0.5f, 0.5f), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, 1.0f) };
 
 		// 뒷면
-		Vertex[4] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(180) , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
-		Vertex[5] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(180)  , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
-		Vertex[6] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(180) , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
-		Vertex[7] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(180), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
+		Vertex[4] = { Vertex[0].POSITION.RotaitonXDegReturn(180) , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
+		Vertex[5] = { Vertex[1].POSITION.RotaitonXDegReturn(180)  , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
+		Vertex[6] = { Vertex[2].POSITION.RotaitonXDegReturn(180) , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
+		Vertex[7] = { Vertex[3].POSITION.RotaitonXDegReturn(180), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 0.0f, -1.0f) };
 
 		// 왼쪽
-		Vertex[8] = { float4(-0.5f, 0.5f, 0.5f).RotaitonYDegReturn(-90) , float4(0.0f, 0.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
-		Vertex[9] = { float4(0.5f, 0.5f, 0.5f).RotaitonYDegReturn(-90)  , float4(1.0f, 0.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
-		Vertex[10] = { float4(0.5f, -0.5f, 0.5f).RotaitonYDegReturn(-90) , float4(1.0f, 1.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
-		Vertex[11] = { float4(-0.5f, -0.5f, 0.5f).RotaitonYDegReturn(-90), float4(0.0f, 1.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
+		Vertex[8] = { Vertex[0].POSITION.RotaitonYDegReturn(-90) , float4(0.0f, 0.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
+		Vertex[9] = { Vertex[1].POSITION.RotaitonYDegReturn(-90)  , float4(1.0f, 0.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
+		Vertex[10] = { Vertex[2].POSITION.RotaitonYDegReturn(-90) , float4(1.0f, 1.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
+		Vertex[11] = { Vertex[3].POSITION.RotaitonYDegReturn(-90), float4(0.0f, 1.0f), float4::RED, float4(1.0f, 0.0f, 0.0f) };
 
 		// 오른쪽
-		Vertex[12] = { float4(-0.5f, 0.5f, 0.5f).RotaitonYDegReturn(90) , float4(0.0f, 0.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
-		Vertex[13] = { float4(0.5f, 0.5f, 0.5f).RotaitonYDegReturn(90)  , float4(1.0f, 0.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
-		Vertex[14] = { float4(0.5f, -0.5f, 0.5f).RotaitonYDegReturn(90) , float4(1.0f, 1.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
-		Vertex[15] = { float4(-0.5f, -0.5f, 0.5f).RotaitonYDegReturn(90), float4(0.0f, 1.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
+		Vertex[12] = { Vertex[0].POSITION.RotaitonYDegReturn(90) , float4(0.0f, 0.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
+		Vertex[13] = { Vertex[1].POSITION.RotaitonYDegReturn(90)  , float4(1.0f, 0.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
+		Vertex[14] = { Vertex[2].POSITION.RotaitonYDegReturn(90) , float4(1.0f, 1.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
+		Vertex[15] = { Vertex[3].POSITION.RotaitonYDegReturn(90), float4(0.0f, 1.0f), float4::RED, float4(-1.0f, 0.0f, 0.0f) };
 
 
 		// 위
-		Vertex[16] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(-90) , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
-		Vertex[17] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(-90)  , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
-		Vertex[18] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(-90) , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
-		Vertex[19] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(-90), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
+		Vertex[16] = { Vertex[0].POSITION.RotaitonXDegReturn(-90) , float4(0.0f, 0.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
+		Vertex[17] = { Vertex[1].POSITION.RotaitonXDegReturn(-90)  , float4(1.0f, 0.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
+		Vertex[18] = { Vertex[2].POSITION.RotaitonXDegReturn(-90) , float4(1.0f, 1.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
+		Vertex[19] = { Vertex[3].POSITION.RotaitonXDegReturn(-90), float4(0.0f, 1.0f), float4::RED, float4(0.0f, 1.0f, 0.0f) };
 
 		// 아래
-		Vertex[20] = { float4(-0.5f, 0.5f, 0.5f).RotaitonXDegReturn(90) , float4(0.0f, 0.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
-		Vertex[21] = { float4(0.5f, 0.5f, 0.5f).RotaitonXDegReturn(90)  , float4(1.0f, 0.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
-		Vertex[22] = { float4(0.5f, -0.5f, 0.5f).RotaitonXDegReturn(90) , float4(1.0f, 1.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
-		Vertex[23] = { float4(-0.5f, -0.5f, 0.5f).RotaitonXDegReturn(90), float4(0.0f, 1.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
+		Vertex[20] = { Vertex[0].POSITION.RotaitonXDegReturn(90) , float4(0.0f, 0.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
+		Vertex[21] = { Vertex[1].POSITION.RotaitonXDegReturn(90)  , float4(1.0f, 0.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
+		Vertex[22] = { Vertex[2].POSITION.RotaitonXDegReturn(90) , float4(1.0f, 1.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
+		Vertex[23] = { Vertex[3].POSITION.RotaitonXDegReturn(90), float4(0.0f, 1.0f), float4::RED, float4(1.0f, -1.0f, 0.0f) };
 
 
 		GameEngineVertexBuffer::Create("Box", Vertex);
 	}
 
-	{
+
 		std::vector<int> Index;
-		// Index.resize(36);
+		Index.resize(36);
+
 		for (int i = 0; i < 6; i++)
 		{
 			Index.push_back(i * 4 + 2);
@@ -262,10 +270,29 @@ void GameEngineCore::CoreResourcesInit()
 			Index.push_back(i * 4 + 0);
 		}
 
-
 		GameEngineIndexBuffer::Create("DebugBox", Index);
+	
+		std::vector<int> Index2;
+		for (int i = 0; i < 6; i++)
+		{
+			Index2.push_back(i * 4 + 0);
+			Index2.push_back(i * 4 + 1);
+			Index2.push_back(i * 4 + 2);
+
+			Index2.push_back(i * 4 + 2);
+			Index2.push_back(i * 4 + 3);
+			Index2.push_back(i * 4 + 0);
+		}
+	
+		GameEngineIndexBuffer::Create("PhysXDebugBox", Index2);
+	
 		{
 			std::shared_ptr<GameEngineMesh> Mesh = GameEngineMesh::Create("DebugBox", "Box", "DebugBox");
+			Mesh->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		}
+
+		{
+			std::shared_ptr<GameEngineMesh> Mesh = GameEngineMesh::Create("PhysXDebugBox", "Box", "PhysXDebugBox");
 			Mesh->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 		}
 
@@ -273,8 +300,8 @@ void GameEngineCore::CoreResourcesInit()
 			std::shared_ptr<GameEngineMesh> Mesh = GameEngineMesh::Create("Box", "Box", "DebugBox");
 			Mesh->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		}
-	}
-
+	
+	
 
 	// Sphere
 		// 스피어
@@ -407,114 +434,117 @@ void GameEngineCore::CoreResourcesInit()
 			GameEngineVertex V;
 			std::vector<GameEngineVertex> VBVector;
 			std::vector<UINT> IBVector;
+			std::shared_ptr<GameEngineFBXMesh> Capsule = GameEngineFBXMesh::Find("CapsuleDebugMesh.FBX");
+			Capsule->Initialize();
+			VBVector = Capsule->GetRenderUnit(0)->Vertexs;
+			IBVector = Capsule->GetRenderUnit(0)->Indexs[0];
+			//float Radius = 0.5f;
+			//// 북극점부터 시작합니다.
+			//V.POSITION = float4(0.0f, Radius, 0.0f, 1.0f);
+			//V.TEXCOORD = float4(0.5f, 0.0f);
+			//// 노말 백터 혹은 법선백터라고 불리며
+			//// 면에 수직인 벡터를 의미하게 된다.
+			//// 빛을 반사할때 필수.
+			//V.NORMAL = float4(0.0f, Radius, 0.0f, 1.0f);
+			//V.NORMAL.Normalize();
+			//V.NORMAL.w = 0.0f;
+			//V.TANGENT = float4(1.0f, 0.0f, 0.0f, 0.0f);
+			//V.BINORMAL = float4(0.0f, 0.0f, 1.0f, 0.0f);
 
-			float Radius = 0.5f;
-			// 북극점부터 시작합니다.
-			V.POSITION = float4(0.0f, Radius, 0.0f, 1.0f);
-			V.TEXCOORD = float4(0.5f, 0.0f);
-			// 노말 백터 혹은 법선백터라고 불리며
-			// 면에 수직인 벡터를 의미하게 된다.
-			// 빛을 반사할때 필수.
-			V.NORMAL = float4(0.0f, Radius, 0.0f, 1.0f);
-			V.NORMAL.Normalize();
-			V.NORMAL.w = 0.0f;
-			V.TANGENT = float4(1.0f, 0.0f, 0.0f, 0.0f);
-			V.BINORMAL = float4(0.0f, 0.0f, 1.0f, 0.0f);
+			//VBVector.push_back(V);
 
-			VBVector.push_back(V);
+			//UINT iStackCount = 16; // 가로 분할 개수입니다.
+			//UINT iSliceCount = 16; // 세로분할 개수
 
-			UINT iStackCount = 16; // 가로 분할 개수입니다.
-			UINT iSliceCount = 16; // 세로분할 개수
+			//float yRotAngle = GameEngineMath::PIE / (float)iStackCount;
+			//float zRotAngle = (GameEngineMath::PIE * 2) / (float)iSliceCount;
 
-			float yRotAngle = GameEngineMath::PIE / (float)iStackCount;
-			float zRotAngle = (GameEngineMath::PIE * 2) / (float)iSliceCount;
+			//// UV의 가로세로 간격값을 구한다.
+			//float yUvRatio = 1.0f / (float)iStackCount;
+			//float zUvRatio = 1.0f / (float)iStackCount;
 
-			// UV의 가로세로 간격값을 구한다.
-			float yUvRatio = 1.0f / (float)iStackCount;
-			float zUvRatio = 1.0f / (float)iStackCount;
+			//for (UINT y = 1; y < iStackCount; ++y)
+			//{
+			//	// 각 간격에 대한 각도값
+			//	float phi = y * yRotAngle;
+			//	for (UINT z = 0; z < iSliceCount + 1; ++z)
+			//	{
+			//		float theta = z * zRotAngle;
+			//		V.POSITION = float4{
+			//			Radius * sinf(y * yRotAngle) * cosf(z * zRotAngle),
+			//			Radius * cosf(y * yRotAngle),
+			//			Radius * sinf(y * yRotAngle) * sinf(z * zRotAngle),
+			//			1.0f // 위치 크기 값에 영향을 주기 위해서
+			//		};
 
-			for (UINT y = 1; y < iStackCount; ++y)
-			{
-				// 각 간격에 대한 각도값
-				float phi = y * yRotAngle;
-				for (UINT z = 0; z < iSliceCount + 1; ++z)
-				{
-					float theta = z * zRotAngle;
-					V.POSITION = float4{
-						Radius * sinf(y * yRotAngle) * cosf(z * zRotAngle),
-						Radius * cosf(y * yRotAngle),
-						Radius * sinf(y * yRotAngle) * sinf(z * zRotAngle),
-						1.0f // 위치 크기 값에 영향을 주기 위해서
-					};
+			//		// V.Pos *= GameEngineRandom::RandomFloat(-0.9f, 0.1f);
 
-					// V.Pos *= GameEngineRandom::RandomFloat(-0.9f, 0.1f);
+			//		V.TEXCOORD = float4(yUvRatio * z, zUvRatio * y);
+			//		V.NORMAL = V.POSITION.NormalizeReturn();
+			//		V.NORMAL.w = 0.0f;
 
-					V.TEXCOORD = float4(yUvRatio * z, zUvRatio * y);
-					V.NORMAL = V.POSITION.NormalizeReturn();
-					V.NORMAL.w = 0.0f;
+			//		V.TANGENT.x = -Radius * sinf(phi) * sinf(theta);
+			//		V.TANGENT.y = 0.0f;
+			//		V.TANGENT.z = Radius * sinf(phi) * cosf(theta);
+			//		V.TANGENT = V.TANGENT.NormalizeReturn();
+			//		V.TANGENT.w = 0.0f;
 
-					V.TANGENT.x = -Radius * sinf(phi) * sinf(theta);
-					V.TANGENT.y = 0.0f;
-					V.TANGENT.z = Radius * sinf(phi) * cosf(theta);
-					V.TANGENT = V.TANGENT.NormalizeReturn();
-					V.TANGENT.w = 0.0f;
-
-					V.BINORMAL = float4::Cross3DReturn(V.TANGENT, V.NORMAL);
-					V.BINORMAL = V.BINORMAL.NormalizeReturn();
-					V.BINORMAL.w = 0.0f;
+			//		V.BINORMAL = float4::Cross3DReturn(V.TANGENT, V.NORMAL);
+			//		V.BINORMAL = V.BINORMAL.NormalizeReturn();
+			//		V.BINORMAL.w = 0.0f;
 
 
 
-					VBVector.push_back(V);
-				}
-			}
+			//		VBVector.push_back(V);
+			//	}
+			//}
 
-			// 남극점
-			V.POSITION = float4(0.0f, -Radius, 0.0f, 1.0f);
-			V.TEXCOORD = float4(0.5f, 1.0f);
-			V.NORMAL = float4(0.0f, -Radius, 0.0f, 1.0f);
-			V.NORMAL.Normalize();
-			V.NORMAL.w = 0.0f;
-			V.TANGENT = float4(-1.0f, 0.0f, 0.0f, 0.0f);
-			V.BINORMAL = float4(0.0f, 0.0f, -1.0f, 0.0f);
-			VBVector.push_back(V);
+			//// 남극점
+			//V.POSITION = float4(0.0f, -Radius, 0.0f, 1.0f);
+			//V.TEXCOORD = float4(0.5f, 1.0f);
+			//V.NORMAL = float4(0.0f, -Radius, 0.0f, 1.0f);
+			//V.NORMAL.Normalize();
+			//V.NORMAL.w = 0.0f;
+			//V.TANGENT = float4(-1.0f, 0.0f, 0.0f, 0.0f);
+			//V.BINORMAL = float4(0.0f, 0.0f, -1.0f, 0.0f);
+			//VBVector.push_back(V);
 
-			// 인덱스 버퍼를 만듭니다.
-			IBVector.clear();
+			//// 인덱스 버퍼를 만듭니다.
+			//IBVector.clear();
 
-			// 북극점을 이루는 점을 만드는건.
-			for (UINT i = 0; i < iSliceCount; i++)
-			{
-				// 시작은 무조건 북극점
-				IBVector.push_back(0);
-				IBVector.push_back(i + 2);
-				IBVector.push_back(i + 1);
-			}
+			//// 북극점을 이루는 점을 만드는건.
+			//for (UINT i = 0; i < iSliceCount; i++)
+			//{
+			//	// 시작은 무조건 북극점
+			//	IBVector.push_back(0);
+			//	IBVector.push_back(i + 2);
+			//	IBVector.push_back(i + 1);
+			//}
 
-			for (UINT y = 0; y < iStackCount - 2; y++)
-			{
-				for (UINT z = 0; z < iSliceCount; z++)
-				{
-					IBVector.push_back((iSliceCount + 1) * y + z + 1);
-					IBVector.push_back((iSliceCount + 1) * (y + 1) + (z + 1) + 1);
-					IBVector.push_back((iSliceCount + 1) * (y + 1) + z + 1);
+			//for (UINT y = 0; y < iStackCount - 2; y++)
+			//{
+			//	for (UINT z = 0; z < iSliceCount; z++)
+			//	{
+			//		IBVector.push_back((iSliceCount + 1) * y + z + 1);
+			//		IBVector.push_back((iSliceCount + 1) * (y + 1) + (z + 1) + 1);
+			//		IBVector.push_back((iSliceCount + 1) * (y + 1) + z + 1);
 
-					IBVector.push_back((iSliceCount + 1) * y + z + 1);
-					IBVector.push_back((iSliceCount + 1) * y + (z + 1) + 1);
-					IBVector.push_back((iSliceCount + 1) * (y + 1) + (z + 1) + 1);
+			//		IBVector.push_back((iSliceCount + 1) * y + z + 1);
+			//		IBVector.push_back((iSliceCount + 1) * y + (z + 1) + 1);
+			//		IBVector.push_back((iSliceCount + 1) * (y + 1) + (z + 1) + 1);
 
-				}
-			}
+			//	}
+			//}
 
-			// 마지막으로 남극점 인덱스
-			UINT iBotIndex = (UINT)VBVector.size() - 1;
-			for (UINT i = 0; i < iSliceCount; i++)
-			{
-				// 시작은 무조건 북극점
-				IBVector.push_back(iBotIndex);
-				IBVector.push_back(iBotIndex - (i + 2));
-				IBVector.push_back(iBotIndex - (i + 1));
-			}
+			//// 마지막으로 남극점 인덱스
+			//UINT iBotIndex = (UINT)VBVector.size() - 1;
+			//for (UINT i = 0; i < iSliceCount; i++)
+			//{
+			//	// 시작은 무조건 북극점
+			//	IBVector.push_back(iBotIndex);
+			//	IBVector.push_back(iBotIndex - (i + 2));
+			//	IBVector.push_back(iBotIndex - (i + 1));
+			//}
 
 			GameEngineVertexBuffer::Create("Capsule", VBVector);
 			GameEngineIndexBuffer::Create("Capsule", IBVector);

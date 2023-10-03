@@ -16,7 +16,7 @@ void MyTest::Start()
 {
 	//GetLevel()->CreateActor<Player>();
 		
-	TestRd = CreateComponent<GameEngineFBXRenderer>();
+	TestRd = CreateComponent<ContentFBXRenderer>();
 	TestRd->SetFBXMesh("Sphere.fbx", "ContentAniMeshDeffered");
 	TestRd->GetTransform()->SetLocalScale({ 10.0f, 10.0f, 10.0f });
 

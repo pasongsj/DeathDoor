@@ -2,6 +2,7 @@
 #include "Crate.h"
 
 #include "PhysXBoxComponent.h"
+#include "ContentFBXRenderer.h"
 
 Crate::Crate()
 {
@@ -22,10 +23,8 @@ void Crate::Update(float _DeltaTime)
 
 void Crate::InitComponent()
 {
-	
-
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("Crate.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("Crate.fbx", "ContentMeshDeffered");
 	GetTransform()->SetWorldPosition(float4 { 400, 20 ,0 });
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();

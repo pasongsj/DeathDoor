@@ -2,6 +2,11 @@
 #include "GameEngineRenderer.h"
 #include "GameEngineFBXMesh.h"
 
+struct AnimStartFunc
+{
+	bool bStart = true;
+	std::function<void()> pFunc = nullptr;
+};
 
 class FbxExAniData;
 class GameEngineFBXMesh;
@@ -35,6 +40,8 @@ public:
 	float BlendIn = 0.2f;
 	float BlendOut = 0.2f;
 
+	std::map<UINT, AnimStartFunc> StartFunc;
+
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
 	bool IsEnd();
@@ -62,6 +69,8 @@ public:
 	int Start = -1;
 	int End = -1;
 	std::vector<float> FrameTime = std::vector<float>();
+	float BlendIn = 0.01f;
+	float BlendOut = 0.01f;
 };
 
 
@@ -73,6 +82,15 @@ public:
 	float4 RotQuaternion;
 	float4 Pos;
 	float4 RotEuler;
+};
+
+struct AttachTransformInfo
+{
+	int Index = -1;
+	GameEngineTransform* Transform;
+	float4 OffsetPos = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	float4 OffsetRot = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4x4 OffsetMat;
 };
 
 // ¼³¸í :
@@ -95,6 +113,7 @@ public:
 	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex);
 	virtual std::shared_ptr<GameEngineRenderUnit> SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex);
 
+	void SetAnimationStartFunc(const std::string_view& _Name, UINT _Index, std::function<void()> _Func);
 
 	bool IsAnimationEnd()
 	{
@@ -139,7 +158,18 @@ public:
 		Pause = false;
 	}
 
-	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false);
+	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false, float _BlendTime = -1.0f);
+
+	AnimationBoneData GetBoneData(std::string _Name);
+
+	AnimationBoneData GetBoneData(int _Index)
+	{
+		return AnimationBoneDatas[_Index];
+	}
+
+	void SetAttachTransform(std::string_view _Name, GameEngineTransform* _Transform, float4 _OffsetPos = float4(0.0f, 0.0f, 0.0f, 1.0f), float4 _OffsetRot = float4(0.0f, 0.0f, 0.0f, 0.0f));
+
+	void SetAttachTransform(int Index, GameEngineTransform* _Transform, float4 _OffsetPos = float4(0.0f, 0.0f, 0.0f, 1.0f), float4 _OffsetRot = float4(0.0f, 0.0f, 0.0f, 0.0f));
 
 	void CalculateUnitPos();
 
@@ -172,10 +202,17 @@ private:
 	// Structure Buffer¶û ¸µÅ©°¡ µÇ´Â ³à¼®.
 	std::vector<float4x4> AnimationBoneMatrixs;
 
-	float BlendTime; // 0.2
-	float CurBlendTime; // 0.2
-	std::vector<AnimationBoneData> PrevAnimationBoneDatas;
+	std::vector<float4x4> AnimationBoneMatrixsNotOffset;
 
-	std::vector<AnimationBoneData> AnimationBoneDatas;;
+	float BlendTime = 0.0f; // 0.2
+	float CurBlendTime = 0.0f; // 0.2
+
+	void UpdateBlend(float _DeltaTime);
+
+	std::vector <AnimationBoneData> PrevAnimationBoneDatas;
+
+	std::vector<AnimationBoneData> AnimationBoneDatas;
+
+	std::vector<AttachTransformInfo> AttachTransformValue;
 };
 

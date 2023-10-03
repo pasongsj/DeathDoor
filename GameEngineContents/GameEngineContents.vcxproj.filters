@@ -268,6 +268,12 @@
     <ClCompile Include="EnemyGhoul.cpp">
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBruteGold.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackRange.cpp">
+      <Filter>FSMObject\Player</Filter>
+    </ClCompile>
     <ClCompile Include="OfficeLevel.cpp">
       <Filter>Contents\OfficeLevel</Filter>
     </ClCompile>
@@ -573,6 +579,12 @@
     </ClInclude>
     <ClInclude Include="GlowEffect.h">
       <Filter>Component\ContentsRenderer\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBruteGold.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackRange.h">
+      <Filter>FSMObject\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

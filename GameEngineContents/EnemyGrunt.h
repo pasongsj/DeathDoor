@@ -39,6 +39,6 @@ private:
 	void SetFSMFUNC();
 	
 
-	float StateDuration = 0.0f;
-	bool StateChecker = false;
+	//float StateDuration = 0.0f;
+	//bool StateChecker = false;
 };

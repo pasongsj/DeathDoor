@@ -2,6 +2,7 @@
 #include "SecretTile.h"
 
 #include "PhysXBoxComponent.h"
+#include "ContentFBXRenderer.h"
 
 SecretTile::SecretTile()
 {
@@ -25,8 +26,8 @@ void SecretTile::InitComponent()
 {
 	GetTransform()->SetWorldPosition(float4{ -450, 5, 0 });
 
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("FrogTile.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("FrogTile.fbx", "ContentMeshDeffered");
 	float4 Scale = m_pRenderer->GetTransform()->GetLocalScale();
 	Scale.x *= 1.2f;
 	Scale.z *= 1.2f;

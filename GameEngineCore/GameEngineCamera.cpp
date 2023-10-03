@@ -142,6 +142,7 @@ void GameEngineCamera::ReleaseCameraRenderTarget()
 	CamForwardTarget->ReleaseTexture();
 	CamDeferrdTarget->ReleaseTexture();
 	CamAlphaTarget->ReleaseTexture();
+	DeferredPostLightTarget->ReleaseTexture();
 }
 
 void GameEngineCamera::FreeCameraSwitch()
@@ -484,13 +485,14 @@ void GameEngineCamera::CameraTransformUpdate()
 		float4 Dir = GetTransform()->GetLocalForwardVector();
 		float4 WorldPos = GetTransform()->GetWorldPosition();
 		//WorldPos.y = -WorldPos.y;
+		Frustum.CreateFromMatrix(Frustum,Projection);
 		Frustum.Origin = (WorldPos).DirectFloat3;
-		Frustum.Near = Near;
-		Frustum.Far = Far;
-		Frustum.LeftSlope = -(FOV * GameEngineMath::DegToRad) * 0.7f;
-		Frustum.RightSlope = (FOV * GameEngineMath::DegToRad) * 0.7f;
-		Frustum.TopSlope = (FOV / (Width / Height) * GameEngineMath::DegToRad) * 0.7f;
-		Frustum.BottomSlope = -(FOV / (Width / Height) * GameEngineMath::DegToRad) * 0.7f;
+		//Frustum.Near = Near;
+		//Frustum.Far = Far;
+		//Frustum.LeftSlope = -(FOV * GameEngineMath::DegToRad) * 0.7f;
+		//Frustum.RightSlope = (FOV * GameEngineMath::DegToRad) * 0.7f;
+		//Frustum.TopSlope = (FOV / (Width / Height) * GameEngineMath::DegToRad) * 0.7f;
+		//Frustum.BottomSlope = -(FOV / (Width / Height) * GameEngineMath::DegToRad) * 0.7f;
 
 		Frustum.Orientation = GetTransform()->GetWorldQuaternion().DirectFloat4;
 		break;

@@ -2,6 +2,7 @@
 #include "FlowerPot.h"
 
 #include "PhysXBoxComponent.h"
+#include "ContentFBXRenderer.h"
 
 FlowerPot::FlowerPot()
 {
@@ -22,8 +23,8 @@ void FlowerPot::Update(float _DeltaTime)
 
 void FlowerPot::InitComponent()
 {
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("plantBase1__2_.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("plantBase1__2_.fbx", "ContentMeshDeffered");
 	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();

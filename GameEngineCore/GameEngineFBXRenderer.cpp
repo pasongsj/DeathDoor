@@ -26,60 +26,75 @@ void GameEngineFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, 
 // 이걸 통해서 애니메이션을 진행시키고.
 void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 {
-	// 0~24진행이죠?
-	if (false == ParentRenderer->Pause)
+	if (true == ParentRenderer->Pause)
 	{
-		CurFrameTime += _DeltaTime;
-		PlayTime += _DeltaTime;
-		//                      0.1
-		// 1
-		float CurInter = Inter;
-		if (FrameTime.size() > CurFrame)
+		return;
+	}
+
+	CurFrameTime += _DeltaTime;
+	PlayTime += _DeltaTime;
+	//                      0.1
+	// 1
+
+	float CurInter = Inter;
+	if (FrameTime.size() > CurFrame)
+	{
+		CurInter = FrameTime[CurFrame];
+	}
+	while (CurFrameTime >= CurInter)
+	{
+		// 여분의 시간이 남게되죠?
+		// 여분의 시간이 중요합니다.
+		CurFrameTime -= CurInter;
+		++CurFrame;
+		if (StartFunc.end() != StartFunc.find(CurFrame))
 		{
-			CurInter = FrameTime[CurFrame];
+			if (StartFunc[CurFrame].bStart == false && StartFunc[CurFrame].pFunc != nullptr)
+			{
+				StartFunc[CurFrame].pFunc();
+				StartFunc[CurFrame].bStart = true;
+			}
 		}
-		while (CurFrameTime >= CurInter)
+		if (false == bOnceStart && CurFrame == 0)
 		{
-			// 여분의 시간이 남게되죠?
-			// 여분의 시간이 중요합니다.
-			CurFrameTime -= CurInter;
-			++CurFrame;
+			bOnceStart = true;
+			bOnceEnd = false;
+		}
 
-			if (false == bOnceStart && CurFrame == 0)
-			{
-				bOnceStart = true;
-				bOnceEnd = false;
-			}
+		if (CurFrame == (Frames.size() - 1)
+			&& false == bOnceEnd)
+		{
+			bOnceEnd = true;
+			bOnceStart = false;
+			break;
+		}
 
-			if (CurFrame == (Frames.size() - 1)
-				&& false == bOnceEnd)
+		if (CurFrame >= End)
+		{
+			if (true == Loop)
 			{
-				bOnceEnd = true;
-				bOnceStart = false;
-				break;
-			}
+				CurFrame = Start;	
 
-			if (CurFrame >= End)
-			{
-				if (true == Loop)
+				for (std::pair<const UINT, AnimStartFunc>& PairStartFunc : StartFunc)
 				{
-					CurFrame = Start;
-				}
-				else
-				{
-					CurFrame = End - 1;
-					EndValue = true;
+					PairStartFunc.second.bStart = false;
 				}
 			}
+			else
+			{
+				CurFrame = End - 1;
+				EndValue = true;
+			}
+
 		}
 	}
+	
 
 	unsigned int NextFrame = CurFrame + 1;
 	if (NextFrame >= End)
 	{
-		NextFrame = 0;
+		NextFrame = Start;
 	}
-
 
 	// mesh      subset
 	std::vector<std::vector< std::shared_ptr<GameEngineRenderUnit>>>& Units = ParentRenderer->GetAllRenderUnit();
@@ -113,27 +128,14 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternion(CurData.Q, NextData.Q, CurFrameTime);
 		AnimationBoneData[i].Pos = float4::Lerp(CurData.T, NextData.T, CurFrameTime);
 
-		/////////////////////////////////////// 수정 필요 ///////////////////////////////////////
-		//// 블랜드 change animation을 했고 그 이후로 0.2초가 지나지 않았다면
-		//if (/*블랜드중이라면*/false)
-		//{
-		//	// 0.2초를 0~1초 바꿔야 합니다.
-		//
-		//
-		//	// 0~0.2
-		//	// 0~1로 바꾼 값을 
-		//	float BlendRatio = 0.0f;
-		//
-		//
-		//	AnimationBoneData[i].Scale = float4::Lerp(ParentRenderer->PrevAnimationBoneDatas[i].Scale, AnimationBoneData[i].Scale, BlendRatio);
-		//	AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternion(CurData.Q, NextData.Q, CurFrameTime);
-		//	AnimationBoneData[i].Pos = float4::Lerp(CurData.T, NextData.T, CurFrameTime);
-		//}
-		/////////////////////////////////////// 수정 필요 ///////////////////////////////////////
-
 		size_t Size = sizeof(float4x4);
 
 		float4x4 Mat = float4x4::Affine(AnimationBoneData[i].Scale, AnimationBoneData[i].RotQuaternion, AnimationBoneData[i].Pos);
+
+		// 오프셋을 곱하지 않은 본행렬의 부모가 진짜 우리가 생각하는 월드이고
+		ParentRenderer->AnimationBoneMatrixsNotOffset[i] = Mat;
+
+		// 오프셋을 곱해주는 녀석은 버텍스에 곱해지기 위한 녀석이 된다.
 
 		AnimationBoneMatrix[i] = BoneData->BonePos.Offset * Mat;
 	}
@@ -145,7 +147,10 @@ void GameEngineFBXAnimationInfo::Reset()
 	CurFrame = 0;
 	PlayTime = 0.0f;
 	EndValue = false;
-	// Start = 0;
+	for (std::pair<const UINT, AnimStartFunc>& PairStartFunc : StartFunc)
+	{
+		PairStartFunc.second.bStart = false;
+	}
 }
 
 bool GameEngineFBXAnimationInfo::IsEnd()
@@ -173,6 +178,22 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 	}
 
 	FindFBXMesh->Initialize();
+
+	const std::vector<Bone>& Bones = FindFBXMesh->GetAllBone();
+
+	if (Bones.size() != AnimationBoneDatas.size())
+	{
+		AnimationBoneDatas.resize(Bones.size());
+
+		for (size_t i = 0; i < Bones.size(); i++)
+		{
+			float4x4 Offset = Bones[i].BonePos.Offset;
+
+			Offset.Decompose(AnimationBoneDatas[i].Scale, AnimationBoneDatas[i].RotQuaternion, AnimationBoneDatas[i].Pos);
+
+			AnimationBoneDatas[i].RotEuler = AnimationBoneDatas[i].RotQuaternion.QuaternionToEulerDeg();
+		}
+	}
 
 	// 너 몇개 가지고 있어.
 	for (size_t UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
@@ -253,6 +274,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 		}
 
 		AnimationBoneMatrixs.resize(Count);
+		AnimationBoneMatrixsNotOffset.resize(Count);
 		AnimationBoneDatas.resize(Count);
 	}
 
@@ -322,30 +344,25 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 	return RenderUnit;
 }
 
-//void GameEngineFBXRenderer::Render(float _DeltaTime)
-//{
-	// GameEngineRenderer::Render(_DeltaTime);
+void GameEngineFBXRenderer::SetAnimationStartFunc(const std::string_view& _Name, UINT _Index, std::function<void()> _Func)
+{	
+	std::string sUpperName = GameEngineString::ToUpper(_Name);
+	if (Animations.end() == Animations.find(sUpperName))
+	{
+		MsgAssert("해당 이름의 애니메이션이 없습니다." + sUpperName);
+		return;
+	}
+	std::shared_ptr< GameEngineFBXAnimationInfo> Info = Animations[sUpperName];
+	//std::weak_ptr<GameEngineFBXAnimationInfo> AnimInfo = Animations[sUpperName];
+	if ((Info->Start > _Index) || (_Index >= Info->End))
+	{
+		MsgAssert("설정하려는 인덱스가 " + sUpperName + "의 최대 프레임인 " + std::to_string(Info->Start)+","+ std::to_string(Info->End) + " 을(를) 넘었습니다");
+		return;
+	}
+	Info->StartFunc[_Index].pFunc = _Func;
+	Info->StartFunc[_Index].bStart = false;
 
-	//for (size_t UnitIndex = 0; UnitIndex < Unit.size(); UnitIndex++)
-	//{
-	//	for (size_t SubSetIndex = 0; SubSetIndex < Unit[UnitIndex].size(); SubSetIndex++)
-	//	{
-	//		if (nullptr == Unit[UnitIndex][SubSetIndex]->Pipe)
-	//		{
-	//			continue;
-	//		}
-
-	//		//if (nullptr == Unit[UnitIndex][SubSetIndex].GetMaterial()->GetPixelShader()->GetIsDeffered())
-	//		//{
-	//		//	continue;
-	//		//}
-
-	//		Unit[UnitIndex][SubSetIndex]->Render(_DeltaTime);
-	//	}
-	//}
-//}
-
-
+}
 
 void GameEngineFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBXName, const AnimationCreateParams& _Params, int _Index)
 {
@@ -389,6 +406,8 @@ void GameEngineFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName
 	NewAnimation->ParentRenderer = this;
 	NewAnimation->Inter = _Params.Inter;
 	NewAnimation->Loop = _Params.Loop;
+	NewAnimation->BlendIn = _Params.BlendIn;
+	NewAnimation->BlendOut = _Params.BlendOut;
 	NewAnimation->Reset();
 
 	if (-1 != _Params.Start)
@@ -413,7 +432,7 @@ void GameEngineFBXRenderer::PauseSwtich()
 	Pause = !Pause;
 }
 
-void GameEngineFBXRenderer::ChangeAnimation(const std::string& _AnimationName, bool _Force /*= false*/)
+void GameEngineFBXRenderer::ChangeAnimation(const std::string& _AnimationName, bool _Force, float _BlendTime)
 {
 	std::string UpperName = GameEngineString::ToUpper(_AnimationName);
 
@@ -428,6 +447,23 @@ void GameEngineFBXRenderer::ChangeAnimation(const std::string& _AnimationName, b
 	if (false == _Force && CurAnimation == FindIter->second)
 	{
 		return;
+	}
+	//change
+
+	// prev
+	CurBlendTime = 0.0f;
+	BlendTime = 0.0f;
+	if (nullptr != CurAnimation)
+	{
+		PrevAnimationBoneDatas = AnimationBoneDatas;
+		if (_BlendTime < 0.0f)// 설정하지 않았다면 default
+		{
+			BlendTime = CurAnimation->BlendOut + FindIter->second->BlendIn;
+		}
+		else
+		{
+			BlendTime = _BlendTime;
+		}
 	}
 	FindIter->second->Reset();
 	CurAnimation = FindIter->second;
@@ -461,6 +497,38 @@ void GameEngineFBXRenderer::CalculateUnitPos()
 		}
 	}
 }
+void GameEngineFBXRenderer::UpdateBlend(float _DeltaTime)
+{
+
+	for (int i = 0; i < AnimationBoneMatrixs.size(); i++)
+	{
+
+		Bone* BoneData = GetFBXMesh()->FindBone(i);
+
+		//if (true == FBXAnimationData->AniFrameData[i].BoneMatData.empty())
+		//{
+		//	AnimationBoneMatrixs[i] = float4x4::Affine(BoneData->BonePos.GlobalScale, BoneData->BonePos.GlobalRotation, BoneData->BonePos.GlobalTranslation);
+		//	return;
+		//}
+
+		// 애니메이션 블랜드 등은 하나도 안들어가 있다.
+
+		//FbxExBoneFrameData& CurData = FBXAnimationData->AniFrameData[i].BoneMatData[CurFrame];
+		float LerpTime = CurBlendTime / BlendTime;
+		FbxExBoneFrameData& NextData = CurAnimation->FBXAnimationData->AniFrameData[i].BoneMatData[CurAnimation->CurFrame];
+
+		AnimationBoneDatas[i].Scale = float4::Lerp(PrevAnimationBoneDatas[i].Scale, NextData.S, LerpTime);
+		AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternion(PrevAnimationBoneDatas[i].RotQuaternion, NextData.Q, LerpTime);
+		AnimationBoneDatas[i].Pos = float4::Lerp(PrevAnimationBoneDatas[i].Pos, NextData.T, LerpTime);
+
+		size_t Size = sizeof(float4x4);
+
+		float4x4 Mat = float4x4::Affine(AnimationBoneDatas[i].Scale, AnimationBoneDatas[i].RotQuaternion, AnimationBoneDatas[i].Pos);
+
+		AnimationBoneMatrixs[i] = BoneData->BonePos.Offset * Mat;
+	}
+
+}
 
 
 void GameEngineFBXRenderer::Update(float _DeltaTime)
@@ -469,8 +537,36 @@ void GameEngineFBXRenderer::Update(float _DeltaTime)
 	{
 		return;
 	}
-
+	if (0.0f != BlendTime && BlendTime > CurBlendTime)
+	{
+		UpdateBlend(_DeltaTime);
+		CurBlendTime += _DeltaTime;
+		return;
+	}
 	CurAnimation->Update(_DeltaTime);
+
+	const TransformData& TransFormData = GetTransform()->GetTransDataRef();
+
+	for (size_t i = 0; i < AttachTransformValue.size(); i++)
+	{
+		AttachTransformInfo& Data = AttachTransformValue[i];
+
+		// 오프셋이 곱해지지 않은 행렬이 실제 본의 위치를 담고 있는 행렬이다.
+		// 버텍스는 오프셋을 기반으로 만들어져있기 때문이다.
+		float4x4 Mat = AnimationBoneMatrixsNotOffset[Data.Index];
+		Mat *= TransFormData.WorldMatrix;
+
+		float4 Scale;
+		float4 Rot;
+		float4 Pos;
+
+		Mat.Decompose(Scale, Rot, Pos);
+
+		// 세팅할때 월드로 해줘야 한다. 
+		// 정말 너무 다양한 상황이 있을수 있기 때문에 월드로 변경해서 넣어줘야 한다.
+		Data.Transform->SetWorldRotation(Rot.QuaternionToEulerDeg() + Data.OffsetRot);
+		Data.Transform->SetWorldPosition(Pos + Data.OffsetPos);
+	}
 }
 
 float4 GameEngineFBXRenderer::GetMeshScale()
@@ -515,4 +611,56 @@ float4 GameEngineFBXRenderer::GetMeshScale()
 	ResultBox.z = f4MaxBox.z - f4MinBox.z;
 
 	return ResultBox;
+}
+
+
+AnimationBoneData GameEngineFBXRenderer::GetBoneData(std::string _Name)
+{
+	Bone* BoneData = FBXMesh->FindBone(_Name);
+
+	AnimationBoneData Data;
+
+	if (nullptr == BoneData)
+	{
+		MsgAssert(std::string(_Name) + "존재하지 않는 본의 데이터를 찾으려고 했습니다.");
+		return Data;
+	}
+
+
+	Data = GetBoneData(BoneData->Index);
+
+	const TransformData& TransFormData = GetTransform()->GetTransDataRef();
+	Data.Pos += TransFormData.LocalPosition;
+	Data.RotEuler = Data.RotQuaternion.QuaternionToEulerDeg();
+
+	return Data;
+}
+
+void GameEngineFBXRenderer::SetAttachTransform(std::string_view _Name, GameEngineTransform* _Transform, float4 _OffsetPos, float4 _OffsetRot)
+{
+	std::string UpperName = GameEngineString::ToUpper(_Name);
+
+	Bone* BoneData = FBXMesh->FindBone(UpperName);
+
+	if (nullptr == BoneData)
+	{
+		MsgAssert(std::string(_Name) + "존재하지 않는 본의 데이터를 찾으려고 했습니다.");
+		return;
+	}
+
+	SetAttachTransform(BoneData->Index, _Transform, _OffsetPos, _OffsetRot);
+}
+
+void GameEngineFBXRenderer::SetAttachTransform(int Index, GameEngineTransform* _Transform, float4 _OffsetPos, float4 _OffsetRot)
+{
+	float4x4 Rot;
+	float4x4 Pos;
+
+	Rot.RotationDeg(_OffsetRot);
+	Pos.Pos(_OffsetPos);
+
+	// OffsetMat.Affine(float4(1.0f, 1.0f, 1.0f), _OffsetRot.EulerDegToQuaternion(), _OffsetPos);
+
+
+	AttachTransformValue.push_back({ Index, _Transform, _OffsetPos, _OffsetRot, Rot * Pos });
 }

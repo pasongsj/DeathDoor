@@ -2,6 +2,8 @@
 #include "SemiCircleTable.h"
 
 #include "PhysXBoxComponent.h"
+#include "ContentFBXRenderer.h"
+
 
 SemiCircleTable::SemiCircleTable()
 {
@@ -22,8 +24,8 @@ void SemiCircleTable::Update(float _DeltaTime)
 
 void SemiCircleTable::InitComponent()
 {
-	m_pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	m_pRenderer->SetFBXMesh("Pipe.fbx", "MeshTexture");
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("Pipe.fbx", "ContentMeshDeffered");
 	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();

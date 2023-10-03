@@ -8,7 +8,8 @@ GameEngineFBXMesh::GameEngineFBXMesh()
 }
 
 GameEngineFBXMesh::~GameEngineFBXMesh()
-{
+{	
+	Release();
 }
 
 
@@ -18,6 +19,27 @@ std::shared_ptr<GameEngineFBXMesh> GameEngineFBXMesh::Load(const std::string& _P
 	Res->SetPath(_Path);
 	Res->LoadMesh(_Path, _Name);
 	return Res;
+}
+
+void GameEngineFBXMesh::UnLoad(const std::string& _Name)
+{
+	GameEngineResource::Remove(_Name);
+	return;
+}
+
+void GameEngineFBXMesh::Release()
+{
+	MeshInfos.clear();
+	MeshInfos.shrink_to_fit();
+	AllBones.clear();
+	AllBones.shrink_to_fit();
+	RenderUnitInfos.clear();
+	RenderUnitInfos.shrink_to_fit();
+	AllBoneStructuredBuffers = nullptr; // 본정보체
+	AllFindMap.clear();
+	ClusterData.clear();
+	ClusterData.shrink_to_fit();
+	IsInit = false;
 }
 
 //
@@ -240,13 +262,14 @@ Bone* GameEngineFBXMesh::FindBone(std::string _Name)
 		MsgAssert("본을 찾는 작업을 하지 않은 매쉬입니다");
 	}
 
-	if (AllFindMap.end() == AllFindMap.find(_Name))
+	std::string sUpperName = GameEngineString::ToUpper(_Name);
+
+	if (AllFindMap.end() == AllFindMap.find(sUpperName))
 	{
 		return nullptr;
 	}
 
-	return AllFindMap[_Name];
-
+	return AllFindMap[sUpperName];
 }
 
 bool GameEngineFBXMesh::IsOddNegativeScale(const fbxsdk::FbxAMatrix& TotalMatrix)
@@ -1476,7 +1499,7 @@ bool GameEngineFBXMesh::ImportBone()
 			}
 
 			Bone& Bone = AllBones[static_cast<int>(LinkIndex)];
-			Bone.Name = Link->GetName();
+			Bone.Name = GameEngineString::ToUpper(Link->GetName());
 
 			if (false == AllFindMap.contains(Link->GetName()))
 			{

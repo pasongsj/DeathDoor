@@ -35,12 +35,16 @@ void FSMObjectBase::Update(float _DeltaTime)
 
 		if (nullptr != FSMFunc[NextState].Start) // ¹Ù²ð FSMÀÇ Start Function
 		{
+			StateDuration = 0.0f;
+			StateChecker = false;
+
 			FSMFunc[NextState].Start();
 		}
 		CurState = NextState;
 	}
 	if (nullptr != FSMFunc[CurState].Update) // FSM Update
 	{
+		StateDuration += _DeltaTime;
 		FSMFunc[CurState].Update(_DeltaTime);
 	}
 }

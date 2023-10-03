@@ -127,7 +127,7 @@ void PhysXCapsuleComponent::Update(float _DeltaTime)
 	{
 		float4 ShapePos = float4(m_pShape->getLocalPose().p.x, m_pShape->getLocalPose().p.y, m_pShape->getLocalPose().p.z);
 		float4 ResultPos = ParentActor.lock()->GetTransform()->GetWorldPosition();
-		ResultPos.y += ShapePos.y;
+		ResultPos.y += ShapePos.y * 0.5f;
 		GetTransform()->SetWorldRotation(ParentActor.lock()->GetTransform()->GetWorldRotation());
 		GetTransform()->SetWorldPosition(ResultPos);
 		//GetTransform()->SetWorldPosition(ParentActor.lock()->GetTransform()->GetWorldPosition());
@@ -361,6 +361,7 @@ void PhysXCapsuleComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _
 	);
 	m_pShape->setContactOffset(0.2f);
 
+	m_pShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	// Scene에 액터 추가
 	m_pShape->userData = GetActor();

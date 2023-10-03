@@ -55,12 +55,12 @@ float4 float4::EulerDegToQuaternion()
 	return Return;
 }
 
-float4 float4::QuaternionToEulerDeg() 
+float4 float4::QuaternionToEulerDeg() const
 {
 	return QuaternionToEulerRad() * GameEngineMath::RadToDeg;
 }
 
-float4 float4::QuaternionToEulerRad()
+float4 float4::QuaternionToEulerRad() const
 {
 	float4 result;
 

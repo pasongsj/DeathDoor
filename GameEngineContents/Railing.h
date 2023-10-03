@@ -28,6 +28,6 @@ protected:
 private:
 	void InitComponent();
 
-	std::shared_ptr<class GameEngineFBXRenderer> m_pRenderer = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
 	std::shared_ptr<class PhysXBoxComponent > m_pComp = nullptr;
 };

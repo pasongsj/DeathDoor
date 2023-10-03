@@ -26,7 +26,7 @@ private:
 	void Render2Dto3D();
 
 	
-	std::shared_ptr<GameEngineFBXRenderer> TestRd = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> TestRd = nullptr;
 
 };
 
