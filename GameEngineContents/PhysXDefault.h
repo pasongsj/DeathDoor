@@ -118,6 +118,12 @@ public:
 		return PhysXManager::GetInst()->RayCast(_vOrigin, _vDir, _vPoint, _fDistance);
 	}
 
+	//false면 레이캐스트에 감지안됨
+	void SetRayCastDetect(bool _Value)
+	{
+		m_pShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, _Value);
+	}
+
 	void CreateScene()
 	{
 		PhysXManager::GetInst()->CreateScene(GameEngineCore::GetCurLevel()->GetName());

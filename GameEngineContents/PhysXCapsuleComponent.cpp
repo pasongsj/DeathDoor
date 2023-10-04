@@ -263,6 +263,7 @@ void PhysXCapsuleComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _G
 	m_fShapeCenter = float4(0.f, ScaledHeight * 1.8f, 0.f);
 	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
+	DynamicCenter += m_f4DynamicPivot.PhysXVec3Return();
 	relativePose.p = DynamicCenter;
 	m_pShape->setLocalPose(relativePose);
 
