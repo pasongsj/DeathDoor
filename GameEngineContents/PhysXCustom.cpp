@@ -145,66 +145,57 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 		physx::PxContactPair current = *pairs++;
 
 		// 액터가 가지고 있는 쉐이프를 모두 가져옴
-		physx::PxShape* tmpContactActor = current.shapes[0];
-		physx::PxShape* tmpOtherActor = current.shapes[1];
+		physx::PxShape* ContactShape = current.shapes[0];
+		physx::PxShape* OtherShape = current.shapes[1];
 
 		//충돌한 본인 혹은 상대의 액터가 null이면 continue
-		if (tmpContactActor->userData == nullptr|| tmpOtherActor->userData == nullptr)
+		if (ContactShape->userData == nullptr|| OtherShape->userData == nullptr)
 		{
 			continue;
 		}
-		physx::PxFilterData ContactFilterdata = tmpContactActor->getSimulationFilterData();
-		physx::PxFilterData OtherFilterdata = tmpOtherActor->getSimulationFilterData();
+		physx::PxFilterData ContactFilterdata = ContactShape->getSimulationFilterData();
+		physx::PxFilterData OtherFilterdata = OtherShape->getSimulationFilterData();
 
-		//둘 중 하나라도 충돌 필터 없으면 continue
-		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::None)|| 
-			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::None))
+		if (0 == ContactFilterdata.word0 /* & static_cast<physx::PxU32>(PhysXFilterGroup::None)*/ ||
+			0 == OtherFilterdata.word0 /*& static_cast<physx::PxU32>(PhysXFilterGroup::None)*/)
 		{
 			continue;
 		}
+		// 실제 데이터가 있는 경우
+		// 필터 두개를 make_pair
 
-		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic)&&// 충돌한 놈의 필터그룹이 플레이어일때
-			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Ground))		  // 충돌한 놈의 필터그룹이 땅일때
+
+		if (GlobalValue::PhysXCollision.end() != GlobalValue::PhysXCollision.find(std::make_pair(static_cast<UINT>(ContactFilterdata.word0), static_cast<UINT>(OtherFilterdata.word0))) ||
+			GlobalValue::PhysXCollision.end() != GlobalValue::PhysXCollision.find(std::make_pair(static_cast<UINT>(OtherFilterdata.word0), static_cast<UINT>(ContactFilterdata.word0)))
+			) // 두개의 충돌을 체크한다면
 		{
-			
-			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) //충돌이 시작된 시점
-			{
-				//userData는 void* 이기에 PhysXComponent를 소유한 액터의 포인터를 넣어 뒀음. 그걸 캐스팅하여 쓰면됨.
-				PhysXTestActor* Test = reinterpret_cast<PhysXTestActor*>(tmpContactActor->userData);
-				int a = 0;
-			}
-			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) //충돌이 유지되는동안 계속 들어옴
+			std::atomic_uint filterbit = (static_cast<UINT>(ContactFilterdata.word0) | static_cast<UINT>(OtherFilterdata.word0));
+			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) // 첫 충돌 했을 때
 			{
 
-				int a = 0;
-				
-			}
-			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) //충돌이 끝나는 시점. 충돌 도중(eNOTIFY_TOUCH_PERSISTS)에 상대방이 죽으면 체크가 안됨
-			{				
-				PhysXTestActor* Test = reinterpret_cast<PhysXTestActor*>(tmpContactActor->userData);
+				GameEngineActor* ContactActor = reinterpret_cast<GameEngineActor*>(ContactShape->userData);
+				GameEngineActor* OtherActor = reinterpret_cast<GameEngineActor*>(OtherShape->userData);
+				ContactActor->isPhysXCollision |= filterbit;
+				OtherActor->isPhysXCollision |= filterbit;
 				int a = 0;
 			}
-		}
 
-		if (ContactFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic) &&// 충돌한 놈의 필터그룹이 플레이어일때
-			OtherFilterdata.word0 & static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle))			// 충돌한 놈의 필터그룹이 장애물일때	
-		{
+			//if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) //충돌이 유지되는동안 계속 들어옴
+			//{
+			//
+			//	GameEngineActor* TestTrigger = reinterpret_cast<GameEngineActor*>(ContactShape->userData);
+			//	GameEngineActor* TestActor = reinterpret_cast<GameEngineActor*>(OtherShape->userData);
+			//	int a = 0;
+			//
+			//}
 
-			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) //충돌이 시작된 시점
-			{
-				//userData는 void* 이기에 PhysXComponent를 소유한 액터의 포인터를 넣어 뒀음. 그걸 캐스팅하여 쓰면됨.
-				PhysXTrigger* Test = reinterpret_cast<PhysXTrigger*>(tmpOtherActor->userData);
-				int a = 0;
-			}
-			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS) //충돌이 유지되는동안 계속 들어옴
+			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) // 충돌이 끝날 때
 			{
 
-				int a = 0;
-
-			}
-			if (current.events & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) //충돌이 끝나는 시점. 충돌 도중(eNOTIFY_TOUCH_PERSISTS)에 상대방이 죽으면 체크가 안됨
-			{
-				PhysXTrigger* Test = reinterpret_cast<PhysXTrigger*>(tmpOtherActor->userData);
+				GameEngineActor* ContactActor = reinterpret_cast<GameEngineActor*>(ContactShape->userData);
+				GameEngineActor* OtherActor = reinterpret_cast<GameEngineActor*>(OtherShape->userData);
+				ContactActor->isPhysXCollision = ~(~ContactActor->isPhysXCollision | filterbit);
+				OtherActor->isPhysXCollision = ~(~OtherActor->isPhysXCollision | filterbit);
 				int a = 0;
 			}
 		}
