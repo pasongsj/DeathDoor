@@ -73,39 +73,46 @@ private:
 	void InitPlayerAnimation();
 	void SetFSMFunc();
 
-	// Render
-	std::shared_ptr<GameEngineFBXRenderer> Renderer = nullptr;
-
+	// Component
+		// Render
+	std::shared_ptr<ContentFBXRenderer> Renderer = nullptr;
+		//physx
+	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
+		//Range
+	std::shared_ptr<GameEngineActor> AttackRange = nullptr;
 
 		// Attack
 	PlayerSkill CurSkill = PlayerSkill::ARROW;
 	void SetSkill();
 	bool isRightAttack = true;
-
-	float StateDuration = 2.0f;
-	bool StateChecker = false;
+	// 베이스어택 3타에 대한 딜레이 체크용
+	int AttackStack = 0;
+	float StackDuration = 0.0f;
 	
 	// Direction
-	float4 NextForwardDir = float4::FORWARD; // 플레이어가 변화 할 방향
-	float4 ForwardDir = float4::FORWARD; // 플레이어가 바라보는 방향
+	//float4 NextForwardDir = float4::BACK; // 플레이어가 변화 할 방향
+	float4 ForwardDir = float4::BACK; // 플레이어가 바라보는 방향
 	float4 MoveDir = float4::FORWARD; // 플레이어가 다음으로 움직일 방향
 	void DirectionUpdate(float _DeltaTime);
 	float4 GetMousDirection();
 	 
 	
-	// input & move
+	// State Controll
 	float StateInputDelayTime = 0.0f;
-	void CheckInput(float _DeltaTime);
+
+	void CheckFalling();
+	void CheckDirInput(float _DeltaTime);
+	void CheckStateInput(float _DeltaTime);
+	void CheckState(float _DeltaTime);
+
 	void CheckClimbInput(float _DeltaTime);
-	void MoveUpdate(float _DeltaTime);
-
-	float MoveSpeed = 500.0f;
-	bool mButton = false;
+	void MoveUpdate(float _MoveVec, float4 _Dir = float4::ZERONULL);	//MoveDir에 해당하는 값만 처리하기 때문에
 
 
-	//physx
-	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
+
 	void DefaultPhysX();
+
+	
 
 
 };

@@ -224,8 +224,8 @@ private:
 	// user >> server
 	//void SendActorPacket(float _DeltaTime);
 
-	void InitCameraRenderTarget();
-	void ReleaseCameraRenderTarget();
+	void InitLevelRenderTarget();
+	void ReleaseLevelRenderTarget();
 
 public:
 

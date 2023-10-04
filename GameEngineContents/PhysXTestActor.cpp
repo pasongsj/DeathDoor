@@ -43,7 +43,7 @@ void PhysXTestActor::Start()
 	
 	m_pCapsuleComp->TurnOnSpeedLimit();							//최대 이동속도 제한하는 함수
 	m_pCapsuleComp->GetDynamic()->setMass(65.f);				// 무게 설정 조정이 아직 필요한듯함
-	m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic, PhysXFilterGroup::GroundTrigger);
+	m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic);
 
 	// PS. float4에 PhysX 관련함수 만들어뒀음 PxVec3 혹은 PxQuat(쿼터니온) 으로 쉽게 변환 가능함
 }

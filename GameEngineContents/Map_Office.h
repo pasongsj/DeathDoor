@@ -16,7 +16,7 @@ public:
 	Map_Office& operator=(Map_Office&& _Other) noexcept = delete;
 
 
-	std::shared_ptr<GameEngineFBXRenderer> GetNaviMeshRenderer() const
+	std::shared_ptr<class ContentFBXRenderer> GetNaviMeshRenderer() const
 	{
 		return m_pNaviRenderer;
 	}
@@ -40,7 +40,7 @@ private:
 
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
-	std::shared_ptr<GameEngineFBXRenderer> m_pNaviRenderer = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pNaviRenderer = nullptr;
 
 	const float4 m_MapRot = float4{ 0 , -135 , 0 };
 	const float4 m_MapPos = float4{ -20, -8 , -30 };

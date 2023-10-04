@@ -5,6 +5,8 @@
 #include "PhysXTestLevel.h"
 #include "PhysXCapsuleComponent.h"
 
+#include "PlayerAttackRange.h"
+
 
 #define PlayerInitRotation float4{ 90,0,0 }
 
@@ -25,7 +27,7 @@ Player::~Player()
 {
 }
 
-
+#define PLAYER_PHYSX_SCALE float4{0.0f, 75.0f, 50.0f}
 
 void Player::Start()
 {
@@ -35,17 +37,18 @@ void Player::Start()
 
 	// physx
 	{
-		float4 scale = Renderer->GetMeshScale() * Renderer->GetTransform()->GetWorldScale() / Renderer->GetTransform()->GetLocalScale();
-		//6scale *= 5.0f;
-		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
+
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(vscale);
+		m_pCapsuleComp->CreatePhysXActors(PLAYER_PHYSX_SCALE);
 
 		// lever 충돌테스트 
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic, PhysXFilterGroup::LeverTrigger);
 	}
 
+	//m_pCapsuleComp->SetDynamicPivot()
+	AttackRange = GetLevel()->CreateActor< PlayerAttackRange>();
+	AttackRange->Off();
 
 	SetFSMFunc();
 	Renderer->ChangeAnimation("IDLE0");
@@ -53,56 +56,37 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
+	DirectionUpdate(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
+	DefaultPhysX();
+
+
+	// input 사다리타기 추후 trigger로 변경할 예정
 	if (true == GameEngineInput::IsDown("PressN"))
 	{
 		if (PlayerState::IDLE == GetCurState<PlayerState>())
 		{
 			SetNextState(PlayerState::CLIMB);
-			//NextState = PlayerState::CLIMB;
 		}
 		else
 		{
 			SetNextState(PlayerState::IDLE);
-			//NextState = PlayerState::IDLE;1
 		}
 	}
-	DefaultPhysX();
+	// state와 상관없이 스킬 변경 가능
 	if (PlayerState::SKILL != GetCurState<PlayerState>())
 	{
 		SetSkill();
 	}
 
-	// 서버의 관리를 받는 오브젝트라면
-	// 클라이언트의 입장에서는 
-	// 상대의 패킷으로만 움직여야 한다.
-	//// 2가지로 나뉘게 된다.
-	//if (AnimationLoadCount < 13)
-	//{
-	//	return;
-	//}
-	//if (PlayerState::MAX == CurState)
-	//{
-	//	NextState = PlayerState::IDLE;
-	//}
-	//
-	//NetControlType Type = GetControlType();
-	//TestMoveUpdate(_DeltaTime);
+	StackDuration -= _DeltaTime;
+	if (StackDuration < 0.0f)
+	{
+		AttackStack = 0;
+	}
+	// 뭔지? 모름?
+	m_pCapsuleComp->GetDynamic()->setMass(65);
 
-	//switch (Type)
-	//{
-	//case NetControlType::None:
-	//	UserUpdate(_DeltaTime);
-	//	break;
-	//case NetControlType::UserControl:
-	//	UserUpdate(_DeltaTime);
-	//	break;
-	//case NetControlType::ServerControl:
-	//	ServerUpdate(_DeltaTime);
-	//	break;
-	//default:
-	//	break;
-	//}
 
 	// test
 	float4 MyPos = GetTransform()->GetWorldPosition();
@@ -110,42 +94,8 @@ void Player::Update(float _DeltaTime)
 }
 
 
-void Player::CheckInput(float _DeltaTime)
+void Player::CheckDirInput(float _DeltaTime)
 {
-	
-
-	// special state input
-	StateInputDelayTime -= _DeltaTime;
-	if (StateInputDelayTime > 0.0f)
-	{
-		return;
-	}
-	if (true == GameEngineInput::IsDown("PlayerRoll")) // roll antmation inter이 필요함
-	{
-		SetNextState(PlayerState::ROLL);
-		//NextState = PlayerState::ROLL;
-		return;
-	}
-	if (true == GameEngineInput::IsPress("PlayerLBUTTON"))
-	{
-		SetNextState(PlayerState::BASE_ATT);
-		//NextState = PlayerState::BASE_ATT;
-		return;
-	}
-	if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
-	{
-		SetNextState(PlayerState::SKILL);
-		//NextState = PlayerState::SKILL;
-		return;
-	}
-	if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
-	{
-		SetNextState(PlayerState::CHARGE_ATT);
-		//NextState = PlayerState::CHARGE_ATT;
-		return;
-	}
-
-	// move state input
 	float4 Dir = float4::ZERO;
 	if (true == GameEngineInput::IsPress("PlayerLeft"))
 	{
@@ -167,17 +117,16 @@ void Player::CheckInput(float _DeltaTime)
 	if (false == Dir.IsZero()) //  방향 입력이 있다면
 	{
 		SetNextState(PlayerState::WALK);
-		NextForwardDir = Dir.NormalizeReturn();
-		DirectionUpdate(_DeltaTime);
-
-		MoveDir = NextForwardDir;
-		MoveUpdate(_DeltaTime);
+		//DirectionUpdate(_DeltaTime);
+		MoveDir = Dir.NormalizeReturn();
+		MoveUpdate(PlayerMoveSpeed);
 	}
-	else // 방향 입력이 없다면
+	else // 방향 입력이 없다면 IDLE
 	{
-		if (false == StateChecker && GetCurState<PlayerState>() == PlayerState::WALK)
+		if (false == GetStateChecker() && GetCurState<PlayerState>() == PlayerState::WALK)
 		{
-			StateChecker = true;
+			SetStateCheckerOn();
+			//StateChecker = true;
 			return;
 		}
 		else
@@ -185,15 +134,64 @@ void Player::CheckInput(float _DeltaTime)
 			SetNextState(PlayerState::IDLE);
 		}
 	}
-	
 }
-void Player::DirectionUpdate(float _DeltaTime)
+
+void Player::CheckStateInput(float _DeltaTime)
 {
-	if (NextForwardDir == ForwardDir)
+	if (true == GameEngineInput::IsDown("PlayerRoll")) // roll antmation inter이 필요함
+	{
+		SetNextState(PlayerState::ROLL);
+	}
+	else if (true == GameEngineInput::IsPress("PlayerLBUTTON"))
+	{
+		SetNextState(PlayerState::BASE_ATT);
+	}
+	else if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
+	{
+		SetNextState(PlayerState::SKILL);
+	}
+	else if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
+	{
+		SetNextState(PlayerState::CHARGE_ATT);
+	}
+}
+
+void Player::CheckFalling()
+{
+	// Falling Check
+	float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
+	float4 CollPoint = float4::ZERO;
+	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
+	{
+		float4 PPos = GetTransform()->GetWorldPosition();
+		if (PPos.y > CollPoint.y + 60.0f)
+		{
+			SetNextState(PlayerState::FALLING);
+			return;
+		}
+	}
+}
+void Player::CheckState(float _DeltaTime)
+{
+	StateInputDelayTime -= _DeltaTime;
+	if (StateInputDelayTime > 0.0f)
 	{
 		return;
 	}
-	float4 LerpDir = float4::LerpClamp(ForwardDir, NextForwardDir, _DeltaTime * 10.0f);
+	CheckDirInput(_DeltaTime);
+	CheckStateInput(_DeltaTime);
+	CheckFalling();
+}
+
+
+
+void Player::DirectionUpdate(float _DeltaTime)
+{
+	if (MoveDir == ForwardDir)
+	{
+		return;
+	}
+	float4 LerpDir = float4::LerpClamp(ForwardDir, MoveDir, _DeltaTime * 10.0f);
 	//float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, _DeltaTime * 10.0f);
 
 	float4 CalRot = float4::ZERO;
@@ -203,12 +201,17 @@ void Player::DirectionUpdate(float _DeltaTime)
 }
 
 
-
-void Player::MoveUpdate(float _DeltaTime)
+void Player::MoveUpdate(float _MoveVec, float4 _Dir)
 {
 	m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-	m_pCapsuleComp->SetMoveSpeed(MoveDir * MoveSpeed);
-
+	if (float4::ZERONULL == _Dir)
+	{
+		m_pCapsuleComp->SetMoveSpeed(MoveDir * _MoveVec);
+	}
+	else
+	{
+		m_pCapsuleComp->SetMoveSpeed(_Dir * _MoveVec);
+	}
 }
 
 
@@ -225,8 +228,23 @@ void Player::DefaultPhysX()
 {
 	// physx
 	{
-		m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-		m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
+		float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
+		float4 CollPoint = float4::ZERO;
+		if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f) && PlayerState::CLIMB != GetCurState< PlayerState>())
+		{
+			float4 PPos = GetTransform()->GetWorldPosition();
+			if (PPos.y > CollPoint.y + 40.0f)
+			{
+				return;
+			}
+		}
+		if (PlayerState::FALLING == GetCurState< PlayerState>() || PlayerState::BASE_ATT == GetCurState<PlayerState>())
+		{
+			return;
+		}
+		MoveUpdate(0.0f);
+		//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+		//m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 	}
 }
 

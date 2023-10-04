@@ -16,8 +16,8 @@ void Player::SetFSMFunc()
 	//	IDLE,// Idle_0, Idle_1
 	SetChangeFSMCallBack([this]
 		{
-			StateDuration = 0.0f;
-			StateChecker = false;
+			//StateDuration = 0.0f;
+			//StateChecker = false;
 		});
 
 	SetFSM(PlayerState::IDLE,
@@ -30,7 +30,7 @@ void Player::SetFSMFunc()
 		{
 			if (Renderer->IsAnimationEnd())
 			{
-				if (false == StateChecker)
+				if (false == GetStateChecker())
 				{
 					Renderer->ChangeAnimation("IDLE1");
 
@@ -40,10 +40,11 @@ void Player::SetFSMFunc()
 					Renderer->ChangeAnimation("IDLE0");
 
 				}
-				StateChecker = !StateChecker;
+				SetStateChecker(!GetStateChecker());
+				//StateChecker = !StateChecker;
 			}
+			CheckState(Delta);
 
-			CheckInput(Delta);
 		},
 		[this]
 		{
@@ -63,7 +64,7 @@ void Player::SetFSMFunc()
 		[this](float Delta)
 		{
 			//StateDuration += Delta;
-			if (true == StateChecker)
+			if (true == GetStateChecker())
 			{
 				Renderer->ChangeAnimation("WALK");
 				if (true == Renderer->IsAnimationEnd())
@@ -74,7 +75,7 @@ void Player::SetFSMFunc()
 			}
 			else
 			{
-				CheckInput(Delta);
+				CheckState(Delta);
 			}
 
 		},
@@ -108,36 +109,39 @@ void Player::SetFSMFunc()
 			default:
 				break;
 			}
+			MoveUpdate(0.0f);
 		},
 		[this](float Delta)
 		{
-			StateDuration += Delta;
+			//StateDuration += Delta;
 			if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
 			{
 				// 마우스 방향을 바라보도록 함
-				NextForwardDir = GetMousDirection();
-				DirectionUpdate(Delta);
+				MoveDir = GetMousDirection();
 			}
-
-			if (true == Renderer->IsAnimationEnd() && false == GameEngineInput::IsPress("PlayerRBUTTON"))
+			else
 			{
-				//switch (CurSkill)
-				//{
-				//case Player::PlayerSkill::ARROW:
-				//	break;
-				//case Player::PlayerSkill::MAGIC:
-				//	break;
-				//case Player::PlayerSkill::BOMB:
-				//	break;
-				//case Player::PlayerSkill::HOOK:
-				//	break;
-				//case Player::PlayerSkill::MAX:
-				//	break;
-				//default:
-				//	break;
-				//}
+				SetNextState(PlayerState::IDLE);
 			}
-			CheckInput(Delta);
+			//if (/*true == Renderer->IsAnimationEnd() && */false == GameEngineInput::IsPress("PlayerRBUTTON"))
+			//{
+			//	//switch (CurSkill)
+			//	//{
+			//	//case Player::PlayerSkill::ARROW:
+			//	//	break;
+			//	//case Player::PlayerSkill::MAGIC:
+			//	//	break;
+			//	//case Player::PlayerSkill::BOMB:
+			//	//	break;
+			//	//case Player::PlayerSkill::HOOK:
+			//	//	break;
+			//	//case Player::PlayerSkill::MAX:
+			//	//	break;
+			//	//default:
+			//	//	break;
+			//	//}
+			//}
+			//CheckInput(Delta);
 		},
 		[this]
 		{
@@ -160,7 +164,6 @@ void Player::SetFSMFunc()
 		}
 	);
 
-
 	//BASE_ATT	// 좌클릭 Slash_Light_L_new, Slash_Light_R_new
 	SetFSM(PlayerState::BASE_ATT,
 		[this]
@@ -176,20 +179,28 @@ void Player::SetFSMFunc()
 			isRightAttack = !isRightAttack;
 
 			// 마우스 방향을 바라보도록 함
-			NextForwardDir = GetMousDirection(); },
+			MoveDir = GetMousDirection();
+			StackDuration = 0.55f;
+			if (++AttackStack >= 3)
+			{
+				StateInputDelayTime = 0.25f;
+			}
+			MoveUpdate(PlayerAttMoveSpeed);
+
+			AttackRange->On();
+		},
 		[this](float Delta)
 		{
-			DirectionUpdate(Delta);
-			MoveDir = NextForwardDir;
-			MoveUpdate(Delta);
-
+			
 			if (true == Renderer->IsAnimationEnd())
 			{
-				StateInputDelayTime = 0.3f;
+				//StateInputDelayTime = 0.1f;
 				SetNextState(PlayerState::IDLE);
-			}},
+			}
+		},
 		[this]
 		{
+			AttackRange->Off();
 		}
 	); 
 
@@ -200,30 +211,35 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			Renderer->ChangeAnimation("ROLL");
-			//StateDuration = 2.0f;
-			mButton = false; },
+
+			// Player의 Speed를 초기화한다.
+			MoveUpdate(0.0f);
+
+
+		},
 		[this](float Delta)
 		{
-			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-			m_pCapsuleComp->SetMoveSpeed(MoveDir* MoveSpeed* RollSpeedRatio);
+			MoveUpdate(PlayerMoveSpeed * RollSpeedRatio);
+
 			if (true == GameEngineInput::IsDown("PlayerMBUTTON"))
 			{
-				mButton = true;
+				SetStateCheckerOn();
 			}
 			if (true == Renderer->IsAnimationEnd())
 			{
-				if (true == mButton)
+				if (true == GetStateChecker())
 				{
 					SetNextState(PlayerState::ROLL_ATT);
 				}
 				else
 				{
-					StateInputDelayTime = 0.1f;
+					StateInputDelayTime = 0.05f;
 					SetNextState(PlayerState::IDLE);
 				}
 			}},
 		[this]
 		{
+			MoveUpdate(0.0f);
 		}
 	); 
 
@@ -238,7 +254,6 @@ void Player::SetFSMFunc()
 		{
 			if (true == Renderer->IsAnimationEnd())
 			{
-				StateInputDelayTime = 0.5f;
 				SetNextState(PlayerState::IDLE);
 			}
 		},
@@ -260,6 +275,7 @@ void Player::SetFSMFunc()
 			{
 				Renderer->ChangeAnimation("CHARGE_SLASH_L");
 			}
+			MoveUpdate(0.0f);
 		},
 		[this](float Delta)
 		{
@@ -295,14 +311,15 @@ void Player::SetFSMFunc()
 		[this](float Delta)
 		{
 			static float IdleEndTime = 0;
-			StateDuration += Delta;
-			if (false == StateChecker && true == Renderer->IsAnimationEnd())
+			//StateDuration += Delta;
+			if (false == GetStateChecker() && true == Renderer->IsAnimationEnd())
 			{
 				Renderer->ChangeAnimation("HIT_IDLE");
-				StateChecker = true;
-				IdleEndTime = StateDuration + PlayerHitIdleTime;
+				SetStateCheckerOn();
+				//StateChecker = true;
+				IdleEndTime = GetStateDuration() + PlayerHitIdleTime;
 			}
-			if (true == StateChecker && StateDuration > IdleEndTime)
+			if (true == GetStateChecker() && GetStateDuration() > IdleEndTime)
 			{
 				Renderer->ChangeAnimation("HIT_RECOVER");
 				if (true == Renderer->IsAnimationEnd())
@@ -328,12 +345,8 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta)
 		{
+			// 땅에 or 사다리 끝에 도달해였는지 체크하는 함수
 			CheckClimbInput(Delta);
-			// 땅에 사다리 끝에 도달해였는지 체크하는 함수
-			//if ()
-			//{
-			//
-			//}
 		},
 		[this]
 		{
@@ -354,7 +367,8 @@ void Player::SetFSMFunc()
 			if (true == Renderer->IsAnimationEnd())
 			{
 				SetNextState(PlayerState::IDLE);
-			}},
+			}
+		},
 		[this]
 		{
 		}
@@ -373,7 +387,8 @@ void Player::SetFSMFunc()
 			if (true == Renderer->IsAnimationEnd())
 			{
 				SetNextState(PlayerState::IDLE);
-			}},
+			}
+		},
 		[this]
 		{
 		}
@@ -416,7 +431,7 @@ void Player::SetFSMFunc()
 
 
 
-	//FLY
+	//FALLING
 	// 높이가 차가 있을 때 Falling, Land
 	SetFSM(PlayerState::FALLING,
 		[this]
@@ -425,16 +440,18 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta)
 		{
-				// 땅에 도달하였는지 체크
-				//if ()
-				//{
-				//	Renderer->ChangeAnimation("Fly");
-				//	StateChecker = true;
-				//}
-				//if (true == StateChecker && true == Renderer->IsAnimationEnd())
-				//{
-				//	CheckInput(Delta);
-				//}
+			float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
+			PlayerGroundPos.y += 100.0f; // 피직스 컴포넌트 중력값으로 보정되기 전 위치가 측정되는 오류 해결
+			float4 CollPoint = float4::ZERO;
+			if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
+			{
+				if (CollPoint.y + 10.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
+				{
+					SetNextState(PlayerState::IDLE);
+					return;
+				}
+			}
+
 		},
 		[this]
 		{
@@ -451,13 +468,26 @@ void Player::CheckClimbInput(float _DeltaTime)
 	{
 		Renderer->ChangeAnimation("Climbing_ladder");
 		Renderer->PauseOff();
-		m_pCapsuleComp->SetMoveSpeed(float4::UP * MoveSpeed * ClimbSpeedRatio);
+		MoveUpdate(PlayerMoveSpeed * ClimbSpeedRatio, float4::UP);
+		//m_pCapsuleComp->SetMoveSpeed(float4::UP * PlayerMoveSpeed * ClimbSpeedRatio);
 	}
 	else if (true == GameEngineInput::IsPress("PlayerDown"))
 	{
+		float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
+		float4 CollPoint = float4::ZERO;
+		if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint))
+		{
+			if (CollPoint.y + 5.0f > GetTransform()->GetWorldPosition().y)
+			{
+				SetNextState(PlayerState::IDLE);
+				return;
+			}
+		}
+
 		Renderer->ChangeAnimation("Climbing_ladder_down");
 		Renderer->PauseOff();
-		m_pCapsuleComp->SetMoveSpeed(float4::DOWN * MoveSpeed * ClimbSpeedRatio);
+		MoveUpdate(PlayerMoveSpeed * ClimbSpeedRatio, float4::DOWN);
+		//m_pCapsuleComp->SetMoveSpeed(float4::DOWN * PlayerMoveSpeed * ClimbSpeedRatio);s
 
 	}
 	else

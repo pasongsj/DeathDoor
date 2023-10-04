@@ -40,6 +40,21 @@
     <FxCompile Include="ContentMeshDeffered.hlsl">
       <Filter>BasicShader</Filter>
     </FxCompile>
+    <FxCompile Include="ResultRender.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="DefferedColorMerge.hlsl">
+      <Filter>Effect\Glow</Filter>
+    </FxCompile>
+    <FxCompile Include="DetectMask.hlsl">
+      <Filter>Effect\Glow</Filter>
+    </FxCompile>
+    <FxCompile Include="AllBlur7x7.hlsl">
+      <Filter>Effect\Glow</Filter>
+    </FxCompile>
+    <FxCompile Include="LightMerge.hlsl">
+      <Filter>Effect\Glow</Filter>
+    </FxCompile>
     <FxCompile Include="Rain.hlsl">
       <Filter>Effect</Filter>
     </FxCompile>
@@ -53,6 +68,9 @@
     </Filter>
     <Filter Include="Effect">
       <UniqueIdentifier>{2377ce25-5fd9-4978-8079-f666b2ee70ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Glow">
+      <UniqueIdentifier>{73680677-87cb-44d6-8a23-6f3fc68d75ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

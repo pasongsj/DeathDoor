@@ -237,6 +237,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
+    <ClCompile Include="GlowEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="HpBar.cpp">
       <SubType>
       </SubType>
@@ -316,6 +320,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerAttackRange.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PlayerFSM.cpp" />
     <ClCompile Include="PlayerInit.cpp" />
     <ClCompile Include="PlayerTestLevel.cpp" />
@@ -476,6 +484,10 @@
     </ClInclude>
     <ClInclude Include="GameContentsMapActor.h" />
     <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="GlowEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="HpBar.h">
       <SubType>
       </SubType>
@@ -581,6 +593,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerAttackRange.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PlayerDefinition.h" />
     <ClInclude Include="PlayerTestLevel.h" />
     <ClInclude Include="PreCompileHeader.h">

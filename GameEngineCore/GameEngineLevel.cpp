@@ -27,10 +27,6 @@ GameEngineLevel::GameEngineLevel()
 		GameEngineInput::CreateKey("DebugSwitch", VK_F7);
 	}
 
-	FXAATarget = GameEngineRenderTarget::CreateDummy();
-	FXAATarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	FXAAUnit.SetMesh("FullRect");
-	FXAAUnit.SetMaterial("FXAA");
 }
 
 void GameEngineLevel::LevelCameraInit()
@@ -40,9 +36,14 @@ void GameEngineLevel::LevelCameraInit()
 	std::shared_ptr<GameEngineCamera> UICamera = CreateNewCamera(100);
 	UICamera->SetProjectionType(CameraType::Orthogonal);
 
-	if (nullptr==LastTarget)
+	if (nullptr == LastTarget)
 	{
 		LastTarget = GameEngineRenderTarget::CreateDummy();
+	}
+
+	if (nullptr == FXAATarget)
+	{
+		FXAATarget = GameEngineRenderTarget::CreateDummy();
 	}
 }
 
@@ -361,7 +362,6 @@ void GameEngineLevel::Render(float _DeltaTime)
 	FXAATarget->Clear();
 	FXAATarget->Setting();
 	
-	FXAAUnit.ShaderResHelper.SetTexture("ScreenTexture", LastTarget->GetTexture(0));
 	
 	FXAAUnit.Render(0.0f);
 
@@ -486,7 +486,7 @@ void GameEngineLevel::TextureReLoad(GameEngineLevel* _PrevLevel)
 	TexturePath.clear();
 }
 
-void GameEngineLevel::InitCameraRenderTarget()
+void GameEngineLevel::InitLevelRenderTarget()
 {
 	std::map<int, std::shared_ptr<GameEngineCamera>>::iterator BeginCamIter = Cameras.begin();
 	for (; BeginCamIter != Cameras.end(); ++BeginCamIter)
@@ -495,17 +495,27 @@ void GameEngineLevel::InitCameraRenderTarget()
 	}
 
 	LastTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+
+	FXAATarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	FXAAUnit.SetMesh("FullRect");
+	FXAAUnit.SetMaterial("FXAA");
+	FXAAUnit.ShaderResHelper.SetTexture("ScreenTexture", LastTarget->GetTexture(0));
 	
 }
 
-void GameEngineLevel::ReleaseCameraRenderTarget()
+void GameEngineLevel::ReleaseLevelRenderTarget()
 {
 	std::map<int, std::shared_ptr<GameEngineCamera>>::iterator BeginCamIter = Cameras.begin();
 	for (; BeginCamIter != Cameras.end(); ++BeginCamIter)
 	{
 		BeginCamIter->second->ReleaseCameraRenderTarget();
 	}
+
 	LastTarget->ReleaseTexture();
+
+	FXAATarget->ReleaseTexture();
+
+	FXAAUnit.ShaderResHelper.ReleaseAllSetter();
 }
 
 void GameEngineLevel::AllActorDestroy()

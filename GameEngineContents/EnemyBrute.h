@@ -37,6 +37,6 @@ private:
 	void AggroMove(float _DeltaTime);
 	void SetFSMFUNC();
 
-	float StateDuration = 0.0f;
-	bool StateChecker = false;
+	//float StateDuration = 0.0f;
+	//bool StateChecker = false;
 };

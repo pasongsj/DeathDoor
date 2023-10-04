@@ -35,6 +35,8 @@ public:
 
 	void SetOrder(int _Order) override;
 
+	std::atomic_uint isPhysXCollision = 0;
+
 protected:
 	virtual void Start() {}
 	virtual void Update(float _DeltaTime) {}

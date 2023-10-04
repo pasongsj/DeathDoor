@@ -2,6 +2,7 @@
 #include "MyTest.h"
 
 #include "StaticParticleManager.h"
+#include "Player.h"
 
 MyTest::MyTest()
 {
@@ -13,14 +14,18 @@ MyTest::~MyTest()
 
 void MyTest::Start()
 {
-	TestRd = CreateComponent<GameEngineFBXRenderer>();
-	TestRd->SetFBXMesh("_E_BAT_Black Variant_MESH.fbx", "ContentAniMeshDeffered");
+	//GetLevel()->CreateActor<Player>();
+		
+	TestRd = CreateComponent<ContentFBXRenderer>();
+	TestRd->SetFBXMesh("Sphere.fbx", "ContentAniMeshDeffered");
+	TestRd->GetTransform()->SetLocalScale({ 10.0f, 10.0f, 10.0f });
 
-	TestRd->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
-	TestRd->GetTransform()->SetLocalPosition({ -50.0f, 0.0f, 0.0f });
-	
-	TestRd->CreateFBXAnimation("Fly", "_E_BAT_Black Variant_FLY.fbx");
-	TestRd->ChangeAnimation("Fly");
+	//
+	//TestRd->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
+	//TestRd->GetTransform()->SetLocalPosition({ -50.0f, 0.0f, 0.0f });
+
+	//TestRd->CreateFBXAnimation("Fly", "_E_BAT_Black Variant_FLY.fbx");
+	//TestRd->ChangeAnimation("Fly");
 
 	auto Units = TestRd->GetAllRenderUnit();
 	
@@ -28,8 +33,8 @@ void MyTest::Start()
 	{
 		for (int j = 0; j < Units[i].size(); j++)
 		{
-			Units[i][j]->ShaderResHelper.SetTexture("MaskTexture", "MaskType2_1.png");
-			Units[i][j]->Fade.Fade += 0.3f;
+			Units[i][j]->ShaderResHelper.SetTexture("MaskTexture", "WhiteTexture.png");
+			Units[i][j]->Mask.UV_MaskingValue += 1.0f;
 		}
 	}
 }

@@ -63,6 +63,36 @@ protected:
 	}
 
 	void Update(float _DeltaTime) override;
+
+	inline float GetStateDuration()
+	{
+		return StateDuration;
+	}
+	inline void ResetStateDuration()
+	{
+		StateDuration = 0.0f;
+	}
+
+	inline bool GetStateChecker()
+	{
+		return StateChecker;
+	}
+
+	inline void SetStateCheckerOn()
+	{
+		StateChecker = true;
+	}
+
+	inline void SetStateCheckerOff()
+	{
+		StateChecker = false;
+	}
+
+	inline void SetStateChecker(bool _Check)
+	{
+		StateChecker = _Check;
+	}
+
 private:
 	class StateFunctionParameter
 	{
@@ -76,6 +106,10 @@ private:
 	std::function<void()> ChangeFSMCallBack = nullptr;
 	int CurState = 0;
 	int NextState = 0;
+
+	// Update
+	float StateDuration = 0.0f;
+	bool StateChecker = false;
 
 };
 

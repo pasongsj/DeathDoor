@@ -27,10 +27,14 @@ private:
 		IDLE,
 		BITE,
 		DIE,
+		HIT,
 		MAX
 	};
 
 
 	void SetFSMFUNC();
+
+	bool CheckAttack();
+
 };
 

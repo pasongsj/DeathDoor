@@ -2,6 +2,11 @@
 #include "GameEngineRenderer.h"
 #include "GameEngineFBXMesh.h"
 
+struct AnimStartFunc
+{
+	bool bStart = true;
+	std::function<void()> pFunc = nullptr;
+};
 
 class FbxExAniData;
 class GameEngineFBXMesh;
@@ -34,6 +39,8 @@ public:
 
 	float BlendIn = 0.2f;
 	float BlendOut = 0.2f;
+
+	std::map<UINT, AnimStartFunc> StartFunc;
 
 	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
 	void Reset();
@@ -106,6 +113,7 @@ public:
 	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex);
 	virtual std::shared_ptr<GameEngineRenderUnit> SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex);
 
+	void SetAnimationStartFunc(const std::string_view& _Name, UINT _Index, std::function<void()> _Func);
 
 	bool IsAnimationEnd()
 	{
