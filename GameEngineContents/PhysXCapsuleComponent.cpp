@@ -260,7 +260,7 @@ void PhysXCapsuleComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _G
 
 
 	//ÇÇ¹þ ¼³Á¤
-	m_fShapeCenter = float4(0.f, ScaledHeight * 1.8f, 0.f);
+	m_fShapeCenter = float4(0.f, ScaledHeight, 0.f);
 	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 	DynamicCenter += m_f4DynamicPivot.PhysXVec3Return();
@@ -352,7 +352,7 @@ void PhysXCapsuleComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _
 	physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.01f);
 
 	//ÇÇ¹þ ¼³Á¤
-	m_fShapeCenter = float4(0.f,ScaledHeight * 1.8f,0.f);
+	m_fShapeCenter = float4(0.f,ScaledHeight,0.f);
 	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
 	DynamicCenter += m_f4DynamicPivot.PhysXVec3Return();
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
