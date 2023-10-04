@@ -271,9 +271,6 @@
     <ClCompile Include="EnemyBruteGold.cpp">
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerAttackRange.cpp">
-      <Filter>FSMObject\Player</Filter>
-    </ClCompile>
     <ClCompile Include="OfficeLevel.cpp">
       <Filter>Contents\OfficeLevel</Filter>
     </ClCompile>
@@ -294,6 +291,12 @@
     </ClCompile>
     <ClCompile Include="GlowEffect.cpp">
       <Filter>Component\ContentsRenderer\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackRange.cpp">
+      <Filter>FSMObject\Player\Att</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttMagic.cpp">
+      <Filter>FSMObject\Player\Att</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -584,7 +587,10 @@
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="PlayerAttackRange.h">
-      <Filter>FSMObject\Player</Filter>
+      <Filter>FSMObject\Player\Att</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttMagic.h">
+      <Filter>FSMObject\Player\Att</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -716,6 +722,9 @@
     </Filter>
     <Filter Include="Component\ContentsRenderer\Font">
       <UniqueIdentifier>{f2100704-c978-4a25-8800-aaeb62a193e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Player\Att">
+      <UniqueIdentifier>{6b347afa-c0b7-43b4-aa0c-086ce5ee9959}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

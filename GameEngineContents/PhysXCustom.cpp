@@ -82,15 +82,15 @@ void CustomSimulationEventCallback::onTrigger(physx::PxTriggerPair* pairs, physx
 				int a = 0;
 			}
 
-			if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) // 충돌이 끝날 때
-			{
+			//if (current.status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST) // 충돌이 끝날 때
+			//{
 
-				GameEngineActor* TestTrigger = reinterpret_cast<GameEngineActor*>(TriggerShape->userData);
-				GameEngineActor* TestActor = reinterpret_cast<GameEngineActor*>(OtherShape->userData);
-				TestTrigger->isPhysXCollision = ~(~TestTrigger->isPhysXCollision | filterbit);
-				TestActor->isPhysXCollision = ~(~TestActor->isPhysXCollision | filterbit);
-				int a = 0;
-			}
+			//	GameEngineActor* TestTrigger = reinterpret_cast<GameEngineActor*>(TriggerShape->userData);
+			//	GameEngineActor* TestActor = reinterpret_cast<GameEngineActor*>(OtherShape->userData);
+			//	TestTrigger->isPhysXCollision = ~(~TestTrigger->isPhysXCollision | filterbit);
+			//	TestActor->isPhysXCollision = ~(~TestActor->isPhysXCollision | filterbit);
+			//	int a = 0;
+			//}
 		}
 		
 		// 두개의 충돌을 체크한다면

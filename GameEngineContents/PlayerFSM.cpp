@@ -5,6 +5,7 @@
 
 
 
+#include "PlayerAttMagic.h"
 
 
 void Player::SetFSMFunc()
@@ -90,6 +91,14 @@ void Player::SetFSMFunc()
 	SetFSM(PlayerState::SKILL,
 		[this]
 		{
+			MoveDir = GetMousDirection();
+			AnimationBoneData Bone = Renderer->GetBoneData("Weapon_R");
+			float4 WeaponPos = Bone.Pos;
+
+			std::shared_ptr< PlayerAttMagic> magic = GetLevel()->CreateActor< PlayerAttMagic>();
+			//magic->GetTransform()->SetLocalPosition(WeaponPos);
+			magic->SetDir(MoveDir, Renderer->GetTransform()->GetWorldPosition() + Bone.Pos);
+
 			switch (CurSkill)
 			{
 			case Player::PlayerSkill::ARROW:

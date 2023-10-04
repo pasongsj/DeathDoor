@@ -324,6 +324,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PlayerAttMagic.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PlayerFSM.cpp" />
     <ClCompile Include="PlayerInit.cpp" />
     <ClCompile Include="PlayerTestLevel.cpp" />
@@ -594,6 +598,10 @@
     </ClInclude>
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAttackRange.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerAttMagic.h">
       <SubType>
       </SubType>
     </ClInclude>
