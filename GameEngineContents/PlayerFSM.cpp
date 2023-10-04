@@ -93,11 +93,12 @@ void Player::SetFSMFunc()
 		{
 			MoveDir = GetMousDirection();
 			AnimationBoneData Bone = Renderer->GetBoneData("Weapon_R");
-			float4 WeaponPos = Bone.Pos;
 
 			std::shared_ptr< PlayerAttMagic> magic = GetLevel()->CreateActor< PlayerAttMagic>();
 			//magic->GetTransform()->SetLocalPosition(WeaponPos);
-			magic->SetDir(MoveDir, Renderer->GetTransform()->GetWorldPosition() + Bone.Pos);
+			float4 MagicPos = Renderer->GetTransform()->GetWorldPosition() + Bone.Pos;
+			MagicPos.y += 70.0f;
+			magic->SetDir(MoveDir, MagicPos);
 
 			switch (CurSkill)
 			{

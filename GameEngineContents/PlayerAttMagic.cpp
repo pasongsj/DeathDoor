@@ -18,11 +18,7 @@ void PlayerAttMagic::Init()
 
 	GetTransform()->SetLocalScale(float4::ONE * 0.2f);
 
-	PhysXComp = CreateComponent< PhysXSphereComponent>();
-	PhysXComp->CreatePhysXActors(float4::ONE  * 200.0f,float4::ZERO,true); 
-	PhysXComp->SetFilterData(PhysXFilterGroup::PlayerSkill, PhysXFilterGroup::MonsterDynamic);
-	//PhysXComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-	//PhysXComp->TurnOffGravity();
+	
 }
 
 
@@ -37,10 +33,20 @@ void PlayerAttMagic::Update(float _DeltaTime)
 	{
 		return;
 	}
+	float4 Test = GetTransform()->GetWorldPosition();
 	if (true == CheckCollision(PhysXFilterGroup::MonsterDynamic) || GetLiveTime() > firetime + 10.0f)
 	{
 		Death();
 		return;
 	}
-	GetTransform()->AddLocalPosition(Dir * 2000.0f * _DeltaTime);
+	//GetTransform()->AddLocalPosition(Dir * 2000.0f * _DeltaTime);
+	PhysXComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+	PhysXComp->SetMoveSpeed(Dir * 500.0f);
+
+	if (true == CheckCollision(PhysXFilterGroup::MonsterDynamic))
+	{
+		int a = 0;
+	}
+	UINT CheckNum = isPhysXCollision;
+	isPhysXCollision = 0;
 }
