@@ -39,14 +39,7 @@ void PlayerAttMagic::Update(float _DeltaTime)
 		Death();
 		return;
 	}
-	//GetTransform()->AddLocalPosition(Dir * 2000.0f * _DeltaTime);
 	PhysXComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-	PhysXComp->SetMoveSpeed(Dir * 500.0f);
-
-	if (true == CheckCollision(PhysXFilterGroup::MonsterDynamic))
-	{
-		int a = 0;
-	}
-	UINT CheckNum = isPhysXCollision;
+	PhysXComp->SetMoveSpeed(Dir * 1000.0f);
 	isPhysXCollision = 0;
 }

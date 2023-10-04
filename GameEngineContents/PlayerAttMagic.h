@@ -36,6 +36,8 @@ private:
 		PhysXComp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO,_Pos));
 		PhysXComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		PhysXComp->TurnOffGravity();
+		PhysXComp->SetTrigger();
+
 
 		//PhysXComp->SetWorldPosWithParent(_Pos);
 		Dir = _Dir;
