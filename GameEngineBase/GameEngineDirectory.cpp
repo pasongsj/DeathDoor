@@ -5,11 +5,23 @@
 #include "GameEngineString.h"
 
 
-GameEngineDirectory::GameEngineDirectory() 
+GameEngineDirectory::GameEngineDirectory()
 {
 }
 
-GameEngineDirectory::~GameEngineDirectory() 
+GameEngineDirectory::GameEngineDirectory(std::string_view Path)
+	: GameEnginePath(Path)
+{
+
+}
+
+GameEngineDirectory::GameEngineDirectory(std::filesystem::path Path)
+	: GameEnginePath(Path)
+{
+
+}
+
+GameEngineDirectory::~GameEngineDirectory()
 {
 }
 void GameEngineDirectory::MoveParentToDirectory(const std::string_view& _String)
@@ -17,20 +29,20 @@ void GameEngineDirectory::MoveParentToDirectory(const std::string_view& _String)
 	std::string MovePath = "\\";
 	MovePath += _String;
 
-	Path.MoveParentToChildPath(MovePath.c_str());
+	MoveParentToChildPath(MovePath.c_str());
 }
 
 bool GameEngineDirectory::Move(const std::string_view& _String)
 {
-	std::string MovePath = "\\";
-	MovePath += _String;
-	return Path.Move(MovePath.c_str());
+	Path += "\\";
+	Path += _String;
+	return IsExists();
 }
 
 GameEnginePath GameEngineDirectory::GetPlusFileName(const std::string_view& _String)
 {
 
-	std::string PathString = Path.GetFullPath();
+	std::string PathString = GetFullPath();
 	PathString += "\\";
 	PathString += _String;
 
@@ -39,13 +51,13 @@ GameEnginePath GameEngineDirectory::GetPlusFileName(const std::string_view& _Str
 
 bool GameEngineDirectory::MoveParent()
 {
-	if (true == Path.IsRoot())
+	if (true == IsRoot())
 	{
 		MsgAssert("루트 디렉토리는 부모디렉토리로 이동할수 없습니다.");
 		return false;
 	}
 
-	Path.MoveParent();
+	GameEnginePath::MoveParent();
 
 	return true;
 }
@@ -55,7 +67,7 @@ bool GameEngineDirectory::MoveParent()
 
 std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(std::vector<std::string_view> _Ext)
 {
-	std::filesystem::directory_iterator DirIter(Path.Path);
+	std::filesystem::directory_iterator DirIter(Path);
 
 	// std::string Ext = _Ext.data();
 
@@ -88,7 +100,7 @@ std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(std::vector<std::str
 		std::string Path = Entry.path().string();
 		std::string Ext = Entry.path().extension().string();
 		std::string UpperExt = GameEngineString::ToUpper(Ext);
-		
+
 		bool Check = false;
 
 		for (size_t i = 0; i < UpperExts.size(); i++)

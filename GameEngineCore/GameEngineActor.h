@@ -35,6 +35,22 @@ public:
 
 	void SetOrder(int _Order) override;
 
+	std::atomic_uint isPhysXCollision = 0;
+
+
+	template<typename EnumType>
+	bool CheckCollision(EnumType _Other)
+	{
+		UINT HitFromPlayer = static_cast<UINT>(isPhysXCollision);
+
+		if (0 < (HitFromPlayer & static_cast<UINT>(_Other)))
+		{
+			return true;
+		}
+		return false;
+	}
+
+
 protected:
 	virtual void Start() {}
 	virtual void Update(float _DeltaTime) {}

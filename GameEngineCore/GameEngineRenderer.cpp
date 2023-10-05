@@ -5,7 +5,7 @@
 
 #include "GameEngineLevel.h"
 #include "GameEngineCamera.h"
-#include "GameEngineRenderingPipeLine.h"
+#include "GameEngineMaterial.h"
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
 #include "GameEngineShaderResHelper.h"
@@ -22,13 +22,18 @@ void GameEngineRenderUnit::SetRenderer(GameEngineRenderer* _Renderer)
 	ParentRenderer = _Renderer;
 }
 
-void GameEngineRenderUnit::SetMesh(const std::string_view& _Name) 
+void GameEngineRenderUnit::SetMesh(const std::string_view& _Name)
 {
 	Mesh = GameEngineMesh::Find(_Name);
 
-	if (false == InputLayOutPtr->IsCreate() && nullptr != Pipe)
+	if (nullptr == Mesh)
 	{
-		InputLayOutPtr->ResCreate(Mesh->GetVertexBuffer(), Pipe->GetVertexShader());
+		MsgAssert("존재하지 않는 매쉬를 세팅하려고 했습니다.")
+	}
+
+	if (false == InputLayOutPtr->IsCreate() && nullptr != Material)
+	{
+		InputLayOutPtr->ResCreate(Mesh->GetVertexBuffer(), Material->GetVertexShader());
 	}
 }
 
@@ -36,36 +41,41 @@ void GameEngineRenderUnit::SetMesh(std::shared_ptr<GameEngineMesh> _Mesh)
 {
 	Mesh = _Mesh;
 
-	if (false == InputLayOutPtr->IsCreate() && nullptr != Pipe)
+	if (false == InputLayOutPtr->IsCreate() && nullptr != Material)
 	{
-		InputLayOutPtr->ResCreate(Mesh->GetVertexBuffer(), Pipe->GetVertexShader());
+		InputLayOutPtr->ResCreate(Mesh->GetVertexBuffer(), Material->GetVertexShader());
 	}
 }
 
-void GameEngineRenderUnit::SetPipeLine(const std::string_view& _Name) 
+void GameEngineRenderUnit::SetMaterial(const std::string_view& _Name, RenderPath _Path /*= RenderPath::None*/)
 {
-	Pipe = GameEngineRenderingPipeLine::Find(_Name);
+	// GetCamera()->Units[0];
 
-	if (nullptr == Pipe)
+	Material = GameEngineMaterial::Find(_Name);
+
+	if (nullptr == Material)
 	{
 		MsgAssert("존재하지 않는 머티리얼을 사용했습니다.");
 		return;
 	}
 
 	{
-		const GameEngineShaderResHelper& Res = Pipe->GetVertexShader()->GetShaderResHelper();
+		const GameEngineShaderResHelper& Res = Material->GetVertexShader()->GetShaderResHelper();
 		ShaderResHelper.Copy(Res);
 	}
 
 	{
-		const GameEngineShaderResHelper& Res = Pipe->GetPixelShader()->GetShaderResHelper();
+		const GameEngineShaderResHelper& Res = Material->GetPixelShader()->GetShaderResHelper();
 		ShaderResHelper.Copy(Res);
 	}
 
 	if (false == InputLayOutPtr->IsCreate() && nullptr != Mesh)
 	{
-		InputLayOutPtr->ResCreate(Mesh->GetVertexBuffer(), Pipe->GetVertexShader());
+		InputLayOutPtr->ResCreate(Mesh->GetVertexBuffer(), Material->GetVertexShader());
 	}
+
+
+	// 카메라에 들어가야 하는순간.
 
 
 	if (true == ShaderResHelper.IsConstantBuffer("TransformData"))
@@ -79,17 +89,52 @@ void GameEngineRenderUnit::SetPipeLine(const std::string_view& _Name)
 		ShaderResHelper.SetConstantBufferLink("RenderBaseValue", ParentRenderer->BaseValue);
 	}
 
+	if (true == ShaderResHelper.IsConstantBuffer("ColorOption"))
+	{
+		ShaderResHelper.SetConstantBufferLink("ColorOption", Color);
+	}
 
+	if (true == ShaderResHelper.IsConstantBuffer("UVdata"))
+	{
+		ShaderResHelper.SetConstantBufferLink("UVdata", UVdata);
+	}
+
+	if (true == ShaderResHelper.IsConstantBuffer("FadeInfo"))
+	{
+		ShaderResHelper.SetConstantBufferLink("FadeInfo", Fade);
+	}
+
+	if (true == ShaderResHelper.IsConstantBuffer("MaskInfo"))
+	{
+		ShaderResHelper.SetConstantBufferLink("MaskInfo", Mask);
+	}
+
+	if (true == ShaderResHelper.IsConstantBuffer("AllPointLight") && nullptr != ParentRenderer)
+	{
+		AllPointLight& PointLights = GetRenderer()->GetLevel()->PointLights;
+		ShaderResHelper.SetConstantBufferLink("AllPointLight", PointLights);
+	}
+
+	if (true == ShaderResHelper.IsConstantBuffer("LightDatas") && nullptr != ParentRenderer)
+	{
+		LightDatas& Data = ParentRenderer->GetActor()->GetLevel()->LightDataObject;
+		ShaderResHelper.SetConstantBufferLink("LightDatas", Data);
+	}
+
+	if (nullptr != GetRenderer())
+	{
+		GetRenderer()->GetCamera()->PushRenderUnit(shared_from_this(), _Path);
+	}
 }
 
-void GameEngineRenderUnit::Render(float _DeltaTime)
+void GameEngineRenderUnit::Setting()
 {
 	if (nullptr == Mesh)
 	{
 		MsgAssert("매쉬가 존재하지 않는 유니트 입니다");
 	}
 
-	if (nullptr == Pipe)
+	if (nullptr == Material)
 	{
 		MsgAssert("파이프라인이 존재하지 않는 유니트 입니다");
 	}
@@ -97,20 +142,65 @@ void GameEngineRenderUnit::Render(float _DeltaTime)
 	InputLayOutPtr->Setting();
 
 	Mesh->Setting();
-	Pipe->RenderingPipeLineSetting();
+	Material->Setting();
 	ShaderResHelper.Setting();
-	// Pipe->Render();
+}
 
+void GameEngineRenderUnit::ShadowSetting()
+{
+	if (nullptr == Mesh)
+	{
+		MsgAssert("매쉬가 존재하지 않는 유니트 입니다");
+	}
+
+	if (nullptr == Material)
+	{
+		MsgAssert("파이프라인이 존재하지 않는 유니트 입니다");
+	}
+
+	ShadowInputLayOutPtr->Setting();
+
+	Mesh->Setting();
+	Material->Setting();
+	ShaderResHelper.Setting();
+}
+
+void GameEngineRenderUnit::Draw()
+{
 	UINT IndexCount = Mesh->IndexBufferPtr->GetIndexCount();
 	GameEngineDevice::GetContext()->DrawIndexed(IndexCount, 0, 0);
 }
 
-GameEngineRenderer::GameEngineRenderer() 
+void GameEngineRenderUnit::ShadowOn()
+{
+	IsShadow = true;
+
+	std::shared_ptr<GameEngineVertexShader> ShadowPtr = GameEngineVertexShader::Find("Shadow.hlsl");
+	if (nullptr == ShadowInputLayOutPtr)
+	{
+		ShadowInputLayOutPtr = std::make_shared<GameEngineInputLayOut>();
+		ShadowInputLayOutPtr->ResCreate(Mesh->GetVertexBuffer(), ShadowPtr);
+	}
+}
+
+void GameEngineRenderUnit::Render(float _DeltaTime)
+{
+	if (nullptr != RenderFunction)
+	{
+		RenderFunction(_DeltaTime);
+		return;
+	}
+
+	Setting();
+	Draw();
+}
+
+GameEngineRenderer::GameEngineRenderer()
 {
 	BaseValue.ScreenScale = GameEngineWindow::GetScreenSize();
 }
 
-GameEngineRenderer::~GameEngineRenderer() 
+GameEngineRenderer::~GameEngineRenderer()
 {
 }
 
@@ -138,7 +228,7 @@ void GameEngineRenderer::RenderBaseValueUpdate(float _Delta)
 	BaseValue.DeltaTime = _Delta;
 }
 
-void GameEngineRenderer::Render(float _Delta) 
+void GameEngineRenderer::Render(float _Delta)
 {
 	RenderBaseValueUpdate(_Delta);
 	// GameEngineDevice::GetContext()->VSSetConstantBuffers();
@@ -148,109 +238,24 @@ void GameEngineRenderer::Render(float _Delta)
 	// 3D에가게되면 이게 안되요.
 	// 캐릭터가 매쉬가 1개가 아니야.
 	// 다리 팔 몸통
-	
+
 	// 텍스처 세팅 상수버퍼 세팅 이런것들이 전부다 처리 된다.
-	for (size_t i = 0; i < Units.size(); i++)
-	{
-		Units[i]->Render(_Delta);
-	}
+	//for (size_t i = 0; i < Units.size(); i++)
+	//{
+	//	Units[i]->Render(_Delta);
+	//}
 
 }
 
-std::shared_ptr<GameEngineRenderingPipeLine> GameEngineRenderer::GetPipeLine(int _index/* = 0*/) 
+std::shared_ptr<GameEngineMaterial> GameEngineRenderer::GetMaterial(int _index/* = 0*/)
 {
 	if (Units.size() <= _index)
 	{
 		MsgAssert("존재하지 않는 랜더 유니트를 사용하려고 했습니다.");
 	}
 
-	return Units[_index]->Pipe;
+	return Units[_index]->Material;
 }
-
-//// 이걸 사용하게되면 이 랜더러의 유니트는 자신만의 클론 파이프라인을 가지게 된다.
-//std::shared_ptr<GameEngineRenderingPipeLine> GameEngineRenderer::GetPipeLineClone(int _index/* = 0*/)
-//{
-//	if (Units.size() <= _index)
-//	{
-//		MsgAssert("존재하지 않는 랜더 유니트를 사용하려고 했습니다.");
-//	}
-//
-//	if (false == Units[_index]->Pipe->IsClone())
-//	{
-//		Units[_index]->Pipe = Units[_index]->Pipe->Clone();
-//	}
-//
-//	return Units[_index]->Pipe;
-//}
-//
-//
-//void GameEngineRenderer::SetMesh(const std::string_view& _Name, int _index /*= 0*/)
-//{
-//	if (Units.size() + 1 <= _index)
-//	{
-//		MsgAssert("너무큰 랜더유니트 확장을 하려고 했습니다");
-//	}
-//
-//	if (Units.size() <= _index)
-//	{
-//		Units.resize(_index + 1);
-//		Units[_index] = std::make_shared<GameEngineRenderUnit>();
-//	}
-//
-//	std::shared_ptr<GameEngineRenderUnit> Unit = Units[_index];
-//
-//	if (nullptr == Unit)
-//	{
-//		MsgAssert("존재하지 않는 랜더유니트를 사용하려고 했습니다.");
-//	}
-//
-//
-//	std::shared_ptr<GameEngineMesh> Mesh = GameEngineMesh::Find(_Name);
-//
-//	Unit->SetMesh(Mesh);
-//}
-//
-//void GameEngineRenderer::SetPipeLine(const std::string_view& _Name, int _index)
-//{
-//	//if (0 >= Units.size())
-//	//{
-//	//	MsgAssert("랜더 유니트가 존재하지 않습니다.");
-//	//}
-//
-//	if (Units.size() + 1 <= _index)
-//	{
-//		MsgAssert("너무큰 랜더유니트 확장을 하려고 했습니다");
-//	}
-//
-//	if (Units.size() <= _index)
-//	{
-//		Units.resize(_index + 1);
-//		Units[_index] = std::make_shared<GameEngineRenderUnit>();
-//	}
-//
-//	std::shared_ptr<GameEngineRenderUnit> Unit = Units[_index];
-//
-//	if (nullptr == Unit)
-//	{
-//		MsgAssert("존재하지 않는 랜더유니트를 사용하려고 했습니다.");
-//	}
-//
-//
-//	Unit->SetPipeLine(_Name);
-//
-//	if (true == Unit->ShaderResHelper.IsConstantBuffer("TransformData"))
-//	{
-//		const TransformData& Data = GetTransform()->GetTransDataRef();
-//		Unit->ShaderResHelper.SetConstantBufferLink("TransformData", Data);
-//	}
-//
-//	if (true == Unit->ShaderResHelper.IsConstantBuffer("RenderBaseValue"))
-//	{
-//		Unit->ShaderResHelper.SetConstantBufferLink("RenderBaseValue", BaseValue);
-//	}
-//
-//	GetTransform()->GetWorldMatrix();
-//}
 
 void GameEngineRenderer::PushCameraRender(int _CameraOrder)
 {
@@ -284,15 +289,61 @@ void GameEngineRenderer::CalSortZ(GameEngineCamera* _Camera)
 
 }
 
-
-std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateRenderUnit()
+std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateRenderUnit() 
 {
 	std::shared_ptr<GameEngineRenderUnit> Unit = std::make_shared<GameEngineRenderUnit>();
 
 	Unit->SetRenderer(this);
-
 	Units.push_back(Unit);
 
 	return Unit;
 }
 
+std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateRenderUnit(std::string_view _Mesh, std::string_view _Material)
+{
+	std::shared_ptr<GameEngineRenderUnit> Unit = CreateRenderUnit();
+
+	Unit->SetMesh(_Mesh);
+	Unit->SetMaterial(_Material);
+	return Unit;
+}
+
+std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateRenderUnitToIndex(unsigned int _Index)
+{
+	if (_Index >= Units.size())
+	{
+		Units.resize(_Index + 1);
+	}
+
+	std::shared_ptr<GameEngineRenderUnit> Unit = std::make_shared<GameEngineRenderUnit>();
+	Unit->SetRenderer(this);
+	Units[_Index] = Unit;
+
+	return Unit;
+}
+
+
+void GameEngineRenderer::SetMaterial(const std::string_view& _Name, int _index /*= 0*/)
+{
+	std::shared_ptr<GameEngineRenderUnit> Unit = GetUnit(_index);
+
+	if (nullptr == Unit)
+	{
+		Unit = CreateRenderUnitToIndex(_index);
+	}
+
+	Unit->SetMaterial(_Name);
+}
+
+
+void GameEngineRenderer::SetMesh(const std::string_view& _Name, int _index /*= 0*/)
+{
+	std::shared_ptr<GameEngineRenderUnit> Unit = GetUnit(_index);
+
+	if (nullptr == Unit)
+	{
+		Unit = CreateRenderUnitToIndex(_index);
+	}
+
+	Unit->SetMesh(_Name);
+}

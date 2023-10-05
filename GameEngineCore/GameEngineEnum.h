@@ -4,6 +4,7 @@ enum class ShaderType
 {
 	None,
 	Vertex,
+	Geometry,
 	Pixel,
 };
 
@@ -13,3 +14,4 @@ enum class CameraType
 	Perspective,
 	Orthogonal,
 };
+

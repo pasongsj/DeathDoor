@@ -165,8 +165,88 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bench.cpp" />
     <ClCompile Include="BlackScreen.cpp" />
-    <ClCompile Include="CenterGui.cpp">
+    <ClCompile Include="BossBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BossLevelTestObject.cpp" />
+    <ClCompile Include="BossTestLevel.cpp" />
+    <ClCompile Include="Boss_OldCrow.cpp" />
+    <ClCompile Include="Boss_OldCrowAnimation.cpp" />
+    <ClCompile Include="Boss_OldCrowFSM.cpp" />
+    <ClCompile Include="ContentFBXRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentFBXUIRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentSpriteRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentUIRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentUIFontRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Conveyor.cpp" />
+    <ClCompile Include="Crate.cpp" />
+    <ClCompile Include="EnemyBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyBat.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyBrute.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyBruteGold.cpp" />
+    <ClCompile Include="EnemyFirePlant.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyGhoul.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyGrunt.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyMage.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FlowerPot.cpp" />
+    <ClCompile Include="FortressLevel.cpp" />
+    <ClCompile Include="Fountain.cpp" />
+    <ClCompile Include="DynamicParticleManager.cpp" />
+    <ClCompile Include="Frog_Lever.cpp" />
+    <ClCompile Include="FSMObjectBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameContentsMapActor.cpp" />
+    <ClCompile Include="GlowEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="HpBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Ladder.cpp" />
+    <ClCompile Include="LevelWindow.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -174,12 +254,135 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
+    <ClCompile Include="MapTestLevel.cpp" />
+    <ClCompile Include="Map_Emptyplain.cpp" />
+    <ClCompile Include="Map_Fortress.cpp" />
+    <ClCompile Include="Map_Office.cpp" />
+    <ClCompile Include="MiniDesk.cpp" />
+    <ClCompile Include="MiniOffice.cpp" />
+    <ClCompile Include="MiniPost.cpp" />
+    <ClCompile Include="MonsterAnimationTest.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MyTest.cpp" />
+    <ClCompile Include="OfficeLevel.cpp" />
+    <ClCompile Include="MpBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp" />
+    <ClCompile Include="ParticleRenderer.cpp" />
+    <ClCompile Include="PhysXActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXBoxComponent.cpp" />
+    <ClCompile Include="PhysXCapsuleComponent.cpp" />
+    <ClCompile Include="PhysXControllerComponent.cpp" />
+    <ClCompile Include="PhysXConvexComponent.cpp" />
+    <ClCompile Include="PhysXCustom.cpp" />
+    <ClCompile Include="PhysXDefault.cpp" />
+    <ClCompile Include="PhysXLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXSphereComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXTestActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXTestLevel.cpp" />
+    <ClCompile Include="MapEditorLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MapEditorWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PhysXTestPlane.cpp" />
+    <ClCompile Include="PhysXTriangleComponent.cpp" />
+    <ClCompile Include="PhysXTrigger.cpp" />
+    <ClCompile Include="PinActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerAttackRange.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerAttMagic.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerFSM.cpp" />
+    <ClCompile Include="PlayerInit.cpp" />
+    <ClCompile Include="PlayerAttSkill.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerTestLevel.cpp" />
     <ClCompile Include="PreCompileHeader.cpp">
       <SubType>
       </SubType>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ProcessMapInfo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Railing.cpp" />
+    <ClCompile Include="SecretTile.cpp" />
+    <ClCompile Include="SemiCircleTable.cpp" />
+    <ClCompile Include="ServerPacket.cpp" />
+    <ClCompile Include="ServerTestLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ServerWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SinkBox_4x4.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SinkBox_8x8.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SkillSlot.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StartLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StartMenu.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Start_BackGround.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StreetLamp.cpp" />
+    <ClCompile Include="StaticParticleManager.cpp" />
+    <ClCompile Include="StreetLamp_2.cpp" />
     <ClCompile Include="TestLevel.cpp">
       <SubType>
       </SubType>
@@ -188,10 +391,120 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Transform_Wall.cpp" />
+    <ClCompile Include="TrashCan.cpp" />
+    <ClCompile Include="UITestLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bench.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BlackScreen.h" />
-    <ClInclude Include="CenterGui.h">
+    <ClInclude Include="BossBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BossLevelTestObject.h" />
+    <ClInclude Include="BossTestLevel.h" />
+    <ClInclude Include="Boss_OldCrow.h" />
+    <ClInclude Include="ContentFBXUIRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentSpriteRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentUIRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentUIFontRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentFBXRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Conveyor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Crate.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyBat.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyBrute.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyBruteGold.h" />
+    <ClInclude Include="EnemyDefinition.h" />
+    <ClInclude Include="EnemyFirePlant.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyGhoul.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyGrunt.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyMage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FlowerPot.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FortressLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Fountain.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DynamicParticleManager.h" />
+    <ClInclude Include="Frog_Lever.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FSMObjectBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameContentsMapActor.h" />
+    <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="GlowEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HpBar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Ladder.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="LevelWindow.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -199,8 +512,168 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
+    <ClInclude Include="MapTestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Map_Emptyplain.h" />
+    <ClInclude Include="Map_Fortress.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Map_Office.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MiniDesk.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MiniOffice.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MiniPost.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MonsterAnimationTest.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MyTest.h" />
+    <ClInclude Include="OfficeLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MpBar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="ParticleRenderer.h" />
+    <ClInclude Include="ParticleStruct.h" />
+    <ClInclude Include="PhysXActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXBoxComponent.h" />
+    <ClInclude Include="PhysXCapsuleComponent.h" />
+    <ClInclude Include="PhysXControllerComponent.h" />
+    <ClInclude Include="PhysXConvexComponent.h" />
+    <ClInclude Include="PhysXCustom.h" />
+    <ClInclude Include="PhysXDefault.h" />
+    <ClInclude Include="PhysXLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXSphereComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXTestActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXTestLevel.h" />
+    <ClInclude Include="MapEditGlobalValue.h" />
+    <ClInclude Include="MapEditorLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MapEditorWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PhysXTestPlane.h" />
+    <ClInclude Include="PhysXTriangleComponent.h" />
+    <ClInclude Include="PhysXTrigger.h" />
+    <ClInclude Include="PinActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerAttackRange.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerAttMagic.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerDefinition.h" />
+    <ClInclude Include="PlayerAttSkill.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerTestLevel.h" />
     <ClInclude Include="PreCompileHeader.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ProcessMapInfo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Railing.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SecretTile.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SemiCircleTable.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerPacket.h" />
+    <ClInclude Include="ServerTestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SinkBox_4x4.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SinkBox_8x8.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SkillSlot.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StartLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StartMenu.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Start_BackGround.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StreetLamp.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StaticParticleManager.h" />
+    <ClInclude Include="StreetLamp_2.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -212,6 +685,21 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Transform_Wall.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TrashCan.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UITestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="PhysX 사용법.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

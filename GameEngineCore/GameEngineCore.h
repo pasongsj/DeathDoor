@@ -39,9 +39,8 @@ public:
 	static std::shared_ptr<LevelType> CreateLevel(const std::string_view& _Name = "")
 	{
 		std::shared_ptr<GameEngineLevel> NewLevel =  std::make_shared<LevelType>();
-
 		std::string Name = _Name.data();
-
+		(GameEngineString::ToUpper(Name));
 		if (_Name == "")
 		{
 			const type_info& Info = typeid(LevelType);
@@ -50,6 +49,7 @@ public:
 		}
 
 		Name = GameEngineString::ToUpper(Name);
+		NewLevel->SetName(Name);
 
 		if (LevelMap.end() != LevelMap.find(Name))
 		{
@@ -71,6 +71,11 @@ public:
 
 	static GameEngineThreadJobQueue JobQueue;
 
+	static void SetRcvPacket(std::function<void()> _Fun)
+	{
+		RcvPacket = _Fun;
+	}
+
 protected:
 
 private:
@@ -90,5 +95,9 @@ private:
 	static std::shared_ptr<GameEngineLevel> NextLevel;
 
 	static void Release();
+
+	static std::function<void()> RcvPacket;
+	static float UpdateTime;
+
 };
 

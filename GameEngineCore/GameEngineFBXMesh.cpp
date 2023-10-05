@@ -3,12 +3,13 @@
 #include "GameEngineMesh.h"
 
 
-GameEngineFBXMesh::GameEngineFBXMesh() 
+GameEngineFBXMesh::GameEngineFBXMesh()
 {
 }
 
-GameEngineFBXMesh::~GameEngineFBXMesh() 
-{
+GameEngineFBXMesh::~GameEngineFBXMesh()
+{	
+	Release();
 }
 
 
@@ -18,6 +19,27 @@ std::shared_ptr<GameEngineFBXMesh> GameEngineFBXMesh::Load(const std::string& _P
 	Res->SetPath(_Path);
 	Res->LoadMesh(_Path, _Name);
 	return Res;
+}
+
+void GameEngineFBXMesh::UnLoad(const std::string& _Name)
+{
+	GameEngineResource::Remove(_Name);
+	return;
+}
+
+void GameEngineFBXMesh::Release()
+{
+	MeshInfos.clear();
+	MeshInfos.shrink_to_fit();
+	AllBones.clear();
+	AllBones.shrink_to_fit();
+	RenderUnitInfos.clear();
+	RenderUnitInfos.shrink_to_fit();
+	AllBoneStructuredBuffers = nullptr; // 본정보체
+	AllFindMap.clear();
+	ClusterData.clear();
+	ClusterData.shrink_to_fit();
+	IsInit = false;
 }
 
 //
@@ -120,8 +142,13 @@ void GameEngineFBXMesh::LoadMesh(const std::string& _Path, const std::string& _N
 	// 이유 => 우리는 스켈레탈을 따로 빼지 않았다.
 	// 버텍스 정보를 가진 노드를 조사한다.
 	// FBXInit(FBXFile.GetFullPath());
-	FBXInit(_Path);
-	MeshLoad();
+
+	// FBXInit(_Path);
+	// MeshLoad();
+
+	// 이쪽에서 본이 있는지 확인하고
+	// 본이 있다면 애니메이션을 할 가능성이 있다고 생각하기 때문에
+	// 여기서 본에 맞는 스트럭처드 버퍼를 만들어 낸다.
 	// CreateGameEngineStructuredBuffer();
 	// Bone을 조사한다.
 
@@ -130,6 +157,62 @@ void GameEngineFBXMesh::LoadMesh(const std::string& _Path, const std::string& _N
 	//	UserSave(SaveFile.GetFullPath());
 	//}
 }
+
+void GameEngineFBXMesh::Initialize()
+{
+	if (true == IsInit)
+	{
+		return;
+	}
+
+	GameEngineFile File;
+	File.SetPath(GetPath());
+
+	FBXMeshName = File.GetFileName();
+
+
+	File.ChangeExtension(".MeshFBX");
+
+	if (true == File.IsExists())
+	{
+		GameEngineSerializer Ser;
+		File.LoadBin(Ser);
+		Ser >> FBXMeshName;
+		Ser >> MeshInfos;
+		Ser >> RenderUnitInfos;
+		Ser >> AllBones;
+
+		for (size_t i = 0; i < AllBones.size(); i++)
+		{
+			AllFindMap[AllBones[i].Name] = &AllBones[i];
+		}
+
+		CreateGameEngineStructuredBuffer();
+
+		IsInit = true;
+
+		return;
+	}
+
+	// 여기에서는 유저 정보로 저장한게 있으면
+	// 유저 정보로 로드하고 리턴.
+
+	FBXInit(GetPathToString());
+	MeshLoad();
+	CreateGameEngineStructuredBuffer();
+
+	// 한번 유저정보로 저장을 할겁니다.
+
+	GameEngineSerializer Ser;
+	Ser << FBXMeshName;
+	Ser << MeshInfos;
+	Ser << RenderUnitInfos;
+	Ser << AllBones;
+	File.SaveBin(Ser);
+
+	IsInit = true;
+}
+
 
 void GameEngineFBXMesh::MeshLoad()
 {
@@ -154,49 +237,39 @@ void GameEngineFBXMesh::MeshLoad()
 	MeshInfos;
 }
 
-Bone* GameEngineFBXMesh::FindBone(size_t MeshIndex, size_t _BoneIndex)
+Bone* GameEngineFBXMesh::FindBone(size_t _BoneIndex)
 {
 	// m_vecRefBones 벡터로 들고 있는애
 
-	if (AllBones.size() <= MeshIndex)
-	{
-		MsgAssert("존재하지 않는 매쉬의 본을 가져오려고 했습니다.");
-		return nullptr;
-	}
-
-	if (AllBones[MeshIndex].size() <= _BoneIndex)
+	if (AllBones.size() <= _BoneIndex)
 	{
 		MsgAssert("존재하는 본의 범위를 넘겼습니다.");
 		return nullptr;
 	}
 
-	return &AllBones[MeshIndex][_BoneIndex];
+	return &AllBones[_BoneIndex];
 
 }
-Bone* GameEngineFBXMesh::FindBone(size_t MeshIndex, std::string _Name)
+Bone* GameEngineFBXMesh::FindBone(std::string _Name)
 {
 	if (0 == AllBones.size())
 	{
 		ImportBone();
 	}
 
-	if (0 == AllBones[MeshIndex].size())
-	{
-		return nullptr;
-	}
-
-	if (0 == AllFindMap[MeshIndex].size())
+	if (0 == AllFindMap.size())
 	{
 		MsgAssert("본을 찾는 작업을 하지 않은 매쉬입니다");
 	}
 
-	if (AllFindMap[MeshIndex].end() == AllFindMap[MeshIndex].find(_Name))
+	std::string sUpperName = GameEngineString::ToUpper(_Name);
+
+	if (AllFindMap.end() == AllFindMap.find(sUpperName))
 	{
 		return nullptr;
 	}
 
-	return AllFindMap[MeshIndex][_Name];
-
+	return AllFindMap[sUpperName];
 }
 
 bool GameEngineFBXMesh::IsOddNegativeScale(const fbxsdk::FbxAMatrix& TotalMatrix)
@@ -345,7 +418,7 @@ void GameEngineFBXMesh::FbxRenderUnitInfoMaterialSetting(fbxsdk::FbxNode* _Node,
 
 	}
 	else {
-		MsgAssert("매쉬는 존재하지만 재질은 존재하지 않습니다.");
+		// MsgAssert("매쉬는 존재하지만 재질은 존재하지 않습니다.");
 	}
 
 }
@@ -461,7 +534,8 @@ void GameEngineFBXMesh::LoadNormal(fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxAMatrix _M
 
 	if (0 == iCount)
 	{
-		MsgAssert("GetElementNormalCount가 여러개 입니다.");
+		_Mesh->GenerateNormals();
+		//MsgAssert("GetElementNormalCount가 여러개 입니다.");
 	}
 
 
@@ -653,7 +727,6 @@ void GameEngineFBXMesh::VertexBufferCheck()
 			if (RenderUnit.MinBoundBox.y > VtxData[controlPointIndex].POSITION.y) { RenderUnit.MinBoundBox.y = VtxData[controlPointIndex].POSITION.y; }
 			if (RenderUnit.MinBoundBox.z > VtxData[controlPointIndex].POSITION.z) { RenderUnit.MinBoundBox.z = VtxData[controlPointIndex].POSITION.z; }
 		}
-
 		RenderUnit.BoundScaleBox.x = RenderUnit.MaxBoundBox.x - RenderUnit.MinBoundBox.x;
 		RenderUnit.BoundScaleBox.y = RenderUnit.MaxBoundBox.y - RenderUnit.MinBoundBox.y;
 		RenderUnit.BoundScaleBox.z = RenderUnit.MaxBoundBox.z - RenderUnit.MinBoundBox.z;
@@ -798,10 +871,10 @@ void GameEngineFBXMesh::LoadUVInformation(fbxsdk::FbxMesh* pMesh, std::vector<Ga
 
 						lUVValue = lUVElement->GetDirectArray().GetAt(lUVIndex);
 
-						//int VertexIndex = pMesh->GetTextureUVIndex(lPolyIndex, lVertIndex);
+						int VertexIndex = pMesh->GetTextureUVIndex(lPolyIndex, lVertIndex);
 
-						//_ArrVtx[VertexIndex].TEXCOORD.x = static_cast<float>(lUVValue.mData[0]);
-						//_ArrVtx[VertexIndex].TEXCOORD.y = 1.0f - static_cast<float>(lUVValue.mData[1]);
+						_ArrVtx[VertexIndex].TEXCOORD.x = static_cast<float>(lUVValue.mData[0]);
+						_ArrVtx[VertexIndex].TEXCOORD.y = 1.0f - static_cast<float>(lUVValue.mData[1]);
 
 						//float4 Test;
 						//Test.x = static_cast<float>(lUVValue.mData[0]);
@@ -1005,7 +1078,7 @@ std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(size_t _Mes
 
 	FbxRenderUnitInfo& Unit = RenderUnitInfos[_MeshIndex];
 
-	if (nullptr == Unit.VertexBuffer) 
+	if (nullptr == Unit.VertexBuffer)
 	{
 		std::shared_ptr<GameEngineVertexBuffer> VertexBuffer = GameEngineVertexBuffer::Create(Unit.Vertexs);
 
@@ -1067,9 +1140,9 @@ std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(size_t _Mes
 
 			if (false == Path.IsExists())
 			{
-				MsgTextBox("FBX매쉬도중 텍스처가 존재하지 않습니다." + std::string(FilePath));
+				// MsgTextBox("FBX매쉬도중 텍스처가 존재하지 않습니다." + std::string(FilePath));
 			}
-			else 
+			else
 			{
 				GameEngineTexture::Load(FilePath);
 			}
@@ -1095,7 +1168,7 @@ std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(size_t _Mes
 
 			if (false == Path.IsExists())
 			{
-				MsgTextBox("FBX매쉬도중 텍스처가 존재하지 않습니다." + std::string(FilePath));
+				// MsgTextBox("FBX매쉬도중 텍스처가 존재하지 않습니다." + std::string(FilePath));
 			}
 			else
 			{
@@ -1181,9 +1254,7 @@ bool GameEngineFBXMesh::ImportBone()
 	// 조사한 클러스터들에 연결되어있는 본들을 조사하기 시작한다.
 	for (size_t Clusterindex = 0; Clusterindex < ClusterArray.size(); Clusterindex++)
 	{
-		AllBones.emplace_back();
-		std::map<std::string, Bone*>& FindMap = AllFindMap.emplace_back();
-
+		// AllBones.emplace_back();
 		if (0 == ClusterArray[Clusterindex].size())
 		{
 			continue;
@@ -1304,12 +1375,17 @@ bool GameEngineFBXMesh::ImportBone()
 
 		int RootIdx = -1;
 
+		if (0 == AllBones.size())
+		{
+			for (size_t i = 0; i < SortedLinks.size(); i++)
+			{
+				Bone& tempBoneData = AllBones.emplace_back();
+				tempBoneData.Index = static_cast<int>(AllBones.size() - 1);
+			}
+		}
+
 		for (LinkIndex = 0; LinkIndex < SortedLinks.size(); LinkIndex++)
 		{
-			Bone& tempBoneData = AllBones[Clusterindex].emplace_back();
-			// Bone& tempBoneData = m_vecRefBones.at(m_vecRefBones.size() - 1);
-			tempBoneData.Index = static_cast<int>(AllBones[Clusterindex].size() - 1);
-
 			Link = SortedLinks[LinkIndex];
 
 			int ParentIndex = -1;
@@ -1422,9 +1498,13 @@ bool GameEngineFBXMesh::ImportBone()
 				GlobalLinkS = LocalLinkS = GlobalsPerLink[static_cast<int>(LinkIndex)].GetS();
 			}
 
-			Bone& Bone = AllBones[Clusterindex][static_cast<int>(LinkIndex)];
+			Bone& Bone = AllBones[static_cast<int>(LinkIndex)];
+			Bone.Name = GameEngineString::ToUpper(Link->GetName());
 
-			Bone.Name = Link->GetName();
+			if (false == AllFindMap.contains(Link->GetName()))
+			{
+				AllFindMap[Link->GetName()] = &Bone;
+			}
 
 			JointPos& BonePosData = Bone.BonePos;
 			fbxsdk::FbxSkeleton* Skeleton = Link->GetSkeleton();
@@ -1464,30 +1544,32 @@ bool GameEngineFBXMesh::ImportBone()
 		}
 
 
-		for (size_t i = 0; i < AllBones[Clusterindex].size(); i++)
+
+
+
+	}
+
+	for (size_t i = 0; i < AllBones.size(); i++)
+	{
+		if (AllFindMap.end() == AllFindMap.find(AllBones[i].Name))
 		{
-			if (FindMap.end() == FindMap.find(AllBones[Clusterindex][i].Name))
-			{
-				FindMap.insert(std::make_pair(AllBones[Clusterindex][i].Name, &AllBones[Clusterindex][i]));
-				continue;
-			}
-
-			std::multimap<std::string, Bone*>::iterator it, itlow, itup;
-
-			itlow = FindMap.lower_bound(AllBones[Clusterindex][i].Name);  // itlow points to b
-			itup = FindMap.upper_bound(AllBones[Clusterindex][i].Name);   // itup points to e (not d)
-
-			int Count = 0;
-			for (it = itlow; it != itup; ++it)
-			{
-				++Count;
-			}
-
-			std::string Name = AllBones[Clusterindex][i].Name + std::to_string(Count);
-			FindMap.insert(std::make_pair(GameEngineString::ToUpper(Name), &AllBones[Clusterindex][i]));
+			AllFindMap.insert(std::make_pair(AllBones[i].Name, &AllBones[i]));
+			continue;
 		}
 
+		std::multimap<std::string, Bone*>::iterator it, itlow, itup;
 
+		itlow = AllFindMap.lower_bound(AllBones[i].Name);  // itlow points to b
+		itup = AllFindMap.upper_bound(AllBones[i].Name);   // itup points to e (not d)
+
+		int Count = 0;
+		for (it = itlow; it != itup; ++it)
+		{
+			++Count;
+		}
+
+		std::string Name = AllBones[i].Name + std::to_string(Count);
+		AllFindMap.insert(std::make_pair(GameEngineString::ToUpper(Name), &AllBones[i]));
 	}
 
 	LoadSkinAndCluster();
@@ -1568,7 +1650,7 @@ void GameEngineFBXMesh::LoadAnimationVertexData(FbxRenderUnitInfo* _MeshSet, con
 		}
 
 		std::string StrBoneName = clusterData.LinkName;
-		Bone* pBone = FindBone(_MeshSet->VectorIndex, StrBoneName);
+		Bone* pBone = FindBone(StrBoneName);
 		if (nullptr == pBone)
 		{
 			continue;
@@ -1861,21 +1943,11 @@ void GameEngineFBXMesh::BuildSkeletonSystem(fbxsdk::FbxScene* pScene, std::vecto
 
 void GameEngineFBXMesh::CreateGameEngineStructuredBuffer()
 {
-	// AllBoneStructuredBuffers.resize(AllBones.size());
-
-	//for (size_t i = 0; i < AllBones.size(); i++)
-	//{
-	//	std::shared_ptr<GameEngineStructuredBuffer> NewStructuredBuffer = AllBoneStructuredBuffers.emplace_back(std::make_shared<GameEngineStructuredBuffer>());
-	//	NewStructuredBuffer->CreateResize(sizeof(float4x4), static_cast<int>(AllBones[i].size()), nullptr);
-	//}
+	AllBoneStructuredBuffers = std::make_shared<GameEngineStructuredBuffer>();
+	AllBoneStructuredBuffers->CreateResize(sizeof(float4x4), static_cast<int>(AllBones.size()), nullptr);
 }
 
-std::shared_ptr<GameEngineStructuredBuffer> GameEngineFBXMesh::GetAnimationStructuredBuffer(size_t _Index)
+std::shared_ptr<GameEngineStructuredBuffer> GameEngineFBXMesh::GetAnimationStructuredBuffer()
 {
-	if (AllBoneStructuredBuffers.size() <= _Index)
-	{
-		MsgAssert("스트럭처드 버퍼 인덱스 오버");
-	}
-
-	return AllBoneStructuredBuffers[_Index];
+	return AllBoneStructuredBuffers;
 }

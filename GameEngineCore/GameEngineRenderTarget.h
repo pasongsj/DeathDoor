@@ -23,8 +23,12 @@ class GameEngineTexture;
 class GameEngineRenderTarget : public GameEngineResource<GameEngineRenderTarget>,
 	std::enable_shared_from_this<GameEngineRenderTarget>
 {
+
+	friend class GameEngineCoreWindow;
 	friend class GameEngineCore;
 public:
+	static void AllTargetReset();
+
 	// constrcuter destructer
 	GameEngineRenderTarget();
 	~GameEngineRenderTarget();
@@ -53,11 +57,28 @@ public:
 		return NewRenderTarget;
 	}
 
+	static std::shared_ptr<GameEngineRenderTarget> CreateDummy()
+	{
+		std::shared_ptr<GameEngineRenderTarget> NewRenderTarget = GameEngineResource::CreateUnNamed();
+		return NewRenderTarget;
+	}
+
+
 	void Clear();
 
 	void Setting() override;
 
-	void Reset();
+	static void Reset();
+
+	std::shared_ptr<GameEngineTexture> GetDepthTexture()
+	{
+		return DepthTexture;
+	}
+
+	void SetDepthTexture(std::shared_ptr<GameEngineTexture> _DepthTex)
+	{
+		DepthTexture = _DepthTex;
+	}
 
 	void CreateDepthTexture(int _Index = 0);
 
@@ -87,7 +108,7 @@ public:
 		return Textures[_Index];
 	}
 
-	void DepthSettingOn() 
+	void DepthSettingOn()
 	{
 		DepthSetting = true;
 	}
@@ -95,6 +116,34 @@ public:
 	void DepthSettingOff()
 	{
 		DepthSetting = false;
+	}
+
+	void AddNewTexture(DXGI_FORMAT _Format, float4 _Scale, float4 _Color)
+	{
+		ResCreate(_Format, _Scale, _Color);
+	}
+
+	void ChangeViewPort(float4 _Scale, int _Index = 0);
+
+	void ReleaseTexture()
+	{
+		if (nullptr!=DepthTexture)
+		{
+			DepthTexture->Release();
+		}
+		for (size_t i = 0; i < Textures.size(); i++)
+		{
+			if (nullptr != Textures[i])
+			{
+				Textures[i]->Release();
+				Textures[i] = nullptr;
+			}
+		}
+		Textures.clear();
+		RTVs.clear();
+		SRVs.clear();
+		ViewPortDatas.clear();
+		Color.clear();
 	}
 
 protected:
@@ -105,12 +154,14 @@ private:
 
 	bool DepthSetting = true;
 
-	float4 Color = { 0.0f, 0.0f, 0.0f, 0.0f };
+	std::vector<float4> Color;
 
 	std::vector<std::shared_ptr<GameEnginePostProcess>> Effects;
 
 	std::vector<std::shared_ptr<GameEngineTexture>> Textures;
+	std::vector<D3D11_VIEWPORT> ViewPortDatas;
 	std::vector<ID3D11RenderTargetView*> RTVs;
+	std::vector<ID3D11ShaderResourceView*> SRVs;
 
 	std::shared_ptr<GameEngineTexture> DepthTexture;
 

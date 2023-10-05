@@ -74,6 +74,7 @@ struct TransformData
 	float4x4 View;
 	float4x4 Projection;
 	float4x4 ViewPort;
+	float4x4 WorldView;
 	float4x4 WorldViewProjectionMatrix;
 
 	void WorldCalculation(const TransformData& _Parent, bool AbsoluteScale, bool AbsoluteRotation, bool AbsolutePosition);
@@ -423,6 +424,9 @@ public:
 	static bool OBB2DToSpehre2D(const CollisionData&, const CollisionData&);
 	static bool OBB2DToAABB2D(const CollisionData&, const CollisionData&);
 	static bool OBB2DToOBB2D(const CollisionData&, const CollisionData&);
+
+
+	static bool TriCollision(float4 _Start, float4 _Dir, float4 Point0, float4 Point1, float4 Point2, float& _Len);	// static bool 
 
 };
 

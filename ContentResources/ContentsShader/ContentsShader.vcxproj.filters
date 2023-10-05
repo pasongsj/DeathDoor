@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <FxCompile Include="ContentRenderBaseValue.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentTransform.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentAnimation.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentLight.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentFunction.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentAniMeshDeffered.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentAnitMeshForward.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentMeshForward.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="HorizonBlur.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="VerticalBlur.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="FadeShader.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentTextureShader.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentMeshDeffered.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResultRender.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="DefferedColorMerge.hlsl">
+      <Filter>Effect\Glow</Filter>
+    </FxCompile>
+    <FxCompile Include="DetectMask.hlsl">
+      <Filter>Effect\Glow</Filter>
+    </FxCompile>
+    <FxCompile Include="AllBlur7x7.hlsl">
+      <Filter>Effect\Glow</Filter>
+    </FxCompile>
+    <FxCompile Include="LightMerge.hlsl">
+      <Filter>Effect\Glow</Filter>
+    </FxCompile>
+    <FxCompile Include="Rain.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{eef00498-d33d-45be-9baa-d6003f492226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BasicShader">
+      <UniqueIdentifier>{24666e1f-3261-4f9e-a4ac-6c039f585046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect">
+      <UniqueIdentifier>{2377ce25-5fd9-4978-8079-f666b2ee70ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Glow">
+      <UniqueIdentifier>{73680677-87cb-44d6-8a23-6f3fc68d75ea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="쉐이더 사용법.txt" />
+  </ItemGroup>
+</Project>

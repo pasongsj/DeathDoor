@@ -11,13 +11,22 @@
 #include "GameEngineVideo.h"
 #include "GameEngineGUI.h"
 
+#include <GameEngineContents/PhysXManager.h>
+#include <GameEngineBase/GameEngineNetObject.h>
+
 GameEngineThreadJobQueue GameEngineCore::JobQueue;
 
 std::map<std::string, std::shared_ptr<GameEngineLevel>> GameEngineCore::LevelMap;
 std::shared_ptr<GameEngineLevel> GameEngineCore::MainLevel = nullptr;
 std::shared_ptr<GameEngineLevel> GameEngineCore::NextLevel = nullptr;
 
-std::shared_ptr<class GameEngineLevel> GameEngineCore::CurLoadLevel;
+std::shared_ptr<class GameEngineLevel> GameEngineCore::CurLoadLevel = nullptr;
+std::function<void()> GameEngineCore::RcvPacket = nullptr;
+
+
+float GameEngineCore::UpdateTime = 0.f;
+
+
 
 GameEngineCore::GameEngineCore() 
 {
@@ -51,7 +60,7 @@ void GameEngineCore::EngineStart(std::function<void()> _ContentsStart)
 	GameEngineDevice::Initialize();
 
 	CoreResourcesInit();
-
+	PhysXManager::GetInst()->Init();
 	GameEngineGUI::Initialize();
 
 	if (nullptr == _ContentsStart)
@@ -71,6 +80,7 @@ void GameEngineCore::EngineUpdate()
 		{
 			MainLevel->LevelChangeEnd();
 			MainLevel->ActorLevelChangeEnd();
+			MainLevel->ReleaseLevelRenderTarget(); // 렌더타겟 실제로 생성
 		}
 
 		MainLevel = NextLevel;
@@ -78,24 +88,12 @@ void GameEngineCore::EngineUpdate()
 		if (nullptr != MainLevel)
 		{
 			CurLoadLevel = MainLevel;
+			MainLevel->InitLevelRenderTarget();// 생성했던 렌더타겟 삭제
+			PhysXManager::GetInst()->ChangeScene(MainLevel->GetName()); // PhysX Scene변경 없으면 null로 만들어서 사용불가
 			MainLevel->LevelChangeStart();
-			MainLevel->ActorLevelChangeStart();
+			MainLevel->ActorLevelChangeStart(); 
 		}
 
-		// PrevLevel
-		// 레벨체인지가 완료된 시점에서 Texture의 상태를 한번 생각해봅시다.
-
-		// 1은 가지고 있다.
-		// GameEngineResources<GameEngineTexture>가 1개의 레퍼런스 카운트를 가지고 있을 것이다.
-
-		// 이전레벨에 존재하는 TextureSetter내부에 보관되고 있는 애들은 2이상의 가지고 있을 것이다.
-
-		// 3이상인 애들은 => 이전레벨과 지금레벨에서 모두 사용하는 
-		// 애들 TextureResources에서도 들고 있을것이기 때문에 레퍼런스 카운트가 3이상이다.
-		// 2인애들은 이전레벨에서만 사용하거나 지금레벨에서만 사용애들입니다.
-		// 레퍼런스 카운트 관리해볼것이다.
-
-		// Prev레벨에서 사용한 텍스처들
 		NextLevel = nullptr;
 		GameEngineTime::GlobalTime.Reset();
 	}
@@ -108,12 +106,33 @@ void GameEngineCore::EngineUpdate()
 
 	float TimeDeltaTime = GameEngineTime::GlobalTime.TimeCheck();
 
+	if (TimeDeltaTime<=0.f) // PhysX는 Simulate시 시간이 0 이면 오류를 뿜어서 리턴
+	{
+		return;
+	}
+
 	// 별로 좋은건 아닙니다.
-	if (TimeDeltaTime > 1 / 30.0f)
+	if (TimeDeltaTime > 1 / 30.0f) 
 	{
 		TimeDeltaTime = 1 / 30.0f;
 	}
 
+	UpdateTime += TimeDeltaTime;
+
+	PhysXManager::GetInst()->Simulate(TimeDeltaTime); // PhysX Simulate는 DeltaTime으로 돌게함
+
+	if (1.f/120.f > UpdateTime) // EngineUpdate는 120프레임으로 돌게함
+	{
+		return;
+	}
+
+	TimeDeltaTime = UpdateTime;
+	UpdateTime = 0.f;
+
+	if (nullptr != RcvPacket)
+	{
+		RcvPacket();
+	}
 	GameEngineInput::Update(TimeDeltaTime);
 	GameEngineSound::SoundUpdate();
 
@@ -125,12 +144,15 @@ void GameEngineCore::EngineUpdate()
 	MainLevel->ActorUpdate(TimeDeltaTime);
 	// CurLoadLevel = nullptr;
 
+	// 서버에 패킷을 보내는 위치 (server packet send)
+	GameEngineNetObject::SendAllPacket(TimeDeltaTime);
+	//MainLevel->SendActorPacket(TimeDeltaTime);
+
 	GameEngineVideo::VideoState State = GameEngineVideo::GetCurState();
 	if (State != GameEngineVideo::VideoState::Running)
 	{
 		GameEngineDevice::RenderStart();
 		MainLevel->Render(TimeDeltaTime);
-		MainLevel->ActorRender(TimeDeltaTime);
 		GameEngineDevice::RenderEnd();
 	}
 
@@ -145,12 +167,13 @@ void GameEngineCore::EngineEnd(std::function<void()> _ContentsEnd)
 	}
 
 	_ContentsEnd();
-
+	PhysXManager::GetInst()->Release();
 	GameEngineGUI::Release();
 
 	LevelMap.clear();
 	CoreResourcesEnd();
 	Release();
+	
 
 	GameEngineDevice::Release();
 	GameEngineWindow::Release();
@@ -167,7 +190,7 @@ void GameEngineCore::Start(HINSTANCE _instance,  std::function<void()> _Start, s
 		GameEngineInput::CreateKey("EngineMouseRight", VK_RBUTTON);
 	}
 
-	GameEngineWindow::WindowCreate(_instance, "MainWindow", _Size, _Pos);
+	GameEngineWindow::WindowCreate(_instance, "Death's Door", _Size, _Pos);
 	GameEngineWindow::WindowLoop(std::bind(GameEngineCore::EngineStart, _Start), GameEngineCore::EngineUpdate, std::bind(GameEngineCore::EngineEnd, _End));
 }
 

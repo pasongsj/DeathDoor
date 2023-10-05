@@ -2,68 +2,743 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="CenterLevel.cpp">
-      <Filter>CenterLevel</Filter>
+      <Filter>Contents\CenterLevel</Filter>
     </ClCompile>
     <ClCompile Include="FadeEffect.cpp">
-      <Filter>PostEffect</Filter>
+      <Filter>Component\ContentsRenderer\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel.cpp">
-      <Filter>TestLevel</Filter>
+      <Filter>Contents\TestLevel</Filter>
     </ClCompile>
     <ClCompile Include="TestObject.cpp">
-      <Filter>TestLevel\Object</Filter>
+      <Filter>Contents\TestLevel\Object</Filter>
     </ClCompile>
-    <ClCompile Include="CenterGui.cpp">
-      <Filter>CenterLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="BlackScreen.cpp">
-      <Filter>TestLevel\Object</Filter>
+      <Filter>Contents\TestLevel\Object</Filter>
     </ClCompile>
     <ClCompile Include="PreCompileHeader.cpp" />
+    <ClCompile Include="ServerTestLevel.cpp">
+      <Filter>Contents\TestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditorWindow.cpp">
+      <Filter>Component\mapeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditorLevel.cpp">
+      <Filter>Component\mapeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessMapInfo.cpp">
+      <Filter>Component\mapeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="PinActor.cpp">
+      <Filter>Component\mapeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SinkBox_8x8.cpp">
+      <Filter>Contents\PlayLevel\MapActor</Filter>
+    </ClCompile>
+    <ClCompile Include="SinkBox_4x4.cpp">
+      <Filter>Contents\PlayLevel\MapActor</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTestActor.cpp">
+      <Filter>Component\PhysX\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXBoxComponent.cpp">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXCapsuleComponent.cpp">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXConvexComponent.cpp">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerPacket.cpp">
+      <Filter>Base\Server\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="StartLevel.cpp">
+      <Filter>Contents\StartLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTriangleComponent.cpp">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXSphereComponent.cpp">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXLevel.cpp">
+      <Filter>Component\PhysX\ParentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXActor.cpp">
+      <Filter>Component\PhysX\ParentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTestLevel.cpp">
+      <Filter>Component\PhysX\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXCustom.cpp">
+      <Filter>Component\PhysX\ParentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXDefault.cpp">
+      <Filter>Component\PhysX\ParentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTestPlane.cpp">
+      <Filter>Component\PhysX\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="StartMenu.cpp">
+      <Filter>Contents\StartLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelWindow.cpp">
+      <Filter>Base\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerWindow.cpp">
+      <Filter>Base\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Contents_Resources.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GameContentsMapActor.cpp">
+      <Filter>Component\mapeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Start_BackGround.cpp">
+      <Filter>Contents\StartLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UITestLevel.cpp">
+      <Filter>Contents\UITestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillSlot.cpp">
+      <Filter>Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="HpBar.cpp">
+      <Filter>Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MpBar.cpp">
+      <Filter>Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MapTestLevel.cpp">
+      <Filter>Contents\TestLevel\MapTestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTestLevel.cpp">
+      <Filter>Contents\PlayerTestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXManager.cpp" />
+    <ClCompile Include="PlayerInit.cpp">
+      <Filter>Contents\PlayerTestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Map_Emptyplain.cpp">
+      <Filter>Contents\TestLevel\MapTestLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXManager.cpp">
+      <Filter>Component\PhysX\ParentClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Map_Office.cpp">
+      <Filter>Contents\OfficeLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="StreetLamp.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TrashCan.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Fountain.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="SemiCircleTable.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticParticleManager.cpp">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicParticleManager.cpp">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleRenderer.cpp">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTest.cpp">
+      <Filter>Contents\UITestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="StreetLamp_2.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniOffice.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowerPot.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniDesk.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Conveyor.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform_Wall.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>Contents\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Railing.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Bench.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniPost.cpp">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInit.cpp">
+      <Filter>FSMObject\Player</Filter>
+    </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>TestLevel\Object</Filter>
+      <Filter>FSMObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFSM.cpp">
+      <Filter>FSMObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMObjectBase.cpp">
+      <Filter>FSMObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterAnimationTest.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBat.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTrigger.cpp">
+      <Filter>Component\PhysX\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrowFSM.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrowAnimation.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrow.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="BossLevelTestObject.cpp">
+      <Filter>Contents\BossTestLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="BossTestLevel.cpp">
+      <Filter>Contents\BossTestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="FortressLevel.cpp">
+      <Filter>Contents\FortressLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Map_Fortress.cpp">
+      <Filter>Contents\FortressLevel\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyFirePlant.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBase.cpp">
+      <Filter>Contents\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMage.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGrunt.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SecretTile.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Crate.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Frog_Lever.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXControllerComponent.cpp">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBrute.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Ladder.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGhoul.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBruteGold.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="OfficeLevel.cpp">
+      <Filter>Contents\OfficeLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentFBXRenderer.cpp">
+      <Filter>Component\ContentsRenderer\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentFBXUIRenderer.cpp">
+      <Filter>Component\ContentsRenderer\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentSpriteRenderer.cpp">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentUIRenderer.cpp">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentUIFontRenderer.cpp">
+      <Filter>Component\ContentsRenderer\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="GlowEffect.cpp">
+      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackRange.cpp">
+      <Filter>FSMObject\Player\Att</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttMagic.cpp">
+      <Filter>FSMObject\Player\Att</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttSkill.cpp">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
-      <Filter>CenterLevel</Filter>
+      <Filter>Contents\CenterLevel</Filter>
     </ClInclude>
     <ClInclude Include="FadeEffect.h">
-      <Filter>PostEffect</Filter>
+      <Filter>Component\ContentsRenderer\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel.h">
-      <Filter>TestLevel</Filter>
+      <Filter>Contents\TestLevel</Filter>
     </ClInclude>
     <ClInclude Include="TestObject.h">
-      <Filter>TestLevel\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="CenterGui.h">
-      <Filter>CenterLevel</Filter>
+      <Filter>Contents\TestLevel\Object</Filter>
     </ClInclude>
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="BlackScreen.h">
-      <Filter>TestLevel\Object</Filter>
+      <Filter>Contents\TestLevel\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PreCompileHeader.h" />
+    <ClInclude Include="ServerTestLevel.h">
+      <Filter>Contents\TestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditorWindow.h">
+      <Filter>Component\mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditorLevel.h">
+      <Filter>Component\mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditGlobalValue.h">
+      <Filter>Component\mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessMapInfo.h">
+      <Filter>Component\mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="PinActor.h">
+      <Filter>Component\mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SinkBox_8x8.h">
+      <Filter>Contents\PlayLevel\MapActor</Filter>
+    </ClInclude>
+    <ClInclude Include="SinkBox_4x4.h">
+      <Filter>Contents\PlayLevel\MapActor</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTestActor.h">
+      <Filter>Component\PhysX\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXBoxComponent.h">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXCapsuleComponent.h">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXConvexComponent.h">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTriangleComponent.h">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXSphereComponent.h">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXActor.h">
+      <Filter>Component\PhysX\ParentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXLevel.h">
+      <Filter>Component\PhysX\ParentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTestLevel.h">
+      <Filter>Component\PhysX\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXCustom.h">
+      <Filter>Component\PhysX\ParentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXDefault.h">
+      <Filter>Component\PhysX\ParentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTestPlane.h">
+      <Filter>Component\PhysX\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPacket.h">
+      <Filter>Base\Server\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="StartLevel.h">
+      <Filter>Contents\StartLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="StartMenu.h">
+      <Filter>Contents\StartLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelWindow.h">
+      <Filter>Base\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerWindow.h">
+      <Filter>Base\Server</Filter>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
-    <ClInclude Include="PreCompileHeader.h" />
+    <ClInclude Include="GameContentsMapActor.h">
+      <Filter>Component\mapeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Start_BackGround.h">
+      <Filter>Contents\StartLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UITestLevel.h">
+      <Filter>Contents\UITestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillSlot.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="HpBar.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MpBar.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MapTestLevel.h">
+      <Filter>Contents\TestLevel\MapTestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTestLevel.h">
+      <Filter>Contents\PlayerTestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_Emptyplain.h">
+      <Filter>Contents\TestLevel\MapTestLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXManager.h">
+      <Filter>Component\PhysX\ParentClass</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_Office.h">
+      <Filter>Contents\OfficeLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="StreetLamp.h">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashCan.h">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Fountain.h">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="SemiCircleTable.h">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleStruct.h">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleRenderer.h">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicParticleManager.h">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticParticleManager.h">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>Component\ContentsRenderer\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTest.h">
+      <Filter>Contents\UITestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="StreetLamp_2.h">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniOffice.h">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowerPot.h">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniDesk.h">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Conveyor.h">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform_Wall.h">
+      <Filter>Contents\OfficeLevel\Static_Object\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>Contents\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Railing.h">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Bench.h">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniPost.h">
+      <Filter>Contents\OfficeLevel\Static_Object</Filter>
+    </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>TestLevel\Object</Filter>
+      <Filter>FSMObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDefinition.h">
+      <Filter>FSMObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMObjectBase.h">
+      <Filter>FSMObject</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterAnimationTest.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBat.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDefinition.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTrigger.h">
+      <Filter>Component\PhysX\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss_OldCrow.h">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClInclude>
+    <ClInclude Include="BossLevelTestObject.h">
+      <Filter>Contents\BossTestLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="BossTestLevel.h">
+      <Filter>Contents\BossTestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="FortressLevel.h">
+      <Filter>Contents\FortressLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_Fortress.h">
+      <Filter>Contents\FortressLevel\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFirePlant.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBase.h">
+      <Filter>Contents\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMage.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGrunt.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="SecretTile.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Crate.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Frog_Lever.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXControllerComponent.h">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBrute.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Ladder.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGhoul.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="OfficeLevel.h">
+      <Filter>Contents\OfficeLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentFBXRenderer.h">
+      <Filter>Component\ContentsRenderer\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentFBXUIRenderer.h">
+      <Filter>Component\ContentsRenderer\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentSpriteRenderer.h">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentUIRenderer.h">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentUIFontRenderer.h">
+      <Filter>Component\ContentsRenderer\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="GlowEffect.h">
+      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBruteGold.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackRange.h">
+      <Filter>FSMObject\Player\Att</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttMagic.h">
+      <Filter>FSMObject\Player\Att</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttSkill.h">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="CenterLevel">
-      <UniqueIdentifier>{d44676b4-b55b-4b01-b97f-0c42b408d171}</UniqueIdentifier>
+    <Filter Include="Base">
+      <UniqueIdentifier>{b20edcb2-5e16-407a-b3c3-2e05661bf8d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PostEffect">
+    <Filter Include="Base\Controller">
+      <UniqueIdentifier>{6051e4a1-084e-4972-a9a4-2452c96a2921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Server">
+      <UniqueIdentifier>{b7663b85-6fd3-4f21-b289-cdc522ae4486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Server\Packet">
+      <UniqueIdentifier>{87cb09f1-9269-4a47-95d9-45d86e4e2d4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{de84afd0-1cc6-4a08-a1f6-a3178aa9aa4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer">
+      <UniqueIdentifier>{ea47a0a4-5c32-4fb2-9bd1-1b0b0980ad7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\PhysX">
+      <UniqueIdentifier>{4d83cbc8-4188-4e36-b30b-1974fd06a430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\PhysX\Component">
+      <UniqueIdentifier>{d7309d46-1f1f-43b1-9d99-dcb38e66248c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\PhysX\ParentClass">
+      <UniqueIdentifier>{dabb8312-c38b-4b1b-a797-0ae1c4771dbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\PhysX\Test">
+      <UniqueIdentifier>{c0881260-81c3-4478-b5d6-05f3ea633a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\PostEffect">
       <UniqueIdentifier>{d5ea17ab-cd73-4c06-af79-5246cf19158e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TestLevel">
+    <Filter Include="Component\mapeditor">
+      <UniqueIdentifier>{89975606-5f56-4ef4-845e-15ad963da86d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents">
+      <UniqueIdentifier>{26cae70b-c653-4444-9083-9f17e36ddd03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\CenterLevel">
+      <UniqueIdentifier>{d44676b4-b55b-4b01-b97f-0c42b408d171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\StartLevel">
+      <UniqueIdentifier>{ce82898a-ce38-4483-8266-4f610cbc57f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\StartLevel\Actor">
+      <UniqueIdentifier>{c1dcac4a-2650-4b32-b061-bf2031510580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\PlayLevel">
+      <UniqueIdentifier>{24783dc1-27e8-4373-b1c1-dd0e053066fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\PlayLevel\MapActor">
+      <UniqueIdentifier>{5dd5f4a8-7587-4241-8ab9-47d33fcde18d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\TestLevel">
       <UniqueIdentifier>{eada6a09-d35b-4d75-a77b-f265879012ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TestLevel\Object">
+    <Filter Include="Contents\TestLevel\Object">
       <UniqueIdentifier>{20971649-8cee-49b6-84ba-e57808e3cfc9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\UITestLevel">
+      <UniqueIdentifier>{3fd6a672-fbf5-44c4-922f-dd2e1e6ae53c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\UI">
+      <UniqueIdentifier>{74de8639-1ad2-4b61-8191-ce266cf0324a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\TestLevel\MapTestLevel">
+      <UniqueIdentifier>{b16eeba7-6471-4f60-98a8-0090176d2813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel">
+      <UniqueIdentifier>{3ed49c97-668f-4942-9b4f-9f84ec5ffac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel\Actor">
+      <UniqueIdentifier>{7796eaa7-b090-4533-97cc-d83cc6fce77b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\PlayerTestLevel">
+      <UniqueIdentifier>{f51af19b-c4ef-4a9b-a75e-fa1d33a8d783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Boss">
+      <UniqueIdentifier>{a635cc47-31d0-4194-b57f-905191ef2785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\TestLevel\MapTestLevel\Actor">
+      <UniqueIdentifier>{e61b235a-08ef-4d2c-8b42-a38245fea2ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Particle">
+      <UniqueIdentifier>{47fef3f1-0d09-44ae-b450-d11cab6effcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\BossTestLevel">
+      <UniqueIdentifier>{5c11a7c5-e976-45af-b6d5-61102129526f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\BossTestLevel\Actor">
+      <UniqueIdentifier>{bad7ed96-cfac-451b-9af5-06faa3884ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Boss\OldCrow">
+      <UniqueIdentifier>{8663efb8-203a-4317-893f-0e2b22e1a943}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject">
+      <UniqueIdentifier>{a609c6fe-2488-4096-9de1-f3200194dae1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Player">
+      <UniqueIdentifier>{d7d0bb27-7d0a-4e1e-b795-6e8711f07cec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Enemy">
+      <UniqueIdentifier>{a629260c-d758-43ba-bd9f-46a2479c20db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\FortressLevel">
+      <UniqueIdentifier>{e22fafa8-2651-4605-9d3a-1361ad8bf611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel\Static_Object">
+      <UniqueIdentifier>{525c3b97-c219-4a66-ba48-36517941ff49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel\Static_Object\Wall">
+      <UniqueIdentifier>{0dd36c88-e6ef-4b59-aa21-a028fbaaa996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\FortressLevel\Map">
+      <UniqueIdentifier>{23756f21-8374-45c9-b3ab-2c88693dde53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\FortressLevel\Map_Object">
+      <UniqueIdentifier>{7135283d-a1cc-4778-9c28-fd7e7f68f16e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\FBX">
+      <UniqueIdentifier>{13009e0f-7393-4e64-9b5c-980fbd9824fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\2DSprite">
+      <UniqueIdentifier>{99f73c34-7bb5-4548-ab4d-16a358905eea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Font">
+      <UniqueIdentifier>{f2100704-c978-4a25-8800-aaeb62a193e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Player\Att">
+      <UniqueIdentifier>{6b347afa-c0b7-43b4-aa0c-086ce5ee9959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Player\Att\Skill">
+      <UniqueIdentifier>{afba360a-2df9-411c-bcd5-6f7a4b1436da}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="PhysX 사용법.txt">
+      <Filter>Component\PhysX</Filter>
+    </Text>
   </ItemGroup>
 </Project>

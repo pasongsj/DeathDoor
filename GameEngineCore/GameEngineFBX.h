@@ -21,11 +21,20 @@
 // 그 최상위에 있는 존재가 scene이다.
 // RootNode가 있습니다.
 
+struct FBXNodeInfo
+{
+public:
+	std::string_view Name;
+	fbxsdk::FbxNode* Node;
+};
+
 // 애니메이션과 매쉬 양쪽에서 사용할 코드들을 넣을것이다.
 // 설명 :
 class GameEngineFBX
 {
-public:
+public:	
+	static bool IsCheckAnimationFBX(std::string_view _Path);
+
 	// constrcuter destructer
 	GameEngineFBX();
 	~GameEngineFBX();
@@ -38,9 +47,13 @@ public:
 
 	float4x4 FbxMatTofloat4x4(const fbxsdk::FbxAMatrix& _BaseTrans);
 	fbxsdk::FbxAMatrix float4x4ToFbxAMatrix(const float4x4& _MATRIX);
+	fbxsdk::FbxVector4 float4ToFbxVec(const float4& _Float4);
 	float4 FbxVecTofloat4(const fbxsdk::FbxVector4& _BaseVector);
 	float4 FbxVecToTransform(const fbxsdk::FbxVector4& _BaseVector);
 	float4 FbxQuaternionTofloat4(const fbxsdk::FbxQuaternion& _BaseVector);
+
+	std::vector<FBXNodeInfo> CheckAllNode();
+	void RecursiveAllNode(fbxsdk::FbxNode* _Node, std::function<void(fbxsdk::FbxNode*)> _Function /*= nullptr*/);
 
 protected:
 	void FBXInit(std::string _Path);
@@ -58,6 +71,9 @@ protected:
 	fbxsdk::FbxAMatrix JointMatrix;
 	fbxsdk::FbxVector4 AxisVector;
 
+	bool IsAnimation = false;
+
 private:
+	bool CheckAnimationFBX(std::string_view _Path);
 };
 

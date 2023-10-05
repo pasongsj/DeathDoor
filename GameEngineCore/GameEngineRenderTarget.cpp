@@ -3,18 +3,18 @@
 
 GameEngineRenderUnit GameEngineRenderTarget::MergeUnit;
 
-void GameEngineRenderTarget::RenderTargetUnitInit() 
+void GameEngineRenderTarget::RenderTargetUnitInit()
 {
 	MergeUnit.SetMesh("FullRect");
-	MergeUnit.SetPipeLine("Merge");
+	MergeUnit.SetMaterial("Merge");
 }
 
 
-GameEngineRenderTarget::GameEngineRenderTarget() 
+GameEngineRenderTarget::GameEngineRenderTarget()
 {
 }
 
-GameEngineRenderTarget::~GameEngineRenderTarget() 
+GameEngineRenderTarget::~GameEngineRenderTarget()
 {
 	DepthTexture = nullptr;
 }
@@ -22,14 +22,25 @@ GameEngineRenderTarget::~GameEngineRenderTarget()
 
 void GameEngineRenderTarget::ResCreate(std::shared_ptr<GameEngineTexture> _Texture, float4 _Color)
 {
-	Color = _Color;
 	Textures.push_back(_Texture);
+	SRVs.push_back(_Texture->GetSRV());
 	RTVs.push_back(_Texture->GetRTV());
+	Color.push_back(_Color);
+	D3D11_VIEWPORT ViewPortData;
+
+	ViewPortData.TopLeftX = 0;
+	ViewPortData.TopLeftY = 0;
+	ViewPortData.Width = _Texture->GetScale().x;
+	ViewPortData.Height = _Texture->GetScale().y;
+	ViewPortData.MinDepth = 0.0f;
+	ViewPortData.MaxDepth = 1.0f;
+
+	ViewPortDatas.push_back(ViewPortData);
 }
 
 void GameEngineRenderTarget::ResCreate(DXGI_FORMAT _Format, float4 _Scale, float4 _Color)
 {
-	D3D11_TEXTURE2D_DESC Desc = {0};
+	D3D11_TEXTURE2D_DESC Desc = { 0 };
 	Desc.ArraySize = 1;
 	Desc.Width = _Scale.uix();
 	Desc.Height = _Scale.uiy();
@@ -44,7 +55,20 @@ void GameEngineRenderTarget::ResCreate(DXGI_FORMAT _Format, float4 _Scale, float
 
 	std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Create(Desc);
 	Textures.push_back(Tex);
+
+	D3D11_VIEWPORT ViewPortData;
+
+	ViewPortData.TopLeftX = 0;
+	ViewPortData.TopLeftY = 0;
+	ViewPortData.Width = _Scale.x;
+	ViewPortData.Height = _Scale.y;
+	ViewPortData.MinDepth = 0.0f;
+	ViewPortData.MaxDepth = 1.0f;
+
+	ViewPortDatas.push_back(ViewPortData);
+	SRVs.push_back(Tex->GetSRV());
 	RTVs.push_back(Tex->GetRTV());
+	Color.push_back(_Color);
 }
 
 void GameEngineRenderTarget::Clear()
@@ -59,7 +83,7 @@ void GameEngineRenderTarget::Clear()
 			return;
 		}
 
-		GameEngineDevice::GetContext()->ClearRenderTargetView(RTV, Color.Arr1D);
+		GameEngineDevice::GetContext()->ClearRenderTargetView(RTV, Color[i].Arr1D);
 	}
 
 	ID3D11DepthStencilView* DSV
@@ -71,8 +95,10 @@ void GameEngineRenderTarget::Clear()
 	}
 }
 
-void GameEngineRenderTarget::Setting() 
+void GameEngineRenderTarget::Setting()
 {
+	// https://learn.microsoft.com/en-us/windows/win32/direct3d11/overviews-direct3d-11-resources-limits
+
 	ID3D11RenderTargetView** RTV = &RTVs[0];
 
 	if (nullptr == RTV)
@@ -80,7 +106,7 @@ void GameEngineRenderTarget::Setting()
 		MsgAssert("랜더타겟 뷰가 존재하지 않아서 클리어가 불가능합니다.");
 	}
 
-	ID3D11DepthStencilView* DSV 
+	ID3D11DepthStencilView* DSV
 		= DepthTexture != nullptr ? DepthTexture->GetDSV() : nullptr;
 
 	if (false == DepthSetting)
@@ -89,19 +115,20 @@ void GameEngineRenderTarget::Setting()
 	}
 
 	// 지금 당장은 z값을 쓰지 않겠습니다.
-	GameEngineDevice::GetContext()->OMSetRenderTargets(1, RTV, DSV);
+	GameEngineDevice::GetContext()->OMSetRenderTargets(static_cast<UINT>(RTVs.size()), RTV, DSV);
+	GameEngineDevice::GetContext()->RSSetViewports(static_cast<UINT>(ViewPortDatas.size()), &ViewPortDatas[0]);
 }
 
 void GameEngineRenderTarget::Reset()
 {
-	ID3D11RenderTargetView* RTV[8] = {nullptr};
+	ID3D11RenderTargetView* RTV[8] = { nullptr };
 
 	GameEngineDevice::GetContext()->OMSetRenderTargets(8, RTV, nullptr);
 }
 
 void GameEngineRenderTarget::CreateDepthTexture(int _Index)
 {
-	D3D11_TEXTURE2D_DESC Desc = {0,};
+	D3D11_TEXTURE2D_DESC Desc = { 0, };
 
 	Desc.ArraySize = 1;
 	Desc.Width = Textures[_Index]->GetWidth();
@@ -131,7 +158,7 @@ void GameEngineRenderTarget::Merge(std::shared_ptr<GameEngineRenderTarget> _Othe
 {
 	Setting();
 
-	MergeUnit.ShaderResHelper.SetTexture("DiffuseTex", _Other->Textures[0]);
+	MergeUnit.ShaderResHelper.SetTexture("DiffuseTex", _Other->Textures[_Index]);
 	MergeUnit.Render(0.0f);
 	MergeUnit.ShaderResHelper.AllResourcesReset();
 
@@ -164,4 +191,17 @@ void GameEngineRenderTarget::Effect(float _DeltaTime)
 void GameEngineRenderTarget::EffectInit(std::shared_ptr<GameEnginePostProcess> _PostProcess)
 {
 	_PostProcess->Start(this);
+}
+
+void GameEngineRenderTarget::ChangeViewPort(float4 _Scale, int _Index)
+{
+	D3D11_VIEWPORT ViewPortData;
+	ViewPortData.TopLeftX = 0;
+	ViewPortData.TopLeftY = 0;
+	ViewPortData.Width = static_cast<float>(_Scale.uix());
+	ViewPortData.Height = static_cast<float>(_Scale.uiy());
+	ViewPortData.MinDepth = 0.0f;
+	ViewPortData.MaxDepth = 1.0f;
+
+	ViewPortDatas[_Index] = ViewPortData;
 }

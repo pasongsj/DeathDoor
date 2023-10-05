@@ -1,5 +1,5 @@
 #pragma once
-#include "GameEnginePath.h"
+#include "GameEngineDirectory.h"
 #include "GameEngineSerializer.h"
 
 // 파일이라는 것은 확장자도 의미없고
@@ -13,13 +13,15 @@ enum class SAVEMODE
 };
 
 // 설명 :
-class GameEngineFile
+class GameEngineFile : public GameEnginePath
 {
 public:
 	// constrcuter destructer
 	GameEngineFile();
 	~GameEngineFile();
 	GameEngineFile(std::filesystem::path _Path);
+	GameEngineFile(const std::string_view& _Path);
+	GameEngineFile(const GameEnginePath& _Path);
 
 	// delete Function
 	//GameEngineFile(const GameEngineFile& _Other) = delete;
@@ -27,25 +29,28 @@ public:
 	//GameEngineFile& operator=(const GameEngineFile& _Other) = delete;
 	//GameEngineFile& operator=(GameEngineFile&& _Other) noexcept = delete;
 
-	std::string GetFullPath() 
+	std::string GetFullPath()
 	{
-		return Path.Path.string();
+		return Path.string();
 	}
 
 	void SaveBin(const GameEngineSerializer& _Data);
 	void SaveText(const std::string_view& _View);
+	void SaveTextAppend(const std::string_view& _View);
 
 	void LoadBin(GameEngineSerializer& _Data);
 
 	void LoadText(GameEngineSerializer& _Data);
 
+	void ChangeExtension(std::string_view _NewExtension);
+
 	std::string GetString();
 
 	uintmax_t GetFileSize();
 
+	GameEngineDirectory GetDirectory();
+
 protected:
 
-private:
-	GameEnginePath Path;
 };
 

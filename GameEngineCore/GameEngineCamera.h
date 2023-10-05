@@ -3,6 +3,7 @@
 #include "GameEngineEnum.h"
 #include <list>
 #include <map>
+#include "GameEngineRenderer.h"
 
 enum class SortType
 {
@@ -16,8 +17,9 @@ class GameEngineRenderer;
 class GameEngineRenderTarget;
 class GameEngineCamera : public GameEngineActor
 {
-	friend GameEngineLevel;
-	friend GameEngineRenderer;
+	friend class GameEngineLevel;
+	friend class GameEngineRenderer;
+	friend class GameEngineRenderUnit;
 
 public:
 	// constrcuter destructer
@@ -45,6 +47,8 @@ public:
 		return ViewPort;
 	}
 
+	void ViewPortSetting();
+
 	void Setting();
 
 	void SetProjectionType(CameraType _Type)
@@ -52,9 +56,14 @@ public:
 		ProjectionType = _Type;
 	}
 
-	inline bool IsFreeCamera() 
+	inline bool IsFreeCamera()
 	{
 		return FreeCamera;
+	}
+
+	inline void SwtichFreeCamera()
+	{
+		FreeCamera = !FreeCamera;
 	}
 
 	void Update(float _DeltaTime) override;
@@ -62,15 +71,43 @@ public:
 
 	void CameraTransformUpdate();
 
-	std::shared_ptr<GameEngineRenderTarget> GetCamTarget() 
+	std::shared_ptr<GameEngineRenderTarget> GetCamTarget()
 	{
 		return CamTarget;
 	}
 
+
+	std::shared_ptr<GameEngineRenderTarget> GetCamForwardTarget()
+	{
+		return CamForwardTarget;
+	}
+
+	std::shared_ptr<GameEngineRenderTarget> GetCamDeferrdTarget()
+	{
+		return CamDeferrdTarget;
+	}
+
+	std::shared_ptr<GameEngineRenderTarget> GetCamAllRenderTarget()
+	{
+		return AllRenderTarget;
+	}
+
+	std::shared_ptr<GameEngineRenderTarget> GetDeferredLightTarget()
+	{
+		return DeferredLightTarget;
+	}
+
+	std::shared_ptr<GameEngineRenderTarget> GetDeferredPostLightTarget()
+	{
+		return DeferredPostLightTarget;
+	}
+
+
 	bool IsView(const TransformData& _TransData);
+	bool IsView(const float4& _Pos,const float4& _Scale);
 
 	template<typename EnumType>
-	void SetSortType(EnumType _Index, SortType _Sort) 
+	void SetSortType(EnumType _Index, SortType _Sort)
 	{
 		SetSortType(static_cast<int>(_Index), _Sort);
 	}
@@ -85,7 +122,7 @@ public:
 		ZoomRatio = _Value;
 	}
 
-	inline void AddZoomRatio(float _Value) 
+	inline void AddZoomRatio(float _Value)
 	{
 		ZoomRatio -= _Value;
 	}
@@ -95,15 +132,17 @@ public:
 		return ZoomRatio;
 	}
 
-
 protected:
 	void Start() override;
 
 private:
+	std::map<RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>> Units;
+
 	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>> Renderers;
 	std::map<int, SortType> SortValues;
 
 	DirectX::BoundingOrientedBox Box;
+	DirectX::BoundingFrustum Frustum;
 
 	bool FreeCamera = false;
 
@@ -127,9 +166,29 @@ private:
 	float Far = 10000.0f;
 
 	void PushRenderer(std::shared_ptr<GameEngineRenderer> _Render);
+	void PushRenderUnit(std::shared_ptr<GameEngineRenderUnit> _Unit, RenderPath _Path = RenderPath::None);
 
 	void Release();
 
 	std::shared_ptr<GameEngineRenderTarget> CamTarget;
+	std::shared_ptr<GameEngineRenderTarget> CamForwardTarget;
+	std::shared_ptr<GameEngineRenderTarget> CamDeferrdTarget;
+	std::shared_ptr<GameEngineRenderTarget> CamAlphaTarget;
+	std::shared_ptr<GameEngineRenderTarget> AllRenderTarget;
+	std::shared_ptr<GameEngineRenderTarget> DeferredPostLightTarget;
+
+	GameEngineRenderUnit CalLightUnit;
+	GameEngineRenderUnit LightPostUnit;
+	GameEngineRenderUnit DefferdMergeUnit;
+
+	// 빛계산의 결과물을 받기 위한 타겟.
+	std::shared_ptr<GameEngineRenderTarget> DeferredLightTarget;
+
+
+	void FreeCameraSwitch();
+
+	bool bInit = false;
+	void InitCameraRenderTarget();
+	void ReleaseCameraRenderTarget();
 };
 

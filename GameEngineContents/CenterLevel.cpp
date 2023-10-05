@@ -9,6 +9,7 @@
 #include <GameEngineCore/GameEngineFont.h>
 
 #include "BlackScreen.h"
+#include "LevelWindow.h"
 
 CenterLevel::CenterLevel() 
 {
@@ -20,6 +21,7 @@ CenterLevel::~CenterLevel()
 
 void CenterLevel::Start()
 {
+	SetLevelType(PacketLevelType::CenterLevel);
 	GameEngineInput::CreateKey("TestLevel", '0');
 
 
@@ -56,9 +58,10 @@ void CenterLevel::LevelChangeStart()
 
 	std::shared_ptr<BlackScreen> pBG = CreateActor<BlackScreen>(OrderNum::TEST);
 	std::shared_ptr<GameEngineSpriteRenderer> pCenterBG = pBG->CreateComponent<GameEngineSpriteRenderer>();
-	pCenterBG->SetScaleToTexture("CenterLevelBG.png");
+	pCenterBG->SetScaleToTexture("Wait_Texture.png");
 }
 
 void CenterLevel::LevelChangeEnd()
 {
+	AllActorDestroy();
 }

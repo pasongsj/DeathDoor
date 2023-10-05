@@ -28,6 +28,19 @@ public:
 	static const float DegToRad;
 	static const float RadToDeg;
 
+	static float fLerp(float p1, float p2, float Time)
+	{
+		return (1.0f - Time) * p1 + Time * p2;
+	}
+	static float fLerpClamp(float p1, float p2, float Time)
+	{
+		if (1.0f <= Time)
+		{
+			Time = 1.0f;
+		}
+
+		return fLerp(p1, p2, Time);
+	}
 private:
 	virtual ~GameEngineMath() = 0;
 };
@@ -52,7 +65,16 @@ public:
 	static const float4 BLACK;
 
 	static float4 MatrixToQuaternion(const class float4x4& M);
-	
+
+	static float4 SLerpQuaternion(const float4& _Left, const float4& _Right, float _Ratio)
+	{
+		if (1.0f <= _Ratio)
+		{
+			_Ratio = 1.0f;
+		}
+
+		return DirectX::XMQuaternionSlerp(_Left.DirectVector, _Right.DirectVector, _Ratio);
+	}
 
 	static float InvSqrt(float f)
 	{
@@ -138,6 +160,16 @@ public:
 		return GetAngleVectorToVectorRad360(_Pivot, _Other) * GameEngineMath::RadToDeg;
 	}
 
+	static float4 GetRadBetweenVector(const float4& N1, const float4& N2)
+	{
+		return DirectX::XMVector3AngleBetweenNormals(N1, N2);
+	}
+
+	static float4 GetDegBetweenVector(const float4& N1, const float4& N2)
+	{
+		return GetRadBetweenVector(N1, N2) * GameEngineMath::RadToDeg;
+	}
+
 	// 외적의 결과는 두개의 백터가 겹칠때 주의해서 처리해줘야 한다.
 	static float GetAngleVectorToVectorRad(const float4& _Left, const float4& _Right)
 	{
@@ -174,7 +206,7 @@ public:
 		}
 
 		float Angle = 0.f;
-		(Pivot.x * Other.y) - (Pivot.y * Other.x) > 0.0f ? Angle = acosf(CosSeta) : Angle = -acosf(CosSeta);
+		(Pivot.x * Other.z) - (Pivot.z * Other.x) > 0.0f ? Angle = acosf(CosSeta) : Angle = -acosf(CosSeta);
 
 
 		return Angle;
@@ -275,14 +307,32 @@ public:
 
 	}
 
+
+	physx::PxQuat PhysXQuatReturn()
+	{
+		float4 Temp = this->EulerDegToQuaternion();
+		return physx::PxQuat(Temp.x, Temp.y, Temp.z, Temp.w);
+	}
+	physx::PxVec3 PhysXVec3Return()
+	{
+		return physx::PxVec3(x, y, z);
+	}
+	static physx::PxTransform PhysXTransformReturn(float4 _Rot, float4 _Pos)
+	{
+		physx::PxTransform Temp = {};
+		Temp.q = _Rot.PhysXQuatReturn();
+		Temp.p = _Pos.PhysXVec3Return();
+		return Temp;
+	}
+
 	void RotaitonXRad(float _Rad);
 	void RotaitonYRad(float _Rad);
 	void RotaitonZRad(float _Rad);
 	float4 EulerDegToQuaternion();
 	class float4x4 QuaternionToRotationMatrix();
 
-	float4 QuaternionToEulerDeg();
-	float4 QuaternionToEulerRad();
+	float4 QuaternionToEulerDeg() const;
+	float4 QuaternionToEulerRad() const;
 
 	float XYDistance(float4 _Value);
 	float XYZDistance(float4 _Value);

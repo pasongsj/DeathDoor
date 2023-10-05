@@ -5,7 +5,61 @@
     <FxCompile Include="MergeShader.hlsl" />
     <FxCompile Include="DebugMeshRender.hlsl" />
     <FxCompile Include="TileMapShader.hlsl" />
-    <FxCompile Include="BlurShader.hlsl" />
     <FxCompile Include="MeshTexture.hlsl" />
+    <FxCompile Include="MeshAniTexture.hlsl" />
+    <FxCompile Include="Animation.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="Light.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="Transform.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="RenderBaseValue.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="GridShader.hlsl" />
+    <FxCompile Include="MeshAniTextureDeferred.hlsl" />
+    <FxCompile Include="DeferredCalLight.hlsl">
+      <Filter>Deffered</Filter>
+    </FxCompile>
+    <FxCompile Include="DeferredMerge.hlsl">
+      <Filter>Deffered</Filter>
+    </FxCompile>
+    <FxCompile Include="Shadow.hlsl">
+      <Filter>Shadow</Filter>
+    </FxCompile>
+    <FxCompile Include="MeshColor.hlsl" />
+    <FxCompile Include="BlurShader.hlsl">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="BloomBlur.hlsl">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="BloomShader.hlsl">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="MeshColorDeferred.hlsl" />
+    <FxCompile Include="FXAA.hlsl" />
+    <FxCompile Include="DeferredPostLight.hlsl">
+      <Filter>Deffered</Filter>
+    </FxCompile>
+    <FxCompile Include="MeshTextureAlpha.hlsl" />
+    <FxCompile Include="MeshTextureDeferred.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{b8743ae9-7b40-439a-af7a-90e4841873b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deffered">
+      <UniqueIdentifier>{eecdf55c-dcf8-4229-a062-1aa1a65410ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shadow">
+      <UniqueIdentifier>{7404787f-d936-4769-8d2b-565ef904c2dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostEffect">
+      <UniqueIdentifier>{ff86fbcb-6fa5-4c97-b0d2-73dcbb8a61e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

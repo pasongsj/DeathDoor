@@ -2,11 +2,63 @@
 #include "GameEngineFBX.h"
 #include <GameEngineBase/GameEngineString.h>
 
-GameEngineFBX::GameEngineFBX() 
+bool GameEngineFBX::IsCheckAnimationFBX(std::string_view _Path)
+{
+	GameEngineFBX FBX;
+
+	FBX.FBXInit(_Path.data());
+
+	return FBX.CheckAnimationFBX(_Path);
+}
+
+bool GameEngineFBX::CheckAnimationFBX(std::string_view _Path)
+{
+	int geometryCount = Scene->GetGeometryCount();
+	for (int i = 0; i < geometryCount; i++)
+	{
+		// 노드중에서 기하구조를 가진녀석들을 뽑아내는것이고.
+		fbxsdk::FbxGeometry* geoMetry = Scene->GetGeometry(i);
+		fbxsdk::FbxNode* geoMetryNode = geoMetry->GetNode();
+
+		// FBXInfoDebugFunction(geoMetryNode);
+
+		if (nullptr == geoMetry)
+		{
+			continue;
+		}
+
+		// 뽑아낸 애들중에서 그 타입이
+		if (geoMetry->GetAttributeType() != fbxsdk::FbxNodeAttribute::eMesh)
+		{
+			continue;
+		}
+
+		fbxsdk::FbxMesh* Mesh = reinterpret_cast<fbxsdk::FbxMesh*>(geoMetry);
+
+		fbxsdk::FbxNode* pNode = Mesh->GetNode();
+		fbxsdk::FbxMesh* FbxMesh = Mesh;
+
+		const int SkinDeformerCount = FbxMesh->GetDeformerCount(fbxsdk::FbxDeformer::eSkin);
+		for (int DeformerIndex = 0; DeformerIndex < SkinDeformerCount; DeformerIndex++)
+		{
+			fbxsdk::FbxSkin* Skin = (fbxsdk::FbxSkin*)FbxMesh->GetDeformer(DeformerIndex, fbxsdk::FbxDeformer::eSkin);
+			for (int ClusterIndex = 0; ClusterIndex < Skin->GetClusterCount(); ClusterIndex++)
+			{
+				_Path;
+				// 본을 가진 매쉬다
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+GameEngineFBX::GameEngineFBX()
 {
 }
 
-GameEngineFBX::~GameEngineFBX() 
+GameEngineFBX::~GameEngineFBX()
 {
 	if (nullptr != Scene)
 	{
@@ -30,6 +82,47 @@ GameEngineFBX::~GameEngineFBX()
 	}
 }
 
+std::vector<FBXNodeInfo> GameEngineFBX::CheckAllNode()
+{
+	std::vector<FBXNodeInfo> AllNode;
+
+	RecursiveAllNode(RootNode, [&](fbxsdk::FbxNode* _Node)
+		{
+			FBXNodeInfo& _NodeInfo = AllNode.emplace_back();
+
+			_NodeInfo.Name = _Node->GetName();
+			_NodeInfo.Node = _Node;
+		});
+
+	return AllNode;
+
+}
+
+void GameEngineFBX::RecursiveAllNode(fbxsdk::FbxNode* _Node, std::function<void(fbxsdk::FbxNode*)> _Function /*= nullptr*/)
+{
+	if (nullptr != _Function)
+	{
+		_Function(_Node);
+	}
+
+	fbxsdk::FbxNodeAttribute* Info = _Node->GetNodeAttribute();
+
+	if (nullptr != Info)
+	{
+		fbxsdk::FbxNodeAttribute::EType Type = Info->GetAttributeType();
+	}
+
+
+	int Count = _Node->GetChildCount();
+
+	for (int i = 0; i < Count; i++)
+	{
+		fbxsdk::FbxNode* Node = _Node->GetChild(i);
+		RecursiveAllNode(Node, _Function);
+	}
+
+}
+
 void GameEngineFBX::FBXInit(std::string _Path)
 {
 	if (false == FBXSystemInitialize(_Path))
@@ -41,7 +134,7 @@ void GameEngineFBX::FBXInit(std::string _Path)
 }
 
 bool GameEngineFBX::FBXSystemInitialize(std::string _Path)
-{
+{	
 	// fbx에서 사용하는 기본기능을 제공하는 인터페이스
 	Manager = fbxsdk::FbxManager::Create();
 
@@ -116,6 +209,16 @@ fbxsdk::FbxAMatrix GameEngineFBX::float4x4ToFbxAMatrix(const float4x4& _MATRIX)
 	return mat;
 }
 
+fbxsdk::FbxVector4 GameEngineFBX::float4ToFbxVec(const float4& _Float4)
+{
+	fbxsdk::FbxVector4 Vec;
+	Vec.mData[0] = (float)_Float4.Arr1D[0];
+	Vec.mData[1] = (float)_Float4.Arr1D[1];
+	Vec.mData[2] = (float)_Float4.Arr1D[2];
+	Vec.mData[3] = (float)_Float4.Arr1D[3];
+	return Vec;
+}
+
 float4 GameEngineFBX::FbxVecTofloat4(const fbxsdk::FbxVector4& _BaseVector)
 {
 	float4 Vec;
@@ -166,6 +269,7 @@ void GameEngineFBX::FBXConvertScene()
 	{
 		// 먼저 루트를 지워.
 		fbxsdk::FbxRootNodeUtility::RemoveAllFbxRoots(Scene);
+
 		// 루트가 새롭게 만들어진다.
 		EngineAxisSystem.ConvertScene(Scene);
 
