@@ -616,7 +616,8 @@ float4 GameEngineFBXRenderer::GetMeshScale()
 
 AnimationBoneData GameEngineFBXRenderer::GetBoneData(std::string _Name)
 {
-	Bone* BoneData = FBXMesh->FindBone(_Name);
+	std::string UpperName = GameEngineString::ToUpper(_Name);
+	Bone* BoneData = FBXMesh->FindBone(UpperName);
 
 	AnimationBoneData Data;
 

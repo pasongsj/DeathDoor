@@ -5,6 +5,7 @@
 
 
 
+#include "PlayerAttMagic.h"
 
 
 void Player::SetFSMFunc()
@@ -90,6 +91,13 @@ void Player::SetFSMFunc()
 	SetFSM(PlayerState::SKILL,
 		[this]
 		{
+			MoveDir = GetMousDirection();
+
+			Skill = GetLevel()->CreateActor< PlayerAttMagic>();
+			float4 MagicPos = GetBonePos("Weapon_L");
+			//MagicPos.y += 70.0f;
+			Skill->SetDir(MoveDir, MagicPos);
+
 			switch (CurSkill)
 			{
 			case Player::PlayerSkill::ARROW:
@@ -118,9 +126,13 @@ void Player::SetFSMFunc()
 			{
 				// 마우스 방향을 바라보도록 함
 				MoveDir = GetMousDirection();
+				float4 MagicPos = GetBonePos("Weapon_L");
+				//MagicPos.y += 70.0f;
+				Skill->SetDir(MoveDir, MagicPos);
 			}
 			else
 			{
+				Skill->isShoot = true;
 				SetNextState(PlayerState::IDLE);
 			}
 			//if (/*true == Renderer->IsAnimationEnd() && */false == GameEngineInput::IsPress("PlayerRBUTTON"))
@@ -145,6 +157,7 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			Skill = nullptr;
 
 		}
 	); 
