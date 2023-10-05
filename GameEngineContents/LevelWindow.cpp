@@ -11,6 +11,7 @@
 #include "MapTestLevel.h"
 #include "OfficeLevel.h"
 #include "FortressLevel.h"
+#include "FrogBossLevel.h"
 #include "UITestLevel.h"
 
 
@@ -103,6 +104,12 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	{
 		m_CurLevelName = "FortressLevel";
 		GameEngineCore::ChangeLevel("FortressLevel");
+	}
+
+	if (ImGui::Button("FrogBossLevel") && Level->DynamicThis<FortressLevel>().get() != GetLevel())
+	{
+		m_CurLevelName = "FrogBossLevel";
+		GameEngineCore::ChangeLevel("FrogBossLevel");
 	}
 
 
