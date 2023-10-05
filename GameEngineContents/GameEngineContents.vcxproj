@@ -231,6 +231,7 @@
     <ClCompile Include="FortressLevel.cpp" />
     <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="DynamicParticleManager.cpp" />
+    <ClCompile Include="FrogBossLevel.cpp" />
     <ClCompile Include="Frog_Lever.cpp" />
     <ClCompile Include="FSMObjectBase.cpp">
       <SubType>
@@ -257,6 +258,7 @@
     <ClCompile Include="MapTestLevel.cpp" />
     <ClCompile Include="Map_Emptyplain.cpp" />
     <ClCompile Include="Map_Fortress.cpp" />
+    <ClCompile Include="Map_Sanctuary.cpp" />
     <ClCompile Include="Map_Office.cpp" />
     <ClCompile Include="MiniDesk.cpp" />
     <ClCompile Include="MiniOffice.cpp" />
@@ -482,6 +484,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DynamicParticleManager.h" />
+    <ClInclude Include="FrogBossLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Frog_Lever.h">
       <SubType>
       </SubType>
@@ -518,6 +524,10 @@
     </ClInclude>
     <ClInclude Include="Map_Emptyplain.h" />
     <ClInclude Include="Map_Fortress.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Map_Sanctuary.h">
       <SubType>
       </SubType>
     </ClInclude>

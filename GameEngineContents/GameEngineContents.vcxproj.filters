@@ -292,6 +292,12 @@
     <ClCompile Include="GlowEffect.cpp">
       <Filter>Component\ContentsRenderer\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="Map_Sanctuary.cpp">
+      <Filter>Contents\FortressLevel\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="FrogBossLevel.cpp">
+      <Filter>Contents\FortressLevel</Filter>
+    </ClCompile>
     <ClCompile Include="PlayerAttackRange.cpp">
       <Filter>FSMObject\Player\Att</Filter>
     </ClCompile>
@@ -597,6 +603,12 @@
     </ClInclude>
     <ClInclude Include="PlayerAttSkill.h">
       <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_Sanctuary.h">
+      <Filter>Contents\FortressLevel\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="FrogBossLevel.h">
+      <Filter>Contents\FortressLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

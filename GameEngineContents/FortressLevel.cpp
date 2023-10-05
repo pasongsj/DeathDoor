@@ -1,9 +1,9 @@
 #include "PrecompileHeader.h"
 #include "FortressLevel.h"
 
-#include "Player.h"
 #include "PhysXCapsuleComponent.h"
 
+#include "Player.h"
 #include "Map_Fortress.h"
 
 FortressLevel::FortressLevel()
@@ -16,7 +16,7 @@ FortressLevel::~FortressLevel()
 
 void FortressLevel::Start()
 {
-	SetLevelType(PacketLevelType::FortressLevel);
+	//SetLevelType(PacketLevelType::FortressLevel);
 	InitKey();
 }
 
