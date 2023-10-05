@@ -92,13 +92,11 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			MoveDir = GetMousDirection();
-			AnimationBoneData Bone = Renderer->GetBoneData("Weapon_R");
 
-			std::shared_ptr< PlayerAttMagic> magic = GetLevel()->CreateActor< PlayerAttMagic>();
-			//magic->GetTransform()->SetLocalPosition(WeaponPos);
-			float4 MagicPos = Renderer->GetTransform()->GetWorldPosition() + Bone.Pos;
-			MagicPos.y += 70.0f;
-			magic->SetDir(MoveDir, MagicPos);
+			Skill = GetLevel()->CreateActor< PlayerAttMagic>();
+			float4 MagicPos = GetBonePos("Weapon_L");
+			//MagicPos.y += 70.0f;
+			Skill->SetDir(MoveDir, MagicPos);
 
 			switch (CurSkill)
 			{
@@ -128,9 +126,13 @@ void Player::SetFSMFunc()
 			{
 				// 마우스 방향을 바라보도록 함
 				MoveDir = GetMousDirection();
+				float4 MagicPos = GetBonePos("Weapon_L");
+				//MagicPos.y += 70.0f;
+				Skill->SetDir(MoveDir, MagicPos);
 			}
 			else
 			{
+				Skill->isShoot = true;
 				SetNextState(PlayerState::IDLE);
 			}
 			//if (/*true == Renderer->IsAnimationEnd() && */false == GameEngineInput::IsPress("PlayerRBUTTON"))
@@ -155,6 +157,7 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			Skill = nullptr;
 
 		}
 	); 

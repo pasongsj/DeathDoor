@@ -330,6 +330,10 @@
     </ClCompile>
     <ClCompile Include="PlayerFSM.cpp" />
     <ClCompile Include="PlayerInit.cpp" />
+    <ClCompile Include="PlayerAttSkill.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PlayerTestLevel.cpp" />
     <ClCompile Include="PreCompileHeader.cpp">
       <SubType>
@@ -606,6 +610,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayerDefinition.h" />
+    <ClInclude Include="PlayerAttSkill.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PlayerTestLevel.h" />
     <ClInclude Include="PreCompileHeader.h">
       <SubType>

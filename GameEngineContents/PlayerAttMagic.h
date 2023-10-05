@@ -21,28 +21,9 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
+	bool isShoot = false;
 
-	void SetDir(const float4& _Dir, const float4& _Pos)
-	{
-		if (true == _Dir.IsZero())
-		{
-			MsgAssert("Zero dir은 입력할 수 없습니다");
-			return;
-		}
-
-		PhysXComp = CreateComponent< PhysXSphereComponent>();
-		PhysXComp->CreatePhysXActors(float4::ONE * 100.0f,float4::ZERO);
-		PhysXComp->SetFilterData(PhysXFilterGroup::PlayerSkill, PhysXFilterGroup::MonsterDynamic);
-		PhysXComp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO,_Pos));
-		PhysXComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		PhysXComp->TurnOffGravity();
-		PhysXComp->SetTrigger();
-
-
-		//PhysXComp->SetWorldPosWithParent(_Pos);
-		Dir = _Dir;
-		firetime = GetLiveTime();
-	}
+	void SetDir(const float4& _Dir, const float4& _Pos);
 
 	float4 Dir = float4::ZERO;
 	float firetime = 0.0f;

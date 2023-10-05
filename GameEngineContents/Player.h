@@ -7,6 +7,7 @@
 // Ό³Έν :
 class Player : public FSMObjectBase, public GameEngineNetObject
 {
+	friend class PlayerAttSkill;
 public:
 	static Player* MainPlayer;
 public:
@@ -24,6 +25,8 @@ public:
 	{
 		return m_pCapsuleComp;
 	}
+
+	float4 GetBonePos(const std::string_view& _BoneName);
 
 protected:
 	void Start() override;
@@ -111,6 +114,9 @@ private:
 
 
 	void DefaultPhysX();
+
+	// skill
+	std::shared_ptr< class PlayerAttMagic> Skill = nullptr;
 
 	
 

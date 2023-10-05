@@ -298,6 +298,9 @@
     <ClCompile Include="PlayerAttMagic.cpp">
       <Filter>FSMObject\Player\Att</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerAttSkill.cpp">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -592,6 +595,9 @@
     <ClInclude Include="PlayerAttMagic.h">
       <Filter>FSMObject\Player\Att</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerAttSkill.h">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -725,6 +731,9 @@
     </Filter>
     <Filter Include="FSMObject\Player\Att">
       <UniqueIdentifier>{6b347afa-c0b7-43b4-aa0c-086ce5ee9959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Player\Att\Skill">
+      <UniqueIdentifier>{afba360a-2df9-411c-bcd5-6f7a4b1436da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

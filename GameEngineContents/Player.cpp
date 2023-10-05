@@ -294,3 +294,11 @@ float4 Player::GetMousDirection()
 
 	return  float4{ NDir.x, 0, NDir.y }.NormalizeReturn();
 }
+
+
+float4 Player::GetBonePos(const std::string_view& _BoneName)
+{
+	AnimationBoneData Bone = Renderer->GetBoneData(_BoneName.data());
+	float4 BonePos = Renderer->GetTransform()->GetWorldPosition() + Bone.Pos; // 피봇문제로 제대로 가져오질 않음
+	return BonePos;
+}
