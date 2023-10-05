@@ -159,12 +159,12 @@ void Player::CheckStateInput(float _DeltaTime)
 void Player::CheckFalling()
 {
 	// Falling Check
-	float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
+	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // ground 와 약 y값 25차이가 난다.
 	float4 CollPoint = float4::ZERO;
 	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 	{
 		float4 PPos = GetTransform()->GetWorldPosition();
-		if (PPos.y > CollPoint.y + 60.0f)
+		if (PPos.y > CollPoint.y + 120.0f)
 		{
 			SetNextState(PlayerState::FALLING);
 			return;
@@ -299,6 +299,13 @@ float4 Player::GetMousDirection()
 float4 Player::GetBonePos(const std::string_view& _BoneName)
 {
 	AnimationBoneData Bone = Renderer->GetBoneData(_BoneName.data());
-	float4 BonePos = Renderer->GetTransform()->GetWorldPosition() + Bone.Pos; // 피봇문제로 제대로 가져오질 않음
-	return BonePos;
+	float4 PPos = Renderer->GetTransform()->GetWorldPosition(); // 피봇문제로 제대로 가져오질 않음
+
+
+
+	std::shared_ptr< GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
+	BonePivot->GetTransform()->SetParent(GetTransform());
+	BonePivot->GetTransform()->SetLocalPosition(Bone.Pos);
+
+	return BonePivot->GetTransform()->GetWorldPosition();
 }
