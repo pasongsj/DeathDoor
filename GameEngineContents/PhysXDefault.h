@@ -52,6 +52,25 @@ public:
 		m_fResitution = _resitution;
 	}
 
+
+	//중력끄기
+	void TurnOffGravity()
+	{
+		if (m_pRigidDynamic!=nullptr)
+		{
+			m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
+		}
+	}
+
+	//중력키기
+	void TurnOnGravity()
+	{
+		if (m_pRigidDynamic != nullptr)
+		{
+			m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
+		}
+	}
+
 	//피벗설정
 	inline void SetDynamicPivot(float4 _Pivot)
 	{
@@ -74,6 +93,23 @@ public:
 	}
 
 	void SetWorldPosWithParent(float4 _Pos, float4 _Rot = float4::ZERONULL);
+
+
+
+	float4 GetWorldPosition();
+
+	void SetMoveSpeed(float4 _MoveSpeed)
+	{
+		if (m_pRigidDynamic!=nullptr)
+		{
+			//Y축은 중력에 의해 가속도를 받지만 X,Z는 가속도를 없애서 정속 이동을 하게끔 함
+			m_pRigidDynamic->setLinearVelocity({ 0,m_pRigidDynamic->getLinearVelocity().y,0 });
+			// 캐릭터의 방향을 힘으로 조절
+			m_pRigidDynamic->addForce(_MoveSpeed.PhysXVec3Return(), physx::PxForceMode::eVELOCITY_CHANGE);
+		}		
+	}
+
+
 
 	//쿼터니언 관련 함수
 	float4 GetQuaternionEulerAngles(float4 rot);
@@ -142,11 +178,11 @@ public:
 
 	inline void SetPositionSetFromParentFlag(bool _Flag)
 	{
-		if (nullptr!= m_pRigidDynamic)
-		{
-			m_pRigidDynamic->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, _Flag);
-		}
 		PositionSetFromParentFlag = _Flag;
+		if (nullptr != m_pRigidDynamic)
+		{
+			m_pRigidDynamic->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, PositionSetFromParentFlag);
+		}
 	}
 
 	bool IsStatic()
