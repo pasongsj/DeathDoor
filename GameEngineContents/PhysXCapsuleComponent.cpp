@@ -32,15 +32,6 @@ void PhysXCapsuleComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, floa
 	GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
 }
 
-void PhysXCapsuleComponent::SetMoveSpeed(float4 _MoveSpeed)
-{
-
-	//Y축은 중력에 의해 가속도를 받지만 X,Z는 가속도를 없애서 정속 이동을 하게끔 함
-	m_pRigidDynamic->setLinearVelocity({ 0,GetLinearVelocity().y,0});
-	// 캐릭터의 방향을 힘으로 조절
-	m_pRigidDynamic->addForce(_MoveSpeed.PhysXVec3Return(), physx::PxForceMode::eVELOCITY_CHANGE);
-}
-
 void PhysXCapsuleComponent::SetRotation(float4 _Rot)
 {
 	m_pRigidDynamic->setGlobalPose(float4::PhysXTransformReturn(_Rot, float4(m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z)));

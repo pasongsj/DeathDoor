@@ -48,10 +48,6 @@ public:
 		m_pRigidDynamic->addForce(physx::PxVec3(0.0f, 0.01f, 0.0f), physx::PxForceMode::eIMPULSE);
 	}
 
-	inline float4 GetWorldPosition()
-	{
-		return float4(m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z);
-	}
 
 
 	void PushImpulse(float4 _ImpulsePower);
@@ -73,27 +69,9 @@ public:
 		m_bSpeedLimit = !m_bSpeedLimit;
 	}
 
-	float4 GetDynamicVelocity()
-	{
-		physx::PxVec3 Vec3 = m_pRigidDynamic->getLinearVelocity();
-		return float4{ Vec3.x, Vec3.y, Vec3.z };
-	}
 
 	//회전 움직임 함수
 	void SetChangedRot(float4 _Rot);
-
-	//중력끄기
-	void TurnOffGravity()
-	{
-		m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
-	}
-
-	//중력키기
-	void TurnOnGravity()
-	{
-		m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
-	}
-
 
 
 	//플레이어 멈추는 함수
