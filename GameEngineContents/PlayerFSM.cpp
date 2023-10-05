@@ -94,8 +94,7 @@ void Player::SetFSMFunc()
 			MoveDir = GetMousDirection();
 
 			Skill = GetLevel()->CreateActor< PlayerAttMagic>();
-			float4 MagicPos = GetBonePos("Weapon_L");
-			//MagicPos.y += 70.0f;
+			float4 MagicPos = GetBonePos("Weapon_R");
 			Skill->SetDir(MoveDir, MagicPos);
 
 			switch (CurSkill)
@@ -126,7 +125,7 @@ void Player::SetFSMFunc()
 			{
 				// 마우스 방향을 바라보도록 함
 				MoveDir = GetMousDirection();
-				float4 MagicPos = GetBonePos("Weapon_L");
+				float4 MagicPos = GetBonePos("Weapon_R");
 				//MagicPos.y += 70.0f;
 				Skill->SetDir(MoveDir, MagicPos);
 			}
@@ -454,11 +453,13 @@ void Player::SetFSMFunc()
 		[this](float Delta)
 		{
 			float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
-			PlayerGroundPos.y += 100.0f; // 피직스 컴포넌트 중력값으로 보정되기 전 위치가 측정되는 오류 해결
+			PlayerGroundPos.y += 50.0f; // 피직스 컴포넌트 중력값으로 보정되기 전 위치가 측정되는 오류 해결
+
+
 			float4 CollPoint = float4::ZERO;
 			if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 			{
-				if (CollPoint.y + 10.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
+				if (CollPoint.y + 40.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
 				{
 					SetNextState(PlayerState::IDLE);
 					return;
