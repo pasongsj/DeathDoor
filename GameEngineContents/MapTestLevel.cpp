@@ -22,6 +22,7 @@
 #include "Ladder.h"
 #include "Crate.h"
 #include "Frog_Lever.h"
+#include "PlayerAttMagic.h"
 
 
 
@@ -103,6 +104,7 @@ void MapTestLevel::InitTestLevel()
 		}
 		
 		CreateActor<EnemyFirePlant>();
+		//CreateActor<PlayerAttMagic>();
 		
 		break;
 	}
