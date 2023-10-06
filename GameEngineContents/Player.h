@@ -44,7 +44,7 @@ private:
 		WALK,			// Walk, Run
 		SKILL,			// 우클릭 Arrow, Arrow_bomb, Arrow_magic, Hookshot, Hookshot_fly
 		HOOK_FLY,		// Hookshot_fly
-		BASE_ATT,		// 좌클릭 Slash_Light_L_new, Slash_Light_R_new
+		BASIC_ATT,		// 좌클릭 Slash_Light_L_new, Slash_Light_R_new
 		ROLL,			// 스페이스바 Roll, Roll_slash
 		ROLL_ATT,		// 스페이스바+휠클릭 Charge_slam_overhead, Roll_slash_end
 		CHARGE_ATT,		// 휠클릭 Charge_slash_L, Charge_slash_R
@@ -81,8 +81,8 @@ private:
 	std::shared_ptr<ContentFBXRenderer> Renderer = nullptr;
 		//physx
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
-		//Range
-	std::shared_ptr<GameEngineActor> AttackRange = nullptr;
+	//	//Range
+	//std::shared_ptr<GameEngineActor> AttackRange = nullptr;
 
 		// Attack
 	PlayerSkill CurSkill = PlayerSkill::ARROW;
@@ -115,8 +115,8 @@ private:
 
 	void DefaultPhysX();
 
-	// skill
-	std::shared_ptr< class PlayerAttMagic> Skill = nullptr;
+	// Attack
+	std::shared_ptr< class PlayerAttackBase> AttackActor = nullptr;
 
 	
 

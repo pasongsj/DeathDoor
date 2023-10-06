@@ -298,13 +298,16 @@
     <ClCompile Include="FrogBossLevel.cpp">
       <Filter>Contents\FortressLevel</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerAttackRange.cpp">
+    <ClCompile Include="PlayerAttackBasic.cpp">
       <Filter>FSMObject\Player\Att</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerAttMagic.cpp">
+    <ClCompile Include="PlayerAttackBase.cpp">
       <Filter>FSMObject\Player\Att</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerAttSkill.cpp">
+    <ClCompile Include="PhysXComponent.cpp">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackMagic.cpp">
       <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClCompile>
   </ItemGroup>
@@ -595,20 +598,23 @@
     <ClInclude Include="EnemyBruteGold.h">
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerAttackRange.h">
+    <ClInclude Include="PlayerAttackBasic.h">
       <Filter>FSMObject\Player\Att</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAttMagic.h">
-      <Filter>FSMObject\Player\Att</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAttSkill.h">
-      <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClInclude>
     <ClInclude Include="Map_Sanctuary.h">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
     <ClInclude Include="FrogBossLevel.h">
       <Filter>Contents\FortressLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackBase.h">
+      <Filter>FSMObject\Player\Att</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXComponent.h">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackMagic.h">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

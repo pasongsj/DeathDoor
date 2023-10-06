@@ -5,7 +5,9 @@
 
 
 
-#include "PlayerAttMagic.h"
+#include "PlayerAttackBase.h"
+#include "PlayerAttackBasic.h"
+#include "PlayerAttackMagic.h"
 
 
 void Player::SetFSMFunc()
@@ -93,9 +95,9 @@ void Player::SetFSMFunc()
 		{
 			MoveDir = GetMousDirection();
 
-			Skill = GetLevel()->CreateActor< PlayerAttMagic>();
+			AttackActor = GetLevel()->CreateActor<PlayerAttackMagic>();
 			float4 MagicPos = GetBonePos("Weapon_R");
-			Skill->SetDir(MoveDir, MagicPos);
+			AttackActor->SetTrans(MoveDir, MagicPos);
 
 			switch (CurSkill)
 			{
@@ -126,12 +128,11 @@ void Player::SetFSMFunc()
 				// 마우스 방향을 바라보도록 함
 				MoveDir = GetMousDirection();
 				float4 MagicPos = GetBonePos("Weapon_R");
-				//MagicPos.y += 70.0f;
-				Skill->SetDir(MoveDir, MagicPos);
+				AttackActor->SetTrans(MoveDir, MagicPos);
 			}
 			else
 			{
-				Skill->isShoot = true;
+				AttackActor->isShoot = true;
 				SetNextState(PlayerState::IDLE);
 			}
 			//if (/*true == Renderer->IsAnimationEnd() && */false == GameEngineInput::IsPress("PlayerRBUTTON"))
@@ -156,8 +157,7 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
-			Skill = nullptr;
-
+			AttackActor = nullptr;
 		}
 	); 
 
@@ -176,8 +176,8 @@ void Player::SetFSMFunc()
 		}
 	);
 
-	//BASE_ATT	// 좌클릭 Slash_Light_L_new, Slash_Light_R_new
-	SetFSM(PlayerState::BASE_ATT,
+	//BASIC_ATT	// 좌클릭 Slash_Light_L_new, Slash_Light_R_new
+	SetFSM(PlayerState::BASIC_ATT,
 		[this]
 		{
 			if (true == isRightAttack)
@@ -199,7 +199,14 @@ void Player::SetFSMFunc()
 			}
 			MoveUpdate(PlayerAttMoveSpeed);
 
-			AttackRange->On();
+			{// base attack range
+				AttackActor = GetLevel()->CreateActor<PlayerAttackBasic>();
+				float4 AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 200.0f + float4{ 0.0f,50.0f,0.0f };
+				AttackActor->SetTrans(float4::ONE, AttackPos);
+				/*AttackBoxComponent->SetWorldPosWithParent(Trans->GetWorldPosition() + Trans->GetWorldBackVector() * SizeofBox + float4{ 0.0f,50.0f,0.0f });
+				AttackActor->*/
+			}
+			//AttackRange->On();
 		},
 		[this](float Delta)
 		{
@@ -208,11 +215,13 @@ void Player::SetFSMFunc()
 			{
 				//StateInputDelayTime = 0.1f;
 				SetNextState(PlayerState::IDLE);
+				AttackActor->Death();
+				AttackActor = nullptr;
 			}
 		},
 		[this]
 		{
-			AttackRange->Off();
+			//AttackRange->Off();
 		}
 	); 
 
@@ -305,7 +314,7 @@ void Player::SetFSMFunc()
 
 			if (false == GameEngineInput::IsPress("PlayerMBUTTON"))
 			{
-				SetNextState(PlayerState::BASE_ATT);
+				SetNextState(PlayerState::BASIC_ATT);
 			}
 		},
 		[this]

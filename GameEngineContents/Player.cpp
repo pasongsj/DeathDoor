@@ -5,7 +5,7 @@
 #include "PhysXTestLevel.h"
 #include "PhysXCapsuleComponent.h"
 
-#include "PlayerAttackRange.h"
+
 
 
 #define PlayerInitRotation float4{ 90,0,0 }
@@ -47,8 +47,8 @@ void Player::Start()
 	}
 
 	//m_pCapsuleComp->SetDynamicPivot()
-	AttackRange = GetLevel()->CreateActor< PlayerAttackRange>();
-	AttackRange->Off();
+	//AttackRange = GetLevel()->CreateActor< PlayerAttackRange>();
+	//AttackRange->Off();
 
 	SetFSMFunc();
 	Renderer->ChangeAnimation("IDLE0");
@@ -144,7 +144,7 @@ void Player::CheckStateInput(float _DeltaTime)
 	}
 	else if (true == GameEngineInput::IsPress("PlayerLBUTTON"))
 	{
-		SetNextState(PlayerState::BASE_ATT);
+		SetNextState(PlayerState::BASIC_ATT);
 	}
 	else if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
 	{
@@ -238,7 +238,7 @@ void Player::DefaultPhysX()
 				return;
 			}
 		}
-		if (PlayerState::FALLING == GetCurState< PlayerState>() || PlayerState::BASE_ATT == GetCurState<PlayerState>())
+		if (PlayerState::FALLING == GetCurState< PlayerState>() || PlayerState::BASIC_ATT == GetCurState<PlayerState>())
 		{
 			return;
 		}

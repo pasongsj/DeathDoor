@@ -22,7 +22,7 @@
 #include "Ladder.h"
 #include "Crate.h"
 #include "Frog_Lever.h"
-#include "PlayerAttMagic.h"
+#include "PlayerAttackMagic.h"
 
 
 
@@ -112,8 +112,3 @@ void MapTestLevel::InitTestLevel()
 
 
 }
-//#include "EnemyBat.h"
-//#include "EnemyFirePlant.h"
-//#include "EnemyBrute.h"
-//#include "EnemyGhoul.h"
-//#include "EnemyBruteGold.h"

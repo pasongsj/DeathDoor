@@ -285,6 +285,10 @@
     </ClCompile>
     <ClCompile Include="PhysXBoxComponent.cpp" />
     <ClCompile Include="PhysXCapsuleComponent.cpp" />
+    <ClCompile Include="PhysXComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PhysXControllerComponent.cpp" />
     <ClCompile Include="PhysXConvexComponent.cpp" />
     <ClCompile Include="PhysXCustom.cpp" />
@@ -322,20 +326,20 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerAttackRange.cpp">
+    <ClCompile Include="PlayerAttackBasic.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PlayerAttMagic.cpp">
+    <ClCompile Include="PlayerAttackBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackMagic.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayerFSM.cpp" />
     <ClCompile Include="PlayerInit.cpp" />
-    <ClCompile Include="PlayerAttSkill.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="PlayerTestLevel.cpp" />
     <ClCompile Include="PreCompileHeader.cpp">
       <SubType>
@@ -573,6 +577,10 @@
     </ClInclude>
     <ClInclude Include="PhysXBoxComponent.h" />
     <ClInclude Include="PhysXCapsuleComponent.h" />
+    <ClInclude Include="PhysXComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PhysXControllerComponent.h" />
     <ClInclude Include="PhysXConvexComponent.h" />
     <ClInclude Include="PhysXCustom.h" />
@@ -611,19 +619,19 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerAttackRange.h">
+    <ClInclude Include="PlayerAttackBasic.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PlayerAttMagic.h">
+    <ClInclude Include="PlayerAttackBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackMagic.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayerDefinition.h" />
-    <ClInclude Include="PlayerAttSkill.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="PlayerTestLevel.h" />
     <ClInclude Include="PreCompileHeader.h">
       <SubType>
