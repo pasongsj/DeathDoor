@@ -5,6 +5,9 @@
 #include "Player.h"
 #include "PhysXCapsuleComponent.h"
 
+#include "MyTest.h"
+#include <GameEngineCore/GameEngineCoreWindow.h>
+
 OfficeLevel::OfficeLevel()
 {
 }
@@ -17,7 +20,15 @@ void OfficeLevel::Start()
 {
 	SetLevelType(PacketLevelType::OfficeLevel);
 	InitKey();
+
+	GameEngineCoreWindow::AddDebugRenderTarget(0, "AllRenderTarget", GetMainCamera()->GetCamAllRenderTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(1, "LightRenderTarget", GetMainCamera()->GetDeferredLightTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(2, "MainCameraForwardTarget", GetMainCamera()->GetCamForwardTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(3, "DeferredTarget", GetMainCamera()->GetCamDeferrdTarget());
+
+	SetPointLight();
 }
+
 
 void OfficeLevel::Update(float _DeltaTime)
 {
@@ -89,4 +100,21 @@ void OfficeLevel::Set_StartPos(std::shared_ptr<Player> _Player)
 	}
 	
 	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_StartPos));
+}
+
+void OfficeLevel::SetPointLight()
+{
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 3375 , 75 , -5050 },.MaxDist = 200.0f,.Intensity = 5.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 2010 , 75 , -5050 },.MaxDist = 150.0f,.Intensity = 7.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 910 , 75 , -5050 },.MaxDist = 150.0f,.Intensity = 7.0f });
+
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 875 , 125 ,-3200 },.MaxDist = 150.0f,.Intensity = 7.0f });
+
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { -850 ,550 , -3125 },.MaxDist = 150.0f,.Intensity = 7.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 250 , 850 , 1000 },.MaxDist = 150.0f,.Intensity = 15.0f });
+
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 2825 , 825 , 2325 },.MaxDist = 150.0f,.Intensity = 7.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 3150 , 950 , 2350 },.MaxDist = 150.0f,.Intensity = 7.0f });
+
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 525 , 1450 , 4225 },.MaxDist = 100.0f,.Intensity = 7.0f });
 }
