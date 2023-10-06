@@ -15,7 +15,7 @@ public:
 	ContentsCore& operator=(ContentsCore&& _Other) noexcept = delete;
 
 	static void ContentsResourcesCreate();
-
+	static void CreateCylinderMesh();
 
 	static void GameStart();
 	static void GameEnd();

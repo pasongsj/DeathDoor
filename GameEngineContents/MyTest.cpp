@@ -3,6 +3,7 @@
 
 #include "StaticParticleManager.h"
 #include "Player.h"
+#include "FireObject.h"
 
 MyTest::MyTest()
 {
@@ -14,11 +15,8 @@ MyTest::~MyTest()
 
 void MyTest::Start()
 {
-	//GetLevel()->CreateActor<Player>();
-		
-	TestRd = CreateComponent<ContentFBXRenderer>();
-	TestRd->SetFBXMesh("Sphere.fbx", "ContentAniMeshDeffered");
-	TestRd->GetTransform()->SetLocalScale({ 10.0f, 10.0f, 10.0f });
+	std::shared_ptr<FireObject> Fire = GetLevel()->CreateActor<FireObject>();
+	Fire->GetTransform()->SetLocalScale({ 10.0f, 10.0f, 10.0f });
 
 	//
 	//TestRd->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
@@ -27,16 +25,6 @@ void MyTest::Start()
 	//TestRd->CreateFBXAnimation("Fly", "_E_BAT_Black Variant_FLY.fbx");
 	//TestRd->ChangeAnimation("Fly");
 
-	auto Units = TestRd->GetAllRenderUnit();
-	
-	for (int i = 0; i < Units.size(); i++)
-	{
-		for (int j = 0; j < Units[i].size(); j++)
-		{
-			Units[i][j]->ShaderResHelper.SetTexture("MaskTexture", "WhiteTexture.png");
-			Units[i][j]->Mask.UV_MaskingValue += 1.0f;
-		}
-	}
 }
 
 void MyTest::Update(float _Delta)
