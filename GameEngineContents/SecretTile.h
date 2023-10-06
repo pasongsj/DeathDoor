@@ -1,6 +1,13 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+enum class TileState
+{
+	NORMAL,
+	DESTROY,
+};
+
+
 // Ό³Έν :
 class SecretTile : public GameEngineActor
 {
@@ -20,6 +27,16 @@ public:
 		return m_pPhysXComponent;
 	}
 
+	inline std::shared_ptr<class ContentFBXRenderer> GetRender() const
+	{
+		return m_pRenderer;
+	}
+
+	inline void SetState(TileState _State)
+	{
+		m_eState = _State;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -29,4 +46,6 @@ private:
 
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
 	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
+
+	TileState m_eState = TileState::NORMAL;
 };

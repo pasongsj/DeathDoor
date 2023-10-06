@@ -1,9 +1,9 @@
 #pragma once
 #include <GameEngineCore/GameEngineComponent.h>
-#include "PhysXDefault.h"
+#include "PhysXComponent.h"
 
 // Ό³Έν :
-class PhysXSphereComponent : public GameEngineComponent, public PhysXDefault
+class PhysXSphereComponent : public PhysXComponent
 {
 public:
 	// constrcuter destructer
@@ -16,9 +16,9 @@ public:
 	PhysXSphereComponent& operator=(const PhysXSphereComponent& _Other) = delete;
 	PhysXSphereComponent& operator=(PhysXSphereComponent&& _Other) noexcept = delete;
 
-	void CreatePhysXActors(float4 _GeoMetryScale = float4(2.0f, 2.0f, 2.0f), float4 _GeoMetryRotation = float4::ZERO, bool _Static = false);
+	void CreatePhysXActors(float4 _GeoMetryScale = float4(2.0f, 2.0f, 2.0f), float4 _GeoMetryRotation = float4::ZERO, bool _Static = false) override;
 
-	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = float4::ZERO, bool _Static = false);
+	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRotation = float4::ZERO, bool _Static = false) override;
 
 
 

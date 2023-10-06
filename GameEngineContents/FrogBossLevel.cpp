@@ -23,6 +23,12 @@ void FrogBossLevel::Update(float _DeltaTime)
 	KeyUpdate(_DeltaTime);
 
 	// float4 Pos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+
+		// test 
+	if (false == GetMainCamera()->IsFreeCamera())
+	{
+		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + m_CameraPos);
+	}
 }
 
 void FrogBossLevel::InitKey()
@@ -53,12 +59,13 @@ void FrogBossLevel::LevelChangeStart()
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
 
 	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
+	Light->GetTransform()->SetLocalRotation(float4{ 50, 100, 0 });
 
 	m_pMap = CreateActor<Map_Sanctuary>();
 
-	/*std::shared_ptr<Player> Obj = CreateActor<Player>();
+	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
-	Set_StartPos(Obj);*/
+	Set_StartPos(Obj);
 }
 
 void FrogBossLevel::LevelChangeEnd()
