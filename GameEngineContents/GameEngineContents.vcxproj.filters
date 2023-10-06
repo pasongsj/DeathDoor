@@ -316,6 +316,9 @@
     <ClCompile Include="PlayerAttackBomb.cpp">
       <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="FrogFloor.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
     <ClCompile Include="GrayScaleEffect.cpp">
       <Filter>Component\ContentsRenderer\PostEffect</Filter>
     </ClCompile>
@@ -633,6 +636,9 @@
     </ClInclude>
     <ClInclude Include="GrayScaleEffect.h">
       <Filter>Component\ContentsRenderer\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="FrogFloor.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

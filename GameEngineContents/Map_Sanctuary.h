@@ -16,9 +16,14 @@ public:
 	Map_Sanctuary& operator=(const Map_Sanctuary& _Other) = delete;
 	Map_Sanctuary& operator=(Map_Sanctuary&& _Other) noexcept = delete;
 
-	std::shared_ptr<class ContentFBXRenderer> GetNaviMeshRenderer() const
+	inline std::shared_ptr<class ContentFBXRenderer> GetNaviMeshRenderer() const
 	{
 		return m_pNaviRenderer;
+	}
+
+	inline std::shared_ptr<class FrogFloor> GetFloor() const
+	{
+		return m_pFrogFloor;
 	}
 
 	void NaviRenderSwitch();
@@ -32,7 +37,12 @@ private:
 	void Create_PhysXComponent();
 
 	std::shared_ptr<class ContentFBXRenderer> m_pNaviRenderer = nullptr;
-
-	// Åë¸Ê Å×½ºÆ® 
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
+	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
+
+	std::shared_ptr<class FrogFloor> m_pFrogFloor = nullptr;
+
+	const float4 m_MapRot = float4{ 0 , -130 , 0 };
+	const float4 m_NavRot = float4{ 0, 50, 0 };
+	const float4 m_MapPos = float4{ 0, 0 , 0 };
 };
