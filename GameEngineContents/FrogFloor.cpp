@@ -6,6 +6,8 @@
 #include "ContentFBXRenderer.h"
 #include "PhysXBoxComponent.h"
 
+#include "FireObject.h"
+
 FrogFloor::FrogFloor()
 {
 }
@@ -32,7 +34,27 @@ void FrogFloor::InitComponent()
 	//m_pHingeRenderer->GetTransform()->SetLocalRotation(float4{ 0 , -40, 0 });
 	//m_pHingeRenderer->GetTransform()->SetLocalPosition(float4{ -3621, -197, 3700 });
 
-
+	{
+		std::shared_ptr<FireObject> FireObj = GetLevel()->CreateActor<FireObject>();
+		FireObj->GetTransform()->SetLocalScale(float4{ 200, 200 , 200 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -3400, 167, 2420 });
+	}
+	{
+		std::shared_ptr<FireObject> FireObj = GetLevel()->CreateActor<FireObject>();
+		FireObj->GetTransform()->SetLocalScale(float4{ 200, 200 , 200 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -4770, 167, 4040 });
+	}
+	{
+		std::shared_ptr<FireObject> FireObj = GetLevel()->CreateActor<FireObject>();
+		FireObj->GetTransform()->SetLocalScale(float4{ 200, 200 , 200 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -3150, 167, 5370 });
+	}
+	{
+		std::shared_ptr<FireObject> FireObj = GetLevel()->CreateActor<FireObject>();
+		FireObj->GetTransform()->SetLocalScale(float4{ 200, 200 , 200 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -1790, 167, 3760 });
+	}
+	
 	float4 TileStartPos = m_TileInitPos;
 
 	float PosX = m_fTileMovePos;

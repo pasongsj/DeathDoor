@@ -32,7 +32,6 @@ protected:
 private:
 	void InitComponent();
 
-
 	std::shared_ptr<class ContentFBXRenderer> m_pHingeRenderer = nullptr;
 
 	std::vector<std::shared_ptr<class SecretTile>> m_vTiles = std::vector<std::shared_ptr<class SecretTile>>();
