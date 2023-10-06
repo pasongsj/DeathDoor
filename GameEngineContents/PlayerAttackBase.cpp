@@ -52,7 +52,9 @@ void PlayerAttackBase::SetTrans(const float4& _Dir, const float4& _Pos)
 		MsgAssert("PhysX Component가 생성되지 않았습니다.");
 		return;
 	}
-	PhysXComp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, _Pos));
+	float4 CalRot = float4::ZERO;
+	CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::RIGHT, _Dir);
+	PhysXComp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(-CalRot, _Pos));
 	Dir = _Dir;
 	FireTime = GetLiveTime();
 }
