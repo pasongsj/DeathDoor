@@ -310,6 +310,12 @@
     <ClCompile Include="PlayerAttackMagic.cpp">
       <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerAttackArrow.cpp">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackBomb.cpp">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -614,6 +620,12 @@
       <Filter>Component\PhysX\Component</Filter>
     </ClInclude>
     <ClInclude Include="PlayerAttackMagic.h">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackArrow.h">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackBomb.h">
       <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClInclude>
   </ItemGroup>

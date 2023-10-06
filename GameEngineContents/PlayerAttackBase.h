@@ -2,6 +2,8 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 #include "PhysXComponent.h"
+#include "PlayerDefinition.h"
+
 // Ό³Έν :
 class PlayerAttackBase : public GameEngineActor
 {
@@ -24,6 +26,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 	std::shared_ptr<class ContentFBXRenderer> AttackRenderer = nullptr;
+	std::shared_ptr<class PhysXComponent> PhysXComp = nullptr;
 
 	template<typename PhysXType>
 	void CreatePhysXAttComp(const float4& _Scale)
@@ -48,11 +51,7 @@ private:
 	float FireTime = 0.0f;
 
 	void SetTrans(const float4& _Dir, const float4& _Pos);
-	std::shared_ptr<class PhysXComponent> PhysXComp = nullptr;
 
-
-
-	//void SetAttackType(AttackType _Type);
 
 };
 

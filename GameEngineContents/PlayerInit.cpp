@@ -103,7 +103,7 @@ void Player::InitPlayerAnimation()
 	//Pivot->GetTransform()->SetLocalPosition(float4::FORWARD * 10.0f);
 	//Renderer->GetTransform()->SetParent(Pivot->GetTransform());
 	Renderer->GetTransform()->SetLocalPosition(float4::BACK * 10.0f);
-	GetTransform()->SetLocalScale(float4::ONE * PlayerScaleRatio);
+	GetTransform()->SetLocalScale(float4::ONE * PLAYER_SCALE_RATIO);
 }
 
 

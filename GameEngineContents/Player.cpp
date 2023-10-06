@@ -27,7 +27,6 @@ Player::~Player()
 {
 }
 
-#define PLAYER_PHYSX_SCALE float4{0.0f, 75.0f, 50.0f}
 
 void Player::Start()
 {
@@ -119,7 +118,7 @@ void Player::CheckDirInput(float _DeltaTime)
 		SetNextState(PlayerState::WALK);
 		//DirectionUpdate(_DeltaTime);
 		MoveDir = Dir.NormalizeReturn();
-		MoveUpdate(PlayerMoveSpeed);
+		MoveUpdate(PLAYER_MOVE_SPEED);
 	}
 	else // 방향 입력이 없다면 IDLE
 	{
@@ -192,10 +191,9 @@ void Player::DirectionUpdate(float _DeltaTime)
 		return;
 	}
 	float4 LerpDir = float4::LerpClamp(ForwardDir, MoveDir, _DeltaTime * 10.0f);
-	//float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, _DeltaTime * 10.0f);
 
 	float4 CalRot = float4::ZERO;
-	CalRot.y = float4::GetAngleVectorToVectorDeg360(PlayerDefaultDir, LerpDir);
+	CalRot.y = float4::GetAngleVectorToVectorDeg360(PLAYER_DEFAULT_DIR, LerpDir);
 	m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -CalRot);
 	ForwardDir = LerpDir;
 }

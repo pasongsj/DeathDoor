@@ -326,11 +326,19 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerAttackArrow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PlayerAttackBasic.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayerAttackBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackBomb.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -619,11 +627,19 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerAttackArrow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PlayerAttackBasic.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayerAttackBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackBomb.h">
       <SubType>
       </SubType>
     </ClInclude>

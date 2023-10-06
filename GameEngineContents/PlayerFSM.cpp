@@ -8,6 +8,8 @@
 #include "PlayerAttackBase.h"
 #include "PlayerAttackBasic.h"
 #include "PlayerAttackMagic.h"
+#include "PlayerAttackArrow.h"
+#include "PlayerAttackBomb.h"
 
 
 void Player::SetFSMFunc()
@@ -95,21 +97,32 @@ void Player::SetFSMFunc()
 		{
 			MoveDir = GetMousDirection();
 
-			AttackActor = GetLevel()->CreateActor<PlayerAttackMagic>();
-			float4 MagicPos = GetBonePos("Weapon_R");
-			AttackActor->SetTrans(MoveDir, MagicPos);
-
 			switch (CurSkill)
 			{
 			case Player::PlayerSkill::ARROW:
+			{
 				Renderer->ChangeAnimation("ARROW");
+				AttackActor = GetLevel()->CreateActor<PlayerAttackArrow>();
+				float4 ArrowPos = GetBonePos("Weapon_R");
+				AttackActor->SetTrans(MoveDir, ArrowPos);
 				break;
+			}
 			case Player::PlayerSkill::MAGIC:
+			{
 				Renderer->ChangeAnimation("MAGIC");
+				AttackActor = GetLevel()->CreateActor<PlayerAttackMagic>();
+				float4 MagicPos = GetBonePos("Weapon_R");
+				AttackActor->SetTrans(MoveDir, MagicPos);
 				break;
+			}
 			case Player::PlayerSkill::BOMB:
+			{
 				Renderer->ChangeAnimation("BOMB");
+				AttackActor = GetLevel()->CreateActor<PlayerAttackBomb>();
+				float4 BombPos = (GetBonePos("Weapon_R") + GetBonePos("Weapon_L")) * 0.5f;
+				AttackActor->SetTrans(MoveDir, BombPos);
 				break;
+			}
 			case Player::PlayerSkill::HOOK:
 				Renderer->ChangeAnimation("HOOK");
 				break;
@@ -127,33 +140,18 @@ void Player::SetFSMFunc()
 			{
 				// 마우스 방향을 바라보도록 함
 				MoveDir = GetMousDirection();
-				float4 MagicPos = GetBonePos("Weapon_R");
-				AttackActor->SetTrans(MoveDir, MagicPos);
+				float4 SkillPos = GetBonePos("Weapon_R");
+				if (PlayerSkill::BOMB == CurSkill)
+				{
+					SkillPos = (GetBonePos("Weapon_R") + GetBonePos("Weapon_L")) * 0.5f /*+ float4{0.0f, 10.0f,0.0f}*/;
+				}
+				AttackActor->SetTrans(MoveDir, SkillPos);
 			}
 			else
 			{
 				AttackActor->isShoot = true;
 				SetNextState(PlayerState::IDLE);
 			}
-			//if (/*true == Renderer->IsAnimationEnd() && */false == GameEngineInput::IsPress("PlayerRBUTTON"))
-			//{
-			//	//switch (CurSkill)
-			//	//{
-			//	//case Player::PlayerSkill::ARROW:
-			//	//	break;
-			//	//case Player::PlayerSkill::MAGIC:
-			//	//	break;
-			//	//case Player::PlayerSkill::BOMB:
-			//	//	break;
-			//	//case Player::PlayerSkill::HOOK:
-			//	//	break;
-			//	//case Player::PlayerSkill::MAX:
-			//	//	break;
-			//	//default:
-			//	//	break;
-			//	//}
-			//}
-			//CheckInput(Delta);
 		},
 		[this]
 		{
@@ -197,7 +195,7 @@ void Player::SetFSMFunc()
 			{
 				StateInputDelayTime = 0.25f;
 			}
-			MoveUpdate(PlayerAttMoveSpeed);
+			MoveUpdate(PLAYER_ATT_MOVE_SPEED);
 
 			{// base attack range
 				AttackActor = GetLevel()->CreateActor<PlayerAttackBasic>();
@@ -240,7 +238,7 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta)
 		{
-			MoveUpdate(PlayerMoveSpeed * RollSpeedRatio);
+			MoveUpdate(PLAYER_ROLL_SPEED);
 
 			if (true == GameEngineInput::IsDown("PlayerMBUTTON"))
 			{
@@ -338,7 +336,7 @@ void Player::SetFSMFunc()
 				Renderer->ChangeAnimation("HIT_IDLE");
 				SetStateCheckerOn();
 				//StateChecker = true;
-				IdleEndTime = GetStateDuration() + PlayerHitIdleTime;
+				IdleEndTime = GetStateDuration() + PLAYER_HIT_IDLE_TIME;
 			}
 			if (true == GetStateChecker() && GetStateDuration() > IdleEndTime)
 			{
@@ -491,7 +489,7 @@ void Player::CheckClimbInput(float _DeltaTime)
 	{
 		Renderer->ChangeAnimation("Climbing_ladder");
 		Renderer->PauseOff();
-		MoveUpdate(PlayerMoveSpeed * ClimbSpeedRatio, float4::UP);
+		MoveUpdate(PLAYER_CLIMB_SPEED, float4::UP);
 		//m_pCapsuleComp->SetMoveSpeed(float4::UP * PlayerMoveSpeed * ClimbSpeedRatio);
 	}
 	else if (true == GameEngineInput::IsPress("PlayerDown"))
@@ -509,7 +507,7 @@ void Player::CheckClimbInput(float _DeltaTime)
 
 		Renderer->ChangeAnimation("Climbing_ladder_down");
 		Renderer->PauseOff();
-		MoveUpdate(PlayerMoveSpeed * ClimbSpeedRatio, float4::DOWN);
+		MoveUpdate(PLAYER_CLIMB_SPEED, float4::DOWN);
 		//m_pCapsuleComp->SetMoveSpeed(float4::DOWN * PlayerMoveSpeed * ClimbSpeedRatio);s
 
 	}
