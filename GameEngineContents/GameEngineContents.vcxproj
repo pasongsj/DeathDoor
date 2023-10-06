@@ -232,6 +232,7 @@
     <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="DynamicParticleManager.cpp" />
     <ClCompile Include="FrogBossLevel.cpp" />
+    <ClCompile Include="FrogFloor.cpp" />
     <ClCompile Include="Frog_Lever.cpp" />
     <ClCompile Include="FSMObjectBase.cpp">
       <SubType>
@@ -501,6 +502,10 @@
     </ClInclude>
     <ClInclude Include="DynamicParticleManager.h" />
     <ClInclude Include="FrogBossLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FrogFloor.h">
       <SubType>
       </SubType>
     </ClInclude>
