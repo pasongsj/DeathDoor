@@ -307,6 +307,9 @@
     <ClCompile Include="PlayerAttSkill.cpp">
       <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="GrayScaleEffect.cpp">
+      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -609,6 +612,9 @@
     </ClInclude>
     <ClInclude Include="FrogBossLevel.h">
       <Filter>Contents\FortressLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="GrayScaleEffect.h">
+      <Filter>Component\ContentsRenderer\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
