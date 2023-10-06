@@ -5,7 +5,7 @@
       <Filter>Contents\CenterLevel</Filter>
     </ClCompile>
     <ClCompile Include="FadeEffect.cpp">
-      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+      <Filter>Component\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <Filter>Contents\TestLevel</Filter>
@@ -290,7 +290,7 @@
       <Filter>Component\ContentsRenderer\Font</Filter>
     </ClCompile>
     <ClCompile Include="GlowEffect.cpp">
-      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+      <Filter>Component\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="Map_Sanctuary.cpp">
       <Filter>Contents\FortressLevel\Map</Filter>
@@ -320,7 +320,10 @@
       <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="GrayScaleEffect.cpp">
-      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+      <Filter>Component\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="FireObject.cpp">
+      <Filter>Component\ContentsRenderer\Fire</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,7 +331,7 @@
       <Filter>Contents\CenterLevel</Filter>
     </ClInclude>
     <ClInclude Include="FadeEffect.h">
-      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+      <Filter>Component\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel.h">
       <Filter>Contents\TestLevel</Filter>
@@ -605,7 +608,7 @@
       <Filter>Component\ContentsRenderer\Font</Filter>
     </ClInclude>
     <ClInclude Include="GlowEffect.h">
-      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+      <Filter>Component\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBruteGold.h">
       <Filter>FSMObject\Enemy</Filter>
@@ -635,7 +638,10 @@
       <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClInclude>
     <ClInclude Include="GrayScaleEffect.h">
-      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+      <Filter>Component\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="FireObject.h">
+      <Filter>Component\ContentsRenderer\Fire</Filter>
     </ClInclude>
     <ClInclude Include="FrogFloor.h">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
@@ -671,9 +677,6 @@
     </Filter>
     <Filter Include="Component\PhysX\Test">
       <UniqueIdentifier>{c0881260-81c3-4478-b5d6-05f3ea633a14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\ContentsRenderer\PostEffect">
-      <UniqueIdentifier>{d5ea17ab-cd73-4c06-af79-5246cf19158e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Component\mapeditor">
       <UniqueIdentifier>{89975606-5f56-4ef4-845e-15ad963da86d}</UniqueIdentifier>
@@ -776,6 +779,12 @@
     </Filter>
     <Filter Include="FSMObject\Player\Att\Skill">
       <UniqueIdentifier>{afba360a-2df9-411c-bcd5-6f7a4b1436da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\PostEffect">
+      <UniqueIdentifier>{d5ea17ab-cd73-4c06-af79-5246cf19158e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Fire">
+      <UniqueIdentifier>{f006ce62-c1d5-49b0-af52-7b38c1a4c551}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
