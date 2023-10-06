@@ -20,6 +20,14 @@ public:
 	virtual void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO, bool _Static = false) {};
 
 
+	void SetShapeAxis(float _Rot = 0, float4 _Axis = float4::UP)
+	{
+		float Rot = _Rot * GameEngineMath::DegToRad;
+		physx::PxTransform Transform;
+		Transform.p = m_pShape->getLocalPose().p;
+		Transform.q = physx::PxQuat(Rot, _Axis.PhysXVec3Return());
+		m_pShape->setLocalPose(Transform);
+	}
 protected:
 
 private:
