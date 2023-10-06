@@ -75,6 +75,7 @@ void Player::SetFSMFunc()
 			if (true == GetStateChecker())
 			{
 				Renderer->ChangeAnimation("WALK");
+				MoveUpdate(PLAYER_WALK_SPEED);
 				if (true == Renderer->IsAnimationEnd())
 				{
 					SetNextState(PlayerState::IDLE);
@@ -89,6 +90,7 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			MoveUpdate(0.0f);
 
 		}
 	);
@@ -177,6 +179,22 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			switch (CurSkill)
+			{
+			case Player::PlayerSkill::ARROW:
+			case Player::PlayerSkill::MAGIC:
+				SpellCost--;
+				break;
+			case Player::PlayerSkill::BOMB:
+				SpellCost -= 2;
+				break;
+			case Player::PlayerSkill::HOOK:
+				break;
+			case Player::PlayerSkill::MAX:
+				break;
+			default:
+				break;
+			}
 		}
 	); 
 
@@ -487,7 +505,7 @@ void Player::SetFSMFunc()
 			float4 CollPoint = float4::ZERO;
 			if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 			{
-				if (CollPoint.y + 40.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
+				if (CollPoint.y + 200.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
 				{
 					SetNextState(PlayerState::IDLE);
 					return;

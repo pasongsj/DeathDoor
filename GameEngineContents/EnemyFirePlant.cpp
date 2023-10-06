@@ -120,6 +120,7 @@ void EnemyFirePlant::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("HIT");
+			AddPlayerSpellCost();
 		},
 		[this](float Delta)
 		{
