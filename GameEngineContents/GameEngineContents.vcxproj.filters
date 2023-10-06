@@ -325,6 +325,9 @@
     <ClCompile Include="FireObject.cpp">
       <Filter>Component\ContentsRenderer\Fire</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerBow.cpp">
+      <Filter>FSMObject\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -645,6 +648,9 @@
     </ClInclude>
     <ClInclude Include="FrogFloor.h">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBow.h">
+      <Filter>FSMObject\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

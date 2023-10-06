@@ -28,6 +28,24 @@ public:
 
 	float4 GetBonePos(const std::string_view& _BoneName);
 
+	inline int GetPlayerHP()
+	{
+		return PlayerHP;
+	}
+	inline int GetSpellCost()
+	{
+		return SpellCost;
+	}
+
+	inline void AddSpellCost()
+	{
+		if (SpellCost >= 4)
+		{
+			return;
+		}
+		++SpellCost;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -111,15 +129,19 @@ private:
 	void CheckClimbInput(float _DeltaTime);
 	void MoveUpdate(float _MoveVec, float4 _Dir = float4::ZERONULL);	//MoveDir에 해당하는 값만 처리하기 때문에
 
-
+	void ModifyHeight();
 
 	void DefaultPhysX();
 
 	// Attack
 	std::shared_ptr< class PlayerAttackBase> AttackActor = nullptr;
 
-	
+	// WeaponRender
+	std::shared_ptr<class PlayerBow> WeaponActor = nullptr;
 
+
+	int PlayerHP = 4;
+	int SpellCost = 4;
 
 };
 

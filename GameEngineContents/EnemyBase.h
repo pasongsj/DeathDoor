@@ -40,6 +40,8 @@ protected:
 
 	bool CheckHit();
 
+	void AddPlayerSpellCost();
+
 private:
 
 	

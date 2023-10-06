@@ -20,6 +20,7 @@ void PlayerAttackArrow::Start()
 	AttackRenderer->GetTransform()->SetLocalScale(PLAYER_ATT_ARROW_RENDER_SCALE);
 	// PhysX
 	CreatePhysXAttComp<PhysXCapsuleComponent>(PLAYER_ATT_ARROW_PHYSX_SCALE);
+	PhysXComp->SetShapeAxis(0,float4::RIGHT);
 }
 
 void PlayerAttackArrow::Update(float _DeltaTime)

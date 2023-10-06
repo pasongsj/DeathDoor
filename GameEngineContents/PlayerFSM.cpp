@@ -12,6 +12,9 @@
 #include "PlayerAttackBomb.h"
 
 
+#include "PlayerBow.h"
+
+
 void Player::SetFSMFunc()
 {
 	InitFSM(PlayerState::MAX);
@@ -72,6 +75,7 @@ void Player::SetFSMFunc()
 			if (true == GetStateChecker())
 			{
 				Renderer->ChangeAnimation("WALK");
+				MoveUpdate(PLAYER_WALK_SPEED);
 				if (true == Renderer->IsAnimationEnd())
 				{
 					SetNextState(PlayerState::IDLE);
@@ -86,6 +90,7 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			MoveUpdate(0.0f);
 
 		}
 	);
@@ -102,6 +107,11 @@ void Player::SetFSMFunc()
 			case Player::PlayerSkill::ARROW:
 			{
 				Renderer->ChangeAnimation("ARROW");
+				//bow
+				WeaponActor = GetLevel()->CreateActor<PlayerBow>();
+				float4 BowPos = GetBonePos("Weapon_L");
+				WeaponActor->SetTrans(BowPos, GetTransform()->GetLocalRotation());
+				//arrow
 				AttackActor = GetLevel()->CreateActor<PlayerAttackArrow>();
 				float4 ArrowPos = GetBonePos("Weapon_R");
 				AttackActor->SetTrans(MoveDir, ArrowPos);
@@ -133,11 +143,16 @@ void Player::SetFSMFunc()
 			}
 			MoveUpdate(0.0f);
 		},
-		[this](float Delta)
+		[this](float Delta) // update
 		{
 			//StateDuration += Delta;
 			if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
 			{
+				if (nullptr != WeaponActor)
+				{
+					float4 BowPos = GetBonePos("Weapon_L");
+					WeaponActor->SetTrans(BowPos, GetTransform()->GetLocalRotation());
+				}
 				// 마우스 방향을 바라보도록 함
 				MoveDir = GetMousDirection();
 				float4 SkillPos = GetBonePos("Weapon_R");
@@ -149,13 +164,37 @@ void Player::SetFSMFunc()
 			}
 			else
 			{
-				AttackActor->isShoot = true;
+				if (nullptr != AttackActor)
+				{
+					AttackActor->isShoot = true;
+					AttackActor = nullptr;
+				}
+				if (nullptr != WeaponActor)
+				{
+					WeaponActor->Death();
+					WeaponActor = nullptr;
+				}
 				SetNextState(PlayerState::IDLE);
 			}
 		},
 		[this]
 		{
-			AttackActor = nullptr;
+			switch (CurSkill)
+			{
+			case Player::PlayerSkill::ARROW:
+			case Player::PlayerSkill::MAGIC:
+				SpellCost--;
+				break;
+			case Player::PlayerSkill::BOMB:
+				SpellCost -= 2;
+				break;
+			case Player::PlayerSkill::HOOK:
+				break;
+			case Player::PlayerSkill::MAX:
+				break;
+			default:
+				break;
+			}
 		}
 	); 
 
@@ -466,7 +505,7 @@ void Player::SetFSMFunc()
 			float4 CollPoint = float4::ZERO;
 			if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 			{
-				if (CollPoint.y + 40.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
+				if (CollPoint.y + 200.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
 				{
 					SetNextState(PlayerState::IDLE);
 					return;
