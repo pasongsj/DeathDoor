@@ -118,7 +118,8 @@ private:
 	// Attack
 	std::shared_ptr< class PlayerAttackBase> AttackActor = nullptr;
 
-	
+	// WeaponRender
+	std::shared_ptr<class PlayerBow> WeaponActor = nullptr;
 
 
 };
