@@ -40,14 +40,12 @@ void Player::Start()
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PLAYER_PHYSX_SCALE);
-
+		//m_pCapsuleComp->SetDynamicPivot(float4::BACK * 10.0f);
 		// lever 충돌테스트 
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic, PhysXFilterGroup::LeverTrigger);
 	}
+	m_pCapsuleComp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{1000.0f, 500.0f, 0.0f}));
 
-	//m_pCapsuleComp->SetDynamicPivot()
-	//AttackRange = GetLevel()->CreateActor< PlayerAttackRange>();
-	//AttackRange->Off();
 
 	SetFSMFunc();
 	Renderer->ChangeAnimation("IDLE0");
@@ -55,6 +53,7 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
+	float4 TempPos = GetTransform()->GetWorldPosition();
 	DirectionUpdate(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
 	DefaultPhysX();
@@ -147,6 +146,26 @@ void Player::CheckStateInput(float _DeltaTime)
 	}
 	else if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
 	{
+		switch (CurSkill)
+		{
+		case Player::PlayerSkill::ARROW:
+		case Player::PlayerSkill::MAGIC:
+			if (SpellCost < 1)
+			{
+				return;
+			}
+			break;
+		case Player::PlayerSkill::BOMB:
+			if (SpellCost <  2)
+			{
+				return;
+			}
+			break;
+		case Player::PlayerSkill::HOOK:
+			break;
+		default:
+			break;
+		}
 		SetNextState(PlayerState::SKILL);
 	}
 	else if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
@@ -154,8 +173,7 @@ void Player::CheckStateInput(float _DeltaTime)
 		SetNextState(PlayerState::CHARGE_ATT);
 	}
 }
-
-void Player::CheckFalling()
+void Player::ModifyHeight()
 {
 	// Falling Check
 	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // ground 와 약 y값 25차이가 난다.
@@ -163,7 +181,24 @@ void Player::CheckFalling()
 	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 	{
 		float4 PPos = GetTransform()->GetWorldPosition();
-		if (PPos.y > CollPoint.y + 120.0f)
+		if (PPos.y > CollPoint.y + 200.0f)
+		{
+			SetNextState(PlayerState::FALLING);
+			return;
+		}
+	}
+}
+
+void Player::CheckFalling()
+{
+	ModifyHeight();
+	// Falling Check
+	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // ground 와 약 y값 25차이가 난다.
+	float4 CollPoint = float4::ZERO;
+	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
+	{
+		float4 PPos = GetTransform()->GetWorldPosition();
+		if (PPos.y > CollPoint.y + 200.0f)
 		{
 			SetNextState(PlayerState::FALLING);
 			return;
