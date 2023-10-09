@@ -68,6 +68,9 @@ void FortressLevel::LevelChangeStart()
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_StartPos(Obj);
+
+	CreateUI();
+	SetPostPrecessEffect();
 }
 
 void FortressLevel::LevelChangeEnd()

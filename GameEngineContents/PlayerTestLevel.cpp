@@ -35,6 +35,9 @@ void PlayerTestLevel::LevelChangeStart()
 
 	CreateActor<MonsterAnimationTest>();
 	//CreateActor<EnemyFirePlant>();
+
+	CreateUI();
+	SetPostPrecessEffect();
 }
 
 void PlayerTestLevel::LevelChangeEnd()

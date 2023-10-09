@@ -66,6 +66,9 @@ void FrogBossLevel::LevelChangeStart()
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_StartPos(Obj);
+
+	CreateUI();
+	SetPostPrecessEffect();
 }
 
 void FrogBossLevel::LevelChangeEnd()

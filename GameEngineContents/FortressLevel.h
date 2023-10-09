@@ -1,8 +1,8 @@
 #pragma once
-#include "PhysXLevel.h"
+#include "ContentLevel.h"
 
 // Ό³Έν :
-class FortressLevel : public PhysXLevel
+class FortressLevel : public ContentLevel
 {
 public:
 	// constrcuter destructer

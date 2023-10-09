@@ -1,5 +1,5 @@
 #pragma once
-#include "PhysXLevel.h"
+#include "ContentLevel.h"
 
 enum class TestMapType
 {
@@ -10,7 +10,7 @@ enum class TestMapType
 
 
 // Ό³Έν :
-class MapTestLevel : public PhysXLevel
+class MapTestLevel : public ContentLevel
 {
 public:
 	// constrcuter destructer
