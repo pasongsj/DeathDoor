@@ -12,27 +12,18 @@ FireObject::~FireObject()
 
 void FireObject::Start()
 {
-	FireFront = nullptr;
-	FireBack = nullptr;
+	FireRender = nullptr;
 
-	FireFront = CreateComponent<ContentSpriteRenderer>();
-	FireFront->SetMesh("CYLINDER");
-	FireFront->SetMaterial("Fire");
-	FireFront->GetShaderResHelper().SetTexture("DiffuseTexture", "FireColor.png");
-	FireFront->GetShaderResHelper().SetTexture("NoiseTexture", "FireNoise.png");
-	FireFront->GetShaderResHelper().SetTexture("AlphaTexture", "FireAlpha.png");
-	FireFront->GetShaderResHelper().SetConstantBufferLink("FireNoise", NoiseData);
-	FireFront->GetShaderResHelper().SetConstantBufferLink("DistortionData", DistortionData);
+	FireRender = CreateComponent<ContentSpriteRenderer>();
+	FireRender->SetMesh("CYLINDER");
+	FireRender->SetMaterial("Fire");
+	FireRender->GetShaderResHelper().SetTexture("DiffuseTexture", "FireColor.png");
+	FireRender->GetShaderResHelper().SetTexture("NoiseTexture", "FireNoise.png");
+	FireRender->GetShaderResHelper().SetTexture("AlphaTexture", "FireAlpha.png");
+	FireRender->GetShaderResHelper().SetConstantBufferLink("FireNoise", NoiseData);
+	FireRender->GetShaderResHelper().SetConstantBufferLink("DistortionData", DistortionData);
 
-	FireBack = CreateComponent<ContentSpriteRenderer>();
-	FireBack->SetMesh("CYLINDER");
-	FireBack->SetMaterial("Fire");
-	FireBack->GetShaderResHelper().SetTexture("DiffuseTexture", "FireColor.png");
-	FireBack->GetShaderResHelper().SetTexture("NoiseTexture", "FireNoise.png");
-	FireBack->GetShaderResHelper().SetTexture("AlphaTexture", "FireAlpha.png");
-	FireBack->GetShaderResHelper().SetConstantBufferLink("FireNoise", NoiseData);
-	FireBack->GetShaderResHelper().SetConstantBufferLink("DistortionData", DistortionData);
-	FireBack->GetTransform()->SetLocalRotation({ 0.0f, 180.0f, 0.0f });
+	GetTransform()->SetLocalRotation({ 0.0f, -90.0f, 0.0f });
 
 	DistortionData.Distortion1 = { 0.1f, 0.2f };
 	DistortionData.Distortion2 = { 0.1f, 0.3f };
