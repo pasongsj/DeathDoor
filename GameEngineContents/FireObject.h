@@ -58,8 +58,7 @@ private:
 	};
 
 private:
-	std::shared_ptr<class ContentSpriteRenderer> FireFront = nullptr;
-	std::shared_ptr<class ContentSpriteRenderer> FireBack = nullptr;
+	std::shared_ptr<class ContentSpriteRenderer> FireRender = nullptr;
 
 	FireNoise NoiseData;
 	Distortion DistortionData;
