@@ -1,9 +1,9 @@
 #pragma once
-#include "PhysXLevel.h"
+#include "ContentLevel.h"
 
 
 // Ό³Έν :
-class FrogBossLevel : public PhysXLevel
+class FrogBossLevel : public ContentLevel
 {
 public:
 	// constrcuter destructer

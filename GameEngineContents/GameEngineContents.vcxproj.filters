@@ -328,6 +328,9 @@
     <ClCompile Include="PlayerBow.cpp">
       <Filter>FSMObject\Player</Filter>
     </ClCompile>
+    <ClCompile Include="ContentLevel.cpp">
+      <Filter>Component\Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -652,6 +655,9 @@
     <ClInclude Include="PlayerBow.h">
       <Filter>FSMObject\Player</Filter>
     </ClInclude>
+    <ClInclude Include="ContentLevel.h">
+      <Filter>Component\Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -791,6 +797,9 @@
     </Filter>
     <Filter Include="Component\ContentsRenderer\Fire">
       <UniqueIdentifier>{f006ce62-c1d5-49b0-af52-7b38c1a4c551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Level">
+      <UniqueIdentifier>{81902642-70f0-4525-85b9-21fe176eb5a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -41,6 +41,10 @@ void BossTestLevel::LevelChangeStart()
 	std::shared_ptr<Boss_OldCrow> BossTestObject = CreateActor<Boss_OldCrow>();
 	//BossTestObject->Init();
 	//BossTestObject->GetTransform()->SetLocalPosition({ 0, 0, -10 });
+
+
+	CreateUI();
+	SetPostPrecessEffect();
 }
 
 void BossTestLevel::LevelChangeEnd()

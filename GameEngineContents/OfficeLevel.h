@@ -1,10 +1,10 @@
 #pragma once
-#include "PhysXLevel.h"
+#include "ContentLevel.h"
 
 // M : NaviRender OnOff 스위치 
 
 // 설명 :
-class OfficeLevel : public PhysXLevel
+class OfficeLevel : public ContentLevel
 {
 public:
 	// constrcuter destructer
@@ -29,6 +29,7 @@ protected:
 
 
 private:
+
 	// 2800, 230, -6300
 	const float4 m_CameraPos = float4{ 2800 , 300 , -6500 };
 	const float4 m_CameraRot = float4{ 35 , 0 , 0 };

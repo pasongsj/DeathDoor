@@ -6,6 +6,7 @@
 #include "PhysXCapsuleComponent.h"
 
 #include "MyTest.h"
+
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
 OfficeLevel::OfficeLevel()
@@ -27,6 +28,7 @@ void OfficeLevel::Start()
 	GameEngineCoreWindow::AddDebugRenderTarget(3, "DeferredTarget", GetMainCamera()->GetCamDeferrdTarget());
 
 	SetPointLight();
+	SetPostPrecessEffect();
 }
 
 
@@ -44,6 +46,7 @@ void OfficeLevel::Update(float _DeltaTime)
 void OfficeLevel::LevelChangeStart()
 {
 	CreateScene();
+	CreateUI();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
@@ -63,6 +66,7 @@ void OfficeLevel::LevelChangeEnd()
 {
 	AllActorDestroy();
 }
+
 
 void OfficeLevel::InitKey()
 {

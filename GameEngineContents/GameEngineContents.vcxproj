@@ -184,6 +184,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentSpriteRenderer.cpp">
       <SubType>
       </SubType>
@@ -439,6 +443,10 @@
     <ClInclude Include="BossTestLevel.h" />
     <ClInclude Include="Boss_OldCrow.h" />
     <ClInclude Include="ContentFBXUIRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

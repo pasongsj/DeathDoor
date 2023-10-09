@@ -1,7 +1,7 @@
 #pragma once
-#include "PhysXLevel.h"
+#include "ContentLevel.h"
 // Ό³Έν :
-class PlayerTestLevel : public PhysXLevel
+class PlayerTestLevel : public ContentLevel
 {
 public:
 	// constrcuter destructer

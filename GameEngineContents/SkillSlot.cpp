@@ -125,13 +125,13 @@ void SkillSlot::SetSlot()
 	BombSlot->HalfSlot_1 = CreateComponent<ContentUIRenderer>();
 	BombSlot->HalfSlot_1->SetScaleToTexture("SkillSlotHalf_1.png");
 	BombSlot->HalfSlot_1->GetTransform()->SetLocalScale({ 43.0f, 84.0f });
-	BombSlot->HalfSlot_1->GetTransform()->SetLocalRotation({ 0.0f, 180.0f, 0.0f });
+	BombSlot->HalfSlot_1->GetTransform()->SetLocalRotation({ 0.0f, 0.0f, 180.0f });
 	BombSlot->HalfSlot_1->GetTransform()->SetLocalPosition({ 69.5f, 0.0f });
 
 	BombSlot->HalfSlot_2 = CreateComponent<ContentUIRenderer>();
 	BombSlot->HalfSlot_2->SetScaleToTexture("SkillSlotHalf_2.png");
 	BombSlot->HalfSlot_2->GetTransform()->SetLocalScale({ 43.0f, 84.0f });
-	BombSlot->HalfSlot_2->GetTransform()->SetLocalRotation({ 0.0f, 180.0f, 0.0f });
+	BombSlot->HalfSlot_2->GetTransform()->SetLocalRotation({ 0.0f, 0.0f, 180.0f });
 	BombSlot->HalfSlot_2->GetTransform()->SetLocalPosition({ 26.5f, 0.0f });
 
 	BombSlot->HalfSlotLinker_1 = CreateComponent<ContentUIRenderer>();
