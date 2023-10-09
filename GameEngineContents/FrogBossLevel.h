@@ -26,7 +26,6 @@ protected:
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
 
-
 private:
 	// 2800, 230, -6300
 	const float4 m_CameraPos = float4{ -450, 1700, -1500 };

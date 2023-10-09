@@ -8,13 +8,18 @@
 
 #include "FireObject.h"
 
+FrogFloor* FrogFloor::MainFloor = nullptr;
+
 FrogFloor::FrogFloor()
 {
+	MainFloor = this;
 }
 
 FrogFloor::~FrogFloor()
 {
 }
+
+
 
 void FrogFloor::Start()
 {
@@ -40,6 +45,10 @@ void FrogFloor::InitComponent()
 
 	// 회전 
 	GetTransform()->SetLocalRotation(float4{ 0 , -40, 0 });
+
+	// test 
+	/*std::shared_ptr<SecretTile> Tile = GetTile(24);
+	Tile->Off();*/
 }
 
 void FrogFloor::Create_FireObject()
@@ -93,9 +102,9 @@ void FrogFloor::Create_TileObject()
 	float4 MoveZPos = float4::ZERONULL;
 
 	// 돌면서 5x5 타일 깔아 
-	for (size_t i = 0; i < m_Width; ++i)
+	for (size_t i = 0; i < m_Height; ++i)
 	{
-		for (size_t j = 0; j < m_Height; ++j)
+		for (size_t j = 0; j < m_Width; ++j)
 		{
 			// 타일만들고
 			std::shared_ptr<SecretTile> NewTile = CurLevel->CreateActor<SecretTile>();
@@ -113,4 +122,26 @@ void FrogFloor::Create_TileObject()
 		MoveXPos = float4::ZERONULL;
 		MoveZPos -= float4{ 0, 0, PosZ };
 	}
+}
+
+std::shared_ptr<SecretTile> FrogFloor::GetTile(const int _TileIndex)
+{
+	int TileIndex = _TileIndex;
+	size_t VectorSize = m_vTiles.size();
+
+	if (TileIndex < 0 || TileIndex >= static_cast<int>(VectorSize))
+	{
+		MsgAssert("잘못된 타일 인덱스를 입력하였습니다.");
+		return nullptr;
+	}
+
+	std::shared_ptr<SecretTile> Tile = m_vTiles[_TileIndex];
+	
+	if (Tile == nullptr)
+	{
+		MsgAssert("현재 타일이 nullptr 입니다. 맵한테 따져주세요. ㅈㅅ");
+		return nullptr;
+	}
+
+	return Tile;
 }
