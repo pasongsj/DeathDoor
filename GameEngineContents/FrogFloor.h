@@ -31,9 +31,12 @@ protected:
 
 private:
 	void InitComponent();
-
+	void Create_FireObject();
+	void Create_TileObject();
 
 	std::shared_ptr<class ContentFBXRenderer> m_pHingeRenderer = nullptr;
+
+	float4 m_FireObjScale = float4{ 50, 50 , 50 };
 
 	std::vector<std::shared_ptr<class SecretTile>> m_vTiles = std::vector<std::shared_ptr<class SecretTile>>();
 	const float4 m_TileInitPos = float4{ -390, 25, 725 };

@@ -56,7 +56,7 @@ void OfficeLevel::LevelChangeStart()
 
 	// 플레이어 생성후 Set_StartPos함수 호출하면 해당 위치에 세팅
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
-	Set_StartPos(Obj);
+	Set_PlayerStartPos();
 }
 
 void OfficeLevel::LevelChangeEnd()
@@ -83,15 +83,15 @@ void OfficeLevel::KeyUpdate(float _DeltaTime)
 	}
 }
 
-void OfficeLevel::Set_StartPos(std::shared_ptr<Player> _Player)
+void OfficeLevel::Set_PlayerStartPos()
 {
-	if (nullptr == _Player)
+	if (nullptr == Player::MainPlayer)
 	{
 		MsgAssert("Player 가 nullptr 입니다.");
 		return;
 	}
 
-	std::shared_ptr<PhysXCapsuleComponent> Comp = _Player->GetPhysXComponent();
+	std::shared_ptr<PhysXCapsuleComponent> Comp = Player::MainPlayer->GetPhysXComponent();
 
 	if (nullptr == Comp)
 	{
