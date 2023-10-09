@@ -65,7 +65,7 @@ void FrogBossLevel::LevelChangeStart()
 
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
-	Set_StartPos(Obj);
+	Set_PlayerStartPos();
 }
 
 void FrogBossLevel::LevelChangeEnd()
@@ -73,7 +73,22 @@ void FrogBossLevel::LevelChangeEnd()
 	AllActorDestroy();
 }
 
-void FrogBossLevel::Set_StartPos(std::shared_ptr<class Player> _Player)
+void FrogBossLevel::Set_PlayerStartPos()
 {
+	if (nullptr == Player::MainPlayer)
+	{
+		MsgAssert("Player 가 nullptr 입니다.");
+		return;
+	}
 
+	std::shared_ptr<PhysXCapsuleComponent> Comp = Player::MainPlayer->GetPhysXComponent();
+
+	if (nullptr == Comp)
+	{
+		MsgAssert("Player 의 PhysXComponent가 nullptr 입니다.");
+		return;
+	}
+
+	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_StartPos));
 }
+

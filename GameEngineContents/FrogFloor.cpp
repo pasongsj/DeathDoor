@@ -34,27 +34,47 @@ void FrogFloor::InitComponent()
 	//m_pHingeRenderer->GetTransform()->SetLocalRotation(float4{ 0 , -40, 0 });
 	//m_pHingeRenderer->GetTransform()->SetLocalPosition(float4{ -3621, -197, 3700 });
 
+	// 필요한 오브젝트 만들고
+	Create_TileObject();
+	Create_FireObject();
+
+	// 회전 
+	GetTransform()->SetLocalRotation(float4{ 0 , -40, 0 });
+}
+
+void FrogFloor::Create_FireObject()
+{
+	GameEngineLevel* CurLevel = GetLevel();
+	if (nullptr == CurLevel)
 	{
-		std::shared_ptr<FireObject> FireObj = GetLevel()->CreateActor<FireObject>();
-		FireObj->GetTransform()->SetLocalScale(float4{ 200, 200 , 200 });
+		MsgAssert("현재 레벨이 nullptr 입니다.");
+		return;
+	}
+
+	{
+		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
+		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
 		FireObj->GetTransform()->SetLocalPosition(float4{ -3400, 167, 2420 });
 	}
 	{
-		std::shared_ptr<FireObject> FireObj = GetLevel()->CreateActor<FireObject>();
-		FireObj->GetTransform()->SetLocalScale(float4{ 200, 200 , 200 });
+		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
+		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
 		FireObj->GetTransform()->SetLocalPosition(float4{ -4770, 167, 4040 });
 	}
 	{
-		std::shared_ptr<FireObject> FireObj = GetLevel()->CreateActor<FireObject>();
-		FireObj->GetTransform()->SetLocalScale(float4{ 200, 200 , 200 });
+		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
+		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
 		FireObj->GetTransform()->SetLocalPosition(float4{ -3150, 167, 5370 });
 	}
 	{
-		std::shared_ptr<FireObject> FireObj = GetLevel()->CreateActor<FireObject>();
-		FireObj->GetTransform()->SetLocalScale(float4{ 200, 200 , 200 });
+		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
+		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
 		FireObj->GetTransform()->SetLocalPosition(float4{ -1790, 167, 3760 });
 	}
-	
+}
+
+void FrogFloor::Create_TileObject()
+{
 	float4 TileStartPos = m_TileInitPos;
 
 	float PosX = m_fTileMovePos;
@@ -87,12 +107,10 @@ void FrogFloor::InitComponent()
 			// 벡터에 넣어
 			m_vTiles.push_back(NewTile);
 
-			MoveXPos += float4{ PosX , 0,  0 };
+			MoveXPos += float4{ PosX, 0, 0 };
 		}
 
 		MoveXPos = float4::ZERONULL;
-		MoveZPos -= float4{ 0 , 0 , PosZ };
+		MoveZPos -= float4{ 0, 0, PosZ };
 	}
-
-	GetTransform()->SetLocalRotation(float4{ 0 , -40, 0 });
 }

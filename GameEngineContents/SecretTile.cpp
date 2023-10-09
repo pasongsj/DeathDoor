@@ -21,7 +21,6 @@ void SecretTile::Update(float _DeltaTime)
 {
 }
 
-// 배율 임시 
 void SecretTile::InitComponent()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
