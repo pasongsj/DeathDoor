@@ -17,6 +17,8 @@ void PlayerBow::Start()
 	BowRenderer = CreateComponent< ContentFBXRenderer>(); // BOW_MESH
 	BowRenderer->SetFBXMesh("BOW_MESH.fbx", "ContentMeshDeffered");
 	GetTransform()->SetLocalScale(float4::ONE * 200.0f);
+
+	BowRenderer->SetGlowToUnit(0,0);
 }
 
 

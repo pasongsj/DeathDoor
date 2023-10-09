@@ -33,7 +33,7 @@ void Player::Start()
 	//init
 	InitInputKey();
 	InitPlayerAnimation();
-
+	
 	// physx
 	{
 
@@ -49,6 +49,7 @@ void Player::Start()
 
 	SetFSMFunc();
 	Renderer->ChangeAnimation("IDLE0");
+	Renderer->SetGlowToUnit(0, 1);
 }
 
 void Player::Update(float _DeltaTime)
