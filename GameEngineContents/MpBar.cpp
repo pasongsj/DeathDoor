@@ -27,10 +27,7 @@ void MpBar::Start()
 
 void MpBar::Update(float _DeltaTtime)
 {
-	if (GameEngineInput::IsDown("MyTest") == true)
-	{
-		ReduceMp();
-	}
+
 }
 
 void MpBar::Render(float _DeltaTtime)
