@@ -416,86 +416,49 @@ void ContentsCore::ContentsResourcesCreate()
 
 void ContentsCore::CreateCylinderMesh()
 {
-	std::vector<GameEngineVertex> vertices;
-	std::vector<UINT> indices;
+	std::vector<GameEngineVertex> Vertices;
+	std::vector<UINT> Indices;
 
-	float radius = 1.0f;    // 원기둥의 반지름
-	float Height = 2.0f * GameEngineMath::PIE;  // 원기둥의 높이 (원기둥 옆면을 펼쳤을 때, 정사각형이 되는 비율이 가장 좋다 생각해서 2PIE로 설정
-	int numSegments = 32;   // 원기둥의 세그먼트 수
+	float Radius = 1.0f;    // 원기둥의 반지름
+	float Height = 2.0f * GameEngineMath::PIE;  // 원기둥의 높이 (원기둥 옆면을 펼쳤을 때, 정사각형이 되는 비율이 가장 좋다 생각해서 2PIE로 설정)
+	int NumSegments = 32;   // 원기둥의 세그먼트 수
 
-	//상단 원의 중심
-	vertices.push_back({ { 0.0f , Height * 0.5f,0.0f }, { 0.0f, 0.0f } });
-
-	for (int i = 0; i < numSegments; ++i)
+	for (int i = 0; i <= NumSegments; ++i)
 	{
-		float CurTheta = 2.0f * GameEngineMath::PIE * float(i) / float(numSegments);
-		float CurX = radius * cosf(CurTheta);
-		float CurZ = radius * sinf(CurTheta);
+		float CurTheta = 2.0f * GameEngineMath::PIE * float(i) / float(NumSegments);
+		float CurX = Radius * cosf(CurTheta);
+		float CurZ = Radius * sinf(CurTheta);
 
 		// 상단 원기둥 버텍스
-		vertices.push_back({ { CurX, Height * 0.5f, CurZ }, { i / float(numSegments - 1), 0.0f } });
+		Vertices.push_back({ { CurX, Height * 0.5f, CurZ }, { i / float(NumSegments), 0.0f } });
 	}
-
-	//하단 원의 중심
-	vertices.push_back({ { 0.0f , -Height * 0.5f, 0.0f }, { 0.0f, 0.0f } });
 
 	// 하단 원기둥 버텍스
-	for (int i = 0; i < numSegments; ++i)
+	for (int i = 0; i <= NumSegments; ++i)
 	{
-		float CurTheta = 2.0f * GameEngineMath::PIE * float(i) / float(numSegments);
-		float CurX = radius * cosf(CurTheta);
-		float CurZ = radius * sinf(CurTheta);
+		float CurTheta = 2.0f * GameEngineMath::PIE * float(i) / float(NumSegments);
+		float CurX = Radius * cosf(CurTheta);
+		float CurZ = Radius * sinf(CurTheta);
 
 		// 하단 원기둥 버텍스
-		vertices.push_back({ { CurX, -Height * 0.5f, CurZ }, { i / float(numSegments - 1), 1.0f } });
+		Vertices.push_back({ { CurX, -Height * 0.5f, CurZ }, { i / float(NumSegments), 1.0f } });
 	}
 
-	for (int i = 0; i < numSegments - 1; i++)
+	for (int i = 0; i < NumSegments; i++)
 	{
-		indices.push_back(0);
-		indices.push_back(i + 2);
-		indices.push_back(i + 1);
+		Indices.push_back(i);
+		Indices.push_back(i + 1);
+		Indices.push_back(i + NumSegments + 1);
 	}
 
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(32);
-
-	for (int i = 0; i < numSegments - 1; i++)
+	for (int i = 0; i < NumSegments; i++)
 	{
-		indices.push_back(i + 1);
-		indices.push_back(i + 2);
-		indices.push_back(i + numSegments + 2);
-		//32 33 65
+		Indices.push_back(i + 1);
+		Indices.push_back(i + NumSegments + 2);
+		Indices.push_back(i + NumSegments + 1);
 	}
 
-	indices.push_back(32);
-	indices.push_back(1);
-	indices.push_back(65);
-
-	for (int i = 0; i < numSegments - 1; i++)
-	{
-		indices.push_back(i + 2);
-		indices.push_back(i + numSegments + 3);
-		indices.push_back(i + numSegments + 2);
-	}
-
-	indices.push_back(1);
-	indices.push_back(34);
-	indices.push_back(65);
-
-	for (int i = 0; i < numSegments - 1; i++)
-	{
-		indices.push_back(33);
-		indices.push_back(33 + i + 1);
-		indices.push_back(33 + i + 2);
-	}
-
-	indices.push_back(33);
-	indices.push_back(65);
-	indices.push_back(34);
-
-	GameEngineVertexBuffer::Create("Cylinder", vertices);
-	GameEngineIndexBuffer::Create("Cylinder", indices);
+	GameEngineVertexBuffer::Create("Cylinder", Vertices);
+	GameEngineIndexBuffer::Create("Cylinder", Indices);
 	GameEngineMesh::Create("Cylinder");
 }
