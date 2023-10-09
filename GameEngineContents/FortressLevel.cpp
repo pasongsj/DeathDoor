@@ -67,7 +67,7 @@ void FortressLevel::LevelChangeStart()
 
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
-	Set_StartPos(Obj);
+	Set_PlayerStartPos();
 
 	CreateUI();
 	SetPostPrecessEffect();
@@ -78,15 +78,15 @@ void FortressLevel::LevelChangeEnd()
 	AllActorDestroy();
 }
 
-void FortressLevel::Set_StartPos(std::shared_ptr<class Player> _Player)
+void FortressLevel::Set_PlayerStartPos()
 {
-	if (nullptr == _Player)
+	if (nullptr == Player::MainPlayer)
 	{
 		MsgAssert("Player 가 nullptr 입니다.");
 		return;
 	}
 
-	std::shared_ptr<PhysXCapsuleComponent> Comp = _Player->GetPhysXComponent();
+	std::shared_ptr<PhysXCapsuleComponent> Comp = Player::MainPlayer->GetPhysXComponent();
 
 	if (nullptr == Comp)
 	{

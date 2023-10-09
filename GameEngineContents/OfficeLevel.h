@@ -34,7 +34,7 @@ private:
 	const float4 m_CameraPos = float4{ 2800 , 300 , -6500 };
 	const float4 m_CameraRot = float4{ 35 , 0 , 0 };
 
-	void Set_StartPos(std::shared_ptr<class Player> _Player);
+	void Set_PlayerStartPos();
 	const float4 m_StartPos = float4 { 2610 , -740 , -5347 };
 	const float4 m_TestStartPos = float4{ 1869, 570, 4110 };
 
