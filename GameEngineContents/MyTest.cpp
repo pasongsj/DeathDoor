@@ -4,6 +4,7 @@
 #include "StaticParticleManager.h"
 #include "Player.h"
 #include "FireObject.h"
+#include "SkillSlot.h"
 
 MyTest::MyTest()
 {
@@ -15,9 +16,7 @@ MyTest::~MyTest()
 
 void MyTest::Start()
 {
-	std::shared_ptr<FireObject> Fire = GetLevel()->CreateActor<FireObject>();
-	Fire->GetTransform()->SetLocalScale({ 10.0f, 10.0f, 10.0f });
-
+	std::shared_ptr<SkillSlot> MyPlayer = GetLevel()->CreateActor<SkillSlot>();
 	//
 	//TestRd->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
 	//TestRd->GetTransform()->SetLocalPosition({ -50.0f, 0.0f, 0.0f });

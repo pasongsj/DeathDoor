@@ -6,6 +6,13 @@
 #include "PhysXCapsuleComponent.h"
 
 #include "MyTest.h"
+#include "GlowEffect.h"
+
+#include "Mouse.h"
+#include "MPBar.h"
+#include "HPBar.h"
+#include "SkillSlot.h"
+
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
 OfficeLevel::OfficeLevel()
@@ -27,6 +34,9 @@ void OfficeLevel::Start()
 	GameEngineCoreWindow::AddDebugRenderTarget(3, "DeferredTarget", GetMainCamera()->GetCamDeferrdTarget());
 
 	SetPointLight();
+
+	std::shared_ptr<GlowEffect> Effect = GetLevel()->GetMainCamera()->GetDeferredLightTarget()->CreateEffect<GlowEffect>();
+	Effect->Init(DynamicThis<GameEngineLevel>(), 2.25f);
 }
 
 
@@ -44,6 +54,7 @@ void OfficeLevel::Update(float _DeltaTime)
 void OfficeLevel::LevelChangeStart()
 {
 	CreateScene();
+	CreateUI();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
@@ -62,6 +73,14 @@ void OfficeLevel::LevelChangeStart()
 void OfficeLevel::LevelChangeEnd()
 {
 	AllActorDestroy();
+}
+
+void OfficeLevel::CreateUI()
+{
+	CreateActor<Mouse>();
+	CreateActor<SkillSlot>();
+	CreateActor<HpBar>();
+	CreateActor<MpBar>();
 }
 
 void OfficeLevel::InitKey()
