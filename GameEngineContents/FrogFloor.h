@@ -5,6 +5,9 @@
 class FrogFloor : public GameEngineActor
 {
 public:
+	static FrogFloor* MainFloor;
+
+public:
 	// constrcuter destructer
 	FrogFloor();
 	~FrogFloor();
@@ -24,6 +27,8 @@ public:
 	{
 		return m_vTiles;
 	}
+
+	std::shared_ptr<class SecretTile> GetTile(const int _TileIndex);
 
 protected:
 	void Start() override;
