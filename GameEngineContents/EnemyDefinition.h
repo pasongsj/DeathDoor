@@ -25,7 +25,7 @@
 	//PHYSX COMPONENT
 #define PHYSXSCALE_BRUTE		float4{0.0f, 150.0f, 120.0f}
 #define PHYSXSCALE_BRUTEGOLD	float4{0.0f, 150.0f, 120.0f}
-#define PHYSXSCALE_FIREPLANT	float4{0.0f, 120.0f, 80.0f}
+#define PHYSXSCALE_FIREPLANT	float4{0.0f, 180.0f, 80.0f}
 #define PHYSXSCALE_GHOUL		float4{0.0f, 90.0f, 60.0f}
 #define PHYSXSCALE_GRUNT		float4{0.0f, 90.0f, 60.0f}
 #define PHYSXSCALE_MAGE			float4{0.0f, 120.0f, 80.0f}

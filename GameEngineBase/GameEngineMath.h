@@ -486,6 +486,13 @@ public:
 		return ReturnValue;
 	}
 
+	void RotationAllDeg(float4 _Deg)
+	{
+		RotaitonXDeg(_Deg.x);
+		RotaitonXDeg(_Deg.y);
+		RotaitonXDeg(_Deg.z);
+	}
+
 	void RotaitonXDeg(float _Deg)
 	{
 		RotaitonXRad(_Deg * GameEngineMath::DegToRad);
