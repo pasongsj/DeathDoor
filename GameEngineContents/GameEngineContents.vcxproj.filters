@@ -331,6 +331,9 @@
     <ClCompile Include="ContentLevel.cpp">
       <Filter>Component\Level</Filter>
     </ClCompile>
+    <ClCompile Include="RuinsWall.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -657,6 +660,9 @@
     </ClInclude>
     <ClInclude Include="ContentLevel.h">
       <Filter>Component\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="RuinsWall.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
