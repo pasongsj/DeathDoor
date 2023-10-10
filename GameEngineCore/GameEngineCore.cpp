@@ -112,19 +112,19 @@ void GameEngineCore::EngineUpdate()
 	}
 
 	// 별로 좋은건 아닙니다.
-	if (TimeDeltaTime > 1 / 30.0f) 
+	/*if (TimeDeltaTime > 1 / 30.0f) 
 	{
 		TimeDeltaTime = 1 / 30.0f;
-	}
+	}*/
 
 	UpdateTime += TimeDeltaTime;
 
 	PhysXManager::GetInst()->Simulate(TimeDeltaTime); // PhysX Simulate는 DeltaTime으로 돌게함
 
-	if (1.f/120.f > UpdateTime) // EngineUpdate는 120프레임으로 돌게함
-	{
-		return;
-	}
+	//if (1.f/120.f > UpdateTime) // EngineUpdate는 120프레임으로 돌게함
+	//{
+	//	return;
+	//}
 
 	TimeDeltaTime = UpdateTime;
 	UpdateTime = 0.f;
