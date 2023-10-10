@@ -29,14 +29,13 @@ void PhysXTestActor::Start()
 	m_pRenderer->GetTransform()->SetLocalScale(m_pRenderer->GetTransform()->GetLocalScale()*5.f);
 
 	// 스케일은 렌더유닛0번의 boundScale 혹은 모든 유닛돌면서 boundscale가져오는 해당함수 사용(임의지정해도됨 상관없음)
-	float4 scale = m_pRenderer->GetMeshScale() * 5.f;
+	float4 scale = m_pRenderer->GetMeshScale()* 5.f;
 	
 
 	//m_pControllerComp = CreateComponent<PhysXControllerComponent>(); // 원하는 모양의 PhysXComponent부착
 	//m_pControllerComp->CreatePhysXActors(scale.PhysXVec3Return());
 
 	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>(); // 원하는 모양의 PhysXComponent부착
-	m_pCapsuleComp->CreatePhysXActors(scale.PhysXVec3Return());
 	m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);			//앞에서부터 정지마찰, 운동마찰, 반발력계수 세팅
 	
 	m_pCapsuleComp->CreatePhysXActors(scale.PhysXVec3Return(),float4::ZERO,false); // 피직스 액터를 만드는 부분. 크기는 설정안하면 기본값 세팅됨
@@ -44,6 +43,7 @@ void PhysXTestActor::Start()
 	m_pCapsuleComp->TurnOnSpeedLimit();							//최대 이동속도 제한하는 함수
 	m_pCapsuleComp->GetDynamic()->setMass(65.f);				// 무게 설정 조정이 아직 필요한듯함
 	m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic);
+	m_pCapsuleComp->SetWorldPosWithParent(float4(0,500,0));
 
 	// PS. float4에 PhysX 관련함수 만들어뒀음 PxVec3 혹은 PxQuat(쿼터니온) 으로 쉽게 변환 가능함
 }
