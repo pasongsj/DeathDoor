@@ -96,18 +96,18 @@ namespace GameEngineDebug
 				break;
 			case GameEngineDebug::DebugDrawType::Capsule:
 				DebugRenderUnit.SetMesh("DebugCapsule");
-			{
-				float4 TempScale, TempRotation, TempPosition;
-				DrawData.WorldMatrix.Decompose(TempScale, TempRotation, TempPosition);
-				//TempScale.y *= 2.f;
-				//TempScale.x = TempScale.z;
-				TempScale.x = TempScale.z;
-				float4x4 MatScale, MatRot, MatPos;
-				MatScale.Scale(TempScale * 3.0f);
-				MatRot = TempRotation.QuaternionToRotationMatrix();
-				MatPos.Pos(TempPosition);
-				DrawData.WorldMatrix = MatScale * MatRot * MatPos;
-			}
+				{
+					float4 TempScale, TempRotation, TempPosition;
+					DrawData.WorldMatrix.Decompose(TempScale, TempRotation, TempPosition);
+					//TempScale.y *= 2.f;
+					//TempScale.x = TempScale.z;
+					TempScale.x = TempScale.z;
+					float4x4 MatScale, MatRot, MatPos;
+					MatScale.Scale(TempScale * 3.0f);
+					MatRot = TempRotation.QuaternionToRotationMatrix();
+					MatPos.Pos(TempPosition);
+					DrawData.WorldMatrix = MatScale * MatRot * MatPos;
+				}
 				break;
 			default:
 				break;
