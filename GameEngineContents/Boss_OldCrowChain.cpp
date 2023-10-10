@@ -21,6 +21,8 @@ void Boss_OldCrowChain::Start()
 	ChainRenderer->GetTransform()->SetLocalScale(Scale / 5.0f);
 	ChainRenderer->GetTransform()->SetLocalRotation(float4(90, 90, 0));
 
+	ChainRenderer->ColorOptionValue.MulColor = float4::BLACK;
+
 	ChainRenderer->Off();
 	IsOn = false;
 }

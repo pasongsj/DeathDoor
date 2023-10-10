@@ -69,7 +69,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			if (true)
 			{
-				//SetRandomPattern();
+				SetRandomPattern();
 			}
 		},
 		[this]
@@ -155,7 +155,7 @@ void Boss_OldCrow::SetFSMFUNC()
 			ChainsPivots[0]->GetTransform()->AddLocalPosition(float4::FORWARD * CurrentChainSpeed * Delta);
 
 			float Value1 = ChainsPivots[0]->GetTransform()->GetLocalPosition().z;
-			float Value2 = (UsingChainNumber[0].size()) * 5.0f;
+			float Value2 = (UsingChainNumber[0].size()) * 3.2f;
 
 			//fix : 거리 구하는 공식 오류 수정해야 함
 			if (Value1 >= Value2)
@@ -164,8 +164,6 @@ void Boss_OldCrow::SetFSMFUNC()
 
 				Chain->GetTransform()->SetParent(ChainsPivots[0]->GetTransform());
 
-				float4 Pos = m_pCapsuleComp->GetTransform()->GetWorldPosition();
-
 				UsingChainNumber[0].push_back(Chain->GetChainNumber());
 
 				Chain->GetTransform()->SetLocalPosition({0, 0, UsingChainNumber[0].size() * - 5.0f });
@@ -173,7 +171,7 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			if (StateCalTime >= CreateChainTime)
 			{
-				CurrentChainSpeed -= CurrentChainSpeed * 50.0f * Delta;
+				CurrentChainSpeed -= CurrentChainSpeed * 100.0f * Delta;
 
 				if (CurrentChainSpeed < 0.0f)
 				{
@@ -181,7 +179,7 @@ void Boss_OldCrow::SetFSMFUNC()
 				}
 			}
 
-			if (StateCalTime >= 2.0f)
+			if (StateCalTime >= 1.75f)
 			{
 				SetNextState(Boss_OldCrowState::MEGADASH);
 			}
@@ -217,10 +215,10 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			StateCalTime += Delta;
 
-			ChainsPivots[0]->GetTransform()->AddLocalPosition(float4::FORWARD* CurrentChainSpeed* Delta);
+			ChainsPivots[0]->GetTransform()->AddLocalPosition(float4::FORWARD * CurrentChainSpeed * Delta);
 
 			float Value1 = ChainsPivots[0]->GetTransform()->GetLocalPosition().z;
-			float Value2 = (UsingChainNumber[0].size()) * 5.0f;
+			float Value2 = (UsingChainNumber[0].size()) * 3.2f;
 
 			//fix : 거리 구하는 공식 오류 수정해야 함
 			if (Value1 >= Value2)
@@ -238,7 +236,7 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			if (StateCalTime >= CreateChainTime)
 			{
-				CurrentChainSpeed -= CurrentChainSpeed * 50.0f * Delta;
+				CurrentChainSpeed -= CurrentChainSpeed * 100.0f * Delta;
 
 				if (CurrentChainSpeed < 0.0f)
 				{
@@ -246,7 +244,7 @@ void Boss_OldCrow::SetFSMFUNC()
 				}
 			}
 
-			if (StateCalTime >= 2.0f)
+			if (StateCalTime >= 1.75f)
 			{
 				SetNextState(Boss_OldCrowState::MEGADASH);
 			}
@@ -329,6 +327,8 @@ void Boss_OldCrow::SetFSMFUNC()
 			JumpForce = TargetPos - GetTransform()->GetWorldPosition();
 			JumpForce.Normalize();
 			m_pCapsuleComp->TurnOffGravity();
+
+			//m_pCapsuleComp->TurnOffGravity();
 		},
 		[this](float Delta)
 		{

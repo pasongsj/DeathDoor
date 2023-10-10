@@ -122,8 +122,8 @@ private:
 	const float DashSpeed2 = DashSpeed * 0.75f;
 	const float MegaDashSpeed = 5000.0f;
 	const int ChainsCount = 10;
-	const float ChainSpeed = 100.0f;
-	const float CreateChainTime = 1.5f;
+	const float ChainSpeed = 150.0f;
+	const float CreateChainTime = 1.2f;
 	const int ChainPivotCount = 4;
 
 	//FSM에서 사용되는 함수

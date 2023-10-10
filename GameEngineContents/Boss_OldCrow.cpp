@@ -76,7 +76,7 @@ void Boss_OldCrow::InitPattern()
 
 	//Pattern3
 	{
-		std::vector<short> Pattern3 = std::vector<short>{ static_cast<short>(Boss_OldCrowState::MEGADASHPREP), static_cast<short>(Boss_OldCrowState::MEGADASHPREPRANDOMPOS),  static_cast<short>(Boss_OldCrowState::JUMP) };
+		std::vector<short> Pattern3 = std::vector<short>{ static_cast<short>(Boss_OldCrowState::MEGADASHPREP), static_cast<short>(Boss_OldCrowState::MEGADASHPREPRANDOMPOS), /* static_cast<short>(Boss_OldCrowState::JUMP)*/ };
 
 		Patterns.insert(std::pair(static_cast<short>(Boss_OldCrowPattern::PATTERN3), Pattern3));
 	}
@@ -115,8 +115,8 @@ void Boss_OldCrow::SetRandomPattern()
 	CurrentPatternNum = 0;
 
 	//Test용 스테이트 세팅 
-	PatternNum = 1;
-	RandomState = Boss_OldCrowState(Patterns[1][0]);
+	PatternNum = 2;
+	RandomState = Boss_OldCrowState(Patterns[2][0]);
 
 	SetNextState(RandomState);
 
