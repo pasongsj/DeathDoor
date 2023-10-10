@@ -25,6 +25,7 @@ OutPut Merge_VS(Input _Value)
 Texture2D DiffuseLight : register(t0);
 Texture2D SpecularLight : register(t1);
 Texture2D AmbientLight : register(t2);
+
 SamplerState WRAPSAMPLER : register(s0);
 
 struct LightTarget
@@ -42,6 +43,11 @@ LightTarget Merge_PS(OutPut _Value)
     
     LightTarget OutPut = (LightTarget) 0.0f;
     
+    if (DifColor.a <= 0.0f)
+    {
+        clip(-1);
+    }
+        
     OutPut.DiffuseLight = DifColor;
     OutPut.SpecularLight = SpcColor;
     OutPut.AmbientLight = AmbColor;

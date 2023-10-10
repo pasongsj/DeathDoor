@@ -22,6 +22,8 @@ public:
 	std::shared_ptr<GameEngineRenderTarget> DetectMaskTarget = nullptr;
 	std::shared_ptr<GameEngineRenderTarget> BlurTarget = nullptr;
 
+	std::shared_ptr<GameEngineRenderTarget> DoubleBlurTarget = nullptr;
+
 	void SetIntensity(float _Intensity)
 	{
 		Intensity.x = _Intensity;
@@ -46,6 +48,7 @@ private:
 	GameEngineRenderUnit DetectMaskUnit;
 	GameEngineRenderUnit BlurMergeUnit;
 	GameEngineRenderUnit BlurUnit;
+	GameEngineRenderUnit DoubleBlurUnit;
 	GameEngineRenderUnit ColorMerge;
 
 	float4 Intensity = { 0.0f, 0.0f };

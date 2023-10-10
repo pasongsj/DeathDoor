@@ -26,11 +26,11 @@ void GlowEffect::Start(GameEngineRenderTarget* _Target)
 	BlurUnit.SetMesh("FullRect");
 	BlurUnit.SetMaterial("AllBlur7x7");
 
-	BlurTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	BlurTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	BlurTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	BlurTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	
+	BlurTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, { 400, 225 }, float4::ZERONULL);
+	BlurTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, {400, 225}, float4::ZERONULL);
+	BlurTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, {400, 225}, float4::ZERONULL);
+	BlurTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, {400, 225}, float4::ZERONULL);
+
 	BlurMergeUnit.SetMesh("FullRect");
 	BlurMergeUnit.SetMaterial("LightMerge");
 
