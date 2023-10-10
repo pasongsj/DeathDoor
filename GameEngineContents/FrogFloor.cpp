@@ -7,14 +7,21 @@
 #include "PhysXBoxComponent.h"
 
 #include "FireObject.h"
+#include "RuinsWall.h"
+#include "Ladder.h"
+
+FrogFloor* FrogFloor::MainFloor = nullptr;
 
 FrogFloor::FrogFloor()
 {
+	MainFloor = this;
 }
 
 FrogFloor::~FrogFloor()
 {
 }
+
+
 
 void FrogFloor::Start()
 {
@@ -29,17 +36,24 @@ void FrogFloor::InitComponent()
 {
 	GetTransform()->SetLocalPosition(float4{ -3621, -197, 3700 });
 
+	// 테두리 렌더러 생성
 	m_pHingeRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pHingeRenderer->SetFBXMesh("Hinge.fbx", "ContentMeshDeffered");
-	//m_pHingeRenderer->GetTransform()->SetLocalRotation(float4{ 0 , -40, 0 });
-	//m_pHingeRenderer->GetTransform()->SetLocalPosition(float4{ -3621, -197, 3700 });
 
 	// 필요한 오브젝트 만들고
 	Create_TileObject();
 	Create_FireObject();
+	
+	// 사다리 한개 
+	std::shared_ptr<Ladder> Obj = GetLevel()->CreateActor<Ladder>();
+	Obj->GetTransform()->SetLocalRotation(float4{ 0, 50, 0 });
+	Obj->GetTransform()->SetLocalPosition(float4{ -4495, -105, 5390 });
+	
 
 	// 회전 
 	GetTransform()->SetLocalRotation(float4{ 0 , -40, 0 });
+	
+	Create_WallObject();
 }
 
 void FrogFloor::Create_FireObject()
@@ -92,10 +106,12 @@ void FrogFloor::Create_TileObject()
 	float4 MoveXPos = float4::ZERONULL;
 	float4 MoveZPos = float4::ZERONULL;
 
+	m_vTiles.resize(m_iTileSize);
+
 	// 돌면서 5x5 타일 깔아 
-	for (size_t i = 0; i < m_Width; ++i)
+	for (size_t i = 0; i < m_Height; ++i)
 	{
-		for (size_t j = 0; j < m_Height; ++j)
+		for (size_t j = 0; j < m_Width; ++j)
 		{
 			// 타일만들고
 			std::shared_ptr<SecretTile> NewTile = CurLevel->CreateActor<SecretTile>();
@@ -103,6 +119,8 @@ void FrogFloor::Create_TileObject()
 
 			// 위치세팅하고 
 			NewTile->GetTransform()->SetLocalPosition(TileStartPos + MoveXPos + MoveZPos);
+			NewTile->GetTransform()->SetLocalPosition(NewTile->GetTransform()->GetLocalPosition() + float4 { 0, -40, 0 });
+			
 
 			// 벡터에 넣어
 			m_vTiles.push_back(NewTile);
@@ -113,4 +131,61 @@ void FrogFloor::Create_TileObject()
 		MoveXPos = float4::ZERONULL;
 		MoveZPos -= float4{ 0, 0, PosZ };
 	}
+}
+
+void FrogFloor::Create_WallObject()
+{
+	m_vWalls.resize(4);
+
+	GameEngineLevel* CurLevel = GetLevel();
+
+	{
+		std::shared_ptr<RuinsWall> Obj = CurLevel->CreateActor<RuinsWall>();
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, -40, 0 });
+		Obj->GetTransform()->SetLocalPosition(float4{ -4076, -322 , 3239 });
+		Obj->GetTransform()->SetParent(GetTransform());
+	}
+
+	{
+		std::shared_ptr<RuinsWall> Obj = CurLevel->CreateActor<RuinsWall>();
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, -40, 0 });
+		Obj->GetTransform()->SetLocalPosition(float4{ -2500, -322, 4610 });
+		Obj->GetTransform()->SetParent(GetTransform());
+	}
+
+	{
+		std::shared_ptr<RuinsWall> Obj = CurLevel->CreateActor<RuinsWall>();
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, 50, 0 });
+		Obj->GetTransform()->SetLocalPosition(float4{ -2580, -322, 3120 });
+		Obj->GetTransform()->SetParent(GetTransform());
+	}
+
+	{
+		std::shared_ptr<RuinsWall> Obj = CurLevel->CreateActor<RuinsWall>();
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, 50, 0 });
+		Obj->GetTransform()->SetLocalPosition(float4{ -3920, -322, 4730 });
+		Obj->GetTransform()->SetParent(GetTransform());
+	}
+}
+
+std::shared_ptr<SecretTile> FrogFloor::GetTile(const int _TileIndex)
+{
+	int TileIndex = _TileIndex;
+	size_t VectorSize = m_vTiles.size();
+
+	if (TileIndex < 0 || TileIndex >= static_cast<int>(VectorSize))
+	{
+		MsgAssert("잘못된 타일 인덱스를 입력하였습니다.");
+		return nullptr;
+	}
+
+	std::shared_ptr<SecretTile> Tile = m_vTiles[_TileIndex];
+	
+	if (Tile == nullptr)
+	{
+		MsgAssert("현재 타일이 nullptr 입니다. 맵한테 따져주세요. ㅈㅅ");
+		return nullptr;
+	}
+
+	return Tile;
 }
