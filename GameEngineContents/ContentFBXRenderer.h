@@ -30,9 +30,9 @@ public:
 		BlurColor = _Color;
 	}
 
-	void SetGlowToUnit(int _IndexY, int _IndexX)
+	void SetGlowToUnit(int _IndexY, int _IndexX, const std::string_view& _MaskName = "WholeMask.png")
 	{
-		GetAllRenderUnit()[_IndexY][_IndexX]->ShaderResHelper.SetTexture("CrackTexture", "WholeMask.png");
+		GetAllRenderUnit()[_IndexY][_IndexX]->ShaderResHelper.SetTexture("CrackTexture", _MaskName);
 		GetAllRenderUnit()[_IndexY][_IndexX]->Mask.UV_MaskingValue = 1.0f;
 	}
 
