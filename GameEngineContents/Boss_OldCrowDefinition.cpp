@@ -1,0 +1,4 @@
+#include "PreCompileHeader.h"
+
+#define BOSS_OLDCROW_CHAINPIVOTCOUNT 4
+#define BOSS_OLDCROW_USINGCHAINCOUNT 4

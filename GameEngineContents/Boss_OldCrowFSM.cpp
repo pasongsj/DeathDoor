@@ -2,6 +2,9 @@
 
 #include "Boss_OldCrow.h"
 #include "Boss_OldCrowChain.h"
+#include "Player.h"
+
+#include <GameEngineBase/GameEngineRandom.h>
 
 void Boss_OldCrow::SetFSMFUNC()
 {
@@ -136,36 +139,106 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			BossRender->ChangeAnimation("MegaDashPrep");
 
-			ChainsPivot->GetTransform()->SetLocalPosition({0, 100, 0});
+			ChainsPivots[0]->GetTransform()->SetParent(m_pCapsuleComp->GetTransform());
+			ChainsPivots[0]->GetTransform()->SetLocalPosition({ 0, 0, 0 });
 
-			StateCalTime = 0.0f; //준비 시간
-			StateCalTime2 = 0.0f; //사슬 생성시간
+			StateCalTime = 0.0f; //사슬 멈추는 시간
+			
 			CurrentChainSpeed = ChainSpeed;
 		},
 		[this](float Delta)
 		{
-			SetLerpDirection(Delta);
+			//SetLerpDirection(Delta);
 
 			StateCalTime += Delta;
-			StateCalTime2 += Delta;
 
-			ChainsPivot->GetTransform()->AddLocalPosition(float4::FORWARD * CurrentChainSpeed * Delta);
-			
-			if (StateCalTime2 > 0.015f && CurrentChainSpeed == ChainSpeed)
+			ChainsPivots[0]->GetTransform()->AddLocalPosition(float4::FORWARD * CurrentChainSpeed * Delta);
+
+			float Value1 = ChainsPivots[0]->GetTransform()->GetLocalPosition().z;
+			float Value2 = (UsingChainNumber[0].size()) * 5.0f;
+
+			//fix : 거리 구하는 공식 오류 수정해야 함
+			if (Value1 >= Value2)
 			{
 				std::shared_ptr<Boss_OldCrowChain> Chain = GetChain();
 
-				Chain->GetTransform()->SetWorldPosition(m_pCapsuleComp->GetTransform()->GetWorldPosition());
-				Chain->GetTransform()->SetParent(ChainsPivot->GetTransform());
+				Chain->GetTransform()->SetParent(ChainsPivots[0]->GetTransform());
+
+				float4 Pos = m_pCapsuleComp->GetTransform()->GetWorldPosition();
 
 				UsingChainNumber[0].push_back(Chain->GetChainNumber());
 
-				StateCalTime2 = 0.0f;
+				Chain->GetTransform()->SetLocalPosition({0, 0, UsingChainNumber[0].size() * - 5.0f });
 			}
 
-			if (StateCalTime >= 1.0f)
+			if (StateCalTime >= CreateChainTime)
 			{
-				CurrentChainSpeed -= CurrentChainSpeed * 100.0f * Delta;
+				CurrentChainSpeed -= CurrentChainSpeed * 50.0f * Delta;
+
+				if (CurrentChainSpeed < 0.0f)
+				{
+					CurrentChainSpeed = 0.0f;
+				}
+			}
+
+			if (StateCalTime >= 2.0f)
+			{
+				SetNextState(Boss_OldCrowState::MEGADASH);
+			}
+
+
+		},
+		[this]
+		{
+		}
+	);
+
+	SetFSM(Boss_OldCrowState::MEGADASHPREPRANDOMPOS,
+		[this]
+		{
+			BossRender->ChangeAnimation("MegaDashPrep");
+
+			//float RandomValue = 500.0f;
+			//float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+			//float4 RandomPos = { PlayerPos.x + GameEngineRandom::MainRandom.RandomFloat(500, 1000), 0 ,  PlayerPos.z + GameEngineRandom::MainRandom.RandomFloat(500, 1000) };
+
+			m_pCapsuleComp->SetWorldPosWithParent(GetRandomPos(2000.0f), float4::ZERO);
+			
+			SetDirection();
+
+			StateCalTime = 0.0f; //사슬 멈추는 시간
+
+			CurrentChainSpeed = ChainSpeed;
+
+			ChainsPivots[0]->GetTransform()->SetParent(m_pCapsuleComp->GetTransform());
+			ChainsPivots[0]->GetTransform()->SetLocalPosition({0, 0, 0});
+		},
+		[this](float Delta)
+		{
+			StateCalTime += Delta;
+
+			ChainsPivots[0]->GetTransform()->AddLocalPosition(float4::FORWARD* CurrentChainSpeed* Delta);
+
+			float Value1 = ChainsPivots[0]->GetTransform()->GetLocalPosition().z;
+			float Value2 = (UsingChainNumber[0].size()) * 5.0f;
+
+			//fix : 거리 구하는 공식 오류 수정해야 함
+			if (Value1 >= Value2)
+			{
+				std::shared_ptr<Boss_OldCrowChain> Chain = GetChain();
+
+				Chain->GetTransform()->SetParent(ChainsPivots[0]->GetTransform());
+
+				float4 Pos = m_pCapsuleComp->GetTransform()->GetWorldPosition();
+
+				UsingChainNumber[0].push_back(Chain->GetChainNumber());
+
+				Chain->GetTransform()->SetLocalPosition({ 0, 0, UsingChainNumber[0].size() * - 5.0f });
+			}
+
+			if (StateCalTime >= CreateChainTime)
+			{
+				CurrentChainSpeed -= CurrentChainSpeed * 50.0f * Delta;
 
 				if (CurrentChainSpeed < 0.0f)
 				{
@@ -196,9 +269,9 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			StateCalTime += Delta;
 
-			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector()* MegaDashSpeed);
+			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * MegaDashSpeed);
 
-			if (StateCalTime >= 2.0f)
+			if (StateCalTime >= 1.0f)
 			{
 				SetNextPatternState();
 			}
@@ -220,7 +293,12 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::MEGADASH2PREP,
 		[this]
 		{
+			//SettingChainPatternParameter();
+
 			BossRender->ChangeAnimation("MegaDashPrep");
+
+			//m_pCapsuleComp->SetWorldPosWithParent(ChainPatternParameterVector[0].StartPos, ChainPatternParameterVector[0].Dir);
+
 		},
 		[this](float Delta)
 		{
@@ -239,12 +317,78 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			BossRender->ChangeAnimation("Jump");
+
+			float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+			PlayerPos.y = 0;
+			float4 EnemyPos = GetTransform()->GetWorldPosition();
+			EnemyPos.y = 0;
+
+			float4 Position = float4::LerpClamp(EnemyPos, PlayerPos, 0.5f); //목표 지점
+
+			TargetPos = Position;
+			TargetPos.y = 50.0f;
+
+			JumpForce = TargetPos - GetTransform()->GetWorldPosition();
+
+			m_pCapsuleComp->TurnOffGravity();
+		},
+		[this](float Delta)
+		{
+			m_pCapsuleComp->SetMoveSpeed(JumpForce );
+
+			SetLerpDirection(Delta);
+
+			if (TargetPos.XYZDistance(GetTransform()->GetWorldPosition()) < 10.0f )
+			{
+				SetNextState(Boss_OldCrowState::SLAM);
+			}
+		},
+		[this]
+		{
+		}
+	);
+
+	SetFSM(Boss_OldCrowState::SLAM,
+		[this]
+		{
+			BossRender->ChangeAnimation("Slam");
+
+			float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+
+			TargetPos = PlayerPos;
+		},
+		[this](float Delta)
+		{
+			m_pCapsuleComp->SetMoveSpeed(TargetPos - GetTransform()->GetWorldPosition() * Delta);
+
+			SetLerpDirection(Delta);
+
+			float4 CollPoint = float4::ZERO;
+			if (true == m_pCapsuleComp->RayCast(GetTransform()->GetWorldPosition(), float4::DOWN, CollPoint, 2000.0f))
+			{
+				if (CollPoint.y + 100.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
+				{
+					SetNextState(Boss_OldCrowState::SLAMIMPACT);
+					return;
+				}
+			}
+		},
+		[this]
+		{
+		}
+	);
+
+	SetFSM(Boss_OldCrowState::SLAMIMPACT,
+		[this]
+		{
+			BossRender->ChangeAnimation("SlamImpact");
+
 		},
 		[this](float Delta)
 		{
 			if (BossRender->IsAnimationEnd())
 			{
-				SetNextPatternState();
+				SetNextState(Boss_OldCrowState::DASH);
 			}
 		},
 		[this]

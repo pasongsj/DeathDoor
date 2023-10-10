@@ -182,6 +182,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Boss_OldCrowDefinition.cpp" />
     <ClCompile Include="Boss_OldCrowFSM.cpp" />
     <ClCompile Include="ContentFBXRenderer.cpp">
       <SubType>

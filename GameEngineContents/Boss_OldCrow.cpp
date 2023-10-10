@@ -70,21 +70,21 @@ void Boss_OldCrow::InitPattern()
 
 	//Pattern3
 	{
-		std::vector<short> Pattern3 = std::vector<short>{ static_cast<short>(Boss_OldCrowState::MEGADASHPREP), static_cast<short>(Boss_OldCrowState::MEGADASHPREP),  static_cast<short>(Boss_OldCrowState::JUMP) };
+		std::vector<short> Pattern3 = std::vector<short>{ static_cast<short>(Boss_OldCrowState::MEGADASHPREP), static_cast<short>(Boss_OldCrowState::MEGADASHPREPRANDOMPOS),  static_cast<short>(Boss_OldCrowState::JUMP) };
 
 		Patterns.insert(std::pair(static_cast<short>(Boss_OldCrowPattern::PATTERN3), Pattern3));
 	}
 
 	//Pattern4
 	{
-		std::vector<short> Pattern4 = std::vector<short>{ static_cast<short>(Boss_OldCrowState::MEGADASHPREP), static_cast<short>(Boss_OldCrowState::MEGADASHPREP), static_cast<short>(Boss_OldCrowState::MEGADASH2PREP), static_cast<short>(Boss_OldCrowState::JUMP) };
+		std::vector<short> Pattern4 = std::vector<short>{ static_cast<short>(Boss_OldCrowState::MEGADASHPREP), static_cast<short>(Boss_OldCrowState::MEGADASHPREPRANDOMPOS), static_cast<short>(Boss_OldCrowState::MEGADASH2PREP), static_cast<short>(Boss_OldCrowState::JUMP) };
 
 		Patterns.insert(std::pair(static_cast<short>(Boss_OldCrowPattern::PATTERN4), Pattern4));
 	}
 
 	//Pattern5
 	{
-		std::vector<short> Pattern5 = std::vector<short>{ static_cast<short>(Boss_OldCrowState::SCREAMMINI) };
+		std::vector<short> Pattern5 = std::vector<short>{ static_cast<short>(Boss_OldCrowState::SCREAMMINI), static_cast<short>(Boss_OldCrowState::JUMP) };
 
 		Patterns.insert(std::pair(static_cast<short>(Boss_OldCrowPattern::PATTERN5), Pattern5));
 	}
@@ -109,8 +109,8 @@ void Boss_OldCrow::SetRandomPattern()
 	CurrentPatternNum = 0;
 
 	//Test용 스테이트 세팅 
-	PatternNum = 2;
-	RandomState = Boss_OldCrowState(Patterns[2][0]);
+	PatternNum = 1;
+	RandomState = Boss_OldCrowState(Patterns[1][0]);
 
 	SetNextState(RandomState);
 
@@ -182,11 +182,24 @@ void Boss_OldCrow::SetLerpDirection(float _DeltaTime)
 	CurrentDir = LerpDir;
 }
 
+void Boss_OldCrow::SetDirection()
+{
+	Dir = GetPlayerDir();
+
+	float4 CalRot = float4::ZERO;
+	CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, Dir);
+
+	m_pCapsuleComp->SetRotation(-CalRot);
+
+	CurrentDir = Dir;
+}
+
 void Boss_OldCrow::ChainsInit()
 {
-	ChainsPivot = CreateComponent<GameEngineComponent>();
-	ChainsPivot->GetTransform()->SetParent(m_pCapsuleComp->GetTransform());
-	ChainsPivot->GetTransform()->AddLocalPosition({ 0, 100, 0 });
+	for (int i = 0; i < BOSS_OLDCROW_CHAINPIVOTCOUNT; ++i)
+	{
+		ChainsPivots.push_back(CreateComponent<GameEngineComponent>());
+	}
 
 	Chains.reserve(200);
 
@@ -198,14 +211,12 @@ void Boss_OldCrow::ChainsInit()
 		Chains.push_back(Chain);
 	}
 
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < BOSS_OLDCROW_USINGCHAINCOUNT; ++i)
 	{
 		std::vector<int> vector;
 
 		UsingChainNumber.push_back(vector);
 	}
-
-	ChainSize = Chains[0]->GetRendererScale();
 }
 
 std::shared_ptr<Boss_OldCrowChain> Boss_OldCrow::GetChain()
@@ -227,4 +238,46 @@ std::shared_ptr<Boss_OldCrowChain> Boss_OldCrow::GetChain()
 	Chains.push_back(Chain);
 
 	return Chain;
+}
+
+float4 Boss_OldCrow::GetRandomPos(float _Value)
+{
+	float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+	float4 RandomDir = { 0, 0, _Value };
+
+	float Angle = GameEngineRandom::MainRandom.RandomFloat(0, 359);
+
+	RandomDir.RotaitonYDeg(Angle);
+
+	return PlayerPos + RandomDir;
+}
+
+void Boss_OldCrow::SettingChainPatternParameter()
+{
+	ChainPatternParameterVector.clear();
+
+	int RandomInt = GameEngineRandom::MainRandom.RandomInt(0, 1);
+
+	RandomInt = 0;
+
+	/*switch (RandomInt)
+	{
+	case 0:
+		ChainPatternParameter Parameter1 { float4{-2500, 0, 1000}, float4::RIGHT };
+		ChainPatternParameter Parameter2 { float4{2500, 0, 500}, float4::LEFT };
+		ChainPatternParameter Parameter3 { float4{-2500, 0, -500}, float4::RIGHT };
+		ChainPatternParameter Parameter4 { float4{2500, 0, -1000}, float4::LEFT };
+
+		ChainPatternParameterVector.push_back(Parameter1);
+		ChainPatternParameterVector.push_back(Parameter2);
+		ChainPatternParameterVector.push_back(Parameter3);
+		ChainPatternParameterVector.push_back(Parameter4);
+		break;
+	case 1:
+
+		break;
+	default:
+		break;
+	}*/
+
 }

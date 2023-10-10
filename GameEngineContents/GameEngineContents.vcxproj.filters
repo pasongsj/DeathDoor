@@ -220,9 +220,6 @@
     <ClCompile Include="Boss_OldCrowAnimation.cpp">
       <Filter>Contents\Boss\OldCrow</Filter>
     </ClCompile>
-    <ClCompile Include="Boss_OldCrow.cpp">
-      <Filter>Contents\Boss\OldCrow</Filter>
-    </ClCompile>
     <ClCompile Include="BossLevelTestObject.cpp">
       <Filter>Contents\BossTestLevel\Actor</Filter>
     </ClCompile>
@@ -336,6 +333,12 @@
     </ClCompile>
     <ClCompile Include="Boss_OldCrowChain.cpp">
       <Filter>Contents\Boss\OldCrow\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrowDefinition.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrow.cpp">
+      <Filter>Contents\Boss\OldCrow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

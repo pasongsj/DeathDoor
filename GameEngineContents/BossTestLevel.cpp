@@ -42,7 +42,7 @@ void BossTestLevel::LevelChangeStart()
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 
 	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0 });
-	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 500.0f, 0.0f });
+	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 400.0f, 0.0f });
 
 	//std::shared_ptr<BossLevelTestObject> TestObject = CreateActor<BossLevelTestObject>();
 	//TestObject->GetTransform()->SetLocalScale({ 100, 100, 100 });

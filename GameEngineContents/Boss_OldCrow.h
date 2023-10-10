@@ -1,5 +1,7 @@
 #pragma once
 #include <GameEngineContents/BossBase.h>
+#include "Boss_OldCrowDefinition.cpp"
+
 
 class Boss_OldCrow : public BossBase
 {
@@ -75,12 +77,20 @@ private:
 		PATTERNCOUNT //패턴 총 개수 (size)
 	};
 
+
+	class ChainPatternParameter
+	{
+	public:
+		float4 StartPos = float4::ZERO;
+		float4 Dir = float4::ZERO;
+	};
+
 	std::shared_ptr<class ContentFBXRenderer> BossRender = nullptr;
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 
 	//체인 관련
 	std::vector<std::shared_ptr<class Boss_OldCrowChain>> Chains;
-	std::shared_ptr<class GameEngineComponent> ChainsPivot = nullptr;
+	std::vector<std::shared_ptr<class GameEngineComponent>> ChainsPivots;
 	std::shared_ptr<Boss_OldCrowChain> GetChain();
 
 	//Init
@@ -94,25 +104,34 @@ private:
 	void SetFSMFUNC();
 
 	//FSM 에서 사용되는 변수
-	float4 Dir = float4::ZERO;
-	float4 CurrentDir = float4::ZERO;
-	bool IsTurn = false;
-	std::vector<std::vector<int>> UsingChainNumber;
-	float4 ChainSize = float4::ZERO;
-	float CurrentChainSpeed = 0.0f;
+	float4 Dir = float4::ZERO;  //목표 Dir
+	float4 CurrentDir = float4::ZERO; //현재 Dir
 
+	bool IsTurn = false; //회전 여부
+	std::vector<std::vector<int>> UsingChainNumber; //사용중인 체인 번호 벡터
+	std::vector<class ChainPatternParameter> ChainPatternParameterVector;
+
+	float CurrentChainSpeed = 0.0f;
 	float StateCalTime = 0.0f;
 	float StateCalTime2 = 0.0f;
+	float4 TargetPos = float4::ZERO;
+	float4 JumpForce = float4::ZERO;
 
 	// FSM 에서 사용되는 상수
 	const float DashSpeed = 1000.0f;
 	const float DashSpeed2 = DashSpeed * 0.75f;
-	const float MegaDashSpeed = DashSpeed * 2.0f;
+	const float MegaDashSpeed = 5000.0f;
 	const int ChainsCount = 10;
 	const float ChainSpeed = 100.0f;
+	const float CreateChainTime = 1.5f;
+	const int ChainPivotCount = 4;
 
 	//FSM에서 사용되는 함수
 	void TurnCheck(); //대쉬 중 회전 스테이트로 변경할 것인지 체크
 	void SetLerpDirection(float _DeltaTime); //러프로 회전하는 (대쉬, 턴) 스테이트에서 사용
+	void SetDirection(); //즉시 Dir로 회전
+	void SettingChainPatternParameter(); //연속 사슬 패턴 이전에 사용할 Pivot, Dir등을 세팅
+
+	float4 GetRandomPos(float _Value);
 };
 

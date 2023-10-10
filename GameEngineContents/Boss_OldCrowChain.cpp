@@ -18,7 +18,7 @@ void Boss_OldCrowChain::Start()
 
 	float4 Scale = ChainRenderer->GetTransform()->GetLocalScale();
 
-	ChainRenderer->GetTransform()->SetLocalScale(Scale / 10.0f);
+	ChainRenderer->GetTransform()->SetLocalScale(Scale / 5.0f);
 	ChainRenderer->GetTransform()->SetLocalRotation(float4(90, 90, 0));
 
 	ChainRenderer->Off();
