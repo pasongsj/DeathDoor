@@ -121,6 +121,6 @@ namespace GameEngineDebug
 			DebugRenderUnit.Render(_Delta);
 		}
 
-		//Data.clear();
+		Data.clear();
 	}
 }

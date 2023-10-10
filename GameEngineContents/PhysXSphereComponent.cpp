@@ -125,8 +125,7 @@ void PhysXSphereComponent::Update(float _DeltaTime)
 	}
 	if (true == GetLevel()->GetDebugRender())
 	{
-		GetTransform()->SetWorldRotation(ParentActor.lock()->GetTransform()->GetWorldRotation());
-		GetTransform()->SetWorldPosition(ParentActor.lock()->GetTransform()->GetWorldPosition());
+		GameEngineDebug::DrawSphere(GetLevel()->GetMainCamera().get(), GetTransform());
 	}
 }
 

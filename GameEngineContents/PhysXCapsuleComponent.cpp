@@ -124,6 +124,7 @@ void PhysXCapsuleComponent::Update(float _DeltaTime)
 	}
 	if (true == GetLevel()->GetDebugRender())
 	{
+		GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
 	}
 }
 
