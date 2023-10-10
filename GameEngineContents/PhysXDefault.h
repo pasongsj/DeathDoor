@@ -58,6 +58,7 @@ public:
 	{
 		if (m_pRigidDynamic!=nullptr)
 		{
+			m_bGravity = false;
 			m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
 		}
 	}
@@ -67,6 +68,7 @@ public:
 	{
 		if (m_pRigidDynamic != nullptr)
 		{
+			m_bGravity = true;
 			m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
 		}
 	}
@@ -102,8 +104,15 @@ public:
 	{
 		if (m_pRigidDynamic!=nullptr)
 		{
-			//Y축은 중력에 의해 가속도를 받지만 X,Z는 가속도를 없애서 정속 이동을 하게끔 함
-			m_pRigidDynamic->setLinearVelocity({ 0,m_pRigidDynamic->getLinearVelocity().y,0 });
+			if (true == m_bGravity)
+			{
+				//Y축은 중력에 의해 가속도를 받지만 X,Z는 가속도를 없애서 정속 이동을 하게끔 함
+				m_pRigidDynamic->setLinearVelocity({ 0,m_pRigidDynamic->getLinearVelocity().y,0 });
+			}
+			else
+			{
+				m_pRigidDynamic->setLinearVelocity({ 0,0,0 });
+			}
 			// 캐릭터의 방향을 힘으로 조절
 			m_pRigidDynamic->addForce(_MoveSpeed.PhysXVec3Return(), physx::PxForceMode::eVELOCITY_CHANGE);
 		}		
@@ -209,6 +218,8 @@ protected:
 	float4 m_f4DynamicPivot = float4::ZERO;
 	bool m_bAggregateObj = false;
 	bool m_bStatic = false;
+
+	bool m_bGravity = true;
 
 	static physx::PxAggregate* m_pAggregate;
 	std::weak_ptr<GameEngineActor> ParentActor;

@@ -69,7 +69,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			if (true)
 			{
-				SetRandomPattern();
+				//SetRandomPattern();
 			}
 		},
 		[this]
@@ -318,28 +318,28 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			BossRender->ChangeAnimation("Jump");
 
-			float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
-			PlayerPos.y = 0;
+			float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 			float4 EnemyPos = GetTransform()->GetWorldPosition();
-			EnemyPos.y = 0;
 
 			float4 Position = float4::LerpClamp(EnemyPos, PlayerPos, 0.5f); //목표 지점
 
 			TargetPos = Position;
-			TargetPos.y = 50.0f;
+			TargetPos.y += 50.0f;
 
 			JumpForce = TargetPos - GetTransform()->GetWorldPosition();
-
+			JumpForce.Normalize();
 			m_pCapsuleComp->TurnOffGravity();
 		},
 		[this](float Delta)
 		{
-			m_pCapsuleComp->SetMoveSpeed(JumpForce );
+			m_pCapsuleComp->SetMoveSpeed(JumpForce*100.f);
 
 			SetLerpDirection(Delta);
 
+			float test = TargetPos.XYZDistance(GetTransform()->GetWorldPosition());
 			if (TargetPos.XYZDistance(GetTransform()->GetWorldPosition()) < 10.0f )
 			{
+				m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 				SetNextState(Boss_OldCrowState::SLAM);
 			}
 		},
@@ -353,13 +353,13 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			BossRender->ChangeAnimation("Slam");
 
-			float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+			float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 
 			TargetPos = PlayerPos;
 		},
 		[this](float Delta)
 		{
-			m_pCapsuleComp->SetMoveSpeed(TargetPos - GetTransform()->GetWorldPosition() * Delta);
+			m_pCapsuleComp->SetMoveSpeed(TargetPos - GetTransform()->GetWorldPosition());
 
 			SetLerpDirection(Delta);
 

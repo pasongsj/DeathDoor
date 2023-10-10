@@ -40,7 +40,7 @@ bool EnemyBase::InRangePlayer(float _Range)
 
 float4 EnemyBase::GetPlayerDir()
 {
-	float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 	PlayerPos.y = 0;
 	float4 EnemyPos = GetTransform()->GetWorldPosition();
 	EnemyPos.y = 0;

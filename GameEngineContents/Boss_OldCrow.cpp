@@ -21,6 +21,7 @@ void Boss_OldCrow::Start()
 {
 	EnemyBase::Start();
 	InitPattern();
+	GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4(1000, 100, 0));
 
 	// physx
 	{
@@ -42,6 +43,11 @@ void Boss_OldCrow::Start()
 void Boss_OldCrow::Update(float _DeltaTime)
 {
 	FSMObjectBase::Update(_DeltaTime);
+
+	if (GameEngineInput::IsDown("CamMoveUp"))
+	{
+		SetNextState(Boss_OldCrowState::JUMP);
+	}
 }
 
 void Boss_OldCrow::InitPattern()
