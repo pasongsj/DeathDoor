@@ -137,7 +137,8 @@ void Mouse::MouseRotationUpdate()
 
 	float4 PlayerDecartPos = { PlayerScreenPos.x - ScreenSize.hx(), ScreenSize.hy() - PlayerScreenPos.y };
 	float4 PlayerToMouseDir = DecartMousePos - PlayerDecartPos;
-
+	PlayerToMouseDir.z = 0;
+	PlayerToMouseDir.RotationAllDeg(Camera->GetTransform()->GetWorldRotation());
 	PlayerToMouseDir.Normalize();
 
 	float Cos_ZRotAngle = PlayerToMouseDir.x;

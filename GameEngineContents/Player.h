@@ -143,5 +143,8 @@ private:
 	int PlayerHP = 4;
 	int SpellCost = 4;
 
+	// Level
+	float4 CameraRot = float4::ZERO;
+
 };
 
