@@ -113,7 +113,7 @@ void Player::SetFSMFunc()
 				WeaponActor->SetTrans(BowPos, GetTransform()->GetLocalRotation());
 				//arrow
 				AttackActor = GetLevel()->CreateActor<PlayerAttackArrow>();
-				float4 ArrowPos = GetBonePos("Weapon_R");
+				float4 ArrowPos = GetBonePos("Weapon_L");
 				AttackActor->SetTrans(MoveDir, ArrowPos);
 				break;
 			}
@@ -155,12 +155,28 @@ void Player::SetFSMFunc()
 				}
 				// 마우스 방향을 바라보도록 함
 				MoveDir = GetMousDirection();
-				float4 SkillPos = GetBonePos("Weapon_R");
-				if (PlayerSkill::BOMB == CurSkill)
+				float4 SkillPos;
+
+				switch (CurSkill)
 				{
-					SkillPos = (GetBonePos("Weapon_R") + GetBonePos("Weapon_L")) * 0.5f /*+ float4{0.0f, 10.0f,0.0f}*/;
+				case Player::PlayerSkill::ARROW:
+					SkillPos = GetBonePos("Weapon_L");
+					break;
+				case Player::PlayerSkill::MAGIC:
+					SkillPos = GetBonePos("Weapon_R");
+					break;
+				case Player::PlayerSkill::BOMB:
+					SkillPos = (GetBonePos("Weapon_R") + GetBonePos("Weapon_L")) * 0.5f/*+ float4{0.0f, 10.0f,0.0f}*/;
+					break;
+				case Player::PlayerSkill::HOOK:
+					SkillPos = GetBonePos("Weapon_R");
+					break;
+				case Player::PlayerSkill::MAX:
+					break;
+				default:
+					break;
 				}
-				AttackActor->SetTrans(MoveDir, SkillPos);
+				AttackActor->SetTrans(ForwardDir, SkillPos);
 			}
 			else
 			{
@@ -179,22 +195,22 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
-			switch (CurSkill)
-			{
-			case Player::PlayerSkill::ARROW:
-			case Player::PlayerSkill::MAGIC:
-				SpellCost--;
-				break;
-			case Player::PlayerSkill::BOMB:
-				SpellCost -= 2;
-				break;
-			case Player::PlayerSkill::HOOK:
-				break;
-			case Player::PlayerSkill::MAX:
-				break;
-			default:
-				break;
-			}
+			//switch (CurSkill)
+			//{
+			//case Player::PlayerSkill::ARROW:
+			//case Player::PlayerSkill::MAGIC:
+			//	SpellCost--;
+			//	break;
+			//case Player::PlayerSkill::BOMB:
+			//	SpellCost -= 2;
+			//	break;
+			//case Player::PlayerSkill::HOOK:
+			//	break;
+			//case Player::PlayerSkill::MAX:
+			//	break;
+			//default:
+			//	break;
+			//}
 		}
 	); 
 
@@ -505,7 +521,7 @@ void Player::SetFSMFunc()
 			float4 CollPoint = float4::ZERO;
 			if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 			{
-				if (CollPoint.y + 200.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
+				if (CollPoint.y + 100.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
 				{
 					SetNextState(PlayerState::IDLE);
 					return;

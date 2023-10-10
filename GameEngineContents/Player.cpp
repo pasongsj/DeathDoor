@@ -182,9 +182,10 @@ void Player::ModifyHeight()
 	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 	{
 		float4 PPos = GetTransform()->GetWorldPosition();
-		if (PPos.y > CollPoint.y + 200.0f)
+		if (PPos.y > CollPoint.y + 70.0f)
 		{
-			SetNextState(PlayerState::FALLING);
+			MoveUpdate(300.0f, float4::DOWN);
+			//SetNextState(PlayerState::FALLING);
 			return;
 		}
 	}
@@ -199,7 +200,7 @@ void Player::CheckFalling()
 	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 	{
 		float4 PPos = GetTransform()->GetWorldPosition();
-		if (PPos.y > CollPoint.y + 200.0f)
+		if (PPos.y > CollPoint.y + 300.0f)
 		{
 			SetNextState(PlayerState::FALLING);
 			return;
@@ -314,19 +315,27 @@ float4 Player::GetMousDirection()
 	std::shared_ptr<GameEngineCamera> MainCam = GetLevel()->GetMainCamera();
 	float4x4 CamViewProjectionMat = MainCam->GetView() * MainCam->GetProjection() * MainCam->GetViewPort();
 
-	float4 Player2DPos = GetTransform()->GetWorldPosition() * CamViewProjectionMat;
+	float4 Player2DPos = GetBonePos("Weapon_L");
+	Player2DPos *= CamViewProjectionMat;
 	Player2DPos /= Player2DPos.w;
 	Player2DPos.w = 1.0f;
 
 	// Windows Forms to Cartesian Coordinate System
 	Player2DPos -= GameEngineWindow::GetScreenSize().half();
 	Player2DPos.y = -Player2DPos.y;
-
+	Player2DPos.z = 0;
 
 	float4 NDir = Mouse2DPos - Player2DPos;
+	NDir.z = 0;
+	NDir.RotationAllDeg(CameraRot);
+	NDir.Normalize();
 
+	float4 Ydir = float4{ 0.0f,NDir.y,0.0f };
+	Ydir.RotaitonXDeg(90.0f - CameraRot.y);
+	NDir += Ydir;
+	NDir.y = 0;
 
-	return  float4{ NDir.x, 0, NDir.y }.NormalizeReturn();
+	return  NDir;
 }
 
 
