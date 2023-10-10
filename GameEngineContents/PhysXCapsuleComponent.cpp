@@ -28,19 +28,7 @@ void PhysXCapsuleComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, floa
 		CreateDynamic(_GeoMetryScale, _GeoMetryRotation);		
 	}
 
-
-	//float4 ShapePos = float4(m_pShape->getLocalPose().p.x, m_pShape->getLocalPose().p.y, m_pShape->getLocalPose().p.z);
-	float4 ShapeRot = float4(m_pShape->getLocalPose().q.x, m_pShape->getLocalPose().q.y, m_pShape->getLocalPose().q.z);
-	ShapeRot = ShapeRot.QuaternionToEulerDeg();
-	ShapeRot.z -= 90.f;
-
-	float4 ParentPos = ParentActor.lock()->GetTransform()->GetWorldPosition();
-
-	GetTransform()->SetWorldPosition(ParentPos + m_fShapeCenter + m_f4DynamicPivot);
 	GetTransform()->SetWorldScale(float4(_GeoMetryScale.z, _GeoMetryScale.y, _GeoMetryScale.z));
-	GetTransform()->SetLocalRotation(ShapeRot);
-
-	GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
 }
 
 void PhysXCapsuleComponent::SetRotation(float4 _Rot)
@@ -127,7 +115,6 @@ void PhysXCapsuleComponent::Update(float _DeltaTime)
 	}
 	if (true == GetLevel()->GetDebugRender())
 	{
-		//float4 ShapePos = float4(m_pShape->getLocalPose().p.x, m_pShape->getLocalPose().p.y, m_pShape->getLocalPose().p.z);
 		float4 ShapeRot = float4(m_pShape->getLocalPose().q.x, m_pShape->getLocalPose().q.y, m_pShape->getLocalPose().q.z);
 		ShapeRot = ShapeRot.QuaternionToEulerDeg();
 		ShapeRot.z -= 90.f;

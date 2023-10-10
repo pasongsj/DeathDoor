@@ -27,8 +27,7 @@ void PhysXSphereComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float
 		CreateDynamic(_GeoMetryScale, _GeoMetryRotation);
 	}
 
-	GetTransform()->SetWorldScale(float4(_GeoMetryScale.x, _GeoMetryScale.y, _GeoMetryScale.z));
-	GameEngineDebug::DrawSphere(GetLevel()->GetMainCamera().get(), GetTransform());
+	GetTransform()->SetWorldScale(float4(_GeoMetryScale.z, _GeoMetryScale.y, _GeoMetryScale.z));
 }
 
 void PhysXSphereComponent::SetMoveSpeed(float4 _MoveSpeed)
@@ -125,6 +124,12 @@ void PhysXSphereComponent::Update(float _DeltaTime)
 	}
 	if (true == GetLevel()->GetDebugRender())
 	{
+		float4 ShapeRot = float4(m_pShape->getLocalPose().q.x, m_pShape->getLocalPose().q.y, m_pShape->getLocalPose().q.z);
+
+		float4 ParentPos = ParentActor.lock()->GetTransform()->GetWorldPosition();
+
+		GetTransform()->SetWorldPosition(ParentPos + m_fShapeCenter + m_f4DynamicPivot);
+		GetTransform()->SetLocalRotation(ShapeRot);
 		GameEngineDebug::DrawSphere(GetLevel()->GetMainCamera().get(), GetTransform());
 	}
 }
@@ -246,12 +251,10 @@ void PhysXSphereComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _Ge
 	m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
 
 	//피벗 설정
-	m_fShapeCenter = float4(0.f, ScaledHeight, 0.f);
+	m_fShapeCenter = float4(0.f, tmpGeoMetryScale.y, 0.f);
 	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
-	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 	DynamicCenter += m_f4DynamicPivot.PhysXVec3Return();
-	relativePose.p = DynamicCenter;
-	m_pShape->setLocalPose(relativePose);
+	m_pShape->setLocalPose(physx::PxTransform(DynamicCenter));
 
 	//충돌할때 필요한 필터 데이터
 	m_pShape->setSimulationFilterData
@@ -329,12 +332,10 @@ void PhysXSphereComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _G
 	physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.01f);
 
 	//피벗 설정
-	m_fShapeCenter = float4(0.f, ScaledHeight, 0.f);
+	m_fShapeCenter = float4(0.f, tmpGeoMetryScale.y, 0.f);
 	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
-	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 	DynamicCenter += m_f4DynamicPivot.PhysXVec3Return();
-	relativePose.p = DynamicCenter;
-	m_pShape->setLocalPose(relativePose);
+	m_pShape->setLocalPose(physx::PxTransform(DynamicCenter));
 
 	//충돌할때 필요한 필터 데이터
 	m_pShape->setSimulationFilterData
