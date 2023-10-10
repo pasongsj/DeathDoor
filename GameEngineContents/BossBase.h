@@ -19,7 +19,10 @@ protected:
 	virtual void InitAniamtion() {};
 	virtual void InitPattern() {};
 
-	std::shared_ptr<std::map<short, std::vector<short>>> Patterns = nullptr;
+	std::map<short, std::vector<short>> Patterns;
+
+	short PatternNum = 0; //현재 진행중인 패턴 번호
+	short CurrentPatternNum = 0; //패턴 번호의 몇번째 패턴 진행중인지
 
 private:
 

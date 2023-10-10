@@ -14,6 +14,11 @@ public:
 	Boss_OldCrow& operator=(const Boss_OldCrow& _Other) = delete;
 	Boss_OldCrow& operator=(Boss_OldCrow&& _Other) noexcept = delete;
 
+	std::shared_ptr<class PhysXCapsuleComponent> GetPhysXComponent()
+	{
+		return m_pCapsuleComp;
+	}
+
 protected:
 	void InitAniamtion() override;
 	void InitPattern() override;
@@ -23,15 +28,18 @@ protected:
 private:
 	enum class Boss_OldCrowState //스테이트 별
 	{
+		EMPTY,
+
 		IDLE,
 
 		//대쉬
-		STARTDASH,
+		DASHSTART,
 		DASH,
 		TURN,
 
 		//사슬
 		MEGADASHPREP,
+		MEGADASHPREPRANDOMPOS,
 		MEGADASH,
 
 		//연속 사슬
@@ -64,14 +72,47 @@ private:
 		PATTERN4, // 사슬, 사슬, 연속사슬, 점프, 대쉬
 		PATTERN5, // SmallCrow 소환
 		PATTERN6, // EGG 소환 
-		PATTERNCOUNT //패턴 총 개수
+		PATTERNCOUNT //패턴 총 개수 (size)
 	};
 
-	//std::map<Boss_OldCrowState, BossStateParameter> StateMap;
-	std::shared_ptr<class GameEngineFBXRenderer> BossRender = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> BossRender = nullptr;
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 
+	//체인 관련
+	std::vector<std::shared_ptr<class Boss_OldCrowChain>> Chains;
+	std::shared_ptr<class GameEngineComponent> ChainsPivot = nullptr;
+	std::shared_ptr<Boss_OldCrowChain> GetChain();
+
+	//Init
+	void ChainsInit();
+
+	//랜덤패턴 구현
+	void SetRandomPattern();    //랜덤한 패턴을 정해서 실행함
+	void SetNextPatternState(); //정해진 랜덤한 패턴중 다음 패턴을 실행함
+
+	//FSM Init
 	void SetFSMFUNC();
-	
+
+	//FSM 에서 사용되는 변수
+	float4 Dir = float4::ZERO;
+	float4 CurrentDir = float4::ZERO;
+	bool IsTurn = false;
+	std::vector<std::vector<int>> UsingChainNumber;
+	float4 ChainSize = float4::ZERO;
+	float CurrentChainSpeed = 0.0f;
+
+	float StateCalTime = 0.0f;
+	float StateCalTime2 = 0.0f;
+
+	// FSM 에서 사용되는 상수
+	const float DashSpeed = 1000.0f;
+	const float DashSpeed2 = DashSpeed * 0.75f;
+	const float MegaDashSpeed = DashSpeed * 2.0f;
+	const int ChainsCount = 10;
+	const float ChainSpeed = 100.0f;
+
+	//FSM에서 사용되는 함수
+	void TurnCheck(); //대쉬 중 회전 스테이트로 변경할 것인지 체크
+	void SetLerpDirection(float _DeltaTime); //러프로 회전하는 (대쉬, 턴) 스테이트에서 사용
 };
 

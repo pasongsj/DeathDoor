@@ -3,6 +3,7 @@
 #include "BossLevelTestObject.h"
 #include "Boss_OldCrow.h"
 #include "Player.h"
+#include "Map_Emptyplain.h"
 
 #include "PhysXTestPlane.h"
 #include "BossTestLevel.h"
@@ -47,13 +48,21 @@ void BossTestLevel::LevelChangeStart()
 	//TestObject->GetTransform()->SetLocalScale({ 100, 100, 100 });
 	//TestObject->GetTransform()->SetLocalPosition({ 0, 0, -10 });
 
-	std::shared_ptr<PhysXTestPlane> TestPlaneObject = CreateActor<PhysXTestPlane>();
-	TestPlaneObject->GetTransform()->AddLocalScale({ 4, 4, 4 });
+	std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
 
 	std::shared_ptr<Player> TestPlayer = CreateActor<Player>();
-	TestPlayer->GetTransform()->SetWorldPosition({ 0, -100, 0 });
+
+	if (nullptr != TestPlayer)
+	{
+		TestPlayer->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4::ZERO));
+	}
 
 	std::shared_ptr<Boss_OldCrow> BossTestObject = CreateActor<Boss_OldCrow>();
+
+	if (nullptr != BossTestObject)
+	{
+		BossTestObject->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4{0, 0, 0}, float4{0, 0, -1000}));
+	}
 	//BossTestObject->GetTransform()->SetWorldPosition({-1000, 0, -1000});
 	//BossTestObject->GetTransform()->SetWorldRotation({ 0, 180, 0 });
 	//BossTestObject->Init();
@@ -66,5 +75,5 @@ void BossTestLevel::LevelChangeStart()
 
 void BossTestLevel::LevelChangeEnd()
 {
-
+	AllActorDestroy();
 }

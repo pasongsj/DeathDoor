@@ -331,6 +331,9 @@
     <ClCompile Include="ContentLevel.cpp">
       <Filter>Component\Level</Filter>
     </ClCompile>
+    <ClCompile Include="Boss_OldCrowChain.cpp">
+      <Filter>Contents\Boss\OldCrow\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -655,6 +658,9 @@
     <ClInclude Include="PlayerBow.h">
       <Filter>FSMObject\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Boss_OldCrowChain.h">
+      <Filter>Contents\Boss\OldCrow\Actor</Filter>
+    </ClInclude>
     <ClInclude Include="ContentLevel.h">
       <Filter>Component\Level</Filter>
     </ClInclude>
@@ -785,6 +791,12 @@
     </Filter>
     <Filter Include="Component\ContentsRenderer\Font">
       <UniqueIdentifier>{f2100704-c978-4a25-8800-aaeb62a193e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Boss\FrogBoss">
+      <UniqueIdentifier>{8dfd5216-b32a-4c18-9954-e766d7a9eed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Boss\OldCrow\Actor">
+      <UniqueIdentifier>{f64ffb83-efd2-4822-a36c-33ad4b26ca6e}</UniqueIdentifier>
     </Filter>
     <Filter Include="FSMObject\Player\Att">
       <UniqueIdentifier>{6b347afa-c0b7-43b4-aa0c-086ce5ee9959}</UniqueIdentifier>
