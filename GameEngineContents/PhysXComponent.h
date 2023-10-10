@@ -26,7 +26,13 @@ public:
 		physx::PxTransform Transform;
 		Transform.p = m_pShape->getLocalPose().p;
 		Transform.q = physx::PxQuat(Rot, _Axis.PhysXVec3Return());
+
 		m_pShape->setLocalPose(Transform);
+
+		float4 ShapeRot = float4(m_pShape->getLocalPose().q.x, m_pShape->getLocalPose().q.y, m_pShape->getLocalPose().q.z);
+		ShapeRot = ShapeRot.QuaternionToEulerDeg();
+		ShapeRot.z -= 90.f;
+		GetTransform()->SetLocalRotation(ShapeRot);
 	}
 protected:
 

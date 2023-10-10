@@ -206,7 +206,7 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetVertexShader("LightMerge.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("LightMerge.hlsl");
-		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetBlendState("MergeBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
 
