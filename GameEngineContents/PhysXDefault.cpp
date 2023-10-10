@@ -82,6 +82,20 @@ void PhysXDefault::SetWorldPosWithParent(float4 _Pos, float4 _Rot)
     }
 }
 
+float4 PhysXDefault::GetWorldPosition()
+{
+    
+    if (m_pRigidDynamic != nullptr)
+    {
+        return float4(m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z);
+    }
+    if (m_pRigidStatic != nullptr)
+    {
+        return float4(m_pRigidStatic->getGlobalPose().p.x, m_pRigidStatic->getGlobalPose().p.y, m_pRigidStatic->getGlobalPose().p.z);
+    }
+    
+}
+
 float4 PhysXDefault::GetQuaternionEulerAngles(float4 rot)
 {
     float4 q1 = rot;

@@ -355,13 +355,11 @@ void GameEngineLevel::Render(float _DeltaTime)
 		LastTarget->Merge(Target);
 	}
 
-	LastTarget->Effect(_DeltaTime);
-
 	LastTarget->Setting();
+	LastTarget->Effect(_DeltaTime);
 
 	FXAATarget->Clear();
 	FXAATarget->Setting();
-	
 	
 	FXAAUnit.Render(0.0f);
 

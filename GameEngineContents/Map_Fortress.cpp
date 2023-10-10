@@ -209,14 +209,14 @@ void Map_Fortress::Create_PhysXComponent()
 {
 	// 네비메쉬 위치확인용 렌더러 
 	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pNaviRenderer->SetFBXMesh("Fortress_FullMap_NavMesh.fbx", "ContentMeshDeffered");
+	m_pNaviRenderer->SetFBXMesh("Fortress_Navi_Wall_Test.fbx", "ContentMeshDeffered");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
 	// m_pNaviRenderer->Off();
 
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	m_pTriangleComp->CreatePhysXActors("Fortress_FullMap_NavMesh.fbx", true);
+	m_pTriangleComp->CreatePhysXActors("Fortress_Navi_Wall_Test.fbx", true);
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));
 }
 

@@ -32,15 +32,6 @@ void PhysXCapsuleComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, floa
 	GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
 }
 
-void PhysXCapsuleComponent::SetMoveSpeed(float4 _MoveSpeed)
-{
-
-	//Y축은 중력에 의해 가속도를 받지만 X,Z는 가속도를 없애서 정속 이동을 하게끔 함
-	m_pRigidDynamic->setLinearVelocity({ 0,GetLinearVelocity().y,0});
-	// 캐릭터의 방향을 힘으로 조절
-	m_pRigidDynamic->addForce(_MoveSpeed.PhysXVec3Return(), physx::PxForceMode::eVELOCITY_CHANGE);
-}
-
 void PhysXCapsuleComponent::SetRotation(float4 _Rot)
 {
 	m_pRigidDynamic->setGlobalPose(float4::PhysXTransformReturn(_Rot, float4(m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z)));
@@ -260,9 +251,10 @@ void PhysXCapsuleComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _G
 
 
 	//피벗 설정
-	m_fShapeCenter = float4(0.f, ScaledHeight * 1.8f, 0.f);
+	m_fShapeCenter = float4(0.f, ScaledHeight, 0.f);
 	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
+	DynamicCenter += m_f4DynamicPivot.PhysXVec3Return();
 	relativePose.p = DynamicCenter;
 	m_pShape->setLocalPose(relativePose);
 
@@ -351,7 +343,7 @@ void PhysXCapsuleComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _
 	physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.01f);
 
 	//피벗 설정
-	m_fShapeCenter = float4(0.f,ScaledHeight * 1.8f,0.f);
+	m_fShapeCenter = float4(0.f,ScaledHeight,0.f);
 	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
 	DynamicCenter += m_f4DynamicPivot.PhysXVec3Return();
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));

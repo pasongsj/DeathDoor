@@ -47,6 +47,7 @@ void FSMObjectBase::Update(float _DeltaTime)
 		StateDuration += _DeltaTime;
 		FSMFunc[CurState].Update(_DeltaTime);
 	}
+	isPhysXCollision = 0;
 }
 
 

@@ -47,6 +47,7 @@ Output ContentAniMeshDeferred_VS(Input _Input)
 
 Texture2D DiffuseTexture : register(t0);
 Texture2D MaskTexture : register(t1);
+Texture2D CrackTexture : register(t2);
 
 SamplerState ENGINEBASE : register(s0);
 
@@ -58,6 +59,10 @@ struct DeferredOutPut
     float4 BlurTarget : SV_Target7;
 };
 
+cbuffer BlurColor : register(b5)
+{
+    float4 BlurColor;
+}
 
 DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
 {
@@ -68,6 +73,22 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
     _Input.TEXCOORD.xy += AddUV;
     
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+    
+    float4 MaskColor = (float4) 0.0f;
+    
+    //Crack
+    if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
+    {
+        MaskColor = CrackTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+        
+        float3 f3_BlurColor = BlurColor.rgb;
+        
+        if (MaskColor.a > 0.0f)
+        {
+            NewOutPut.BlurTarget = float4(f3_BlurColor, 1.0f);
+            Color = NewOutPut.BlurTarget;
+        }
+    }
     
     //텍스쳐 색상 변경
     Color *= MulColor;

@@ -7,6 +7,7 @@
 // 설명 :
 class Player : public FSMObjectBase, public GameEngineNetObject
 {
+	friend class PlayerAttSkill;
 public:
 	static Player* MainPlayer;
 public:
@@ -25,6 +26,26 @@ public:
 		return m_pCapsuleComp;
 	}
 
+	float4 GetBonePos(const std::string_view& _BoneName);
+
+	inline int GetPlayerHP()
+	{
+		return PlayerHP;
+	}
+	inline int GetSpellCost()
+	{
+		return SpellCost;
+	}
+
+	inline void AddSpellCost()
+	{
+		if (SpellCost >= 4)
+		{
+			return;
+		}
+		++SpellCost;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -41,7 +62,7 @@ private:
 		WALK,			// Walk, Run
 		SKILL,			// 우클릭 Arrow, Arrow_bomb, Arrow_magic, Hookshot, Hookshot_fly
 		HOOK_FLY,		// Hookshot_fly
-		BASE_ATT,		// 좌클릭 Slash_Light_L_new, Slash_Light_R_new
+		BASIC_ATT,		// 좌클릭 Slash_Light_L_new, Slash_Light_R_new
 		ROLL,			// 스페이스바 Roll, Roll_slash
 		ROLL_ATT,		// 스페이스바+휠클릭 Charge_slam_overhead, Roll_slash_end
 		CHARGE_ATT,		// 휠클릭 Charge_slash_L, Charge_slash_R
@@ -78,8 +99,8 @@ private:
 	std::shared_ptr<ContentFBXRenderer> Renderer = nullptr;
 		//physx
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
-		//Range
-	std::shared_ptr<GameEngineActor> AttackRange = nullptr;
+	//	//Range
+	//std::shared_ptr<GameEngineActor> AttackRange = nullptr;
 
 		// Attack
 	PlayerSkill CurSkill = PlayerSkill::ARROW;
@@ -108,12 +129,19 @@ private:
 	void CheckClimbInput(float _DeltaTime);
 	void MoveUpdate(float _MoveVec, float4 _Dir = float4::ZERONULL);	//MoveDir에 해당하는 값만 처리하기 때문에
 
-
+	void ModifyHeight();
 
 	void DefaultPhysX();
 
-	
+	// Attack
+	std::shared_ptr< class PlayerAttackBase> AttackActor = nullptr;
 
+	// WeaponRender
+	std::shared_ptr<class PlayerBow> WeaponActor = nullptr;
+
+
+	int PlayerHP = 4;
+	int SpellCost = 4;
 
 };
 

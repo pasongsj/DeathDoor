@@ -5,7 +5,7 @@
       <Filter>Contents\CenterLevel</Filter>
     </ClCompile>
     <ClCompile Include="FadeEffect.cpp">
-      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+      <Filter>Component\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <Filter>Contents\TestLevel</Filter>
@@ -271,9 +271,6 @@
     <ClCompile Include="EnemyBruteGold.cpp">
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerAttackRange.cpp">
-      <Filter>FSMObject\Player</Filter>
-    </ClCompile>
     <ClCompile Include="OfficeLevel.cpp">
       <Filter>Contents\OfficeLevel</Filter>
     </ClCompile>
@@ -293,7 +290,46 @@
       <Filter>Component\ContentsRenderer\Font</Filter>
     </ClCompile>
     <ClCompile Include="GlowEffect.cpp">
-      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+      <Filter>Component\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Map_Sanctuary.cpp">
+      <Filter>Contents\FortressLevel\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="FrogBossLevel.cpp">
+      <Filter>Contents\FortressLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackBasic.cpp">
+      <Filter>FSMObject\Player\Att</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackBase.cpp">
+      <Filter>FSMObject\Player\Att</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXComponent.cpp">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackMagic.cpp">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackArrow.cpp">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackBomb.cpp">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="FrogFloor.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GrayScaleEffect.cpp">
+      <Filter>Component\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="FireObject.cpp">
+      <Filter>Component\ContentsRenderer\Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBow.cpp">
+      <Filter>FSMObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentLevel.cpp">
+      <Filter>Component\Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -301,7 +337,7 @@
       <Filter>Contents\CenterLevel</Filter>
     </ClInclude>
     <ClInclude Include="FadeEffect.h">
-      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+      <Filter>Component\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel.h">
       <Filter>Contents\TestLevel</Filter>
@@ -578,13 +614,49 @@
       <Filter>Component\ContentsRenderer\Font</Filter>
     </ClInclude>
     <ClInclude Include="GlowEffect.h">
-      <Filter>Component\ContentsRenderer\PostEffect</Filter>
+      <Filter>Component\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBruteGold.h">
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerAttackRange.h">
+    <ClInclude Include="PlayerAttackBasic.h">
+      <Filter>FSMObject\Player\Att</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_Sanctuary.h">
+      <Filter>Contents\FortressLevel\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="FrogBossLevel.h">
+      <Filter>Contents\FortressLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackBase.h">
+      <Filter>FSMObject\Player\Att</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXComponent.h">
+      <Filter>Component\PhysX\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackMagic.h">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackArrow.h">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackBomb.h">
+      <Filter>FSMObject\Player\Att\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="GrayScaleEffect.h">
+      <Filter>Component\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="FireObject.h">
+      <Filter>Component\ContentsRenderer\Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="FrogFloor.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBow.h">
       <Filter>FSMObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentLevel.h">
+      <Filter>Component\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -617,9 +689,6 @@
     </Filter>
     <Filter Include="Component\PhysX\Test">
       <UniqueIdentifier>{c0881260-81c3-4478-b5d6-05f3ea633a14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\ContentsRenderer\PostEffect">
-      <UniqueIdentifier>{d5ea17ab-cd73-4c06-af79-5246cf19158e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Component\mapeditor">
       <UniqueIdentifier>{89975606-5f56-4ef4-845e-15ad963da86d}</UniqueIdentifier>
@@ -716,6 +785,21 @@
     </Filter>
     <Filter Include="Component\ContentsRenderer\Font">
       <UniqueIdentifier>{f2100704-c978-4a25-8800-aaeb62a193e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Player\Att">
+      <UniqueIdentifier>{6b347afa-c0b7-43b4-aa0c-086ce5ee9959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Player\Att\Skill">
+      <UniqueIdentifier>{afba360a-2df9-411c-bcd5-6f7a4b1436da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\PostEffect">
+      <UniqueIdentifier>{d5ea17ab-cd73-4c06-af79-5246cf19158e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Fire">
+      <UniqueIdentifier>{f006ce62-c1d5-49b0-af52-7b38c1a4c551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Level">
+      <UniqueIdentifier>{81902642-70f0-4525-85b9-21fe176eb5a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

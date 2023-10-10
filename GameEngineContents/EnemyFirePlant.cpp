@@ -32,8 +32,8 @@ void EnemyFirePlant::Start()
 	// physx
 	{
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
-		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_FIREPLANT, DEFAULT_DIR_FIREPLANT);
+		//m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
+		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_FIREPLANT, DEFAULT_DIR_FIREPLANT, true);
 		//m_pCapsuleComp->TurnOffGravity();
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic, PhysXFilterGroup::PlayerSkill);
 
@@ -41,30 +41,22 @@ void EnemyFirePlant::Start()
 	SetFSMFUNC();
 
 }
-bool EnemyFirePlant::CheckAttack()
-{
-	UINT HitFromPlayer = static_cast<UINT>(isPhysXCollision);
-	
-	if ( 0 < (HitFromPlayer & static_cast<UINT>(PhysXFilterGroup::PlayerSkill)))
-	{
-		return true;
-	}
-	return false;
-}
+//bool EnemyFirePlant::CheckAttack()
+//{
+//	UINT HitFromPlayer = static_cast<UINT>(isPhysXCollision);
+//	
+//	if ( 0 < (HitFromPlayer & static_cast<UINT>(PhysXFilterGroup::PlayerSkill)))
+//	{
+//		return true;
+//	}
+//	return false;
+//}
 
 void EnemyFirePlant::Update(float _DeltaTime)
 {
-	//if ((isPhysXCollision & 1) == 1)
-	//{
-	//	int a = 0;
-	//}
-	//UINT playerDy = static_cast<UINT>(PhysXFilterGroup::PlayerSkill);
-	//UINT ColPlayer = isPhysXCollision & playerDy;
-	//if (0 < ColPlayer)
-	//{
-	//	int a = 0;
-	//}
+
 	FSMObjectBase::Update(_DeltaTime);
+	
 }
 
 
@@ -83,7 +75,7 @@ void EnemyFirePlant::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			if (true == CheckAttack())
+			if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))
 			{
 				SetNextState(EnemyFireFlowerState::HIT);
 				return;
@@ -103,12 +95,12 @@ void EnemyFirePlant::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("BITE");
- 			AggroDir(m_pCapsuleComp, DEFAULT_DIR_FIREPLANT);
+ 			//AggroDir(m_pCapsuleComp, DEFAULT_DIR_FIREPLANT);
 			// fire 투사체 발사 
 		},
 		[this](float Delta)
 		{
-			if (true == CheckAttack())
+			if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))
 			{
 				SetNextState(EnemyFireFlowerState::HIT);
 				return;
@@ -128,6 +120,7 @@ void EnemyFirePlant::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("HIT");
+			AddPlayerSpellCost();
 		},
 		[this](float Delta)
 		{

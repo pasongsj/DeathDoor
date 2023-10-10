@@ -58,6 +58,10 @@ void BossTestLevel::LevelChangeStart()
 	//BossTestObject->GetTransform()->SetWorldRotation({ 0, 180, 0 });
 	//BossTestObject->Init();
 	//BossTestObject->GetTransform()->SetLocalPosition({ 0, 0, -10 });
+
+
+	CreateUI();
+	SetPostPrecessEffect();
 }
 
 void BossTestLevel::LevelChangeEnd()

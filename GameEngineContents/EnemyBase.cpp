@@ -67,3 +67,7 @@ bool EnemyBase::CheckHit()
 	//}
 	return false;
 }
+void EnemyBase::AddPlayerSpellCost()
+{
+	Player::MainPlayer->AddSpellCost();
+}

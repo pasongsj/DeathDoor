@@ -24,8 +24,8 @@ void MapEditorLevel::Start()
 
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalRotation({ 55.0f, 0.0f, 0.0f });
-	GetMainCamera()->GetTransform()->SetLocalPosition( { 0.0f, 1500.0f , -1250.0f });
+	GetMainCamera()->GetTransform()->SetLocalRotation(float4{ 40 , 10 , 0 });
+	GetMainCamera()->GetTransform()->SetLocalPosition(float4{ -450, 1700, -1200 });
 	
 	CreateActor<GameEngineLight>();
 }

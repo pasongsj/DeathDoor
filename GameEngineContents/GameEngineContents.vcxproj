@@ -184,6 +184,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentSpriteRenderer.cpp">
       <SubType>
       </SubType>
@@ -227,10 +231,16 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FireObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FlowerPot.cpp" />
     <ClCompile Include="FortressLevel.cpp" />
     <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="DynamicParticleManager.cpp" />
+    <ClCompile Include="FrogBossLevel.cpp" />
+    <ClCompile Include="FrogFloor.cpp" />
     <ClCompile Include="Frog_Lever.cpp" />
     <ClCompile Include="FSMObjectBase.cpp">
       <SubType>
@@ -238,6 +248,10 @@
     </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
     <ClCompile Include="GlowEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GrayScaleEffect.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -257,6 +271,7 @@
     <ClCompile Include="MapTestLevel.cpp" />
     <ClCompile Include="Map_Emptyplain.cpp" />
     <ClCompile Include="Map_Fortress.cpp" />
+    <ClCompile Include="Map_Sanctuary.cpp" />
     <ClCompile Include="Map_Office.cpp" />
     <ClCompile Include="MiniDesk.cpp" />
     <ClCompile Include="MiniOffice.cpp" />
@@ -283,6 +298,10 @@
     </ClCompile>
     <ClCompile Include="PhysXBoxComponent.cpp" />
     <ClCompile Include="PhysXCapsuleComponent.cpp" />
+    <ClCompile Include="PhysXComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PhysXControllerComponent.cpp" />
     <ClCompile Include="PhysXConvexComponent.cpp" />
     <ClCompile Include="PhysXCustom.cpp" />
@@ -320,7 +339,27 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerAttackRange.cpp">
+    <ClCompile Include="PlayerAttackArrow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackBasic.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackBomb.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackMagic.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerBow.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -407,6 +446,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ContentLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentSpriteRenderer.h">
       <SubType>
       </SubType>
@@ -461,6 +504,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="FireObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="FlowerPot.h">
       <SubType>
       </SubType>
@@ -474,6 +521,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DynamicParticleManager.h" />
+    <ClInclude Include="FrogBossLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FrogFloor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Frog_Lever.h">
       <SubType>
       </SubType>
@@ -485,6 +540,10 @@
     <ClInclude Include="GameContentsMapActor.h" />
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="GlowEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GrayScaleEffect.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -510,6 +569,10 @@
     </ClInclude>
     <ClInclude Include="Map_Emptyplain.h" />
     <ClInclude Include="Map_Fortress.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Map_Sanctuary.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -555,6 +618,10 @@
     </ClInclude>
     <ClInclude Include="PhysXBoxComponent.h" />
     <ClInclude Include="PhysXCapsuleComponent.h" />
+    <ClInclude Include="PhysXComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PhysXControllerComponent.h" />
     <ClInclude Include="PhysXConvexComponent.h" />
     <ClInclude Include="PhysXCustom.h" />
@@ -593,7 +660,27 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerAttackRange.h">
+    <ClInclude Include="PlayerAttackArrow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackBasic.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackBomb.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackMagic.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerBow.h">
       <SubType>
       </SubType>
     </ClInclude>

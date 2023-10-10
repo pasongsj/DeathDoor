@@ -219,6 +219,27 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("GrayScale");
+
+		Pipe->SetVertexShader("GrayScale.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("GrayScale.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Fire");
+
+		Pipe->SetVertexShader("FireShader.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("FireShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
 	//{
 	//	// 블랜드
 	//	D3D11_BLEND_DESC Desc = { 0, };
@@ -369,6 +390,7 @@ void ContentsCore::ContentsResourcesCreate()
 		GameEngineFont::Load("맑은 고딕");
 	}
 
+	ContentsCore::CreateCylinderMesh();
 
 	//여기까지
 
@@ -390,4 +412,53 @@ void ContentsCore::ContentsResourcesCreate()
 	//	}
 	//}
 
+}
+
+void ContentsCore::CreateCylinderMesh()
+{
+	std::vector<GameEngineVertex> Vertices;
+	std::vector<UINT> Indices;
+
+	float Radius = 1.0f;    // 원기둥의 반지름
+	float Height = 2.0f * GameEngineMath::PIE;  // 원기둥의 높이 (원기둥 옆면을 펼쳤을 때, 정사각형이 되는 비율이 가장 좋다 생각해서 2PIE로 설정)
+	int NumSegments = 32;   // 원기둥의 세그먼트 수
+
+	for (int i = 0; i <= NumSegments; ++i)
+	{
+		float CurTheta = 2.0f * GameEngineMath::PIE * float(i) / float(NumSegments);
+		float CurX = Radius * cosf(CurTheta);
+		float CurZ = Radius * sinf(CurTheta);
+
+		// 상단 원기둥 버텍스
+		Vertices.push_back({ { CurX, Height * 0.5f, CurZ }, { i / float(NumSegments), 0.0f } });
+	}
+
+	// 하단 원기둥 버텍스
+	for (int i = 0; i <= NumSegments; ++i)
+	{
+		float CurTheta = 2.0f * GameEngineMath::PIE * float(i) / float(NumSegments);
+		float CurX = Radius * cosf(CurTheta);
+		float CurZ = Radius * sinf(CurTheta);
+
+		// 하단 원기둥 버텍스
+		Vertices.push_back({ { CurX, -Height * 0.5f, CurZ }, { i / float(NumSegments), 1.0f } });
+	}
+
+	for (int i = 0; i < NumSegments; i++)
+	{
+		Indices.push_back(i);
+		Indices.push_back(i + 1);
+		Indices.push_back(i + NumSegments + 1);
+	}
+
+	for (int i = 0; i < NumSegments; i++)
+	{
+		Indices.push_back(i + 1);
+		Indices.push_back(i + NumSegments + 2);
+		Indices.push_back(i + NumSegments + 1);
+	}
+
+	GameEngineVertexBuffer::Create("Cylinder", Vertices);
+	GameEngineIndexBuffer::Create("Cylinder", Indices);
+	GameEngineMesh::Create("Cylinder");
 }

@@ -1,10 +1,10 @@
 #pragma once
 
 #include <GameEngineCore/GameEngineComponent.h>
-#include "PhysXDefault.h"
+#include "PhysXComponent.h"
 
 // Ό³Έν :
-class PhysXBoxComponent : public GameEngineComponent, public PhysXDefault
+class PhysXBoxComponent : public PhysXComponent
 {
 public:
 	// constrcuter destructer
@@ -17,8 +17,8 @@ public:
 	PhysXBoxComponent& operator=(const PhysXBoxComponent& _Other) = delete;
 	PhysXBoxComponent& operator=(PhysXBoxComponent&& _Other) noexcept = delete;
 
-	void CreatePhysXActors(float4 _GeoMetryScale = float4(2.0f,2.0f,2.0f), float4 _GeoMetryRot = float4::ZERO, bool _Static = false);
-	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO,bool _Static = false);
+	void CreatePhysXActors(float4 _GeoMetryScale = float4(2.0f,2.0f,2.0f), float4 _GeoMetryRot = float4::ZERO, bool _Static = false) override;
+	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO,bool _Static = false) override;
 
 	void TurnOffSpeedLimit()
 	{

@@ -58,6 +58,12 @@
     <FxCompile Include="Rain.hlsl">
       <Filter>Effect</Filter>
     </FxCompile>
+    <FxCompile Include="GrayScale.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="FireShader.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

@@ -557,6 +557,16 @@ void Map_Office::Create_MainOfficeObject(std::shared_ptr<class GameEngineLevel> 
 	
 	{
 		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
+		const float4 Pos = float4{ 1080, 567, 3964 };
+		const float4 Rot = float4{ 0, 30, 0 };
+		float4 Ratio = float4{ 0.8f, 0.5f, 0.55f };
+		Obj->Set_MeshRatio(Ratio);
+		Obj->GetTransform()->SetLocalPosition(Pos);
+		Obj->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(Rot, Pos));
+	}
+
+	{
+		std::shared_ptr<Transform_Wall> Obj = CurLevel->CreateActor<Transform_Wall>();
 		const float4 Pos = float4{ 1300, 567, 4264 };
 		const float4 Rot = float4{ 0, 30, 0 };
 		float4 Ratio = float4{ 0.8f, 0.5f, 0.55f };

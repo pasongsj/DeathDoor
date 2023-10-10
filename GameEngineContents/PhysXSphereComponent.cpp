@@ -247,8 +247,10 @@ void PhysXSphereComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _Ge
 	m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
 
 	//ÇÇ¹þ ¼³Á¤
-	physx::PxVec3 DynamicCenter = physx::PxVec3{ 0.0f, ScaledHeight, 0.0f };
+	m_fShapeCenter = float4(0.f, ScaledHeight, 0.f);
+	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
+	DynamicCenter += m_f4DynamicPivot.PhysXVec3Return();
 	relativePose.p = DynamicCenter;
 	m_pShape->setLocalPose(relativePose);
 
@@ -328,8 +330,10 @@ void PhysXSphereComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _G
 	physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.01f);
 
 	//ÇÇ¹þ ¼³Á¤
-	physx::PxVec3 DynamicCenter = physx::PxVec3{ 0.0f, ScaledHeight, 0.0f };
+	m_fShapeCenter = float4(0.f, ScaledHeight, 0.f);
+	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
 	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
+	DynamicCenter += m_f4DynamicPivot.PhysXVec3Return();
 	relativePose.p = DynamicCenter;
 	m_pShape->setLocalPose(relativePose);
 
@@ -338,8 +342,8 @@ void PhysXSphereComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _G
 	(
 		physx::PxFilterData
 		(
-			static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle),
-			static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 
+			static_cast<physx::PxU32>(PhysXFilterGroup::None),
+			0,
 			0,
 			0
 		)
