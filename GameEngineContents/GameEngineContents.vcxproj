@@ -380,6 +380,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Railing.cpp" />
+    <ClCompile Include="RuinsWall.cpp" />
     <ClCompile Include="SecretTile.cpp" />
     <ClCompile Include="SemiCircleTable.cpp" />
     <ClCompile Include="ServerPacket.cpp" />
@@ -703,6 +704,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Railing.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="RuinsWall.h">
       <SubType>
       </SubType>
     </ClInclude>

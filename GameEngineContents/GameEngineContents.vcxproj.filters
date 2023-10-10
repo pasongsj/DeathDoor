@@ -331,6 +331,9 @@
     <ClCompile Include="ContentLevel.cpp">
       <Filter>Component\Level</Filter>
     </ClCompile>
+    <ClCompile Include="RuinsWall.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
     <ClCompile Include="Boss_OldCrowChain.cpp">
       <Filter>Contents\Boss\OldCrow\Actor</Filter>
     </ClCompile>
@@ -663,6 +666,9 @@
     </ClInclude>
     <ClInclude Include="ContentLevel.h">
       <Filter>Component\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="RuinsWall.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

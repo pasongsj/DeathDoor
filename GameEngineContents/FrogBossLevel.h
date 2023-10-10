@@ -34,7 +34,7 @@ private:
 	const float4 m_CameraRot = float4{ 40 , 10 , 0 };
 
 	void Set_PlayerStartPos();
-	const float4 m_StartPos = float4::ZERONULL;
+	const float4 m_StartPos = float4{ 0, 300, 0 } ;
 	// const float4 m_TestStartPos = float4{ 1869, 570, 4110 };
 
 
