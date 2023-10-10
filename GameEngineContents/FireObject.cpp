@@ -23,7 +23,6 @@ void FireObject::Start()
 	FireRender->GetShaderResHelper().SetConstantBufferLink("FireNoise", NoiseData);
 	FireRender->GetShaderResHelper().SetConstantBufferLink("DistortionData", DistortionData);
 
-	GetTransform()->SetLocalRotation({ 0.0f, -90.0f, 0.0f });
 
 	DistortionData.Distortion1 = { 0.1f, 0.2f };
 	DistortionData.Distortion2 = { 0.1f, 0.3f };
@@ -32,11 +31,35 @@ void FireObject::Start()
 
 void FireObject::Update(float _Delta)
 {
-	NoiseData.FrameTime += _Delta;
+	NoiseData.FrameTime += 0.5f * _Delta;
 
 	if (NoiseData.FrameTime >= 10.0f)
 	{
 		NoiseData.FrameTime -= 10.0f;
+	}
+
+	float4 CamPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
+	float4 FirePos = GetTransform()->GetWorldPosition();
+	
+	CamPos.y = 0.0f;
+	FirePos.y = 0.0f;
+
+	float4 Dir = CamPos - FirePos;
+	Dir.Normalize();
+
+	float4 DownLine = { 0.0f, 0.0f, -1.0f };
+
+	float Radian = DownLine.x * Dir.x + DownLine.y * Dir.y + DownLine.z * Dir.z;
+	float AcosRad = acos(Radian);
+	float Degree = AcosRad * 180 / GameEngineMath::PIE;
+
+	if (CamPos.x <= FirePos.x)
+	{
+		GetTransform()->SetWorldRotation({ 0.0f, -90 + Degree, 0.0f });
+	}
+	else
+	{
+		GetTransform()->SetWorldRotation({ 0.0f, -90 - Degree, 0.0f });
 	}
 }
 
