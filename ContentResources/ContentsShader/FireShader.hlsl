@@ -92,5 +92,12 @@ float4 Fire_PS(OutPut _Value) : SV_Target0
         clip(-1);
     }
     
-    return FireColor;
+    float GrayScale = (FireColor.r + FireColor.g + FireColor.b) / 3.0f;
+    
+    if(GrayScale <= 0.45f)
+    {
+        clip(-1);
+    }
+    
+    return ceil(FireColor * 5.0f) / 5.0f;
 }

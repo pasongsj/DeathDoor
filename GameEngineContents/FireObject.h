@@ -29,8 +29,8 @@ private:
 	struct Scales
 	{
 		float Scale_1 = 1.0f;
-		float Scale_2 = 1.0f;
-		float Scale_3 = 1.0f;
+		float Scale_2 = 2.0f;
+		float Scale_3 = 3.0f;
 	};
 
 	struct FireNoise

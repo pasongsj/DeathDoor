@@ -23,6 +23,8 @@ void PlayerAttackArrow::Start()
 	PhysXComp->SetShapeAxis(0,float4::LEFT);
 	AttackRenderer->GetTransform()->SetLocalScale(float4{1.0f,0.5f,1.0f});
 	AttackRenderer->GetTransform()->SetLocalRotation(float4{ 0.0f,-15.0f,-90.0f });
+
+	AttackRenderer->SetGlowToUnit(0, 0);
 }
 
 void PlayerAttackArrow::Update(float _DeltaTime)
