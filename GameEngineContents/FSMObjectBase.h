@@ -21,9 +21,10 @@ protected:
 
 	// state
 	template<typename Enumclass>
-	inline void SetNextState(Enumclass _Num) //다음 State 설정
+	inline void SetNextState(Enumclass _Num,bool _Force = false) //다음 State 설정
 	{
 		NextState = static_cast<int>(_Num);
+		ChangeStateForce = _Force;
 	}
 
 	template<typename Enumclass> // 현재 State Get
@@ -110,6 +111,8 @@ private:
 	// Update
 	float StateDuration = 0.0f;
 	bool StateChecker = false;
+
+	bool ChangeStateForce = false;
 
 };
 

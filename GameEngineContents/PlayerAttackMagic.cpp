@@ -21,10 +21,10 @@ void PlayerAttackMagic::Start()
 	AttackRenderer->SetFBXMesh("SphereDefault.fbx", "ContentMeshDeffered");
 	AttackRenderer->GetTransform()->SetLocalScale(PLAYER_ATT_MAGIC_RENDER_SCALE);
 	// PhysX
-	CreatePhysXAttComp<PhysXSphereComponent>(PLAYER_ATT_MAGIC_PHYSX_SCALE);
+	CreatePhysXAttComp<PhysXSphereComponent>(PLAYER_ATT_MAGIC_PHYSX_SCALE, PhysXFilterGroup::PlayerSkill);
 }
 
 void PlayerAttackMagic::Update(float _DeltaTime)
 {
-	PlayerAttackBase::Update(_DeltaTime);
+	AttackBase::Update(_DeltaTime);
 }

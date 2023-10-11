@@ -16,7 +16,7 @@ void FSMObjectBase::Update(float _DeltaTime)
 		return;
 	}
 
-	if (CurState != NextState)  // state가 변경되는 경우
+	if (CurState != NextState || true == ChangeStateForce)  // state가 변경되는 경우
 	{
 		if (FSMFunc.end() == FSMFunc.find(NextState))
 		{
@@ -41,6 +41,7 @@ void FSMObjectBase::Update(float _DeltaTime)
 			FSMFunc[NextState].Start();
 		}
 		CurState = NextState;
+		ChangeStateForce = false;
 	}
 	if (nullptr != FSMFunc[CurState].Update) // FSM Update
 	{

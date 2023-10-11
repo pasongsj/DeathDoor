@@ -232,9 +232,6 @@
     <ClCompile Include="Map_Fortress.cpp">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyFirePlant.cpp">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="BossBase.cpp">
       <Filter>Contents\Boss</Filter>
     </ClCompile>
@@ -295,10 +292,7 @@
     <ClCompile Include="FrogBossLevel.cpp">
       <Filter>Contents\FortressLevel</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerAttackBasic.cpp">
-      <Filter>FSMObject\Player\Att</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAttackBase.cpp">
+    <ClCompile Include="AttackBase.cpp">
       <Filter>FSMObject\Player\Att</Filter>
     </ClCompile>
     <ClCompile Include="PhysXComponent.cpp">
@@ -346,6 +340,16 @@
     <ClCompile Include="PlayerAttackTrail.cpp">
       <Filter>FSMObject\Player\Att\Trail</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyFirePlant.cpp">
+      <Filter>FSMObject\Enemy\FirePlant</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackBasic.cpp">
+      <Filter>FSMObject\Player\Att\basic</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttackSphere.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalValue.cpp" />
     <ClCompile Include="CullingObject.cpp">
       <Filter>CullingObject</Filter>
     </ClCompile>
@@ -582,9 +586,6 @@
     <ClInclude Include="Map_Fortress.h">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyFirePlant.h">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="BossBase.h">
       <Filter>Contents\Boss</Filter>
     </ClInclude>
@@ -640,16 +641,13 @@
     <ClInclude Include="EnemyBruteGold.h">
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerAttackBasic.h">
-      <Filter>FSMObject\Player\Att</Filter>
-    </ClInclude>
     <ClInclude Include="Map_Sanctuary.h">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
     <ClInclude Include="FrogBossLevel.h">
       <Filter>Contents\FortressLevel</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerAttackBase.h">
+    <ClInclude Include="AttackBase.h">
       <Filter>FSMObject\Player\Att</Filter>
     </ClInclude>
     <ClInclude Include="PhysXComponent.h">
@@ -693,6 +691,15 @@
     </ClInclude>
     <ClInclude Include="PlayerAttackDefinition.h">
       <Filter>FSMObject\Player\Att</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFirePlant.h">
+      <Filter>FSMObject\Enemy\FirePlant</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackBasic.h">
+      <Filter>FSMObject\Player\Att\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackSphere.h">
+      <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="CullingObject.h">
       <Filter>CullingObject</Filter>
@@ -854,6 +861,12 @@
     </Filter>
     <Filter Include="FSMObject\Player\Att\Trail">
       <UniqueIdentifier>{a1097523-1cc7-40ab-9835-68d7bd4a84c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Enemy\FirePlant">
+      <UniqueIdentifier>{a73d9ddb-b72b-4581-921a-549d1cf1fe2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Player\Att\basic">
+      <UniqueIdentifier>{bb3172d0-c76b-4346-8b35-cc75a24e3e37}</UniqueIdentifier>
     </Filter>
     <Filter Include="CullingObject">
       <UniqueIdentifier>{13870c6d-2456-4b2e-9636-fe4a1727d432}</UniqueIdentifier>
