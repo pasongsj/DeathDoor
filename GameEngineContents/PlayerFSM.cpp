@@ -183,7 +183,7 @@ void Player::SetFSMFunc()
 			{
 				if (nullptr != AttackActor)
 				{
-					AttackActor->isShoot = true;
+					AttackActor->SetShoot();
 					AttackActor = nullptr;
 				}
 				if (nullptr != WeaponActor)

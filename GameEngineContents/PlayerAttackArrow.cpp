@@ -18,21 +18,16 @@ void PlayerAttackArrow::Start()
 	AttackRenderer = CreateComponent< ContentFBXRenderer>();
 	AttackRenderer->SetFBXMesh("ARROW_MESH.fbx", "ContentMeshDeffered");
 	AttackRenderer->GetTransform()->SetLocalScale(PLAYER_ATT_ARROW_RENDER_SCALE);
+	AttackRenderer->GetTransform()->SetLocalRotation(PLAYER_ATT_ARROW_RENDER_ROT);
 	// PhysX
 	CreatePhysXAttComp<PhysXCapsuleComponent>(PLAYER_ATT_ARROW_PHYSX_SCALE);
 	PhysXComp->SetShapeAxis(0,float4::LEFT);
-	AttackRenderer->GetTransform()->SetLocalScale(float4{1.0f,0.5f,1.0f});
-	AttackRenderer->GetTransform()->SetLocalRotation(float4{ 0.0f,-15.0f,-90.0f });
 
 	AttackRenderer->SetGlowToUnit(0, 0);
 }
 
 void PlayerAttackArrow::Update(float _DeltaTime)
 {
-	if (IsShoot() == true)
-	{
-		AttackRenderer->GetTransform()->SetLocalRotation(float4{ 0.0f,-0.0f,-90.0f });
-	}
 	PlayerAttackBase::Update(_DeltaTime);
 }
 
