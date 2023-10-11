@@ -35,4 +35,5 @@ void SecretTile::InitComponent()
 	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
 	m_pPhysXComponent->SetDynamicPivot(float4{ 0.0f, -MeshScale.y , 0.0f });
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
+	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
 }
