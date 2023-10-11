@@ -28,8 +28,10 @@ void EnemyMage::InitAniamtion()
 	EnemyRenderer->ChangeAnimation("IDLE");
 	
 	float4 f4Scale = EnemyRenderer->GetMeshScale();
-	m_pCapsuleComp->CreatePhysXActors(f4Scale);
+	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+	m_pCapsuleComp->CreatePhysXActors(float4(50, 200, 50));
 	m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+	m_pCapsuleComp->TurnOffGravity();
 }
 
 
@@ -68,29 +70,29 @@ void EnemyMage::TeleportRandPos()
 	{
 		for (size_t j = 0; j < iVecSize; j++)
 		{
-			vec_RandGrid.push_back(float4(f4GridStart.x + m_fGridRange * i, f4GridStart.y + m_fGridRange * j));
+			vec_RandGrid.push_back(float4(f4GridStart.x + m_fGridRange * i, f4GridStart.z + m_fGridRange * j));
 		}
 	}
 
 	while (false == m_bPosSet)
 	{
-		int RandIndex = GameEngineRandom::MainRandom.RandomInt(0, vec_RandGrid.size());
+		int RandIndex = GameEngineRandom::MainRandom.RandomInt(0, vec_RandGrid.size()-1);
 
 		float4 ResultPos = vec_RandGrid[RandIndex]; 
 		ResultPos.x += m_fGridRange * 0.5f;
-		ResultPos.y += m_fGridRange * 0.5f;
-		ResultPos.z = f4PlayerPos.z;
+		ResultPos.z += m_fGridRange * 0.5f;
+		ResultPos.y = f4PlayerPos.y+10.f;
 
-		float4 RayCastPos = float4::ZERONULL;
+		float4 RayCastPos = float4::ZERO;
 
 		bool bGround = m_pCapsuleComp->RayCast(ResultPos, float4::DOWN, RayCastPos,100.f);
 
 		if (bGround == false)
 		{
-			ResultPos.y += 100.f;
 			bGround = m_pCapsuleComp->RayCast(ResultPos, float4::DOWN, RayCastPos, 100.f);
 			if (bGround == false)
 			{
+				m_bPosSet = true;
 				m_pCapsuleComp->SetWorldPosWithParent(f4PlayerPos+float4(10,10));
 			}
 			else
@@ -168,8 +170,7 @@ void EnemyMage::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			// teleport in  할 위치 선정
-			// 임시
+			TeleportRandPos();
 			SetNextState(EnemyMageState::TELEPORT_IN);
 		},
 		[this]
