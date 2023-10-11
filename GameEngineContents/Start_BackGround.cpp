@@ -13,7 +13,7 @@ Start_BackGround::~Start_BackGround()
 void Start_BackGround::Start()
 {
 	BakcGround = CreateComponent<ContentFBXRenderer>();
-	BakcGround->SetFBXMesh("UIBackGroundMap.fbx","ContentMesh");
+	BakcGround->SetFBXMesh("UIBackGroundMap.fbx","ContentMeshDeffered");
     BakcGround->GetTransform()->SetLocalRotation({ 0, 180.0f, 0 });
 
     auto AllUnit = BakcGround->GetAllRenderUnit();

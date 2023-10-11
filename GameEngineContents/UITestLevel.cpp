@@ -31,19 +31,17 @@ void UITestLevel::Start()
 
 	NewLight = CreateActor<GameEngineLight>();
 
-	GameEngineDirectory NewDir;
-	NewDir.MoveParentToDirectory("ContentResources");
-	NewDir.Move("ContentResources");
-	NewDir.Move("Mesh");
-	NewDir.Move("UI");
-
-	std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".FBX" });
-
-	for (size_t i = 0; i < Files.size(); i++)
-	{
-		GameEngineFBXMesh::Load(Files[i].GetFullPath());
-	}
-
+	//GameEngineDirectory NewDir;
+	//NewDir.MoveParentToDirectory("ContentResources");
+	//NewDir.Move("ContentResources\\Static\\UI");
+	//
+	//std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".FBX" });
+	//
+	//for (size_t i = 0; i < Files.size(); i++)
+	//{
+	//	GameEngineFBXMesh::Load(Files[i].GetFullPath());
+	//}
+	//
 	CreateScene();
 
 	GameEngineCoreWindow::AddDebugRenderTarget(0, "AllRenderTarget", GetMainCamera()->GetCamAllRenderTarget());

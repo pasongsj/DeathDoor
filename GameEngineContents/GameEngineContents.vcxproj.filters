@@ -822,6 +822,9 @@
     <Filter Include="Component\Level">
       <UniqueIdentifier>{81902642-70f0-4525-85b9-21fe176eb5a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FSMObject\Player\Att\Trail">
+      <UniqueIdentifier>{a1097523-1cc7-40ab-9835-68d7bd4a84c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="PhysX 사용법.txt">

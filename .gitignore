@@ -363,7 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 /App/imgui.ini
 /ContentResources/MapInfo/TMP
-/ContentResources/Mesh/Map/Office/UIBackGroundMap.fbx
-/ContentResources/Mesh/Map/Office/Cube14.fbx
-/ContentResources/Mesh/Map/Office/Map_Office.fbx
-/ContentResources/Mesh/Map/Fortress/Fortress_NotMonster.fbx
+/ContentResources/Mesh/Static/Map/Office/UIBackGroundMap.fbx
+/ContentResources/Mesh/Static/Map/Office/Cube14.fbx
+/ContentResources/Mesh/Static/Map/Office/Map_Office.fbx
+/ContentResources/Mesh/Static/Map/Fortress/Fortress_NotMonster.fbx
