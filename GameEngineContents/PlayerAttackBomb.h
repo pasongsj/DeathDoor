@@ -1,8 +1,8 @@
 #pragma once
-#include "PlayerAttackBase.h"
+#include "AttackBase.h"
 
 // Ό³Έν :
-class PlayerAttackBomb : public PlayerAttackBase
+class PlayerAttackBomb : public AttackBase
 {
 public:
 	// constrcuter destructer

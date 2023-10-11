@@ -1,5 +1,5 @@
 #include "PreCompileHeader.h"
-#include "PlayerAttackBase.h"
+#include "AttackBase.h"
 
 #include "ContentFBXRenderer.h"
 
@@ -7,21 +7,21 @@
 #include "PhysXBoxComponent.h"
 #include "PhysXSphereComponent.h"
 
-PlayerAttackBase::PlayerAttackBase()
+AttackBase::AttackBase()
 {
 }
 
-PlayerAttackBase::~PlayerAttackBase()
+AttackBase::~AttackBase()
 {
 }
 
 
-void PlayerAttackBase::Start()
+void AttackBase::Start()
 {
 
 }
 
-void PlayerAttackBase::Update(float _DeltaTime)
+void AttackBase::Update(float _DeltaTime)
 {
 	if (false == isShoot)
 	{
@@ -33,13 +33,13 @@ void PlayerAttackBase::Update(float _DeltaTime)
 		return;
 	}
 	PhysXComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-	PhysXComp->SetMoveSpeed(Dir * 1500.0f);
+	PhysXComp->SetMoveSpeed(Dir * ShootSpeed);
 	isPhysXCollision = 0;
 
 }
 
 
-void PlayerAttackBase::SetTrans(const float4& _Dir, const float4& _Pos)
+void AttackBase::SetTrans(const float4& _Dir, const float4& _Pos)
 {
 	if (true == _Dir.IsZero())
 	{

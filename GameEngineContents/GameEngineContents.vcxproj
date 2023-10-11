@@ -210,6 +210,10 @@
     </ClCompile>
     <ClCompile Include="Conveyor.cpp" />
     <ClCompile Include="Crate.cpp" />
+    <ClCompile Include="EnemyAttackSphere.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CullingManager.cpp" />
     <ClCompile Include="CullingObject.cpp" />
     <ClCompile Include="CullingTrigger.cpp" />
@@ -258,6 +262,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
+    <ClCompile Include="GlobalValue.cpp" />
     <ClCompile Include="GlowEffect.cpp">
       <SubType>
       </SubType>
@@ -358,7 +363,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PlayerAttackBase.cpp">
+    <ClCompile Include="AttackBase.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -492,6 +497,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Crate.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackSphere.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -701,7 +710,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PlayerAttackBase.h">
+    <ClInclude Include="AttackBase.h">
       <SubType>
       </SubType>
     </ClInclude>

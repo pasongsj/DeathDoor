@@ -20,7 +20,7 @@ void PlayerAttackArrow::Start()
 	AttackRenderer->GetTransform()->SetLocalScale(PLAYER_ATT_ARROW_RENDER_SCALE);
 	AttackRenderer->GetTransform()->SetLocalRotation(PLAYER_ATT_ARROW_RENDER_ROT);
 	// PhysX
-	CreatePhysXAttComp<PhysXCapsuleComponent>(PLAYER_ATT_ARROW_PHYSX_SCALE);
+	CreatePhysXAttComp<PhysXCapsuleComponent>(PLAYER_ATT_ARROW_PHYSX_SCALE, PhysXFilterGroup::PlayerSkill);
 	PhysXComp->SetShapeAxis(0,float4::LEFT);
 
 	AttackRenderer->SetGlowToUnit(0, 0);
@@ -28,6 +28,6 @@ void PlayerAttackArrow::Start()
 
 void PlayerAttackArrow::Update(float _DeltaTime)
 {
-	PlayerAttackBase::Update(_DeltaTime);
+	AttackBase::Update(_DeltaTime);
 }
 
