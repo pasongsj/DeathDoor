@@ -340,8 +340,17 @@
     <ClCompile Include="Boss_OldCrow.cpp">
       <Filter>Contents\Boss\OldCrow</Filter>
     </ClCompile>
+    <ClCompile Include="CullingManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
     <ClCompile Include="PlayerAttackTrail.cpp">
       <Filter>FSMObject\Player\Att\Trail</Filter>
+    </ClCompile>
+    <ClCompile Include="CullingObject.cpp">
+      <Filter>CullingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CullingTrigger.cpp">
+      <Filter>CullingObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -676,11 +685,20 @@
     <ClInclude Include="RuinsWall.h">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
+    <ClInclude Include="CullingManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
     <ClInclude Include="PlayerAttackTrail.h">
       <Filter>FSMObject\Player\Att\Trail</Filter>
     </ClInclude>
     <ClInclude Include="PlayerAttackDefinition.h">
       <Filter>FSMObject\Player\Att</Filter>
+    </ClInclude>
+    <ClInclude Include="CullingObject.h">
+      <Filter>CullingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CullingTrigger.h">
+      <Filter>CullingObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -831,8 +849,14 @@
     <Filter Include="Component\Level">
       <UniqueIdentifier>{81902642-70f0-4525-85b9-21fe176eb5a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{09844ced-1852-4494-a259-6271cbf494a5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="FSMObject\Player\Att\Trail">
       <UniqueIdentifier>{a1097523-1cc7-40ab-9835-68d7bd4a84c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CullingObject">
+      <UniqueIdentifier>{13870c6d-2456-4b2e-9636-fe4a1727d432}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

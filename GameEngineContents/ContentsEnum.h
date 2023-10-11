@@ -16,4 +16,6 @@ enum class PhysXFilterGroup //PhysX 충돌 용 그룹
 	LeverTrigger = (1 << 4 ),	    // Frog_Lever			0000 0000 0001 0000
 	PlayerSkill = (1 << 5),			//						0000 0000 0010 0000
 	MonsterDynamic = (1 << 6),		//						0000 0000 0100 0000
+	CullingObject = (1 << 7),       // test                 0000 0000 1000 0000
+	
 };

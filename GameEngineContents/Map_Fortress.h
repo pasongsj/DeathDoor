@@ -40,6 +40,10 @@ private:
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pNaviRenderer = nullptr;
 
+	// 컬링오브젝트 테스트 코드
+	std::shared_ptr<class CullingObject> m_pCullingObj = nullptr;
+
+
 	// Section 
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Section1 = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Section2 = nullptr;
