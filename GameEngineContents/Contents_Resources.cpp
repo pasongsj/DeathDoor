@@ -24,9 +24,6 @@ void ContentsCore::ContentsResourcesCreate()
 		{
 			GameEngineShader::AutoCompile(Files[i]);
 		}
-
-		//GameEngineVertexShader::Load(Files[0].GetFullPath(), "MyShader_VS");
-		//GameEnginePixelShader::Load(Files[0].GetFullPath(), "MyShader_PS");
 	}
 
 
@@ -93,8 +90,6 @@ void ContentsCore::ContentsResourcesCreate()
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshForward");
 
-		//Pipe->SetVertexBuffer("FullRect");
-		//Pipe->SetIndexBuffer("FullRect");
 		Pipe->SetVertexShader("ContentMeshForward.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("ContentMeshForward.hlsl");
@@ -105,8 +100,6 @@ void ContentsCore::ContentsResourcesCreate()
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshDeffered");
 
-		//Pipe->SetVertexBuffer("FullRect");
-		//Pipe->SetIndexBuffer("FullRect");
 		Pipe->SetVertexShader("ContentMeshDeffered.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("ContentMeshDeffered.hlsl");
@@ -117,8 +110,6 @@ void ContentsCore::ContentsResourcesCreate()
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentAniMeshForward");
 
-		//Pipe->SetVertexBuffer("FullRect");
-		//Pipe->SetIndexBuffer("FullRect");
 		Pipe->SetVertexShader("ContentAnitMeshForward.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("ContentAnitMeshForward.hlsl");
@@ -129,8 +120,6 @@ void ContentsCore::ContentsResourcesCreate()
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentAniMeshDeffered");
 
-		//Pipe->SetVertexBuffer("FullRect");
-		//Pipe->SetIndexBuffer("FullRect");
 		Pipe->SetVertexShader("ContentAniMeshDeffered.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("ContentAniMeshDeffered.hlsl");
@@ -141,8 +130,6 @@ void ContentsCore::ContentsResourcesCreate()
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Content2DTexture");
 
-		//Pipe->SetVertexBuffer("FullRect");
-		//Pipe->SetIndexBuffer("FullRect");
 		Pipe->SetVertexShader("ContentTextureShader.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("ContentTextureShader.hlsl");
@@ -285,8 +272,7 @@ void ContentsCore::ContentsResourcesCreate()
 
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("DebugRect");
-		//Pipe->SetVertexBuffer("Rect");
-		//Pipe->SetIndexBuffer("Rect");
+
 		Pipe->SetVertexShader("DebugMeshRender.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("DebugMeshRender.hlsl");
@@ -319,55 +305,43 @@ void ContentsCore::ContentsResourcesCreate()
 	//	Pipe->SetDepthState("EngineDepth");
 	//}
 
+	//FBX STATIC MESH LOAD
 	{
 		GameEngineDirectory NewDir;
 		NewDir.MoveParentToDirectory("ContentResources");
-		NewDir.Move("ContentResources");
-		NewDir.Move("Mesh");
-		NewDir.Move("Characters");
-
+		NewDir.Move("ContentResources\\Mesh\\Static");
 		std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".FBX" });
-		
 		for (size_t i = 0; i < Files.size(); i++)
 		{
 			GameEngineFBXMesh::Load(Files[i].GetFullPath());
 		}
-		
+	}
 
-		// ----------------------------------- Map -------------------------------------
-		NewDir.MoveParent();
-		NewDir.Move("Map");
-		NewDir.Move("Office");
-		
-		std::vector<GameEngineFile> MapOfficeFiles = NewDir.GetAllFile({ ".FBX" });
-		
-		for (size_t i = 0; i < MapOfficeFiles.size(); i++)
+	// FBX ANIMATOR MESH LOAD
+	{
+		GameEngineDirectory NewDir;
+		NewDir.MoveParentToDirectory("ContentResources");
+		NewDir.Move("ContentResources\\Mesh\\Animator");
+		std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".FBX" });
+		for (size_t i = 0; i < Files.size(); i++)
 		{
-			GameEngineFBXMesh::Load(MapOfficeFiles[i].GetFullPath());
-		}
-
-		NewDir.MoveParent();
-		NewDir.Move("Fortress");
-
-		std::vector<GameEngineFile> MapFortressFiles = NewDir.GetAllFile({ ".FBX" });
-
-		for (size_t i = 0; i < MapFortressFiles.size(); i++)
-		{
-			GameEngineFBXMesh::Load(MapFortressFiles[i].GetFullPath());
-		}
-
-
-		NewDir.MoveParent();
-		NewDir.MoveParent();
-		NewDir.Move("Animations");
-		
-		std::vector<GameEngineFile> PlayerFiles = NewDir.GetAllFile({ ".FBX" });
-		
-		for (size_t i = 0; i < PlayerFiles.size(); i++)
-		{
-			GameEngineFBXAnimation::Load(PlayerFiles[i].GetFullPath());
+			GameEngineFBXMesh::Load(Files[i].GetFullPath());
 		}
 	}
+
+
+	// FBX ANIMATION MESH LOAD
+	{
+		GameEngineDirectory NewDir;
+		NewDir.MoveParentToDirectory("ContentResources");
+		NewDir.Move("ContentResources\\Mesh\\Animation");
+		std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".FBX" });
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFBXAnimation::Load(Files[i].GetFullPath());
+		}
+	}
+
 
 
 	{

@@ -18,8 +18,8 @@ void ServerTestLevel::Start()
 	SetLevelType(PacketLevelType::ServerTestLevel);
 	//CreateActor<TestObject>();
 
-	std::shared_ptr<TestObject> TestObj = CreateActor<TestObject>();
-	TestObj->SetUserControlType();
+	//std::shared_ptr<TestObject> TestObj = CreateActor<TestObject>();
+	//TestObj->SetUserControlType();
 }
 
 void ServerTestLevel::Update(float _DeltaTime)
