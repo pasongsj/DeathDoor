@@ -20,4 +20,4 @@ powershell expand-archive -force ContentResources\Zip\UIBackGroundMap.zip Conten
 powershell expand-archive -force ContentResources\Zip\Cube14.zip ContentResources\Mesh\Static\Map\Office
 
 
-powershell expand-archive -force ContentResources\Zip\Map_Office.zip ContentResources\Static\Mesh\Map\Office
+powershell expand-archive -force ContentResources\Zip\Map_Office.zip ContentResources\Mesh\Static\Map\Office
