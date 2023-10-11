@@ -1,6 +1,7 @@
 #include "PreCompileHeader.h"
 #include "EnemyFirePlant.h"
 #include "PhysXCapsuleComponent.h"
+#include "EnemyAttackSphere.h"
 
 EnemyFirePlant::EnemyFirePlant()
 {
@@ -17,6 +18,17 @@ void EnemyFirePlant::InitAniamtion()
 
 	EnemyRenderer->CreateFBXAnimation("IDLE", "_E_FIREPLANT_IDLE.fbx", { 0.02f,true });
 	EnemyRenderer->CreateFBXAnimation("BITE", "_E_FIREPLANT_BITE.fbx", { 0.02f,false });
+	EnemyRenderer->SetAnimationStartFunc("BITE", 30, [this]
+		{
+			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
+			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
+			BonePivot->GetTransform()->SetParent(GetTransform());
+			BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("Spine_010").Pos);
+			float4 TmpPos = BonePivot->GetTransform()->GetWorldPosition();
+			Attack->SetTrans(ShootDir, TmpPos);
+			BonePivot->Death();
+			
+		});
 	EnemyRenderer->CreateFBXAnimation("HIT", "_E_FIREPLANT_HIT.fbx", { 0.04f,false });
 	EnemyRenderer->CreateFBXAnimation("DIE", "_E_FIREPLANT_DIE.fbx", { 0.02f,false });
 	EnemyRenderer->ChangeAnimation("IDLE");
@@ -32,25 +44,13 @@ void EnemyFirePlant::Start()
 	// physx
 	{
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
-		//m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_FIREPLANT, DEFAULT_DIR_FIREPLANT, true);
-		//m_pCapsuleComp->TurnOffGravity();
+		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_FIREPLANT, DEFAULT_DIR_FIREPLANT, true); // static으로 생성
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic, PhysXFilterGroup::PlayerSkill);
-
 	}
 	SetFSMFUNC();
 
 }
-//bool EnemyFirePlant::CheckAttack()
-//{
-//	UINT HitFromPlayer = static_cast<UINT>(isPhysXCollision);
-//	
-//	if ( 0 < (HitFromPlayer & static_cast<UINT>(PhysXFilterGroup::PlayerSkill)))
-//	{
-//		return true;
-//	}
-//	return false;
-//}
+
 
 void EnemyFirePlant::Update(float _DeltaTime)
 {
@@ -75,9 +75,9 @@ void EnemyFirePlant::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))
+			if (true == CheckHit())
 			{
-				SetNextState(EnemyFireFlowerState::HIT);
+				SetNextState(EnemyFireFlowerState::HIT,true);
 				return;
 			}
 			if (true == InRangePlayer(1000.0f))
@@ -95,12 +95,14 @@ void EnemyFirePlant::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("BITE");
+			GetTransform()->SetLocalRotation(GetRotationDegree(DEFAULT_DIR_FIREPLANT));
+			ShootDir = GetPlayerDir();
  			//AggroDir(m_pCapsuleComp, DEFAULT_DIR_FIREPLANT);
 			// fire 투사체 발사 
 		},
 		[this](float Delta)
 		{
-			if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))
+			if (true == CheckHit())
 			{
 				SetNextState(EnemyFireFlowerState::HIT);
 				return;
@@ -124,6 +126,11 @@ void EnemyFirePlant::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))
+			{
+				SetNextState(EnemyFireFlowerState::HIT, true);
+				return;
+			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(EnemyFireFlowerState::IDLE);

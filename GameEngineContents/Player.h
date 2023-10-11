@@ -135,7 +135,7 @@ private:
 	void DefaultPhysX();
 
 	// Attack
-	std::shared_ptr< class PlayerAttackBase> AttackActor = nullptr;
+	std::shared_ptr< class AttackBase> AttackActor = nullptr;
 
 	// WeaponRender
 	std::shared_ptr<class PlayerBow> WeaponActor = nullptr;
