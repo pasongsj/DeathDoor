@@ -13,6 +13,7 @@
 
 
 #include "PlayerBow.h"
+#include "PlayerAttackTrail.h"
 
 
 void Player::SetFSMFunc()
@@ -256,10 +257,20 @@ void Player::SetFSMFunc()
 				AttackActor = GetLevel()->CreateActor<PlayerAttackBasic>();
 				float4 AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 200.0f + float4{ 0.0f,50.0f,0.0f };
 				AttackActor->SetTrans(float4::ONE, AttackPos);
-				/*AttackBoxComponent->SetWorldPosWithParent(Trans->GetWorldPosition() + Trans->GetWorldBackVector() * SizeofBox + float4{ 0.0f,50.0f,0.0f });
-				AttackActor->*/
 			}
-			//AttackRange->On();
+			
+			{
+				//attack trail
+				std::shared_ptr< PlayerAttackTrail> Trail = GetLevel()->CreateActor< PlayerAttackTrail>();
+				if (true == isChargeAttack)
+				{
+					Trail->CreateTrail(MoveDir, GetTransform()->GetWorldPosition(),false);
+				}
+				else
+				{
+					Trail->CreateTrail(MoveDir, GetTransform()->GetWorldPosition(),true);
+				}
+			}
 		},
 		[this](float Delta)
 		{
@@ -275,6 +286,7 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			//AttackRange->Off();
+			isChargeAttack = false;
 		}
 	); 
 
@@ -372,6 +384,8 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			isChargeAttack = true;
+			 
 		}
 	); 
 

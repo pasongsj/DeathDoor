@@ -340,6 +340,9 @@
     <ClCompile Include="Boss_OldCrow.cpp">
       <Filter>Contents\Boss\OldCrow</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerAttackTrail.cpp">
+      <Filter>FSMObject\Player\Att\Trail</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -672,6 +675,12 @@
     </ClInclude>
     <ClInclude Include="RuinsWall.h">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackTrail.h">
+      <Filter>FSMObject\Player\Att\Trail</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackDefinition.h">
+      <Filter>FSMObject\Player\Att</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
