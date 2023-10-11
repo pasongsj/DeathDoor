@@ -34,6 +34,13 @@ private:
 		MAX
 	};
 
+	void TeleportRandPos();
 
 	void SetFSMFUNC();
+
+	float m_fTeleportRange = 1500.f;
+	float m_fGridRange = 300.f;
+	std::vector<float4> vec_RandGrid;
+	bool m_bPosSet = false;
+
 };
