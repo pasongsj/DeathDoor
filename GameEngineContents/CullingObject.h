@@ -27,7 +27,6 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-
 	bool m_bIsCulling = true;
 	
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
