@@ -163,7 +163,7 @@ void FrogFloor::Create_WallObject()
 	{
 		std::shared_ptr<RuinsWall> Obj = CurLevel->CreateActor<RuinsWall>();
 		Obj->GetTransform()->SetLocalRotation(float4{ 0, 50, 0 });
-		Obj->GetTransform()->SetLocalPosition(float4{ -3920, -322, 4730 });
+		Obj->GetTransform()->SetLocalPosition(float4{ -3920, -322, 4770 });
 		Obj->GetTransform()->SetParent(GetTransform());
 	}
 }

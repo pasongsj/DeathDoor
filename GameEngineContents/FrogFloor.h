@@ -52,7 +52,7 @@ private:
 
 	// tile
 	std::vector<std::shared_ptr<class SecretTile>> m_vTiles = std::vector<std::shared_ptr<class SecretTile>>();
-	const float4 m_TileInitPos = float4{ -390, 25, 725 };
+	const float4 m_TileInitPos = float4{ -390, 55, 725 };
 	int m_iTileSize = 25;
 	float m_fTileMovePos = 396.0f;
 
