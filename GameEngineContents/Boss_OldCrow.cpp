@@ -238,7 +238,7 @@ std::shared_ptr<Boss_OldCrowChain> Boss_OldCrow::GetChain()
 	}
 
 	std::shared_ptr<Boss_OldCrowChain> Chain = GetLevel()->CreateActor<Boss_OldCrowChain>();
-	Chain->Setting(Chains.size());
+	Chain->Setting(static_cast<int>(Chains.size()));
 	Chain->OnRenderer();
 
 	Chains.push_back(Chain);

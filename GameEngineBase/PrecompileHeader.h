@@ -26,12 +26,15 @@
 #include <d3dcompiler.h>
 #include <DirectXPackedVector.h>
 
-
 #pragma comment (lib, "ws2_32") // <= 윈도우 서버 사용을 위한 라이브러리
+
+using uint = unsigned int;
+
 
 
 //PhysX 4.1
 #pragma warning(disable : 4996)
+#pragma warning(disable : 4099)
 #include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxConfig.h>
 #include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxPhysicsAPI.h>
 #include <GameEngineCore/ThirdParty/PhysX_4_1/inc/PhysX/PxPhysXConfig.h>
@@ -47,3 +50,4 @@
 #include <PhysXSDKSnippets/SnippetUtils.h>
 #include <PhysXSDKSnippets/SnippetPrint.h>
 #include <PhysXSDKSnippets/SnippetPVD.h>
+

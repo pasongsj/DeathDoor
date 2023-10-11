@@ -162,6 +162,8 @@
     <FxCompile Include="MergeShader.hlsl" />
     <FxCompile Include="MeshTextureAlpha.hlsl" />
     <FxCompile Include="MeshTextureDeferred.hlsl" />
+    <FxCompile Include="Particle.hlsl" />
+    <FxCompile Include="ParticleUpdate.fx" />
     <FxCompile Include="RenderBaseValue.fx" />
     <FxCompile Include="Shadow.hlsl" />
     <FxCompile Include="TextureShader.hlsl" />

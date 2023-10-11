@@ -61,6 +61,9 @@ void GameEngineCore::CoreResourcesInit()
 	GameEngineVertex::LayOut.AddInputLayOut("BLENDWEIGHT", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT); // 48
 	GameEngineVertex::LayOut.AddInputLayOut("BLENDINDICES", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_SINT); // 48
 
+	GameEngineVertexParticle::LayOut.AddInputLayOut("POSITION", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	GameEngineVertexParticle::LayOut.AddInputLayOut("PINDEX", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_SINT); // 48
+
 	//typedef struct D3D11_INPUT_ELEMENT_DESC
 	//{
 	//	LPCSTR SemanticName; = "POSITION"

@@ -76,7 +76,7 @@ void EnemyMage::TeleportRandPos()
 
 	while (false == m_bPosSet)
 	{
-		int RandIndex = GameEngineRandom::MainRandom.RandomInt(0, vec_RandGrid.size()-1);
+		int RandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(vec_RandGrid.size()-1));
 
 		float4 ResultPos = vec_RandGrid[RandIndex]; 
 		ResultPos.x += m_fGridRange * 0.5f;
