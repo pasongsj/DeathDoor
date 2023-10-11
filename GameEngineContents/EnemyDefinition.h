@@ -29,21 +29,3 @@
 #define PHYSXSCALE_GHOUL		float4{0.0f, 90.0f, 60.0f}
 #define PHYSXSCALE_GRUNT		float4{0.0f, 90.0f, 60.0f}
 #define PHYSXSCALE_MAGE			float4{0.0f, 120.0f, 80.0f}
-//
-//#define ENEMY_BRUTE_RENDER_SCALE 30.0f
-//#define ENEMY_BRUTE_PHYSX_SCALE float4{0.0f, 150.0f, 120.0f}
-//
-//#define ENEMY_BRUTEGOLD_RENDER_SCALE 30.0f
-//#define ENEMY_BRUTEGOLD_PHYSX_SCALE float4{0.0f, 150.0f, 120.0f}
-//
-//#define ENEMY_FIREPLANT_RENDER_SCALE 120.0f
-//#define ENEMY_FIREPLANT_PHYSX_SCALE float4{0.0f, 120.0f, 80.0f}
-//
-//#define ENEMY_GHOUL_RENDER_SCALE 130.0f
-//#define ENEMY_GHOUL_PHYSX_SCALE float4{0.0f, 90.0f, 60.0f}
-//
-//#define ENEMY_GRUNT_RENDER_SCALE 25.0f
-//#define ENEMY_GRUNT_PHYSX_SCALE float4{0.0f, 90.0f, 60.0f}
-//
-//#define ENEMY_MAGE_RENDER_SCALE 50.0f
-//#define ENEMY_MAGE_PHYSX_SCALE float4{0.0f, 120.0f, 80.0f}

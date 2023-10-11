@@ -19,6 +19,13 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+	void SetShoot() override
+	{
+		PlayerAttackBase::SetShoot();
+		AttackRenderer->GetTransform()->SetLocalRotation(float4{ 0.0f,-0.0f,-90.0f });
+		AttackRenderer->GetTransform()->SetLocalScale(float4{ 2.5f,0.8f,2.5f });
+	}
+
 private:
 
 };

@@ -33,7 +33,7 @@ void PlayerAttackBase::Update(float _DeltaTime)
 		return;
 	}
 	PhysXComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-	PhysXComp->SetMoveSpeed(Dir * 1000.0f);
+	PhysXComp->SetMoveSpeed(Dir * 1500.0f);
 	isPhysXCollision = 0;
 
 }
