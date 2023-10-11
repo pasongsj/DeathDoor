@@ -28,6 +28,11 @@ void PlayerAttackArrow::Start()
 
 void PlayerAttackArrow::Update(float _DeltaTime)
 {
+	if (true == CheckCollision(PhysXFilterGroup::Obstacle))
+	{
+		Death();
+		return;
+	}
 	AttackBase::Update(_DeltaTime);
 }
 
