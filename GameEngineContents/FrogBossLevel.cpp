@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "Map_Sanctuary.h"
 
+
+
 FrogBossLevel::FrogBossLevel()
 {
 }
@@ -14,7 +16,7 @@ FrogBossLevel::~FrogBossLevel()
 }
 
 void FrogBossLevel::Start()
-{
+{	
 	InitKey();
 }
 

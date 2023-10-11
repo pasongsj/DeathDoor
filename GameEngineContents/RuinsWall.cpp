@@ -32,5 +32,6 @@ void RuinsWall::InitComponent()
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
 	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
+	m_pPhysXComponent->SetDynamicPivot(float4{ 0.0f, -MeshScale.y / 2.0f, 0.0f });
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 }

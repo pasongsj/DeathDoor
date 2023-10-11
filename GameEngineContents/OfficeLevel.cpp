@@ -28,7 +28,7 @@ void OfficeLevel::Start()
 	GameEngineCoreWindow::AddDebugRenderTarget(3, "DeferredTarget", GetMainCamera()->GetCamDeferrdTarget());
 
 	SetPointLight();
-	SetPostPrecessEffect();
+	SetPostPrecessEffect();	
 }
 
 

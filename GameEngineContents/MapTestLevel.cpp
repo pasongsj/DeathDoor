@@ -89,13 +89,16 @@ void MapTestLevel::InitTestLevel()
 	case TestMapType::BigCrow_Floor:
 	{
 		GetMainCamera()->GetTransform()->SetLocalPosition(float4{ 0, 700, -2500 });
-		CreateActor<SecretTile>();
-		GetLevel()->CreateActor<Crate>();
+		std::shared_ptr<SecretTile> NewTile = CreateActor<SecretTile>();
+		NewTile->GetTransform()->SetLocalPosition(float4{ -400, 100 , 0 });
+
+		std::shared_ptr<Crate> NewCrate = GetLevel()->CreateActor<Crate>();
+		NewCrate->GetTransform()->SetLocalPosition(float4{ 400, 0 , 0 });
 
 		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
-		NewLadder->GetTransform()->SetLocalRotation(float4{ 0, 90 , 0 });
-		NewLadder->GetTransform()->SetWorldPosition(float4{ 500, 50, -400 });
-		NewLadder->GetPhysXComponent()->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4{ 0, 90 , 0 }, float4{ 500, 50, -400 }));
+		NewLadder->GetTransform()->SetLocalRotation(float4{ 0, 90,  0 });
+		NewLadder->GetTransform()->SetLocalPosition(float4{ 800, 0 , 0 });
+		
 
 		// std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
 
