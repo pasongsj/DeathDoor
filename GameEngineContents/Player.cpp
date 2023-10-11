@@ -180,7 +180,7 @@ void Player::ModifyHeight()
 	float4 CollPoint = float4::ZERO; // 충돌체크할 변수
 	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 	{
-		if (PlayerGroundPos.y > CollPoint.y + 70.0f) // 플레이어가 허공에 떠있다면 
+		if (PlayerGroundPos.y > CollPoint.y + 30.0f) // 플레이어가 허공에 떠있다면 
 		{
 			MoveUpdate(300.0f, float4::DOWN); // 아래로 눌러줌
 			return;
@@ -196,7 +196,7 @@ void Player::CheckFalling()
 	float4 CollPoint = float4::ZERO; // 충돌체크할 변수
 	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f)) // 플레이어 위치에서 float4::DOWN 방향으로 2000.0f 길이만큼 체크한다.
 	{
-		if (PlayerGroundPos.y > CollPoint.y + 300.0f) // 300.0 이상 차이가 나는경우 falling state로 변경한다.
+		if (PlayerGroundPos.y > CollPoint.y + 100.0f) // 300.0 이상 차이가 나는경우 falling state로 변경한다.
 		{
 			SetNextState(PlayerState::FALLING);
 			return;
