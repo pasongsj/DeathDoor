@@ -14,10 +14,10 @@ powershell expand-archive -force GameEngineCore\ThirdParty\FBX\lib\x64\Release\l
 powershell expand-archive -force GameEngineCore\ThirdParty\FBX\lib\x64\Release\libfbxsdk-mt.zip GameEngineCore\ThirdParty\FBX\lib\x64\Release\
 
 
-powershell expand-archive -force ContentResources\Zip\UIBackGroundMap.zip ContentResources\Mesh\Map\Office
+powershell expand-archive -force ContentResources\Zip\UIBackGroundMap.zip ContentResources\Mesh\Static\Map\Office
 
 
-powershell expand-archive -force ContentResources\Zip\Cube14.zip ContentResources\Mesh\Map\Office
+powershell expand-archive -force ContentResources\Zip\Cube14.zip ContentResources\Mesh\Static\Map\Office
 
 
-powershell expand-archive -force ContentResources\Zip\Map_Office.zip ContentResources\Mesh\Map\Office
+powershell expand-archive -force ContentResources\Zip\Map_Office.zip ContentResources\Static\Mesh\Map\Office
