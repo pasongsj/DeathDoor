@@ -28,6 +28,7 @@ private:
 	{
 		IDLE,
 		SHOOT,
+		WAIT_TELEPORT,
 		TELEPORT,// 사라짐
 		TELEPORT_IN, // 등장
 		DEATH,
@@ -38,9 +39,10 @@ private:
 
 	void SetFSMFUNC();
 
-	float m_fTeleportRange = 1500.f;
+	float m_fTPWaitTime = 2.f;
+	float m_fTeleportRange = 750.f;
 	float m_fGridRange = 300.f;
-	std::vector<float4> vec_RandGrid;
-	bool m_bPosSet = false;
+	std::vector<float4> m_vecRandGrid;
+	UINT m_iCheckCount = 0;
 
 };
