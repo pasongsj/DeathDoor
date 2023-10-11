@@ -210,6 +210,9 @@
     </ClCompile>
     <ClCompile Include="Conveyor.cpp" />
     <ClCompile Include="Crate.cpp" />
+    <ClCompile Include="CullingManager.cpp" />
+    <ClCompile Include="CullingObject.cpp" />
+    <ClCompile Include="CullingTrigger.cpp" />
     <ClCompile Include="EnemyBase.cpp">
       <SubType>
       </SubType>
@@ -489,6 +492,18 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Crate.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CullingManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CullingObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CullingTrigger.h">
       <SubType>
       </SubType>
     </ClInclude>

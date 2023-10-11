@@ -14,6 +14,8 @@
 #include "Crate.h"
 #include "Ladder.h"
 
+#include "CullingObject.h"
+
 
 Map_Fortress::Map_Fortress()
 {
@@ -107,7 +109,19 @@ void Map_Fortress::Create_Ground()
 
 void Map_Fortress::Create_Partition()
 {
-	m_pRenderer_Part1 = CreateComponent<ContentFBXRenderer>();
+	GameEngineLevel* CurLevel = GetLevel();
+	if (nullptr == CurLevel)
+	{
+		MsgAssert("현재 레벨이 nullptr 입니다.");
+		return;
+	}
+
+	m_pCullingObj = CurLevel->CreateActor<CullingObject>();
+	m_pCullingObj->InitComponent("Fortress_Part_1.fbx");
+	m_pCullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pCullingObj->GetTransform()->SetLocalPosition(float4{ -330, 300, 430 });
+
+	/*m_pRenderer_Part1 = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Part1->SetFBXMesh("Fortress_Part_1.fbx", "ContentMeshDeffered");
 	m_pRenderer_Part1->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Part1->GetTransform()->SetLocalPosition(float4{ -330, 300, 430 });
@@ -123,9 +137,9 @@ void Map_Fortress::Create_Partition()
 	m_pRenderer_Part3->SetFBXMesh("Fortress_Part_3.fbx", "ContentMeshDeffered");
 	m_pRenderer_Part3->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Part3->GetTransform()->SetLocalPosition(float4{ -8566, 336, 13834});
-	m_pRenderer_Part3->CalculateUnitPos();
+	m_pRenderer_Part3->CalculateUnitPos();*/
 
-	m_pRenderer_Part4 = CreateComponent<ContentFBXRenderer>();
+	/*m_pRenderer_Part4 = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Part4->SetFBXMesh("Fortress_Part_4.fbx", "ContentMeshDeffered");
 	m_pRenderer_Part4->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Part4->GetTransform()->SetLocalPosition(float4{ -12870, -16, 10350});
@@ -135,9 +149,9 @@ void Map_Fortress::Create_Partition()
 	m_pRenderer_Part5->SetFBXMesh("Fortress_Part_5.fbx", "ContentMeshDeffered");
 	m_pRenderer_Part5->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Part5->GetTransform()->SetLocalPosition(float4{ -9160, 324, 14630 });
-	m_pRenderer_Part5->CalculateUnitPos();
+	m_pRenderer_Part5->CalculateUnitPos();*/
 
-	m_pRenderer_Part6 = CreateComponent<ContentFBXRenderer>();
+	/*m_pRenderer_Part6 = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Part6->SetFBXMesh("Fortress_Part_6.fbx", "ContentMeshDeffered");
 	m_pRenderer_Part6->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Part6->GetTransform()->SetLocalPosition(float4{ -13380, 93, 10940 });
@@ -201,7 +215,7 @@ void Map_Fortress::Create_Partition()
 	m_pRenderer_Part16->SetFBXMesh("Fortress_Part_16.fbx", "ContentMeshDeffered");
 	m_pRenderer_Part16->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Part16->GetTransform()->SetLocalPosition(float4{ -14782, 285, 17658 });
-	m_pRenderer_Part16->CalculateUnitPos();
+	m_pRenderer_Part16->CalculateUnitPos();*/
 
 }
 
