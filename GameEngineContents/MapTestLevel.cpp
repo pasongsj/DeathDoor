@@ -109,7 +109,7 @@ void MapTestLevel::InitTestLevel()
 		std::shared_ptr<Player> Obj = CreateActor<Player>();
 		if (nullptr != Obj)
 		{
-			Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 1000.0f , 20.0f , -0.0f }));
+			Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1000.0f , 1000.0f , 0.0f });
 		}
 		
 		CreateActor<EnemyFirePlant>();
