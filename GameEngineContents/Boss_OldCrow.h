@@ -116,6 +116,7 @@ private:
 	float StateCalTime2 = 0.0f;
 	float4 TargetPos = float4::ZERO;
 	float4 JumpForce = float4::ZERO;
+	int MegaDash2PatternCount = 0;
 
 	// FSM 에서 사용되는 상수
 	const float DashSpeed = 1000.0f;

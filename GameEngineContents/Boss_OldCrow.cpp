@@ -21,7 +21,7 @@ void Boss_OldCrow::Start()
 {
 	EnemyBase::Start();
 	InitPattern();
-	GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4(1000, 100, 0));
+	
 
 	// physx
 	{
@@ -43,11 +43,6 @@ void Boss_OldCrow::Start()
 void Boss_OldCrow::Update(float _DeltaTime)
 {
 	FSMObjectBase::Update(_DeltaTime);
-
-	if (GameEngineInput::IsDown("CamMoveUp"))
-	{
-		SetNextState(Boss_OldCrowState::JUMP);
-	}
 }
 
 void Boss_OldCrow::InitPattern()
@@ -115,8 +110,8 @@ void Boss_OldCrow::SetRandomPattern()
 	CurrentPatternNum = 0;
 
 	//Test용 스테이트 세팅 
-	PatternNum = 2;
-	RandomState = Boss_OldCrowState(Patterns[2][0]);
+	PatternNum = 3;
+	RandomState = Boss_OldCrowState(Patterns[3][0]);
 
 	SetNextState(RandomState);
 
@@ -266,24 +261,34 @@ void Boss_OldCrow::SettingChainPatternParameter()
 
 	RandomInt = 0;
 
-	/*switch (RandomInt)
+	ChainPatternParameter Parameter1{ float4{-2500, 0, 1000}, float4::RIGHT };
+	ChainPatternParameter Parameter2{ float4{2500, 0, 500}, float4::LEFT };
+	ChainPatternParameter Parameter3{ float4{-2500, 0, -500}, float4::RIGHT };
+	ChainPatternParameter Parameter4{ float4{2500, 0, -1000}, float4::LEFT };
+
+	ChainPatternParameterVector.push_back(Parameter1);
+	ChainPatternParameterVector.push_back(Parameter2);
+	ChainPatternParameterVector.push_back(Parameter3);
+	ChainPatternParameterVector.push_back(Parameter4);
+
+	float RandomFloat = GameEngineRandom::MainRandom.RandomFloat(0, 359);
+
+	for (int i = 0; i < ChainPatternParameterVector.size(); ++i)
 	{
-	case 0:
-		ChainPatternParameter Parameter1 { float4{-2500, 0, 1000}, float4::RIGHT };
-		ChainPatternParameter Parameter2 { float4{2500, 0, 500}, float4::LEFT };
-		ChainPatternParameter Parameter3 { float4{-2500, 0, -500}, float4::RIGHT };
-		ChainPatternParameter Parameter4 { float4{2500, 0, -1000}, float4::LEFT };
+		ChainPatternParameterVector[i].Dir.RotaitonYDeg(RandomFloat);
+		ChainPatternParameterVector[i].StartPos = ChainPatternParameterVector[i].StartPos + Player::MainPlayer->GetTransform()->GetWorldPosition();
+	}
 
-		ChainPatternParameterVector.push_back(Parameter1);
-		ChainPatternParameterVector.push_back(Parameter2);
-		ChainPatternParameterVector.push_back(Parameter3);
-		ChainPatternParameterVector.push_back(Parameter4);
-		break;
-	case 1:
+	//switch (RandomInt)
+	//{
+	//case 0:
 
-		break;
-	default:
-		break;
-	}*/
+	//	break;
+	//case 1:
+
+	//	break;
+	//default:
+	//	break;
+	//}
 
 }

@@ -179,7 +179,7 @@ void Boss_OldCrow::SetFSMFUNC()
 				}
 			}
 
-			if (StateCalTime >= 1.75f)
+			if (StateCalTime >= BOSS_OLDCROW_MEGADASHPATTERNEND)
 			{
 				SetNextState(Boss_OldCrowState::MEGADASH);
 			}
@@ -244,7 +244,7 @@ void Boss_OldCrow::SetFSMFUNC()
 				}
 			}
 
-			if (StateCalTime >= 1.75f)
+			if (StateCalTime >= BOSS_OLDCROW_MEGADASHPATTERNEND)
 			{
 				SetNextState(Boss_OldCrowState::MEGADASH);
 			}
@@ -291,22 +291,115 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::MEGADASH2PREP,
 		[this]
 		{
-			//SettingChainPatternParameter();
+			SettingChainPatternParameter();
 
 			BossRender->ChangeAnimation("MegaDashPrep");
+			MegaDash2PatternCount = 0; //현재 진행중인 패턴 번호
 
-			//m_pCapsuleComp->SetWorldPosWithParent(ChainPatternParameterVector[0].StartPos, ChainPatternParameterVector[0].Dir);
+			//ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetParent(m_pCapsuleComp->GetTransform());
+			ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetWorldPosition(ChainPatternParameterVector[MegaDash2PatternCount].StartPos);
+			ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetLocalPosition({ 0, 0, 0 });
+			
+			float4 Rot = float4::ZERO;
+			Rot.y = float4::GetAngleVectorToVectorDeg(float4::FORWARD, ChainPatternParameterVector[MegaDash2PatternCount].Dir);
+			//ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetWorldRotation(Rot);
 
+			m_pCapsuleComp->SetWorldPosWithParent(ChainPatternParameterVector[0].StartPos, ChainPatternParameterVector[0].Dir);
+			
+			CurrentChainSpeed = ChainSpeed;
+
+			StateCalTime = 0.0f; 
 		},
 		[this](float Delta)
 		{
-			if (BossRender->IsAnimationEnd())
+			StateCalTime += Delta;
+
+			ChainsPivots[MegaDash2PatternCount]->GetTransform()->AddLocalPosition(float4::FORWARD * CurrentChainSpeed * Delta);
+
+			float Value1 = ChainsPivots[MegaDash2PatternCount]->GetTransform()->GetLocalPosition().z;
+			float Value2 = (UsingChainNumber[MegaDash2PatternCount].size()) * 3.2f;
+
+			if (Value1 >= Value2)
 			{
-				SetNextPatternState();
+				std::shared_ptr<Boss_OldCrowChain> Chain = GetChain();
+
+				Chain->GetTransform()->SetParent(ChainsPivots[MegaDash2PatternCount]->GetTransform());
+
+				float4 Pos = ChainsPivots[MegaDash2PatternCount]->GetTransform()->GetWorldPosition();
+
+				UsingChainNumber[MegaDash2PatternCount].push_back(Chain->GetChainNumber());
+
+				Chain->GetTransform()->SetLocalPosition({ 0, 0, UsingChainNumber[MegaDash2PatternCount].size() * -5.0f });
+			}
+
+			if (StateCalTime >= CreateChainTime)
+			{
+				CurrentChainSpeed -= CurrentChainSpeed * 100.0f * Delta;
+
+				if (CurrentChainSpeed < 0.0f)
+				{
+					CurrentChainSpeed = 0.0f;
+				}
+			}
+
+			if (StateCalTime > BOSS_OLDCROW_MEGADASHPATTERNEND)
+			{
+				CurrentChainSpeed = ChainSpeed;
+				++MegaDash2PatternCount;
+
+				if (MegaDash2PatternCount > ChainPatternParameterVector.size() - 1)
+				{
+					SetNextState(Boss_OldCrowState::MEGADASH2);
+				}
+				else
+				{
+					StateCalTime = 0.0f;
+
+					//ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetParent(m_pCapsuleComp->GetTransform());
+					ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetWorldPosition(ChainPatternParameterVector[MegaDash2PatternCount].StartPos);
+
+					float4 Rot = float4::ZERO;
+					Rot.y = float4::GetAngleVectorToVectorDeg(float4::FORWARD, ChainPatternParameterVector[MegaDash2PatternCount].Dir);
+					
+					//ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetWorldRotation(Rot);
+				}
+
 			}
 		},
 		[this]
 		{
+
+		}
+	);
+
+	SetFSM(Boss_OldCrowState::MEGADASH2,
+		[this]
+		{
+			BossRender->ChangeAnimation("MegaDash");
+
+			StateCalTime = 0.0f;
+		},
+		[this](float Delta)
+		{
+			StateCalTime += Delta;
+
+			//m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * MegaDashSpeed);
+
+			if (StateCalTime >= 1.0f)
+			{
+				//SetNextPatternState();
+			}
+		},
+		[this]
+		{
+			for (int i = 0; i < UsingChainNumber[0].size(); ++i)
+			{
+				Chains[UsingChainNumber[0][i]]->SetDefault();
+			}
+
+			UsingChainNumber[0].clear();
+
+			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 
 		}
 	);
@@ -322,22 +415,20 @@ void Boss_OldCrow::SetFSMFUNC()
 			float4 Position = float4::LerpClamp(EnemyPos, PlayerPos, 0.5f); //목표 지점
 
 			TargetPos = Position;
-			TargetPos.y += 50.0f;
+			TargetPos.y += 300.0f;
 
 			JumpForce = TargetPos - GetTransform()->GetWorldPosition();
 			JumpForce.Normalize();
 			m_pCapsuleComp->TurnOffGravity();
-
-			//m_pCapsuleComp->TurnOffGravity();
 		},
 		[this](float Delta)
 		{
-			m_pCapsuleComp->SetMoveSpeed(JumpForce*100.f);
+			m_pCapsuleComp->SetMoveSpeed(JumpForce * 500.f);
 
 			SetLerpDirection(Delta);
 
 			float test = TargetPos.XYZDistance(GetTransform()->GetWorldPosition());
-			if (TargetPos.XYZDistance(GetTransform()->GetWorldPosition()) < 10.0f )
+			if (TargetPos.XYZDistance(GetTransform()->GetWorldPosition()) < 10.0f)
 			{
 				m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 				SetNextState(Boss_OldCrowState::SLAM);
