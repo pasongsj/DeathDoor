@@ -25,6 +25,9 @@
 #include "PlayerAttackMagic.h"
 
 
+#include "PlayerAttackTrail.h"
+
+
 
 MapTestLevel::MapTestLevel()
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include "PlayerAttackBase.h"
+#include "PlayerAttackDefinition.h"
 
 // Ό³Έν :
 class PlayerAttackBasic : public PlayerAttackBase

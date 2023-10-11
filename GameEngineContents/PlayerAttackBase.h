@@ -2,7 +2,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 #include "PhysXComponent.h"
-#include "PlayerDefinition.h"
+#include "PlayerAttackDefinition.h"
 
 // Ό³Έν :
 class PlayerAttackBase : public GameEngineActor
