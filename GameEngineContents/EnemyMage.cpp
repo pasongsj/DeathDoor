@@ -70,7 +70,7 @@ void EnemyMage::TeleportRandPos()
 
 	// 그리드를 나눌 크기로 벡터 크기 예약
 	int iVecSize = static_cast<int>(m_fTeleportRange * 2.f / m_fGridRange);
-	m_vecRandGrid.reserve(iVecSize * iVecSize);
+	m_vecRandGrid.resize(iVecSize * iVecSize);
 
 	//벡터에 나눈 포지션을 푸시백
 	for (size_t i = 0; i < iVecSize; i++)
@@ -118,11 +118,13 @@ void EnemyMage::TeleportRandPos()
 		{
 			// 바닥이 있으면 해당위치로 텔레포트
 			m_pCapsuleComp->SetWorldPosWithParent(ResultPos);
+			m_vecRandGrid.clear();
 			return;
 		}
 	}
 	// 3번 검사했으나 전부 실패한경우 플레이어의 10만큼 뒤쪽으로 이동
 	m_pCapsuleComp->SetWorldPosWithParent(f4PlayerPos + (Player::MainPlayer->GetTransform()->GetLocalForwardVector()*-10.f+float4(0.f,10.f,0.f)));
+	m_vecRandGrid.clear();
 }
 void EnemyMage::SetFSMFUNC()
 {
