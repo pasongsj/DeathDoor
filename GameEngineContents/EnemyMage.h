@@ -34,6 +34,14 @@ private:
 		MAX
 	};
 
+	void TeleportRandPos();
 
 	void SetFSMFUNC();
+
+	float m_fTeleportRange = 300.f;
+	float m_fGridRange = 100.f;
+	std::vector<float4> vec_RandGrid;
+	bool m_bPosSet = false;
+
+	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 };

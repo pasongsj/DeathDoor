@@ -1,5 +1,7 @@
 #include "PreCompileHeader.h"
 #include "EnemyMage.h"
+#include "Player.h"
+#include <GameEngineBase/GameEngineRandom.h>
 
 
 EnemyMage::EnemyMage() 
@@ -24,6 +26,10 @@ void EnemyMage::InitAniamtion()
 	//_E_MAGE_SPIRAL.fbx
 
 	EnemyRenderer->ChangeAnimation("IDLE");
+	
+	float4 f4Scale = EnemyRenderer->GetMeshScale();
+	m_pCapsuleComp->CreatePhysXActors(f4Scale);
+	m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 }
 
 
@@ -49,6 +55,59 @@ void EnemyMage::Update(float _DeltaTime)
 
 
 
+void EnemyMage::TeleportRandPos()
+{
+	m_bPosSet = false;
+	float4 f4PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+	float4 f4GridStart = float4(f4PlayerPos.x - m_fTeleportRange, f4PlayerPos.z - m_fTeleportRange);
+	float4 f4GridEnd = float4(f4PlayerPos.x + m_fTeleportRange, f4PlayerPos.z + m_fTeleportRange);
+
+	int iVecSize = static_cast<int>(m_fTeleportRange * 2.f / m_fGridRange);
+	vec_RandGrid.reserve(iVecSize * iVecSize);
+	for (size_t i = 0; i < iVecSize; i++)
+	{
+		for (size_t j = 0; j < iVecSize; j++)
+		{
+			vec_RandGrid.push_back(float4(f4GridStart.x + m_fGridRange * i, f4GridStart.y + m_fGridRange * j));
+		}
+	}
+
+	while (false == m_bPosSet)
+	{
+		int RandIndex = GameEngineRandom::MainRandom.RandomInt(0, vec_RandGrid.size());
+
+		float4 ResultPos = vec_RandGrid[RandIndex]; 
+		ResultPos.x += m_fGridRange * 0.5f;
+		ResultPos.y += m_fGridRange * 0.5f;
+		ResultPos.z = f4PlayerPos.z;
+
+		float4 RayCastPos = float4::ZERONULL;
+
+		bool bGround = m_pCapsuleComp->RayCast(ResultPos, float4::DOWN, RayCastPos,100.f);
+
+		if (bGround == false)
+		{
+			ResultPos.y += 100.f;
+			bGround = m_pCapsuleComp->RayCast(ResultPos, float4::DOWN, RayCastPos, 100.f);
+			if (bGround == false)
+			{
+				m_pCapsuleComp->SetWorldPosWithParent(f4PlayerPos+float4(10,10));
+			}
+			else
+			{
+				m_bPosSet = true;
+				m_pCapsuleComp->SetWorldPosWithParent(ResultPos);
+			}
+		}
+		else
+		{
+			m_bPosSet = true;
+			m_pCapsuleComp->SetWorldPosWithParent(ResultPos);
+		}
+	}
+	
+
+}
 void EnemyMage::SetFSMFUNC()
 {
 	InitFSM(EnemyMageState::MAX);
