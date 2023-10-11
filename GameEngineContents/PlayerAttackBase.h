@@ -44,6 +44,11 @@ protected:
 		return isShoot;
 	}
 
+	virtual void SetShoot()
+	{
+		isShoot = true;
+	}
+
 private:
 	bool isShoot = false;
 
