@@ -15,6 +15,11 @@ public:
 	FortressLevel& operator=(const FortressLevel& _Other) = delete;
 	FortressLevel& operator=(FortressLevel&& _Other) noexcept = delete;
 
+	inline std::shared_ptr<class Map_Fortress> GetMap() const
+	{
+		return m_pMap;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -32,7 +37,13 @@ private:
 	const float4 m_CameraRot = float4{ 55 , 0 , 0 };
 
 	void Set_PlayerStartPos();
-	const float4 m_StartPos = float4::ZERONULL;
+	const float4 m_StartPos = float4{ 0, 200, 0 };
 
 	std::shared_ptr<class Map_Fortress> m_pMap = nullptr;
+
+	void CullingUpdate();
+
+	// ÄÃ¸µ test code
+	std::shared_ptr<class CullingManager> m_pCullingManager = nullptr;
+	void Create_Manager();
 };

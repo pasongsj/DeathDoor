@@ -3,7 +3,7 @@
 
 #define PLAYER_SCALE_RATIO		6.0f
 #define PLAYER_HIT_IDLE_TIME	3.0f
-#define PLAYER_PHYSX_SCALE		float4{0.0f, 60.0f, 90.0f}
+#define PLAYER_PHYSX_SCALE		float4{0.0f, 150.0f, 90.0f}
 
 #define PLAYER_ROLL_SPEED		1500.0f
 #define PLAYER_CLIMB_SPEED		250.0f

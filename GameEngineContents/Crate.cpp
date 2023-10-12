@@ -32,4 +32,6 @@ void Crate::InitComponent()
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
 	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
+	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
+
 }

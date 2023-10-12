@@ -1,6 +1,6 @@
 #pragma once
-#include "PlayerAttackBase.h"
-class PlayerAttackMagic : public PlayerAttackBase
+#include "AttackBase.h"
+class PlayerAttackMagic : public AttackBase
 {
 public:
 	// constrcuter destructer

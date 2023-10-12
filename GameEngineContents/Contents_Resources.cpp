@@ -344,21 +344,21 @@ void ContentsCore::ContentsResourcesCreate()
 
 
 
-	{
-		GameEngineDirectory NewDir;
-		NewDir.MoveParentToDirectory("ContentResources");
-		NewDir.Move("ContentResources");
-		NewDir.Move("Mesh");
-		NewDir.Move("AniMesh");
+	//{
+	//	GameEngineDirectory NewDir;
+	//	NewDir.MoveParentToDirectory("ContentResources");
+	//	NewDir.Move("ContentResources");
+	//	NewDir.Move("Mesh");
+	//	NewDir.Move("AniMesh");
 
-		std::vector<GameEngineFile> PlayerFiles = NewDir.GetAllFile({ ".FBX" });
+	//	std::vector<GameEngineFile> PlayerFiles = NewDir.GetAllFile({ ".FBX" });
 
-		for (size_t i = 0; i < PlayerFiles.size(); i++)
-		{
-			GameEngineFBXMesh::Load(PlayerFiles[i].GetFullPath());
-			GameEngineFBXAnimation::Load(PlayerFiles[i].GetFullPath());
-		}
-	}
+	//	for (size_t i = 0; i < PlayerFiles.size(); i++)
+	//	{
+	//		GameEngineFBXMesh::Load(PlayerFiles[i].GetFullPath());
+	//		GameEngineFBXAnimation::Load(PlayerFiles[i].GetFullPath());
+	//	}
+	//}
 
 	{
 		GameEngineFont::Load("¸¼Àº °íµñ");

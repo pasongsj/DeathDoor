@@ -99,7 +99,7 @@ namespace GameEngineDebug
 				{
 					float4 TempScale, TempRotation, TempPosition;
 					DrawData.WorldMatrix.Decompose(TempScale, TempRotation, TempPosition);
-					TempScale.y += TempScale.z;
+					TempScale.y += TempScale.z*0.5f;
 					TempScale.z *= 2.f;
 					//TempScale.x = TempScale.z;
 					TempScale.x = TempScale.z;

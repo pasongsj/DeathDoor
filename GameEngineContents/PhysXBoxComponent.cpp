@@ -84,7 +84,7 @@ void PhysXBoxComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _GeoMe
 	(
 		physx::PxFilterData
 		(
-			static_cast<physx::PxU32>(PhysXFilterGroup::None),
+			static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle),
 			0,
 			0,
 			0
@@ -164,7 +164,7 @@ void PhysXBoxComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _GeoM
 	(
 		physx::PxFilterData
 		(
-			static_cast<physx::PxU32>(PhysXFilterGroup::None),
+			static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle),
 			0,
 			0,
 			0
