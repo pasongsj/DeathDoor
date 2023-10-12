@@ -362,6 +362,12 @@
     <ClCompile Include="FXAA.cpp">
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="BrightBloomEffect.cpp">
+      <Filter>Component\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="GammaCorrection.cpp">
+      <Filter>Component\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -717,6 +723,12 @@
       <Filter>Component\ContentsRenderer\FBX</Filter>
     </ClInclude>
     <ClInclude Include="FXAA.h">
+      <Filter>Component\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="BrightBloomEffect.h">
+      <Filter>Component\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="GammaCorrection.h">
       <Filter>Component\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>

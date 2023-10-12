@@ -82,7 +82,7 @@ OutPutColor DeferredMerge_PS(Output _Input) : SV_Target0
     }
     // NewOutPut.Result.a = saturate(NewOutPut.Result.a);
     
-    NewOutPut.Result.rgb = pow(NewOutPut.Result, 1.0f / 2.2f);
+    //NewOutPut.Result.rgb = pow(NewOutPut.Result, 1.0f / 2.2f);
     
     return NewOutPut;
 
