@@ -261,7 +261,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FXAA.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
+    <ClCompile Include="GammaCollection.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GlobalValue.cpp" />
     <ClCompile Include="GlowEffect.cpp">
       <SubType>
@@ -583,7 +591,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="FXAA.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameContentsMapActor.h" />
+    <ClInclude Include="GammaCollection.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="GlowEffect.h">
       <SubType>

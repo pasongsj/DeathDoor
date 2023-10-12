@@ -28,7 +28,6 @@ void OfficeLevel::Start()
 	GameEngineCoreWindow::AddDebugRenderTarget(3, "DeferredTarget", GetMainCamera()->GetCamDeferrdTarget());
 
 	SetPointLight();
-	SetPostPrecessEffect();	
 }
 
 
@@ -60,6 +59,8 @@ void OfficeLevel::LevelChangeStart()
 	// 플레이어 생성후 Set_StartPos함수 호출하면 해당 위치에 세팅
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	Set_PlayerStartPos();
+
+	SetPostPrecessEffect();
 }
 
 void OfficeLevel::LevelChangeEnd()
