@@ -436,6 +436,10 @@
     <ClCompile Include="StreetLamp.cpp" />
     <ClCompile Include="StaticParticleManager.cpp" />
     <ClCompile Include="StreetLamp_2.cpp" />
+    <ClCompile Include="SwordTrailRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <SubType>
       </SubType>
@@ -796,6 +800,10 @@
     </ClInclude>
     <ClInclude Include="StaticParticleManager.h" />
     <ClInclude Include="StreetLamp_2.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SwordTrailRenderer.h">
       <SubType>
       </SubType>
     </ClInclude>

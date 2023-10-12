@@ -64,6 +64,9 @@
     <FxCompile Include="FireShader.hlsl">
       <Filter>Effect</Filter>
     </FxCompile>
+    <FxCompile Include="SwordTrailShader.hlsl">
+      <Filter>ObjectShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -77,6 +80,9 @@
     </Filter>
     <Filter Include="Effect\Glow">
       <UniqueIdentifier>{73680677-87cb-44d6-8a23-6f3fc68d75ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectShader">
+      <UniqueIdentifier>{a9dbb74c-91ea-4f90-8285-392b95a2df0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

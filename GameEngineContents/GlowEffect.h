@@ -54,5 +54,6 @@ private:
 
 	float4 Intensity = { 1.0f, 1.0f, 1.0f, 1.0f };
 	float4 BlurSize = { 1600.0f, 900.0f };
+	float4 DoubleBlurSize = { 1600.0f, 900.0f };
 };
 
