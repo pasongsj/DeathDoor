@@ -45,87 +45,47 @@ Output ContentMeshDeferred_VS(Input _Input)
     return NewOutPut;
 }
 
+cbuffer ClipData : register(b0)
+{
+    float ClipData;
+    float3 Padding;
+}
+
 Texture2D DiffuseTexture : register(t0);
 Texture2D MaskTexture : register(t1);
-Texture2D CrackTexture : register(t2);
 
 SamplerState ENGINEBASE : register(s0);
 
 struct DeferredOutPut
 {
-    float4 DifTarget  : SV_Target1;
-    float4 PosTarget  : SV_Target2;
-    float4 NorTarget  : SV_Target3;
+    float4 DifTarget : SV_Target1;
+    float4 PosTarget : SV_Target2;
+    float4 NorTarget : SV_Target3;
     float4 BlurTarget : SV_Target7;
-};
-
-cbuffer BlurColor : register(b5)
-{
-    float4 BlurColor;
-};
-
-cbuffer ClipData : register(b6)
-{
-    float2 MinClipData;
-    float2 MaxClipData;
 };
 
 DeferredOutPut ContentMeshDeferred_PS(Output _Input)
 {
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
-    
-    if (saturate(_Input.TEXCOORD.x) < MinClipData.x && saturate(_Input.TEXCOORD.y) < MinClipData.y)
-    {
-        clip(-1);
-    }
-        
-    if (saturate(_Input.TEXCOORD.x) > MaxClipData.x && saturate(_Input.TEXCOORD.y) > MaxClipData.y)
-    {
-        clip(-1);
-    }
-    
-    
-    //UV값 변경
-    _Input.TEXCOORD.xy *= MulUV;
-    _Input.TEXCOORD.xy += AddUV;
         
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+    float4 MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
-    float4 MaskColor = (float4) 0.0f;
-    
-    //Crack
-    if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
+    if (MaskColor.r <= ClipData.x)
     {
-        MaskColor = CrackTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
-        
-        float3 f3_BlurColor = BlurColor.rgb;
-        
-        if (MaskColor.a > 0.0f)
-        {
-            NewOutPut.BlurTarget = float4(f3_BlurColor, 1.0f);
-            Color = NewOutPut.BlurTarget;
-        }
+        clip(-1);
     }
-    
-    //텍스쳐 색상 변경
-    Color *= MulColor;
-    Color += AddColor;
     
     if (Color.a <= 0.0f)
     {
         clip(-1);
     }
     
-    //Fade
-    if (Delta > 0.0f)
-    {
-        Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
-    }
-    
-    NewOutPut.DifTarget = Color;
+    NewOutPut.DifTarget = float4(0.99f * 0.5f, 0.356f * 0.5f, 0.407f * 0.5f, Color.a);
     NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;
     NewOutPut.NorTarget = _Input.NORMAL;
+    NewOutPut.BlurTarget = float4(0.99f * 0.5f, 0.356f * 0.5f, 0.407f * 0.5f, Color.a);
     
     return NewOutPut;
 }

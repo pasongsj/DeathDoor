@@ -1,6 +1,7 @@
 #include "PreCompileHeader.h"
 #include "PlayerAttackTrail.h"
 #include "PlayerAttackDefinition.h"
+#include "SwordTrailRenderer.h"
 
 PlayerAttackTrail::PlayerAttackTrail() 
 {
@@ -21,20 +22,23 @@ void PlayerAttackTrail::Update(float _DeltaTime)
 		Death();
 		return;
 	}
+
+	TrailRenderer->AddClipData(3.0f * _DeltaTime);
+
 }
 
-void PlayerAttackTrail::CreateTrail(float4 _Dir,float4 _Pos, bool IsBasic)
+void PlayerAttackTrail::CreateTrail(float4 _Dir, float4 _Pos, bool isRightAttack, bool IsBasic)
 {
-	TrailRenderer = CreateComponent< ContentFBXRenderer>();
+	TrailRenderer = CreateComponent<SwordTrailRenderer>();
 	GetTransform()->SetLocalScale(PLAYER_TRAIL_SCALE);
 	if (true == IsBasic)
 	{
-		TrailRenderer->SetFBXMesh("Player_Slash_Light.fbx", "ContentMeshDeffered");
+		TrailRenderer->SetFBXMesh("Player_Slash_Light.fbx", "ContentMeshDeffered", isRightAttack);
 		GetTransform()->SetLocalPosition(_Pos + _Dir * PLAYER_TRAIL_MOVE_LIGHT);
 	}
 	else
 	{
-		TrailRenderer->SetFBXMesh("Player_Slash_Heavy.fbx", "ContentMeshDeffered");
+		TrailRenderer->SetFBXMesh("Player_Slash_Heavy.fbx", "ContentMeshDeffered", isRightAttack);
 		GetTransform()->SetLocalPosition(_Pos + _Dir * PLAYER_TRAIL_MOVE_HEAVY);
 	}
 	TrailRenderer->GetTransform()->SetLocalRotation(PLAYER_TRAIL_DIR);

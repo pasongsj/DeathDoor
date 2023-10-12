@@ -74,7 +74,6 @@ void ContentsCore::ContentsResourcesCreate()
 	//	Pipe->SetDepthState("EngineDepth");
 	//}
 
-
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Fade");
 
@@ -227,6 +226,15 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetDepthState("EngineDepth");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("SwordTrailShader");
+
+		Pipe->SetVertexShader("SwordTrailShader.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("SwordTrailShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
 	//{
 	//	// ºí·£µå
 	//	D3D11_BLEND_DESC Desc = { 0, };

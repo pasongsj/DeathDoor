@@ -30,6 +30,11 @@ public:
 		BlurColor = _Color;
 	}
 
+	void SetClipData(float4 _ClipData)
+	{
+		ClipData = _ClipData;
+	}
+
 	void SetGlowToUnit(int _IndexY, int _IndexX, const std::string_view& _MaskName = "WholeMask.png")
 	{
 		GetAllRenderUnit()[_IndexY][_IndexX]->ShaderResHelper.SetTexture("CrackTexture", _MaskName);
@@ -40,8 +45,10 @@ protected:
 	void Start() override;
 	void Render(float _DeltaTime) override;
 private:
-	void LinkBlurColor();
+	void LinkConstantBuffer();
 	float4 BlurColor = {0.99f, 0.356f, 0.407f};
+	float4 ClipData = { 0.0f, 0.0f, 1.0f, 1.0f };
+
 	std::string MaterialName;
 };
 

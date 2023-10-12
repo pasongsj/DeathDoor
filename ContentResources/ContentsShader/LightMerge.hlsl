@@ -45,7 +45,7 @@ LightTarget Merge_PS(OutPut _Value)
     
     LightTarget OutPut = (LightTarget) 0.0f;
     
-    if (DifLight.a <= 0.0f)
+    if (AmbLight.a <= 0.0f)
     {
         clip(-1);
     }

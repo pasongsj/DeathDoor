@@ -23,8 +23,8 @@ private:
 
 	float EraseTime = 0.0f;
 
-	void CreateTrail(float4 _Dir, float4 _Pos, bool IsBasic = true);
-	std::shared_ptr<class ContentFBXRenderer> TrailRenderer = nullptr;
+	void CreateTrail(float4 _Dir, float4 _Pos,bool isRightAttack, bool IsBasic = true);
+	std::shared_ptr<class SwordTrailRenderer> TrailRenderer = nullptr;
 
 };
 
