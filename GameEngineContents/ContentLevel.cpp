@@ -27,7 +27,7 @@ void ContentLevel::CreateUI()
 void ContentLevel::SetPostPrecessEffect()
 {
 	std::shared_ptr<GlowEffect> Effect = GetLevel()->GetMainCamera()->GetDeferredLightTarget()->CreateEffect<GlowEffect>();
-	Effect->Init(DynamicThis<GameEngineLevel>(), {2.0f, 0.0f, 0.0f, 1.25f});
+	Effect->Init(DynamicThis<GameEngineLevel>(), {1.5f, 0.0f, 0.0f, 1.5f});
 
 	std::shared_ptr<FXAA> Effect1 = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();
 }
