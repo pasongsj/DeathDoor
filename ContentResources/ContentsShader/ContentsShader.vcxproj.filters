@@ -67,6 +67,15 @@
     <FxCompile Include="SwordTrailShader.hlsl">
       <Filter>ObjectShader</Filter>
     </FxCompile>
+    <FxCompile Include="FXAA.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="DetectLuminance.hlsl">
+      <Filter>Effect\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="GammaCorrection.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -83,6 +92,9 @@
     </Filter>
     <Filter Include="ObjectShader">
       <UniqueIdentifier>{a9dbb74c-91ea-4f90-8285-392b95a2df0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Bloom">
+      <UniqueIdentifier>{66718ebb-476e-4a25-a5c0-555ea905dd6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
