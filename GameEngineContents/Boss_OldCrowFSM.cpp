@@ -100,7 +100,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			BossRender->ChangeAnimation("Dash");
-			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * DashSpeed);
+			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_DASHSPEED);
 		},
 		[this](float Delta)
 		{
@@ -141,10 +141,9 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			ChainsPivots[0]->GetTransform()->SetParent(m_pCapsuleComp->GetTransform());
 			ChainsPivots[0]->GetTransform()->SetLocalPosition({ 0, 0, 0 });
-
 			StateCalTime = 0.0f; //사슬 멈추는 시간
 			
-			CurrentChainSpeed = ChainSpeed;
+			CurrentChainSpeed = BOSS_OLDCROW_CHAINSPEED;
 		},
 		[this](float Delta)
 		{
@@ -167,9 +166,10 @@ void Boss_OldCrow::SetFSMFUNC()
 				UsingChainNumber[0].push_back(Chain->GetChainNumber());
 
 				Chain->GetTransform()->SetLocalPosition({0, 0, UsingChainNumber[0].size() * - 5.0f });
+				Chain->GetTransform()->SetLocalRotation({ 0, 0, 0 });
 			}
 
-			if (StateCalTime >= CreateChainTime)
+			if (StateCalTime >= BOSS_OLDCROW_CREATECHAINTIME)
 			{
 				CurrentChainSpeed -= CurrentChainSpeed * 100.0f * Delta;
 
@@ -206,7 +206,7 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			StateCalTime = 0.0f; //사슬 멈추는 시간
 
-			CurrentChainSpeed = ChainSpeed;
+			CurrentChainSpeed = BOSS_OLDCROW_CHAINSPEED;
 
 			ChainsPivots[0]->GetTransform()->SetParent(m_pCapsuleComp->GetTransform());
 			ChainsPivots[0]->GetTransform()->SetLocalPosition({0, 0, 0});
@@ -232,9 +232,10 @@ void Boss_OldCrow::SetFSMFUNC()
 				UsingChainNumber[0].push_back(Chain->GetChainNumber());
 
 				Chain->GetTransform()->SetLocalPosition({ 0, 0, UsingChainNumber[0].size() * - 5.0f });
+				Chain->GetTransform()->SetLocalRotation({ 0, 0, 0 });
 			}
 
-			if (StateCalTime >= CreateChainTime)
+			if (StateCalTime >= BOSS_OLDCROW_CREATECHAINTIME)
 			{
 				CurrentChainSpeed -= CurrentChainSpeed * 100.0f * Delta;
 
@@ -267,7 +268,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			StateCalTime += Delta;
 
-			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * MegaDashSpeed);
+			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_MEGADASHSPEED);
 
 			if (StateCalTime >= 1.0f)
 			{
@@ -306,7 +307,7 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			m_pCapsuleComp->SetWorldPosWithParent(ChainPatternParameterVector[0].StartPos, ChainPatternParameterVector[0].Dir);
 			
-			CurrentChainSpeed = ChainSpeed;
+			CurrentChainSpeed = BOSS_OLDCROW_CHAINSPEED;
 
 			StateCalTime = 0.0f; 
 		},
@@ -332,7 +333,7 @@ void Boss_OldCrow::SetFSMFUNC()
 				Chain->GetTransform()->SetLocalPosition({ 0, 0, UsingChainNumber[MegaDash2PatternCount].size() * -5.0f });
 			}
 
-			if (StateCalTime >= CreateChainTime)
+			if (StateCalTime >= BOSS_OLDCROW_CREATECHAINTIME)
 			{
 				CurrentChainSpeed -= CurrentChainSpeed * 100.0f * Delta;
 
@@ -344,7 +345,7 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			if (StateCalTime > BOSS_OLDCROW_MEGADASHPATTERNEND)
 			{
-				CurrentChainSpeed = ChainSpeed;
+				CurrentChainSpeed = BOSS_OLDCROW_CHAINSPEED;
 				++MegaDash2PatternCount;
 
 				if (MegaDash2PatternCount > ChainPatternParameterVector.size() - 1)

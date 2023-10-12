@@ -204,7 +204,7 @@ void Boss_OldCrow::ChainsInit()
 
 	Chains.reserve(200);
 
-	for (int i = 0; i < ChainsCount; ++i)
+	for (int i = 0; i < BOSS_OLDCROW_CHAINCOUNT; ++i)
 	{
 		std::shared_ptr<Boss_OldCrowChain> Chain = GetLevel()->CreateActor<Boss_OldCrowChain>();
 		Chain->Setting(i);
@@ -261,10 +261,10 @@ void Boss_OldCrow::SettingChainPatternParameter()
 
 	RandomInt = 0;
 
-	ChainPatternParameter Parameter1{ float4{-2500, 0, 1000}, float4::RIGHT };
-	ChainPatternParameter Parameter2{ float4{2500, 0, 500}, float4::LEFT };
-	ChainPatternParameter Parameter3{ float4{-2500, 0, -500}, float4::RIGHT };
-	ChainPatternParameter Parameter4{ float4{2500, 0, -1000}, float4::LEFT };
+	ChainPatternParameter Parameter1{ float4{-250, 0, 100}, float4::RIGHT };
+	ChainPatternParameter Parameter2{ float4{250, 0, 50}, float4::LEFT };
+	ChainPatternParameter Parameter3{ float4{-250, 0, -50}, float4::RIGHT };
+	ChainPatternParameter Parameter4{ float4{250, 0, -100}, float4::LEFT };
 
 	ChainPatternParameterVector.push_back(Parameter1);
 	ChainPatternParameterVector.push_back(Parameter2);
@@ -275,8 +275,9 @@ void Boss_OldCrow::SettingChainPatternParameter()
 
 	for (int i = 0; i < ChainPatternParameterVector.size(); ++i)
 	{
-		ChainPatternParameterVector[i].Dir.RotaitonYDeg(RandomFloat);
-		ChainPatternParameterVector[i].StartPos = ChainPatternParameterVector[i].StartPos + Player::MainPlayer->GetTransform()->GetWorldPosition();
+		//ChainPatternParameterVector[i].Dir.RotaitonYDeg(RandomFloat);
+		ChainsPivots[i]->GetTransform()->SetParent(GetLevel()->GetTransform());
+		ChainPatternParameterVector[i].StartPos = ChainPatternParameterVector[i].StartPos;
 	}
 
 	//switch (RandomInt)

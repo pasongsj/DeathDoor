@@ -34,7 +34,7 @@ void Boss_OldCrowChain::Setting(int _Num)
 
 void Boss_OldCrowChain::SetDefault()
 {
-	//GetTransform()->SetParent(GetTransform());
+	GetTransform()->SetParent(nullptr);
 	ChainRenderer->Off();
 	IsOn = false;
 }
@@ -49,11 +49,6 @@ bool Boss_OldCrowChain::GetChainState()
 	{
 		return false;
 	}
-}
-
-float4 Boss_OldCrowChain::GetRendererScale()
-{
-	return ChainRenderer->GetTransform()->GetLocalScale();
 }
 
 void Boss_OldCrowChain::OnRenderer()

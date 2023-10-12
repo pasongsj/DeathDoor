@@ -15,10 +15,10 @@ public:
 	Boss_OldCrowChain& operator=(Boss_OldCrowChain&& _Other) noexcept = delete;
 
 	void Setting(int _Num);
-	float4 GetRendererScale();
 	void SetDefault();
 	void OnRenderer();
 	bool GetChainState();
+
 	inline int GetChainNumber()
 	{
 		return ChainNumber;

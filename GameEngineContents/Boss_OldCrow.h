@@ -118,15 +118,6 @@ private:
 	float4 JumpForce = float4::ZERO;
 	int MegaDash2PatternCount = 0;
 
-	// FSM 에서 사용되는 상수
-	const float DashSpeed = 1000.0f;
-	const float DashSpeed2 = DashSpeed * 0.75f;
-	const float MegaDashSpeed = 5000.0f;
-	const int ChainsCount = 10;
-	const float ChainSpeed = 150.0f;
-	const float CreateChainTime = 1.2f;
-	const int ChainPivotCount = 4;
-
 	//FSM에서 사용되는 함수
 	void TurnCheck(); //대쉬 중 회전 스테이트로 변경할 것인지 체크
 	void SetLerpDirection(float _DeltaTime); //러프로 회전하는 (대쉬, 턴) 스테이트에서 사용
