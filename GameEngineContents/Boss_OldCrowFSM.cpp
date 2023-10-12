@@ -297,15 +297,9 @@ void Boss_OldCrow::SetFSMFUNC()
 			BossRender->ChangeAnimation("MegaDashPrep");
 			MegaDash2PatternCount = 0; //현재 진행중인 패턴 번호
 
-			//ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetParent(m_pCapsuleComp->GetTransform());
 			ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetWorldPosition(ChainPatternParameterVector[MegaDash2PatternCount].StartPos);
-			ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetLocalPosition({ 0, 0, 0 });
-			
-			float4 Rot = float4::ZERO;
-			Rot.y = float4::GetAngleVectorToVectorDeg(float4::FORWARD, ChainPatternParameterVector[MegaDash2PatternCount].Dir);
-			//ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetWorldRotation(Rot);
 
-			m_pCapsuleComp->SetWorldPosWithParent(ChainPatternParameterVector[0].StartPos, ChainPatternParameterVector[0].Dir);
+			m_pCapsuleComp->SetWorldPosWithParent(ChainPatternParameterVector[MegaDash2PatternCount].StartPos, ChainPatternParameterVector[MegaDash2PatternCount].Dir);
 			
 			CurrentChainSpeed = BOSS_OLDCROW_CHAINSPEED;
 
@@ -317,7 +311,7 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			ChainsPivots[MegaDash2PatternCount]->GetTransform()->AddLocalPosition(float4::FORWARD * CurrentChainSpeed * Delta);
 
-			float Value1 = ChainsPivots[MegaDash2PatternCount]->GetTransform()->GetLocalPosition().z;
+			float Value1 = ChainsPivots[MegaDash2PatternCount]->GetTransform()->GetWorldPosition().XYZDistance(ChainPatternParameterVector[MegaDash2PatternCount].StartPos);
 			float Value2 = (UsingChainNumber[MegaDash2PatternCount].size()) * 3.2f;
 
 			if (Value1 >= Value2)
@@ -331,6 +325,7 @@ void Boss_OldCrow::SetFSMFUNC()
 				UsingChainNumber[MegaDash2PatternCount].push_back(Chain->GetChainNumber());
 
 				Chain->GetTransform()->SetLocalPosition({ 0, 0, UsingChainNumber[MegaDash2PatternCount].size() * -5.0f });
+				Chain->GetTransform()->SetLocalRotation({ 0, 0, 0 });
 			}
 
 			if (StateCalTime >= BOSS_OLDCROW_CREATECHAINTIME)
@@ -356,13 +351,7 @@ void Boss_OldCrow::SetFSMFUNC()
 				{
 					StateCalTime = 0.0f;
 
-					//ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetParent(m_pCapsuleComp->GetTransform());
 					ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetWorldPosition(ChainPatternParameterVector[MegaDash2PatternCount].StartPos);
-
-					float4 Rot = float4::ZERO;
-					Rot.y = float4::GetAngleVectorToVectorDeg(float4::FORWARD, ChainPatternParameterVector[MegaDash2PatternCount].Dir);
-					
-					//ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetWorldRotation(Rot);
 				}
 
 			}

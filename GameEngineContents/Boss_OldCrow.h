@@ -90,7 +90,7 @@ private:
 
 	//체인 관련
 	std::vector<std::shared_ptr<class Boss_OldCrowChain>> Chains;
-	std::vector<std::shared_ptr<class GameEngineComponent>> ChainsPivots;
+	std::vector<std::shared_ptr<class GameEngineActor>> ChainsPivots;
 	std::shared_ptr<Boss_OldCrowChain> GetChain();
 
 	//Init
