@@ -161,10 +161,9 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 		{
 			continue;
 		}
+
 		// 실제 데이터가 있는 경우
 		// 필터 두개를 make_pair
-
-
 		if (GlobalValue::PhysXCollision.end() != GlobalValue::PhysXCollision.find(std::make_pair(static_cast<UINT>(ContactFilterdata.word0), static_cast<UINT>(OtherFilterdata.word0))) ||
 			GlobalValue::PhysXCollision.end() != GlobalValue::PhysXCollision.find(std::make_pair(static_cast<UINT>(OtherFilterdata.word0), static_cast<UINT>(ContactFilterdata.word0)))
 			) // 두개의 충돌을 체크한다면
