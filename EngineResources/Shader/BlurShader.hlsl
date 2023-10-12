@@ -37,7 +37,7 @@ SamplerState POINTSAMPLER : register(s0);
 
 float4 Blur_PS(OutPut _Value) : SV_Target0
 {
-    float2 PixelSize = float2(1.0f / 1280.0f, 1.0f / 720);
+    float2 PixelSize = float2(1.0f / 800.0f, 1.0f / 450);
     // ÇöÀç UV
     float2 PixelUvCenter = _Value.UV.xy;
     float2 StartUV = _Value.UV.xy + (-PixelSize * 2.0f);

@@ -245,6 +245,23 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetDepthState("AlwayDepth");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("DetectLum");
+		Pipe->SetVertexShader("DetectLuminance.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("DetectLuminance.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("AlwayDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("GammaCorrection");
+		Pipe->SetVertexShader("GammaCorrection.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("GammaCorrection.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("AlwayDepth");
+	}
 	//{
 	//	// ºí·£µå
 	//	D3D11_BLEND_DESC Desc = { 0, };
