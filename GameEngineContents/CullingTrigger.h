@@ -25,6 +25,11 @@ public:
 		m_bIsActivate = false;
 	}
 
+	void Set_CullingObject(std::shared_ptr<class CullingObject> _Obj, std::shared_ptr<class CullingObject> _Obj2);
+	
+	void On_CullingObject();
+	void Off_CullingObject();
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -38,4 +43,10 @@ private:
 	// 피직스 박스 컴포넌트 
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
 	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
+
+
+	// 세팅을 해준다. 
+	std::weak_ptr<class CullingObject> m_pCullingObject_1;
+	std::weak_ptr<class CullingObject> m_pCullingObject_2;
+
 };

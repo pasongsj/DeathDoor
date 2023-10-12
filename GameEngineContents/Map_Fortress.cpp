@@ -15,6 +15,7 @@
 #include "Ladder.h"
 
 #include "CullingObject.h"
+#include "CullingTrigger.h"
 
 
 Map_Fortress::Map_Fortress()
@@ -116,24 +117,35 @@ void Map_Fortress::Create_Partition()
 		return;
 	}
 
-	m_pCullingObj = CurLevel->CreateActor<CullingObject>();
-	m_pCullingObj->InitComponent("Fortress_Part_1.fbx");
-	m_pCullingObj->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pCullingObj->GetTransform()->SetLocalPosition(float4{ -330, 300, 430 });
+	m_pCullingTrigger = CurLevel->CreateActor<CullingTrigger>();
+	m_pCullingTrigger->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pCullingTrigger->GetTransform()->SetLocalPosition(float4{ -1978, 0 , 2209 });
 
-	/*m_pRenderer_Part1 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part1->SetFBXMesh("Fortress_Part_1.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part1->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part1->GetTransform()->SetLocalPosition(float4{ -330, 300, 430 });
-	m_pRenderer_Part1->CalculateUnitPos();
+	m_pCullingObj1 = CurLevel->CreateActor<CullingObject>();
+	m_pCullingObj1->InitComponent("Fortress_Part_1.fbx");
+	m_pCullingObj1->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pCullingObj1->GetTransform()->SetLocalPosition(float4{ -330, 300, 430 });
 
-	m_pRenderer_Part2 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part2->SetFBXMesh("Fortress_Part_2.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part2->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part2->GetTransform()->SetLocalPosition(float4{ -9190, 328, 11669 });
-	m_pRenderer_Part2->CalculateUnitPos();
+	m_pCullingObj2 = CurLevel->CreateActor<CullingObject>();
+	m_pCullingObj2->InitComponent("Fortress_Part_2.fbx");
+	m_pCullingObj2->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pCullingObj2->GetTransform()->SetLocalPosition(float4{ -9190, 328, 11669 });
 
-	m_pRenderer_Part3 = CreateComponent<ContentFBXRenderer>();
+	m_pCullingTrigger->Set_CullingObject(m_pCullingObj1, m_pCullingObj2);
+
+	m_pCullingObj3 = CurLevel->CreateActor<CullingObject>();
+	m_pCullingObj3->InitComponent("Fortress_Part_3.fbx");
+	m_pCullingObj3->GetTransform()->SetLocalRotation(m_MapRot);
+	m_pCullingObj3->GetTransform()->SetLocalPosition(float4{ -8566, 336, 13834});
+
+	
+	//m_pRenderer_Part2 = CreateComponent<ContentFBXRenderer>();
+	//m_pRenderer_Part2->SetFBXMesh("Fortress_Part_2.fbx", "ContentMeshDeffered");
+	//m_pRenderer_Part2->GetTransform()->SetLocalRotation(m_MapRot);
+	//m_pRenderer_Part2->GetTransform()->SetLocalPosition(float4{ -9190, 328, 11669 });
+	// m_pRenderer_Part2->CalculateUnitPos();
+
+	/*m_pRenderer_Part3 = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Part3->SetFBXMesh("Fortress_Part_3.fbx", "ContentMeshDeffered");
 	m_pRenderer_Part3->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Part3->GetTransform()->SetLocalPosition(float4{ -8566, 336, 13834});
@@ -253,3 +265,23 @@ void Map_Fortress::Create_ActiveObject()
 void Map_Fortress::Create_TransformWall(std::shared_ptr<class GameEngineLevel> _CurLevel)
 {
 }
+
+//void Map_Fortress::InitCullingObject()
+//{
+	// 여기선 일단 만드는거 까지만해보자
+	//GameEngineLevel* CurLevel = GetLevel();
+	//m_vCullingObjects.resize(m_iCullingObject_Height);
+
+	//for (size_t i = 0; i < m_iCullingObject_Height; ++i)
+	//{
+	//	// 각 열의 첫번째 액터는 전부 컬링트리거로 생성한다. 그리고 
+	//	std::shared_ptr<CullingTrigger> TriggerObj = CurLevel->CreateActor<CullingTrigger>();
+	//	m_vCullingObjects[i][0] = TriggerObj;
+	//	for (size_t j = 1; j < m_iCullingObject_Width; ++j)
+	//	{
+	//		// 만들기만하고. 넣어줘.
+	//		std::shared_ptr<CullingObject> Obj = CurLevel->CreateActor<CullingObject>();
+	//		m_vCullingObjects[i][j] = Obj;
+	//	}
+	//}
+//}

@@ -14,8 +14,8 @@ CullingManager::~CullingManager()
 {
 }
 
-// 인자로 ~~ 를 받고 
-void CullingManager::SetCullingObject()
+ 
+void CullingManager::SetCullingObject(std::vector<std::vector<std::shared_ptr<GameEngineActor>>>& _Objects)
 {
 	
 }
@@ -49,8 +49,7 @@ void CullingManager::Start()
 		std::shared_ptr<FortressLevel> CurLevel = CurContentLevel->DynamicThis<FortressLevel>();
 		std::shared_ptr<Map_Fortress> CurMap = CurLevel->GetMap();
 
-		// 이렇게 가져와서
-		// CurMap->GetCullingObject();
+		// SetCullingObject(CurMap->GetCullingObject());
 		// SetCullingObject(); <-- 인자넣어서 호출해서 함수안에서 컬링할녀석들을 세팅해준다. 
 		// 그리고 Culling 함수에서 여차저차 어쩌구저쩌구
 		break;

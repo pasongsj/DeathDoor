@@ -16,7 +16,7 @@ public:
 	CullingManager& operator=(const CullingManager& _Other) = delete;
 	CullingManager& operator=(CullingManager&& _Other) noexcept = delete;
 
-	void SetCullingObject();
+	void SetCullingObject(std::vector<std::vector<std::shared_ptr<GameEngineActor>>>& _Objects);
 
 protected:
 	void Start() override;
