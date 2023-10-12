@@ -1,6 +1,7 @@
 #include "PrecompileHeader.h"
 #include "MpBar.h"
 #include "ContentUIRenderer.h"
+#include "Player.h"
 
 MpBar::MpBar()
 {
@@ -27,7 +28,7 @@ void MpBar::Start()
 
 void MpBar::Update(float _DeltaTtime)
 {
-
+	MpUpdate();
 }
 
 void MpBar::Render(float _DeltaTtime)
@@ -35,15 +36,35 @@ void MpBar::Render(float _DeltaTtime)
 
 }
 
-void MpBar::ReduceMp()
+void MpBar::MpUpdate()
 {
-	if (CurMp <= 1)
-	{
-		MpBlocks[CurMp - 1]->SetScaleToTexture("Mp_Empty.png");
-		return;
-	}
+	CurMp = Player::MainPlayer->GetSpellCost();
 
-	MpBlocks[CurMp - 1]->SetScaleToTexture("Mp_Empty.png");
-	CurMp--;
-	MpBlocks[CurMp - 1]->SetScaleToTexture("Mp_Usable.png");
+	if (CurMp != PrevMP)
+	{
+		if (CurMp <= 0)
+		{
+			MpBlocks[0]->SetScaleToTexture("Mp_Empty.png");
+			return;
+		}
+
+		if (CurMp > MaxMp)
+		{
+			return;
+		}
+
+		for (int i = 0; i < CurMp - 1; i++)
+		{
+			MpBlocks[i]->SetScaleToTexture("Mp.png");
+		}
+
+		for (int i = CurMp; i < MaxMp; i++)
+		{
+			MpBlocks[i]->SetScaleToTexture("Mp_Empty.png");
+		}
+
+		MpBlocks[CurMp - 1]->SetScaleToTexture("Mp_Usable.png");
+
+		PrevMP = CurMp;
+	}
 }

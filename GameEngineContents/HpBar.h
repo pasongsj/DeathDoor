@@ -23,7 +23,11 @@ protected:
 
 private:
 
+	void HpUpdate();
+
+	int MaxHp = 4;
 	int CurHp = 4;
+	int PrevHp = 4;
 
 	std::shared_ptr<class ContentUIRenderer> HpBarRender = nullptr;
 	std::vector<std::shared_ptr<ContentUIRenderer>> HpBlocks;
