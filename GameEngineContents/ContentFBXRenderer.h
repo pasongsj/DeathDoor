@@ -41,8 +41,7 @@ protected:
 	void Render(float _DeltaTime) override;
 private:
 	void LinkBlurColor();
-
-	float4 BlurColor = {1.0f, 0.2f, 0.2f};
+	float4 BlurColor = {0.99f, 0.356f, 0.407f};
 	std::string MaterialName;
 };
 

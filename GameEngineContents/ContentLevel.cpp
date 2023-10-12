@@ -5,6 +5,7 @@
 #include "HPBar.h"
 #include "SkillSlot.h"
 #include "GlowEffect.h"
+#include <GameEngineCore/GameEngineCoreWindow.h>
 
 ContentLevel::ContentLevel()
 {
@@ -25,5 +26,5 @@ void ContentLevel::CreateUI()
 void ContentLevel::SetPostPrecessEffect()
 {
 	std::shared_ptr<GlowEffect> Effect = GetLevel()->GetMainCamera()->GetDeferredLightTarget()->CreateEffect<GlowEffect>();
-	Effect->Init(DynamicThis<GameEngineLevel>(), 2.5f);
+	Effect->Init(DynamicThis<GameEngineLevel>(), {2.0f, 0.5f, 1.0f, 2.0f});
 }
