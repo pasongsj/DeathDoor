@@ -53,6 +53,8 @@ private:
 
 		std::shared_ptr<class ContentUIRenderer> SkillRender = nullptr;
 
+		float4 BasicPos_SkillRender = { 0, 0 };
+
 		float4 BasicPos_Half_1 = { 0, 0 };
 
 		float4 BasicScale_SkillRender = { 0, 0 };

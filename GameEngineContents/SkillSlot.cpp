@@ -40,6 +40,10 @@ void SkillSlot::Update(float _DeltaTime)
 			StartIter++;
 		}
 	}
+
+	float4 Pos = SlotList[1]->SkillRender->GetTransform()->GetLocalPosition();
+
+	int a = 0;
 }
 
 void SkillSlot::Render(float _DeltaTime)
@@ -79,7 +83,9 @@ void SkillSlot::SetSlot()
 	ArrowSlot->SkillRender = CreateComponent<ContentUIRenderer>();
 	ArrowSlot->SkillRender->SetTexture("Icon_Arrow.png");
 	ArrowSlot->SkillRender->GetTransform()->SetLocalScale({ 48.0f, 48.0f });
-	ArrowSlot->SkillRender->GetTransform()->SetLocalPosition({ 0.0f, 47.5f });
+	ArrowSlot->SkillRender->GetTransform()->SetLocalPosition({ 0.0f, 45.0f });
+
+	ArrowSlot->BasicPos_SkillRender = { 0.0f, 45.0f };
 
 	ArrowSlot->BasicPos_Half_1 = { 0.0f, 69.5f };
 	ArrowSlot->BasicScale_SkillRender = { 48, 48 };
@@ -112,7 +118,9 @@ void SkillSlot::SetSlot()
 	FireSlot->SkillRender = CreateComponent<ContentUIRenderer>();
 	FireSlot->SkillRender->SetTexture("Icon_Fireball.png");
 	FireSlot->SkillRender->GetTransform()->SetLocalScale({ 64.0f, 64.0f });
-	FireSlot->SkillRender->GetTransform()->SetLocalPosition({ -47.5f, 0.0f});
+	FireSlot->SkillRender->GetTransform()->SetLocalPosition({ -45.0f, 0.0f});
+
+	FireSlot->BasicPos_SkillRender = { -45.0f, 0.0f };
 
 	FireSlot->BasicPos_Half_1 = { -69.5f, 0 };
 	FireSlot->BasicScale_SkillRender = { 64, 64 };
@@ -151,6 +159,8 @@ void SkillSlot::SetSlot()
 	BombSlot->SkillRender->GetTransform()->SetLocalScale({ 64.0f, 64.0f });
 	BombSlot->SkillRender->GetTransform()->SetLocalPosition({ 47.5f, 0.0f });
 
+	BombSlot->BasicPos_SkillRender = { 47.5f, 0.0f };
+
 	BombSlot->BasicPos_Half_1 = { 69.5f, 0.0f };
 	BombSlot->BasicScale_SkillRender = {64, 64 };
 
@@ -188,6 +198,8 @@ void SkillSlot::SetSlot()
 	HookSlot->SkillRender->GetTransform()->SetLocalScale({ 64.0f, 64.0f });
 	HookSlot->SkillRender->GetTransform()->SetLocalPosition({ 0.0f, -47.5f });
 
+	HookSlot->BasicPos_SkillRender = { 0.0f, -47.5f };
+
 	HookSlot->BasicPos_Half_1 = { 0.0f, -69.5f };
 	HookSlot->BasicScale_SkillRender = { 64, 64 };
 
@@ -224,8 +236,15 @@ bool SkillSlot::LerpSlotScaleUp_Fire(float _DeltaTime)
 	float4 EndScale_SkillRender = { 76, 76 };
 
 	float4 DestScale = float4::Lerp(StartScale_SkillRender, EndScale_SkillRender, LerpUpRatio);
+
 	SlotList[1]->SkillRender->GetTransform()->SetLocalScale(DestScale);
-	SlotList[1]->SkillRender->GetTransform()->SetLocalPosition({ SlotList[1]->HalfSlotLinker_1->GetTransform()->GetLocalPosition().x, 0.0f});
+	
+	float4 StartPos_SkillRender = SlotList[1]->BasicPos_SkillRender;
+	float4 EndPos_SkillRender = StartPos_SkillRender + float4{ -12.5f, 0.0f };
+	float4 DestPos = float4::Lerp(StartPos_SkillRender, EndPos_SkillRender, LerpUpRatio);
+
+	SlotList[1]->SkillRender->GetTransform()->SetLocalPosition({ DestPos });
+
 
 	return false;
 }
@@ -264,7 +283,12 @@ bool SkillSlot::LerpSlotScaleDown_Fire(float _DeltaTime)
 	float4 DestScale = float4::Lerp(StartScale_SkillRender, EndScale_SkillRender, LerpDownRatio);
 
 	SlotList[1]->SkillRender->GetTransform()->SetLocalScale(DestScale);
-	SlotList[1]->SkillRender->GetTransform()->SetLocalPosition({ SlotList[1]->HalfSlotLinker_1->GetTransform()->GetLocalPosition().x, 0.0f });
+
+	float4 StartPos_SkillRender = SlotList[1]->BasicPos_SkillRender + float4{ -12.5f, 0.0f };
+	float4 EndPos_SkillRender = SlotList[1]->BasicPos_SkillRender;
+	float4 DestPos = float4::Lerp(StartPos_SkillRender, EndPos_SkillRender, LerpUpRatio);
+
+	SlotList[1]->SkillRender->GetTransform()->SetLocalPosition({ DestPos });
 
 	return false;
 }
@@ -300,7 +324,12 @@ bool SkillSlot::LerpSlotScaleUp_Arrow(float _DeltaTime)
 
 	float4 DestScale = float4::Lerp(StartScale_SkillRender, EndScale_SkillRender, LerpUpRatio);
 	SlotList[0]->SkillRender->GetTransform()->SetLocalScale(DestScale);
-	SlotList[0]->SkillRender->GetTransform()->SetLocalPosition({ 0.0f, SlotList[0]->HalfSlotLinker_1->GetTransform()->GetLocalPosition().y });
+
+	float4 StartPos_SkillRender = SlotList[0]->BasicPos_SkillRender;
+	float4 EndPos_SkillRender = StartPos_SkillRender + float4{0.0f, 12.5f};
+	float4 DestPos = float4::Lerp(StartPos_SkillRender, EndPos_SkillRender, LerpUpRatio);
+
+	SlotList[0]->SkillRender->GetTransform()->SetLocalPosition({ DestPos });
 
 	return false;
 }
@@ -339,8 +368,12 @@ bool SkillSlot::LerpSlotScaleDown_Arrow(float _DeltaTime)
 	float4 DestScale = float4::Lerp(StartScale_SkillRender, EndScale_SkillRender, LerpDownRatio);
 
 	SlotList[0]->SkillRender->GetTransform()->SetLocalScale(DestScale);
-	SlotList[0]->SkillRender->GetTransform()->SetLocalPosition({ 0.0f, SlotList[0]->HalfSlotLinker_1->GetTransform()->GetLocalPosition().y });
 
+	float4 StartPos_SkillRender = SlotList[0]->BasicPos_SkillRender + float4{ 0.0f, 12.5f };
+	float4 EndPos_SkillRender = SlotList[0]->BasicPos_SkillRender;
+	float4 DestPos = float4::Lerp(StartPos_SkillRender, EndPos_SkillRender, LerpUpRatio);
+
+	SlotList[0]->SkillRender->GetTransform()->SetLocalPosition({ DestPos });
 	return false;
 }
 
@@ -374,8 +407,15 @@ bool SkillSlot::LerpSlotScaleUp_Bomb(float _DeltaTime)
 	float4 EndScale_SkillRender = { 76, 76 };
 
 	float4 DestScale = float4::Lerp(StartScale_SkillRender, EndScale_SkillRender, LerpUpRatio);
+
 	SlotList[2]->SkillRender->GetTransform()->SetLocalScale(DestScale);
-	SlotList[2]->SkillRender->GetTransform()->SetLocalPosition({ SlotList[2]->HalfSlotLinker_1->GetTransform()->GetLocalPosition().x, 0.0f });
+
+	float4 StartPos_SkillRender = SlotList[2]->BasicPos_SkillRender;
+	float4 EndPos_SkillRender = StartPos_SkillRender + float4{12.5f, 0.0f};
+	float4 DestPos = float4::Lerp(StartPos_SkillRender, EndPos_SkillRender, LerpUpRatio);
+
+	SlotList[2]->SkillRender->GetTransform()->SetLocalPosition({ DestPos });
+
 
 	return false;
 }
@@ -414,7 +454,12 @@ bool SkillSlot::LerpSlotScaleDown_Bomb(float _DeltaTime)
 	float4 DestScale = float4::Lerp(StartScale_SkillRender, EndScale_SkillRender, LerpDownRatio);
 
 	SlotList[2]->SkillRender->GetTransform()->SetLocalScale(DestScale);
-	SlotList[2]->SkillRender->GetTransform()->SetLocalPosition({ SlotList[2]->HalfSlotLinker_1->GetTransform()->GetLocalPosition().x, 0.0f });
+
+	float4 StartPos_SkillRender = SlotList[2]->BasicPos_SkillRender + float4{12.5f, 0.0f};
+	float4 EndPos_SkillRender = SlotList[2]->BasicPos_SkillRender;
+	float4 DestPos = float4::Lerp(StartPos_SkillRender, EndPos_SkillRender, LerpUpRatio);
+
+	SlotList[2]->SkillRender->GetTransform()->SetLocalPosition({ DestPos });
 
 	return false;
 }
@@ -450,7 +495,12 @@ bool SkillSlot::LerpSlotScaleUp_Hook(float _DeltaTime)
 
 	float4 DestScale = float4::Lerp(StartScale_SkillRender, EndScale_SkillRender, LerpUpRatio);
 	SlotList[3]->SkillRender->GetTransform()->SetLocalScale(DestScale);
-	SlotList[3]->SkillRender->GetTransform()->SetLocalPosition({ 0.0f, SlotList[3]->HalfSlotLinker_1->GetTransform()->GetLocalPosition().y });
+
+	float4 StartPos_SkillRender = SlotList[3]->BasicPos_SkillRender;
+	float4 EndPos_SkillRender = StartPos_SkillRender + float4{ 0.0f, -12.5f };
+	float4 DestPos = float4::Lerp(StartPos_SkillRender, EndPos_SkillRender, LerpUpRatio);
+
+	SlotList[3]->SkillRender->GetTransform()->SetLocalPosition({ DestPos });
 
 	return false;
 }
@@ -489,8 +539,12 @@ bool SkillSlot::LerpSlotScaleDown_Hook(float _DeltaTime)
 	float4 DestScale = float4::Lerp(StartScale_SkillRender, EndScale_SkillRender, LerpDownRatio);
 
 	SlotList[3]->SkillRender->GetTransform()->SetLocalScale(DestScale);
-	SlotList[3]->SkillRender->GetTransform()->SetLocalPosition({ 0.0f, SlotList[3]->HalfSlotLinker_1->GetTransform()->GetLocalPosition().y });
 
+	float4 StartPos_SkillRender = SlotList[3]->BasicPos_SkillRender + float4{ 0.0f, -12.5f };
+	float4 EndPos_SkillRender = SlotList[3]->BasicPos_SkillRender;
+	float4 DestPos = float4::Lerp(StartPos_SkillRender, EndPos_SkillRender, LerpUpRatio);
+
+	SlotList[3]->SkillRender->GetTransform()->SetLocalPosition({ DestPos });
 	return false;
 }
 
