@@ -109,17 +109,17 @@ void OfficeLevel::Set_PlayerStartPos()
 
 void OfficeLevel::SetPointLight()
 {
-	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 3375 , 75 , -5050 },.MaxDist = 200.0f,.Intensity = 5.0f });
-	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 2010 , 75 , -5050 },.MaxDist = 150.0f,.Intensity = 7.0f });
-	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 910 , 75 , -5050 },.MaxDist = 150.0f,.Intensity = 7.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 3375 , 75 , -5050 },.MaxDist = 200.0f,.Intensity = 3.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 2010 , 75 , -5050 },.MaxDist = 150.0f,.Intensity = 3.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 910 , 75 , -5050 },.MaxDist = 150.0f,.Intensity = 3.0f });
 
-	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 875 , 125 ,-3200 },.MaxDist = 150.0f,.Intensity = 7.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 875 , 125 ,-3200 },.MaxDist = 150.0f,.Intensity = 3.0f });
 
-	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { -850 ,550 , -3125 },.MaxDist = 150.0f,.Intensity = 7.0f });
-	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 250 , 850 , 1000 },.MaxDist = 150.0f,.Intensity = 15.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { -850 ,550 , -3125 },.MaxDist = 150.0f,.Intensity = 3.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 250 , 850 , 1000 },.MaxDist = 150.0f,.Intensity = 3.0f });
 
-	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 2825 , 825 , 2325 },.MaxDist = 150.0f,.Intensity = 7.0f });
-	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 3150 , 950 , 2350 },.MaxDist = 150.0f,.Intensity = 7.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 2825 , 825 , 2325 },.MaxDist = 150.0f,.Intensity = 5.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 3150 , 950 , 2350 },.MaxDist = 150.0f,.Intensity = 5.0f });
 
-	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 525 , 1450 , 4225 },.MaxDist = 100.0f,.Intensity = 7.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 525 , 1450 , 4225 },.MaxDist = 100.0f,.Intensity = 5.0f });
 }

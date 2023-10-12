@@ -48,7 +48,7 @@ OutPutColor DeferredMerge_PS(Output _Input) : SV_Target0
     OutPutColor NewOutPut = (OutPutColor) 0;
     
     float4 Color = DifColor.Sample(POINTWRAP, _Input.TEXCOORD.xy);
-    //Color.rgb = pow(Color.rgb, 1.0f / 2.2f);
+    Color.rgb = pow(Color.rgb, 1.0f / 2.2f);
     //if (0 >= Color.a)
     //{
     //    clip(-1);
@@ -82,7 +82,7 @@ OutPutColor DeferredMerge_PS(Output _Input) : SV_Target0
     }
     // NewOutPut.Result.a = saturate(NewOutPut.Result.a);
     
-    //NewOutPut.Result.rgb = pow(NewOutPut.Result, 2.2f);
+    NewOutPut.Result.rgb = pow(NewOutPut.Result, 2.2f);
     
     return NewOutPut;
 
