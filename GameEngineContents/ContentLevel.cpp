@@ -5,7 +5,6 @@
 #include "HPBar.h"
 #include "SkillSlot.h"
 #include "GlowEffect.h"
-#include "GammaCollection.h"
 #include "FXAA.h"
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
@@ -31,5 +30,4 @@ void ContentLevel::SetPostPrecessEffect()
 	Effect->Init(DynamicThis<GameEngineLevel>(), {2.0f, 0.0f, 0.0f, 1.25f});
 
 	std::shared_ptr<FXAA> Effect1 = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();
-	std::shared_ptr<GammaCollection> Effect2 = GetLevel()->GetLastTarget()->CreateEffect<GammaCollection>();
 }

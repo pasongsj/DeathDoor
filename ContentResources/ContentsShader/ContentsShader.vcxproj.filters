@@ -67,9 +67,6 @@
     <FxCompile Include="SwordTrailShader.hlsl">
       <Filter>ObjectShader</Filter>
     </FxCompile>
-    <FxCompile Include="GammaCollection.hlsl">
-      <Filter>Effect</Filter>
-    </FxCompile>
     <FxCompile Include="FXAA.hlsl">
       <Filter>Effect</Filter>
     </FxCompile>

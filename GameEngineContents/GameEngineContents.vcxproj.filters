@@ -359,9 +359,6 @@
     <ClCompile Include="SwordTrailRenderer.cpp">
       <Filter>Component\ContentsRenderer\FBX</Filter>
     </ClCompile>
-    <ClCompile Include="GammaCollection.cpp">
-      <Filter>Component\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="FXAA.cpp">
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
@@ -718,9 +715,6 @@
     </ClInclude>
     <ClInclude Include="SwordTrailRenderer.h">
       <Filter>Component\ContentsRenderer\FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="GammaCollection.h">
-      <Filter>Component\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="FXAA.h">
       <Filter>Component\PostEffect</Filter>
