@@ -2,6 +2,8 @@
 #include "Dust.h"
 #include "DustRenderer.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
+
 Dust::Dust()
 {
 }
@@ -47,8 +49,8 @@ void Dust::Start()
 
 void Dust::Update(float _Delta)
 {
-
-	Dust1->DustMove(_Delta, 0.04f);
-	Dust2->DustMove(_Delta, 0.03f);
-	Dust3->DustMove(_Delta, 0.02f);
+	Dust1->DustMove(_Delta, 0.05f);
+	Dust2->DustMove(_Delta, 0.04f);
+	Dust3->DustMove(_Delta, 0.03f);
+	Dust4->DustMove(_Delta, 0.02f);
 }
