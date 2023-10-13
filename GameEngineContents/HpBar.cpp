@@ -42,6 +42,10 @@ void HpBar::Render(float _DeltaTime)
 
 void HpBar::HpUpdate()
 {
+	if (nullptr == Player::MainPlayer)
+	{
+		return;
+	}
 	CurHp = Player::MainPlayer->GetPlayerHP();
 
 	if (CurHp != PrevHp)

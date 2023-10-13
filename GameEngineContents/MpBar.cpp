@@ -38,6 +38,10 @@ void MpBar::Render(float _DeltaTtime)
 
 void MpBar::MpUpdate()
 {
+	if (nullptr == Player::MainPlayer)
+	{
+		return;
+	}
 	CurMp = Player::MainPlayer->GetSpellCost();
 
 	if (CurMp != PrevMP)
