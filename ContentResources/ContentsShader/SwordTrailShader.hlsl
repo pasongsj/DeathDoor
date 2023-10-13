@@ -81,11 +81,14 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         clip(-1);
     }
     
-    NewOutPut.DifTarget = float4(0.99f * 0.5f, 0.356f * 0.5f, 0.407f * 0.5f, Color.a);
+    float4 BlurColor = float4(0.99f, 0.356f, 0.407f, Color.a);
+    BlurColor.rgb = BlurColor.rgb * 0.6f;
+    
+    NewOutPut.DifTarget = BlurColor;
     NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;
     NewOutPut.NorTarget = _Input.NORMAL;
-    NewOutPut.BlurTarget = float4(0.99f * 0.5f, 0.356f * 0.5f, 0.407f * 0.5f, Color.a);
+    NewOutPut.BlurTarget = BlurColor;
     
     return NewOutPut;
 }

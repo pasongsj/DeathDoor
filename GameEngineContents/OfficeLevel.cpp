@@ -5,7 +5,7 @@
 #include "Player.h"
 #include "PhysXCapsuleComponent.h"
 
-#include "MyTest.h"
+#include "Dust.h"
 
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
@@ -28,6 +28,9 @@ void OfficeLevel::Start()
 	GameEngineCoreWindow::AddDebugRenderTarget(3, "DeferredTarget", GetMainCamera()->GetCamDeferrdTarget());
 
 	SetPointLight();
+
+	CreateNewCamera(-1);
+	GetCamera(-1)->SetProjectionType(CameraType::Orthogonal);
 }
 
 
@@ -60,6 +63,7 @@ void OfficeLevel::LevelChangeStart()
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	Set_PlayerStartPos();
 
+	CreateActor<Dust>();
 	SetPostPrecessEffect();
 }
 
@@ -121,5 +125,6 @@ void OfficeLevel::SetPointLight()
 	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 2825 , 825 , 2325 },.MaxDist = 150.0f,.Intensity = 10.0f });
 	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 3150 , 950 , 2350 },.MaxDist = 150.0f,.Intensity = 10.0f });
 
-	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 525 , 1450 , 4225 },.MaxDist = 100.0f,.Intensity = 10.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 525 , 1450 , 4225 },.MaxDist = 100.0f,.Intensity = 5.0f });
 }
+

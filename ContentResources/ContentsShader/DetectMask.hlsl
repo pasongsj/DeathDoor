@@ -35,10 +35,7 @@ struct OutPutTarget
     float4 AmbLightTarget : SV_Target3;
 };
 
-cbuffer Intensity : register(b0)
-{
-    float4 Intensity;
-};
+
     
 OutPutTarget DetectMask_PS(OutPut _Value)
 {
@@ -62,10 +59,10 @@ OutPutTarget DetectMask_PS(OutPut _Value)
    
     OutPutTarget OutPut = (OutPutTarget) 0.0f;
     
-    OutPut.DiffuseTarget = BlurColor * Intensity.x;
-    OutPut.DifLightTarget = DifLight * Intensity.y;
-    OutPut.SpcLightTarget = SpcLight * Intensity.z;
-    OutPut.AmbLightTarget = AmbLight * Intensity.w;
+    OutPut.DiffuseTarget = BlurColor;
+    OutPut.DifLightTarget = DifLight;
+    OutPut.SpcLightTarget = SpcLight;
+    OutPut.AmbLightTarget = AmbLight;
 
     return OutPut;
 }

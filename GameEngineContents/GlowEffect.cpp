@@ -16,7 +16,6 @@ void GlowEffect::Start(GameEngineRenderTarget* _Target)
 	DetectMaskUnit.SetMesh("FullRect");
 	DetectMaskUnit.SetMaterial("DetectMask");
 
-	DetectMaskUnit.ShaderResHelper.SetConstantBufferLink("Intensity", Intensity);
 
 	DetectMaskTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
@@ -28,6 +27,7 @@ void GlowEffect::Start(GameEngineRenderTarget* _Target)
 
 	BlurUnit.SetMesh("FullRect");
 	BlurUnit.SetMaterial("AllBlur7x7");
+	BlurUnit.ShaderResHelper.SetConstantBufferLink("Intensity", Intensity);
 	BlurUnit.ShaderResHelper.SetConstantBufferLink("ScreenSize", BlurSize);
 
 	BlurTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, BlurSize, float4::ZERONULL);
@@ -39,6 +39,7 @@ void GlowEffect::Start(GameEngineRenderTarget* _Target)
 	DoubleBlurUnit.SetMesh("FullRect");
 	DoubleBlurUnit.SetMaterial("AllBlur7x7");
 	DoubleBlurUnit.ShaderResHelper.SetConstantBufferLink("ScreenSize", DoubleBlurSize);
+	DoubleBlurUnit.ShaderResHelper.SetConstantBufferLink("Intensity", Intensity);
 
 	DoubleBlurTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, DoubleBlurSize, float4::ZERONULL);
 	DoubleBlurTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, DoubleBlurSize, float4::ZERONULL);

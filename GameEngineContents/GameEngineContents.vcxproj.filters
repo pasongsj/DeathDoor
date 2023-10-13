@@ -146,16 +146,16 @@
       <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="StaticParticleManager.cpp">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClCompile>
     <ClCompile Include="DynamicParticleManager.cpp">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClCompile>
     <ClCompile Include="ParticleManager.cpp">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClCompile>
     <ClCompile Include="ParticleRenderer.cpp">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClCompile>
     <ClCompile Include="MyTest.cpp">
       <Filter>Contents\UITestLevel</Filter>
@@ -314,7 +314,7 @@
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="FireObject.cpp">
-      <Filter>Component\ContentsRenderer\Fire</Filter>
+      <Filter>Component\ContentsRenderer\Object\Fire</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBow.cpp">
       <Filter>FSMObject\Player</Filter>
@@ -361,6 +361,12 @@
     </ClCompile>
     <ClCompile Include="FXAA.cpp">
       <Filter>Component\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="DustRenderer.cpp">
+      <Filter>Component\ContentsRenderer\Object\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust.cpp">
+      <Filter>Component\ContentsRenderer\Object\Dust</Filter>
     </ClCompile>
     <ClCompile Include="BrightBloomEffect.cpp">
       <Filter>Component\PostEffect</Filter>
@@ -512,19 +518,19 @@
       <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="ParticleStruct.h">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClInclude>
     <ClInclude Include="ParticleRenderer.h">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClInclude>
     <ClInclude Include="DynamicParticleManager.h">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClInclude>
     <ClInclude Include="StaticParticleManager.h">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClInclude>
     <ClInclude Include="ParticleManager.h">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClInclude>
     <ClInclude Include="MyTest.h">
       <Filter>Contents\UITestLevel</Filter>
@@ -678,7 +684,7 @@
       <Filter>Component\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="FireObject.h">
-      <Filter>Component\ContentsRenderer\Fire</Filter>
+      <Filter>Component\ContentsRenderer\Object\Fire</Filter>
     </ClInclude>
     <ClInclude Include="FrogFloor.h">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
@@ -730,6 +736,12 @@
     </ClInclude>
     <ClInclude Include="GammaCorrection.h">
       <Filter>Component\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="DustRenderer.h">
+      <Filter>Component\ContentsRenderer\Object\Dust</Filter>
+    </ClInclude>
+    <ClInclude Include="Dust.h">
+      <Filter>Component\ContentsRenderer\Object\Dust</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -814,9 +826,6 @@
     <Filter Include="Contents\TestLevel\MapTestLevel\Actor">
       <UniqueIdentifier>{e61b235a-08ef-4d2c-8b42-a38245fea2ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\ContentsRenderer\Particle">
-      <UniqueIdentifier>{47fef3f1-0d09-44ae-b450-d11cab6effcc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Contents\BossTestLevel">
       <UniqueIdentifier>{5c11a7c5-e976-45af-b6d5-61102129526f}</UniqueIdentifier>
     </Filter>
@@ -874,9 +883,6 @@
     <Filter Include="Component\PostEffect">
       <UniqueIdentifier>{d5ea17ab-cd73-4c06-af79-5246cf19158e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\ContentsRenderer\Fire">
-      <UniqueIdentifier>{f006ce62-c1d5-49b0-af52-7b38c1a4c551}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\Level">
       <UniqueIdentifier>{81902642-70f0-4525-85b9-21fe176eb5a3}</UniqueIdentifier>
     </Filter>
@@ -894,6 +900,18 @@
     </Filter>
     <Filter Include="CullingObject">
       <UniqueIdentifier>{13870c6d-2456-4b2e-9636-fe4a1727d432}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Object">
+      <UniqueIdentifier>{69d65129-9f28-4123-8c4d-3306e362249a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Object\Particle">
+      <UniqueIdentifier>{47fef3f1-0d09-44ae-b450-d11cab6effcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Object\Fire">
+      <UniqueIdentifier>{f006ce62-c1d5-49b0-af52-7b38c1a4c551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Object\Dust">
+      <UniqueIdentifier>{248418d0-b163-4273-897f-02bdf3f6b1bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
