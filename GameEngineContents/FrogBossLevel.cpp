@@ -27,9 +27,12 @@ void FrogBossLevel::Update(float _DeltaTime)
 	// float4 Pos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 
 		// test 
-	if (false == GetMainCamera()->IsFreeCamera())
+	if (false == GetMainCamera()->IsFreeCamera()) // 계산이 안되서 임시
 	{
-		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + m_CameraPos);
+		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		nextPos.y += 3000.0f;
+		nextPos.z -= 3000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
+		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
 	}
 }
 
