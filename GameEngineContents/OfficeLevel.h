@@ -31,8 +31,8 @@ protected:
 private:
 
 	// 2800, 230, -6300
-	const float4 m_CameraPos = float4{ 2800 , 300 , -6500 };
-	const float4 m_CameraRot = float4{ 35 , 0 , 0 };
+	const float4 m_CameraPos = float4{ 2800 , 2500 , -6500 };
+	const float4 m_CameraRot = float4{ 45.0f , 0 , 0 };
 
 	void Set_PlayerStartPos();
 	const float4 m_StartPos = float4 { 2610 , -740 , -5347 };

@@ -38,7 +38,10 @@ void OfficeLevel::Update(float _DeltaTime)
 	// test 
 	if (false == GetMainCamera()->IsFreeCamera())
 	{
-		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4 { 0, 1200, -1200 });
+		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		nextPos.y += 3000.0f;
+		nextPos.z -= 3000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
+		GetMainCamera()->GetTransform()->SetWorldPosition(float4::LerpClamp(GetMainCamera()->GetTransform()->GetWorldPosition(),nextPos, _DeltaTime * 3.0f));
 	}
 }
 
@@ -50,6 +53,7 @@ void OfficeLevel::LevelChangeStart()
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
+	GetMainCamera()->SetZoomRatio(2.5f);
 
 
 	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
@@ -58,7 +62,15 @@ void OfficeLevel::LevelChangeStart()
 
 	// 플레이어 생성후 Set_StartPos함수 호출하면 해당 위치에 세팅
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
+
 	Set_PlayerStartPos();
+	if (false == GetMainCamera()->IsFreeCamera())
+	{
+		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		nextPos.y += 3000.0f;
+		nextPos.z -= 3000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
+		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
+	}
 
 	SetPostPrecessEffect();
 }
