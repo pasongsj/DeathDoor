@@ -21,7 +21,7 @@ ContentLevel::~ContentLevel()
 void ContentLevel::CreateUI()
 {
 	CreateActor<Mouse>();
-	CreateActor<SkillSlot>();
+	CreateActor<SkillSlot>(); 
 	CreateActor<HpBar>();
 	CreateActor<MpBar>();
 }
