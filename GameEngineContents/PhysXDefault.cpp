@@ -251,3 +251,8 @@ void PhysXDefault::SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup 
         )
     );
 }
+
+void PhysXDefault::SetRigidCollide(bool _Value)
+{
+    m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, _Value);
+}
