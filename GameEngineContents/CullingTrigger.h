@@ -30,6 +30,13 @@ public:
 	void On_CullingObject();
 	void Off_CullingObject();
 
+
+	inline bool IsActivate()
+	{
+		return m_bIsActivate;
+	}
+
+	
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -39,13 +46,9 @@ private:
 
 	bool m_bIsActivate = false;
 
-	// 대충 트리거로 사용할 메쉬 아무거나 
-	// 피직스 박스 컴포넌트 
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
 	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
 
-
-	// 세팅을 해준다. 
 	std::weak_ptr<class CullingObject> m_pCullingObject_1;
 	std::weak_ptr<class CullingObject> m_pCullingObject_2;
 
