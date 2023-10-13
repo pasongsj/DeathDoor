@@ -113,6 +113,11 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
         }
     }
     
+    DiffuseRatio = (DiffuseRatio / (1.0f + DiffuseRatio));
+    SpacularRatio = (SpacularRatio / (1.0f + SpacularRatio));
+    AmbientRatio = (AmbientRatio / (1.0f + AmbientRatio));
+    PointLight = (PointLight / (1.0f + PointLight));
+    
     NewOutPut.DifLight = DiffuseRatio;
     NewOutPut.SpcLight = SpacularRatio;
     NewOutPut.AmbLight = AmbientRatio;
