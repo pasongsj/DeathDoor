@@ -74,7 +74,6 @@ void ContentsCore::ContentsResourcesCreate()
 	//	Pipe->SetDepthState("EngineDepth");
 	//}
 
-
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Fade");
 
@@ -184,7 +183,7 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("DetectMask.hlsl");
 		Pipe->SetBlendState("AlphaBlend");
-		Pipe->SetDepthState("EngineDepth");
+		Pipe->SetDepthState("AlwayDepth");
 	}
 
 	{
@@ -194,7 +193,7 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("LightMerge.hlsl");
 		Pipe->SetBlendState("MergeBlend");
-		Pipe->SetDepthState("EngineDepth");
+		Pipe->SetDepthState("AlwayDepth");
 	}
 
 	{
@@ -203,7 +202,7 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetVertexShader("DefferedColorMerge.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("DefferedColorMerge.hlsl");
-		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetBlendState("MergeBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
 
@@ -227,6 +226,42 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetDepthState("EngineDepth");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("SwordTrailShader");
+
+		Pipe->SetVertexShader("SwordTrailShader.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("SwordTrailShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("FXAA");
+		Pipe->SetVertexShader("FXAA.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("FXAA.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("AlwayDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("DetectLum");
+		Pipe->SetVertexShader("DetectLuminance.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("DetectLuminance.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("AlwayDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("GammaCorrection");
+		Pipe->SetVertexShader("GammaCorrection.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("GammaCorrection.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("AlwayDepth");
+	}
 	//{
 	//	// ºí·£µå
 	//	D3D11_BLEND_DESC Desc = { 0, };

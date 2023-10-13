@@ -264,11 +264,11 @@ void Player::SetFSMFunc()
 				std::shared_ptr< PlayerAttackTrail> Trail = GetLevel()->CreateActor< PlayerAttackTrail>();
 				if (true == isChargeAttack)
 				{
-					Trail->CreateTrail(MoveDir, GetTransform()->GetWorldPosition(),false);
+					Trail->CreateTrail(MoveDir, GetTransform()->GetWorldPosition(), isRightAttack,false);
 				}
 				else
 				{
-					Trail->CreateTrail(MoveDir, GetTransform()->GetWorldPosition(),true);
+					Trail->CreateTrail(MoveDir, GetTransform()->GetWorldPosition(), isRightAttack, true);
 				}
 			}
 		},

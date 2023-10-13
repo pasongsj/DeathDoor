@@ -458,6 +458,8 @@ void GameEngineCamera::Render(float _DeltaTime)
 		CamTarget->Merge(CamForwardTarget);
 		CamTarget->Merge(CamDeferrdTarget);
 		CamTarget->Merge(CamAlphaTarget);
+
+		CamTarget->Effect(_DeltaTime);
 	}
 
 }

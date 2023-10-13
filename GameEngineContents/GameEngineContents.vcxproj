@@ -184,6 +184,10 @@
     </ClCompile>
     <ClCompile Include="Boss_OldCrowDefinition.cpp" />
     <ClCompile Include="Boss_OldCrowFSM.cpp" />
+    <ClCompile Include="BrightBloomEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentFBXRenderer.cpp">
       <SubType>
       </SubType>
@@ -261,7 +265,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FXAA.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
+    <ClCompile Include="GammaCorrection.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GlobalValue.cpp" />
     <ClCompile Include="GlowEffect.cpp">
       <SubType>
@@ -436,6 +448,10 @@
     <ClCompile Include="StreetLamp.cpp" />
     <ClCompile Include="StaticParticleManager.cpp" />
     <ClCompile Include="StreetLamp_2.cpp" />
+    <ClCompile Include="SwordTrailRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <SubType>
       </SubType>
@@ -465,6 +481,10 @@
     <ClInclude Include="BossTestLevel.h" />
     <ClInclude Include="Boss_OldCrow.h" />
     <ClInclude Include="Boss_OldCrowChain.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BrightBloomEffect.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -579,7 +599,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="FXAA.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameContentsMapActor.h" />
+    <ClInclude Include="GammaCorrection.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="GlowEffect.h">
       <SubType>
@@ -796,6 +824,10 @@
     </ClInclude>
     <ClInclude Include="StaticParticleManager.h" />
     <ClInclude Include="StreetLamp_2.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SwordTrailRenderer.h">
       <SubType>
       </SubType>
     </ClInclude>

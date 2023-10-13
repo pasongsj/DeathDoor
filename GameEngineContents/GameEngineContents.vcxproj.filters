@@ -356,6 +356,18 @@
     <ClCompile Include="CullingTrigger.cpp">
       <Filter>CullingObject</Filter>
     </ClCompile>
+    <ClCompile Include="SwordTrailRenderer.cpp">
+      <Filter>Component\ContentsRenderer\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="FXAA.cpp">
+      <Filter>Component\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="BrightBloomEffect.cpp">
+      <Filter>Component\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="GammaCorrection.cpp">
+      <Filter>Component\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -706,6 +718,18 @@
     </ClInclude>
     <ClInclude Include="CullingTrigger.h">
       <Filter>CullingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SwordTrailRenderer.h">
+      <Filter>Component\ContentsRenderer\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="FXAA.h">
+      <Filter>Component\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="BrightBloomEffect.h">
+      <Filter>Component\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="GammaCorrection.h">
+      <Filter>Component\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

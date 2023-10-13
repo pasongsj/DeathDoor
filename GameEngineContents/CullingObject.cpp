@@ -25,15 +25,16 @@ void CullingObject::InitComponent(const std::string& _MeshName)
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->SetFBXMesh(_MeshName, "ContentMeshDeffered");
+	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
 
-	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
+	/*m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
 	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
 	m_pPhysXComponent->SetTrigger();
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::CullingObject, PhysXFilterGroup::PlayerDynamic);
 	
-	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
+	m_pPhysXComponent->SetPositionSetFromParentFlag(true);*/
 }
 
