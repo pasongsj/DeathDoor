@@ -15,9 +15,14 @@ public:
 	CullingObject& operator=(const CullingObject& _Other) = delete;
 	CullingObject& operator=(CullingObject&& _Other) noexcept = delete;
 
-	inline bool IsCulling() const
+	inline bool IsLink() const
 	{
-		return m_bIsCulling;
+		return m_bIsLink;
+	}
+
+	inline void LinkOn()
+	{
+		m_bIsLink = true;
 	}
 
 	void InitComponent(const std::string& _MeshName);
@@ -32,7 +37,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-	bool m_bIsCulling = true;
+	bool m_bIsLink = false;
 	
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
 

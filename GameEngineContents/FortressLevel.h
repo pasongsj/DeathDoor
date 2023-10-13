@@ -37,7 +37,7 @@ private:
 	const float4 m_CameraRot = float4{ 55 , 0 , 0 };
 
 	void Set_PlayerStartPos();
-	const float4 m_StartPos = float4{ 0, 200, 0 };
+	const float4 m_StartPos = float4{ 0, 3, 0 };
 
 	std::shared_ptr<class Map_Fortress> m_pMap = nullptr;
 

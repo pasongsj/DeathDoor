@@ -16,8 +16,6 @@ public:
 	CullingManager& operator=(const CullingManager& _Other) = delete;
 	CullingManager& operator=(CullingManager&& _Other) noexcept = delete;
 
-	void SetCullingObject(std::vector<std::vector<std::shared_ptr<GameEngineActor>>>& _Objects);
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -25,10 +23,16 @@ protected:
 private:
 	void Culling();
 
-	// 여기서 컬링할놈들을 자료구조로 저장, 컬링함수에서 컬링..을하는데.. 어떻게 구분할거니.. 
-	// 게임엔진액터를 저장하는 2차원배열을 만들고. 각 벡터의 0번인덱스에는 CullingTrigger 를 저장
-	// 컬링 트리거의 
+	void LinkTrigger();
+	void On_FirstTrigger();
+
+	void CheckLink();
+	std::vector<std::shared_ptr<class CullingTrigger>> m_vCullingTriggers = std::vector<std::shared_ptr<class CullingTrigger>>();
+	std::vector<std::shared_ptr<class CullingObject>> m_vCullingObjects = std::vector<std::shared_ptr<class CullingObject>>();
 };
+
+// 규칙
+// 1. 첫번째트리거의 컬링오브젝트는 시작부터 On 처리 해준다. 
 
 
 

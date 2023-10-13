@@ -22,6 +22,16 @@ public:
 
 	void NaviRenderSwitch();
 
+	inline std::vector<std::shared_ptr<class CullingTrigger>>& GetCullingTrigger()
+	{
+		return m_vCullingTriggers;
+	}
+
+	inline std::vector<std::shared_ptr<class CullingObject>>& GetCullingObject()
+	{
+		return m_vCullingObjects;
+	}
+
 
 protected:
 	void Start() override;
@@ -30,7 +40,9 @@ protected:
 private:
 	void InitComponent();
 	void Create_Ground();
-	void Create_Partition();
+	void Create_CullingObject();
+	void Set_CullingTrigger();
+	void Set_CullingObject();
 	void Create_PhysXComponent();
 
 	void Create_StaticObject();
@@ -45,15 +57,21 @@ private:
 	// 얘가 가지고 있을 필요가 있나?
 	// 없는거같아 아니.. 가지고있어야되는거같은데 ㅋㅋㅋㅋ 
 	std::shared_ptr<class CullingTrigger> m_pCullingTrigger = nullptr;
+	std::shared_ptr<class CullingTrigger> m_pCullingTrigger2 = nullptr;
 	std::shared_ptr<class CullingObject> m_pCullingObj1 = nullptr;
 	std::shared_ptr<class CullingObject> m_pCullingObj2 = nullptr;
 	std::shared_ptr<class CullingObject> m_pCullingObj3 = nullptr;
+	std::shared_ptr<class CullingObject> m_pCullingObj4 = nullptr;
 	
 
+	// 일단 2 
+	size_t m_iTriggerSize = 2;
+	// 일단 4 
+	size_t m_iCullingObject_Size = 4;
 	std::vector<std::shared_ptr<class CullingTrigger>> m_vCullingTriggers = std::vector<std::shared_ptr<class CullingTrigger>>();
 	std::vector<std::shared_ptr<class CullingObject>> m_vCullingObjects = std::vector<std::shared_ptr<class CullingObject>>();
 
-	// 정해놔. 트리거는 몇개, 컬링오브젝트는 몇개로 할지
+	
 	
 	// Section 
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Section1 = nullptr;
@@ -63,26 +81,6 @@ private:
 	// Cube
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Cube = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Cube2 = nullptr;
-	
-	// 분할 obj 파트 
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part1 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part2 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part3 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part4 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part5 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part6 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part7 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part8 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part9 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part10 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part11 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part12 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part13 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part14 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part15 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Part16 = nullptr;
-	
-
 
 
 	const float4 m_MapRot = float4{ 0 , -130 , 0 };

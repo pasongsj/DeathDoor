@@ -19,13 +19,13 @@ void FortressLevel::Start()
 {
 	SetContentLevelType(ContentLevelType::FortressLevel);
 	InitKey();
-	Create_Manager();
+
 }
 
 void FortressLevel::Update(float _DeltaTime)
 {
 	KeyUpdate(_DeltaTime);
-	CullingUpdate();
+
 
 	float4 Pos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 
@@ -73,6 +73,8 @@ void FortressLevel::LevelChangeStart()
 
 	CreateUI();
 	SetPostPrecessEffect();
+
+	Create_Manager();
 }
 
 void FortressLevel::LevelChangeEnd()
