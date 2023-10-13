@@ -51,7 +51,7 @@ float4 ContentTexture_PS(OutPut _Value) : SV_Target0
         clip(-1);
     }
     
-    Color *= 0.3f;
+    Color *= 0.17f;
     
     return Color;
 }
