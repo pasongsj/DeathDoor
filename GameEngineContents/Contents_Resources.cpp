@@ -245,6 +245,14 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetDepthState("AlwayDepth");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Dust");
+		Pipe->SetVertexShader("DustShader.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("DustShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
 	//{
 	//	// ºí·£µå
 	//	D3D11_BLEND_DESC Desc = { 0, };

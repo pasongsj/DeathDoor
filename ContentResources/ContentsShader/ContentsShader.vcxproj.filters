@@ -70,6 +70,9 @@
     <FxCompile Include="FXAA.hlsl">
       <Filter>Effect</Filter>
     </FxCompile>
+    <FxCompile Include="DustShader.hlsl">
+      <Filter>ObjectShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

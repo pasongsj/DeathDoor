@@ -168,6 +168,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dust.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DustRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Bench.cpp" />
     <ClCompile Include="BlackScreen.cpp" />
     <ClCompile Include="BossBase.cpp">
@@ -460,6 +468,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dust.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DustRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Bench.h">
       <SubType>
       </SubType>
