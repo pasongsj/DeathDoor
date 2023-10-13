@@ -23,24 +23,26 @@ void CullingTrigger::Start()
 
 void CullingTrigger::Update(float _DeltaTime)
 {
-	if (true == CheckCollision(PhysXFilterGroup::PlayerDynamic))
-	{
-		// 내가 플레이어 다이나믹이랑 충돌했고
-		if (false == m_bIsActivate)
-		{
-			m_bIsActivate = true;
-			On_CullingObject();
-		}
-	}
+	//if (true == CheckCollision(PhysXFilterGroup::PlayerDynamic))
+	//{
+	//	// 내가 플레이어 다이나믹이랑 충돌했고
+	//	if (false == m_bIsActivate)
+	//	{
+	//		TriggerOn();
+	//		On_CullingObject();
+	//	}
+	//}
 
-	isPhysXCollision = 0;
+	// isPhysXCollision = 0;
 }
 
 void CullingTrigger::InitComponent()
 {	
-	GetTransform()->SetLocalPosition(float4{ 0, 500, 0 });
+	GetTransform()->SetLocalPosition(float4{ 0, 5, 0 });
 
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+
+	// 트리거 메쉬 변경 예정
 	m_pRenderer->SetFBXMesh("Ruins_Wall.fbx", "ContentMeshDeffered");
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
@@ -53,10 +55,21 @@ void CullingTrigger::InitComponent()
 	m_pPhysXComponent->SetTrigger();
 }
 
+
+
 void CullingTrigger::Set_CullingObject(std::shared_ptr<class CullingObject> _Obj, std::shared_ptr<class CullingObject> _Obj2)
 {
+	if (nullptr == _Obj || nullptr == _Obj2)
+	{
+		MsgAssert("컬링오브젝트가 nullptr 입니다.");
+		return;
+	}
+
 	m_pCullingObject_1 = _Obj;
 	m_pCullingObject_2 = _Obj2;
+
+	m_pCullingObject_1.lock()->LinkOn();
+	m_pCullingObject_2.lock()->LinkOn();
 }
 
 void CullingTrigger::On_CullingObject()
@@ -68,5 +81,6 @@ void CullingTrigger::On_CullingObject()
 void CullingTrigger::Off_CullingObject()
 {
 	m_pCullingObject_1.lock()->GetRenderer()->Off();
-	m_pCullingObject_2.lock()->GetRenderer()->Off();
+	
+	// m_pCullingObject_2.lock()->GetRenderer()->Off();
 }
