@@ -161,7 +161,7 @@ private:
 	float Width = 0.0f;
 	float Height = 0.0f;
 
-	float FOV = 60.0f;
+	float FOV = 20.0f;
 	float Near = 0.1f;
 	float Far = 10000.0f;
 
