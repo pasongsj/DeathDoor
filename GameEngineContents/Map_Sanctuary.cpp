@@ -64,7 +64,6 @@ void Map_Sanctuary::InitComponent()
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_NavRot);
 	m_pNaviRenderer->Off();
 
-
 	// float4 UnitScale = m_pRenderer->GetFBXMesh()->GetRenderUnit(0)->BoundScaleBox;
 	// float4 scale = m_pRenderer->GetMeshScale();
 	// physx::PxVec3 vscale = UnitScale.PhysXVec3Return();

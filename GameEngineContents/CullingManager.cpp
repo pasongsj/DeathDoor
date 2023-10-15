@@ -83,14 +83,12 @@ void CullingManager::Update(float _DeltaTime)
 
 void CullingManager::Culling()
 {
-	
-
 	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 	
 	size_t TriggerSize = m_vCullingTriggers.size();
 
 	// 여기서 트리거 온체크를 해줘
-	for (size_t i = 0; i < TriggerSize; ++i)
+	for (int i = 0; i < static_cast<int>(TriggerSize); ++i)
 	{
 		// 플레이어와 충돌했고 
 		if (true == m_vCullingTriggers[i]->CheckCollision(PhysXFilterGroup::PlayerDynamic))
@@ -98,6 +96,8 @@ void CullingManager::Culling()
 			// 트리거가 발동되지 않았다면 
 			if (false == m_vCullingTriggers[i]->IsActivate())
 			{
+				// 활성화 할 트리거 인덱스를 세팅 후 트리거 on 
+				Set_ActiveTrigger_Index(i);
 				m_vCullingTriggers[i]->TriggerOn();
 				m_vCullingTriggers[i]->On_CullingObject();
 
@@ -155,10 +155,24 @@ void CullingManager::CheckLink()
 		// 하나라도 false 라면 에러
 		if (false == (*StartIter)->IsLink())
 		{
-			MsgAssert("트리거와의 링크가 정상적으로 실행되지 않았습니다.");
+			// 일단 주석 
+			// MsgAssert("트리거와의 링크가 정상적으로 실행되지 않았습니다.");
 			return;
 		}
 	}
+}
+
+inline void CullingManager::Set_ActiveTrigger_Index(int _Index)
+{
+	size_t TriggersSize = m_vCullingTriggers.size();
+
+	if (_Index >= TriggersSize)
+	{
+		MsgAssert("인덱스 값이 잘못되었습니다.");
+		return;
+	}
+
+	m_iCurTrigger_Idx = _Index;
 }
 
 // 지금해야될건? 

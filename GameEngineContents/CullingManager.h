@@ -27,6 +27,10 @@ private:
 	void On_FirstTrigger();
 
 	void CheckLink();
+
+	inline void Set_ActiveTrigger_Index(int _Index);
+
+	int m_iCurTrigger_Idx = 0;
 	std::vector<std::shared_ptr<class CullingTrigger>> m_vCullingTriggers = std::vector<std::shared_ptr<class CullingTrigger>>();
 	std::vector<std::shared_ptr<class CullingObject>> m_vCullingObjects = std::vector<std::shared_ptr<class CullingObject>>();
 };
