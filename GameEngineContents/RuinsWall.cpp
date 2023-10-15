@@ -25,9 +25,10 @@ void RuinsWall::InitComponent()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->SetFBXMesh("Ruins_Wall.fbx", "ContentMeshDeffered");
+	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
-	MeshScale.x *= 1.5f;
+	MeshScale.x *= 1.65f;
 
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
