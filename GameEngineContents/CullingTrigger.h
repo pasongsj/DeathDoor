@@ -25,12 +25,13 @@ public:
 		m_bIsActivate = false;
 	}
 
-	void Set_CullingObject(std::shared_ptr<class CullingObject> _Obj, std::shared_ptr<class CullingObject> _Obj2);
+	inline std::vector<int> Get_CullingObjectNumbers() const
+	{
+		return m_vCullingObj_Numbers;
+	}
+
+	void Set_CullingObjectNumber(int _Number1, int _Number2, int _Number3 = INT_MAX);
 	
-	void On_CullingObject();
-	void Off_CullingObject();
-
-
 	inline bool IsActivate()
 	{
 		return m_bIsActivate;
@@ -50,8 +51,5 @@ private:
 	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
 
 	// 트리거가 오브젝트를 가지는게 아닌. 트리거가 활성화 할 컬링오브젝트의 인덱스넘버를 배열로가진다. 
-
-
-	std::weak_ptr<class CullingObject> m_pCullingObject_1;
-	std::weak_ptr<class CullingObject> m_pCullingObject_2;
+	std::vector<int> m_vCullingObj_Numbers = std::vector<int>();
 };

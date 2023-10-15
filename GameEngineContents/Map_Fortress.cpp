@@ -140,10 +140,15 @@ void Map_Fortress::Set_CullingTrigger()
 		m_vCullingTriggers.push_back(Trigger);
 	}
 	{
-		// 세번째 트리거 위치 
 		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
 		Trigger->GetTransform()->SetLocalRotation(m_MapRot);
 		Trigger->GetTransform()->SetLocalPosition(float4{ 803, 0 , 4880 });
+		m_vCullingTriggers.push_back(Trigger);
+	}
+	{
+		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
+		Trigger->GetTransform()->SetLocalRotation(m_MapRot);
+		Trigger->GetTransform()->SetLocalPosition(float4{ 646, 593 , 7019 });
 		m_vCullingTriggers.push_back(Trigger);
 	}
 }
@@ -185,16 +190,22 @@ void Map_Fortress::Set_CullingObject()
 		CullingObj->InitComponent("Fortress_Part_3_1.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -6990, 310, 13580 });
-		CullingObj->GetRenderer()->On();
 		m_vCullingObjects.push_back(CullingObj);
 	}
 	{
-		/*std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		CullingObj->InitComponent("Fortress_Part_4.fbx");
+		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+		CullingObj->GetTransform()->SetLocalPosition(float4{  -9160, 324, 14630 });
+		m_vCullingObjects.push_back(CullingObj);
+	}
+	{
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
 		CullingObj->InitComponent("Fortress_Part_5.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -12870, -16, 10350 });
 		CullingObj->GetRenderer()->On();
-		m_vCullingObjects.push_back(CullingObj);*/
+		m_vCullingObjects.push_back(CullingObj);
 	}
 	
 	
