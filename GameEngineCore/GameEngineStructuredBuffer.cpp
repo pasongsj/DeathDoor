@@ -4,22 +4,35 @@
 std::map<std::string, std::map<int, std::shared_ptr < GameEngineStructuredBuffer>>> GameEngineStructuredBuffer::StructuredBufferRes;
 
 
-GameEngineStructuredBuffer::GameEngineStructuredBuffer() 
+GameEngineStructuredBuffer::GameEngineStructuredBuffer()
 {
 }
 
-GameEngineStructuredBuffer::~GameEngineStructuredBuffer() 
+GameEngineStructuredBuffer::~GameEngineStructuredBuffer()
 {
 	Release();
 }
 
 void GameEngineStructuredBuffer::Release()
 {
+	if (nullptr != WriteBuffer)
+	{
+		WriteBuffer->Release();
+		WriteBuffer = nullptr;
+	}
+
+	if (nullptr != ReadBuffer)
+	{
+		ReadBuffer->Release();
+		ReadBuffer = nullptr;
+	}
+
 	if (nullptr != UnorderedAccessView)
 	{
 		UnorderedAccessView->Release();
 		UnorderedAccessView = nullptr;
 	}
+
 
 	if (nullptr != ShaderResourceView)
 	{
@@ -73,7 +86,7 @@ void GameEngineStructuredBuffer::CreateResize(size_t _DataSize, size_t Count, St
 	BufferInfo.ByteWidth = DataSize * DataCount; // GPU 에 생성할 구조화 버퍼 메모리 크기(최소단위 ??)
 	BufferInfo.StructureByteStride = DataSize; // 1개 크기도 넣어줘야 한다.
 
-	CreateResize(BufferInfo, _Type, _StartData);
+	CreateResize(BufferInfo, _Type, _StartData, _CPUAccess);
 }
 
 void GameEngineStructuredBuffer::CreateResize(const D3D11_BUFFER_DESC& _Data, StructuredBufferType _Type, void* _StartData, bool _CPUAccess)
@@ -82,6 +95,8 @@ void GameEngineStructuredBuffer::CreateResize(const D3D11_BUFFER_DESC& _Data, St
 
 	BufferInfo.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 	BufferInfo.Usage = D3D11_USAGE_DEFAULT;
+
+	DataType = _Type;
 
 	switch (_Type)
 	{
@@ -170,7 +185,6 @@ void GameEngineStructuredBuffer::CreateResize(const D3D11_BUFFER_DESC& _Data, St
 			MsgAssert("if (GameEngineDevice::GetDevice()->CreateBuffer(&BufferInfo, nullptr, &ReadBuffer))");
 		}
 	}
-
 }
 
 
@@ -222,6 +236,19 @@ void GameEngineStructuredBuffer::PSReset(int _BindPoint)
 	GameEngineDevice::GetContext()->PSSetShaderResources(_BindPoint, 1, &Nullptr);
 }
 
+void GameEngineStructuredBuffer::GSReset(int _BindPoint)
+{
+	ID3D11ShaderResourceView* Nullptr = nullptr;
+	GameEngineDevice::GetContext()->GSSetShaderResources(_BindPoint, 1, &Nullptr);
+}
+
+void GameEngineStructuredBuffer::CSReset(int _BindPoint)
+{
+	UINT i = -1;
+	ID3D11UnorderedAccessView* Nullptr = nullptr;
+	GameEngineDevice::GetContext()->CSSetUnorderedAccessViews(_BindPoint, 1, &Nullptr, &i);
+}
+
 void GameEngineStructuredBuffer::VSSetting(int _BindPoint)
 {
 	if (nullptr == ShaderResourceView)
@@ -232,12 +259,66 @@ void GameEngineStructuredBuffer::VSSetting(int _BindPoint)
 	GameEngineDevice::GetContext()->VSSetShaderResources(_BindPoint, 1, &ShaderResourceView);
 }
 
+void GameEngineStructuredBuffer::CSRWSetting(int _BindPoint)
+{
+	if (nullptr == UnorderedAccessView)
+	{
+		MsgAssert("존재하지 않는 언 오더드 액세스 뷰를 를 사용할 수 없습니다.");
+	}
+
+	UINT i = -1;
+	GameEngineDevice::GetContext()->CSSetUnorderedAccessViews(_BindPoint, 1, &UnorderedAccessView, &i);
+}
+
 void GameEngineStructuredBuffer::PSSetting(int _BindPoint)
 {
 	if (nullptr == ShaderResourceView)
 	{
-		MsgAssert("존재하지 않는 텍스처를 사용할 수 없습니다.");
+		MsgAssert("존재하지 않는 구조화 버퍼를 사용할 수 없습니다.");
 	}
 
 	GameEngineDevice::GetContext()->PSSetShaderResources(_BindPoint, 1, &ShaderResourceView);
+}
+
+void GameEngineStructuredBuffer::CSSetting(int _BindPoint)
+{
+	if (nullptr == ShaderResourceView)
+	{
+		MsgAssert("존재하지 않는 구조화 버퍼를 사용할 수 없습니다.");
+	}
+
+	GameEngineDevice::GetContext()->CSSetShaderResources(_BindPoint, 1, &ShaderResourceView);
+}
+
+void GameEngineStructuredBuffer::GSSetting(int _BindPoint)
+{
+	if (nullptr == ShaderResourceView)
+	{
+		MsgAssert("존재하지 않는 구조화 버퍼를 사용할 수 없습니다.");
+	}
+
+	GameEngineDevice::GetContext()->GSSetShaderResources(_BindPoint, 1, &ShaderResourceView);
+}
+
+
+void GameEngineStructuredBuffer::SetData(void* _pSrc, UINT _DataCount)
+{
+	// 공간이 모자라면 추가할당하면서 초기화한다.
+	if (DataCount < _DataCount)
+	{
+		CreateResize(DataSize, _DataCount, DataType, _pSrc);
+	}
+
+	// 공간이 충분하다면, 데이터 전송
+	else
+	{
+		D3D11_MAPPED_SUBRESOURCE tMapSub = {};
+
+		GameEngineDevice::GetContext()->Map(WriteBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &tMapSub);
+		memcpy(tMapSub.pData, _pSrc, DataSize * DataCount);
+		GameEngineDevice::GetContext()->Unmap(WriteBuffer, 0);
+
+		// 쓰기버퍼 -> 메인버퍼
+		GameEngineDevice::GetContext()->CopyResource(Buffer, WriteBuffer);
+	}
 }

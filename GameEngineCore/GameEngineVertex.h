@@ -17,7 +17,8 @@ public:
 
 private:
 	std::vector<D3D11_INPUT_ELEMENT_DESC> Descs;
-	int Offset = 0;
+	int Offset0 = 0;
+	int Offset1 = 0;
 
 public:
 	void AddInputLayOut(

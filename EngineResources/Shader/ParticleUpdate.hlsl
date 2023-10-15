@@ -1,4 +1,5 @@
 #include "RenderBaseValue.fx"
+#include "ParticleHeader.fx"
 
 // Noise Texture
 Texture2D EngineNoise : register(t15);
@@ -55,22 +56,6 @@ cbuffer ParticleUpdateInfo : register(b7)
     float4 ObjectWorldPos; // 액터나 랜더러의 월드 포지션을 
 };
 
-struct ParticleComputeData
-{
-    // 현재 위치
-    float4 vRelativePos;
-    // 파티클의 방향
-    float4 vDir;
-		
-    // 시간 사라지는시간
-    float fMaxTime;
-    // 현재 시간
-    float fCurTime;
-    // 이동할때의 스피드
-    float fSpeed;
-    // 살아있냐 죽어있냐.
-    uint iActive;
-};
 
 struct ParticleShareData
 {
@@ -81,7 +66,7 @@ struct ParticleShareData
 };
 
 // 어제 스트럭처드 버퍼중 UAV_INC <= 으로 만든 녀석만 RW스트럭처드 버퍼로 세팅이 가능하다.
-RWStructuredBuffer<ParticleComputeData> ParticleBuffer : register(u0);
+RWStructuredBuffer<ParticleData> ParticleBuffer : register(u0);
 RWStructuredBuffer<ParticleShareData> ParticleShare : register(u1);
 
 

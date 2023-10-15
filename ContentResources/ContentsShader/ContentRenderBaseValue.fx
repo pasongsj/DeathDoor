@@ -7,4 +7,6 @@ cbuffer RenderBaseValue : register(b11)
     int IsNormal;
     float4 ScreenScale;
     float4 Mouse;
+
+    float4 NoiseResolution;
 };

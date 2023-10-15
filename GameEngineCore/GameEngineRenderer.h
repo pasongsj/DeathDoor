@@ -23,9 +23,9 @@ public:
 	std::shared_ptr<class GameEngineComputeShader> ComputeShader = nullptr;
 
 	// 쓰
-	UINT                            m_iGroupX = 0;
-	UINT                            m_iGroupY = 0;
-	UINT                            m_iGroupZ = 0;
+	UINT                            m_iGroupX = 1;
+	UINT                            m_iGroupY = 1;
+	UINT                            m_iGroupZ = 1;
 
 	// 128
 	UINT                      m_iGroupPerThreadX = 1;
@@ -39,10 +39,18 @@ public:
 	void Execute();
 };
 
+enum class RenderMode
+{
+	Base,
+	Particle,
+};
+
 
 class GameEngineRenderUnit : public GameEngineObjectBase, public std::enable_shared_from_this<GameEngineRenderUnit>
 {
 public:
+	RenderMode RenderModeValue = RenderMode::Base;
+	int InstanceCount = 0;
 	bool IsShadow = false;
 
 	GameEngineShaderResHelper ShaderResHelper;
@@ -73,6 +81,8 @@ public:
 	void Setting();
 
 	void Draw();
+
+	void DrawParticle(int _Count);
 
 	void ShadowOn();
 

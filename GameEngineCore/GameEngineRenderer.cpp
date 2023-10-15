@@ -9,13 +9,16 @@
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
 #include "GameEngineComputeShader.h"
+#include "GameEngineGeometryShader.h"
 #include "GameEngineShaderResHelper.h"
 #include "GameEngineMesh.h"
 #include "GameEngineInputLayOut.h"
 
 void GameEngineComputeUnit::Execute()
 {
-	ShaderResHelper.Setting();
+	ShaderResHelper.ComputeSetting();
+
+	// ShaderResHelper.Setting();
 	ComputeShader->Setting();
 	GameEngineDevice::GetContext()->Dispatch(m_iGroupX, m_iGroupY, m_iGroupZ);
 	ShaderResHelper.AllResourcesReset();
@@ -90,6 +93,14 @@ void GameEngineRenderUnit::SetMaterial(const std::string_view& _Name, RenderPath
 		const GameEngineShaderResHelper& Res = Material->GetPixelShader()->GetShaderResHelper();
 		ShaderResHelper.Copy(Res);
 	}
+
+	
+	if (nullptr != Material->GetGeometryShader())
+	{
+		const GameEngineShaderResHelper& Res = Material->GetGeometryShader()->GetShaderResHelper();
+		ShaderResHelper.Copy(Res);
+	}
+	
 
 	if (false == InputLayOutPtr->IsCreate() && nullptr != Mesh)
 	{
@@ -193,6 +204,12 @@ void GameEngineRenderUnit::Draw()
 	GameEngineDevice::GetContext()->DrawIndexed(IndexCount, 0, 0);
 }
 
+void GameEngineRenderUnit::DrawParticle(int _Count)
+{
+	UINT IndexCount = Mesh->IndexBufferPtr->GetIndexCount();
+	GameEngineDevice::GetContext()->DrawIndexedInstanced(IndexCount, _Count, 0, 0, 0);
+}
+
 void GameEngineRenderUnit::ShadowOn()
 {
 	IsShadow = true;
@@ -213,8 +230,22 @@ void GameEngineRenderUnit::Render(float _DeltaTime)
 		return;
 	}
 
-	Setting();
-	Draw();
+	switch (RenderModeValue)
+	{
+	case RenderMode::Base:
+		Setting();
+		Draw();
+		break;
+	case RenderMode::Particle:
+		Setting();
+		DrawParticle(InstanceCount);
+		GameEngineDevice::GetContext()->GSSetShader(nullptr, nullptr, 0);
+		break;
+	default:
+		break;
+	}
+
+	ShaderResHelper.AllResourcesReset();
 }
 
 GameEngineRenderer::GameEngineRenderer()

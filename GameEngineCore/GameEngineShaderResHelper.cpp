@@ -51,6 +51,16 @@ void GameEngineConstantBufferSetter::Setting()
 		Res->PSSetting(BindPoint);
 		break;
 	}
+	case ShaderType::Geometry:
+	{
+		Res->GSSetting(BindPoint);
+		break;
+	}
+	case ShaderType::Compute:
+	{
+		Res->CSSetting(BindPoint);
+		break;
+	}
 	default:
 		break;
 	}
@@ -65,6 +75,18 @@ void GameEngineConstantBufferSetter::Reset()
 int GameEngineStructuredBufferSetter::GetDataSize()
 {
 	return Res->GetDataSize();
+}
+
+void GameEngineStructuredBufferSetter::ComputeSetting()
+{
+	ShaderType Type = ParentShader->GetType();
+
+	if (Type != ShaderType::Compute)
+	{
+		return;
+	}
+
+	Res->CSRWSetting(BindPoint);
 }
 
 void GameEngineStructuredBufferSetter::Reset()
@@ -88,6 +110,16 @@ void GameEngineStructuredBufferSetter::Reset()
 		Res->PSReset(BindPoint);
 		break;
 	}
+	case ShaderType::Geometry:
+	{
+		Res->GSSetting(BindPoint);
+		break;
+	}
+	case ShaderType::Compute:
+	{
+		Res->CSSetting(BindPoint);
+		break;
+	}
 	default:
 		break;
 	}
@@ -95,7 +127,18 @@ void GameEngineStructuredBufferSetter::Reset()
 
 void GameEngineStructuredBufferSetter::Setting()
 {
-	Res->ChangeData(SetData, Size * Count);
+	if (nullptr == Res->GetUAV())
+	{
+		if (nullptr == SetData)
+		{
+			return;
+		}
+
+		Res->ChangeData(SetData, Size * Count);
+	}
+	else {
+		int a = 0;
+	}
 	ShaderType Type = ParentShader->GetType();
 
 	switch (Type)
@@ -113,6 +156,16 @@ void GameEngineStructuredBufferSetter::Setting()
 	case ShaderType::Pixel:
 	{
 		Res->PSSetting(BindPoint);
+		break;
+	}
+	case ShaderType::Geometry:
+	{
+		Res->GSSetting(BindPoint);
+		break;
+	}
+	case ShaderType::Compute:
+	{
+		Res->CSSetting(BindPoint);
 		break;
 	}
 	default:
@@ -144,6 +197,16 @@ void GameEngineTextureSetter::Setting()
 		Res->PSSetting(BindPoint);
 		break;
 	}
+	case ShaderType::Compute:
+	{
+		Res->CSSetting(BindPoint);
+		break;
+	}
+	case ShaderType::Geometry:
+	{
+		Res->GSSetting(BindPoint);
+		break;
+	}
 	default:
 		break;
 	}
@@ -169,6 +232,16 @@ void GameEngineTextureSetter::Reset()
 	case ShaderType::Pixel:
 	{
 		Res->PSReset(BindPoint);
+		break;
+	}
+	case ShaderType::Geometry:
+	{
+		Res->GSReset(BindPoint);
+		break;
+	}
+	case ShaderType::Compute:
+	{
+		Res->CSReset(BindPoint);
 		break;
 	}
 	default:
@@ -256,6 +329,52 @@ void GameEngineShaderResHelper::Setting()
 
 }
 
+void GameEngineShaderResHelper::ComputeSetting()
+{
+	{
+		std::multimap<std::string, GameEngineConstantBufferSetter>::iterator StartIter = ConstantBufferSetters.begin();
+		std::multimap<std::string, GameEngineConstantBufferSetter>::iterator EndIter = ConstantBufferSetters.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			GameEngineConstantBufferSetter& Setter = StartIter->second;
+			Setter.Setting();
+		}
+	}
+
+	{
+		std::multimap<std::string, GameEngineTextureSetter>::iterator StartIter = TextureSetters.begin();
+		std::multimap<std::string, GameEngineTextureSetter>::iterator EndIter = TextureSetters.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			GameEngineTextureSetter& Setter = StartIter->second;
+			Setter.Setting();
+		}
+	}
+
+	{
+		std::multimap<std::string, GameEngineSamplerSetter>::iterator StartIter = SamplerSetters.begin();
+		std::multimap<std::string, GameEngineSamplerSetter>::iterator EndIter = SamplerSetters.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			GameEngineSamplerSetter& Setter = StartIter->second;
+			Setter.Setting();
+		}
+	}
+
+	{
+		std::multimap<std::string, GameEngineStructuredBufferSetter>::iterator StartIter = StructuredBufferSetters.begin();
+		std::multimap<std::string, GameEngineStructuredBufferSetter>::iterator EndIter = StructuredBufferSetters.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			GameEngineStructuredBufferSetter& Setter = StartIter->second;
+			Setter.ComputeSetting();
+		}
+	}
+}
 void GameEngineShaderResHelper::SetConstantBufferLink(const std::string_view& _Name, const void* _Data, UINT _Size)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
@@ -409,6 +528,17 @@ void GameEngineShaderResHelper::AllResourcesReset()
 		for (; StartIter != EndIter; ++StartIter)
 		{
 			GameEngineTextureSetter& Setter = StartIter->second;
+			Setter.Reset();
+		}
+	}
+
+	{
+		std::multimap<std::string, GameEngineStructuredBufferSetter>::iterator StartIter = StructuredBufferSetters.begin();
+		std::multimap<std::string, GameEngineStructuredBufferSetter>::iterator EndIter = StructuredBufferSetters.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			GameEngineStructuredBufferSetter& Setter = StartIter->second;
 			Setter.Reset();
 		}
 	}

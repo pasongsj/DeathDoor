@@ -33,7 +33,7 @@ void GameEngineCore::CoreResourcesInit()
 		NewDir.MoveParentToDirectory("EngineResources");
 		NewDir.Move("EngineResources");
 
-		std::vector<GameEngineFile> File = NewDir.GetAllFile({ ".Png", });
+		std::vector<GameEngineFile> File = NewDir.GetAllFile({ ".Png",".jpg"});
 
 
 		for (size_t i = 0; i < File.size(); i++)
@@ -61,8 +61,8 @@ void GameEngineCore::CoreResourcesInit()
 	GameEngineVertex::LayOut.AddInputLayOut("BLENDWEIGHT", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT); // 48
 	GameEngineVertex::LayOut.AddInputLayOut("BLENDINDICES", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_SINT); // 48
 
-	GameEngineVertexParticle::LayOut.AddInputLayOut("POSITION", DXGI_FORMAT_R32G32B32A32_FLOAT);
-	GameEngineVertexParticle::LayOut.AddInputLayOut("PINDEX", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_SINT); // 48
+	// GameEngineVertex::LayOut.AddInputLayOut("BLENDINDICES", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_SINT, D3D11_INPUT_PER_INSTANCE_DATA, 1, -1, 1); // 48
+
 
 	//typedef struct D3D11_INPUT_ELEMENT_DESC
 	//{
@@ -174,6 +174,19 @@ void GameEngineCore::CoreResourcesInit()
 		GameEngineVertexBuffer::Create("Rect", ArrVertex);
 		GameEngineIndexBuffer::Create("Rect", ArrIndex);
 		GameEngineMesh::Create("Rect");
+	}
+
+	{
+		std::vector<GameEngineVertex> ArrVertex;
+		ArrVertex.resize(1);
+
+		ArrVertex[0] = { { 0.0f, 0.0f, 0.0f }, {0.0f, 0.0f} };
+		std::vector<UINT> ArrIndex = { 0 };
+
+		GameEngineVertexBuffer::Create("PointMesh", ArrVertex);
+		GameEngineIndexBuffer::Create("PointMesh", ArrIndex);
+		std::shared_ptr<GameEngineMesh> Mesh = GameEngineMesh::Create("PointMesh");
+		Mesh->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	}
 
 	{
@@ -996,6 +1009,18 @@ void GameEngineCore::CoreResourcesInit()
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("GridShader.hlsl");
 		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("AlwayDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Particle");
+		Pipe->SetVertexShader("Particle.hlsl");
+		Pipe->SetGeometryShader("Particle.hlsl");
+		Pipe->SetPixelShader("Particle.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetBlendState("AlphaBlend");
+		// 모든 오브젝트가 순서 맞춰서 다 그려진 다음에 벌어지는 일이라.
+		// 깊이라는걸 
 		Pipe->SetDepthState("AlwayDepth");
 	}
 

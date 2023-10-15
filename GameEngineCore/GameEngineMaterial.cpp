@@ -206,6 +206,24 @@ void GameEngineMaterial::SetVertexShader(const std::string_view& _Value)
 	// InputLayOutPtr->ResCreate(VertexBufferPtr, VertexShaderPtr);
 }
 
+void GameEngineMaterial::SetGeometryShader(const std::string_view& _Value)
+{
+	std::string UpperName = GameEngineString::ToUpper(_Value);
+	GeometryShaderPtr = GameEngineGeometryShader::Find(UpperName);
+
+	if (nullptr == GeometryShaderPtr)
+	{
+		MsgAssert("존재하지 않는 지오메트리 쉐이더를 사용하려고 했습니다.");
+	}
+
+	if (nullptr == GeometryShaderPtr)
+	{
+		return;
+	}
+
+}
+
+
 
 void GameEngineMaterial::SetPixelShader(const std::string_view& _Value)
 {
