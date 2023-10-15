@@ -89,42 +89,6 @@ void GameEngineStructuredBufferSetter::ComputeSetting()
 	Res->CSRWSetting(BindPoint);
 }
 
-void GameEngineStructuredBufferSetter::Reset()
-{
-	ShaderType Type = ParentShader->GetType();
-
-	switch (Type)
-	{
-	case ShaderType::None:
-	{
-		MsgAssert("어떤 쉐이더에 세팅될지 알수없는 상수버퍼 입니다.");
-		break;
-	}
-	case ShaderType::Vertex:
-	{
-		Res->VSReset(BindPoint);
-		break;
-	}
-	case ShaderType::Pixel:
-	{
-		Res->PSReset(BindPoint);
-		break;
-	}
-	case ShaderType::Geometry:
-	{
-		Res->GSSetting(BindPoint);
-		break;
-	}
-	case ShaderType::Compute:
-	{
-		Res->CSSetting(BindPoint);
-		break;
-	}
-	default:
-		break;
-	}
-}
-
 void GameEngineStructuredBufferSetter::Setting()
 {
 	if (nullptr == Res->GetUAV())
@@ -139,6 +103,7 @@ void GameEngineStructuredBufferSetter::Setting()
 	else {
 		int a = 0;
 	}
+
 	ShaderType Type = ParentShader->GetType();
 
 	switch (Type)
@@ -172,6 +137,42 @@ void GameEngineStructuredBufferSetter::Setting()
 		break;
 	}
 
+}
+
+void GameEngineTextureSetter::Reset()
+{
+	ShaderType Type = ParentShader->GetType();
+
+	switch (Type)
+	{
+	case ShaderType::None:
+	{
+		MsgAssert("어떤 쉐이더에 세팅될지 알수없는 상수버퍼 입니다.");
+		break;
+	}
+	case ShaderType::Vertex:
+	{
+		Res->VSReset(BindPoint);
+		break;
+	}
+	case ShaderType::Pixel:
+	{
+		Res->PSReset(BindPoint);
+		break;
+	}
+	case ShaderType::Geometry:
+	{
+		Res->GSReset(BindPoint);
+		break;
+	}
+	case ShaderType::Compute:
+	{
+		Res->CSReset(BindPoint);
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 
@@ -213,7 +214,7 @@ void GameEngineTextureSetter::Setting()
 
 }
 
-void GameEngineTextureSetter::Reset()
+void GameEngineStructuredBufferSetter::Reset()
 {
 	ShaderType Type = ParentShader->GetType();
 
@@ -375,6 +376,7 @@ void GameEngineShaderResHelper::ComputeSetting()
 		}
 	}
 }
+
 void GameEngineShaderResHelper::SetConstantBufferLink(const std::string_view& _Name, const void* _Data, UINT _Size)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
