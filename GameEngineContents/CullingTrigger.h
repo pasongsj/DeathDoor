@@ -49,7 +49,9 @@ private:
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
 	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
 
+	// 트리거가 오브젝트를 가지는게 아닌. 트리거가 활성화 할 컬링오브젝트의 인덱스넘버를 배열로가진다. 
+
+
 	std::weak_ptr<class CullingObject> m_pCullingObject_1;
 	std::weak_ptr<class CullingObject> m_pCullingObject_2;
-
 };

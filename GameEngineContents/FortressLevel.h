@@ -32,7 +32,6 @@ protected:
 
 
 private:
-	// 2800, 230, -6300
 	const float4 m_CameraPos = float4{ 0, 1500 , -1250 };
 	const float4 m_CameraRot = float4{ 55 , 0 , 0 };
 
@@ -41,9 +40,7 @@ private:
 
 	std::shared_ptr<class Map_Fortress> m_pMap = nullptr;
 
-	void CullingUpdate();
-
-	// ÄÃ¸µ test code
-	std::shared_ptr<class CullingManager> m_pCullingManager = nullptr;
 	void Create_Manager();
+
+	std::shared_ptr<class CullingManager> m_pCullingManager = nullptr;
 };

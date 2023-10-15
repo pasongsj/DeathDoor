@@ -105,16 +105,7 @@ void FortressLevel::Set_PlayerStartPos()
 	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_StartPos));
 }
 
-void FortressLevel::CullingUpdate()
-{
-	if (nullptr != m_pCullingManager)
-	{
-		
-	}
-}
-
 void FortressLevel::Create_Manager()
 {
-	// 컬링매니저를 만들고 
 	m_pCullingManager = CreateActor<CullingManager>();
 }

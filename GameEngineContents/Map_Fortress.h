@@ -53,9 +53,6 @@ private:
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pNaviRenderer = nullptr;
 
-	// 컬링오브젝트 테스트 코드
-	// 얘가 가지고 있을 필요가 있나?
-	// 없는거같아 아니.. 가지고있어야되는거같은데 ㅋㅋㅋㅋ 
 	std::shared_ptr<class CullingTrigger> m_pCullingTrigger = nullptr;
 	std::shared_ptr<class CullingTrigger> m_pCullingTrigger2 = nullptr;
 	std::shared_ptr<class CullingObject> m_pCullingObj1 = nullptr;
@@ -71,8 +68,6 @@ private:
 	std::vector<std::shared_ptr<class CullingTrigger>> m_vCullingTriggers = std::vector<std::shared_ptr<class CullingTrigger>>();
 	std::vector<std::shared_ptr<class CullingObject>> m_vCullingObjects = std::vector<std::shared_ptr<class CullingObject>>();
 
-	
-	
 	// Section 
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Section1 = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Section2 = nullptr;

@@ -55,8 +55,6 @@ void CullingTrigger::InitComponent()
 	m_pPhysXComponent->SetTrigger();
 }
 
-
-
 void CullingTrigger::Set_CullingObject(std::shared_ptr<class CullingObject> _Obj, std::shared_ptr<class CullingObject> _Obj2)
 {
 	if (nullptr == _Obj || nullptr == _Obj2)
@@ -81,6 +79,4 @@ void CullingTrigger::On_CullingObject()
 void CullingTrigger::Off_CullingObject()
 {
 	m_pCullingObject_1.lock()->GetRenderer()->Off();
-	
-	// m_pCullingObject_2.lock()->GetRenderer()->Off();
 }
