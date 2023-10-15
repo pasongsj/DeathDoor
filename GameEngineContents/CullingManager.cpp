@@ -158,10 +158,13 @@ void CullingManager::LinkTrigger(EnumType _LevelType)
 	case ContentLevelType::FortressLevel:
 	{
 		// 최소두개, 최대 3개까지 지정가능
-		m_vCullingTriggers[0]->Set_CullingObjectNumber(0, 1);
-		m_vCullingTriggers[1]->Set_CullingObjectNumber(1, 2);
-		m_vCullingTriggers[2]->Set_CullingObjectNumber(2, 3);
-		m_vCullingTriggers[3]->Set_CullingObjectNumber(2, 3, 4);
+		m_vCullingTriggers[0]->Set_CullingObjectNumber(0, 1);		 // 플레이어 생성위치 
+		m_vCullingTriggers[1]->Set_CullingObjectNumber(1, 2);		 // 초반부 큰 문 입구
+		m_vCullingTriggers[2]->Set_CullingObjectNumber(2, 3);		 // 이후 우측으로 꺾어서 레버 당기는 곳
+		m_vCullingTriggers[3]->Set_CullingObjectNumber(2, 3, 4);	 // 생성된 사다리로 위쪽으로 올라가고 나서 바로 
+		m_vCullingTriggers[4]->Set_CullingObjectNumber(4, 5);		 // 아래쪽 낙하 이후 처음 나오는 사각형 공간 지나가는 부분 
+		
+
 
 		break;
 	}
