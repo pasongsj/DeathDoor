@@ -5,6 +5,7 @@
 
 #include "Player.h"
 #include "Map_Fortress.h"
+#include "CullingManager.h"
 
 FortressLevel::FortressLevel()
 {
@@ -16,8 +17,9 @@ FortressLevel::~FortressLevel()
 
 void FortressLevel::Start()
 {
-	//SetLevelType(PacketLevelType::FortressLevel);
+	SetContentLevelType(ContentLevelType::FortressLevel);
 	InitKey();
+
 }
 
 void FortressLevel::Update(float _DeltaTime)
@@ -27,9 +29,13 @@ void FortressLevel::Update(float _DeltaTime)
 
 	float4 Pos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 
+	// test 
 	if (false == GetMainCamera()->IsFreeCamera())
 	{
-		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4{ 0, 1200, -1200 });
+		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		nextPos.y += 3000.0f;
+		nextPos.z -= 3000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
+		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
 	}
 }
 
@@ -71,6 +77,8 @@ void FortressLevel::LevelChangeStart()
 
 	CreateUI();
 	SetPostPrecessEffect();
+
+	Create_Manager();
 }
 
 void FortressLevel::LevelChangeEnd()
@@ -95,4 +103,9 @@ void FortressLevel::Set_PlayerStartPos()
 	}
 
 	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_StartPos));
+}
+
+void FortressLevel::Create_Manager()
+{
+	m_pCullingManager = CreateActor<CullingManager>();
 }

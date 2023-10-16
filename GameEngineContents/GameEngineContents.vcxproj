@@ -168,6 +168,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dust.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DustRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Bench.cpp" />
     <ClCompile Include="BlackScreen.cpp" />
     <ClCompile Include="BossBase.cpp">
@@ -184,6 +192,10 @@
     </ClCompile>
     <ClCompile Include="Boss_OldCrowDefinition.cpp" />
     <ClCompile Include="Boss_OldCrowFSM.cpp" />
+    <ClCompile Include="BrightBloomEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentFBXRenderer.cpp">
       <SubType>
       </SubType>
@@ -210,6 +222,13 @@
     </ClCompile>
     <ClCompile Include="Conveyor.cpp" />
     <ClCompile Include="Crate.cpp" />
+    <ClCompile Include="EnemyAttackSphere.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CullingManager.cpp" />
+    <ClCompile Include="CullingObject.cpp" />
+    <ClCompile Include="CullingTrigger.cpp" />
     <ClCompile Include="EnemyBase.cpp">
       <SubType>
       </SubType>
@@ -254,7 +273,16 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FXAA.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
+    <ClCompile Include="GammaCorrection.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GlobalValue.cpp" />
     <ClCompile Include="GlowEffect.cpp">
       <SubType>
       </SubType>
@@ -355,7 +383,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PlayerAttackBase.cpp">
+    <ClCompile Include="AttackBase.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -364,6 +392,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayerAttackMagic.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackTrail.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -424,6 +456,10 @@
     <ClCompile Include="StreetLamp.cpp" />
     <ClCompile Include="StaticParticleManager.cpp" />
     <ClCompile Include="StreetLamp_2.cpp" />
+    <ClCompile Include="SwordTrailRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <SubType>
       </SubType>
@@ -440,6 +476,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dust.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DustRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Bench.h">
       <SubType>
       </SubType>
@@ -453,6 +497,10 @@
     <ClInclude Include="BossTestLevel.h" />
     <ClInclude Include="Boss_OldCrow.h" />
     <ClInclude Include="Boss_OldCrowChain.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BrightBloomEffect.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -485,6 +533,22 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Crate.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackSphere.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CullingManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CullingObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CullingTrigger.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -551,7 +615,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="FXAA.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameContentsMapActor.h" />
+    <ClInclude Include="GammaCorrection.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="GlowEffect.h">
       <SubType>
@@ -682,7 +754,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PlayerAttackBase.h">
+    <ClInclude Include="AttackBase.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -690,7 +762,12 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PlayerAttackDefinition.h" />
     <ClInclude Include="PlayerAttackMagic.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackTrail.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -763,6 +840,10 @@
     </ClInclude>
     <ClInclude Include="StaticParticleManager.h" />
     <ClInclude Include="StreetLamp_2.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SwordTrailRenderer.h">
       <SubType>
       </SubType>
     </ClInclude>

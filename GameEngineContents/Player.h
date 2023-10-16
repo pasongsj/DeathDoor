@@ -106,6 +106,7 @@ private:
 	PlayerSkill CurSkill = PlayerSkill::ARROW;
 	void SetSkill();
 	bool isRightAttack = true;
+	bool isChargeAttack = false;
 	// 베이스어택 3타에 대한 딜레이 체크용
 	int AttackStack = 0;
 	float StackDuration = 0.0f;
@@ -134,7 +135,7 @@ private:
 	void DefaultPhysX();
 
 	// Attack
-	std::shared_ptr< class PlayerAttackBase> AttackActor = nullptr;
+	std::shared_ptr< class AttackBase> AttackActor = nullptr;
 
 	// WeaponRender
 	std::shared_ptr<class PlayerBow> WeaponActor = nullptr;

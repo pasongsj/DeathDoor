@@ -25,7 +25,7 @@ struct Output
 };
 
 
-Output ContentAniMeshDeferred_VS(Input _Input)
+Output ContentMeshDeferred_VS(Input _Input)
 {
     Output NewOutPut = (Output) 0;
     
@@ -62,16 +62,33 @@ struct DeferredOutPut
 cbuffer BlurColor : register(b5)
 {
     float4 BlurColor;
-}
+};
 
-DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
+cbuffer ClipData : register(b6)
+{
+    float2 MinClipData;
+    float2 MaxClipData;
+};
+
+DeferredOutPut ContentMeshDeferred_PS(Output _Input)
 {
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
+    
+    if (saturate(_Input.TEXCOORD.x) < MinClipData.x && saturate(_Input.TEXCOORD.y) < MinClipData.y)
+    {
+        clip(-1);
+    }
+        
+    if (saturate(_Input.TEXCOORD.x) > MaxClipData.x && saturate(_Input.TEXCOORD.y) > MaxClipData.y)
+    {
+        clip(-1);
+    }
+    
     
     //UV°ª º¯°æ
     _Input.TEXCOORD.xy *= MulUV;
     _Input.TEXCOORD.xy += AddUV;
-    
+        
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
     float4 MaskColor = (float4) 0.0f;

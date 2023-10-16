@@ -5,7 +5,7 @@
 
 
 
-#include "PlayerAttackBase.h"
+#include "AttackBase.h"
 #include "PlayerAttackBasic.h"
 #include "PlayerAttackMagic.h"
 #include "PlayerAttackArrow.h"
@@ -13,6 +13,7 @@
 
 
 #include "PlayerBow.h"
+#include "PlayerAttackTrail.h"
 
 
 void Player::SetFSMFunc()
@@ -182,7 +183,7 @@ void Player::SetFSMFunc()
 			{
 				if (nullptr != AttackActor)
 				{
-					AttackActor->isShoot = true;
+					AttackActor->SetShoot();
 					AttackActor = nullptr;
 				}
 				if (nullptr != WeaponActor)
@@ -256,10 +257,20 @@ void Player::SetFSMFunc()
 				AttackActor = GetLevel()->CreateActor<PlayerAttackBasic>();
 				float4 AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 200.0f + float4{ 0.0f,50.0f,0.0f };
 				AttackActor->SetTrans(float4::ONE, AttackPos);
-				/*AttackBoxComponent->SetWorldPosWithParent(Trans->GetWorldPosition() + Trans->GetWorldBackVector() * SizeofBox + float4{ 0.0f,50.0f,0.0f });
-				AttackActor->*/
 			}
-			//AttackRange->On();
+			
+			{
+				//attack trail
+				std::shared_ptr< PlayerAttackTrail> Trail = GetLevel()->CreateActor< PlayerAttackTrail>();
+				if (true == isChargeAttack)
+				{
+					Trail->CreateTrail(MoveDir, GetTransform()->GetWorldPosition(), isRightAttack,false);
+				}
+				else
+				{
+					Trail->CreateTrail(MoveDir, GetTransform()->GetWorldPosition(), isRightAttack, true);
+				}
+			}
 		},
 		[this](float Delta)
 		{
@@ -275,6 +286,7 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			//AttackRange->Off();
+			isChargeAttack = false;
 		}
 	); 
 
@@ -372,6 +384,8 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			isChargeAttack = true;
+			 
 		}
 	); 
 
@@ -514,18 +528,26 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta)
 		{
-			float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
-			PlayerGroundPos.y += 50.0f; // 피직스 컴포넌트 중력값으로 보정되기 전 위치가 측정되는 오류 해결
-
-
-			float4 CollPoint = float4::ZERO;
-			if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
+			if (false == GetStateChecker())
 			{
-				if (CollPoint.y + 100.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
+				float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
+				PlayerGroundPos.y += 50.0f; // 피직스 컴포넌트 중력값으로 보정되기 전 위치가 측정되는 오류 해결
+				float4 CollPoint = float4::ZERO;
+				if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 				{
-					SetNextState(PlayerState::IDLE);
-					return;
+					if (CollPoint.y + 20.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
+					{
+						Renderer->ChangeAnimation("LAND");
+						SetStateCheckerOn();
+						//SetNextState(PlayerState::IDLE);
+						return;
+					}
 				}
+			}
+			else if (true == Renderer->IsAnimationEnd())
+			{
+				SetNextState(PlayerState::IDLE);
+				return;
 			}
 
 		},

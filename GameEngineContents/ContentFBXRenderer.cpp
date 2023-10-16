@@ -76,7 +76,7 @@ void ContentFBXRenderer::SetFadeMask(const std::string_view& _MaskTextureName)
 }
 
 
-void ContentFBXRenderer::LinkBlurColor()
+void ContentFBXRenderer::LinkConstantBuffer()
 {
 	auto AllUnits = GetAllRenderUnit();
 
@@ -87,6 +87,11 @@ void ContentFBXRenderer::LinkBlurColor()
 			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("BlurColor") == true)
 			{
 				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("BlurColor", BlurColor);
+			}
+
+			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("ClipData") == true)
+			{
+				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("ClipData", ClipData);
 			}
 		}
 	}
@@ -165,7 +170,7 @@ void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::str
 		SetCrackMask();
 	}
 
-	LinkBlurColor();
+	LinkConstantBuffer();
 		
 	MaterialName = UpperSettingName;
 }

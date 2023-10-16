@@ -42,7 +42,7 @@ private:
 
 	std::shared_ptr<class FrogFloor> m_pFrogFloor = nullptr;
 
-	const float4 m_MapRot = float4{ 0 , -130 , 0 };
-	const float4 m_NavRot = float4{ 0, 50, 0 };
+	const float4 m_MapRot = float4{ 0 , -135 , 0 };
+	const float4 m_NavRot = float4{ 0, 45, 0 };
 	const float4 m_MapPos = float4{ 0, 0 , 0 };
 };

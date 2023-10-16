@@ -14,14 +14,16 @@ public:
 	MpBar& operator=(const MpBar& _Other) = delete;
 	MpBar& operator=(MpBar&& _Other) noexcept = delete;
 
-	void ReduceMp();
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTtime) override;
 	void Render(float _DeltaTtime) override;
 private:
 
+	void MpUpdate();
+	
+	int MaxMp = 4;
+	int PrevMP = 4;
 	int CurMp = 4;
 
 	std::shared_ptr<class ContentUIRenderer> MpBarRender = nullptr;

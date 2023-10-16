@@ -52,26 +52,45 @@ struct OutPutTarget
     float4 DiffuseLight : SV_Target1;
     float4 SpecularLight : SV_Target2;
     float4 AmbientLight : SV_Target3;
+    float4 BlurColor : SV_Target4;
 };
 
+cbuffer ScreenSize : register(b0)
+{
+    float4 ScreenSize;
+};
+
+cbuffer Intensity : register(b1)
+{
+    float4 Intensity;
+};
 
 OutPutTarget Blur7x7_PS(OutPut _Value) : SV_Target0
 {
-    float2 PixelSize = float2(1.0f / 1600.0f, 1.0f / 900.0f);
+    float2 PixelSize = float2(1.0f / ScreenSize.x, 1.0f / ScreenSize.y);
     
     float2 StartUV = _Value.UV.xy + (-PixelSize * 3.0f);
     float2 CurUV = StartUV;
     
+    float4 BlurColor = (float4) 0.0f;
     float4 TextureColor = (float4) 0.0f;
     float4 DifLight = (float4) 0.0f;
     float4 SpcLight = (float4) 0.0f;
     float4 AmbLight = (float4) 0.0f;
+
     
     for (int y = 0; y < 7; ++y)
     {
         for (int x = 0; x < 7; ++x)
         {
-            TextureColor += DiffuseTexture.Sample(POINTSAMPLER, CurUV.xy) * Gau[y][x];
+            float4 DiffuseColor = DiffuseTexture.Sample(POINTSAMPLER, CurUV.xy);
+            
+            if (DiffuseColor.a > 0.0f)
+            {
+                BlurColor = DiffuseColor;
+            }
+            
+            TextureColor += DiffuseColor * Gau[y][x] * Intensity.x;
             DifLight += DiffuseLight.Sample(POINTSAMPLER, CurUV.xy) * Gau[y][x];
             SpcLight += SpecularLight.Sample(POINTSAMPLER, CurUV.xy) * Gau[y][x];
             AmbLight += AmbientLight.Sample(POINTSAMPLER, CurUV.xy) * Gau[y][x];
@@ -83,19 +102,32 @@ OutPutTarget Blur7x7_PS(OutPut _Value) : SV_Target0
         CurUV.y += PixelSize.y;
     }
     
-    if (TextureColor.a <= 0.0f)
+    if (AmbLight.a <= 0.0f)
     {
         clip(-1);
     }
     
-    OutPutTarget Target = (OutPutTarget) 0.0f;
+    //TextureColor = TextureColor * Intensity.x;
+    //TextureColor = TextureColor / (1.0f + TextureColor);
     
-    TextureColor.a = 1.0f;
+    DifLight = DifLight * Intensity.y;
+    DifLight = DifLight / (1.0f + DifLight);
+        
+    SpcLight = SpcLight * Intensity.z;
+    SpcLight = SpcLight / (1.0f + SpcLight);
+        
+    AmbLight = AmbLight * Intensity.w;
+    AmbLight = AmbLight / (1.0f + AmbLight);
+    
+    OutPutTarget Target = (OutPutTarget) 0.0f;
+    //DifLight = DiffuseLight.Sample(POINTSAMPLER, _Value.UV.xy);
+    //SpcLight = SpecularLight.Sample(POINTSAMPLER, _Value.UV.xy);
     
     Target.DiffuseTexture = TextureColor;
     Target.DiffuseLight = DifLight;
     Target.SpecularLight = SpcLight;
     Target.AmbientLight = AmbLight;
+    Target.BlurColor = BlurColor;
     
     return Target;
 }

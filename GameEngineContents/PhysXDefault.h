@@ -207,6 +207,7 @@ public:
 		m_pShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
 	}
 
+	void SetRigidCollide(bool _Value);
 
 protected:
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;

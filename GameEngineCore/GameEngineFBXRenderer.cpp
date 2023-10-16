@@ -344,7 +344,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 	return RenderUnit;
 }
 
-void GameEngineFBXRenderer::SetAnimationStartFunc(const std::string_view& _Name, UINT _Index, std::function<void()> _Func)
+void GameEngineFBXRenderer::SetAnimationStartFunc(const std::string_view& _Name, UINT _Index, std::function<void()> _Func) // 애니메이션 이름, 프레임인덱스, 함수
 {	
 	std::string sUpperName = GameEngineString::ToUpper(_Name);
 	if (Animations.end() == Animations.find(sUpperName))

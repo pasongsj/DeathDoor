@@ -146,16 +146,16 @@
       <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="StaticParticleManager.cpp">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClCompile>
     <ClCompile Include="DynamicParticleManager.cpp">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClCompile>
     <ClCompile Include="ParticleManager.cpp">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClCompile>
     <ClCompile Include="ParticleRenderer.cpp">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClCompile>
     <ClCompile Include="MyTest.cpp">
       <Filter>Contents\UITestLevel</Filter>
@@ -232,9 +232,6 @@
     <ClCompile Include="Map_Fortress.cpp">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyFirePlant.cpp">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="BossBase.cpp">
       <Filter>Contents\Boss</Filter>
     </ClCompile>
@@ -295,10 +292,7 @@
     <ClCompile Include="FrogBossLevel.cpp">
       <Filter>Contents\FortressLevel</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerAttackBasic.cpp">
-      <Filter>FSMObject\Player\Att</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAttackBase.cpp">
+    <ClCompile Include="AttackBase.cpp">
       <Filter>FSMObject\Player\Att</Filter>
     </ClCompile>
     <ClCompile Include="PhysXComponent.cpp">
@@ -320,7 +314,7 @@
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="FireObject.cpp">
-      <Filter>Component\ContentsRenderer\Fire</Filter>
+      <Filter>Component\ContentsRenderer\Object\Fire</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBow.cpp">
       <Filter>FSMObject\Player</Filter>
@@ -339,6 +333,46 @@
     </ClCompile>
     <ClCompile Include="Boss_OldCrow.cpp">
       <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="CullingManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackTrail.cpp">
+      <Filter>FSMObject\Player\Att\Trail</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyFirePlant.cpp">
+      <Filter>FSMObject\Enemy\FirePlant</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackBasic.cpp">
+      <Filter>FSMObject\Player\Att\basic</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttackSphere.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalValue.cpp" />
+    <ClCompile Include="CullingObject.cpp">
+      <Filter>CullingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CullingTrigger.cpp">
+      <Filter>CullingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="SwordTrailRenderer.cpp">
+      <Filter>Component\ContentsRenderer\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="FXAA.cpp">
+      <Filter>Component\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="DustRenderer.cpp">
+      <Filter>Component\ContentsRenderer\Object\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust.cpp">
+      <Filter>Component\ContentsRenderer\Object\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="BrightBloomEffect.cpp">
+      <Filter>Component\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="GammaCorrection.cpp">
+      <Filter>Component\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -484,19 +518,19 @@
       <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="ParticleStruct.h">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClInclude>
     <ClInclude Include="ParticleRenderer.h">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClInclude>
     <ClInclude Include="DynamicParticleManager.h">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClInclude>
     <ClInclude Include="StaticParticleManager.h">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClInclude>
     <ClInclude Include="ParticleManager.h">
-      <Filter>Component\ContentsRenderer\Particle</Filter>
+      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
     </ClInclude>
     <ClInclude Include="MyTest.h">
       <Filter>Contents\UITestLevel</Filter>
@@ -570,9 +604,6 @@
     <ClInclude Include="Map_Fortress.h">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyFirePlant.h">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="BossBase.h">
       <Filter>Contents\Boss</Filter>
     </ClInclude>
@@ -628,16 +659,13 @@
     <ClInclude Include="EnemyBruteGold.h">
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerAttackBasic.h">
-      <Filter>FSMObject\Player\Att</Filter>
-    </ClInclude>
     <ClInclude Include="Map_Sanctuary.h">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
     <ClInclude Include="FrogBossLevel.h">
       <Filter>Contents\FortressLevel</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerAttackBase.h">
+    <ClInclude Include="AttackBase.h">
       <Filter>FSMObject\Player\Att</Filter>
     </ClInclude>
     <ClInclude Include="PhysXComponent.h">
@@ -656,7 +684,7 @@
       <Filter>Component\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="FireObject.h">
-      <Filter>Component\ContentsRenderer\Fire</Filter>
+      <Filter>Component\ContentsRenderer\Object\Fire</Filter>
     </ClInclude>
     <ClInclude Include="FrogFloor.h">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
@@ -672,6 +700,48 @@
     </ClInclude>
     <ClInclude Include="RuinsWall.h">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CullingManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackTrail.h">
+      <Filter>FSMObject\Player\Att\Trail</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackDefinition.h">
+      <Filter>FSMObject\Player\Att</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFirePlant.h">
+      <Filter>FSMObject\Enemy\FirePlant</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackBasic.h">
+      <Filter>FSMObject\Player\Att\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackSphere.h">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="CullingObject.h">
+      <Filter>CullingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CullingTrigger.h">
+      <Filter>CullingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SwordTrailRenderer.h">
+      <Filter>Component\ContentsRenderer\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="FXAA.h">
+      <Filter>Component\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="BrightBloomEffect.h">
+      <Filter>Component\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="GammaCorrection.h">
+      <Filter>Component\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="DustRenderer.h">
+      <Filter>Component\ContentsRenderer\Object\Dust</Filter>
+    </ClInclude>
+    <ClInclude Include="Dust.h">
+      <Filter>Component\ContentsRenderer\Object\Dust</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -756,9 +826,6 @@
     <Filter Include="Contents\TestLevel\MapTestLevel\Actor">
       <UniqueIdentifier>{e61b235a-08ef-4d2c-8b42-a38245fea2ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\ContentsRenderer\Particle">
-      <UniqueIdentifier>{47fef3f1-0d09-44ae-b450-d11cab6effcc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Contents\BossTestLevel">
       <UniqueIdentifier>{5c11a7c5-e976-45af-b6d5-61102129526f}</UniqueIdentifier>
     </Filter>
@@ -816,11 +883,35 @@
     <Filter Include="Component\PostEffect">
       <UniqueIdentifier>{d5ea17ab-cd73-4c06-af79-5246cf19158e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\ContentsRenderer\Fire">
-      <UniqueIdentifier>{f006ce62-c1d5-49b0-af52-7b38c1a4c551}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\Level">
       <UniqueIdentifier>{81902642-70f0-4525-85b9-21fe176eb5a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{09844ced-1852-4494-a259-6271cbf494a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Player\Att\Trail">
+      <UniqueIdentifier>{a1097523-1cc7-40ab-9835-68d7bd4a84c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Enemy\FirePlant">
+      <UniqueIdentifier>{a73d9ddb-b72b-4581-921a-549d1cf1fe2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Player\Att\basic">
+      <UniqueIdentifier>{bb3172d0-c76b-4346-8b35-cc75a24e3e37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CullingObject">
+      <UniqueIdentifier>{13870c6d-2456-4b2e-9636-fe4a1727d432}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Object">
+      <UniqueIdentifier>{69d65129-9f28-4123-8c4d-3306e362249a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Object\Particle">
+      <UniqueIdentifier>{47fef3f1-0d09-44ae-b450-d11cab6effcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Object\Fire">
+      <UniqueIdentifier>{f006ce62-c1d5-49b0-af52-7b38c1a4c551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ContentsRenderer\Object\Dust">
+      <UniqueIdentifier>{248418d0-b163-4273-897f-02bdf3f6b1bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

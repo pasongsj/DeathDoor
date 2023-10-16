@@ -14,6 +14,9 @@
 #include "Crate.h"
 #include "Ladder.h"
 
+#include "CullingObject.h"
+#include "CullingTrigger.h"
+
 
 Map_Fortress::Map_Fortress()
 {
@@ -56,8 +59,8 @@ void Map_Fortress::InitComponent()
 	// 바닥 
 	Create_Ground();
 
-	// 파티션 분할 
-	Create_Partition();
+	// 컬링 오브젝트 생성
+	Create_CullingObject();
 
 	// 네비메쉬  
 	Create_PhysXComponent();
@@ -90,11 +93,11 @@ void Map_Fortress::Create_Ground()
 	m_pRenderer_Section2->GetTransform()->SetLocalPosition(float4{ -5894, -8, 3716 });
 	m_pRenderer_Section2->CalculateUnitPos();
 
-	m_pRenderer_Section3 = CreateComponent<ContentFBXRenderer>();
+	/*m_pRenderer_Section3 = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Section3->SetFBXMesh("Fortress_Section_3.fbx", "ContentMeshDeffered");
 	m_pRenderer_Section3->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Section3->GetTransform()->SetLocalPosition(float4{ -1900, -604, 3160 });
-	m_pRenderer_Section3->CalculateUnitPos();
+	m_pRenderer_Section3->CalculateUnitPos();*/
 
 	//auto AllUnit = m_pRenderer_Part3->GetAllRenderUnit();
 	//auto UnTextureUnit = m_pRenderer_Part3->GetUnTexturedUnit();
@@ -105,39 +108,122 @@ void Map_Fortress::Create_Ground()
 
 }
 
-void Map_Fortress::Create_Partition()
+void Map_Fortress::Create_CullingObject()
 {
-	m_pRenderer_Part1 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part1->SetFBXMesh("Fortress_Part_1.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part1->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part1->GetTransform()->SetLocalPosition(float4{ -330, 300, 430 });
-	m_pRenderer_Part1->CalculateUnitPos();
+	// 반복문돌면서 트리거 세팅
+	Set_CullingTrigger();
 
-	m_pRenderer_Part2 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part2->SetFBXMesh("Fortress_Part_2.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part2->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part2->GetTransform()->SetLocalPosition(float4{ -9190, 328, 11669 });
-	m_pRenderer_Part2->CalculateUnitPos();
+	// 마찬가지 
+	Set_CullingObject();
+}
 
-	m_pRenderer_Part3 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part3->SetFBXMesh("Fortress_Part_3.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part3->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part3->GetTransform()->SetLocalPosition(float4{ -8566, 336, 13834});
-	m_pRenderer_Part3->CalculateUnitPos();
+void Map_Fortress::Set_CullingTrigger()
+{
+	GameEngineLevel* CurLevel = GetLevel();
+	if (nullptr == CurLevel)
+	{
+		MsgAssert("현재 레벨이 nullptr 입니다.");
+		return;
+	}
 
-	m_pRenderer_Part4 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part4->SetFBXMesh("Fortress_Part_4.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part4->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part4->GetTransform()->SetLocalPosition(float4{ -12870, -16, 10350});
-	m_pRenderer_Part4->CalculateUnitPos();
+	m_vCullingObjects.reserve(m_iTriggerSize);
 
-	m_pRenderer_Part5 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Part5->SetFBXMesh("Fortress_Part_5.fbx", "ContentMeshDeffered");
-	m_pRenderer_Part5->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Part5->GetTransform()->SetLocalPosition(float4{ -9160, 324, 14630 });
-	m_pRenderer_Part5->CalculateUnitPos();
+	{
+		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
+		Trigger->GetTransform()->SetLocalRotation(m_MapRot);
+		m_vCullingTriggers.push_back(Trigger);
+	}
+	{
+		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
+		Trigger->GetTransform()->SetLocalRotation(m_MapRot);
+		Trigger->GetTransform()->SetLocalPosition(float4{ -1978, 0 , 2209 });
+		m_vCullingTriggers.push_back(Trigger);
+	}
+	{
+		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
+		Trigger->GetTransform()->SetLocalRotation(m_MapRot);
+		Trigger->GetTransform()->SetLocalPosition(float4{ 803, 0 , 4880 });
+		m_vCullingTriggers.push_back(Trigger);
+	}
+	{
+		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
+		Trigger->GetTransform()->SetLocalRotation(m_MapRot);
+		Trigger->GetTransform()->SetLocalPosition(float4{ 646, 593 , 7019 });
+		m_vCullingTriggers.push_back(Trigger);
+	}
+	{
+		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
+		Trigger->GetTransform()->SetLocalRotation(m_MapRot + float4 { 0 , -90 , 0 });
+		Trigger->GetTransform()->SetLocalPosition(float4{ -4590, 0, 4323 });
+		m_vCullingTriggers.push_back(Trigger);
+	}
+	
+}
 
-	m_pRenderer_Part6 = CreateComponent<ContentFBXRenderer>();
+void Map_Fortress::Set_CullingObject()
+{
+	GameEngineLevel* CurLevel = GetLevel();
+	if (nullptr == CurLevel)
+	{
+		MsgAssert("현재 레벨이 nullptr 입니다.");
+		return;
+	}
+
+	m_vCullingObjects.reserve(m_iCullingObject_Size);
+
+	{
+		//0
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		CullingObj->InitComponent("Fortress_Part_1.fbx");
+		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -330, 300, 430 });
+		m_vCullingObjects.push_back(CullingObj);
+	}
+	{
+		//1
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		CullingObj->InitComponent("Fortress_Part_2.fbx");
+		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -9190, 328, 11669 });
+		m_vCullingObjects.push_back(CullingObj);
+	}
+	{
+		//2
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		CullingObj->InitComponent("Fortress_Part_3.fbx");
+		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -8566, 336, 13834 });
+		m_vCullingObjects.push_back(CullingObj);
+	}
+	{
+		//3
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		CullingObj->InitComponent("Fortress_Part_3_1.fbx");
+		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -6990, 310, 13580 });
+		m_vCullingObjects.push_back(CullingObj);
+	}
+	{
+		//4
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		CullingObj->InitComponent("Fortress_Part_4_Test.fbx");
+		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+		CullingObj->GetTransform()->SetLocalPosition(float4{  -9160, 324, 14630 });
+		m_vCullingObjects.push_back(CullingObj);
+	}
+	{
+		//5
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		CullingObj->InitComponent("Fortress_Part_5.fbx");
+		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -12870, -16, 10350 });
+		CullingObj->GetRenderer()->On();
+		m_vCullingObjects.push_back(CullingObj);
+	}
+	
+	
+
+	/*m_pRenderer_Part6 = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Part6->SetFBXMesh("Fortress_Part_6.fbx", "ContentMeshDeffered");
 	m_pRenderer_Part6->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Part6->GetTransform()->SetLocalPosition(float4{ -13380, 93, 10940 });
@@ -201,8 +287,7 @@ void Map_Fortress::Create_Partition()
 	m_pRenderer_Part16->SetFBXMesh("Fortress_Part_16.fbx", "ContentMeshDeffered");
 	m_pRenderer_Part16->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Part16->GetTransform()->SetLocalPosition(float4{ -14782, 285, 17658 });
-	m_pRenderer_Part16->CalculateUnitPos();
-
+	m_pRenderer_Part16->CalculateUnitPos();*/
 }
 
 void Map_Fortress::Create_PhysXComponent()
@@ -239,3 +324,23 @@ void Map_Fortress::Create_ActiveObject()
 void Map_Fortress::Create_TransformWall(std::shared_ptr<class GameEngineLevel> _CurLevel)
 {
 }
+
+//void Map_Fortress::InitCullingObject()
+//{
+	// 여기선 일단 만드는거 까지만해보자
+	//GameEngineLevel* CurLevel = GetLevel();
+	//m_vCullingObjects.resize(m_iCullingObject_Height);
+
+	//for (size_t i = 0; i < m_iCullingObject_Height; ++i)
+	//{
+	//	// 각 열의 첫번째 액터는 전부 컬링트리거로 생성한다. 그리고 
+	//	std::shared_ptr<CullingTrigger> TriggerObj = CurLevel->CreateActor<CullingTrigger>();
+	//	m_vCullingObjects[i][0] = TriggerObj;
+	//	for (size_t j = 1; j < m_iCullingObject_Width; ++j)
+	//	{
+	//		// 만들기만하고. 넣어줘.
+	//		std::shared_ptr<CullingObject> Obj = CurLevel->CreateActor<CullingObject>();
+	//		m_vCullingObjects[i][j] = Obj;
+	//	}
+	//}
+//}

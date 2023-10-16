@@ -22,9 +22,10 @@ OutPut Merge_VS(Input _Value)
     return OutPutValue;
 }
 
-Texture2D DiffuseLight : register(t0);
-Texture2D SpecularLight : register(t1);
-Texture2D AmbientLight : register(t2);
+Texture2D DiffuseColor : register(t0);
+Texture2D DiffuseLight : register(t1);
+Texture2D SpecularLight : register(t2);
+Texture2D AmbientLight : register(t3);
 
 SamplerState WRAPSAMPLER : register(s0);
 
@@ -37,20 +38,21 @@ struct LightTarget
 
 LightTarget Merge_PS(OutPut _Value)
 {
-    float4 DifColor = DiffuseLight.Sample(WRAPSAMPLER, _Value.UV.xy);
-    float4 SpcColor = SpecularLight.Sample(WRAPSAMPLER, _Value.UV.xy);
-    float4 AmbColor = AmbientLight.Sample(WRAPSAMPLER, _Value.UV.xy);
+    float4 DifColor = DiffuseColor.Sample(WRAPSAMPLER, _Value.UV.xy);
+    float4 DifLight = DiffuseLight.Sample(WRAPSAMPLER, _Value.UV.xy);
+    float4 SpcLight = SpecularLight.Sample(WRAPSAMPLER, _Value.UV.xy);
+    float4 AmbLight = AmbientLight.Sample(WRAPSAMPLER, _Value.UV.xy);
     
     LightTarget OutPut = (LightTarget) 0.0f;
     
-    if (DifColor.a <= 0.0f)
+    if (AmbLight.a <= 0.0f)
     {
         clip(-1);
     }
         
-    OutPut.DiffuseLight = DifColor;
-    OutPut.SpecularLight = SpcColor;
-    OutPut.AmbientLight = AmbColor;
+    OutPut.DiffuseLight = DifLight * DifColor;
+    OutPut.SpecularLight = SpcLight * DifColor;
+    OutPut.AmbientLight = AmbLight * DifColor;
     
     return OutPut;
 }

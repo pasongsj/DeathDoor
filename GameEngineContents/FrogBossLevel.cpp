@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "Map_Sanctuary.h"
 
+
+
 FrogBossLevel::FrogBossLevel()
 {
 }
@@ -14,7 +16,7 @@ FrogBossLevel::~FrogBossLevel()
 }
 
 void FrogBossLevel::Start()
-{
+{	
 	InitKey();
 }
 
@@ -25,9 +27,14 @@ void FrogBossLevel::Update(float _DeltaTime)
 	// float4 Pos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 
 		// test 
-	if (false == GetMainCamera()->IsFreeCamera())
+	if (false == GetMainCamera()->IsFreeCamera()) // 계산이 안되서 임시
 	{
-		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + m_CameraPos);
+		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		nextPos.y += 3000.0f; // 카메라 높이
+		float4 xzPos = float4::FORWARD * 3000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad); //xz연산
+		xzPos.RotaitonYDeg(m_CameraRot.y);
+		nextPos -= xzPos;
+		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
 	}
 }
 

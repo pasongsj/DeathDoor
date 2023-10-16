@@ -35,19 +35,20 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::GameStart()
 {
+	ContentsResourcesCreate();
+
 	GameEngineGUI::GUIWindowCreate<GameEngineCoreWindow>("CoreWindow");	
 
 	GameEngineGUI::GUIWindowCreate<LevelWindow>("LevelWindow");
 	GameEngineGUI::GUIWindowCreate<ServerWindow>("ServerWindow");
 	GameEngineGUI::GUIWindowCreate<MapEditorWindow>("MapEditorWindow");
 	
-	ContentsResourcesCreate();
 
 	//InstallFont();
 
 	GameEngineCore::CreateLevel<CenterLevel>();
-	GameEngineCore::CreateLevel<TestLevel>();
-	GameEngineCore::CreateLevel<ServerTestLevel>();
+	//GameEngineCore::CreateLevel<TestLevel>();
+	//GameEngineCore::CreateLevel<ServerTestLevel>();
 	GameEngineCore::CreateLevel<MapEditorLevel>();
 	GameEngineCore::CreateLevel<PhysXTestLevel>();
 	GameEngineCore::CreateLevel<StartLevel>();

@@ -21,8 +21,6 @@ FrogFloor::~FrogFloor()
 {
 }
 
-
-
 void FrogFloor::Start()
 {
 	InitComponent();
@@ -34,26 +32,23 @@ void FrogFloor::Update(float _DeltaTime)
 
 void FrogFloor::InitComponent()
 {
-	GetTransform()->SetLocalPosition(float4{ -3621, -197, 3700 });
+	GetTransform()->SetLocalPosition(m_f4FloorPos);
 
 	// 테두리 렌더러 생성
 	m_pHingeRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pHingeRenderer->SetFBXMesh("Hinge.fbx", "ContentMeshDeffered");
 
-	// 필요한 오브젝트 만들고
 	Create_TileObject();
 	Create_FireObject();
-	
-	// 사다리 한개 
-	std::shared_ptr<Ladder> Obj = GetLevel()->CreateActor<Ladder>();
-	Obj->GetTransform()->SetLocalRotation(float4{ 0, 50, 0 });
-	Obj->GetTransform()->SetLocalPosition(float4{ -4495, -105, 5390 });
-	
 
 	// 회전 
-	GetTransform()->SetLocalRotation(float4{ 0 , -40, 0 });
+	GetTransform()->SetLocalRotation(float4{ 0 , 45 , 0 });
 	
 	Create_WallObject();
+
+	std::shared_ptr<Ladder> Obj = GetLevel()->CreateActor<Ladder>();
+	Obj->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
+	Obj->GetTransform()->SetLocalPosition(float4{ -4880,  -40 , 4947 });
 }
 
 void FrogFloor::Create_FireObject()
@@ -64,26 +59,36 @@ void FrogFloor::Create_FireObject()
 		MsgAssert("현재 레벨이 nullptr 입니다.");
 		return;
 	}
+	
+	m_vFireObjects.reserve(4);
 
 	{
+		// 12 
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -3400, 167, 2420 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -3615, 197, 5115 });
+		m_vFireObjects.push_back(FireObj);
 	}
 	{
+		// 3
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -4770, 167, 4040 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -2140, 197, 3635 });
+		m_vFireObjects.push_back(FireObj);
 	}
 	{
+		// 6
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -3150, 167, 5370 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -3630, 197, 2151 });
+		m_vFireObjects.push_back(FireObj);
 	}
 	{
+		// 9
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -1790, 167, 3760 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -5110 , 197 , 3619 });
+		m_vFireObjects.push_back(FireObj);
 	}
 }
 
@@ -106,7 +111,7 @@ void FrogFloor::Create_TileObject()
 	float4 MoveXPos = float4::ZERONULL;
 	float4 MoveZPos = float4::ZERONULL;
 
-	m_vTiles.resize(m_iTileSize);
+	m_vTiles.reserve(m_iTileSize);
 
 	// 돌면서 5x5 타일 깔아 
 	for (size_t i = 0; i < m_Height; ++i)
@@ -135,36 +140,42 @@ void FrogFloor::Create_TileObject()
 
 void FrogFloor::Create_WallObject()
 {
-	m_vWalls.resize(4);
+	m_vWalls.reserve(4);
 
 	GameEngineLevel* CurLevel = GetLevel();
+	
 
+	float4 FloorPos = GetTransform()->GetLocalPosition();
+	float4 re = float4{ -4376, -322, 2889 } - FloorPos;
+	// z : - 350
+	// x : - 350 
 	{
 		std::shared_ptr<RuinsWall> Obj = CurLevel->CreateActor<RuinsWall>();
-		Obj->GetTransform()->SetLocalRotation(float4{ 0, -40, 0 });
-		Obj->GetTransform()->SetLocalPosition(float4{ -4076, -322 , 3239 });
+		Obj->GetTransform()->SetLocalPosition(FloorPos + float4 { -505, -127, -1061 });
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
 		Obj->GetTransform()->SetParent(GetTransform());
+		m_vWalls.push_back(Obj);
 	}
-
 	{
 		std::shared_ptr<RuinsWall> Obj = CurLevel->CreateActor<RuinsWall>();
-		Obj->GetTransform()->SetLocalRotation(float4{ 0, -40, 0 });
-		Obj->GetTransform()->SetLocalPosition(float4{ -2500, -322, 4610 });
+		Obj->GetTransform()->SetLocalPosition(FloorPos + float4 { 950 , -127, 400 });
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
 		Obj->GetTransform()->SetParent(GetTransform());
+		m_vWalls.push_back(Obj);
 	}
-
 	{
 		std::shared_ptr<RuinsWall> Obj = CurLevel->CreateActor<RuinsWall>();
-		Obj->GetTransform()->SetLocalRotation(float4{ 0, 50, 0 });
-		Obj->GetTransform()->SetLocalPosition(float4{ -2580, -322, 3120 });
+		Obj->GetTransform()->SetLocalPosition(FloorPos + float4 { 980, -127, -1080});
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
 		Obj->GetTransform()->SetParent(GetTransform());
+		m_vWalls.push_back(Obj);
 	}
-
 	{
 		std::shared_ptr<RuinsWall> Obj = CurLevel->CreateActor<RuinsWall>();
-		Obj->GetTransform()->SetLocalRotation(float4{ 0, 50, 0 });
-		Obj->GetTransform()->SetLocalPosition(float4{ -3920, -322, 4730 });
+		Obj->GetTransform()->SetLocalPosition(FloorPos + float4 { -550 , -127, 400 });
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
 		Obj->GetTransform()->SetParent(GetTransform());
+		m_vWalls.push_back(Obj);
 	}
 }
 

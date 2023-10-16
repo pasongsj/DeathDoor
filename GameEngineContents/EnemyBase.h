@@ -37,6 +37,7 @@ protected:
 
 	float4 AggroDir(std::shared_ptr<class PhysXCapsuleComponent> _Comp, float4 DefaultDir = float4::ZERO);
 
+	float4 GetRotationDegree(const float4& _CurDir);
 
 	bool CheckHit();
 

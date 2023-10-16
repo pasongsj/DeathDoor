@@ -33,7 +33,7 @@ void Player::Start()
 	//init
 	InitInputKey();
 	InitPlayerAnimation();
-	
+
 	// physx
 	{
 
@@ -44,7 +44,7 @@ void Player::Start()
 		// lever 충돌테스트 
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic, PhysXFilterGroup::LeverTrigger);
 	}
-	m_pCapsuleComp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{1000.0f, 500.0f, 0.0f}));
+	m_pCapsuleComp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 1000.0f, 500.0f, 0.0f }));
 
 
 	SetFSMFunc();
@@ -54,7 +54,10 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
-	float4 TempPos = GetTransform()->GetWorldPosition();
+	if (true == CheckCollision(PhysXFilterGroup::MonsterSkill))
+	{
+		int a = 0;
+	}
 	DirectionUpdate(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
 	DefaultPhysX();
@@ -89,7 +92,7 @@ void Player::Update(float _DeltaTime)
 
 	// test
 	float4 MyPos = GetTransform()->GetWorldPosition();
-
+	
 }
 
 
@@ -157,7 +160,7 @@ void Player::CheckStateInput(float _DeltaTime)
 			}
 			break;
 		case Player::PlayerSkill::BOMB:
-			if (SpellCost <  2)
+			if (SpellCost < 2)
 			{
 				return;
 			}
@@ -176,16 +179,14 @@ void Player::CheckStateInput(float _DeltaTime)
 }
 void Player::ModifyHeight()
 {
-	// Falling Check
-	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // ground 와 약 y값 25차이가 난다.
-	float4 CollPoint = float4::ZERO;
+	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // 플레이어의 위치
+	PlayerGroundPos.y += 50.0f;
+	float4 CollPoint = float4::ZERO; // 충돌체크할 변수
 	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
 	{
-		float4 PPos = GetTransform()->GetWorldPosition();
-		if (PPos.y > CollPoint.y + 70.0f)
+		if (GetTransform()->GetWorldPosition().y > CollPoint.y + 30.0f) // 플레이어가 허공에 떠있다면 
 		{
-			MoveUpdate(300.0f, float4::DOWN);
-			//SetNextState(PlayerState::FALLING);
+			MoveUpdate(300.0f, float4::DOWN); // 아래로 눌러줌
 			return;
 		}
 	}
@@ -195,12 +196,12 @@ void Player::CheckFalling()
 {
 	ModifyHeight();
 	// Falling Check
-	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // ground 와 약 y값 25차이가 난다.
-	float4 CollPoint = float4::ZERO;
-	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
+	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // 플레이어의 위치
+	PlayerGroundPos.y += 50.0f;
+	float4 CollPoint = float4::ZERO; // 충돌체크할 변수
+	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f)) // 플레이어 위치에서 float4::DOWN 방향으로 2000.0f 길이만큼 체크한다.
 	{
-		float4 PPos = GetTransform()->GetWorldPosition();
-		if (PPos.y > CollPoint.y + 300.0f)
+		if (GetTransform()->GetWorldPosition().y > CollPoint.y + 100.0f) // 300.0 이상 차이가 나는경우 falling state로 변경한다.
 		{
 			SetNextState(PlayerState::FALLING);
 			return;
@@ -343,8 +344,6 @@ float4 Player::GetBonePos(const std::string_view& _BoneName)
 {
 	AnimationBoneData Bone = Renderer->GetBoneData(_BoneName.data());
 	float4 PPos = Renderer->GetTransform()->GetWorldPosition(); // 피봇문제로 제대로 가져오질 않음
-
-
 
 	std::shared_ptr< GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 	BonePivot->GetTransform()->SetParent(GetTransform());
