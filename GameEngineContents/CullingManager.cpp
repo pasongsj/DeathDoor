@@ -46,8 +46,10 @@ void CullingManager::Start()
 		std::shared_ptr<FortressLevel> CurLevel = CurContentLevel->DynamicThis<FortressLevel>();
 		std::shared_ptr<Map_Fortress> CurMap = CurLevel->GetMap();
 
+		// 맵의 트리거와 컬링오브젝트를 세팅해준다.
 		m_vCullingTriggers = CurMap->GetCullingTrigger();
 		m_vCullingObjects = CurMap->GetCullingObject();
+
 		break;
 	}
 	case ContentLevelType::FrogBossLevel:
