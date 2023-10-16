@@ -21,7 +21,7 @@ void Boss_OldCrow::Start()
 {
 	EnemyBase::Start();
 	InitPattern();
-	GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4(1000, 100, 0));
+	
 
 	// physx
 	{
@@ -43,11 +43,6 @@ void Boss_OldCrow::Start()
 void Boss_OldCrow::Update(float _DeltaTime)
 {
 	FSMObjectBase::Update(_DeltaTime);
-
-	if (GameEngineInput::IsDown("CamMoveUp"))
-	{
-		SetNextState(Boss_OldCrowState::JUMP);
-	}
 }
 
 void Boss_OldCrow::InitPattern()
@@ -115,8 +110,8 @@ void Boss_OldCrow::SetRandomPattern()
 	CurrentPatternNum = 0;
 
 	//Test용 스테이트 세팅 
-	PatternNum = 1;
-	RandomState = Boss_OldCrowState(Patterns[1][0]);
+	PatternNum = 3;
+	RandomState = Boss_OldCrowState(Patterns[PatternNum][2]);
 
 	SetNextState(RandomState);
 
@@ -200,55 +195,95 @@ void Boss_OldCrow::SetDirection()
 	CurrentDir = Dir;
 }
 
+void Boss_OldCrow::SetMegaDashRandomPos()
+{
+	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+	PlayerPos.y = 0.0f;
+	float4 RandomPos = GetRandomPos(2000.0f);
+	RandomPos.y = 0.0f;
+	Dir = PlayerPos - RandomPos;
+
+	float4 CalRot = float4::ZERO;
+	CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, Dir);
+
+	CurrentDir = Dir;
+
+	m_pCapsuleComp->SetWorldPosWithParent(RandomPos, -CalRot);
+}
+
 void Boss_OldCrow::ChainsInit()
 {
 	for (int i = 0; i < BOSS_OLDCROW_CHAINPIVOTCOUNT; ++i)
 	{
-		ChainsPivots.push_back(CreateComponent<GameEngineComponent>());
+		ChainsPivots.push_back(GetLevel()->CreateActor<GameEngineActor>());
+		ChainsPivots[i]->GetTransform()->SetParent(nullptr);
 	}
 
-	Chains.reserve(200);
+	Chains.reserve(BOSS_OLDCROW_CHAINCOUNT);
 
-	for (int i = 0; i < ChainsCount; ++i)
+	for (int i = 0; i < BOSS_OLDCROW_CHAINCOUNT; ++i)
 	{
 		std::shared_ptr<Boss_OldCrowChain> Chain = GetLevel()->CreateActor<Boss_OldCrowChain>();
-		Chain->Setting(i);
 
 		Chains.push_back(Chain);
+
+		Chains[i]->GetTransform()->SetParent(ChainsPivots[i]->GetTransform());
 	}
 
-	for (int i = 0; i < BOSS_OLDCROW_USINGCHAINCOUNT; ++i)
-	{
-		std::vector<int> vector;
+	MegaDash2PatternTransformPivot = GetLevel()->CreateActor<GameEngineActor>();
+	MegaDash2PatternTransformPivot->GetTransform()->SetParent(nullptr);
 
-		UsingChainNumber.push_back(vector);
+	for (int i = 0; i < BOSS_OLDCROW_CHAINCOUNT; ++i)
+	{
+		std::shared_ptr<GameEngineComponent> Transform1 = CreateComponent<GameEngineComponent>();
+		Transform1->GetTransform()->SetParent(MegaDash2PatternTransformPivot->GetTransform());
+
+		MegaDash2PatternTransforms1.push_back(Transform1);
+
+		std::shared_ptr<GameEngineComponent> Transform2 = CreateComponent<GameEngineComponent>();
+		Transform2->GetTransform()->SetParent(MegaDash2PatternTransformPivot->GetTransform());
+
+		MegaDash2PatternTransforms2.push_back(Transform2);
+	}
+	
+	// 0 ~ 3 Case 1, 4 ~ 7 Case 2
+	{
+		float Value = 500.0f; 
+
+		MegaDash2PatternTransforms1[0]->GetTransform()->SetLocalPosition(float4{ -Value * 2, 0, -Value });
+		MegaDash2PatternTransforms1[0]->GetTransform()->SetLocalRotation(float4{ 0, 90, 0 });
+
+		MegaDash2PatternTransforms1[1]->GetTransform()->SetLocalPosition(float4{ Value, 0, -Value * 2 });
+
+		MegaDash2PatternTransforms1[2]->GetTransform()->SetLocalPosition(float4{ Value * 2, 0, Value });
+		MegaDash2PatternTransforms1[2]->GetTransform()->SetLocalRotation(float4{ 0, -90, 0 });
+
+		MegaDash2PatternTransforms1[3]->GetTransform()->SetLocalPosition(float4{ -Value, 0, Value * 2 });
+		MegaDash2PatternTransforms1[3]->GetTransform()->SetLocalRotation(float4{ 0, 180, 0 });
+	}
+	{
+		float Value = 1000.0f; //X값 
+		float Value2 = 300.0f;//Z값 
+
+		MegaDash2PatternTransforms2[0]->GetTransform()->SetLocalPosition(float4{ -Value, 0, -Value2 * 2 });
+		MegaDash2PatternTransforms2[0]->GetTransform()->SetLocalRotation(float4{ 0, 90, 0 });
+
+		MegaDash2PatternTransforms2[1]->GetTransform()->SetLocalPosition(float4{ Value, 0, -Value2 });
+		MegaDash2PatternTransforms2[1]->GetTransform()->SetLocalRotation(float4{ 0, -90, 0 });
+
+		MegaDash2PatternTransforms2[2]->GetTransform()->SetLocalPosition(float4{ -Value, 0, Value2 });
+		MegaDash2PatternTransforms2[2]->GetTransform()->SetLocalRotation(float4{ 0, 90, 0 });
+
+		MegaDash2PatternTransforms2[3]->GetTransform()->SetLocalPosition(float4{ Value, 0, Value2 * 2 });
+		MegaDash2PatternTransforms2[3]->GetTransform()->SetLocalRotation(float4{ 0, -90, 0 });
 	}
 }
 
-std::shared_ptr<Boss_OldCrowChain> Boss_OldCrow::GetChain()
-{
-	for (int i = 0; i < Chains.size(); ++i)
-	{
-		if (false == Chains[i]->GetChainState())
-		{
-			Chains[i]->OnRenderer();
-
-			return Chains[i];
-		}
-	}
-
-	std::shared_ptr<Boss_OldCrowChain> Chain = GetLevel()->CreateActor<Boss_OldCrowChain>();
-	Chain->Setting(Chains.size());
-	Chain->OnRenderer();
-
-	Chains.push_back(Chain);
-
-	return Chain;
-}
 
 float4 Boss_OldCrow::GetRandomPos(float _Value)
 {
 	float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+	PlayerPos.y = 0.0f;
 	float4 RandomDir = { 0, 0, _Value };
 
 	float Angle = GameEngineRandom::MainRandom.RandomFloat(0, 359);
@@ -258,32 +293,12 @@ float4 Boss_OldCrow::GetRandomPos(float _Value)
 	return PlayerPos + RandomDir;
 }
 
-void Boss_OldCrow::SettingChainPatternParameter()
+void Boss_OldCrow::SettingChainPatternPivot()
 {
-	ChainPatternParameterVector.clear();
+	float Angle = GameEngineRandom::MainRandom.RandomFloat(0, 359);
 
-	int RandomInt = GameEngineRandom::MainRandom.RandomInt(0, 1);
+	float4 Rotation = float4::ZERO;
+	Rotation.y = Angle;
 
-	RandomInt = 0;
-
-	/*switch (RandomInt)
-	{
-	case 0:
-		ChainPatternParameter Parameter1 { float4{-2500, 0, 1000}, float4::RIGHT };
-		ChainPatternParameter Parameter2 { float4{2500, 0, 500}, float4::LEFT };
-		ChainPatternParameter Parameter3 { float4{-2500, 0, -500}, float4::RIGHT };
-		ChainPatternParameter Parameter4 { float4{2500, 0, -1000}, float4::LEFT };
-
-		ChainPatternParameterVector.push_back(Parameter1);
-		ChainPatternParameterVector.push_back(Parameter2);
-		ChainPatternParameterVector.push_back(Parameter3);
-		ChainPatternParameterVector.push_back(Parameter4);
-		break;
-	case 1:
-
-		break;
-	default:
-		break;
-	}*/
-
+	MegaDash2PatternTransformPivot->GetTransform()->SetLocalRotation(Rotation);
 }

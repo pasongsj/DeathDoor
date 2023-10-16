@@ -227,10 +227,10 @@
       <Filter>Contents\BossTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="FortressLevel.cpp">
-      <Filter>Contents\FortressLevel</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel</Filter>
     </ClCompile>
     <ClCompile Include="Map_Fortress.cpp">
-      <Filter>Contents\FortressLevel\Map</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map</Filter>
     </ClCompile>
     <ClCompile Include="BossBase.cpp">
       <Filter>Contents\Boss</Filter>
@@ -242,13 +242,13 @@
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="SecretTile.cpp">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="Crate.cpp">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="Frog_Lever.cpp">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="PhysXControllerComponent.cpp">
       <Filter>Component\PhysX\Component</Filter>
@@ -257,7 +257,7 @@
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Ladder.cpp">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="EnemyGhoul.cpp">
       <Filter>FSMObject\Enemy</Filter>
@@ -287,10 +287,10 @@
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="Map_Sanctuary.cpp">
-      <Filter>Contents\FortressLevel\Map</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map</Filter>
     </ClCompile>
     <ClCompile Include="FrogBossLevel.cpp">
-      <Filter>Contents\FortressLevel</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel</Filter>
     </ClCompile>
     <ClCompile Include="AttackBase.cpp">
       <Filter>FSMObject\Player\Att</Filter>
@@ -308,7 +308,7 @@
       <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClCompile>
     <ClCompile Include="FrogFloor.cpp">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="GrayScaleEffect.cpp">
       <Filter>Component\PostEffect</Filter>
@@ -323,7 +323,7 @@
       <Filter>Component\Level</Filter>
     </ClCompile>
     <ClCompile Include="RuinsWall.cpp">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="Boss_OldCrowChain.cpp">
       <Filter>Contents\Boss\OldCrow\Actor</Filter>
@@ -333,6 +333,15 @@
     </ClCompile>
     <ClCompile Include="Boss_OldCrow.cpp">
       <Filter>Contents\Boss\OldCrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrowEgg.cpp">
+      <Filter>Contents\Boss\OldCrow\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrowCrowHead.cpp">
+      <Filter>Contents\Boss\OldCrow\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrowSmallCrow.cpp">
+      <Filter>Contents\Boss\OldCrow\Actor</Filter>
     </ClCompile>
     <ClCompile Include="CullingManager.cpp">
       <Filter>Manager</Filter>
@@ -599,10 +608,10 @@
       <Filter>Contents\BossTestLevel</Filter>
     </ClInclude>
     <ClInclude Include="FortressLevel.h">
-      <Filter>Contents\FortressLevel</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel</Filter>
     </ClInclude>
     <ClInclude Include="Map_Fortress.h">
-      <Filter>Contents\FortressLevel\Map</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map</Filter>
     </ClInclude>
     <ClInclude Include="BossBase.h">
       <Filter>Contents\Boss</Filter>
@@ -615,13 +624,13 @@
     </ClInclude>
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="SecretTile.h">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="Crate.h">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="Frog_Lever.h">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="PhysXControllerComponent.h">
       <Filter>Component\PhysX\Component</Filter>
@@ -630,7 +639,7 @@
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Ladder.h">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="EnemyGhoul.h">
       <Filter>FSMObject\Enemy</Filter>
@@ -660,10 +669,10 @@
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Map_Sanctuary.h">
-      <Filter>Contents\FortressLevel\Map</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map</Filter>
     </ClInclude>
     <ClInclude Include="FrogBossLevel.h">
-      <Filter>Contents\FortressLevel</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel</Filter>
     </ClInclude>
     <ClInclude Include="AttackBase.h">
       <Filter>FSMObject\Player\Att</Filter>
@@ -687,7 +696,7 @@
       <Filter>Component\ContentsRenderer\Object\Fire</Filter>
     </ClInclude>
     <ClInclude Include="FrogFloor.h">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="PlayerBow.h">
       <Filter>FSMObject\Player</Filter>
@@ -699,7 +708,16 @@
       <Filter>Component\Level</Filter>
     </ClInclude>
     <ClInclude Include="RuinsWall.h">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss_OldCrowEgg.h">
+      <Filter>Contents\Boss\OldCrow\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss_OldCrowCrowHead.h">
+      <Filter>Contents\Boss\OldCrow\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss_OldCrowSmallCrow.h">
+      <Filter>Contents\Boss\OldCrow\Actor</Filter>
     </ClInclude>
     <ClInclude Include="CullingManager.h">
       <Filter>Manager</Filter>
@@ -844,20 +862,11 @@
     <Filter Include="FSMObject\Enemy">
       <UniqueIdentifier>{a629260c-d758-43ba-bd9f-46a2479c20db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\FortressLevel">
-      <UniqueIdentifier>{e22fafa8-2651-4605-9d3a-1361ad8bf611}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Contents\OfficeLevel\Static_Object">
       <UniqueIdentifier>{525c3b97-c219-4a66-ba48-36517941ff49}</UniqueIdentifier>
     </Filter>
     <Filter Include="Contents\OfficeLevel\Static_Object\Wall">
       <UniqueIdentifier>{0dd36c88-e6ef-4b59-aa21-a028fbaaa996}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\FortressLevel\Map">
-      <UniqueIdentifier>{23756f21-8374-45c9-b3ab-2c88693dde53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\FortressLevel\Map_Object">
-      <UniqueIdentifier>{7135283d-a1cc-4778-9c28-fd7e7f68f16e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Component\ContentsRenderer\FBX">
       <UniqueIdentifier>{13009e0f-7393-4e64-9b5c-980fbd9824fe}</UniqueIdentifier>
@@ -912,6 +921,15 @@
     </Filter>
     <Filter Include="Component\ContentsRenderer\Object\Dust">
       <UniqueIdentifier>{248418d0-b163-4273-897f-02bdf3f6b1bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel\Actor\FortressLevel">
+      <UniqueIdentifier>{e22fafa8-2651-4605-9d3a-1361ad8bf611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel\Actor\FortressLevel\Map">
+      <UniqueIdentifier>{23756f21-8374-45c9-b3ab-2c88693dde53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OfficeLevel\Actor\FortressLevel\Map_Object">
+      <UniqueIdentifier>{7135283d-a1cc-4778-9c28-fd7e7f68f16e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

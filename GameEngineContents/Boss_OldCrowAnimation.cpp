@@ -14,11 +14,11 @@ void Boss_OldCrow::InitAniamtion()
 	//BossRender->SetAnimationStartFunc("Dash", 1, std::bind(&Boss_OldCrow::, this));
 	BossRender->SetAnimationStartFunc("Dash", 3, [this]
 		{
-			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * DashSpeed);
+			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_DASHSPEED);
 		});
 	BossRender->SetAnimationStartFunc("Dash", 17, [this]
 		{
-			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * DashSpeed2 );
+			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_DASHSPEED2 );
 		});
 	BossRender->SetAnimationStartFunc("Dash", 19, [this]
 		{
