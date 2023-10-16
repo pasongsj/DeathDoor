@@ -2,6 +2,8 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 
+class ContentLevel;
+
 // 설명 :
 class CullingManager : public GameEngineActor
 {
@@ -23,16 +25,39 @@ protected:
 private:
 	void Culling();
 
-	void LinkTrigger();
+	template<typename EnumType>
+	void LinkTrigger(EnumType _LevelType);
 	void On_FirstTrigger();
 
 	void CheckLink();
+	
+	inline void Set_ActiveTrigger_Index(int _Index);
+
+	int m_iCurTrigger_Idx = 0;
+	
+	inline void CullingObjIdxClear()
+	{
+		m_iCurCullingObj_Idx0 = -1;
+		m_iCurCullingObj_Idx1 = -1;
+		m_iCurCullingObj_Idx2 = -1;
+	}
+
+	void Off_Trigger();
+
+	int m_iCurCullingObj_Idx0 = -1;
+	int m_iCurCullingObj_Idx1 = -1;
+	int m_iCurCullingObj_Idx2 = -1;
+
+
 	std::vector<std::shared_ptr<class CullingTrigger>> m_vCullingTriggers = std::vector<std::shared_ptr<class CullingTrigger>>();
 	std::vector<std::shared_ptr<class CullingObject>> m_vCullingObjects = std::vector<std::shared_ptr<class CullingObject>>();
 };
 
+// 
+
 // 규칙
 // 1. 첫번째트리거의 컬링오브젝트는 시작부터 On 처리 해준다. 
+// 2. 레벨별로 트리거당 어떤 오브젝트를 on 시킬건지는 하드코딩으로 작성 
 
 
 

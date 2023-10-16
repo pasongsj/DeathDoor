@@ -48,6 +48,7 @@ private:
 
 	std::shared_ptr<class ContentFBXRenderer> m_pHingeRenderer = nullptr;
 
+	std::vector <std::shared_ptr<class FireObject>> m_vFireObjects = std::vector<std::shared_ptr<class FireObject>>();
 	float4 m_FireObjScale = float4{ 50, 50 , 50 };
 
 	// tile
@@ -62,4 +63,5 @@ private:
 	size_t m_Width = 5;
 	size_t m_Height = 5;
 
+	float4 m_f4FloorPos = float4{ -3871, -197, 3950 };
 };

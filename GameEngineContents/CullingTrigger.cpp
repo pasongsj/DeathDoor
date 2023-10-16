@@ -56,31 +56,21 @@ void CullingTrigger::InitComponent()
 }
 
 
-
-void CullingTrigger::Set_CullingObject(std::shared_ptr<class CullingObject> _Obj, std::shared_ptr<class CullingObject> _Obj2)
+void CullingTrigger::Set_CullingObjectNumber(int _Number1, int _Number2, int _Number3 /*= INT_MAX*/)
 {
-	if (nullptr == _Obj || nullptr == _Obj2)
+	if (0 > _Number1 || 0 > _Number2 || 1 >= _Number3)
 	{
-		MsgAssert("컬링오브젝트가 nullptr 입니다.");
+		MsgAssert("인덱스 값이 이상합니다.");
 		return;
 	}
 
-	m_pCullingObject_1 = _Obj;
-	m_pCullingObject_2 = _Obj2;
+	m_vCullingObj_Numbers.push_back(_Number1);
+	m_vCullingObj_Numbers.push_back(_Number2);
 
-	m_pCullingObject_1.lock()->LinkOn();
-	m_pCullingObject_2.lock()->LinkOn();
-}
-
-void CullingTrigger::On_CullingObject()
-{
-	m_pCullingObject_1.lock()->GetRenderer()->On();
-	m_pCullingObject_2.lock()->GetRenderer()->On();
-}
-
-void CullingTrigger::Off_CullingObject()
-{
-	m_pCullingObject_1.lock()->GetRenderer()->Off();
 	
-	// m_pCullingObject_2.lock()->GetRenderer()->Off();
+
+	if (INT_MAX != _Number3)
+	{
+		m_vCullingObj_Numbers.push_back(_Number3);
+	}
 }

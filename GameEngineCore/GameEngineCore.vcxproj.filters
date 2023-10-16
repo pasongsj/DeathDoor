@@ -175,9 +175,6 @@
     <ClInclude Include="GameEngineStructuredBuffer.h">
       <Filter>Resources\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineFBXRenderer.h">
-      <Filter>Object\Rendering\Component</Filter>
-    </ClInclude>
     <ClInclude Include="ThirdParty\PhysX_4_1\inc\allocator.h">
       <Filter>ThirdParty\PhysX_4.1\Header\PhysX_4_1</Filter>
     </ClInclude>
@@ -778,6 +775,15 @@
     <ClInclude Include="GameEngineGeometryShader.h">
       <Filter>Resources\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineParticleRenderer.h">
+      <Filter>Object\Rendering\Component\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineFBXRenderer.h">
+      <Filter>Object\Rendering\Component\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineComputeShader.h">
+      <Filter>Resources\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -947,9 +953,6 @@
     <ClCompile Include="GameEngineStructuredBuffer.cpp">
       <Filter>Resources\Buffer</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineFBXRenderer.cpp">
-      <Filter>Object\Rendering\Component</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineNetActor.cpp">
       <Filter>Object</Filter>
     </ClCompile>
@@ -966,6 +969,15 @@
       <Filter>Content\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineGeometryShader.cpp">
+      <Filter>Resources\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineParticleRenderer.cpp">
+      <Filter>Object\Rendering\Component\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineFBXRenderer.cpp">
+      <Filter>Object\Rendering\Component\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineComputeShader.cpp">
       <Filter>Resources\Shader</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1152,6 +1164,12 @@
     </Filter>
     <Filter Include="Object\Contents">
       <UniqueIdentifier>{aa2e761b-8163-4856-a3f9-def7fba5e45b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Rendering\Component\3D">
+      <UniqueIdentifier>{ed858a98-1f17-4602-a4f8-a8204a0e258b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Rendering\Component\Particle">
+      <UniqueIdentifier>{8f6a5002-24f9-479e-be1e-e0249ae1fa54}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
