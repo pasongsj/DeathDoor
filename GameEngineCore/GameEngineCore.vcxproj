@@ -189,6 +189,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineComputeShader.h" />
     <ClInclude Include="GameEngineCoreWindow.h">
       <SubType>
       </SubType>
@@ -295,6 +296,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineParticleRenderer.h" />
     <ClInclude Include="GameEnginePixelShader.h" />
     <ClInclude Include="GameEngineRasterizer.h">
       <SubType>
@@ -603,6 +605,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineComputeShader.cpp" />
     <ClCompile Include="GameEngineConstantBuffer.cpp">
       <SubType>
       </SubType>
@@ -693,6 +696,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineParticleRenderer.cpp" />
     <ClCompile Include="GameEnginePixelShader.cpp" />
     <ClCompile Include="GameEngineRasterizer.cpp">
       <SubType>

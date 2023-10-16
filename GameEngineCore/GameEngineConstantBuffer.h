@@ -55,5 +55,7 @@ private:
 
 	void VSSetting(UINT _Slot);
 	void PSSetting(UINT _Slot);
+	void CSSetting(UINT _Slot);
+	void GSSetting(UINT _Slot);
 };
 

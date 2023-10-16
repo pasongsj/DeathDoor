@@ -93,7 +93,10 @@ float4 PhysXDefault::GetWorldPosition()
     {
         return float4(m_pRigidStatic->getGlobalPose().p.x, m_pRigidStatic->getGlobalPose().p.y, m_pRigidStatic->getGlobalPose().p.z);
     }
-    
+    else
+    {
+        return float4::ZERONULL;
+    }    
 }
 
 float4 PhysXDefault::GetQuaternionEulerAngles(float4 rot)
