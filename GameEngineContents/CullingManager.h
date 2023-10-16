@@ -40,6 +40,7 @@ private:
 		m_iCurCullingObj_Idx0 = -1;
 		m_iCurCullingObj_Idx1 = -1;
 		m_iCurCullingObj_Idx2 = -1;
+		m_iCurCullingObj_Idx3 = -1;
 	}
 
 	void Off_Trigger();
@@ -47,6 +48,7 @@ private:
 	int m_iCurCullingObj_Idx0 = -1;
 	int m_iCurCullingObj_Idx1 = -1;
 	int m_iCurCullingObj_Idx2 = -1;
+	int m_iCurCullingObj_Idx3 = -1;
 
 
 	std::vector<std::shared_ptr<class CullingTrigger>> m_vCullingTriggers = std::vector<std::shared_ptr<class CullingTrigger>>();
