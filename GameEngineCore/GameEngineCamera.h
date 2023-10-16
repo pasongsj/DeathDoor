@@ -161,9 +161,9 @@ private:
 	float Width = 0.0f;
 	float Height = 0.0f;
 
-	float FOV = 20.0f;
+	float FOV = 60.0f;
 	float Near = 0.1f;
-	float Far = 10000.0f;
+	float Far = 6000.0f;
 
 	void PushRenderer(std::shared_ptr<GameEngineRenderer> _Render);
 	void PushRenderUnit(std::shared_ptr<GameEngineRenderUnit> _Unit, RenderPath _Path = RenderPath::None);

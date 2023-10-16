@@ -30,7 +30,7 @@ public:
 		return m_vCullingObj_Numbers;
 	}
 
-	void Set_CullingObjectNumber(int _Number1, int _Number2, int _Number3 = INT_MAX);
+	void Set_CullingObjectNumber(int _Number0 , int _Number1, int _Number2, int _Number3 = INT_MAX);
 	
 	inline bool IsActivate()
 	{

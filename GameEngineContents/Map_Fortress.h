@@ -32,7 +32,6 @@ public:
 		return m_vCullingObjects;
 	}
 
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -53,17 +52,9 @@ private:
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pNaviRenderer = nullptr;
 
-	std::shared_ptr<class CullingTrigger> m_pCullingTrigger = nullptr;
-	std::shared_ptr<class CullingTrigger> m_pCullingTrigger2 = nullptr;
-	std::shared_ptr<class CullingObject> m_pCullingObj1 = nullptr;
-	std::shared_ptr<class CullingObject> m_pCullingObj2 = nullptr;
-	std::shared_ptr<class CullingObject> m_pCullingObj3 = nullptr;
-	std::shared_ptr<class CullingObject> m_pCullingObj4 = nullptr;
-	
-
-	// 일단 2 
+	// 나중에 설정함 
 	size_t m_iTriggerSize = 2;
-	// 일단 4 
+	// 나중에 설정함  
 	size_t m_iCullingObject_Size = 4;
 	std::vector<std::shared_ptr<class CullingTrigger>> m_vCullingTriggers = std::vector<std::shared_ptr<class CullingTrigger>>();
 	std::vector<std::shared_ptr<class CullingObject>> m_vCullingObjects = std::vector<std::shared_ptr<class CullingObject>>();

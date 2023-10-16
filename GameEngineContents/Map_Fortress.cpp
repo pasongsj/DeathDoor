@@ -179,7 +179,35 @@ void Map_Fortress::Set_CullingObject()
 	m_vCullingObjects.reserve(m_iCullingObject_Size);
 
 	{
-		//0
+		// 0 
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		CullingObj->InitComponent("Fortress_Section_1.fbx");
+		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -4770, 19317, 4610 });
+		m_vCullingObjects.push_back(CullingObj);
+		CullingObj->GetTransform()->SetParent(GetTransform());
+	}
+	{
+		// 1
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		CullingObj->InitComponent("Fortress_Section_2.fbx");
+		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -5894, -8, 3716 });
+		m_vCullingObjects.push_back(CullingObj);
+		CullingObj->GetTransform()->SetParent(GetTransform());
+	}
+	{
+		// 2
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		CullingObj->InitComponent("Fortress_Section_3.fbx");
+		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -1900, -604, 3160 });
+		m_vCullingObjects.push_back(CullingObj);
+		CullingObj->GetTransform()->SetParent(GetTransform());
+	}
+
+	{
+		//3
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
 		CullingObj->InitComponent("Fortress_Part_1.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
@@ -188,7 +216,7 @@ void Map_Fortress::Set_CullingObject()
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
-		//1
+		//4
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
 		CullingObj->InitComponent("Fortress_Part_2.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
@@ -197,7 +225,7 @@ void Map_Fortress::Set_CullingObject()
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
-		//2
+		//5
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
 		CullingObj->InitComponent("Fortress_Part_3.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
@@ -206,7 +234,7 @@ void Map_Fortress::Set_CullingObject()
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
-		//3
+		//6
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
 		CullingObj->InitComponent("Fortress_Part_3_1.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
@@ -215,7 +243,7 @@ void Map_Fortress::Set_CullingObject()
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
-		//4
+		//7
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
 		CullingObj->InitComponent("Fortress_Part_4_Test.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
@@ -224,11 +252,29 @@ void Map_Fortress::Set_CullingObject()
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
-		//5
+		//8
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
 		CullingObj->InitComponent("Fortress_Part_5.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -12870, -16, 10350 });
+		m_vCullingObjects.push_back(CullingObj);
+		CullingObj->GetTransform()->SetParent(GetTransform());
+	}
+	{
+		//9
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		CullingObj->InitComponent("Fortress_Part_6.fbx");
+		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -13380, 93, 10940 });
+		m_vCullingObjects.push_back(CullingObj);
+		CullingObj->GetTransform()->SetParent(GetTransform());
+	}
+	{
+		//10 
+		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
+		CullingObj->InitComponent("Fortress_Part_7.fbx");
+		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -14480, -3, 11935 });
 		m_vCullingObjects.push_back(CullingObj);
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}

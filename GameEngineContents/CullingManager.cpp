@@ -97,16 +97,19 @@ void CullingManager::Culling()
 			// 트리거가 발동되지 않았다면 
 			if (false == m_vCullingTriggers[i]->IsActivate())
 			{
+				// 현재 트리거를 Off 처리 해주고
 				m_vCullingTriggers[m_iCurTrigger_Idx]->TriggerOff();
+
+				// 현재 트리거 인덱스를 변경
 				m_iCurTrigger_Idx = i;
 				if (0 <= m_iCurCullingObj_Idx0)
 				{
 					Off_Trigger();
 				}
+
 				// 활성화 할 트리거 인덱스를 세팅 후 트리거 on 
 				Set_ActiveTrigger_Index(i);
 				m_vCullingTriggers[i]->TriggerOn();
-
 
 				// idx 변수 초기화
 				CullingObjIdxClear();
@@ -118,10 +121,11 @@ void CullingManager::Culling()
 				// 인덱스 넘버지정 
 				m_iCurCullingObj_Idx0 = Numbers[0];
 				m_iCurCullingObj_Idx1 = Numbers[1];
+				m_iCurCullingObj_Idx2 = Numbers[2];
 
-				if (Size == 3)
+				if (Size == 4)
 				{
-					m_iCurCullingObj_Idx2 = Numbers[2];
+					m_iCurCullingObj_Idx3 = Numbers[3];
 				}
 
 				for (size_t i = 0; i < Size; i++)
@@ -159,12 +163,13 @@ void CullingManager::LinkTrigger(EnumType _LevelType)
 		break;
 	case ContentLevelType::FortressLevel:
 	{
-		// 최소두개, 최대 3개까지 지정가능
-		m_vCullingTriggers[0]->Set_CullingObjectNumber(0, 1);		 // 플레이어 생성위치 
-		m_vCullingTriggers[1]->Set_CullingObjectNumber(1, 2);		 // 초반부 큰 문 입구
-		m_vCullingTriggers[2]->Set_CullingObjectNumber(2, 3);		 // 이후 우측으로 꺾어서 레버 당기는 곳
-		m_vCullingTriggers[3]->Set_CullingObjectNumber(2, 3, 4);	 // 생성된 사다리로 위쪽으로 올라가고 나서 바로 
-		m_vCullingTriggers[4]->Set_CullingObjectNumber(4, 5);		 // 아래쪽 낙하 이후 처음 나오는 사각형 공간 지나가는 부분 
+		// 최소 3개, 최대 4개까지 지정가능
+		// 0번 인자는 반드시 포함될 바닥메쉬인걸로 
+		m_vCullingTriggers[0]->Set_CullingObjectNumber(0, 3, 4);		 // 플레이어 생성위치 
+		m_vCullingTriggers[1]->Set_CullingObjectNumber(0, 4, 5);		 // 초반부 큰 문 입구
+		m_vCullingTriggers[2]->Set_CullingObjectNumber(0, 5, 6);		 // 이후 우측으로 꺾어서 레버 당기는 곳
+		//m_vCullingTriggers[3]->Set_CullingObjectNumber(2, 3, 4);	 // 생성된 사다리로 위쪽으로 올라가고 나서 바로 
+		//m_vCullingTriggers[4]->Set_CullingObjectNumber(4, 5);		 // 아래쪽 낙하 이후 처음 나오는 사각형 공간 지나가는 부분 
 		
 
 
@@ -182,9 +187,12 @@ void CullingManager::On_FirstTrigger()
 	m_vCullingTriggers[0]->TriggerOn();
 	
 	m_iCurCullingObj_Idx0 = 0;
-	m_iCurCullingObj_Idx1 = 1;
-	m_vCullingObjects[0]->GetRenderer()->On();
-	m_vCullingObjects[1]->GetRenderer()->On();
+	m_iCurCullingObj_Idx1 = 3;
+	m_iCurCullingObj_Idx2 = 4;
+
+	m_vCullingObjects[m_iCurCullingObj_Idx0]->GetRenderer()->On();
+	m_vCullingObjects[m_iCurCullingObj_Idx1]->GetRenderer()->On();
+	m_vCullingObjects[m_iCurCullingObj_Idx2]->GetRenderer()->On();
 }
 
 void CullingManager::CheckLink()
@@ -221,13 +229,14 @@ void CullingManager::Off_Trigger()
 {
 	m_vCullingObjects[m_iCurCullingObj_Idx0]->GetRenderer()->Off();
 	m_vCullingObjects[m_iCurCullingObj_Idx1]->GetRenderer()->Off();
+	m_vCullingObjects[m_iCurCullingObj_Idx2]->GetRenderer()->Off();
 
-	if (m_iCurCullingObj_Idx2 == -1)
+	if (m_iCurCullingObj_Idx3 == -1)
 	{
 		return;
 	}
 
-	m_vCullingObjects[m_iCurCullingObj_Idx2]->GetRenderer()->Off();
+	m_vCullingObjects[m_iCurCullingObj_Idx3]->GetRenderer()->Off();
 }
 
 // 지금해야될건? 
