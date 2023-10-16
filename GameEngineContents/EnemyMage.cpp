@@ -16,10 +16,9 @@ void EnemyMage::InitAniamtion()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("_E_MAGE_MESH.FBX", "ContentAniMeshDeffered");
-
 	EnemyRenderer->CreateFBXAnimation("IDLE", "_E_MAGE_IDLE.fbx", { 0.02f,true });
 	EnemyRenderer->CreateFBXAnimation("SHOOT", "_E_MAGE_SHOOT.fbx", { 0.02f,false });
-	EnemyRenderer->CreateFBXAnimation("TELEPORT", "_E_MAGE_TELEPORT.fbx", { 0.02f,false });
+	EnemyRenderer->CreateFBXAnimation("TELEPORT", "_E_MAGE_TELEPORT.fbx", { 0.02f,false }); // 타격시인듯??
 	EnemyRenderer->CreateFBXAnimation("TELEPORT_IN", "_E_MAGE_TELEPORT.fbx", { 0.02f,false });
 	EnemyRenderer->CreateFBXAnimation("DEATH", "_E_MAGE_DEATH.fbx", { 0.02f,false });
 	//_E_MAGE_SHOOT_THREE.fbx
@@ -27,7 +26,6 @@ void EnemyMage::InitAniamtion()
 
 	EnemyRenderer->ChangeAnimation("IDLE");
 	
-	float4 f4Scale = EnemyRenderer->GetMeshScale();
 	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 	m_pCapsuleComp->CreatePhysXActors(float4(50, 200, 50));
 	m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
@@ -39,7 +37,8 @@ void EnemyMage::InitAniamtion()
 void EnemyMage::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_MAGE);
+	m_f4RenderScale = float4::ONE * RENDERSCALE_MAGE;
+	EnemyRenderer->GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_MAGE);
 
 	// physx
 	{
@@ -170,7 +169,8 @@ void EnemyMage::SetFSMFUNC()
 					SetNextState(EnemyMageState::TELEPORT);
 					return;
 				}
-				SetNextState(EnemyMageState::IDLE);
+				SetNextState(EnemyMageState::TELEPORT);
+				//SetNextState(EnemyMageState::IDLE);
 			}
 		},
 		[this]
@@ -179,14 +179,26 @@ void EnemyMage::SetFSMFUNC()
 	);
 
 	//텔레포트 하기전 대기를 하는 스테이트
-	SetFSM(EnemyMageState::WAIT_TELEPORT,
+	SetFSM(EnemyMageState::MOVE,
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("IDLE");
 		},
 		[this](float Delta)
 		{
-			TeleportRandPos();
+			SetNextState(EnemyMageState::TELEPORT_IN);
+		},
+		[this]
+		{
+		}
+	);
+	SetFSM(EnemyMageState::HIT,
+		[this]
+		{
+			EnemyRenderer->ChangeAnimation("TELEPORT");
+		},
+		[this](float Delta)
+		{
 			SetNextState(EnemyMageState::TELEPORT_IN);
 		},
 		[this]
@@ -196,12 +208,26 @@ void EnemyMage::SetFSMFUNC()
 	SetFSM(EnemyMageState::TELEPORT,
 		[this]
 		{
-			EnemyRenderer->ChangeAnimation("TELEPORT");
+			EnemyRenderer->ChangeAnimation("IDLE");
+			m_fScaleRatio = 0.f;
 		},
 		[this](float Delta)
 		{
-			TeleportRandPos();
-			SetNextState(EnemyMageState::TELEPORT_IN);
+			//애니메이션 시작하면 스케일 줄어들고 스케일이 끝나면 순간이동 시작
+			m_fScaleRatio += Delta*3.f;
+			float4 f4RenderScale = EnemyRenderer->GetTransform()->GetLocalScale();
+			float4 f4LerpScale = f4RenderScale;
+			f4LerpScale.x = 0.f;
+			f4LerpScale.z = 0.f;
+			float4 f4LerpResult = float4::LerpClamp(f4RenderScale, f4LerpScale, m_fScaleRatio);
+			EnemyRenderer->GetTransform()->SetLocalScale(f4LerpResult);
+			
+			if (m_fScaleRatio>0.99f)
+			{
+				TeleportRandPos();
+				SetNextState(EnemyMageState::TELEPORT_IN);
+			}
+			
 		},
 		[this]
 		{
@@ -211,6 +237,7 @@ void EnemyMage::SetFSMFUNC()
 	SetFSM(EnemyMageState::TELEPORT_IN,
 		[this]
 		{
+			EnemyRenderer->GetTransform()->SetLocalScale(float4::ONE* RENDERSCALE_MAGE);
 			EnemyRenderer->ChangeAnimation("TELEPORT_IN");
 			AggroDir(m_pCapsuleComp);
 		},

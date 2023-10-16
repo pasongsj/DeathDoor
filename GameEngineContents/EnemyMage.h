@@ -28,7 +28,8 @@ private:
 	{
 		IDLE,
 		SHOOT,
-		WAIT_TELEPORT,
+		MOVE,
+		HIT,
 		TELEPORT,// 사라짐
 		TELEPORT_IN, // 등장
 		DEATH,
@@ -45,4 +46,6 @@ private:
 	std::vector<float4> m_vecRandGrid;
 	UINT m_iCheckCount = 0;
 
+	float4 m_f4RenderScale = float4::ZERO;
+	float m_fScaleRatio = 0.f;
 };
