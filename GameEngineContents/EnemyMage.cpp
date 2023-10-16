@@ -16,10 +16,9 @@ void EnemyMage::InitAniamtion()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("_E_MAGE_MESH.FBX", "ContentAniMeshDeffered");
-
 	EnemyRenderer->CreateFBXAnimation("IDLE", "_E_MAGE_IDLE.fbx", { 0.02f,true });
 	EnemyRenderer->CreateFBXAnimation("SHOOT", "_E_MAGE_SHOOT.fbx", { 0.02f,false });
-	EnemyRenderer->CreateFBXAnimation("TELEPORT", "_E_MAGE_TELEPORT.fbx", { 0.02f,false });
+	EnemyRenderer->CreateFBXAnimation("TELEPORT", "_E_MAGE_TELEPORT.fbx", { 0.02f,false }); // 타격시인듯??
 	EnemyRenderer->CreateFBXAnimation("TELEPORT_IN", "_E_MAGE_TELEPORT.fbx", { 0.02f,false });
 	EnemyRenderer->CreateFBXAnimation("DEATH", "_E_MAGE_DEATH.fbx", { 0.02f,false });
 	//_E_MAGE_SHOOT_THREE.fbx
@@ -27,11 +26,9 @@ void EnemyMage::InitAniamtion()
 
 	EnemyRenderer->ChangeAnimation("IDLE");
 	
-	float4 f4Scale = EnemyRenderer->GetMeshScale();
-	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
-	m_pCapsuleComp->CreatePhysXActors(float4(50, 200, 50));
-	m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
-	m_pCapsuleComp->TurnOffGravity();
+	//m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+	//m_pCapsuleComp->CreatePhysXActors(float4(50, 200, 50));
+	//m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 }
 
 
@@ -39,19 +36,30 @@ void EnemyMage::InitAniamtion()
 void EnemyMage::Start()
 {
 	EnemyBase::Start();
-	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_MAGE);
+	SetEnemyHP(5);
+	m_f4RenderScale = float4::ONE * RENDERSCALE_MAGE;
+	EnemyRenderer->GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_MAGE);
 
 	// physx
 	{
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_MAGE);
+		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+		m_pCapsuleComp->TurnOffGravity();
 	}
 	SetFSMFUNC();
 }
 
 void EnemyMage::Update(float _DeltaTime)
 {
+	bool bDeath = DeathCheck();
+
+	if (bDeath == true)
+	{
+		SetNextState(EnemyMageState::DEATH);
+	}
+
 	FSMObjectBase::Update(_DeltaTime);
 }
 
@@ -82,7 +90,7 @@ void EnemyMage::TeleportRandPos()
 	}
 
 	//최대 3번 체크
-	while (m_iCheckCount<3)
+	while (m_iCheckCount< m_vecRandGrid.size())
 	{
 		//벡터에서 랜덤으로 추출
 		int RandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(m_vecRandGrid.size()-1));
@@ -116,8 +124,13 @@ void EnemyMage::TeleportRandPos()
 		}
 		else
 		{
-			// 바닥이 있으면 해당위치로 텔레포트
+			if (60.f>f4PlayerPos.XYZDistance(ResultPos))
+			{
+				continue;
+			}
 			m_pCapsuleComp->SetWorldPosWithParent(ResultPos);
+			
+			// 바닥이 있으면 해당위치로 텔레포트
 			m_vecRandGrid.clear();
 			return;
 		}
@@ -144,14 +157,19 @@ void EnemyMage::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			if (true == InRangePlayer(1000.0f))
+			if (CheckHit() == true)
 			{
-				SetNextState(EnemyMageState::SHOOT);
-				return;
+				SetNextState(EnemyMageState::HIT);
+			}
+			if (false == m_bCheckPlayer &&true == InRangePlayer(1000.0f))
+			{	
+				SetNextState(EnemyMageState::MOVE);
+				return;				
 			}
 		},
 		[this]
 		{
+			m_bCheckPlayer = false;
 		}
 	);
 
@@ -163,31 +181,96 @@ void EnemyMage::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			CheckHit();
+
+			m_pCapsuleComp->SetMoveSpeed(-GetTransform()->GetLocalForwardVector() * 100);
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				if (false == InRangePlayer(1000.0f)) // 1500 이상으로 멀어진다면
-				{
-					SetNextState(EnemyMageState::TELEPORT);
-					return;
-				}
-				SetNextState(EnemyMageState::IDLE);
+				//if (false == InRangePlayer(1000.0f)) // 1500 이상으로 멀어진다면
+				//{
+				//	SetNextState(EnemyMageState::MOVE);
+				//	return;
+				//}
+				SetNextState(EnemyMageState::MOVE);
 			}
 		},
 		[this]
 		{
+			m_bShoot = true;
 		}
 	);
 
 	//텔레포트 하기전 대기를 하는 스테이트
-	SetFSM(EnemyMageState::WAIT_TELEPORT,
+	SetFSM(EnemyMageState::MOVE,
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("IDLE");
+			m_fWaitTime = 1.f;
 		},
 		[this](float Delta)
 		{
-			TeleportRandPos();
-			SetNextState(EnemyMageState::TELEPORT_IN);
+			m_pCapsuleComp->SetMoveSpeed(-GetTransform()->GetLocalForwardVector()*100);
+
+			if (CheckHit() == true)
+			{
+				SetNextState(EnemyMageState::HIT);
+			}
+
+			if (false == m_bShoot)
+			{
+				if (false == m_bCheckPlayer && true == InRangePlayer(1000.0f))
+				{
+					m_bCheckPlayer = true;
+					m_fWaitTime -= Delta;
+					return;
+				}
+				else if (true == m_bCheckPlayer && true == InRangePlayer(1000.0f))
+				{
+					m_fWaitTime -= Delta;
+					if (m_fWaitTime < 0.f)
+					{
+						SetNextState(EnemyMageState::SHOOT);
+						return;
+					}
+				}
+				else
+				{
+					SetNextState(EnemyMageState::TELEPORT);
+					return;
+				}
+			}
+			else
+			{
+
+				m_fWaitTime -= Delta;
+				if (m_fWaitTime < 0.f)
+				{
+					m_bShoot = false;
+					SetNextState(EnemyMageState::TELEPORT);
+					return;
+				}
+			}
+		},
+		[this]
+		{
+			m_bCheckPlayer = false;
+		}
+	);
+	SetFSM(EnemyMageState::HIT,
+		[this]
+		{
+			EnemyRenderer->ChangeAnimation("TELEPORT");
+			m_fWaitTime = 1.f;
+		},
+		[this](float Delta)
+		{
+			m_pCapsuleComp->SetMoveSpeed(-GetTransform()->GetLocalForwardVector() * 100);
+			m_fWaitTime -= Delta;
+			if (m_fWaitTime < 0.f)
+			{
+				SetNextState(EnemyMageState::TELEPORT);
+				return;
+			}
 		},
 		[this]
 		{
@@ -196,12 +279,26 @@ void EnemyMage::SetFSMFUNC()
 	SetFSM(EnemyMageState::TELEPORT,
 		[this]
 		{
-			EnemyRenderer->ChangeAnimation("TELEPORT");
+			EnemyRenderer->ChangeAnimation("IDLE");
+			m_fScaleRatio = 0.f;
 		},
 		[this](float Delta)
 		{
-			TeleportRandPos();
-			SetNextState(EnemyMageState::TELEPORT_IN);
+			//애니메이션 시작하면 스케일 줄어들고 스케일이 끝나면 순간이동 시작
+			m_fScaleRatio += Delta*3.f;
+			float4 f4RenderScale = EnemyRenderer->GetTransform()->GetLocalScale();
+			float4 f4LerpScale = f4RenderScale;
+			f4LerpScale.x = 0.f;
+			f4LerpScale.z = 0.f;
+			float4 f4LerpResult = float4::LerpClamp(f4RenderScale, f4LerpScale, m_fScaleRatio);
+			EnemyRenderer->GetTransform()->SetLocalScale(f4LerpResult);
+			
+			if (m_fScaleRatio>0.99f)
+			{
+				TeleportRandPos();
+				SetNextState(EnemyMageState::TELEPORT_IN);
+			}
+			
 		},
 		[this]
 		{
@@ -211,11 +308,20 @@ void EnemyMage::SetFSMFUNC()
 	SetFSM(EnemyMageState::TELEPORT_IN,
 		[this]
 		{
+			//EnemyRenderer->GetTransform()->SetLocalScale(float4::ONE* RENDERSCALE_MAGE);
 			EnemyRenderer->ChangeAnimation("TELEPORT_IN");
 			AggroDir(m_pCapsuleComp);
+			m_fScaleRatio = 0.f;
 		},
 		[this](float Delta)
 		{
+			m_fScaleRatio += Delta * 3.f;
+			float4 f4RenderScale = float4::ONE * RENDERSCALE_MAGE;
+			float4 f4LerpScale = f4RenderScale;
+			f4LerpScale.x = 0.f;
+			f4LerpScale.z = 0.f;
+			float4 f4LerpResult = float4::LerpClamp(f4LerpScale, f4RenderScale, m_fScaleRatio);
+			EnemyRenderer->GetTransform()->SetLocalScale(f4LerpResult);
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(EnemyMageState::SHOOT);
@@ -231,9 +337,16 @@ void EnemyMage::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("DEATH");
+			m_fWaitTime = 1.f;
 		},
 		[this](float Delta)
 		{
+			m_fWaitTime -= Delta;
+			if (m_fWaitTime < 0.f)
+			{
+				Death();
+				return;
+			}
 		},
 		[this]
 		{
