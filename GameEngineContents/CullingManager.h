@@ -53,6 +53,8 @@ private:
 	std::vector<std::shared_ptr<class CullingObject>> m_vCullingObjects = std::vector<std::shared_ptr<class CullingObject>>();
 };
 
+// 
+
 // 규칙
 // 1. 첫번째트리거의 컬링오브젝트는 시작부터 On 처리 해준다. 
 // 2. 레벨별로 트리거당 어떤 오브젝트를 on 시킬건지는 하드코딩으로 작성 
