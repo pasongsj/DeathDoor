@@ -69,21 +69,26 @@ void FrogFloor::Create_FireObject()
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
 		FireObj->GetTransform()->SetLocalPosition(float4{ -3400, 167, 2420 });
+		FireObj->SetRotation({ 0.0f, -90.0f, 0.0f });
 	}
 	{
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -4770, 167, 4040 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -4760, 167, 4040 });
+		FireObj->SetRotation({ 0.0f, -90.0f, 0.0f });
 	}
 	{
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -3150, 167, 5370 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -3140, 167, 5370 });
+		FireObj->SetRotation({ 0.0f, -90.0f, 0.0f });
+
 	}
 	{
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -1790, 167, 3760 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -1800, 167, 3760 });
+		FireObj->SetRotation({ 0.0f, -90.0f, 0.0f });
 	}
 }
 

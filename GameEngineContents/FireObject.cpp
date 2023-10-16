@@ -10,6 +10,11 @@ FireObject::~FireObject()
 {
 }
 
+void FireObject::SetRotation(float4 _Rot)
+{
+	Rot = _Rot;
+}
+
 void FireObject::Start()
 {
 	FireRender = nullptr;
@@ -38,29 +43,41 @@ void FireObject::Update(float _Delta)
 		NoiseData.FrameTime -= 10.0f;
 	}
 
-	float4 CamPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
-	float4 FirePos = GetTransform()->GetWorldPosition();
-	
-	CamPos.y = 0.0f;
-	FirePos.y = 0.0f;
+	BillBoarding();
 
-	float4 Dir = CamPos - FirePos;
-	Dir.Normalize();
+	//float4 CamPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
+	//float4 FirePos = GetTransform()->GetWorldPosition();
+	//
+	//CamPos.y = 0.0f;
+	//FirePos.y = 0.0f;
+	//
+	//float4 Dir = CamPos - FirePos;
+	//Dir.Normalize();
+	//
+	//float4 DownLine = { 0.0f, 0.0f, -1.0f };
+	//
+	//float Radian = DownLine.x * Dir.x + DownLine.y * Dir.y + DownLine.z * Dir.z;
+	//float AcosRad = acos(Radian);
+	//float Degree = AcosRad * 180 / GameEngineMath::PIE;
+	//
+	//if (CamPos.x <= FirePos.x)
+	//{
+	//	GetTransform()->SetWorldRotation({ 0.0f, -90 + Degree, 0.0f });
+	//}
+	//else
+	//{
+	//	GetTransform()->SetWorldRotation({ 0.0f, -90 - Degree, 0.0f });
+	//}
+}
 
-	float4 DownLine = { 0.0f, 0.0f, -1.0f };
+void FireObject::BillBoarding()
+{
+	float4x4 CamView = GetLevel()->GetMainCamera()->GetView();
+	float4 CamForward = GetLevel()->GetMainCamera()->GetTransform()->GetLocalForwardVector();
 
-	float Radian = DownLine.x * Dir.x + DownLine.y * Dir.y + DownLine.z * Dir.z;
-	float AcosRad = acos(Radian);
-	float Degree = AcosRad * 180 / GameEngineMath::PIE;
+	float4 BillBoardingAngle = CamForward + Rot;
 
-	if (CamPos.x <= FirePos.x)
-	{
-		GetTransform()->SetWorldRotation({ 0.0f, -90 + Degree, 0.0f });
-	}
-	else
-	{
-		GetTransform()->SetWorldRotation({ 0.0f, -90 - Degree, 0.0f });
-	}
+	GetTransform()->SetWorldRotation(BillBoardingAngle);
 }
 
 
