@@ -22,8 +22,8 @@ void GlowEffect::Start(GameEngineRenderTarget* _Target)
 	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	
-	BlurSize = { 800, 450 };
-	DoubleBlurSize = { 1600, 900 };
+	BlurSize = { 1600, 900 };
+	DoubleBlurSize = { 800, 450 };
 
 	BlurUnit.SetMesh("FullRect");
 	BlurUnit.SetMaterial("AllBlur7x7");
@@ -96,7 +96,7 @@ void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 	DoubleBlurTarget->Clear();
 	DoubleBlurTarget->Setting();
 
-	DoubleBlurUnit.ShaderResHelper.SetTexture("DiffuseTexture", BlurTarget->GetTexture(0));
+	DoubleBlurUnit.ShaderResHelper.SetTexture("DiffuseTexture", BlurTarget->GetTexture(4));
 	DoubleBlurUnit.ShaderResHelper.SetTexture("DiffuseLight", BlurTarget->GetTexture(1));
 	DoubleBlurUnit.ShaderResHelper.SetTexture("SpecularLight", BlurTarget->GetTexture(2));
 	DoubleBlurUnit.ShaderResHelper.SetTexture("AmbientLight", BlurTarget->GetTexture(3));
@@ -106,7 +106,7 @@ void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 
 	LevelTarget->Setting();
 	
-	ColorMerge.ShaderResHelper.SetTexture("DiffuseTex", BlurTarget->GetTexture(0));
+	ColorMerge.ShaderResHelper.SetTexture("DiffuseTex", DoubleBlurTarget->GetTexture(0));
 	ColorMerge.Render(_DeltaTime);
 	ColorMerge.ShaderResHelper.AllResourcesReset();
 
