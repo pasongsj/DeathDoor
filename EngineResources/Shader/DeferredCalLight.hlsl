@@ -44,6 +44,11 @@ Texture2D NormalTex : register(t1);
 Texture2D ShadowTex : register(t2);
 SamplerState POINTWRAP : register(s0);
 
+float4 ToneMaping_ACES(float4 _Color)
+{
+    return saturate((_Color * (2.51f * _Color + 0.03f)) / (_Color * (2.43f * _Color + 0.59f) + 0.14f));
+}
+
 LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
 {
     LightOutPut NewOutPut = (LightOutPut) 0;
@@ -112,11 +117,11 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
             // SpacularRatio *= 0.01f;
         }
     }
-    
-    DiffuseRatio = (DiffuseRatio / (1.0f + DiffuseRatio));
-    SpacularRatio = (SpacularRatio / (1.0f + SpacularRatio));
-    AmbientRatio = (AmbientRatio / (1.0f + AmbientRatio));
-    PointLight = (PointLight / (1.0f + PointLight));
+
+    DiffuseRatio = ToneMaping_ACES(DiffuseRatio);
+    SpacularRatio = ToneMaping_ACES(SpacularRatio);
+    AmbientRatio = ToneMaping_ACES(AmbientRatio);
+    PointLight = ToneMaping_ACES(PointLight);
     
     NewOutPut.DifLight = DiffuseRatio;
     NewOutPut.SpcLight = SpacularRatio;

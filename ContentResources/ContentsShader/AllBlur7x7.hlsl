@@ -90,7 +90,7 @@ OutPutTarget Blur7x7_PS(OutPut _Value) : SV_Target0
                 BlurColor = DiffuseColor;
             }
             
-            TextureColor += DiffuseColor * Gau[y][x] * Intensity.x;
+            TextureColor += DiffuseColor * Gau[y][x];
             DifLight += DiffuseLight.Sample(POINTSAMPLER, CurUV.xy) * Gau[y][x];
             SpcLight += SpecularLight.Sample(POINTSAMPLER, CurUV.xy) * Gau[y][x];
             AmbLight += AmbientLight.Sample(POINTSAMPLER, CurUV.xy) * Gau[y][x];
@@ -107,21 +107,13 @@ OutPutTarget Blur7x7_PS(OutPut _Value) : SV_Target0
         clip(-1);
     }
     
-    //TextureColor = TextureColor * Intensity.x;
-    //TextureColor = TextureColor / (1.0f + TextureColor);
+    TextureColor *= Intensity.x;
     
     DifLight = DifLight * Intensity.y;
-    DifLight = DifLight / (1.0f + DifLight);
-        
     SpcLight = SpcLight * Intensity.z;
-    SpcLight = SpcLight / (1.0f + SpcLight);
-        
     AmbLight = AmbLight * Intensity.w;
-    AmbLight = AmbLight / (1.0f + AmbLight);
     
     OutPutTarget Target = (OutPutTarget) 0.0f;
-    //DifLight = DiffuseLight.Sample(POINTSAMPLER, _Value.UV.xy);
-    //SpcLight = SpecularLight.Sample(POINTSAMPLER, _Value.UV.xy);
     
     Target.DiffuseTexture = TextureColor;
     Target.DiffuseLight = DifLight;
