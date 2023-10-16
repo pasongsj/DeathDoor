@@ -40,19 +40,18 @@ void Start_BackGround::Start()
     Hall_Crow_2->CreateFBXAnimation("Armature|Idle_sat_typing", "Hall_Crow_1_Typing_Anim.fbx");
     Hall_Crow_2->ChangeAnimation("Armature|Idle_sat_typing");
     
-    //Hall_Crow_3 = CreateComponent<ContentFBXRenderer>();
-    //Hall_Crow_3->SetFBXMesh("Hall_Crow_3_MESH.fbx", "ContentAniMeshDeffered");
-    //Hall_Crow_3->GetTransform()->SetLocalPosition({ 0.0f, -1.0f, 0.0f });
-    //Hall_Crow_3->GetTransform()->SetLocalRotation({ 0.0f, 0.0f, 0.0f });
-    ////
-    //auto Units = Hall_Crow_3->GetAllRenderUnit();
-    //
-    //Units[4][0]->Color.MulColor = { 0.0f, 0.0f, 0.0f, 0.0f };
-    //Units[5][0]->Color.MulColor = { 0.0f, 0.0f, 0.0f, 0.0f };
-    ////
-    //Hall_Crow_3->CreateFBXAnimation("Crow_Player_Sat_Bored", "Hall_Crow_3_Bored_Anim.fbx");
-    //Hall_Crow_3->ChangeAnimation("Crow_Player_Sat_Bored");
-    //
+    Hall_Crow_3 = CreateComponent<ContentFBXRenderer>();
+    Hall_Crow_3->SetFBXMesh("Hall_Crow_3_MESH.fbx", "ContentAniMeshDeffered");
+    Hall_Crow_3->GetTransform()->SetLocalScale({ 0.04f, 0.04f, 0.04f });
+    Hall_Crow_3->GetTransform()->SetLocalPosition({ -3.8f, 4.0f, -2.2f });
+    Hall_Crow_3->GetTransform()->SetLocalRotation({ 0.0f, 0.0f, 0.0f });
+    
+    auto Units = Hall_Crow_3->GetAllRenderUnit();
+    Units[0][1]->ShaderResHelper.SetTexture("DiffuseTexture", "Crow_DIFF_Mask.png");
+
+    Hall_Crow_3->CreateFBXAnimation("Hall_Crow_3_Bored", "Hall_Crow_3_Bored.fbx");
+    Hall_Crow_3->ChangeAnimation("Hall_Crow_3_Bored");
+    
     Hall_Banker = CreateComponent<ContentFBXRenderer>();
     Hall_Banker->SetFBXMesh("BANKER_MESH.fbx", "ContentAniMeshDeffered");
     Hall_Banker->GetTransform()->SetLocalRotation({ 0.0f, 135.0f, 0.0f });
@@ -87,7 +86,7 @@ void Start_BackGround::MoveCamera(float _DeltaTime)
         Angle -= 180.0f;
     }
 
-    float4 CamRot = { 28.0f, -37.0f + 15.0f * sin(Angle), 0.0f};
+    float4 CamRot = { 28.0f, -27.0f + 7.5f * sin(Angle), 0.0f};
     
     GetLevel()->GetMainCamera()->GetTransform()->SetLocalRotation(CamRot);
 }

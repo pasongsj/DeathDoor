@@ -14,6 +14,7 @@ public:
 	FireObject& operator=(const FireObject& _Other) = delete;
 	FireObject& operator=(FireObject&& _Other) noexcept = delete;
 
+	void SetRotation(float4 _Rot);
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -58,6 +59,9 @@ private:
 	};
 
 private:
+	void BillBoarding();
+
+	float4 Rot = { 0.0f, 0.0f, 0.0f };
 	std::shared_ptr<class ContentSpriteRenderer> FireRender = nullptr;
 
 	FireNoise NoiseData;

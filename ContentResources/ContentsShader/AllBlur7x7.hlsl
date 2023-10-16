@@ -102,7 +102,7 @@ OutPutTarget Blur7x7_PS(OutPut _Value) : SV_Target0
         CurUV.y += PixelSize.y;
     }
     
-    if (AmbLight.a <= 0.0f)
+    if (TextureColor.a <= 0.0f)
     {
         clip(-1);
     }

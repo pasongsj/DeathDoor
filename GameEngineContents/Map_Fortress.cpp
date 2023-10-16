@@ -73,25 +73,25 @@ void Map_Fortress::Create_Ground()
 	m_pRenderer_Section1->SetFBXMesh("Fortress_Section_1.fbx", "ContentMeshDeffered");
 	m_pRenderer_Section1->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Section1->GetTransform()->SetLocalPosition(float4{ -4770, 19317, 4610 });
-	m_pRenderer_Section1->CalculateUnitPos();
+	m_pRenderer_Section1->GetTransform()->SetParent(GetTransform());
 
 	m_pRenderer_Cube = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Cube->SetFBXMesh("Fortress_Cube.fbx", "ContentMeshDeffered");
 	m_pRenderer_Cube->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Cube->GetTransform()->SetLocalPosition(float4{ -3910, -800, -300 });
-	m_pRenderer_Cube->CalculateUnitPos();
+	m_pRenderer_Cube->GetTransform()->SetParent(GetTransform());
 
 	m_pRenderer_Cube2 = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Cube2->SetFBXMesh("Fortress_Cube_2.fbx", "ContentMeshDeffered");
 	m_pRenderer_Cube2->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Cube2->GetTransform()->SetLocalPosition(float4{ -11735, -120, 18625 });
-	m_pRenderer_Cube2->CalculateUnitPos();
+	m_pRenderer_Cube2->GetTransform()->SetParent(GetTransform());
 
 	m_pRenderer_Section2 = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Section2->SetFBXMesh("Fortress_Section_2.fbx", "ContentMeshDeffered");
 	m_pRenderer_Section2->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Section2->GetTransform()->SetLocalPosition(float4{ -5894, -8, 3716 });
-	m_pRenderer_Section2->CalculateUnitPos();
+	m_pRenderer_Section2->GetTransform()->SetParent(GetTransform());;
 
 	/*m_pRenderer_Section3 = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Section3->SetFBXMesh("Fortress_Section_3.fbx", "ContentMeshDeffered");
@@ -115,6 +115,8 @@ void Map_Fortress::Create_CullingObject()
 
 	// 마찬가지 
 	Set_CullingObject();
+
+	GetTransform()->AddLocalRotation(float4{ 0, -5, 0 });
 }
 
 void Map_Fortress::Set_CullingTrigger()
@@ -132,30 +134,35 @@ void Map_Fortress::Set_CullingTrigger()
 		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
 		Trigger->GetTransform()->SetLocalRotation(m_MapRot);
 		m_vCullingTriggers.push_back(Trigger);
+		Trigger->GetTransform()->SetParent(GetTransform());
 	}
 	{
 		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
 		Trigger->GetTransform()->SetLocalRotation(m_MapRot);
 		Trigger->GetTransform()->SetLocalPosition(float4{ -1978, 0 , 2209 });
 		m_vCullingTriggers.push_back(Trigger);
+		Trigger->GetTransform()->SetParent(GetTransform());
 	}
 	{
 		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
 		Trigger->GetTransform()->SetLocalRotation(m_MapRot);
 		Trigger->GetTransform()->SetLocalPosition(float4{ 803, 0 , 4880 });
 		m_vCullingTriggers.push_back(Trigger);
+		Trigger->GetTransform()->SetParent(GetTransform());
 	}
 	{
 		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
 		Trigger->GetTransform()->SetLocalRotation(m_MapRot);
 		Trigger->GetTransform()->SetLocalPosition(float4{ 646, 593 , 7019 });
 		m_vCullingTriggers.push_back(Trigger);
+		Trigger->GetTransform()->SetParent(GetTransform());
 	}
 	{
 		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
 		Trigger->GetTransform()->SetLocalRotation(m_MapRot + float4 { 0 , -90 , 0 });
 		Trigger->GetTransform()->SetLocalPosition(float4{ -4590, 0, 4323 });
 		m_vCullingTriggers.push_back(Trigger);
+		Trigger->GetTransform()->SetParent(GetTransform());
 	}
 	
 }
@@ -178,6 +185,7 @@ void Map_Fortress::Set_CullingObject()
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -330, 300, 430 });
 		m_vCullingObjects.push_back(CullingObj);
+		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
 		//1
@@ -186,6 +194,7 @@ void Map_Fortress::Set_CullingObject()
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -9190, 328, 11669 });
 		m_vCullingObjects.push_back(CullingObj);
+		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
 		//2
@@ -194,6 +203,7 @@ void Map_Fortress::Set_CullingObject()
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -8566, 336, 13834 });
 		m_vCullingObjects.push_back(CullingObj);
+		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
 		//3
@@ -202,6 +212,7 @@ void Map_Fortress::Set_CullingObject()
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -6990, 310, 13580 });
 		m_vCullingObjects.push_back(CullingObj);
+		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
 		//4
@@ -210,6 +221,7 @@ void Map_Fortress::Set_CullingObject()
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{  -9160, 324, 14630 });
 		m_vCullingObjects.push_back(CullingObj);
+		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
 		//5
@@ -217,8 +229,8 @@ void Map_Fortress::Set_CullingObject()
 		CullingObj->InitComponent("Fortress_Part_5.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -12870, -16, 10350 });
-		CullingObj->GetRenderer()->On();
 		m_vCullingObjects.push_back(CullingObj);
+		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	
 	
@@ -297,12 +309,14 @@ void Map_Fortress::Create_PhysXComponent()
 	m_pNaviRenderer->SetFBXMesh("Fortress_Navi_Wall_Test.fbx", "ContentMeshDeffered");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
+	m_pNaviRenderer->GetTransform()->SetParent(GetTransform());
 	// m_pNaviRenderer->Off();
 
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	m_pTriangleComp->CreatePhysXActors("Fortress_Navi_Wall_Test.fbx", true);
-	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));
+	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4 { 0 , -135, 0}, m_MapPos));
+
 }
 
 void Map_Fortress::Create_StaticObject()
