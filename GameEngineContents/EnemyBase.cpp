@@ -60,14 +60,24 @@ float4 EnemyBase::AggroDir(std::shared_ptr< PhysXCapsuleComponent> _Comp, float4
 
 bool EnemyBase::CheckHit()
 {
-	//if ()// 플레이어로부터 공격을 받는다면 )
-	//{
-	//	
-	//	return true;
-	//}
-	return false;
+	bool bHit = CheckCollision(PhysXFilterGroup::PlayerSkill);
+	if (true == bHit)
+	{
+		--m_iEnemyHP;
+	}
+
+	return bHit;
 }
 void EnemyBase::AddPlayerSpellCost()
 {
 	Player::MainPlayer->AddSpellCost();
+}
+
+bool EnemyBase::DeathCheck()
+{
+	if (m_iEnemyHP <= 0)
+	{
+		return true;
+	}
+	return false;
 }

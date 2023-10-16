@@ -37,13 +37,18 @@ protected:
 
 	float4 AggroDir(std::shared_ptr<class PhysXCapsuleComponent> _Comp, float4 DefaultDir = float4::ZERO);
 
-
 	bool CheckHit();
+
+	bool DeathCheck();
 
 	void AddPlayerSpellCost();
 
+	void SetEnemyHP(int _HP)
+	{
+		m_iEnemyHP = _HP;
+	}
 private:
-
+	int m_iEnemyHP = -1;
 	
 
 };

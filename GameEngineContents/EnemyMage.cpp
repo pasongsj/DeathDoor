@@ -37,6 +37,7 @@ void EnemyMage::InitAniamtion()
 void EnemyMage::Start()
 {
 	EnemyBase::Start();
+	SetEnemyHP(5);
 	m_f4RenderScale = float4::ONE * RENDERSCALE_MAGE;
 	EnemyRenderer->GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_MAGE);
 
@@ -51,6 +52,13 @@ void EnemyMage::Start()
 
 void EnemyMage::Update(float _DeltaTime)
 {
+	bool bDeath = DeathCheck();
+
+	if (bDeath == true)
+	{
+		SetNextState(EnemyMageState::DEATH);
+	}
+
 	FSMObjectBase::Update(_DeltaTime);
 }
 
@@ -143,6 +151,10 @@ void EnemyMage::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if (CheckHit() == true)
+			{
+				SetNextState(EnemyMageState::HIT);
+			}
 			if (false == m_bCheckPlayer &&true == InRangePlayer(1000.0f))
 			{	
 				SetNextState(EnemyMageState::MOVE);
@@ -163,6 +175,8 @@ void EnemyMage::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			CheckHit();
+
 			m_pCapsuleComp->SetMoveSpeed(-GetTransform()->GetLocalForwardVector() * 100);
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
@@ -191,35 +205,41 @@ void EnemyMage::SetFSMFUNC()
 		{
 			m_pCapsuleComp->SetMoveSpeed(-GetTransform()->GetLocalForwardVector()*100);
 
-			if (m_bShoot)
+			if (CheckHit() == true)
+			{
+				SetNextState(EnemyMageState::HIT);
+			}
+
+			if (false == m_bShoot)
 			{
 				if (false == m_bCheckPlayer && true == InRangePlayer(1000.0f))
 				{
 					m_bCheckPlayer = true;
 					m_fWaitTime -= Delta;
-					if (m_fWaitTime < 0.f)
-					{
-						SetNextState(EnemyMageState::TELEPORT);
-						return;
-					}
+					return;
 				}
 				else if (true == m_bCheckPlayer && true == InRangePlayer(1000.0f))
 				{
 					m_fWaitTime -= Delta;
 					if (m_fWaitTime < 0.f)
 					{
-						SetNextState(EnemyMageState::TELEPORT);
+						SetNextState(EnemyMageState::SHOOT);
 						return;
 					}
+				}
+				else
+				{
+					SetNextState(EnemyMageState::TELEPORT);
+					return;
 				}
 			}
 			else
 			{
-				m_bShoot = false;
 
 				m_fWaitTime -= Delta;
 				if (m_fWaitTime < 0.f)
 				{
+					m_bShoot = false;
 					SetNextState(EnemyMageState::TELEPORT);
 					return;
 				}
@@ -234,10 +254,17 @@ void EnemyMage::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("TELEPORT");
+			m_fWaitTime = 1.f;
 		},
 		[this](float Delta)
 		{
-			SetNextState(EnemyMageState::TELEPORT_IN);
+			m_pCapsuleComp->SetMoveSpeed(-GetTransform()->GetLocalForwardVector() * 100);
+			m_fWaitTime -= Delta;
+			if (m_fWaitTime < 0.f)
+			{
+				SetNextState(EnemyMageState::TELEPORT);
+				return;
+			}
 		},
 		[this]
 		{
@@ -304,9 +331,16 @@ void EnemyMage::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("DEATH");
+			m_fWaitTime = 1.f;
 		},
 		[this](float Delta)
 		{
+			m_fWaitTime -= Delta;
+			if (m_fWaitTime < 0.f)
+			{
+				Death();
+				return;
+			}
 		},
 		[this]
 		{
