@@ -265,8 +265,7 @@ void EnemyMage::SetFSMFUNC()
 		[this](float Delta)
 		{
 			m_pCapsuleComp->SetMoveSpeed(-GetTransform()->GetLocalForwardVector() * 100);
-			m_fWaitTime -= Delta;
-			if (m_fWaitTime < 0.f)
+			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(EnemyMageState::TELEPORT);
 				return;
@@ -342,6 +341,8 @@ void EnemyMage::SetFSMFUNC()
 		[this](float Delta)
 		{
 			m_fWaitTime -= Delta;
+			//EnemyRenderer Á×´Â ½¦ÀÌ´õ Ãß°¡ÇØ¾ßÇÔ
+
 			if (m_fWaitTime < 0.f)
 			{
 				Death();
