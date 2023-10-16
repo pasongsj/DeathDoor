@@ -356,13 +356,13 @@ void GameEngineCamera::Render(float _DeltaTime)
 					{
 						continue;
 					}
-					std::shared_ptr<GameEngineFBXRenderer> FbxRenderer = Render->GetRenderer()->DynamicThis<GameEngineFBXRenderer>();
-					if (FbxRenderer !=nullptr && Render->GetUnitPos()!= float4::ZERONULL)					{
-						if (false == IsView(Render->GetUnitPos(), Render->GetUnitScale()))
-						{
-							continue;
-						}						
-					}
+					//std::shared_ptr<GameEngineFBXRenderer> FbxRenderer = Render->GetRenderer()->DynamicThis<GameEngineFBXRenderer>();
+					//if (FbxRenderer !=nullptr && Render->GetUnitPos()!= float4::ZERONULL)					{
+					//	if (false == IsView(Render->GetUnitPos(), Render->GetUnitScale()))
+					//	{
+					//		continue;
+					//	}						
+					//}
 
 					Render->Render(_DeltaTime);
 				}
@@ -484,11 +484,11 @@ void GameEngineCamera::CameraTransformUpdate()
 	{
 		Projection.PerspectiveFovLH(FOV, Width / Height, Near, Far);
 
-		float4 Dir = GetTransform()->GetLocalForwardVector();
-		float4 WorldPos = GetTransform()->GetWorldPosition();
+		//float4 Dir = GetTransform()->GetLocalForwardVector();
+		//float4 WorldPos = GetTransform()->GetWorldPosition();
 		//WorldPos.y = -WorldPos.y;
-		Frustum.CreateFromMatrix(Frustum,Projection);
-		Frustum.Origin = (WorldPos).DirectFloat3;
+		//Frustum.CreateFromMatrix(Frustum,Projection);
+		//Frustum.Origin = (WorldPos).DirectFloat3;
 		//Frustum.Near = Near;
 		//Frustum.Far = Far;
 		//Frustum.LeftSlope = -(FOV * GameEngineMath::DegToRad) * 0.7f;
@@ -496,7 +496,7 @@ void GameEngineCamera::CameraTransformUpdate()
 		//Frustum.TopSlope = (FOV / (Width / Height) * GameEngineMath::DegToRad) * 0.7f;
 		//Frustum.BottomSlope = -(FOV / (Width / Height) * GameEngineMath::DegToRad) * 0.7f;
 
-		Frustum.Orientation = GetTransform()->GetWorldQuaternion().DirectFloat4;
+		//Frustum.Orientation = GetTransform()->GetWorldQuaternion().DirectFloat4;
 		break;
 	}
 	case CameraType::Orthogonal:

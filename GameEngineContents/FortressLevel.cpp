@@ -33,8 +33,8 @@ void FortressLevel::Update(float _DeltaTime)
 	if (false == GetMainCamera()->IsFreeCamera())
 	{
 		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
-		nextPos.y += 3000.0f;
-		nextPos.z -= 3000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
+		nextPos.y += 1000.0f;
+		nextPos.z -= 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
 		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
 	}
 }
