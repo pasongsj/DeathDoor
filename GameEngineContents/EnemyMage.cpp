@@ -124,12 +124,13 @@ void EnemyMage::TeleportRandPos()
 		}
 		else
 		{
-			if (true == CheckCollision(PhysXFilterGroup::PlayerDynamic))
+			if (60.f>f4PlayerPos.XYZDistance(ResultPos))
 			{
 				continue;
 			}
-			// 바닥이 있으면 해당위치로 텔레포트
 			m_pCapsuleComp->SetWorldPosWithParent(ResultPos);
+			
+			// 바닥이 있으면 해당위치로 텔레포트
 			m_vecRandGrid.clear();
 			return;
 		}
