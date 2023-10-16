@@ -190,8 +190,20 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Boss_OldCrowCrowHead.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Boss_OldCrowDefinition.cpp" />
+    <ClCompile Include="Boss_OldCrowEgg.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Boss_OldCrowFSM.cpp" />
+    <ClCompile Include="Boss_OldCrowSmallCrow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BrightBloomEffect.cpp">
       <SubType>
       </SubType>
@@ -497,6 +509,18 @@
     <ClInclude Include="BossTestLevel.h" />
     <ClInclude Include="Boss_OldCrow.h" />
     <ClInclude Include="Boss_OldCrowChain.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Boss_OldCrowCrowHead.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Boss_OldCrowEgg.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Boss_OldCrowSmallCrow.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include "Boss_OldCrowDefinition.cpp"
 
 class Boss_OldCrowChain : public GameEngineActor
 {
@@ -14,23 +15,20 @@ public:
 	Boss_OldCrowChain& operator=(const Boss_OldCrowChain& _Other) = delete;
 	Boss_OldCrowChain& operator=(Boss_OldCrowChain&& _Other) noexcept = delete;
 
-	void Setting(int _Num);
 	void SetDefault();
-	void OnRenderer();
-	bool GetChainState();
-
-	inline int GetChainNumber()
-	{
-		return ChainNumber;
-	}
+	void OnChainEffect();
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) {}
+	void Update(float _DeltaTime) override;
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> ChainRenderer = nullptr;
 	bool IsOn = false;
-	int ChainNumber = 0;
-};
 
+	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> ChainRenderers;
+
+	void CreateChainRenderer();
+
+	int OnRendererNumber = 0;
+
+};

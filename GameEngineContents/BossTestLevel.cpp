@@ -61,7 +61,7 @@ void BossTestLevel::LevelChangeStart()
 
 	if (nullptr != BossTestObject)
 	{
-		BossTestObject->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4{0, 0, 0}, float4{0, 0, -1000}));
+		BossTestObject->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4{0, 90, 0}, float4{0, 0, -1000}));
 	}
 	//BossTestObject->GetTransform()->SetWorldPosition({-1000, 0, -1000});
 	//BossTestObject->GetTransform()->SetWorldRotation({ 0, 180, 0 });

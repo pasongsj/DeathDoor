@@ -77,21 +77,15 @@ private:
 		PATTERNCOUNT //패턴 총 개수 (size)
 	};
 
-
-	class ChainPatternParameter
-	{
-	public:
-		float4 StartPos = float4::ZERO;
-		float4 Dir = float4::ZERO;
-	};
-
 	std::shared_ptr<class ContentFBXRenderer> BossRender = nullptr;
 	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 
 	//체인 관련
-	std::vector<std::shared_ptr<class Boss_OldCrowChain>> Chains;
-	std::vector<std::shared_ptr<class GameEngineActor>> ChainsPivots;
-	std::shared_ptr<Boss_OldCrowChain> GetChain();
+	std::vector<std::shared_ptr<class Boss_OldCrowChain>> Chains;     //패턴에 사용되는 체인이 들어가있는 벡터
+	std::vector<std::shared_ptr<class GameEngineActor>> ChainsPivots; //체인의 피봇 벡터
+	std::vector<std::shared_ptr<class GameEngineComponent>> MegaDash2PatternTransforms1; //메가대쉬2 패턴에 사용될 트랜스폼1
+	std::vector<std::shared_ptr<class GameEngineComponent>> MegaDash2PatternTransforms2; //메가대쉬2 패턴에 사용될 트랜스폼2
+	std::shared_ptr<class GameEngineActor> MegaDash2PatternTransformPivot;
 
 	//Init
 	void ChainsInit();
@@ -108,21 +102,22 @@ private:
 	float4 CurrentDir = float4::ZERO; //현재 Dir
 
 	bool IsTurn = false; //회전 여부
-	std::vector<std::vector<int>> UsingChainNumber; //사용중인 체인 번호 벡터
-	std::vector<class ChainPatternParameter> ChainPatternParameterVector;
 
-	float CurrentChainSpeed = 0.0f;
+	float CurrentChainSpeed = 10.0f;
 	float StateCalTime = 0.0f;
 	float StateCalTime2 = 0.0f;
 	float4 TargetPos = float4::ZERO;
+	float4 StartPos = float4::ZERO;
 	float4 JumpForce = float4::ZERO;
 	int MegaDash2PatternCount = 0;
+	int MegaDash2PatternNumber = 0;  
 
 	//FSM에서 사용되는 함수
 	void TurnCheck(); //대쉬 중 회전 스테이트로 변경할 것인지 체크
 	void SetLerpDirection(float _DeltaTime); //러프로 회전하는 (대쉬, 턴) 스테이트에서 사용
 	void SetDirection(); //즉시 Dir로 회전
-	void SettingChainPatternParameter(); //연속 사슬 패턴 이전에 사용할 Pivot, Dir등을 세팅
+	void SettingChainPatternPivot(); //연속 사슬 패턴 이전에 사용할 Pivot을 조정함
+	void SetMegaDashRandomPos(); //랜덤한 위치로 텔레포트하는 메가대쉬 패턴 시
 
 	float4 GetRandomPos(float _Value);
 };
