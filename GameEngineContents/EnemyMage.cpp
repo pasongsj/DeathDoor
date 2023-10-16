@@ -26,10 +26,9 @@ void EnemyMage::InitAniamtion()
 
 	EnemyRenderer->ChangeAnimation("IDLE");
 	
-	m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
-	m_pCapsuleComp->CreatePhysXActors(float4(50, 200, 50));
-	m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
-	m_pCapsuleComp->TurnOffGravity();
+	//m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+	//m_pCapsuleComp->CreatePhysXActors(float4(50, 200, 50));
+	//m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 }
 
 
@@ -46,6 +45,8 @@ void EnemyMage::Start()
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_MAGE);
+		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+		m_pCapsuleComp->TurnOffGravity();
 	}
 	SetFSMFUNC();
 }
@@ -89,7 +90,7 @@ void EnemyMage::TeleportRandPos()
 	}
 
 	//최대 3번 체크
-	while (m_iCheckCount<3)
+	while (m_iCheckCount< m_vecRandGrid.size())
 	{
 		//벡터에서 랜덤으로 추출
 		int RandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(m_vecRandGrid.size()-1));
@@ -123,6 +124,10 @@ void EnemyMage::TeleportRandPos()
 		}
 		else
 		{
+			if (true == CheckCollision(PhysXFilterGroup::PlayerDynamic))
+			{
+				continue;
+			}
 			// 바닥이 있으면 해당위치로 텔레포트
 			m_pCapsuleComp->SetWorldPosWithParent(ResultPos);
 			m_vecRandGrid.clear();
