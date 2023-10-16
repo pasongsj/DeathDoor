@@ -71,6 +71,7 @@ bool EnemyBase::CheckHit()
 {
 	if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))// 플레이어로부터 공격을 받는다면 
 	{
+		--m_iEnemyHP;
 		return true;
 	}
 	return false;
@@ -80,4 +81,14 @@ bool EnemyBase::CheckHit()
 void EnemyBase::AddPlayerSpellCost()
 {
 	Player::MainPlayer->AddSpellCost();
+}
+
+bool EnemyBase::DeathCheck()
+{
+	if (m_iEnemyHP <= 0)
+	{
+		--m_iEnemyHP;
+		return true;
+	}
+	return false;
 }

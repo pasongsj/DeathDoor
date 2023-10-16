@@ -41,10 +41,16 @@ protected:
 
 	bool CheckHit();
 
+	bool DeathCheck();
+
 	void AddPlayerSpellCost();
 
+	void SetEnemyHP(int _HP)
+	{
+		m_iEnemyHP = _HP;
+	}
 private:
-
+	int m_iEnemyHP = -1;
 	
 
 };
