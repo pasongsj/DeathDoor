@@ -109,6 +109,7 @@ void GameEngineCamera::InitCameraRenderTarget()
 
 	CalLightUnit.ShaderResHelper.SetTexture("PositionTex", AllRenderTarget->GetTexture(2));
 	CalLightUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
+	CalLightUnit.ShaderResHelper.SetTexture("DiffuseColor", AllRenderTarget->GetTexture(1));
 
 	LightPostUnit.SetMesh("FullRect");
 	LightPostUnit.SetMaterial("DeferredPostLight");
@@ -423,6 +424,8 @@ void GameEngineCamera::Render(float _DeltaTime)
 			}
 		}
 
+		AllRenderTarget->Effect(_DeltaTime);
+
 		GameEngineRenderTarget::Reset();
 		
 		DeferredLightTarget->Setting();
@@ -440,14 +443,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 		// 한번 빛을 수정하고 들어갈 것이다.
 		DeferredLightTarget->Effect(_DeltaTime);
 
-		DeferredPostLightTarget->Clear();
-		DeferredPostLightTarget->Setting();
-		LightPostUnit.Render(_DeltaTime);
-
-		CamDeferrdTarget->Clear();
-		CamDeferrdTarget->Setting();
-		DefferdMergeUnit.Render(_DeltaTime);
-
 		CamForwardTarget->Clear();
 		CamForwardTarget->Merge(AllRenderTarget, 0);
 
@@ -456,7 +451,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 		CamTarget->Clear();
 		CamTarget->Merge(CamForwardTarget);
-		CamTarget->Merge(CamDeferrdTarget);
+		CamTarget->Merge(DeferredLightTarget);
 		CamTarget->Merge(CamAlphaTarget);
 
 		CamTarget->Effect(_DeltaTime);

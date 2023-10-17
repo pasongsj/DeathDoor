@@ -104,6 +104,8 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         {
             NewOutPut.BlurTarget = float4(f3_BlurColor, 1.0f);
             Color = NewOutPut.BlurTarget;
+            
+            NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);
         }
     }
     
@@ -122,7 +124,7 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
     }
     
-    NewOutPut.DifTarget = Color;
+    NewOutPut.DifTarget = pow(Color, 2.2f);
     NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;
     NewOutPut.NorTarget = _Input.NORMAL;

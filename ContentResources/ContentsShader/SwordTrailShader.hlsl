@@ -81,8 +81,8 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         clip(-1);
     }
     
-    float4 BlurColor = float4(0.99f, 0.356f, 0.407f, Color.a);
-    BlurColor.rgb = BlurColor.rgb * 1.0f;
+    float4 BlurColor = float4(0.95f, 0.26f, 0.33f, Color.a);
+    BlurColor.rgb = BlurColor.rgb * 0.6f;
     
     NewOutPut.DifTarget = BlurColor;
     NewOutPut.PosTarget = _Input.VIEWPOSITION;
