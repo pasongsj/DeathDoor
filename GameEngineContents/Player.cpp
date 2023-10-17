@@ -370,6 +370,10 @@ float4 Player::GetBonePos(const std::string_view& _BoneName)
 
 void Player::CheckPlayerHit()
 {
+	if (true == PlayerTestMode)
+	{
+		return;
+	}
 	if (true == CheckCollision(PhysXFilterGroup::MonsterSkill))
 	{
 		if (false  == PlayerTestMode)
