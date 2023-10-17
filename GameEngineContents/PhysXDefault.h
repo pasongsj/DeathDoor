@@ -94,7 +94,7 @@ public:
 		m_pAggregate->addActor(*_Actor);
 	}
 
-	void SetWorldPosWithParent(float4 _Pos, float4 _Rot = float4::ZERONULL);
+	virtual void SetWorldPosWithParent(float4 _Pos, float4 _Rot = float4::ZERONULL);
 
 
 
