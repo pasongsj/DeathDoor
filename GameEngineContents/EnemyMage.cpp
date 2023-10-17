@@ -29,7 +29,7 @@ void EnemyMage::InitAniamtion()
 			BonePivot->GetTransform()->SetParent(GetTransform());
 			BonePivot->GetTransform()->SetLocalPosition(float4(0.f,60.f,0.f));
 			float4 TmpPos = BonePivot->GetTransform()->GetWorldPosition();
-			Attack->SetTrans(ShootDir, TmpPos);
+			Attack->SetTrans(m_f4ShootDir, TmpPos);
 			BonePivot->Death();
 
 		});
@@ -188,7 +188,7 @@ void EnemyMage::SetFSMFUNC()
 	SetFSM(EnemyMageState::SHOOT,
 		[this]
 		{
-			ShootDir = AggroDir(m_pCapsuleComp);
+			m_f4ShootDir = AggroDir(m_pCapsuleComp);
 			EnemyRenderer->ChangeAnimation("SHOOT");
 		},
 		[this](float Delta)

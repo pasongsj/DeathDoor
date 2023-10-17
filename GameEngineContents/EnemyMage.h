@@ -46,7 +46,7 @@ private:
 	std::vector<float4> m_vecRandGrid;
 	UINT m_iCheckCount = 0;
 
-	float4 ShootDir = float4::ZERO;
+	float4 m_f4ShootDir = float4::ZERO;
 	float4 m_f4RenderScale = float4::ZERO;
 	float m_fScaleRatio = 0.f;
 	float m_fWaitTime = 1.f;

@@ -1,5 +1,6 @@
 #include "PreCompileHeader.h"
 #include "EnemyBrute.h"
+#include "EnemyAttackSphere.h"
 
 EnemyBrute::EnemyBrute() 
 {
@@ -15,14 +16,25 @@ void EnemyBrute::InitAniamtion()
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("_E_BRUTE_MESH.FBX", "ContentAniMeshDeffered");
 
-	EnemyRenderer->CreateFBXAnimation("IDLE", "_E_BRUTE_IDLE.fbx", { 0.02f,true });
-	EnemyRenderer->CreateFBXAnimation("WALK", "_E_BRUTE_WALK.fbx", { 0.02f,false });
-	EnemyRenderer->CreateFBXAnimation("RUN", "_E_BRUTE_RUN.fbx", { 0.02f,true });
-	EnemyRenderer->CreateFBXAnimation("SLAM", "_E_BRUTE_SLAM.fbx", { 0.02f,false });
-	EnemyRenderer->CreateFBXAnimation("SWING", "_E_BRUTE_SWING.fbx", { 0.02f,false });
-	EnemyRenderer->CreateFBXAnimation("BREAK", "_E_BRUTE_BREAK.fbx", { 0.02f,false });
-	EnemyRenderer->CreateFBXAnimation("THROW", "_E_BRUTE_THROW.fbx", { 0.02f,false });
+	EnemyRenderer->CreateFBXAnimation("IDLE", "_E_BRUTE_IDLE.fbx", { 1.f / 30.f,true });
+	EnemyRenderer->CreateFBXAnimation("WALK", "_E_BRUTE_WALK.fbx", { 1.f / 30.f,false });
+	EnemyRenderer->CreateFBXAnimation("RUN", "_E_BRUTE_RUN.fbx", { 1.f / 30.f,true });
+	EnemyRenderer->CreateFBXAnimation("SLAM", "_E_BRUTE_SLAM.fbx", { 1.f / 30.f,false });
+	EnemyRenderer->CreateFBXAnimation("SWING", "_E_BRUTE_SWING.fbx", { 1.f/30.f,false });
+	EnemyRenderer->CreateFBXAnimation("BREAK", "_E_BRUTE_BREAK.fbx", { 1.f/30.f,false });
+	EnemyRenderer->CreateFBXAnimation("THROW", "_E_BRUTE_THROW.fbx", { 1.f/30.f,false });
 
+	EnemyRenderer->SetAnimationStartFunc("THROW", 30, [this]
+		{
+			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
+			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
+			BonePivot->GetTransform()->SetParent(GetTransform());
+			BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData(0).Pos);
+			float4 TmpPos = BonePivot->GetTransform()->GetWorldPosition();
+			Attack->SetTrans(m_f4ShootDir, TmpPos);
+			BonePivot->Death();
+
+		});
 	EnemyRenderer->ChangeAnimation("IDLE");
 }
 
@@ -107,7 +119,7 @@ void EnemyBrute::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("WALK");
-			AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
+			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 		},
 		[this](float Delta)
 		{
@@ -151,9 +163,9 @@ void EnemyBrute::SetFSMFUNC()
 	SetFSM(EnemyBruteState::SLAM,
 		[this]
 		{
-			EnemyRenderer->ChangeAnimation("SLAM");
-			AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
+			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
+			EnemyRenderer->ChangeAnimation("SLAM");
 		},
 		[this](float Delta)
 		{
@@ -171,9 +183,9 @@ void EnemyBrute::SetFSMFUNC()
 	SetFSM(EnemyBruteState::SWING,
 		[this]
 		{
-			EnemyRenderer->ChangeAnimation("SWING");
-			AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
+			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
+			EnemyRenderer->ChangeAnimation("SWING");
 		},
 		[this](float Delta)
 		{
@@ -190,15 +202,15 @@ void EnemyBrute::SetFSMFUNC()
 	SetFSM(EnemyBruteState::THROW,
 		[this]
 		{
+			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 			EnemyRenderer->ChangeAnimation("THROW");
-			AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 		},
 		[this](float Delta)
 		{
-			if (true == EnemyRenderer->IsAnimationEnd())
-			{
-				SetNextState(EnemyBruteState::IDLE);
-			}
+			//if (true == EnemyRenderer->IsAnimationEnd())
+			//{
+			//	SetNextState(EnemyBruteState::IDLE);
+			//}
 
 		},
 		[this]
