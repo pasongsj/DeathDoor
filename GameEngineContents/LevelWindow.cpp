@@ -14,6 +14,7 @@
 #include "FrogBossLevel.h"
 #include "UITestLevel.h"
 
+#include "Player.h"
 
 LevelWindow::LevelWindow() 
 {
@@ -224,6 +225,31 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		Lights.begin()->get()->GetTransform()->AddLocalRotation({ 0.0f, 0.0f, 90.0f });
 	}
 
+	// PlayerController
 
+	if (nullptr == Player::MainPlayer)
+	{
+		return;
+	}
+	ImGui::Text("Current Player Mode : ");
+	ImGui::SameLine();
+	if (true == Player::MainPlayer->PlayerTestMode)
+	{
+		ImGui::Text("TEST");
+	}
+	else
+	{
+		ImGui::Text("GAME");
+	}
+	if (ImGui::Button("TEST"))
+	{
+		Player::MainPlayer->PlayerTestMode = true;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("GAME"))
+	{
+		Player::MainPlayer->PlayerTestMode = false;
+	}
+	
 }
 
