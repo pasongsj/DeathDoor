@@ -29,7 +29,7 @@ private:
 		SLAM,  // 첫 평타
 		SWING, // 후속 평타
 		THROW, // 원거리시 불던지기
-		BREAK, // 피격시 모션
+		DEATH, // 사망시
 		MAX
 	};
 

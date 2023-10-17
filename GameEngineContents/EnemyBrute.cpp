@@ -73,6 +73,7 @@ void EnemyBrute::InitAniamtion()
 void EnemyBrute::Start()
 {
 	EnemyBase::Start();
+	SetEnemyHP(10);
 	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_BRUTE);
 
 	// physx
@@ -80,6 +81,7 @@ void EnemyBrute::Start()
 		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_BRUTE);
+		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
 	SetFSMFUNC();
 }
@@ -87,6 +89,13 @@ void EnemyBrute::Start()
 
 void EnemyBrute::Update(float _DeltaTime)
 {
+	bool bDeath = DeathCheck();
+
+	if (bDeath == true)
+	{
+		SetNextState(EnemyBruteState::DEATH);
+	}
+
 	FSMObjectBase::Update(_DeltaTime);
 
 }
@@ -126,10 +135,10 @@ void EnemyBrute::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			if (true == CheckHit())
+			bool bHit = CheckHit();
+			if (true == bHit)
 			{
-				SetNextState(EnemyBruteState::BREAK);
-				return;
+				EnemyRenderer->ChangeAnimation("Break", true);
 			}
 			if(true == InRangePlayer(2000.0f))
 			{
@@ -152,11 +161,11 @@ void EnemyBrute::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			//StateDuration += Delta;
-			if (true == CheckHit())
+			//StateDuration += Delta;=
+			bool bHit = CheckHit();
+			if (true== bHit)
 			{
-				SetNextState(EnemyBruteState::BREAK);
-				return;
+				EnemyRenderer->ChangeAnimation("Break",true);
 			}
 			if (false == GetStateChecker() && true == EnemyRenderer->IsAnimationEnd())
 			{
@@ -194,7 +203,7 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
-			EnemyRenderer->ChangeAnimation("SLAM");
+			EnemyRenderer->ChangeAnimation("SLAM",true);
 		},
 		[this](float Delta)
 		{
@@ -218,7 +227,7 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
-			EnemyRenderer->ChangeAnimation("SWING");
+			EnemyRenderer->ChangeAnimation("SWING",true);
 		},
 		[this](float Delta)
 		{
@@ -256,16 +265,19 @@ void EnemyBrute::SetFSMFUNC()
 		}
 	);
 
-	SetFSM(EnemyBruteState::BREAK,
+	SetFSM(EnemyBruteState::DEATH,
 		[this]
 		{
-			EnemyRenderer->ChangeAnimation("BREAK");
+			EnemyRenderer->ChangeAnimation("IDLE");
+			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
+			m_pCapsuleComp->PushImpulse(-m_f4ShootDir * 100.f+float4(0,10,0));
+
 		},
 		[this](float Delta)
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				SetNextState(EnemyBruteState::IDLE);
+				Death();
 			}
 		},
 		[this]
