@@ -45,11 +45,11 @@ LightTarget Merge_PS(OutPut _Value)
     
     LightTarget OutPut = (LightTarget) 0.0f;
     
-    if (AmbLight.a <= 0.0f)
+    if (DifColor.a <= 0.0f)
     {
         clip(-1);
     }
-        
+    
     OutPut.DiffuseLight = DifLight * DifColor;
     OutPut.SpecularLight = SpcLight * DifColor;
     OutPut.AmbientLight = AmbLight * DifColor;

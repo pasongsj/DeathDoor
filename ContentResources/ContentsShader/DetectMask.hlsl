@@ -48,7 +48,10 @@ OutPutTarget DetectMask_PS(OutPut _Value)
     
     float4 DiffuseColor = DiffuseTexture.Sample(POINTSAMPLER, _Value.UV.xy);
     
-    if (BlurColor.r != DiffuseColor.r || BlurColor.g != DiffuseColor.g || BlurColor.b != DiffuseColor.b)
+    float BlurGrayScale = (BlurColor.r + BlurColor.g + BlurColor.b) / 3.0f;
+    float DiffuseGrayScale = (DiffuseColor.r + DiffuseColor.g + DiffuseColor.b) / 3.0f;
+    
+    if (BlurGrayScale != DiffuseGrayScale)
     {
         clip(-1);
     }
