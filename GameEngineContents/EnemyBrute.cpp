@@ -24,12 +24,12 @@ void EnemyBrute::InitAniamtion()
 	EnemyRenderer->CreateFBXAnimation("BREAK", "_E_BRUTE_BREAK.fbx", { 1.f/30.f,false });
 	EnemyRenderer->CreateFBXAnimation("THROW", "_E_BRUTE_THROW.fbx", { 1.f/30.f,false });
 
-	EnemyRenderer->SetAnimationStartFunc("THROW", 30, [this]
+	EnemyRenderer->SetAnimationStartFunc("THROW", 15, [this]
 		{
 			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
-			BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData(0).Pos);
+			BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("hand_l").Pos);
 			float4 TmpPos = BonePivot->GetTransform()->GetWorldPosition();
 			Attack->SetTrans(m_f4ShootDir, TmpPos);
 			BonePivot->Death();
@@ -207,10 +207,13 @@ void EnemyBrute::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			//if (true == EnemyRenderer->IsAnimationEnd())
-			//{
-			//	SetNextState(EnemyBruteState::IDLE);
-			//}
+			if (true == EnemyRenderer->IsAnimationEnd())
+			{
+
+				EnemyRenderer->ChangeAnimation("Idle",true);
+				EnemyRenderer->ChangeAnimation("THROW",true);
+				//SetNextState(EnemyBruteState::IDLE);
+			}
 
 		},
 		[this]
