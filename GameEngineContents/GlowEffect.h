@@ -21,7 +21,6 @@ public:
 
 	std::shared_ptr<GameEngineRenderTarget> DetectMaskTarget = nullptr;
 	std::shared_ptr<GameEngineRenderTarget> BlurTarget = nullptr;
-
 	std::shared_ptr<GameEngineRenderTarget> DoubleBlurTarget = nullptr;
 
 	//x는 DiffuseColor, y는 DiffuseLight, z는 SpecularLight, w는 AmbientLight
