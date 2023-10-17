@@ -1,6 +1,7 @@
 #include "PreCompileHeader.h"
 #include "EnemyBrute.h"
 #include "EnemyAttackSphere.h"
+#include "EnemyAttackBox.h"
 
 EnemyBrute::EnemyBrute() 
 {
@@ -23,6 +24,34 @@ void EnemyBrute::InitAniamtion()
 	EnemyRenderer->CreateFBXAnimation("SWING", "_E_BRUTE_SWING.fbx", { 1.f/30.f,false });
 	EnemyRenderer->CreateFBXAnimation("BREAK", "_E_BRUTE_BREAK.fbx", { 1.f/30.f,false });
 	EnemyRenderer->CreateFBXAnimation("THROW", "_E_BRUTE_THROW.fbx", { 1.f/30.f,false });
+	//EnemyRenderer->GetBoneData("test");
+
+	//weapon weapon_end slampoint
+	EnemyRenderer->SetAnimationStartFunc("SLAM", 10, [this]
+		{
+			m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
+			m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(-200, 0, -70));
+			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
+			BonePivot->GetTransform()->SetParent(GetTransform());
+			BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("slampoint").Pos);
+			float4 TmpPos = BonePivot->GetTransform()->GetWorldPosition();
+			m_pAttackBox->SetTrans(m_f4ShootDir, TmpPos);
+			BonePivot->Death();
+	
+		});
+	EnemyRenderer->SetAnimationStartFunc("SWING", 23, [this]
+		{
+
+			m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
+			m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(-70, -20, -270));
+			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
+			BonePivot->GetTransform()->SetParent(GetTransform());
+			BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("slampoint").Pos);
+			float4 TmpPos = BonePivot->GetTransform()->GetWorldPosition();
+			m_pAttackBox->SetTrans(m_f4ShootDir, TmpPos);
+			BonePivot->Death();
+	
+		});
 
 	EnemyRenderer->SetAnimationStartFunc("THROW", 15, [this]
 		{
@@ -171,9 +200,13 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
+				if (nullptr!=m_pAttackBox)
+				{
+					m_pAttackBox->Death();
+					m_pAttackBox = nullptr;
+				}
 				SetNextState(EnemyBruteState::IDLE);
 			}
-			//AggroDir(m_pCapsuleComp);
 
 		},
 		[this]
@@ -191,6 +224,11 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
+				if (nullptr != m_pAttackBox)
+				{
+					m_pAttackBox->Death();
+					m_pAttackBox = nullptr;
+				}
 				SetNextState(EnemyBruteState::SLAM);
 			}
 		},
@@ -209,10 +247,7 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-
-				EnemyRenderer->ChangeAnimation("Idle",true);
-				EnemyRenderer->ChangeAnimation("THROW",true);
-				//SetNextState(EnemyBruteState::IDLE);
+				SetNextState(EnemyBruteState::IDLE);
 			}
 
 		},

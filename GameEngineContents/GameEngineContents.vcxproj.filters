@@ -383,6 +383,9 @@
     <ClCompile Include="GammaCorrection.cpp">
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyAttackBox.cpp">
+      <Filter>FSMObject\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -760,6 +763,9 @@
     </ClInclude>
     <ClInclude Include="Dust.h">
       <Filter>Component\ContentsRenderer\Object\Dust</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackBox.h">
+      <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
