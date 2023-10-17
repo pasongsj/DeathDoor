@@ -2,6 +2,7 @@
 #include "EnemyMage.h"
 #include "Player.h"
 #include <GameEngineBase/GameEngineRandom.h>
+#include "EnemyAttackSphere.h"
 
 
 EnemyMage::EnemyMage() 
@@ -21,6 +22,17 @@ void EnemyMage::InitAniamtion()
 	EnemyRenderer->CreateFBXAnimation("TELEPORT", "_E_MAGE_TELEPORT.fbx", { 0.02f,false }); // 타격시인듯??
 	EnemyRenderer->CreateFBXAnimation("TELEPORT_IN", "_E_MAGE_TELEPORT.fbx", { 0.02f,false });
 	EnemyRenderer->CreateFBXAnimation("DEATH", "_E_MAGE_DEATH.fbx", { 0.02f,false });
+	EnemyRenderer->SetAnimationStartFunc("SHOOT", 30, [this]
+		{
+			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
+			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
+			BonePivot->GetTransform()->SetParent(GetTransform());
+			BonePivot->GetTransform()->SetLocalPosition(float4(0.f,60.f,0.f));
+			float4 TmpPos = BonePivot->GetTransform()->GetWorldPosition();
+			Attack->SetTrans(ShootDir, TmpPos);
+			BonePivot->Death();
+
+		});
 	//_E_MAGE_SHOOT_THREE.fbx
 	//_E_MAGE_SPIRAL.fbx
 
@@ -135,7 +147,7 @@ void EnemyMage::TeleportRandPos()
 			return;
 		}
 	}
-	// 3번 검사했으나 전부 실패한경우 플레이어의 10만큼 뒤쪽으로 이동
+	// n번 검사했으나 전부 실패한경우 플레이어의 10만큼 뒤쪽으로 이동
 	m_pCapsuleComp->SetWorldPosWithParent(f4PlayerPos + (Player::MainPlayer->GetTransform()->GetLocalForwardVector()*-10.f+float4(0.f,10.f,0.f)));
 	m_vecRandGrid.clear();
 }
@@ -176,8 +188,8 @@ void EnemyMage::SetFSMFUNC()
 	SetFSM(EnemyMageState::SHOOT,
 		[this]
 		{
+			ShootDir = AggroDir(m_pCapsuleComp);
 			EnemyRenderer->ChangeAnimation("SHOOT");
-			AggroDir(m_pCapsuleComp);
 		},
 		[this](float Delta)
 		{
@@ -264,6 +276,7 @@ void EnemyMage::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			CheckHit();
 			m_pCapsuleComp->SetMoveSpeed(-GetTransform()->GetLocalForwardVector() * 100);
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{

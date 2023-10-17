@@ -81,6 +81,7 @@ void Player::Update(float _DeltaTime)
 		SetSkill();
 	}
 
+
 	StackDuration -= _DeltaTime;
 	if (StackDuration < 0.0f)
 	{
@@ -90,6 +91,7 @@ void Player::Update(float _DeltaTime)
 	m_pCapsuleComp->GetDynamic()->setMass(65);
 
 
+	PlayerState Checker = GetCurState<PlayerState>();
 	// test
 	float4 MyPos = GetTransform()->GetWorldPosition();
 	
@@ -189,6 +191,11 @@ void Player::ModifyHeight()
 			MoveUpdate(300.0f, float4::DOWN); // 아래로 눌러줌
 			return;
 		}
+		else if (GetTransform()->GetWorldPosition().y < CollPoint.y)
+		{
+			MoveUpdate(2.0f, float4::UP); // 아래로 눌러줌
+		
+		}
 	}
 }
 
@@ -207,6 +214,13 @@ void Player::CheckFalling()
 			return;
 		}
 	}
+	else
+	{
+		if (false == PlayerTestMode)
+		{
+			SetNextState(PlayerState::DROWN);
+		}
+	}
 }
 void Player::CheckState(float _DeltaTime)
 {
@@ -218,6 +232,7 @@ void Player::CheckState(float _DeltaTime)
 	CheckDirInput(_DeltaTime);
 	CheckStateInput(_DeltaTime);
 	CheckFalling();
+	CheckPlayerHit();
 }
 
 
@@ -350,4 +365,28 @@ float4 Player::GetBonePos(const std::string_view& _BoneName)
 	BonePivot->GetTransform()->SetLocalPosition(Bone.Pos);
 
 	return BonePivot->GetTransform()->GetWorldPosition();
+}
+
+
+void Player::CheckPlayerHit()
+{
+	if (true == PlayerTestMode)
+	{
+		return;
+	}
+	if (true == CheckCollision(PhysXFilterGroup::MonsterSkill))
+	{
+		if (false  == PlayerTestMode)
+		{
+			--PlayerHP;
+		}
+		if (0 >= PlayerHP)
+		{
+			SetNextState(PlayerState::DEAD);
+		}
+		else
+		{
+			SetNextState(PlayerState::HIT);
+		}
+	}
 }

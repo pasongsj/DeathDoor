@@ -52,7 +52,7 @@ void AttackBase::SetTrans(const float4& _Dir, const float4& _Pos)
 		return;
 	}
 
-	if (nullptr == PhysXComp)
+	if (nullptr == PhysXComp->GetDynamic())
 	{
 		MsgAssert("PhysX Component가 생성되지 않았습니다.");
 		return;

@@ -46,6 +46,8 @@ public:
 		++SpellCost;
 	}
 
+	bool PlayerTestMode = true;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -133,6 +135,8 @@ private:
 	void ModifyHeight();
 
 	void DefaultPhysX();
+
+	void CheckPlayerHit();
 
 	// Attack
 	std::shared_ptr< class AttackBase> AttackActor = nullptr;
