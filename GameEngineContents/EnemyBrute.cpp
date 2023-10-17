@@ -73,7 +73,7 @@ void EnemyBrute::InitAniamtion()
 void EnemyBrute::Start()
 {
 	EnemyBase::Start();
-	SetEnemyHP(10);
+	SetEnemyHP(1);
 	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_BRUTE);
 
 	// physx
@@ -161,7 +161,7 @@ void EnemyBrute::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			//StateDuration += Delta;=
+			//StateDuration += Delta;
 			bool bHit = CheckHit();
 			if (true== bHit)
 			{
@@ -207,6 +207,7 @@ void EnemyBrute::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			bool bHit = CheckHit();
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				if (nullptr!=m_pAttackBox)
@@ -231,6 +232,7 @@ void EnemyBrute::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			bool bHit = CheckHit();
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				if (nullptr != m_pAttackBox)
@@ -254,6 +256,7 @@ void EnemyBrute::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			bool bHit = CheckHit();
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(EnemyBruteState::IDLE);
@@ -270,12 +273,15 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("IDLE");
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
-			m_pCapsuleComp->PushImpulse(-m_f4ShootDir * 100.f+float4(0,10,0));
+			m_pCapsuleComp->PushImpulse(-m_f4ShootDir * 5000.f + float4(0, 500, 0));
 
 		},
 		[this](float Delta)
 		{
-			if (true == EnemyRenderer->IsAnimationEnd())
+			//로테이션 러프시켜서 렌더러 돌리고 아이들상태로 죽여버리기
+			//float4 f4CurRot = EnemyRenderer->GetTransform
+			m_fDeathTime += Delta;
+			if (m_fDeathTime>=1.f)
 			{
 				Death();
 			}

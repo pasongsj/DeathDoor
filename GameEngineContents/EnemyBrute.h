@@ -39,4 +39,6 @@ private:
 	
 	std::shared_ptr<class EnemyAttackBox> m_pAttackBox = nullptr;
 	float4 m_f4ShootDir = float4::ZERO;
+
+	float m_fDeathTime = 0.f;
 };
