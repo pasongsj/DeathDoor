@@ -196,22 +196,26 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
-			//switch (CurSkill)
-			//{
-			//case Player::PlayerSkill::ARROW:
-			//case Player::PlayerSkill::MAGIC:
-			//	SpellCost--;
-			//	break;
-			//case Player::PlayerSkill::BOMB:
-			//	SpellCost -= 2;
-			//	break;
-			//case Player::PlayerSkill::HOOK:
-			//	break;
-			//case Player::PlayerSkill::MAX:
-			//	break;
-			//default:
-			//	break;
-			//}
+			if (true == PlayerTestMode)
+			{
+				return;
+			}
+			switch (CurSkill)
+			{
+			case Player::PlayerSkill::ARROW:
+			case Player::PlayerSkill::MAGIC:
+				SpellCost--;
+				break;
+			case Player::PlayerSkill::BOMB:
+				SpellCost -= 2;
+				break;
+			case Player::PlayerSkill::HOOK:
+				break;
+			case Player::PlayerSkill::MAX:
+				break;
+			default:
+				break;
+			}
 		}
 	); 
 
@@ -398,16 +402,12 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta)
 		{
-			static float IdleEndTime = 0;
-			//StateDuration += Delta;
 			if (false == GetStateChecker() && true == Renderer->IsAnimationEnd())
 			{
 				Renderer->ChangeAnimation("HIT_IDLE");
 				SetStateCheckerOn();
-				//StateChecker = true;
-				IdleEndTime = GetStateDuration() + PLAYER_HIT_IDLE_TIME;
 			}
-			if (true == GetStateChecker() && GetStateDuration() > IdleEndTime)
+			if (true == GetStateChecker() && GetStateDuration() > PLAYER_HIT_IDLE_TIME)
 			{
 				Renderer->ChangeAnimation("HIT_RECOVER");
 				if (true == Renderer->IsAnimationEnd())
@@ -418,6 +418,7 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			StateInputDelayTime = 0.2f;
 		}
 	); 
 
