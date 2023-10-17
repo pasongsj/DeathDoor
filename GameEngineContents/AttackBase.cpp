@@ -27,8 +27,13 @@ void AttackBase::Update(float _DeltaTime)
 	{
 		return;
 	}
-	if (true == CheckCollision(PhysXFilterGroup::MonsterDynamic) || GetLiveTime() > FireTime + 20.0f)
+	if (true == CheckCollision(PhysXFilterGroup::MonsterDynamic) || GetLiveTime() > FireTime + 1.0f)
 	{
+		if(DeathFunc != nullptr)
+		{
+			DeathFunc();
+		}
+
 		Death();
 		return;
 	}

@@ -29,7 +29,7 @@ void ContentLevel::CreateUI()
 void ContentLevel::SetPostPrecessEffect()
 {
 	std::shared_ptr<GlowEffect> Effect = GetLevel()->GetMainCamera()->GetCamAllRenderTarget()->CreateEffect<GlowEffect>();
-	Effect->Init(DynamicThis<GameEngineLevel>(), {1.6f, 0.0f, 0.0f, 0.0f});
+	Effect->Init(DynamicThis<GameEngineLevel>(), {2.0f, 0.0f, 0.0f, 0.0f});
 	std::shared_ptr<FXAA> Effect3 = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();
 	std::shared_ptr<GammaCorrection> Effect2 = GetLevel()->GetLastTarget()->CreateEffect<GammaCorrection>();
 }

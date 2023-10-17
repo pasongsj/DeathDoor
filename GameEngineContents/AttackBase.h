@@ -57,6 +57,11 @@ protected:
 		ShootSpeed = _Speed;
 	}
 
+	void SetDeathFunction(std::function<void()> _DeathFunc)
+	{
+		DeathFunc = _DeathFunc;
+	}
+
 private:
 	bool isShoot = false;
 
@@ -64,6 +69,8 @@ private:
 	float FireTime = 0.0f;
 
 	float ShootSpeed = 1500.0f;
+
+	std::function<void()> DeathFunc = nullptr;
 
 };
 
