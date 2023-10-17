@@ -135,7 +135,7 @@ void EnemyMage::TeleportRandPos()
 			return;
 		}
 	}
-	// 3번 검사했으나 전부 실패한경우 플레이어의 10만큼 뒤쪽으로 이동
+	// n번 검사했으나 전부 실패한경우 플레이어의 10만큼 뒤쪽으로 이동
 	m_pCapsuleComp->SetWorldPosWithParent(f4PlayerPos + (Player::MainPlayer->GetTransform()->GetLocalForwardVector()*-10.f+float4(0.f,10.f,0.f)));
 	m_vecRandGrid.clear();
 }
@@ -264,6 +264,7 @@ void EnemyMage::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			CheckHit();
 			m_pCapsuleComp->SetMoveSpeed(-GetTransform()->GetLocalForwardVector() * 100);
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
