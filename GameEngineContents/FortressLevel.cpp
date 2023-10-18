@@ -44,6 +44,7 @@ void FortressLevel::InitKey()
 	if (false == GameEngineInput::IsKey("NaviMesh_Switch_Fortress"))
 	{
 		GameEngineInput::CreateKey("NaviMesh_Switch_Fortress", 'M');
+		GameEngineInput::CreateKey("Fortress_Trigger_Switch", 'T');
 	}
 }
 
@@ -54,6 +55,14 @@ void FortressLevel::KeyUpdate(float _DeltaTime)
 		if (nullptr != m_pMap)
 		{
 			m_pMap->NaviRenderSwitch();
+		}
+	}
+
+	if (true == GameEngineInput::IsDown("Fortress_Trigger_Switch"))
+	{
+		if (nullptr != m_pMap)
+		{
+			m_pMap->TriggerSwitch();
 		}
 	}
 }

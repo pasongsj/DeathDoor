@@ -171,7 +171,6 @@ void CullingManager::LinkTrigger(EnumType _LevelType)
 	{
 		// 최소 3개, 최대 4개까지 지정가능
 		// 0번 인자는 반드시 포함될 바닥메쉬인걸로 
-		// 3번부터 메쉬 파트1. 
 		m_vCullingTriggers[0]->Set_CullingObjectNumber(0, 3, 4);		 // 플레이어 생성위치 
 		m_vCullingTriggers[1]->Set_CullingObjectNumber(0, 3, 4, 5);		 // 초반부 큰 문 입구
 		m_vCullingTriggers[2]->Set_CullingObjectNumber(0, 4, 5);		 // 문 통과 후 우측으로 꺾어서 나오는 네모난 공간 
@@ -191,16 +190,13 @@ void CullingManager::LinkTrigger(EnumType _LevelType)
 		m_vCullingTriggers[14]->Set_CullingObjectNumber(2, 12, 13);		// 마지막거기 
 		m_vCullingTriggers[15]->Set_CullingObjectNumber(2, 12, 13);		// 4 사각형 들어가는 입구 
 
-		// 세팅하면됨 
 		m_vCullingTriggers[16]->Set_CullingObjectNumber(2, 13, 14);		// 4 사각형 들어가는 입구 
 
-		// 4 사각형 마무리 구간 두개 
-		m_vCullingTriggers[17]->Set_CullingObjectNumber(2, 14, 15, 16);	
+		
+		m_vCullingTriggers[17]->Set_CullingObjectNumber(2, 14, 15, 16);	 // 4 사각형 마무리 구간 두개 
 		m_vCullingTriggers[18]->Set_CullingObjectNumber(2, 14, 15, 16);
-		m_vCullingTriggers[19]->Set_CullingObjectNumber(2, 15, 16);
 
-		//m_vCullingTriggers[4]->Set_CullingObjectNumber(0, 1, 5 ,7);		 // 위쪽 트리거 지난 후 바로 
-		//m_vCullingTriggers[5]->Set_CullingObjectNumber(0, 1, 5, 7);	     // 
+		m_vCullingTriggers[19]->Set_CullingObjectNumber(2, 15, 16); // 건너서 바로
 
 
 		break;
