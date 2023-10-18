@@ -15,6 +15,8 @@ public:
 	PlayerAttackBomb& operator=(const PlayerAttackBomb& _Other) = delete;
 	PlayerAttackBomb& operator=(PlayerAttackBomb&& _Other) noexcept = delete;
 
+	void Death() override;
+
 protected:
 
 	void Start() override;
