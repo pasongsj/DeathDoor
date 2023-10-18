@@ -189,6 +189,15 @@ void CullingManager::LinkTrigger(EnumType _LevelType)
 		m_vCullingTriggers[12]->Set_CullingObjectNumber(1, 2, 10, 11);      // 돌다리넘어가기전 
 		m_vCullingTriggers[13]->Set_CullingObjectNumber(1, 2, 11, 12);		// 돌다리중간 
 		m_vCullingTriggers[14]->Set_CullingObjectNumber(2, 12, 13);		// 마지막거기 
+		m_vCullingTriggers[15]->Set_CullingObjectNumber(2, 12, 13);		// 4 사각형 들어가는 입구 
+
+		// 세팅하면됨 
+		m_vCullingTriggers[16]->Set_CullingObjectNumber(2, 13, 14);		// 4 사각형 들어가는 입구 
+
+		// 4 사각형 마무리 구간 두개 
+		m_vCullingTriggers[17]->Set_CullingObjectNumber(2, 14, 15, 16);	
+		m_vCullingTriggers[18]->Set_CullingObjectNumber(2, 14, 15, 16);
+		m_vCullingTriggers[19]->Set_CullingObjectNumber(2, 15, 16);
 
 		//m_vCullingTriggers[4]->Set_CullingObjectNumber(0, 1, 5 ,7);		 // 위쪽 트리거 지난 후 바로 
 		//m_vCullingTriggers[5]->Set_CullingObjectNumber(0, 1, 5, 7);	     // 
