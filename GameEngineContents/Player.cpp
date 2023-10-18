@@ -88,7 +88,7 @@ void Player::Update(float _DeltaTime)
 		AttackStack = 0;
 	}
 	// ¹ºÁö? ¸ð¸§?
-	m_pCapsuleComp->GetDynamic()->setMass(65);
+	//m_pCapsuleComp->GetDynamic()->setMass(65);
 
 
 	PlayerState Checker = GetCurState<PlayerState>();
@@ -254,7 +254,7 @@ void Player::DirectionUpdate(float _DeltaTime)
 
 void Player::MoveUpdate(float _MoveVec, float4 _Dir)
 {
-	m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+	//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 	if (float4::ZERONULL == _Dir)
 	{
 		m_pCapsuleComp->SetMoveSpeed(MoveDir * _MoveVec);

@@ -22,13 +22,20 @@ public:
 	void onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count) override;
 	void onAdvance(const physx::PxRigidBody* const* bodyBuffer, const physx::PxTransform* poseBuffer, const physx::PxU32 count) override {};
 
-	std::function<void* ()> customCallback = nullptr;
-
 private:
 	
 };
 
+// Contorllercallback 이벤트를 재정의할 클래스
+class CustomContollerEventCallback : public physx::PxUserControllerHitReport
+{
+public:
+	void onShapeHit(const physx::PxControllerShapeHit& hit) override;
 
+
+private:
+
+};
 
 
 

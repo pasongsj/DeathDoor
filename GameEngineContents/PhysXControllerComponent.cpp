@@ -33,10 +33,13 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 	ControllerDesc.radius = static_cast<physx::PxF32>(HalfScale.z );
 	ControllerDesc.upDirection = physx::PxVec3(0, 1, 0);
 	ControllerDesc.userData = GetActor();
+	ControllerDesc.behaviorCallback = NULL;
 	ControllerDesc.position = physx::PxExtendedVec3(ParentActor.lock()->GetTransform()->GetWorldPosition().x
 													, ParentActor.lock()->GetTransform()->GetWorldPosition().y
 													, ParentActor.lock()->GetTransform()->GetWorldPosition().z);
 	m_pController = ControllerManager->createController(ControllerDesc);
+	
+	m_pController->getActor()->getShapes(&m_pShape, sizeof(m_pShape));
 	//GetTransform()->SetWorldScale(float4(_GeoMetryScale.x, _GeoMetryScale.y, _GeoMetryScale.z ));
 	//GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
 }
