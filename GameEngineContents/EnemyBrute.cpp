@@ -273,7 +273,6 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("IDLE");
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
-			m_pCapsuleComp->PushImpulse(-m_f4ShootDir * 5000.f + float4(0, 500, 0));
 
 		},
 		[this](float Delta)
@@ -281,6 +280,9 @@ void EnemyBrute::SetFSMFUNC()
 			//로테이션 러프시켜서 렌더러 돌리고 아이들상태로 죽여버리기
 			//float4 f4CurRot = EnemyRenderer->GetTransform
 			m_fDeathTime += Delta;
+
+			float4 f4Result = float4::LerpClamp(float4(0.f, 0.f, 0.f), float4(0.f, 0.f, 90.f), m_fDeathTime);
+			EnemyRenderer->GetTransform()->SetLocalRotation(f4Result);
 			if (m_fDeathTime>=1.f)
 			{
 				Death();
