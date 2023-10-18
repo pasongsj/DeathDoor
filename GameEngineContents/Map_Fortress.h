@@ -41,6 +41,7 @@ private:
 	void Create_Ground();
 	void Create_CullingObject();
 	void Set_CullingTrigger();
+	void Set_CullingTrigger_WorldPos();
 	void Set_CullingObject();
 	void Create_PhysXComponent();
 
