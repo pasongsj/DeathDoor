@@ -24,19 +24,24 @@ protected:
 private:
 	enum class EnemyBruteState
 	{
-		IDLE, // IDLE
-		MOVE, // WALK, RUN
-		SLAM,
-		SWING, 
-		THROW, 
-		BREAK, 
+		IDLE,  // IDLE
+		MOVE,  // WALK, RUN
+		SLAM,  // 첫 평타
+		SWING, // 후속 평타
+		THROW, // 원거리시 불던지기
+		BREAK, // 3번째 피격시
+		DEATH, // 사망시
 		MAX
 	};
 
 
 	void AggroMove(float _DeltaTime);
 	void SetFSMFUNC();
+	
+	std::shared_ptr<class EnemyAttackBox> m_pAttackBox = nullptr;
+	float4 m_f4ShootDir = float4::ZERO;
+	EnemyBruteState m_ePrevState = EnemyBruteState::MAX;
 
-	//float StateDuration = 0.0f;
-	//bool StateChecker = false;
+	int m_iFullHP = 15;
+	float m_fDeathTime = 0.f;
 };

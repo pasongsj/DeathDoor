@@ -17,11 +17,11 @@ void EnemyMage::InitAniamtion()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("_E_MAGE_MESH.FBX", "ContentAniMeshDeffered");
-	EnemyRenderer->CreateFBXAnimation("IDLE", "_E_MAGE_IDLE.fbx", { 0.02f,true });
-	EnemyRenderer->CreateFBXAnimation("SHOOT", "_E_MAGE_SHOOT.fbx", { 0.02f,false });
-	EnemyRenderer->CreateFBXAnimation("TELEPORT", "_E_MAGE_TELEPORT.fbx", { 0.02f,false }); // 타격시인듯??
-	EnemyRenderer->CreateFBXAnimation("TELEPORT_IN", "_E_MAGE_TELEPORT.fbx", { 0.02f,false });
-	EnemyRenderer->CreateFBXAnimation("DEATH", "_E_MAGE_DEATH.fbx", { 0.02f,false });
+	EnemyRenderer->CreateFBXAnimation("IDLE", "_E_MAGE_IDLE.fbx", { 1.f / 30.f,true });
+	EnemyRenderer->CreateFBXAnimation("SHOOT", "_E_MAGE_SHOOT.fbx", { 1.f / 30.f,false });
+	EnemyRenderer->CreateFBXAnimation("TELEPORT", "_E_MAGE_TELEPORT.fbx", { 1.f / 30.f,false }); // 타격시인듯??
+	EnemyRenderer->CreateFBXAnimation("TELEPORT_IN", "_E_MAGE_TELEPORT.fbx", { 1.f / 30.f,false });
+	EnemyRenderer->CreateFBXAnimation("DEATH", "_E_MAGE_DEATH.fbx", { 1.f / 30.f,false });
 	EnemyRenderer->SetAnimationStartFunc("SHOOT", 30, [this]
 		{
 			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
@@ -29,7 +29,7 @@ void EnemyMage::InitAniamtion()
 			BonePivot->GetTransform()->SetParent(GetTransform());
 			BonePivot->GetTransform()->SetLocalPosition(float4(0.f,60.f,0.f));
 			float4 TmpPos = BonePivot->GetTransform()->GetWorldPosition();
-			Attack->SetTrans(ShootDir, TmpPos);
+			Attack->SetTrans(m_f4ShootDir, TmpPos);
 			BonePivot->Death();
 
 		});
@@ -188,7 +188,7 @@ void EnemyMage::SetFSMFUNC()
 	SetFSM(EnemyMageState::SHOOT,
 		[this]
 		{
-			ShootDir = AggroDir(m_pCapsuleComp);
+			m_f4ShootDir = AggroDir(m_pCapsuleComp);
 			EnemyRenderer->ChangeAnimation("SHOOT");
 		},
 		[this](float Delta)
