@@ -72,6 +72,8 @@ bool EnemyBase::CheckHit()
 	if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))// 플레이어로부터 공격을 받는다면 
 	{
 		--m_iEnemyHP;
+		float Crack = static_cast<float>(m_TotalHP-m_iEnemyHP) / m_TotalHP; // 몬스터에 크랙쉐이더 적용 0~1값
+		EnemyRenderer->SetCrackAmount(Crack);
 		return true;
 	}
 	return false;

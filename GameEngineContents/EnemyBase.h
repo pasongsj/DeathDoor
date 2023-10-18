@@ -47,10 +47,11 @@ protected:
 
 	void SetEnemyHP(int _HP)
 	{
-		m_iEnemyHP = _HP;
+		m_TotalHP = m_iEnemyHP = _HP;
 	}
 private:
-	int m_iEnemyHP = -1;
+	int m_iEnemyHP = -1;// ÇöÀçHP
+	int m_TotalHP = -1; //ÃÑHP
 	
 
 };
