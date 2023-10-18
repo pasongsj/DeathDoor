@@ -205,6 +205,27 @@ void Map_Fortress::Set_CullingTrigger()
 		m_vCullingTriggers.push_back(Trigger);
 		Trigger->GetTransform()->SetParent(GetTransform());
 	}
+	{
+		// 12
+		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
+		Trigger->GetTransform()->SetLocalRotation(m_MapRot);
+		m_vCullingTriggers.push_back(Trigger);
+		Trigger->GetTransform()->SetParent(GetTransform());
+	}
+	{
+		// 13
+		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
+		Trigger->GetTransform()->SetLocalRotation(m_MapRot);
+		m_vCullingTriggers.push_back(Trigger);
+		Trigger->GetTransform()->SetParent(GetTransform());
+	}
+	{
+		// 14
+		std::shared_ptr<CullingTrigger> Trigger = CurLevel->CreateActor<CullingTrigger>();
+		Trigger->GetTransform()->SetLocalRotation(m_MapRot + float4 { 0, 90, 0});
+		m_vCullingTriggers.push_back(Trigger);
+		Trigger->GetTransform()->SetParent(GetTransform());
+	}
 }
 
 void Map_Fortress::Set_CullingTrigger_WorldPos()
@@ -222,6 +243,9 @@ void Map_Fortress::Set_CullingTrigger_WorldPos()
 		m_vCullingTriggers[9]->GetTransform()->SetWorldPosition(float4{ -9217, -6, 2052});
 		m_vCullingTriggers[10]->GetTransform()->SetWorldPosition(float4{ -9631,-6, 3640 });
 		m_vCullingTriggers[11]->GetTransform()->SetWorldPosition(float4{ -9594, -6, 4694 });
+		m_vCullingTriggers[12]->GetTransform()->SetWorldPosition(float4{ -10657, -6, 5965 });
+		m_vCullingTriggers[13]->GetTransform()->SetWorldPosition(float4{ -11796, -6, 7009 });
+		m_vCullingTriggers[14]->GetTransform()->SetWorldPosition(float4{ -13500, -6, 8771 });
 
 		/*m_vCullingTriggers[2]->GetTransform()->SetWorldPosition(float4{ 646, 593 , 7019 });
 		m_vCullingTriggers[3]->GetTransform()->SetWorldPosition(float4{ -4590, 0, 4323 });
@@ -254,7 +278,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		// 1
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Section_2.fbx");
+		CullingObj->InitComponent("Fortress_Section_2_Test.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -5894, -8, 3716 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -263,7 +287,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		// 2
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Section_3.fbx");
+		CullingObj->InitComponent("Fortress_Section_3_Test.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -1900, -604, 3160 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -346,9 +370,9 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//11
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_8.fbx");
+		CullingObj->InitComponent("Fortress_Part_8_Test.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
-		CullingObj->GetTransform()->SetLocalPosition(float4{ -10560, 200, 15170 });
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -14460, -80, 13570 });
 		m_vCullingObjects.push_back(CullingObj);
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
@@ -357,25 +381,16 @@ void Map_Fortress::Set_CullingObject()
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
 		CullingObj->InitComponent("Fortress_Part_9.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
-		CullingObj->GetTransform()->SetLocalPosition(float4{ -9600, 155, 17837 });
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -16120, 63, 13870 });
 		m_vCullingObjects.push_back(CullingObj);
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
 		//13
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_10.fbx");
+		CullingObj->InitComponent("Fortress_Part_12.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
-		CullingObj->GetTransform()->SetLocalPosition(float4{ -14460, -80, 13570 });
-		m_vCullingObjects.push_back(CullingObj);
-		CullingObj->GetTransform()->SetParent(GetTransform());
-	}
-	{
-		//13
-		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_11.fbx");
-		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
-		CullingObj->GetTransform()->SetLocalPosition(float4{ -16020, 113, 13870 });
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -9970, 284, 11910 });
 		m_vCullingObjects.push_back(CullingObj);
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
