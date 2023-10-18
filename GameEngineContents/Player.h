@@ -9,8 +9,17 @@ class Player : public FSMObjectBase, public GameEngineNetObject
 {
 	friend class PlayerAttSkill;
 public:
+
 	static Player* MainPlayer;
-public:
+	enum class PlayerSkill
+	{
+		ARROW,
+		MAGIC,
+		BOMB,
+		HOOK,
+		MAX,
+	};
+
 	// constrcuter destructer
 	Player();
 	~Player();
@@ -48,6 +57,17 @@ public:
 
 	bool PlayerTestMode = true;
 
+
+	inline PlayerSkill GetPlayerSkill()
+	{
+		return CurSkill;
+	}
+
+	inline int GetPlayerSkillInt()
+	{
+		return static_cast<int>(CurSkill);
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -78,16 +98,7 @@ private:
 		MAX,
 	};
 
-	enum class PlayerSkill
-	{
-		ARROW,
-		MAGIC,
-		BOMB,
-		HOOK,
-		MAX,
-	};
-
-
+	
 
 
 	// Init
