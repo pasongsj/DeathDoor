@@ -6,6 +6,7 @@
 #include "Map_Emptyplain.h"
 #include "PhysXCapsuleComponent.h"
 #include "PhysXBoxComponent.h"
+#include "PhysXControllerComponent.h"
 
 
 #include "EnemyBat.h"
@@ -85,7 +86,7 @@ void MapTestLevel::InitTestLevel()
 		std::shared_ptr<Player> Obj = CreateActor<Player>();
 		if (nullptr != Obj)
 		{
-			Obj->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 2610 , -574 , -5347 }));
+			Obj->GetPhysXComponent()->SetWorldPosWithParent( float4{ 2610 , -574 , -5347 },float4::ZERO);
 		}
 	}
 		break;

@@ -31,6 +31,11 @@ public:
 		return float4(static_cast<float>(m_pController->getPosition().x), static_cast<float>(m_pController->getPosition().y), static_cast<float>(m_pController->getPosition().z));
 	}
 
+	void SetRotation(float4 _Rot)
+	{
+		ParentActor.lock()->GetTransform()->SetWorldRotation(_Rot);
+	}
+
 	void SetWorldPosWithParent(float4 _Pos,float4 _Rot = float4::ZERONULL ) override
 	{
 		if (_Rot == float4::ZERONULL)
@@ -46,15 +51,18 @@ public:
 			m_pController->setPosition(physx::PxExtendedVec3(_Pos.x, _Pos.y, _Pos.z));
 		}
 	}
-	void TurnOffGravity()
+
+	void TurnOffGravity() override
 	{
 		m_bGravity = false;
 	}
 
-	void TurnOnGravity()
+	void TurnOnGravity() override
 	{
 		m_bGravity = true;
 	}
+	
+
 
 protected:
 	void Start() override;

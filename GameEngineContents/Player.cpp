@@ -4,7 +4,7 @@
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 #include "PhysXTestLevel.h"
 #include "PhysXCapsuleComponent.h"
-
+#include "PhysXControllerComponent.h"
 
 
 
@@ -37,14 +37,14 @@ void Player::Start()
 	// physx
 	{
 
-		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PLAYER_PHYSX_SCALE);
 		//m_pCapsuleComp->SetDynamicPivot(float4::BACK * 10.0f);
 		// lever 충돌테스트 
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic, PhysXFilterGroup::LeverTrigger);
 	}
-	m_pCapsuleComp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 1000.0f, 500.0f, 0.0f }));
+	m_pCapsuleComp->SetWorldPosWithParent(float4{1000.0f, 500.0f, 0.0f},float4::ZERO);
 
 
 	SetFSMFunc();

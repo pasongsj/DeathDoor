@@ -1,6 +1,7 @@
 #include "PreCompileHeader.h"
 #include "Player.h"
 #include "PhysXCapsuleComponent.h"
+#include "PhysXControllerComponent.h"
 #include "PlayerDefinition.h"
 
 

@@ -21,7 +21,7 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
-	std::shared_ptr<class PhysXCapsuleComponent> GetPhysXComponent() const
+	std::shared_ptr<class PhysXControllerComponent> GetPhysXComponent() const
 	{
 		return m_pCapsuleComp;
 	}
@@ -100,7 +100,7 @@ private:
 		// Render
 	std::shared_ptr<ContentFBXRenderer> Renderer = nullptr;
 		//physx
-	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
+	std::shared_ptr<class PhysXControllerComponent> m_pCapsuleComp = nullptr;
 	//	//Range
 	//std::shared_ptr<GameEngineActor> AttackRange = nullptr;
 

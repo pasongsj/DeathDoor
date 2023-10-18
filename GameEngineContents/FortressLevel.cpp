@@ -2,6 +2,7 @@
 #include "FortressLevel.h"
 
 #include "PhysXCapsuleComponent.h"
+#include "PhysXControllerComponent.h"
 
 #include "Player.h"
 #include "Map_Fortress.h"
@@ -94,7 +95,7 @@ void FortressLevel::Set_PlayerStartPos()
 		return;
 	}
 
-	std::shared_ptr<PhysXCapsuleComponent> Comp = Player::MainPlayer->GetPhysXComponent();
+	std::shared_ptr<PhysXControllerComponent> Comp = Player::MainPlayer->GetPhysXComponent();
 
 	if (nullptr == Comp)
 	{
@@ -102,7 +103,7 @@ void FortressLevel::Set_PlayerStartPos()
 		return;
 	}
 
-	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_StartPos));
+	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
 }
 
 void FortressLevel::Create_Manager()

@@ -7,6 +7,7 @@
 
 #include "PhysXTestPlane.h"
 #include "BossTestLevel.h"
+#include "PhysXControllerComponent.h"
 
 
 
@@ -54,7 +55,7 @@ void BossTestLevel::LevelChangeStart()
 
 	if (nullptr != TestPlayer)
 	{
-		TestPlayer->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4::ZERO));
+		TestPlayer->GetPhysXComponent()->SetWorldPosWithParent(float4::ZERO, float4::ZERO);
 	}
 
 	std::shared_ptr<Boss_OldCrow> BossTestObject = CreateActor<Boss_OldCrow>();
