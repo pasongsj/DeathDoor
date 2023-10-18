@@ -102,7 +102,7 @@ void Map_Fortress::Create_Ground()
 	m_pRenderer_Cube = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer_Cube->SetFBXMesh("Fortress_Cube.fbx", "ContentMeshDeffered");
 	m_pRenderer_Cube->GetTransform()->SetLocalRotation(m_MapRot);
-	m_pRenderer_Cube->GetTransform()->SetLocalPosition(float4{ -3910, -800, -300 });
+	m_pRenderer_Cube->GetTransform()->SetLocalPosition(float4{ -3910, -900, -250 });
 	m_pRenderer_Cube->GetTransform()->SetParent(GetTransform());
 
 	m_pRenderer_Cube2 = CreateComponent<ContentFBXRenderer>();
@@ -358,25 +358,25 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//3
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_1.fbx");
+		CullingObj->InitComponent("Fortress_Part_1_Fix.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
-		CullingObj->GetTransform()->SetLocalPosition(float4{ -330, 300, 430 });
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -330, 302, 430 });
 		m_vCullingObjects.push_back(CullingObj);
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
 		//4
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_2.fbx");
+		CullingObj->InitComponent("Fortress_Part_2_Fix.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
-		CullingObj->GetTransform()->SetLocalPosition(float4{ -9190, 328, 11669 });
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -9190, 350, 11669 });
 		m_vCullingObjects.push_back(CullingObj);
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
 	{
 		//5
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_3.fbx");
+		CullingObj->InitComponent("Fortress_Part_3_Fix.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -8566, 336, 13834 });
 		m_vCullingObjects.push_back(CullingObj);
