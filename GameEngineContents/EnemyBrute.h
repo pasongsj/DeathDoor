@@ -29,6 +29,7 @@ private:
 		SLAM,  // 첫 평타
 		SWING, // 후속 평타
 		THROW, // 원거리시 불던지기
+		BREAK, // 3번째 피격시
 		DEATH, // 사망시
 		MAX
 	};
@@ -39,6 +40,8 @@ private:
 	
 	std::shared_ptr<class EnemyAttackBox> m_pAttackBox = nullptr;
 	float4 m_f4ShootDir = float4::ZERO;
+	EnemyBruteState m_ePrevState = EnemyBruteState::MAX;
 
+	int m_iFullHP = 15;
 	float m_fDeathTime = 0.f;
 };

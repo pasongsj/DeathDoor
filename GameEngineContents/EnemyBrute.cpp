@@ -73,7 +73,7 @@ void EnemyBrute::InitAniamtion()
 void EnemyBrute::Start()
 {
 	EnemyBase::Start();
-	SetEnemyHP(1);
+	SetEnemyHP(m_iFullHP);
 	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_BRUTE);
 
 	// physx
@@ -136,9 +136,11 @@ void EnemyBrute::SetFSMFUNC()
 		[this](float Delta)
 		{
 			bool bHit = CheckHit();
-			if (true == bHit)
+			if (true == bHit && (GetEnemyHP() % 3 == 1 && m_iFullHP == GetEnemyHP()))
 			{
-				EnemyRenderer->ChangeAnimation("Break", true);
+				m_ePrevState = EnemyBruteState::IDLE;
+				SetNextState(EnemyBruteState::BREAK,true);
+				return;
 			}
 			if(true == InRangePlayer(2000.0f))
 			{
@@ -163,9 +165,11 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			//StateDuration += Delta;
 			bool bHit = CheckHit();
-			if (true== bHit)
+			if (true == bHit && (GetEnemyHP() % 3 == 1&& m_iFullHP != GetEnemyHP()))
 			{
-				EnemyRenderer->ChangeAnimation("Break",true);
+				m_ePrevState = EnemyBruteState::MOVE;
+				SetNextState(EnemyBruteState::BREAK, true);
+				return;
 			}
 			if (false == GetStateChecker() && true == EnemyRenderer->IsAnimationEnd())
 			{
@@ -208,6 +212,13 @@ void EnemyBrute::SetFSMFUNC()
 		[this](float Delta)
 		{
 			bool bHit = CheckHit();
+			if (true == bHit && (GetEnemyHP() % 3 == 1 && m_iFullHP != GetEnemyHP()))
+			{
+				m_ePrevState = EnemyBruteState::SLAM;
+				SetNextState(EnemyBruteState::BREAK, true);
+				return;
+			}
+
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				if (nullptr!=m_pAttackBox)
@@ -233,6 +244,12 @@ void EnemyBrute::SetFSMFUNC()
 		[this](float Delta)
 		{
 			bool bHit = CheckHit();
+			if (true == bHit && (GetEnemyHP() % 3 == 1 && m_iFullHP != GetEnemyHP()))
+			{
+				m_ePrevState = EnemyBruteState::SWING;
+				SetNextState(EnemyBruteState::BREAK, true);
+				return;
+			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				if (nullptr != m_pAttackBox)
@@ -262,6 +279,26 @@ void EnemyBrute::SetFSMFUNC()
 				SetNextState(EnemyBruteState::IDLE);
 			}
 
+		},
+		[this]
+		{
+		}
+	);
+	SetFSM(EnemyBruteState::BREAK,
+		[this]
+		{
+			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
+			EnemyRenderer->ChangeAnimation("BREAK",true);
+
+		},
+		[this](float Delta)
+		{
+			bool bHit = CheckHit();
+			if (true == EnemyRenderer->IsAnimationEnd())
+			{
+				SetNextState(m_ePrevState);
+				return;
+			}
 		},
 		[this]
 		{

@@ -49,6 +49,12 @@ protected:
 	{
 		m_iEnemyHP = _HP;
 	}
+
+	int GetEnemyHP() const
+	{
+		return m_iEnemyHP;
+	}
+
 private:
 	int m_iEnemyHP = -1;
 	
