@@ -100,7 +100,7 @@ public:
 
 	float4 GetWorldPosition();
 
-	void SetMoveSpeed(float4 _MoveSpeed)
+	virtual void SetMoveSpeed(float4 _MoveSpeed) 
 	{
 		if (m_pRigidDynamic!=nullptr)
 		{

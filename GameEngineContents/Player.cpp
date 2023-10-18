@@ -188,12 +188,12 @@ void Player::ModifyHeight()
 	{
 		if (GetTransform()->GetWorldPosition().y > CollPoint.y + 30.0f) // 플레이어가 허공에 떠있다면 
 		{
-			MoveUpdate(300.0f, float4::DOWN); // 아래로 눌러줌
+			//MoveUpdate(300.0f, float4::DOWN); // 아래로 눌러줌
 			return;
 		}
 		else if (GetTransform()->GetWorldPosition().y < CollPoint.y)
 		{
-			MoveUpdate(2.0f, float4::UP); // 아래로 눌러줌
+			//MoveUpdate(2.0f, float4::UP); // 아래로 눌러줌
 		
 		}
 	}
@@ -293,7 +293,7 @@ void Player::DefaultPhysX()
 		{
 			return;
 		}
-		MoveUpdate(0.0f);
+		//MoveUpdate(0.0f);
 		//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 		//m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 	}

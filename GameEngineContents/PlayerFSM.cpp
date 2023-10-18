@@ -92,7 +92,7 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
-			MoveUpdate(0.0f);
+			//MoveUpdate(0.0f);
 
 		}
 	);
@@ -143,7 +143,7 @@ void Player::SetFSMFunc()
 			default:
 				break;
 			}
-			MoveUpdate(0.0f);
+			//MoveUpdate(0.0f);
 		},
 		[this](float Delta) // update
 		{
@@ -304,7 +304,7 @@ void Player::SetFSMFunc()
 			Renderer->ChangeAnimation("ROLL");
 
 			// Player의 Speed를 초기화한다.
-			MoveUpdate(0.0f);
+			//MoveUpdate(0.0f);
 
 
 		},
@@ -330,7 +330,7 @@ void Player::SetFSMFunc()
 			}},
 		[this]
 		{
-			MoveUpdate(0.0f);
+			//MoveUpdate(0.0f);
 		}
 	); 
 
@@ -366,7 +366,7 @@ void Player::SetFSMFunc()
 			{
 				Renderer->ChangeAnimation("CHARGE_SLASH_L");
 			}
-			MoveUpdate(0.0f);
+			//MoveUpdate(0.0f);
 		},
 		[this](float Delta)
 		{
