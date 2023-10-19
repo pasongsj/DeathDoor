@@ -43,6 +43,7 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 	m_pShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 	m_pShape->userData = GetActor(); 
 
+
 	//GetTransform()->SetWorldScale(float4(_GeoMetryScale.x, _GeoMetryScale.y, _GeoMetryScale.z ));
 	//GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
 }
@@ -71,7 +72,7 @@ void PhysXControllerComponent::Start()
 
 void PhysXControllerComponent::Update(float _DeltaTime)
 {
-	float4 tmpWorldPos = { static_cast<float>(m_pController->getPosition().x), static_cast<float>(m_pController->getPosition().y - (m_fHeight * 2.f)), static_cast<float>(m_pController->getPosition().z) };
+	float4 tmpWorldPos = { static_cast<float>(m_pController->getFootPosition().x), static_cast<float>(m_pController->getFootPosition().y), static_cast<float>(m_pController->getFootPosition().z) };
 	ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
 	//if (true == GetLevel()->GetDebugRender())
 	//{
