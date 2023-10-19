@@ -22,11 +22,6 @@ public:
 
 	void SetMoveSpeed(float4 _MoveSpeed);
 
-	void SetControllerMoveDir(float4 _Data)
-	{
-		m_pControllerDir = _Data;
-	}
-
 	inline float4 GetWorldPosition()
 	{
 		return float4(static_cast<float>(m_pController->getPosition().x), static_cast<float>(m_pController->getPosition().y), static_cast<float>(m_pController->getPosition().z));

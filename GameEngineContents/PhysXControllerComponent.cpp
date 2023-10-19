@@ -48,6 +48,16 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 void PhysXControllerComponent::SetMoveSpeed(float4 _MoveSpeed)
 {
 	m_pControllerDir = _MoveSpeed;
+	float fTime = GameEngineTime::GlobalTime.GetDeltaTime();
+	if (m_bGravity)
+	{
+		m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y - SCENE_GRAVITY, m_pControllerDir.z).PhysXVec3Return() * fTime, 0.01f, fTime, m_pControllerFilter);
+	}
+	else
+	{
+		m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y, m_pControllerDir.z).PhysXVec3Return() * fTime, 0.01f, fTime, m_pControllerFilter);
+	}
+	m_pControllerDir = float4::ZERO;
 }
 
 
@@ -59,16 +69,6 @@ void PhysXControllerComponent::Start()
 
 void PhysXControllerComponent::Update(float _DeltaTime)
 {	
-	if (m_bGravity)
-	{
-		m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y-SCENE_GRAVITY, m_pControllerDir.z).PhysXVec3Return()* _DeltaTime, 0.01f, _DeltaTime, m_pControllerFilter);
-	}
-	else
-	{
-		m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y , m_pControllerDir.z).PhysXVec3Return() * _DeltaTime, 0.01f, _DeltaTime, m_pControllerFilter);
-	}
-	m_pControllerFilter;
-	m_pControllerDir = float4::ZERO;
 	float4 tmpWorldPos = { static_cast<float>(m_pController->getPosition().x), static_cast<float>(m_pController->getPosition().y), static_cast<float>(m_pController->getPosition().z) };
 
 	ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
