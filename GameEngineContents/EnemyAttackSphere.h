@@ -15,8 +15,15 @@ public:
 	EnemyAttackSphere& operator=(const EnemyAttackSphere& _Other) = delete;
 	EnemyAttackSphere& operator=(EnemyAttackSphere&& _Other) noexcept = delete;
 
+	void SetRender(const float4& _RenderScale, const std::string_view& _Mesh = "");
+	void SetPhysXComp(const float4& _PhysXScale, const float4& _Pivot = float4::ZERO);
+
+	void SetShoot(float _Speed) override
+	{
+		AttackBase::SetShoot(_Speed);
+	}
+
 protected:
-	void Start() override;
 	void Update(float _DeltaTime) override;
 private:
 

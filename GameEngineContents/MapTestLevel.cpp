@@ -116,7 +116,7 @@ void MapTestLevel::InitTestLevel()
 		//std::shared_ptr<EnemyMage> Mage = CreateActor<EnemyMage>();
 		//Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
 
-		std::shared_ptr<EnemyBrute> Brute = CreateActor<EnemyBrute>();
+		std::shared_ptr<EnemyGhoul> Brute = CreateActor<EnemyGhoul>();
 		Brute->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });
 
 		//CreateActor<EnemyFirePlant>();

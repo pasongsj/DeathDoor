@@ -20,12 +20,17 @@ void EnemyFirePlant::InitAniamtion()
 	EnemyRenderer->CreateFBXAnimation("BITE", "_E_FIREPLANT_BITE.fbx", { 0.02f,false });
 	EnemyRenderer->SetAnimationStartFunc("BITE", 30, [this]
 		{
-			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
+			// 본 위치 가져오기
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
 			BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("Spine_010").Pos);
-			float4 TmpPos = BonePivot->GetTransform()->GetWorldPosition();
-			Attack->SetTrans(ShootDir, TmpPos);
+			float4 BonePivotPos = BonePivot->GetTransform()->GetWorldPosition();
+
+			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
+			Attack->SetRender(FIREPLANT_ATT_RENDER_SCALE);
+			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE, float4::DOWN * 100.0f);
+			Attack->SetTrans(ShootDir, BonePivotPos);// 위치와 방향설정
+			Attack->SetShoot(1000.0f);
 			BonePivot->Death();
 			
 		});

@@ -38,6 +38,11 @@ protected:
 	template<typename PhysXType>
 	void CreatePhysXAttComp(const float4& _Scale, PhysXFilterGroup _Group)
 	{
+		if (nullptr != PhysXComp)
+		{
+			MsgAssert("이미 생성된 컴퍼넌트 입니다");
+			return;
+		}
 		PhysXComp = CreateComponent<PhysXType>();
 		PhysXComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		PhysXComp->CreatePhysXActors(_Scale, float4::ZERO);

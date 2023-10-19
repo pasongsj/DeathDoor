@@ -24,12 +24,16 @@ void EnemyMage::InitAniamtion()
 	EnemyRenderer->CreateFBXAnimation("DEATH", "_E_MAGE_DEATH.fbx", { 1.f / 30.f,false });
 	EnemyRenderer->SetAnimationStartFunc("SHOOT", 30, [this]
 		{
-			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
 			BonePivot->GetTransform()->SetLocalPosition(float4(0.f,60.f,0.f));
 			float4 TmpPos = BonePivot->GetTransform()->GetWorldPosition();
+
+			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
+			Attack->SetRender(FIREPLANT_ATT_RENDER_SCALE);
+			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE);
 			Attack->SetTrans(m_f4ShootDir, TmpPos);
+			Attack->SetShoot(1000.0f);
 			BonePivot->Death();
 
 		});
