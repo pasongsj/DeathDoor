@@ -27,7 +27,6 @@ protected:
 	void LevelChangeEnd() override;
 
 private:
-	// 2800, 230, -6300
 	const float4 m_CameraPos = float4{ -450, 1700, -1500 };
 
 	// 37µµ 
@@ -35,8 +34,6 @@ private:
 
 	void Set_PlayerStartPos();
 	const float4 m_StartPos = float4{ 0, 300, 0 } ;
-	// const float4 m_TestStartPos = float4{ 1869, 570, 4110 };
-
 
 	std::shared_ptr<class Map_Sanctuary> m_pMap = nullptr;
 };

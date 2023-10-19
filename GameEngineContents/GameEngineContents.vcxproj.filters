@@ -202,12 +202,6 @@
     <ClCompile Include="FSMObjectBase.cpp">
       <Filter>FSMObject</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterAnimationTest.cpp">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBat.cpp">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyBase.cpp">
       <Filter>FSMObject\Enemy</Filter>
     </ClCompile>
@@ -227,43 +221,28 @@
       <Filter>Contents\BossTestLevel</Filter>
     </ClCompile>
     <ClCompile Include="FortressLevel.cpp">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel</Filter>
+      <Filter>Contents\FortressLevel</Filter>
     </ClCompile>
     <ClCompile Include="Map_Fortress.cpp">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map</Filter>
+      <Filter>Contents\FortressLevel\Map</Filter>
     </ClCompile>
     <ClCompile Include="BossBase.cpp">
       <Filter>Contents\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyMage.cpp">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyGrunt.cpp">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="SecretTile.cpp">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="Crate.cpp">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="Frog_Lever.cpp">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="PhysXControllerComponent.cpp">
       <Filter>Component\PhysX\Component</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBrute.cpp">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Ladder.cpp">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyGhoul.cpp">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBruteGold.cpp">
-      <Filter>FSMObject\Enemy</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="OfficeLevel.cpp">
       <Filter>Contents\OfficeLevel</Filter>
@@ -287,10 +266,10 @@
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="Map_Sanctuary.cpp">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map</Filter>
+      <Filter>Contents\FortressLevel\Map</Filter>
     </ClCompile>
     <ClCompile Include="FrogBossLevel.cpp">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel</Filter>
+      <Filter>Contents\FortressLevel</Filter>
     </ClCompile>
     <ClCompile Include="AttackBase.cpp">
       <Filter>FSMObject\Player\Att</Filter>
@@ -308,7 +287,7 @@
       <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClCompile>
     <ClCompile Include="FrogFloor.cpp">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="GrayScaleEffect.cpp">
       <Filter>Component\PostEffect</Filter>
@@ -323,7 +302,7 @@
       <Filter>Component\Level</Filter>
     </ClCompile>
     <ClCompile Include="RuinsWall.cpp">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="Boss_OldCrowChain.cpp">
       <Filter>Contents\Boss\OldCrow\Actor</Filter>
@@ -355,9 +334,6 @@
     <ClCompile Include="PlayerAttackBasic.cpp">
       <Filter>FSMObject\Player\Att\basic</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyAttackSphere.cpp">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalValue.cpp" />
     <ClCompile Include="CullingObject.cpp">
       <Filter>CullingObject</Filter>
@@ -384,7 +360,34 @@
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAttackBox.cpp">
-      <Filter>FSMObject\Enemy</Filter>
+      <Filter>FSMObject\Enemy\EnemyAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttackSphere.cpp">
+      <Filter>FSMObject\Enemy\EnemyAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBrute.cpp">
+      <Filter>FSMObject\Enemy\Brute</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBruteGold.cpp">
+      <Filter>FSMObject\Enemy\Brute</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGhoul.cpp">
+      <Filter>FSMObject\Enemy\Ghoul</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGrunt.cpp">
+      <Filter>FSMObject\Enemy\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMage.cpp">
+      <Filter>FSMObject\Enemy\Mage</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBat.cpp">
+      <Filter>FSMObject\Enemy\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterAnimationTest.cpp">
+      <Filter>FSMObject\Enemy\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttackCapsule.cpp">
+      <Filter>FSMObject\Enemy\EnemyAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -586,12 +589,6 @@
     <ClInclude Include="FSMObjectBase.h">
       <Filter>FSMObject</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterAnimationTest.h">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBat.h">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBase.h">
       <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
@@ -611,41 +608,29 @@
       <Filter>Contents\BossTestLevel</Filter>
     </ClInclude>
     <ClInclude Include="FortressLevel.h">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel</Filter>
+      <Filter>Contents\FortressLevel</Filter>
     </ClInclude>
     <ClInclude Include="Map_Fortress.h">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map</Filter>
+      <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
     <ClInclude Include="BossBase.h">
       <Filter>Contents\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyMage.h">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyGrunt.h">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="SecretTile.h">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="Crate.h">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="Frog_Lever.h">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="PhysXControllerComponent.h">
       <Filter>Component\PhysX\Component</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBrute.h">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Ladder.h">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyGhoul.h">
-      <Filter>FSMObject\Enemy</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="OfficeLevel.h">
       <Filter>Contents\OfficeLevel</Filter>
@@ -668,14 +653,11 @@
     <ClInclude Include="GlowEffect.h">
       <Filter>Component\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBruteGold.h">
-      <Filter>FSMObject\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Map_Sanctuary.h">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map</Filter>
+      <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
     <ClInclude Include="FrogBossLevel.h">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel</Filter>
+      <Filter>Contents\FortressLevel</Filter>
     </ClInclude>
     <ClInclude Include="AttackBase.h">
       <Filter>FSMObject\Player\Att</Filter>
@@ -699,7 +681,7 @@
       <Filter>Component\ContentsRenderer\Object\Fire</Filter>
     </ClInclude>
     <ClInclude Include="FrogFloor.h">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="PlayerBow.h">
       <Filter>FSMObject\Player</Filter>
@@ -711,7 +693,7 @@
       <Filter>Component\Level</Filter>
     </ClInclude>
     <ClInclude Include="RuinsWall.h">
-      <Filter>Contents\OfficeLevel\Actor\FortressLevel\Map_Object</Filter>
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="Boss_OldCrowEgg.h">
       <Filter>Contents\Boss\OldCrow\Actor</Filter>
@@ -736,9 +718,6 @@
     </ClInclude>
     <ClInclude Include="PlayerAttackBasic.h">
       <Filter>FSMObject\Player\Att\basic</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyAttackSphere.h">
-      <Filter>FSMObject\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="CullingObject.h">
       <Filter>CullingObject</Filter>
@@ -765,7 +744,34 @@
       <Filter>Component\ContentsRenderer\Object\Dust</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAttackBox.h">
-      <Filter>FSMObject\Enemy</Filter>
+      <Filter>FSMObject\Enemy\EnemyAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackSphere.h">
+      <Filter>FSMObject\Enemy\EnemyAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBrute.h">
+      <Filter>FSMObject\Enemy\Brute</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBruteGold.h">
+      <Filter>FSMObject\Enemy\Brute</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGhoul.h">
+      <Filter>FSMObject\Enemy\Ghoul</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGrunt.h">
+      <Filter>FSMObject\Enemy\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMage.h">
+      <Filter>FSMObject\Enemy\Mage</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBat.h">
+      <Filter>FSMObject\Enemy\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterAnimationTest.h">
+      <Filter>FSMObject\Enemy\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackCapsule.h">
+      <Filter>FSMObject\Enemy\EnemyAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -928,14 +934,32 @@
     <Filter Include="Component\ContentsRenderer\Object\Dust">
       <UniqueIdentifier>{248418d0-b163-4273-897f-02bdf3f6b1bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\OfficeLevel\Actor\FortressLevel">
+    <Filter Include="Contents\FortressLevel">
       <UniqueIdentifier>{e22fafa8-2651-4605-9d3a-1361ad8bf611}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\OfficeLevel\Actor\FortressLevel\Map">
+    <Filter Include="Contents\FortressLevel\Map">
       <UniqueIdentifier>{23756f21-8374-45c9-b3ab-2c88693dde53}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\OfficeLevel\Actor\FortressLevel\Map_Object">
+    <Filter Include="Contents\FortressLevel\Map_Object">
       <UniqueIdentifier>{7135283d-a1cc-4778-9c28-fd7e7f68f16e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Enemy\EnemyAttack">
+      <UniqueIdentifier>{096b10b1-3ebb-4f3a-9b32-fe4675add419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Enemy\Brute">
+      <UniqueIdentifier>{540d3969-3110-4be8-bf01-177ee8478123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Enemy\Ghoul">
+      <UniqueIdentifier>{37ea6a85-36c0-47ec-9d45-cb51ad1172f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Enemy\Grunt">
+      <UniqueIdentifier>{a70ae8dd-3ac6-4a5f-a94e-0f09fc7cd336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Enemy\Mage">
+      <UniqueIdentifier>{690fc525-77cb-41a2-a14f-45c1ffbe2a41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Enemy\Test">
+      <UniqueIdentifier>{8c2a249a-0797-4921-a2be-0c5fb4a93028}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

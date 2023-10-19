@@ -21,6 +21,7 @@ public:
 	}
 
 	void NaviRenderSwitch();
+	void TriggerSwitch();
 
 	inline std::vector<std::shared_ptr<class CullingTrigger>>& GetCullingTrigger()
 	{
@@ -41,34 +42,28 @@ private:
 	void Create_Ground();
 	void Create_CullingObject();
 	void Set_CullingTrigger();
+	void Set_CullingTrigger_WorldPos();
 	void Set_CullingObject();
 	void Create_PhysXComponent();
 
 	void Create_StaticObject();
 	void Create_ActiveObject();
 
-	void Create_TransformWall(std::shared_ptr<class GameEngineLevel> _CurLevel);
-
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pNaviRenderer = nullptr;
 
-	// 나중에 설정함 
-	size_t m_iTriggerSize = 2;
-	// 나중에 설정함  
-	size_t m_iCullingObject_Size = 4;
+	size_t m_iTriggerSize = 20;
+	size_t m_iCullingObject_Size = 17;
 	std::vector<std::shared_ptr<class CullingTrigger>> m_vCullingTriggers = std::vector<std::shared_ptr<class CullingTrigger>>();
 	std::vector<std::shared_ptr<class CullingObject>> m_vCullingObjects = std::vector<std::shared_ptr<class CullingObject>>();
 
-	// Section 
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Section1 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Section2 = nullptr;
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Section3 = nullptr;
+	bool m_bTriggerSwitch = true;	
 
 	// Cube
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Cube = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer_Cube2 = nullptr;
 
-
+	// Start에서 5도 더해줘서 135도임 
 	const float4 m_MapRot = float4{ 0 , -130 , 0 };
-	const float4 m_MapPos = float4{ 0, 0 , 0 };
+	const float4 m_MapPos = float4{ 0, 0, 0 };
 };

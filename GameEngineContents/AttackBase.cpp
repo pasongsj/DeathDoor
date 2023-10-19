@@ -23,7 +23,7 @@ void AttackBase::Start()
 
 void AttackBase::Update(float _DeltaTime)
 {
-	if (false == isShoot)
+	if (false == isShoot || nullptr == PhysXComp || nullptr == PhysXComp->GetDynamic())
 	{
 		return;
 	}

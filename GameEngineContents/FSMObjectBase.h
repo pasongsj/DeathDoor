@@ -109,10 +109,10 @@ private:
 	int NextState = 0;
 
 	// Update
-	float StateDuration = 0.0f;
-	bool StateChecker = false;
+	float StateDuration = 0.0f; // 해당하는 State가 지속되는 시간
+	bool StateChecker = false;	// Action확인용 bool값
 
-	bool ChangeStateForce = false;
+	bool ChangeStateForce = false;	// SetNextState에서 현재 State를 (stateEnd)끝내고 (stateStart)시작하려 할 때 사용
 
 };
 

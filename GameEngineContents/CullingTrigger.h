@@ -37,6 +37,10 @@ public:
 		return m_bIsActivate;
 	}
 
+	inline std::shared_ptr<class ContentFBXRenderer> GetRenderer()
+	{
+		return m_pRenderer;
+	}
 	
 protected:
 	void Start() override;

@@ -235,6 +235,10 @@
     <ClCompile Include="Conveyor.cpp" />
     <ClCompile Include="Crate.cpp" />
     <ClCompile Include="EnemyAttackBox.cpp" />
+    <ClCompile Include="EnemyAttackCapsule.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EnemyAttackSphere.cpp">
       <SubType>
       </SubType>
@@ -562,6 +566,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EnemyAttackBox.h" />
+    <ClInclude Include="EnemyAttackCapsule.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EnemyAttackSphere.h">
       <SubType>
       </SubType>
