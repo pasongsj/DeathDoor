@@ -54,7 +54,7 @@ void PhysXControllerComponent::SetMoveSpeed(float4 _MoveSpeed)
 	float fTime = GameEngineTime::GlobalTime.GetDeltaTime();
 	if (m_bGravity)
 	{
-		m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y - (SCENE_GRAVITY*0.5f), m_pControllerDir.z).PhysXVec3Return() * fTime, 0.01f, fTime, m_pControllerFilter);
+		m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y - (SCENE_GRAVITY), m_pControllerDir.z).PhysXVec3Return() * fTime, 0.01f, fTime, m_pControllerFilter);
 	}
 	else
 	{
