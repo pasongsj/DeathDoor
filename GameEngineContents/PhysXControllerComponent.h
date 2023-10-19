@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineComponent.h>
 #include "PhysXDefault.h"
 
+
 // Ό³Έν :
 class PhysXControllerComponent : public GameEngineComponent, public PhysXDefault
 {
@@ -61,8 +62,6 @@ public:
 	{
 		m_bGravity = true;
 	}
-	
-
 
 protected:
 	void Start() override;
@@ -70,11 +69,12 @@ protected:
 	//void Render() override {}
 
 private:
-	physx::PxControllerFilters m_pControllerFilter;
+	physx::PxControllerFilters m_pControllerFilter = nullptr;
 	physx::PxController* m_pController = nullptr;
 	float4 m_pControllerDir = float4::ZERO;
 	bool m_bSpeedLimit = false;
 	bool m_bGravity = true;
 	physx::PxVec3 GeoMetryScale;
+
 };
 

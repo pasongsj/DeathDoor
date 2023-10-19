@@ -26,18 +26,6 @@ private:
 	
 };
 
-// Contorllercallback 이벤트를 재정의할 클래스
-class CustomContollerEventCallback : public physx::PxUserControllerHitReport
-{
-public:
-	void onShapeHit(const physx::PxControllerShapeHit& hit) override;
-
-
-private:
-
-};
-
-
 
 class CustomErrorCallback : public physx::PxErrorCallback
 {
