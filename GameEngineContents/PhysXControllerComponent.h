@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineComponent.h>
 #include "PhysXDefault.h"
 
+
 // Ό³Έν :
 class PhysXControllerComponent : public GameEngineComponent, public PhysXDefault
 {
@@ -21,21 +22,55 @@ public:
 
 	void SetMoveSpeed(float4 _MoveSpeed);
 
-	void SetControllerMoveDir(float4 _Data)
+	inline float4 GetWorldPosition()
 	{
-		m_pControllerDir = _Data;
+		return float4(static_cast<float>(m_pController->getPosition().x), static_cast<float>(m_pController->getPosition().y), static_cast<float>(m_pController->getPosition().z));
 	}
+
+	void SetRotation(float4 _Rot)
+	{
+		ParentActor.lock()->GetTransform()->SetWorldRotation(_Rot);
+	}
+
+	void SetWorldPosWithParent(float4 _Pos,float4 _Rot = float4::ZERONULL ) override
+	{
+		if (_Rot == float4::ZERONULL)
+		{
+			ParentActor.lock()->GetTransform()->SetWorldPosition(_Pos);
+			m_pController->setPosition(physx::PxExtendedVec3(_Pos.x, _Pos.y, _Pos.z));
+		}
+		else
+		{
+
+			ParentActor.lock()->GetTransform()->SetWorldPosition(_Pos);
+			ParentActor.lock()->GetTransform()->SetWorldRotation(_Rot);
+			m_pController->setPosition(physx::PxExtendedVec3(_Pos.x, _Pos.y, _Pos.z));
+		}
+	}
+
+	void TurnOffGravity() override
+	{
+		m_bGravity = false;
+	}
+
+	void TurnOnGravity() override
+	{
+		m_bGravity = true;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	//void Render() override {}
 
 private:
-	physx::PxControllerFilters m_pControllerFilter;
+	physx::PxControllerFilters m_pControllerFilter = nullptr;
 	physx::PxController* m_pController = nullptr;
 	float4 m_pControllerDir = float4::ZERO;
 	bool m_bSpeedLimit = false;
-
+	bool m_bGravity = true;
+	float m_fHeight = 0.f;
 	physx::PxVec3 GeoMetryScale;
+
 };
 

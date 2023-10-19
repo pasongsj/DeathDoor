@@ -1,6 +1,7 @@
 #include "PreCompileHeader.h"
 #include "Player.h"
 #include "PhysXCapsuleComponent.h"
+#include "PhysXControllerComponent.h"
 #include "PlayerDefinition.h"
 
 
@@ -91,7 +92,7 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
-			MoveUpdate(0.0f);
+			//MoveUpdate(0.0f);
 
 		}
 	);
@@ -142,7 +143,7 @@ void Player::SetFSMFunc()
 			default:
 				break;
 			}
-			MoveUpdate(0.0f);
+			//MoveUpdate(0.0f);
 		},
 		[this](float Delta) // update
 		{
@@ -303,7 +304,7 @@ void Player::SetFSMFunc()
 			Renderer->ChangeAnimation("ROLL");
 
 			// Player의 Speed를 초기화한다.
-			MoveUpdate(0.0f);
+			//MoveUpdate(0.0f);
 
 
 		},
@@ -329,7 +330,7 @@ void Player::SetFSMFunc()
 			}},
 		[this]
 		{
-			MoveUpdate(0.0f);
+			//MoveUpdate(0.0f);
 		}
 	); 
 
@@ -365,7 +366,7 @@ void Player::SetFSMFunc()
 			{
 				Renderer->ChangeAnimation("CHARGE_SLASH_L");
 			}
-			MoveUpdate(0.0f);
+			//MoveUpdate(0.0f);
 		},
 		[this](float Delta)
 		{
@@ -529,6 +530,7 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta)
 		{
+			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 			if (false == GetStateChecker())
 			{
 				float4 PlayerGroundPos = GetTransform()->GetWorldPosition();

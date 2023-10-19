@@ -54,7 +54,7 @@ public:
 
 
 	//중력끄기
-	void TurnOffGravity()
+	virtual void TurnOffGravity() 
 	{
 		if (m_pRigidDynamic!=nullptr)
 		{
@@ -64,7 +64,7 @@ public:
 	}
 
 	//중력키기
-	void TurnOnGravity()
+	virtual void TurnOnGravity()
 	{
 		if (m_pRigidDynamic != nullptr)
 		{
@@ -94,13 +94,13 @@ public:
 		m_pAggregate->addActor(*_Actor);
 	}
 
-	void SetWorldPosWithParent(float4 _Pos, float4 _Rot = float4::ZERONULL);
+	virtual void SetWorldPosWithParent(float4 _Pos, float4 _Rot = float4::ZERONULL);
 
 
 
 	float4 GetWorldPosition();
 
-	void SetMoveSpeed(float4 _MoveSpeed)
+	virtual void SetMoveSpeed(float4 _MoveSpeed) 
 	{
 		if (m_pRigidDynamic!=nullptr)
 		{
@@ -199,7 +199,7 @@ public:
 		return m_bStatic;
 	}
 
-	void SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter1 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter2 = PhysXFilterGroup::None);
+	virtual void SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter1 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter2 = PhysXFilterGroup::None);
 
 	void SetTrigger()
 	{

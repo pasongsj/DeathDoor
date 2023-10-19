@@ -3,6 +3,7 @@
 #include <GameEngineBase/GameEngineRandom.h>
 
 #include "PhysXCapsuleComponent.h"
+#include "PhysXControllerComponent.h"
 #include "Boss_OldCrow.h"
 #include "Player.h"
 #include "Boss_OldCrowChain.h"
