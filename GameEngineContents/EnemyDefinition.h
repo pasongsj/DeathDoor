@@ -5,6 +5,7 @@
 #define GRUNT_MOVE_SPEED 200.0f
 #define GRUNT_JUMP_SPEED 500.0f
 #define BAT_MOVE_SPEED 200.0f
+#define GHOUL_MOVE_SPEED 100.0f
 //#define IDLEMOVEROT float4{0,10.0f,0}
 
 
@@ -12,6 +13,7 @@
 #define DEFAULT_DIR_FIREPLANT	float4{0.0f, 180.0f, 0.0f}
 #define DEFAULT_DIR_BRUTE		float4{0.0f,90.0f,0.0f}
 #define DEFAULT_DIR_BRUTEGOLD	float4{0.0f,90.0f,0.0f}
+#define DEFAULT_DIR_GHOUL		float4::BACK
 
 //SCALE
 	//RENDERER
@@ -28,7 +30,10 @@
 #define FIREPLANT_ATT_PHYSX_SCALE	float4{50.0f, 50.0f, 50.0f}
 
 #define RENDERSCALE_GHOUL			130.0f
-#define PHYSXSCALE_GHOUL			float4{0.0f, 90.0f, 60.0f}
+#define PHYSXSCALE_GHOUL			float4{0.0f, 200.0f, 120.0f}
+
+#define RENDERSCALE_GHOUL_RAPID		150.0f
+#define PHYSXSCALE_GHOUL_RAPID		float4{0.0f, 220.0f, 120.0f}
 
 #define RENDERSCALE_GRUNT			25.0f
 #define PHYSXSCALE_GRUNT			float4{0.0f, 90.0f, 60.0f}

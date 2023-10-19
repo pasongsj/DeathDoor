@@ -35,7 +35,6 @@ private:
 	void SetFSMFUNC();
 
 	float4 ShootDir = float4::ZERO;
-	//bool CheckAttack();
 
 };
 
