@@ -20,7 +20,7 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 {
 	physx::PxVec3 HalfScale = _GeoMetryScale*0.5f;
 	HalfScale.x = HalfScale.z;
-
+	m_fHeight = HalfScale.y -HalfScale.z;
 	m_pPhysics = GetPhysics();
 	m_pScene = GetScene();
 	physx::PxControllerManager* ControllerManager = PxCreateControllerManager(*m_pScene);
@@ -28,7 +28,7 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 	physx::PxCapsuleControllerDesc  ControllerDesc;
 	ControllerDesc.contactOffset = 0.2f;
 	ControllerDesc.density = 1.f;
-	ControllerDesc.height = static_cast<physx::PxF32>(HalfScale.y - HalfScale.z);
+	ControllerDesc.height = static_cast<physx::PxF32>(m_fHeight);
 	ControllerDesc.material = m_pPhysics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
 	ControllerDesc.radius = static_cast<physx::PxF32>(HalfScale.z );
 	ControllerDesc.upDirection = physx::PxVec3(0, 1, 0);
@@ -40,7 +40,9 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 	m_pController = ControllerManager->createController(ControllerDesc);
 
 	m_pController->getActor()->getShapes(&m_pShape, sizeof(m_pShape));
-	m_pShape->userData = GetActor();
+	m_pShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+	m_pShape->userData = GetActor(); 
+
 	//GetTransform()->SetWorldScale(float4(_GeoMetryScale.x, _GeoMetryScale.y, _GeoMetryScale.z ));
 	//GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
 }
@@ -51,7 +53,7 @@ void PhysXControllerComponent::SetMoveSpeed(float4 _MoveSpeed)
 	float fTime = GameEngineTime::GlobalTime.GetDeltaTime();
 	if (m_bGravity)
 	{
-		m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y - SCENE_GRAVITY, m_pControllerDir.z).PhysXVec3Return() * fTime, 0.01f, fTime, m_pControllerFilter);
+		m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y - (SCENE_GRAVITY*0.5f), m_pControllerDir.z).PhysXVec3Return() * fTime, 0.01f, fTime, m_pControllerFilter);
 	}
 	else
 	{
@@ -68,9 +70,8 @@ void PhysXControllerComponent::Start()
 }
 
 void PhysXControllerComponent::Update(float _DeltaTime)
-{	
-	float4 tmpWorldPos = { static_cast<float>(m_pController->getPosition().x), static_cast<float>(m_pController->getPosition().y), static_cast<float>(m_pController->getPosition().z) };
-
+{
+	float4 tmpWorldPos = { static_cast<float>(m_pController->getPosition().x), static_cast<float>(m_pController->getPosition().y - (m_fHeight * 2.f)), static_cast<float>(m_pController->getPosition().z) };
 	ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
 	//if (true == GetLevel()->GetDebugRender())
 	//{

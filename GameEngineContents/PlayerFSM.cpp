@@ -530,6 +530,7 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta)
 		{
+			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 			if (false == GetStateChecker())
 			{
 				float4 PlayerGroundPos = GetTransform()->GetWorldPosition();

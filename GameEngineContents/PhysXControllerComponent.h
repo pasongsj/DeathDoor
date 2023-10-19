@@ -69,6 +69,7 @@ private:
 	float4 m_pControllerDir = float4::ZERO;
 	bool m_bSpeedLimit = false;
 	bool m_bGravity = true;
+	float m_fHeight = 0.f;
 	physx::PxVec3 GeoMetryScale;
 
 };
