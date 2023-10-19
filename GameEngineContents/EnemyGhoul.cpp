@@ -91,12 +91,6 @@ void EnemyGhoul::InitGhoul(bool IsSingleShhot)
 	SetFSMFUNC();
 }
 
-
-void EnemyGhoul::Start()
-{
-	InitGhoul(true);
-}
-
 void EnemyGhoul::Update(float _DeltaTime)
 {
 	if (nullptr == EnemyRenderer)

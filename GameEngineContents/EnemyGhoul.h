@@ -1,10 +1,10 @@
 #pragma once
 #include "EnemyBase.h"
 
-// 설명 :
+// 설명 : InitGhoul를 꼭해줘야 합니다
 class EnemyGhoul : public EnemyBase 
 {
-public:
+public: 
 	// constrcuter destructer
 	EnemyGhoul();
 	~EnemyGhoul();
@@ -18,8 +18,8 @@ public:
 	void InitGhoul(bool IsSingleShhot);
 
 protected:
+	void Start() override {};
 	void InitAniamtion() override;
-	void Start() override;
 	void Update(float _DeltaTime) override;
 
 private:
