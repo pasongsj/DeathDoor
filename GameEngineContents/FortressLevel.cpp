@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Map_Fortress.h"
 #include "CullingManager.h"
+#include "WaterBox.h"
 
 FortressLevel::FortressLevel()
 {
@@ -87,6 +88,10 @@ void FortressLevel::LevelChangeStart()
 	Set_PlayerStartPos();
 
 	Create_Manager();
+
+	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
+	Actor->CreateComponent<WaterBox>();
+
 }
 
 void FortressLevel::LevelChangeEnd()

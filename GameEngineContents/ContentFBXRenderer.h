@@ -41,14 +41,22 @@ public:
 		GetAllRenderUnit()[_IndexY][_IndexX]->Mask.UV_MaskingValue = 1.0f;
 	}
 
+	void SetReflect();
+	void ReflectOff();
+	void ReflectOn();
+
 protected:
 	void Start() override;
 	void Render(float _DeltaTime) override;
 private:
 	void LinkConstantBuffer();
+
 	float4 BlurColor = {0.85f, 0.26f, 0.33f};
 	float4 ClipData = { 0.0f, 0.0f, 1.0f, 1.0f };
 
+	std::string FBXName;
 	std::string MaterialName;
+
+	std::shared_ptr<ContentFBXRenderer> ReflectRenderer = nullptr;
 };
 
