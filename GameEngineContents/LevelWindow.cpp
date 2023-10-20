@@ -250,6 +250,10 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	{
 		Player::MainPlayer->PlayerTestMode = false;
 	}
+
+	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetLocalPosition();
+	std::string PositionText = "X : " + std::to_string(PlayerPos.x) + " Y : " + std::to_string(PlayerPos.y) + " Z : " + std::to_string(PlayerPos.z);
+	ImGui::Text(PositionText.c_str());
 	
 }
 

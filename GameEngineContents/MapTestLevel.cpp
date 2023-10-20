@@ -56,8 +56,7 @@ void MapTestLevel::LevelChangeStart()
 	
 	CreateActor<GameEngineLight>();
 
-	CreateUI();
-	SetPostPrecessEffect();
+	LevelInit();
 }
 
 void MapTestLevel::LevelChangeEnd()

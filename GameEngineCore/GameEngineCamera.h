@@ -70,7 +70,9 @@ public:
 	void Render(float _DeltaTime) override;
 
 	void CameraTransformUpdate();
-
+	void SetViewToReflectMatrix(float _WaterHeight);
+	void RevertView();
+	
 	std::shared_ptr<GameEngineRenderTarget> GetCamTarget()
 	{
 		return CamTarget;
@@ -102,6 +104,10 @@ public:
 		return DeferredPostLightTarget;
 	}
 
+	void SetWaterHeight(float _Height)
+	{
+		WaterHeight = _Height;
+	}
 
 	bool IsView(const TransformData& _TransData);
 	bool IsView(const float4& _Pos,const float4& _Scale);
@@ -149,6 +155,8 @@ private:
 	float ZoomRatio = 1.0f;
 
 	float4x4 View;
+	float4x4 ViewSave;
+	TransformData TransformSave;
 	float4x4 Projection;
 	float4x4 ViewPort;
 
@@ -164,6 +172,8 @@ private:
 	float FOV = 60.0f;
 	float Near = 0.1f;
 	float Far = 6000.0f;
+
+	float WaterHeight = 0.0f;
 
 	void PushRenderer(std::shared_ptr<GameEngineRenderer> _Render);
 	void PushRenderUnit(std::shared_ptr<GameEngineRenderUnit> _Unit, RenderPath _Path = RenderPath::None);

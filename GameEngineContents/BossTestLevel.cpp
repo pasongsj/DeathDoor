@@ -70,8 +70,7 @@ void BossTestLevel::LevelChangeStart()
 	//BossTestObject->GetTransform()->SetLocalPosition({ 0, 0, -10 });
 
 
-	CreateUI();
-	SetPostPrecessEffect();
+	LevelInit();
 }
 
 void BossTestLevel::LevelChangeEnd()

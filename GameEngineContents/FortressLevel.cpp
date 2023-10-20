@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Map_Fortress.h"
 #include "CullingManager.h"
+#include "WaterBox.h"
 
 FortressLevel::FortressLevel()
 {
@@ -72,6 +73,8 @@ void FortressLevel::LevelChangeStart()
 {
 	CreateScene();
 
+	LevelInit();
+
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
@@ -85,10 +88,11 @@ void FortressLevel::LevelChangeStart()
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_PlayerStartPos();
 
-	CreateUI();
-	SetPostPrecessEffect();
-
 	Create_Manager();
+
+	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
+	Actor->CreateComponent<WaterBox>();
+
 }
 
 void FortressLevel::LevelChangeEnd()

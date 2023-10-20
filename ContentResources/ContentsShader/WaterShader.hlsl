@@ -9,19 +9,19 @@ struct Input
     float4 POSITION : POSITION;
     float4 TEXCOORD : TEXCOORD;
     float4 NORMAL : NORMAL;
-    float4 TANGENT : TANGENT;
-    float4 BINORMAL : BINORMAL;
-    float4 BLENDWEIGHT : BLENDWEIGHT;
-    int4 BLENDINDICES : BLENDINDICES;
 };
 
 struct Output
 {
     float4 POSITION : SV_POSITION;
     float4 VIEWPOSITION : POSITION;
+    float4 REFLECTPOS : POSITION2;
     float4 WVPPOSITION : POSITION5;
     float4 TEXCOORD : TEXCOORD;
     float4 NORMAL : NORMAL;
+    
+    float4 TANGENT : TANGENT;
+    float4 BINORMAL : BINORMAL;
 };
 
 
@@ -40,21 +40,18 @@ Output ContentMeshDeferred_VS(Input _Input)
     NewOutPut.WVPPOSITION = NewOutPut.POSITION;
     
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
+    
     NewOutPut.NORMAL = mul(InputNormal, WorldView);
+    NewOutPut.BINORMAL = mul(float4(float3(0.0f, 0.0f, 1.0f), 0.0f), WorldView);
+    NewOutPut.TANGENT = mul(float4(cross(NewOutPut.NORMAL.xyz, NewOutPut.BINORMAL.xyz), 0.0f), WorldView);
     
     return NewOutPut;
 }
 
-cbuffer ClipData : register(b0)
-{
-    float ClipData;
-    float3 Padding;
-}
-
 Texture2D DiffuseTexture : register(t0);
-Texture2D MaskTexture : register(t1);
+Texture2D NormalMap : register(t1);
 
-SamplerState ENGINEBASE : register(s0);
+SamplerState WRAPSAMPLER : register(s0);
 
 struct DeferredOutPut
 {
@@ -67,28 +64,29 @@ struct DeferredOutPut
 DeferredOutPut ContentMeshDeferred_PS(Output _Input)
 {
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
-        
-    float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
-    float4 MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
-    if (MaskColor.r <= ClipData.x)
-    {
-        clip(-1);
-    }
+    //UV값 변경
+    _Input.TEXCOORD.xy *= MulUV;
+    _Input.TEXCOORD.xy += AddUV;
+    
+    float4 Color = DiffuseTexture.Sample(WRAPSAMPLER, _Input.TEXCOORD.xy);
+    float4 MaskColor = (float4) 0.0f;
+    
+    //텍스쳐 색상 변경
+    Color *= MulColor;
+    Color += AddColor;
     
     if (Color.a <= 0.0f)
     {
         clip(-1);
     }
     
-    float4 BlurColor = float4(0.99f, 0.1f, 0.2f, Color.a);
-    BlurColor.rgb = BlurColor.rgb * 0.5f;
+    _Input.NORMAL = NormalTexCalculate(NormalMap, WRAPSAMPLER, _Input.TEXCOORD, normalize(_Input.TANGENT), normalize(_Input.BINORMAL), normalize(_Input.NORMAL));
     
-    NewOutPut.DifTarget = BlurColor;
+    NewOutPut.DifTarget = pow(Color, 2.2f);
     NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;
     NewOutPut.NorTarget = _Input.NORMAL;
-    NewOutPut.BlurTarget = BlurColor;
     
     return NewOutPut;
 }

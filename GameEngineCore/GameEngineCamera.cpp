@@ -325,7 +325,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 	AllRenderTarget->Setting();
 	DeferredLightTarget->Clear();
-
+	
 	{
 		for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& Path : Units)
 		{
@@ -357,6 +357,19 @@ void GameEngineCamera::Render(float _DeltaTime)
 					{
 						continue;
 					}
+
+					if (true == Render->isReflectUnit())
+					{
+						SetViewToReflectMatrix(WaterHeight);
+
+						Render->GetRenderer()->RenderTransformUpdate(this);
+						Render->Render(_DeltaTime);
+
+						RevertView();
+
+						continue;
+					}
+
 					//std::shared_ptr<GameEngineFBXRenderer> FbxRenderer = Render->GetRenderer()->DynamicThis<GameEngineFBXRenderer>();
 					//if (FbxRenderer !=nullptr && Render->GetUnitPos()!= float4::ZERONULL)					{
 					//	if (false == IsView(Render->GetUnitPos(), Render->GetUnitScale()))
@@ -456,7 +469,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 		CamTarget->Effect(_DeltaTime);
 	}
-
 }
 
 void GameEngineCamera::CameraTransformUpdate()
@@ -511,9 +523,37 @@ void GameEngineCamera::CameraTransformUpdate()
 	Box.Extents.x = Width * 0.6f;
 	Box.Extents.y = Height * 0.6f;
 	Box.Orientation = GetTransform()->GetWorldQuaternion().DirectFloat4;
-
 }
 
+void GameEngineCamera::SetViewToReflectMatrix(float _WaterHeight)
+{
+	// 뷰행렬을 만들기 위해서는 이 2개의 행렬이 필요하다.
+	ViewSave = View;
+	TransformSave = GetTransform()->GetTransDataRef();
+	
+	GetTransform()->SetWorldRotation({ -GetTransform()->GetWorldRotation().x, 0.0f, 0.0f});
+	GetTransform()->SetWorldPosition({ GetTransform()->GetWorldPosition().x, -GetTransform()->GetWorldPosition().y + 2.0f * _WaterHeight, GetTransform()->GetWorldPosition().z });
+
+	float4 EyeDir = GetTransform()->GetLocalForwardVector();
+	float4 EyeUp = GetTransform()->GetLocalUpVector();
+	float4 EyePos = GetTransform()->GetLocalPosition();
+
+	View.LookToLH(EyePos, EyeDir, EyeUp);
+
+	DirectX::XMMATRIX ReflectMatrix = DirectX::XMMatrixIdentity();
+	ReflectMatrix.r[1].m128_f32[1] = -1.0f;
+	
+	View *= ReflectMatrix;
+}
+
+void GameEngineCamera::RevertView()
+{
+	View = ViewSave;
+
+	GetTransform()->SetLocalRotation(TransformSave.WorldRotation);
+	GetTransform()->SetWorldPosition(TransformSave.WorldPosition);
+
+}
 
 void GameEngineCamera::PushRenderer(std::shared_ptr<GameEngineRenderer> _Render)
 {

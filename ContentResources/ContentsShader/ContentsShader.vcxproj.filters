@@ -79,6 +79,15 @@
     <FxCompile Include="GammaCorrection.hlsl">
       <Filter>Effect</Filter>
     </FxCompile>
+    <FxCompile Include="WaterShader.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ReflectMesh.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ReflectAniMesh.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
