@@ -24,7 +24,7 @@ public:
 
 	inline float4 GetWorldPosition()
 	{
-		return float4(static_cast<float>(m_pController->getPosition().x), static_cast<float>(m_pController->getPosition().y), static_cast<float>(m_pController->getPosition().z));
+		return float4(static_cast<float>(m_pController->getFootPosition().x), static_cast<float>(m_pController->getFootPosition().y), static_cast<float>(m_pController->getFootPosition().z));
 	}
 
 	void SetRotation(float4 _Rot)
@@ -37,14 +37,14 @@ public:
 		if (_Rot == float4::ZERONULL)
 		{
 			ParentActor.lock()->GetTransform()->SetWorldPosition(_Pos);
-			m_pController->setPosition(physx::PxExtendedVec3(_Pos.x, _Pos.y, _Pos.z));
+			m_pController->setFootPosition(physx::PxExtendedVec3(_Pos.x, _Pos.y, _Pos.z));
 		}
 		else
 		{
 
 			ParentActor.lock()->GetTransform()->SetWorldPosition(_Pos);
 			ParentActor.lock()->GetTransform()->SetWorldRotation(_Rot);
-			m_pController->setPosition(physx::PxExtendedVec3(_Pos.x, _Pos.y, _Pos.z));
+			m_pController->setFootPosition(physx::PxExtendedVec3(_Pos.x, _Pos.y, _Pos.z));
 		}
 	}
 

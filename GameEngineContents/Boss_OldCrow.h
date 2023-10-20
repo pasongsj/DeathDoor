@@ -16,10 +16,6 @@ public:
 	Boss_OldCrow& operator=(const Boss_OldCrow& _Other) = delete;
 	Boss_OldCrow& operator=(Boss_OldCrow&& _Other) noexcept = delete;
 
-	std::shared_ptr<class PhysXCapsuleComponent> GetPhysXComponent()
-	{
-		return m_pCapsuleComp;
-	}
 
 protected:
 	void InitAniamtion() override;
@@ -78,7 +74,6 @@ private:
 	};
 
 	std::shared_ptr<class ContentFBXRenderer> BossRender = nullptr;
-	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
 
 	//체인 관련
 	std::vector<std::shared_ptr<class Boss_OldCrowChain>> Chains;     //패턴에 사용되는 체인이 들어가있는 벡터

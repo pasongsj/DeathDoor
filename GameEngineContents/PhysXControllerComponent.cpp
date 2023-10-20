@@ -51,6 +51,11 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 
 	m_pController = ControllerManager->createController(ControllerDesc);
 
+	m_pController->setFootPosition(physx::PxExtendedVec3(
+		ParentActor.lock()->GetTransform()->GetWorldPosition().x
+		, ParentActor.lock()->GetTransform()->GetWorldPosition().y
+		, ParentActor.lock()->GetTransform()->GetWorldPosition().z));
+
 	m_pController->getActor()->getShapes(&m_pShape, sizeof(m_pShape));
 	m_pShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 	m_pShape->userData = GetActor(); 
