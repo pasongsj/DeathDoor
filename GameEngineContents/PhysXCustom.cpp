@@ -20,7 +20,6 @@ physx::PxFilterFlags CustomFilterShader
 	PX_UNUSED(filterData0);
 	PX_UNUSED(filterData1);
 	PX_UNUSED(constantBlockSize);
-	PX_UNUSED(constantBlock);
 
 	if (physx::PxFilterObjectIsTrigger(attributes0) || physx::PxFilterObjectIsTrigger(attributes1))
 	{

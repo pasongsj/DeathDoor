@@ -385,7 +385,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//6
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_3_1.fbx");
+		CullingObj->InitComponent("Fortress_Part_3_1_Fix.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -6990, 310, 13580 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -395,7 +395,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//7
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_4_Test.fbx");
+		CullingObj->InitComponent("Fortress_Part_4_Fix.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{  -9160, 324, 14630 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -488,7 +488,7 @@ void Map_Fortress::Create_PhysXComponent()
 {
 	// 네비메쉬 위치확인용 렌더러 
 	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pNaviRenderer->SetFBXMesh("Fortress_NaviMesh_Wall.fbx", "ContentMeshDeffered");
+	m_pNaviRenderer->SetFBXMesh("Fortress_NaviMesh_Wall_Blender.fbx", "ContentMeshDeffered");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
 	m_pNaviRenderer->GetTransform()->SetParent(GetTransform());
@@ -496,7 +496,7 @@ void Map_Fortress::Create_PhysXComponent()
 
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	m_pTriangleComp->CreatePhysXActors("Fortress_NaviMesh_Wall.fbx", true);
+	m_pTriangleComp->CreatePhysXActors("Fortress_NaviMesh_Wall_Blender.fbx", true);
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4 { 0 , -135, 0}, m_MapPos));
 
 }

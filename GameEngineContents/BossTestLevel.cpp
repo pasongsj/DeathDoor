@@ -7,6 +7,7 @@
 
 #include "PhysXTestPlane.h"
 #include "BossTestLevel.h"
+#include "PhysXControllerComponent.h"
 
 
 
@@ -54,14 +55,14 @@ void BossTestLevel::LevelChangeStart()
 
 	if (nullptr != TestPlayer)
 	{
-		TestPlayer->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4::ZERO));
+		TestPlayer->GetPhysXComponent()->SetWorldPosWithParent(float4::ZERO, float4::ZERO);
 	}
 
 	std::shared_ptr<Boss_OldCrow> BossTestObject = CreateActor<Boss_OldCrow>();
 
 	if (nullptr != BossTestObject)
 	{
-		BossTestObject->GetPhysXComponent()->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4{0, 90, 0}, float4{0, 0, -1000}));
+		BossTestObject->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0, 0, -1000 },float4{0, 90, 0});
 	}
 	//BossTestObject->GetTransform()->SetWorldPosition({-1000, 0, -1000});
 	//BossTestObject->GetTransform()->SetWorldRotation({ 0, 180, 0 });

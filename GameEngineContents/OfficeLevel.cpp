@@ -4,6 +4,7 @@
 #include "Map_Office.h"
 #include "Player.h"
 #include "PhysXCapsuleComponent.h"
+#include "PhysXControllerComponent.h"
 
 #include "Dust.h"
 
@@ -107,7 +108,7 @@ void OfficeLevel::Set_PlayerStartPos()
 		return;
 	}
 
-	std::shared_ptr<PhysXCapsuleComponent> Comp = Player::MainPlayer->GetPhysXComponent();
+	std::shared_ptr<PhysXControllerComponent> Comp = Player::MainPlayer->GetPhysXComponent();
 
 	if (nullptr == Comp)
 	{
@@ -115,7 +116,7 @@ void OfficeLevel::Set_PlayerStartPos()
 		return;
 	}
 	
-	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_StartPos));
+	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
 }
 
 void OfficeLevel::SetPointLight()

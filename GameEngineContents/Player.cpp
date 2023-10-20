@@ -4,7 +4,7 @@
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 #include "PhysXTestLevel.h"
 #include "PhysXCapsuleComponent.h"
-
+#include "PhysXControllerComponent.h"
 
 
 
@@ -37,14 +37,14 @@ void Player::Start()
 	// physx
 	{
 
-		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PLAYER_PHYSX_SCALE);
 		//m_pCapsuleComp->SetDynamicPivot(float4::BACK * 10.0f);
 		// lever 충돌테스트 
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic, PhysXFilterGroup::LeverTrigger);
 	}
-	m_pCapsuleComp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, float4{ 1000.0f, 500.0f, 0.0f }));
+	m_pCapsuleComp->SetWorldPosWithParent(float4{1000.0f, 500.0f, 0.0f},float4::ZERO);
 
 
 	SetFSMFunc();
@@ -88,7 +88,7 @@ void Player::Update(float _DeltaTime)
 		AttackStack = 0;
 	}
 	// 뭔지? 모름?
-	m_pCapsuleComp->GetDynamic()->setMass(65);
+	//m_pCapsuleComp->GetDynamic()->setMass(65);
 
 
 	PlayerState Checker = GetCurState<PlayerState>();
@@ -188,12 +188,12 @@ void Player::ModifyHeight()
 	{
 		if (GetTransform()->GetWorldPosition().y > CollPoint.y + 30.0f) // 플레이어가 허공에 떠있다면 
 		{
-			MoveUpdate(300.0f, float4::DOWN); // 아래로 눌러줌
+			//MoveUpdate(300.0f, float4::DOWN); // 아래로 눌러줌
 			return;
 		}
 		else if (GetTransform()->GetWorldPosition().y < CollPoint.y)
 		{
-			MoveUpdate(2.0f, float4::UP); // 아래로 눌러줌
+			//MoveUpdate(2.0f, float4::UP); // 아래로 눌러줌
 		
 		}
 	}
@@ -254,7 +254,7 @@ void Player::DirectionUpdate(float _DeltaTime)
 
 void Player::MoveUpdate(float _MoveVec, float4 _Dir)
 {
-	m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+	//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 	if (float4::ZERONULL == _Dir)
 	{
 		m_pCapsuleComp->SetMoveSpeed(MoveDir * _MoveVec);
@@ -293,7 +293,7 @@ void Player::DefaultPhysX()
 		{
 			return;
 		}
-		MoveUpdate(0.0f);
+		//MoveUpdate(0.0f);
 		//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 		//m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 	}

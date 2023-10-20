@@ -2,6 +2,7 @@
 #include "FSMObjectBase.h"
 #include "EnemyDefinition.h"
 #include "PhysXCapsuleComponent.h"
+#include "PhysXControllerComponent.h"
 
 // Ό³Έν :
 class EnemyBase : public FSMObjectBase
@@ -17,14 +18,14 @@ public:
 	EnemyBase& operator=(const EnemyBase& _Other) = delete;
 	EnemyBase& operator=(EnemyBase&& _Other) noexcept = delete;
 
-	std::shared_ptr<class PhysXCapsuleComponent> GetPhysXComponent() const
+	std::shared_ptr<class PhysXControllerComponent> GetPhysXComponent() const
 	{
 		return m_pCapsuleComp;
 	}
 
 protected:
 	std::shared_ptr<class ContentFBXRenderer> EnemyRenderer = nullptr;
-	std::shared_ptr<class PhysXCapsuleComponent> m_pCapsuleComp = nullptr;
+	std::shared_ptr<class PhysXControllerComponent> m_pCapsuleComp = nullptr;
 
 	virtual void InitAniamtion() {};
 
@@ -35,7 +36,7 @@ protected:
 
 	float4 GetPlayerDir();
 
-	float4 AggroDir(std::shared_ptr<class PhysXCapsuleComponent> _Comp, float4 DefaultDir = float4::ZERO);
+	float4 AggroDir(std::shared_ptr<class PhysXControllerComponent> _Comp, float4 DefaultDir = float4::ZERO);
 
 	float4 GetRotationDegree(const float4& _CurDir);
 

@@ -154,7 +154,7 @@ void PhysXManager::Release()
 		if (pScene->userData != nullptr)
 		{
 			physx::PxControllerManager* Mgr = reinterpret_cast<physx::PxControllerManager*>(pScene->userData);
-			Mgr->getController(0)->release();
+			Mgr->purgeControllers();
 			Mgr->release();
 		}
 		PX_RELEASE(pScene);

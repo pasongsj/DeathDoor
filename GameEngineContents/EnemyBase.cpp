@@ -2,6 +2,7 @@
 #include "EnemyBase.h"
 #include "Player.h"
 #include "PhysXCapsuleComponent.h"
+#include "PhysXControllerComponent.h"
 
 EnemyBase::EnemyBase()
 {
@@ -57,7 +58,7 @@ float4 EnemyBase::GetRotationDegree(const float4& _CurDir)
 }
 
 
-float4 EnemyBase::AggroDir(std::shared_ptr< PhysXCapsuleComponent> _Comp, float4 DefaultDir)
+float4 EnemyBase::AggroDir(std::shared_ptr< PhysXControllerComponent> _Comp, float4 DefaultDir)
 {
 	float4 PlayerDir = GetPlayerDir();
 	_Comp->SetRotation(GetRotationDegree(DefaultDir));
