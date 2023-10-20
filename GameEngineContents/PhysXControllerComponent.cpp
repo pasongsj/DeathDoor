@@ -22,8 +22,20 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 	HalfScale.x = HalfScale.z;
 	m_fHeight = HalfScale.y -HalfScale.z;
 	m_pPhysics = GetPhysics();
-	m_pScene = GetScene();
-	physx::PxControllerManager* ControllerManager = PxCreateControllerManager(*m_pScene);
+	m_pScene = GetScene(); 
+	physx::PxControllerManager* ControllerManager;
+	physx::PxControllerManager* Mgr = reinterpret_cast<physx::PxControllerManager*>(m_pScene->userData);
+
+	if (Mgr!=nullptr)
+	{
+		ControllerManager = Mgr;
+
+	}
+	else
+	{
+		ControllerManager = PxCreateControllerManager(*m_pScene);
+	}
+
 	GetScene()->userData = ControllerManager;
 	physx::PxCapsuleControllerDesc  ControllerDesc;
 	ControllerDesc.contactOffset = 0.2f;

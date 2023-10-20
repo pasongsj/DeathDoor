@@ -243,9 +243,7 @@ void PhysXDefault::Release()
     {
         if (m_pScene->userData != nullptr)
         {
-            physx::PxControllerManager* Mgr = reinterpret_cast<physx::PxControllerManager*>(m_pScene->userData);
-            Mgr->purgeControllers();
-            Mgr->release();
+            m_pController->release();
         }
 
         m_pShape->userData = nullptr;
