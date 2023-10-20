@@ -239,6 +239,16 @@ void PhysXDefault::Release()
         m_pRigidStatic->release();
         m_pRigidStatic = nullptr;
     }
+    if (m_pController != nullptr)
+    {
+        if (m_pScene->userData != nullptr)
+        {
+            m_pController->release();
+        }
+
+        m_pShape->userData = nullptr;
+        m_pController = nullptr;
+    }
 }
 
 void PhysXDefault::SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0, PhysXFilterGroup _OtherFilter1, PhysXFilterGroup _OtherFilter2)

@@ -210,6 +210,7 @@ public:
 	void SetRigidCollide(bool _Value);
 
 protected:
+	physx::PxController* m_pController = nullptr;
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
 	physx::PxRigidStatic* m_pRigidStatic = nullptr;
 	float m_fStaticFriction = 0.0f;

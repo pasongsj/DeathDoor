@@ -65,7 +65,6 @@ protected:
 
 private:
 	physx::PxControllerFilters m_pControllerFilter = nullptr;
-	physx::PxController* m_pController = nullptr;
 	float4 m_pControllerDir = float4::ZERO;
 	bool m_bSpeedLimit = false;
 	bool m_bGravity = true;
