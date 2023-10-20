@@ -488,7 +488,7 @@ void Map_Fortress::Create_PhysXComponent()
 {
 	// 네비메쉬 위치확인용 렌더러 
 	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pNaviRenderer->SetFBXMesh("Fortress_NaviMesh_Wall.fbx", "ContentMeshDeffered");
+	m_pNaviRenderer->SetFBXMesh("Fortress_NaviMesh_Wall_Blender.fbx", "ContentMeshDeffered");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
 	m_pNaviRenderer->GetTransform()->SetParent(GetTransform());
@@ -496,7 +496,7 @@ void Map_Fortress::Create_PhysXComponent()
 
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	m_pTriangleComp->CreatePhysXActors("Fortress_NaviMesh_Wall.fbx", true);
+	m_pTriangleComp->CreatePhysXActors("Fortress_NaviMesh_Wall_Blender.fbx", true);
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4 { 0 , -135, 0}, m_MapPos));
 
 }
