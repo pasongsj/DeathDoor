@@ -22,11 +22,6 @@ void OfficeLevel::Start()
 	SetLevelType(PacketLevelType::OfficeLevel);
 	InitKey();
 
-	GameEngineCoreWindow::AddDebugRenderTarget(0, "AllRenderTarget", GetMainCamera()->GetCamAllRenderTarget());
-	GameEngineCoreWindow::AddDebugRenderTarget(1, "LightRenderTarget", GetMainCamera()->GetDeferredLightTarget());
-	GameEngineCoreWindow::AddDebugRenderTarget(2, "MainCameraForwardTarget", GetMainCamera()->GetCamForwardTarget());
-	GameEngineCoreWindow::AddDebugRenderTarget(3, "DeferredTarget", GetMainCamera()->GetCamDeferrdTarget());
-
 	SetPointLight();
 
 	CreateNewCamera(-1);
@@ -50,8 +45,9 @@ void OfficeLevel::Update(float _DeltaTime)
 
 void OfficeLevel::LevelChangeStart()
 {
+	LevelInit();
+
 	CreateScene();
-	CreateUI();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
@@ -76,7 +72,6 @@ void OfficeLevel::LevelChangeStart()
 	}
 
 	CreateActor<Dust>();
-	SetPostPrecessEffect();
 }
 
 void OfficeLevel::LevelChangeEnd()

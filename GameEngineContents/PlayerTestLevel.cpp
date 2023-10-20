@@ -30,6 +30,7 @@ void PlayerTestLevel::LevelChangeStart()
 
 	CreateActor<GameEngineLight>();
 
+	//LevelInit(); <<이걸로 통합됐어요
 	//CreateUI();
 	SetPostPrecessEffect();
 

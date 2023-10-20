@@ -59,6 +59,8 @@ void FrogBossLevel::KeyUpdate(float _DeltaTime)
 
 void FrogBossLevel::LevelChangeStart()
 {
+	LevelInit();
+
 	CreateScene();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
@@ -74,8 +76,6 @@ void FrogBossLevel::LevelChangeStart()
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_PlayerStartPos();
 
-	CreateUI();
-	SetPostPrecessEffect();
 }
 
 void FrogBossLevel::LevelChangeEnd()

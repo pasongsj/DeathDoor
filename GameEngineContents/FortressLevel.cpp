@@ -71,6 +71,8 @@ void FortressLevel::LevelChangeStart()
 {
 	CreateScene();
 
+	LevelInit();
+
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
@@ -83,9 +85,6 @@ void FortressLevel::LevelChangeStart()
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_PlayerStartPos();
-
-	CreateUI();
-	SetPostPrecessEffect();
 
 	Create_Manager();
 }

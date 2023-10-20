@@ -18,6 +18,21 @@ ContentLevel::~ContentLevel()
 {
 }
 
+void ContentLevel::LevelInit()
+{
+	CreateUI();
+	SetPostPrecessEffect();
+	CreateIMGUIDebugRenderTarget();
+}
+
+void ContentLevel::CreateIMGUIDebugRenderTarget()
+{
+	GameEngineCoreWindow::AddDebugRenderTarget(0, "AllRenderTarget", GetMainCamera()->GetCamAllRenderTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(1, "LightRenderTarget", GetMainCamera()->GetDeferredLightTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(2, "MainCameraForwardTarget", GetMainCamera()->GetCamForwardTarget());
+	GameEngineCoreWindow::AddDebugRenderTarget(3, "DeferredTarget", GetMainCamera()->GetCamDeferrdTarget());
+}
+
 void ContentLevel::CreateUI()
 {
 	CreateActor<Mouse>();
