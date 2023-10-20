@@ -35,7 +35,7 @@ void EnemyBat::Start()
 		float4 scale = EnemyRenderer->GetMeshScale() * EnemyRenderer->GetTransform()->GetWorldScale() / EnemyRenderer->GetTransform()->GetLocalScale();
 		// scale *= 2.0f;
 		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
-		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(vscale);
 	}

@@ -2,6 +2,7 @@
 #include "EnemyBrute.h"
 #include "EnemyAttackSphere.h"
 #include "EnemyAttackBox.h"
+#include "PhysXControllerComponent.h"
 
 EnemyBrute::EnemyBrute() 
 {
@@ -78,7 +79,7 @@ void EnemyBrute::Start()
 
 	// physx
 	{
-		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_BRUTE);
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);

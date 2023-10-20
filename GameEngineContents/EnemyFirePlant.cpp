@@ -48,8 +48,8 @@ void EnemyFirePlant::Start()
 	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_FIREPLANT); // 임시 값조정 필요
 	// physx
 	{
-		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
-		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_FIREPLANT, DEFAULT_DIR_FIREPLANT, true); // static으로 생성
+		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
+		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_FIREPLANT, DEFAULT_DIR_FIREPLANT); // static으로 생성
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic, PhysXFilterGroup::PlayerSkill);
 	}
 	SetFSMFUNC();
