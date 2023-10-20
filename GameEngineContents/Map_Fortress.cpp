@@ -385,7 +385,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//6
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_3_1.fbx");
+		CullingObj->InitComponent("Fortress_Part_3_1_Fix.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -6990, 310, 13580 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -395,7 +395,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//7
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_4_Test.fbx");
+		CullingObj->InitComponent("Fortress_Part_4_Fix.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{  -9160, 324, 14630 });
 		m_vCullingObjects.push_back(CullingObj);
