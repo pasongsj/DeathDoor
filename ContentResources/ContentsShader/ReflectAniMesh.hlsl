@@ -19,6 +19,7 @@ struct Output
 {
     float4 POSITION : SV_POSITION;
     float4 VIEWPOSITION : POSITION;
+    float4 WORLDPOSITION : POSITION1;
     float4 WVPPOSITION : POSITION5;
     float4 TEXCOORD : TEXCOORD;
     float4 NORMAL : NORMAL;
@@ -49,6 +50,8 @@ Output ContentAniMeshDeferred_VS(Input _Input)
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
     NewOutPut.NORMAL = mul(InputNormal, WorldView);
     
+    NewOutPut.WORLDPOSITION = mul(InputPos, WorldMatrix);
+    
     return NewOutPut;
 }
 
@@ -74,6 +77,11 @@ cbuffer BlurColor : register(b1)
 
 DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
 {
+    if (_Input.WORLDPOSITION.y < -50.0F)
+    {
+        clip(-1);
+    }
+    
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
     
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
