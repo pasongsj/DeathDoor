@@ -141,6 +141,10 @@ public:
 		return m_pRigidStatic;
 	}
 
+	physx::PxShape* GetShape()
+	{
+		return m_pShape;
+	}
 	
 	physx::PxPhysics* GetPhysics()
 	{

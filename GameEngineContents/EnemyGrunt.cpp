@@ -1,5 +1,6 @@
 #include "PreCompileHeader.h"
 #include "EnemyGrunt.h"
+#include "EnemyAttackBox.h"
 #include "Player.h"
 
 EnemyGrunt::EnemyGrunt() 
@@ -24,6 +25,15 @@ void EnemyGrunt::InitAniamtion()
 	EnemyRenderer->CreateFBXAnimation("JUMP_MAIN", "_E_GRUNT_JUMP_MAIN.fbx", { 0.02f,false });
 	EnemyRenderer->CreateFBXAnimation("HIT", "_E_GRUNT_HIT.fbx", { 0.02f,false });
 
+	EnemyRenderer->SetAnimationStartFunc("JUMP_MAIN", 20, [this]
+		{
+			m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
+			m_pAttackBox->SetScale(float4(50, 50, 50));
+			m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(40, 0, 0));
+			float4 f4MyPos = GetTransform()->GetWorldPosition();
+			f4MyPos.y = m_f4WaitPos.y;
+			m_pAttackBox->SetTrans(m_f4ShootDir, f4MyPos);
+		});
 
 	EnemyRenderer->ChangeAnimation("IDLE");
 }
@@ -108,8 +118,8 @@ void EnemyGrunt::SetFSMFUNC()
 	SetFSM(EnemyGruntState::MOVE,
 		[this]
 		{
+			m_f4ShootDir = AggroDir(m_pCapsuleComp);
 			EnemyRenderer->ChangeAnimation("WALK");
-			AggroDir(m_pCapsuleComp);
 		},
 		[this](float Delta)
 		{
@@ -162,7 +172,7 @@ void EnemyGrunt::SetFSMFUNC()
 				SetNextState(EnemyGruntState::JUMP);
 				return;
 			}
-			AggroDir(m_pCapsuleComp);
+			m_f4ShootDir = AggroDir(m_pCapsuleComp);
 
 		},
 		[this]
@@ -175,7 +185,6 @@ void EnemyGrunt::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("JUMP_START");
-			//m_f4HeightPos = CalJumpPos();
 			m_f4HeightPos = AggroDir(m_pCapsuleComp);
 			m_f4HeightPos.y = m_f4HeightPos.Size();
 			m_f4HeightPos *= m_f4TargetPos.XYZDistance(m_f4WaitPos)*0.8f;//조금 더 뒤쪽에 가서 겹치지 않게 설정
@@ -184,46 +193,37 @@ void EnemyGrunt::SetFSMFUNC()
 		{
 			static float4 JumpDir;
 
-			if (m_f4HeightPos.Size()<250.f)
+
+			m_fJumpRatio += Delta;
+			float4 JumpPos = CalJumpPos(m_fJumpRatio);
+			m_pCapsuleComp->SetMoveSpeed(JumpPos- GetTransform()->GetWorldPosition());
+
+			if (m_f4HeightPos.Size()<250.f&& false == GetStateChecker())
 			{
 				EnemyRenderer->ChangeAnimation("JUMP_MAIN");
 				if (true == EnemyRenderer->IsAnimationEnd())
 				{
+					m_pAttackBox->Death();
 					SetNextState(EnemyGruntState::IDLE);
-					return;
 				}
-			}
+				return;
+			}	
 
 			if (true == EnemyRenderer->IsAnimationEnd()&& false == GetStateChecker())
 			{
-				//if ()
-				//{
-					EnemyRenderer->ChangeAnimation("JUMP_MAIN");
-					SetStateCheckerOn();
-					//StateChecker = true;
-					//JumpDir = AggroDir(m_pCapsuleComp);
-					//JumpDir.y = 1.0f;
-					//m_pCapsuleComp->SetMoveSpeed(JumpDir * GRUNT_JUMP_SPEED);
-					//return;
-				//}
-				//else
-				//{
-				//	if (true == m_pCapsuleComp->Jump(m_f4HeightPos))
-				//	{
-				//		SetNextState(EnemyGruntState::IDLE);
-				//	};
-				//	//attack
-				//	//SetNextState(EnemyGruntState::IDLE);
-				//}
+				EnemyRenderer->ChangeAnimation("JUMP_MAIN");
+				SetStateCheckerOn();
 			}
-			if (true == GetStateChecker() &&true == m_pCapsuleComp->Jump(m_f4HeightPos,2.f))
+			if (true == GetStateChecker() && true , m_fJumpRatio>0.9f)
 			{
+				if (true == EnemyRenderer->IsAnimationEnd())
+				{
+
+				m_pAttackBox->Death();
 				SetNextState(EnemyGruntState::IDLE);
-			};
-			//if (true == StateChecker)
-			//{
-			//	m_pCapsuleComp->SetMoveSpeed(JumpDir * GRUNT_JUMP_SPEED);
-			//}
+				return;
+				}
+			}
 
 		},
 		[this]
@@ -235,7 +235,7 @@ void EnemyGrunt::SetFSMFUNC()
 	SetFSM(EnemyGruntState::HIT,
 		[this]
 		{
-			AggroDir(m_pCapsuleComp);
+			m_f4ShootDir = AggroDir(m_pCapsuleComp);
 			EnemyRenderer->ChangeAnimation("HIT");
 		},
 		[this](float Delta)
@@ -271,10 +271,11 @@ void EnemyGrunt::SetFSMFUNC()
 	);
 }
 
-float4 EnemyGrunt::CalJumpPos()
+float4 EnemyGrunt::CalJumpPos(float _Ratio)
 {
-	float4 f4HeightPos = float4::Lerp(m_f4WaitPos,m_f4TargetPos,0.8f);
-	float fHeight = m_f4WaitPos.XYZDistance(f4HeightPos);
-	f4HeightPos.y += fHeight;
-	return f4HeightPos;
+	float4 f4CalPos0 = float4::LerpClamp(m_f4WaitPos, m_f4HeightPos, _Ratio);
+	float4 f4CalPos1 = float4::LerpClamp(m_f4HeightPos, m_f4TargetPos, _Ratio);
+	float4 f4ResultPos = float4::LerpClamp(f4CalPos0, f4CalPos1, _Ratio);
+		
+	return f4ResultPos;
 }

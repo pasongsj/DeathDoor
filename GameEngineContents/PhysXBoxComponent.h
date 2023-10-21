@@ -20,6 +20,10 @@ public:
 	void CreatePhysXActors(float4 _GeoMetryScale = float4(2.0f,2.0f,2.0f), float4 _GeoMetryRot = float4::ZERO, bool _Static = false) override;
 	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f), float4 _GeoMetryRot = float4::ZERO,bool _Static = false) override;
 
+	void SetScale(float4 _Scale)
+	{
+		m_pShape->setGeometry(physx::PxBoxGeometry(_Scale.PhysXVec3Return()));
+	}
 	void TurnOffSpeedLimit()
 	{
 		m_bSpeedLimit = false;

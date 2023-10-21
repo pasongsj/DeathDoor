@@ -31,6 +31,7 @@ void EnemyBrute::InitAniamtion()
 	EnemyRenderer->SetAnimationStartFunc("SLAM", 10, [this]
 		{
 			m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
+			m_pAttackBox->SetScale(float4(300, 60, 150));
 			m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(-200, 0, -70));
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
@@ -44,6 +45,7 @@ void EnemyBrute::InitAniamtion()
 		{
 
 			m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
+			m_pAttackBox->SetScale(float4(300, 60, 150));
 			m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(-70, -20, -270));
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
