@@ -178,7 +178,7 @@ void EnemyGrunt::SetFSMFUNC()
 			//m_f4HeightPos = CalJumpPos();
 			m_f4HeightPos = AggroDir(m_pCapsuleComp);
 			m_f4HeightPos.y = m_f4HeightPos.Size();
-			m_f4HeightPos *= m_f4TargetPos.XYZDistance(m_f4WaitPos)*0.8f;
+			m_f4HeightPos *= m_f4TargetPos.XYZDistance(m_f4WaitPos)*0.8f;//조금 더 뒤쪽에 가서 겹치지 않게 설정
 		},
 		[this](float Delta)
 		{
