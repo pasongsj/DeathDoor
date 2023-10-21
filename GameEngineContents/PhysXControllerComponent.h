@@ -58,6 +58,8 @@ public:
 		m_bGravity = true;
 	}
 
+	bool Jump(float4 _Force, float _Ratio = 1.f);
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -68,6 +70,8 @@ private:
 	float4 m_pControllerDir = float4::ZERO;
 	bool m_bSpeedLimit = false;
 	bool m_bGravity = true;
+	bool m_bJumpStart = false;
+	bool m_bJumpEnd = false;
 	float m_fHeight = 0.f;
 	physx::PxVec3 GeoMetryScale;
 

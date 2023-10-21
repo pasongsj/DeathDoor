@@ -1,5 +1,6 @@
 #include "PreCompileHeader.h"
 #include "EnemyGrunt.h"
+#include "Player.h"
 
 EnemyGrunt::EnemyGrunt() 
 {
@@ -32,6 +33,7 @@ void EnemyGrunt::InitAniamtion()
 void EnemyGrunt::Start()
 {
 	EnemyBase::Start();
+	SetEnemyHP(4);
 	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_GRUNT);
 
 	// physx
@@ -39,6 +41,7 @@ void EnemyGrunt::Start()
 		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_GRUNT);
+		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
 	SetFSMFUNC();
 }
@@ -121,7 +124,7 @@ void EnemyGrunt::SetFSMFUNC()
 				SetStateCheckerOn();
 				//StateChecker = true;
 			}
-			if (true == InRangePlayer(200.0f))
+			if (true == InRangePlayer(550.0f))
 			{
 				SetNextState(EnemyGruntState::JUMP_WAIT);
 				return;
@@ -131,7 +134,6 @@ void EnemyGrunt::SetFSMFUNC()
 		},
 		[this]
 		{
-			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 		}
 	);
@@ -148,9 +150,11 @@ void EnemyGrunt::SetFSMFUNC()
 				return;
 			}
 			//StateDuration += Delta;
+
+
 			if (GetStateDuration() > 0.5f)
 			{
-				if (false == InRangePlayer(350.0f))
+				if (false == InRangePlayer(550.0f))
 				{
 					SetNextState(EnemyGruntState::MOVE);
 					return;
@@ -163,33 +167,59 @@ void EnemyGrunt::SetFSMFUNC()
 		},
 		[this]
 		{
+			m_f4TargetPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+			m_f4WaitPos = GetTransform()->GetWorldPosition();
 		}
 	);
 	SetFSM(EnemyGruntState::JUMP,
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("JUMP_START");
+			//m_f4HeightPos = CalJumpPos();
+			m_f4HeightPos = AggroDir(m_pCapsuleComp);
+			m_f4HeightPos.y = m_f4HeightPos.Size();
+			m_f4HeightPos *= m_f4TargetPos.XYZDistance(m_f4WaitPos)*0.8f;
 		},
 		[this](float Delta)
 		{
 			static float4 JumpDir;
-			if (true == EnemyRenderer->IsAnimationEnd())
+
+			if (m_f4HeightPos.Size()<250.f)
 			{
-				if (false == GetStateChecker())
+				EnemyRenderer->ChangeAnimation("JUMP_MAIN");
+				if (true == EnemyRenderer->IsAnimationEnd())
 				{
+					SetNextState(EnemyGruntState::IDLE);
+					return;
+				}
+			}
+
+			if (true == EnemyRenderer->IsAnimationEnd()&& false == GetStateChecker())
+			{
+				//if ()
+				//{
 					EnemyRenderer->ChangeAnimation("JUMP_MAIN");
 					SetStateCheckerOn();
 					//StateChecker = true;
-					JumpDir = AggroDir(m_pCapsuleComp);
-					JumpDir.y = 1.0f;
-					m_pCapsuleComp->SetMoveSpeed(JumpDir * GRUNT_JUMP_SPEED);
-				}
-				else
-				{
-					//attack
-					SetNextState(EnemyGruntState::IDLE);
-				}
+					//JumpDir = AggroDir(m_pCapsuleComp);
+					//JumpDir.y = 1.0f;
+					//m_pCapsuleComp->SetMoveSpeed(JumpDir * GRUNT_JUMP_SPEED);
+					//return;
+				//}
+				//else
+				//{
+				//	if (true == m_pCapsuleComp->Jump(m_f4HeightPos))
+				//	{
+				//		SetNextState(EnemyGruntState::IDLE);
+				//	};
+				//	//attack
+				//	//SetNextState(EnemyGruntState::IDLE);
+				//}
 			}
+			if (true == GetStateChecker() &&true == m_pCapsuleComp->Jump(m_f4HeightPos,2.f))
+			{
+				SetNextState(EnemyGruntState::IDLE);
+			};
 			//if (true == StateChecker)
 			//{
 			//	m_pCapsuleComp->SetMoveSpeed(JumpDir * GRUNT_JUMP_SPEED);
@@ -198,7 +228,6 @@ void EnemyGrunt::SetFSMFUNC()
 		},
 		[this]
 		{
-			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 		}
 	);
@@ -240,4 +269,12 @@ void EnemyGrunt::SetFSMFUNC()
 		{
 		}
 	);
+}
+
+float4 EnemyGrunt::CalJumpPos()
+{
+	float4 f4HeightPos = float4::Lerp(m_f4WaitPos,m_f4TargetPos,0.8f);
+	float fHeight = m_f4WaitPos.XYZDistance(f4HeightPos);
+	f4HeightPos.y += fHeight;
+	return f4HeightPos;
 }

@@ -41,4 +41,11 @@ private:
 
 	//float StateDuration = 0.0f;
 	//bool StateChecker = false;
+
+	float4 m_f4TargetPos = float4::ZERO;
+	float4 m_f4WaitPos = float4::ZERO;
+	float4 m_f4HeightPos = float4::ZERO;
+
+	float4 CalJumpPos();
+
 };

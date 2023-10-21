@@ -48,14 +48,13 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 	ControllerDesc.position = physx::PxExtendedVec3(ParentActor.lock()->GetTransform()->GetWorldPosition().x
 													, ParentActor.lock()->GetTransform()->GetWorldPosition().y
 													, ParentActor.lock()->GetTransform()->GetWorldPosition().z);
-
 	m_pController = ControllerManager->createController(ControllerDesc);
+
 
 	m_pController->setFootPosition(physx::PxExtendedVec3(
 		ParentActor.lock()->GetTransform()->GetWorldPosition().x
 		, ParentActor.lock()->GetTransform()->GetWorldPosition().y
 		, ParentActor.lock()->GetTransform()->GetWorldPosition().z));
-
 	m_pController->getActor()->getShapes(&m_pShape, sizeof(m_pShape));
 	m_pShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 	m_pShape->userData = GetActor(); 
@@ -80,6 +79,33 @@ void PhysXControllerComponent::SetMoveSpeed(float4 _MoveSpeed)
 	m_pControllerDir = float4::ZERO;
 }
 
+
+bool PhysXControllerComponent::Jump(float4 _Force, float _Ratio)
+{
+	if (false == m_bJumpStart)
+	{
+		m_pControllerDir = _Force;
+		m_bJumpStart = true;
+		m_bJumpEnd = false;
+	}
+
+	float fTime = GameEngineTime::GlobalTime.GetDeltaTime()* _Ratio;
+	if (false== m_bJumpEnd)
+	{
+		if (m_bGravity)
+		{
+			m_pControllerDir.y -= (SCENE_GRAVITY * fTime);
+			m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y, m_pControllerDir.z).PhysXVec3Return() * fTime, 0.01f, fTime, m_pControllerFilter);
+		}
+		if (-_Force.y > m_pControllerDir.y)
+		{
+			m_bJumpEnd = true;
+			m_bJumpStart = false;
+			m_pControllerDir = float4::ZERO;
+		}
+	}
+	return m_bJumpEnd;
+}
 
 void PhysXControllerComponent::Start()
 {
