@@ -392,6 +392,12 @@
     <ClCompile Include="WaterBox.cpp">
       <Filter>Component\ContentsRenderer\Object\Water</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyJumper.cpp">
+      <Filter>FSMObject\Enemy\Jumper</Filter>
+    </ClCompile>
+    <ClCompile Include="Boomerang.cpp">
+      <Filter>FSMObject\Enemy\Jumper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -779,6 +785,12 @@
     <ClInclude Include="WaterBox.h">
       <Filter>Component\ContentsRenderer\Object\Water</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyJumper.h">
+      <Filter>FSMObject\Enemy\Jumper</Filter>
+    </ClInclude>
+    <ClInclude Include="Boomerang.h">
+      <Filter>FSMObject\Enemy\Jumper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -969,6 +981,9 @@
     </Filter>
     <Filter Include="Component\ContentsRenderer\Object\Water">
       <UniqueIdentifier>{5edb9211-9288-413c-a436-6c85f2243b19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Enemy\Jumper">
+      <UniqueIdentifier>{4fc9753c-97e3-4330-b0b4-8d4756bcb033}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
