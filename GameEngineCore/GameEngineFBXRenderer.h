@@ -36,6 +36,7 @@ public:
 	bool bOnceEnd = true;
 	bool Loop = true;
 	bool EndValue = false;
+	bool AnimationFirstFrameFunc = false;
 
 	float BlendIn = 0.2f;
 	float BlendOut = 0.2f;
@@ -174,6 +175,31 @@ public:
 	void CalculateUnitPos();
 
 	float4 GetMeshScale();
+
+	void SetRenderUnitControl(size_t first_index, size_t second_index,bool _Control)
+	{
+		if (first_index > Unit.size())
+		{
+			MsgAssert("first index 가 넘어간 랜더유닛을 선택하였습니다");
+			return;
+		}
+		if (second_index > Unit[first_index].size())
+		{
+			MsgAssert("second index 가 넘어간 랜더유닛을 선택하였습니다");
+			return;
+		}
+		if (true == _Control)
+		{
+			Unit[first_index][second_index]->On();
+		}
+		else
+		{
+			Unit[first_index][second_index]->Off();
+		}
+
+	}
+
+
 protected:
 	// void Render(float _DeltaTime) override;
 
