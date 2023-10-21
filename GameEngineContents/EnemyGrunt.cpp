@@ -31,7 +31,6 @@ void EnemyGrunt::InitAniamtion()
 			m_pAttackBox->SetScale(float4(50, 50, 50));
 			m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(40, 0, 0));
 			float4 f4MyPos = GetTransform()->GetWorldPosition();
-			f4MyPos.y = m_f4WaitPos.y;
 			m_pAttackBox->SetTrans(m_f4ShootDir, f4MyPos);
 		});
 
@@ -177,48 +176,60 @@ void EnemyGrunt::SetFSMFUNC()
 		},
 		[this]
 		{
-			m_f4TargetPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
-			m_f4WaitPos = GetTransform()->GetWorldPosition();
 		}
 	);
 	SetFSM(EnemyGruntState::JUMP,
 		[this]
 		{
-			EnemyRenderer->ChangeAnimation("JUMP_START");
-			m_f4HeightPos = AggroDir(m_pCapsuleComp);
-			m_f4HeightPos.y = m_f4HeightPos.Size();
-			m_f4HeightPos *= m_f4TargetPos.XYZDistance(m_f4WaitPos)*0.8f;//조금 더 뒤쪽에 가서 겹치지 않게 설정
+			m_f4ShootDir = AggroDir(m_pCapsuleComp);
 		},
 		[this](float Delta)
 		{
-			static float4 JumpDir;
 
-
-			m_fJumpRatio += Delta;
-			float4 JumpPos = CalJumpPos(m_fJumpRatio);
-			m_pCapsuleComp->SetMoveSpeed(JumpPos- GetTransform()->GetWorldPosition());
-
-			if (m_f4HeightPos.Size()<250.f&& false == GetStateChecker())
-			{
-				EnemyRenderer->ChangeAnimation("JUMP_MAIN");
-				if (true == EnemyRenderer->IsAnimationEnd())
-				{
-					m_pAttackBox->Death();
-					SetNextState(EnemyGruntState::IDLE);
-				}
-				return;
-			}	
-
+		//	if (/*조건문 &&*/ false == GetStateChecker())
+		//	{
+		//		EnemyRenderer->ChangeAnimation("JUMP_MAIN");
+		//		SetStateCheckerOn();
+		//		return;
+		//	}
+		//	if (/*조건문 &&*/ true == GetStateChecker()&& nullptr == m_pAttackBox)
+		//	{
+		//		m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
+		//		m_pAttackBox->SetScale(float4(50, 50, 50));
+		//		m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(40, 0, 0));
+		//		float4 f4MyPos = GetTransform()->GetWorldPosition();
+		//		m_pAttackBox->SetTrans(m_f4ShootDir, f4MyPos);
+		//		return;
+		//	}
+		//	if (/*조건문 &&*/m_pAttackBox!=nullptr)
+		//	{
+		//		m_pAttackBox->Death();
+		//		m_pAttackBox = nullptr;
+		//		SetNextState(EnemyGruntState::IDLE);
+		//		return;
+		//	}
+			//if (m_f4HeightPos.Size()<250.f&& false == GetStateChecker())
+			//{
+			//	EnemyRenderer->ChangeAnimation("JUMP_MAIN");
+			//	if (true == EnemyRenderer->IsAnimationEnd())
+			//	{
+			//		m_pAttackBox->Death();
+			//		SetNextState(EnemyGruntState::IDLE);
+			//	}
+			//	return;
+			//}	
+			//
+			m_pCapsuleComp->SetMoveSpeed(m_f4ShootDir*500.f);
 			if (true == EnemyRenderer->IsAnimationEnd()&& false == GetStateChecker())
 			{
 				EnemyRenderer->ChangeAnimation("JUMP_MAIN");
 				SetStateCheckerOn();
 			}
-			if (true == GetStateChecker() && true , m_fJumpRatio>0.9f)
+			if (true == GetStateChecker() )
 			{
 				if (true == EnemyRenderer->IsAnimationEnd())
 				{
-
+			
 				m_pAttackBox->Death();
 				SetNextState(EnemyGruntState::IDLE);
 				return;
@@ -269,13 +280,4 @@ void EnemyGrunt::SetFSMFUNC()
 		{
 		}
 	);
-}
-
-float4 EnemyGrunt::CalJumpPos(float _Ratio)
-{
-	float4 f4CalPos0 = float4::LerpClamp(m_f4WaitPos, m_f4HeightPos, _Ratio);
-	float4 f4CalPos1 = float4::LerpClamp(m_f4HeightPos, m_f4TargetPos, _Ratio);
-	float4 f4ResultPos = float4::LerpClamp(f4CalPos0, f4CalPos1, _Ratio);
-		
-	return f4ResultPos;
 }
