@@ -178,7 +178,12 @@ void EnemyGrunt::SetFSMFUNC()
 			//m_f4HeightPos = CalJumpPos();
 			m_f4HeightPos = AggroDir(m_pCapsuleComp);
 			m_f4HeightPos.y = m_f4HeightPos.Size();
-			m_f4HeightPos *= m_f4TargetPos.XYZDistance(m_f4WaitPos)*0.8f;
+			float fDist = m_f4TargetPos.XYZDistance(m_f4WaitPos) * 0.8f;
+			if (fDist>800.f)
+			{
+				fDist = 800.f;
+			}
+			m_f4HeightPos *= fDist;
 		},
 		[this](float Delta)
 		{
