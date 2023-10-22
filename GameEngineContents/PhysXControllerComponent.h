@@ -29,7 +29,12 @@ public:
 
 	void SetRotation(float4 _Rot)
 	{
-		ParentActor.lock()->GetTransform()->SetWorldRotation(_Rot);
+		ParentActor.lock()->GetTransform()->SetWorldRotation(_Rot);	
+		if (m_pRigidDynamic!=nullptr)
+		{
+			m_pRigidDynamic->setGlobalPose(float4::PhysXTransformReturn(_Rot, float4(m_pRigidDynamic->getGlobalPose().p.x, m_pRigidDynamic->getGlobalPose().p.y, m_pRigidDynamic->getGlobalPose().p.z)));
+		}
+
 	}
 
 	void SetWorldPosWithParent(float4 _Pos,float4 _Rot = float4::ZERONULL ) override
@@ -59,15 +64,7 @@ public:
 	}
 
 
-	void AttachShape()
-	{
-		m_pController->getActor()->attachShape(*m_pSubShape);
-	}
-
-	void DetachShape()
-	{
-		m_pController->getActor()->detachShape(*m_pSubShape);
-	}
+	void CreateShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos = float4::ZERO) override;
 
 protected:
 	void Start() override;

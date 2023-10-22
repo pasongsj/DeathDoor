@@ -281,7 +281,7 @@ void PhysXDefault::CreateShape(SubShapeType _Type, float4 _Scale, float4 _LocalP
 
 		//m_pController->getActor()->attachShape(*m_pSubShape);
 
-		m_pSubShape->setLocalPose(physx::PxTransform(_LocalPos.PhysXVec3Return(), physx::PxQuat(physx::PxHalfPi, float4(0, 0, 1).PhysXVec3Return())));
+		m_pSubShape->setLocalPose(physx::PxTransform(_LocalPos.PhysXVec3Return()/*, physx::PxQuat(physx::PxHalfPi, float4(0, 0, 1).PhysXVec3Return())*/));
 
 		m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
 		m_pSubShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);

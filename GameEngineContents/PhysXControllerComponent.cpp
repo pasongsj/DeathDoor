@@ -82,6 +82,23 @@ void PhysXControllerComponent::SetMoveSpeed(float4 _MoveSpeed)
 }
 
 
+void PhysXControllerComponent::CreateShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos)
+{
+	physx::PxTransform Transform
+	(
+		physx::PxVec3
+		(
+			m_pController->getPosition().x,
+			m_pController->getPosition().y,
+			m_pController->getPosition().z
+		),
+		physx::PxQuat(ParentActor.lock()->GetTransform()->GetWorldRotation().PhysXQuatReturn())
+	);
+	m_pRigidDynamic = m_pPhysics->createRigidDynamic(Transform);
+	GetScene()->addActor(*m_pRigidDynamic);
+	PhysXDefault::CreateShape(_Type, _Scale, _LocalPos);
+}
+
 void PhysXControllerComponent::Start()
 {
 	// 부모의 정보의 저장
@@ -92,6 +109,21 @@ void PhysXControllerComponent::Update(float _DeltaTime)
 {
 	float4 tmpWorldPos = { static_cast<float>(m_pController->getFootPosition().x), static_cast<float>(m_pController->getFootPosition().y), static_cast<float>(m_pController->getFootPosition().z) };
 	ParentActor.lock()->GetTransform()->SetWorldPosition(tmpWorldPos);
+	if (m_pRigidDynamic!=nullptr)
+	{
+		physx::PxTransform Transform
+		(
+			physx::PxVec3
+			(
+				m_pController->getPosition().x,
+				m_pController->getPosition().y,
+				m_pController->getPosition().z
+			),
+			physx::PxQuat(ParentActor.lock()->GetTransform()->GetWorldRotation().PhysXQuatReturn())
+		);
+
+		m_pRigidDynamic->setGlobalPose(Transform);
+	}
 	//if (true == GetLevel()->GetDebugRender())
 	//{
 	//	GetTransform()->SetWorldRotation(ParentActor.lock()->GetTransform()->GetWorldRotation());
