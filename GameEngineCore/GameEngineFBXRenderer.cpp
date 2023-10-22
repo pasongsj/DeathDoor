@@ -30,7 +30,15 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 	{
 		return;
 	}
-
+	if (false == AnimationFirstFrameFunc && CurFrame == Start)
+	{
+		if (StartFunc[CurFrame].bStart == false && StartFunc[CurFrame].pFunc != nullptr)
+		{
+			StartFunc[CurFrame].pFunc();
+			StartFunc[CurFrame].bStart = true;
+		}
+		AnimationFirstFrameFunc = true;
+	}
 	CurFrameTime += _DeltaTime;
 	PlayTime += _DeltaTime;
 	//                      0.1
@@ -46,15 +54,9 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 		// 여분의 시간이 남게되죠?
 		// 여분의 시간이 중요합니다.
 		CurFrameTime -= CurInter;
+		
 		++CurFrame;
-		if (StartFunc.end() != StartFunc.find(CurFrame))
-		{
-			if (StartFunc[CurFrame].bStart == false && StartFunc[CurFrame].pFunc != nullptr)
-			{
-				StartFunc[CurFrame].pFunc();
-				StartFunc[CurFrame].bStart = true;
-			}
-		}
+		
 		if (false == bOnceStart && CurFrame == 0)
 		{
 			bOnceStart = true;
@@ -69,7 +71,7 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 			break;
 		}
 
-		if (CurFrame >= End)
+		if (CurFrame > End)
 		{
 			if (true == Loop)
 			{
@@ -82,18 +84,31 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 			}
 			else
 			{
-				CurFrame = End - 1;
+				CurFrame = End;
 				EndValue = true;
 			}
 
 		}
+		if (StartFunc.end() != StartFunc.find(CurFrame))
+		{
+			if (StartFunc[CurFrame].bStart == false && StartFunc[CurFrame].pFunc != nullptr)
+			{
+				StartFunc[CurFrame].pFunc();
+				StartFunc[CurFrame].bStart = true;
+			}
+		}
+		
 	}
 	
 
 	unsigned int NextFrame = CurFrame + 1;
-	if (NextFrame >= End)
+	if (NextFrame > End)
 	{
 		NextFrame = Start;
+		if (false == Loop)
+		{
+			NextFrame = CurFrame;
+		}
 	}
 
 	// mesh      subset
@@ -467,6 +482,7 @@ void GameEngineFBXRenderer::ChangeAnimation(const std::string& _AnimationName, b
 	}
 	FindIter->second->Reset();
 	CurAnimation = FindIter->second;
+	FindIter->second->AnimationFirstFrameFunc = false;
 }
 
 void GameEngineFBXRenderer::CalculateUnitPos()
