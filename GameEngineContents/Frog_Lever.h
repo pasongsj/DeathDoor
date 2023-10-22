@@ -28,11 +28,6 @@ public:
 		return m_pPhysXComponent;
 	}
 
-	inline std::shared_ptr<class PhysXBoxComponent> GetTriggerComponent() const
-	{
-		return m_pPhysXTriggerComponent;
-	}
-
 	inline void SetState(LeverState _State)
 	{
 		m_eState = _State;

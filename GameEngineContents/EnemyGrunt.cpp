@@ -203,7 +203,7 @@ void EnemyGrunt::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-
+			CheckHit();
 			if (true == EnemyRenderer->IsAnimationEnd()&& false == GetStateChecker())
 			{
 				EnemyRenderer->ChangeAnimation("JUMP_MAIN");
