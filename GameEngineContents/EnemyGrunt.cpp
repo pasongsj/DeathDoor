@@ -51,7 +51,7 @@ void EnemyGrunt::Start()
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_GRUNT);
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
-		m_pCapsuleComp->CreateShape(SubShapeType::BOX, float4(60, 10, 100), float4(0,0,50));
+		m_pCapsuleComp->CreateSubShape(SubShapeType::BOX, float4(60, 10, 100), float4(0,0,50));
 	}
 	SetFSMFUNC();
 }

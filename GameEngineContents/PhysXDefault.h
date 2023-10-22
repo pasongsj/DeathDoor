@@ -220,7 +220,7 @@ public:
 	void SetRigidCollide(bool _Value);
 
 
-	virtual void CreateShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos = float4::ZERO);
+	virtual void CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos = float4::ZERO);
 
 
 	void AttachShape()
