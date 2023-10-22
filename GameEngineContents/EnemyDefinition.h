@@ -3,7 +3,7 @@
 //SPEED
 
 #define GRUNT_MOVE_SPEED 200.0f
-#define GRUNT_JUMP_SPEED 500.0f
+#define GRUNT_JUMP_SPEED 800.f
 #define BAT_MOVE_SPEED 200.0f
 #define GHOUL_MOVE_SPEED 100.0f
 //#define IDLEMOVEROT float4{0,10.0f,0}
