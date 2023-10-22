@@ -62,6 +62,13 @@ void EnemyGrunt::Start()
 
 void EnemyGrunt::Update(float _DeltaTime)
 {
+	bool bDeath = DeathCheck();
+
+	if (bDeath == true)
+	{
+		SetNextState(EnemyGruntState::DEATH);
+	}
+
 	FSMObjectBase::Update(_DeltaTime);
 
 }
@@ -247,6 +254,14 @@ void EnemyGrunt::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			m_fDeathTime += Delta;
+
+			float4 f4Result = float4::LerpClamp(float4(0.f, 0.f, 0.f), float4(-90.f, 0.f, 0.f), m_fDeathTime);
+			EnemyRenderer->GetTransform()->SetLocalRotation(f4Result);
+			if (m_fDeathTime >= 1.f)
+			{
+				Death();
+			}
 		},
 		[this]
 		{
