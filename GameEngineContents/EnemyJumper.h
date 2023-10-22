@@ -34,8 +34,9 @@ private:
 	enum class EnemyJumperState
 	{
 		IDLE, // IDLE, IDLE_LOOK, HOP
+		WAIT, // BOOMER_PREP_WAIT
 		THROW, // BOOMER_THROW, SKIP_THROW
-		CATCH, // BOOMER_CATCH, BOOMER_PREP_WAIT
+		CATCH, // BOOMER_CATCH, 
 		JUMP, // JUMP
 		HIT, //INTERRUPT
 		DEATH, // DROWN
@@ -49,14 +50,18 @@ private:
 
 	void SetBoomerangState(BoomerangState _State);
 
+	bool throw_jump = true;
+
 	void ThrowBoomer();
 
 	void SetFSMFUNC();
 
-	bool CheckBooemrang();
+	bool CheckBoomerang();
 
 	BoomerangState CurBoomer = BoomerangState::HEAD;
 
+	std::shared_ptr<class Boomerang> Boomer = nullptr;
 
+	float IdleDelayTime = 1.0f;
 };
 

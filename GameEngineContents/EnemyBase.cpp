@@ -38,6 +38,10 @@ bool EnemyBase::InRangePlayer(float _Range)
 	}
 	return false;
 }
+float4 EnemyBase::GetPlayerPosition()
+{
+	return Player::MainPlayer->GetTransform()->GetWorldPosition();
+}
 
 float4 EnemyBase::GetPlayerDir()
 {

@@ -21,7 +21,7 @@ public:
 	AttackBase& operator=(AttackBase&& _Other) noexcept = delete;
 
 
-	void SetTrans(const float4& _Dir, const float4& _Pos);
+	void SetTrans(const float4& _Dir, const float4& _Pos = float4::ZERONULL);
 
 	std::shared_ptr<class PhysXComponent> GetPhysXComponent()
 	{
@@ -60,13 +60,23 @@ protected:
 
 	virtual void SetShoot(float _Speed = 1500.0f)
 	{
-		SeetShootSpeed(_Speed);
+		SetShootSpeed(_Speed);
 		isShoot = true;
 	}
 
-	inline void SeetShootSpeed(float _Speed)
+	inline void SetShootSpeed(float _Speed)
 	{
 		ShootSpeed = _Speed;
+	}
+
+	inline float GetSootSpeed()
+	{
+		return ShootSpeed;
+	}
+
+	inline void SetDestTarget(PhysXFilterGroup Tar)
+	{
+		DestTarget = Tar;
 	}
 
 
@@ -78,6 +88,6 @@ private:
 
 	float ShootSpeed = 1500.0f;
 
-
+	PhysXFilterGroup DestTarget = PhysXFilterGroup::None;
 };
 
