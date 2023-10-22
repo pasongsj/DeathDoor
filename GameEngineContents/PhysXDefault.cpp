@@ -251,16 +251,16 @@ void PhysXDefault::Release()
     }
 }
 
-void PhysXDefault::SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0, PhysXFilterGroup _OtherFilter1, PhysXFilterGroup _OtherFilter2)
+void PhysXDefault::SetFilterData(PhysXFilterGroup _ThisFilter)
 {
     m_pShape->setSimulationFilterData
     (
         physx::PxFilterData
         (
             static_cast<physx::PxU32>(_ThisFilter),
-            static_cast<physx::PxU32>(_OtherFilter0),
-            static_cast<physx::PxU32>(_OtherFilter1),
-            static_cast<physx::PxU32>(_OtherFilter2)
+            0,
+            0,
+            0
         )
     );
 }

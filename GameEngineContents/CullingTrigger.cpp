@@ -50,7 +50,7 @@ void CullingTrigger::InitComponent()
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
 	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
-	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::CullingTrigger, PhysXFilterGroup::PlayerDynamic);
+	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::CullingTrigger);
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 	m_pPhysXComponent->SetTrigger();
 }

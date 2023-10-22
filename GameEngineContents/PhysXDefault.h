@@ -209,7 +209,7 @@ public:
 		return m_bStatic;
 	}
 
-	virtual void SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter1 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter2 = PhysXFilterGroup::None);
+	virtual void SetFilterData(PhysXFilterGroup _ThisFilter);
 
 	void SetTrigger()
 	{
@@ -231,6 +231,20 @@ public:
 	void DetachShape()
 	{
 		m_pRigidDynamic->detachShape(*m_pSubShape);
+	}
+
+	void SetSubShapeFilter(PhysXFilterGroup _ThisFilter)
+	{
+		m_pSubShape->setSimulationFilterData
+		(
+			physx::PxFilterData
+			(
+				static_cast<physx::PxU32>(_ThisFilter),
+				0,
+				0,
+				0
+			)
+		);
 	}
 
 protected:

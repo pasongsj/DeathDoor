@@ -47,5 +47,5 @@ void Frog_Lever::InitComponent()
 	m_pPhysXTriggerComponent->SetTrigger();
 
 	// 충돌그룹세팅
-	m_pPhysXTriggerComponent->SetFilterData(PhysXFilterGroup::LeverTrigger, PhysXFilterGroup::PlayerDynamic);
+	m_pPhysXTriggerComponent->SetFilterData(PhysXFilterGroup::LeverTrigger);
 }

@@ -22,7 +22,7 @@ void PhysXTrigger::Start()
 	m_pBoxCompo = CreateComponent<PhysXBoxComponent>();
 	m_pBoxCompo->CreatePhysXActors(vscale,float4::ZERO,true);
 
-	m_pBoxCompo->SetFilterData(PhysXFilterGroup::Obstacle, PhysXFilterGroup::PlayerDynamic);
+	m_pBoxCompo->SetFilterData(PhysXFilterGroup::Obstacle);
 	m_pBoxCompo->SetTrigger();
 	
 }
