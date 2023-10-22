@@ -64,7 +64,7 @@ public:
 	}
 
 
-	void CreateShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos = float4::ZERO) override;
+	void CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos = float4::ZERO) override;
 
 protected:
 	void Start() override;

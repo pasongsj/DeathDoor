@@ -270,7 +270,7 @@ void PhysXDefault::SetRigidCollide(bool _Value)
     m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, _Value);
 }
 
-void PhysXDefault::CreateShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos)
+void PhysXDefault::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos)
 {
 	switch (_Type)
 	{
