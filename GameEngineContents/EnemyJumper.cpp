@@ -294,7 +294,7 @@ void EnemyJumper::SetFSMFUNC()
 			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				SetNextState("IDLE");
+				SetNextState(EnemyJumperState::IDLE);
 			}
 		},
 		[this]
