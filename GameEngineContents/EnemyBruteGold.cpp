@@ -142,7 +142,6 @@ void EnemyBruteGold::SetFSMFUNC()
 		},
 		[this]
 		{
-			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 		}
 	);
