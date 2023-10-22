@@ -59,6 +59,16 @@ public:
 	}
 
 
+	void AttachShape()
+	{
+		m_pController->getActor()->attachShape(*m_pSubShape);
+	}
+
+	void DetachShape()
+	{
+		m_pController->getActor()->detachShape(*m_pSubShape);
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

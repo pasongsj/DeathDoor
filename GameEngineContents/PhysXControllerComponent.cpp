@@ -36,12 +36,14 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 		ControllerManager = PxCreateControllerManager(*m_pScene);
 	}
 
+	m_pMaterial = m_pPhysics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
+
 	GetScene()->userData = ControllerManager;
 	physx::PxCapsuleControllerDesc  ControllerDesc;
 	ControllerDesc.contactOffset = 0.2f;
 	ControllerDesc.density = 1.f;
 	ControllerDesc.height = static_cast<physx::PxF32>(m_fHeight);
-	ControllerDesc.material = m_pPhysics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
+	ControllerDesc.material = m_pMaterial;
 	ControllerDesc.radius = static_cast<physx::PxF32>(HalfScale.z );
 	ControllerDesc.upDirection = physx::PxVec3(0, 1, 0);
 	ControllerDesc.userData = GetActor();
@@ -78,6 +80,7 @@ void PhysXControllerComponent::SetMoveSpeed(float4 _MoveSpeed)
 	}
 	m_pControllerDir = float4::ZERO;
 }
+
 
 void PhysXControllerComponent::Start()
 {

@@ -25,14 +25,14 @@ void EnemyGrunt::InitAniamtion()
 	EnemyRenderer->CreateFBXAnimation("JUMP_MAIN", "_E_GRUNT_JUMP_MAIN.fbx", { 0.02f,false });
 	EnemyRenderer->CreateFBXAnimation("HIT", "_E_GRUNT_HIT.fbx", { 0.02f,false });
 
-	EnemyRenderer->SetAnimationStartFunc("JUMP_MAIN", 20, [this]
-		{
-			m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
-			m_pAttackBox->SetScale(float4(50, 50, 50));
-			m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(40, 0, 0));
-			float4 f4MyPos = GetTransform()->GetWorldPosition();
-			m_pAttackBox->SetTrans(m_f4ShootDir, f4MyPos);
-		});
+	//EnemyRenderer->SetAnimationStartFunc("JUMP_MAIN", 20, [this]
+	//	{
+	//		m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
+	//		m_pAttackBox->SetScale(float4(50, 50, 50));
+	//		m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(40, 0, 0));
+	//		float4 f4MyPos = GetTransform()->GetWorldPosition();
+	//		m_pAttackBox->SetTrans(m_f4ShootDir, f4MyPos);
+	//	});
 
 	EnemyRenderer->ChangeAnimation("IDLE");
 }
@@ -51,6 +51,7 @@ void EnemyGrunt::Start()
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_GRUNT);
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+		m_pCapsuleComp->CreateShape(SubShapeType::BOX, float4(60, 10, 100), float4(0,0,50));
 	}
 	SetFSMFUNC();
 }
@@ -182,6 +183,7 @@ void EnemyGrunt::SetFSMFUNC()
 		[this]
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp);
+			m_pCapsuleComp->AttachShape();
 		},
 		[this](float Delta)
 		{
@@ -230,7 +232,6 @@ void EnemyGrunt::SetFSMFUNC()
 				if (true == EnemyRenderer->IsAnimationEnd())
 				{
 			
-				m_pAttackBox->Death();
 				SetNextState(EnemyGruntState::IDLE);
 				return;
 				}
@@ -239,6 +240,7 @@ void EnemyGrunt::SetFSMFUNC()
 		},
 		[this]
 		{
+			m_pCapsuleComp->DetachShape();
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 		}
 	);
