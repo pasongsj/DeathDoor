@@ -37,8 +37,13 @@ private:
 
 	void AggroMove(float _DeltaTime);
 	void SetFSMFUNC();
-	
 
+	std::shared_ptr<class EnemyAttackBox> m_pAttackBox = nullptr;
+	float4 m_f4ShootDir = float4::ZERO;
+
+	float m_fDistance = 0.f;
 	//float StateDuration = 0.0f;
 	//bool StateChecker = false;
+
+
 };

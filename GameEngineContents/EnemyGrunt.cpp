@@ -1,5 +1,7 @@
 #include "PreCompileHeader.h"
 #include "EnemyGrunt.h"
+#include "EnemyAttackBox.h"
+#include "Player.h"
 
 EnemyGrunt::EnemyGrunt() 
 {
@@ -23,6 +25,14 @@ void EnemyGrunt::InitAniamtion()
 	EnemyRenderer->CreateFBXAnimation("JUMP_MAIN", "_E_GRUNT_JUMP_MAIN.fbx", { 0.02f,false });
 	EnemyRenderer->CreateFBXAnimation("HIT", "_E_GRUNT_HIT.fbx", { 0.02f,false });
 
+	//EnemyRenderer->SetAnimationStartFunc("JUMP_MAIN", 20, [this]
+	//	{
+	//		m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
+	//		m_pAttackBox->SetScale(float4(50, 50, 50));
+	//		m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(40, 0, 0));
+	//		float4 f4MyPos = GetTransform()->GetWorldPosition();
+	//		m_pAttackBox->SetTrans(m_f4ShootDir, f4MyPos);
+	//	});
 
 	EnemyRenderer->ChangeAnimation("IDLE");
 }
@@ -32,6 +42,7 @@ void EnemyGrunt::InitAniamtion()
 void EnemyGrunt::Start()
 {
 	EnemyBase::Start();
+	SetEnemyHP(4);
 	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_GRUNT);
 
 	// physx
@@ -39,6 +50,8 @@ void EnemyGrunt::Start()
 		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_GRUNT);
+		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+		m_pCapsuleComp->CreateShape(SubShapeType::BOX, float4(60, 10, 100), float4(0,0,50));
 	}
 	SetFSMFUNC();
 }
@@ -105,8 +118,8 @@ void EnemyGrunt::SetFSMFUNC()
 	SetFSM(EnemyGruntState::MOVE,
 		[this]
 		{
+			m_f4ShootDir = AggroDir(m_pCapsuleComp);
 			EnemyRenderer->ChangeAnimation("WALK");
-			AggroDir(m_pCapsuleComp);
 		},
 		[this](float Delta)
 		{
@@ -121,7 +134,7 @@ void EnemyGrunt::SetFSMFUNC()
 				SetStateCheckerOn();
 				//StateChecker = true;
 			}
-			if (true == InRangePlayer(200.0f))
+			if (true == InRangePlayer(550.0f))
 			{
 				SetNextState(EnemyGruntState::JUMP_WAIT);
 				return;
@@ -131,7 +144,6 @@ void EnemyGrunt::SetFSMFUNC()
 		},
 		[this]
 		{
-			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 		}
 	);
@@ -148,9 +160,11 @@ void EnemyGrunt::SetFSMFUNC()
 				return;
 			}
 			//StateDuration += Delta;
+
+
 			if (GetStateDuration() > 0.5f)
 			{
-				if (false == InRangePlayer(350.0f))
+				if (false == InRangePlayer(550.0f))
 				{
 					SetNextState(EnemyGruntState::MOVE);
 					return;
@@ -158,7 +172,7 @@ void EnemyGrunt::SetFSMFUNC()
 				SetNextState(EnemyGruntState::JUMP);
 				return;
 			}
-			AggroDir(m_pCapsuleComp);
+			m_f4ShootDir = AggroDir(m_pCapsuleComp);
 
 		},
 		[this]
@@ -168,37 +182,65 @@ void EnemyGrunt::SetFSMFUNC()
 	SetFSM(EnemyGruntState::JUMP,
 		[this]
 		{
-			EnemyRenderer->ChangeAnimation("JUMP_START");
+			m_f4ShootDir = AggroDir(m_pCapsuleComp);
+			m_pCapsuleComp->AttachShape();
 		},
 		[this](float Delta)
 		{
-			static float4 JumpDir;
-			if (true == EnemyRenderer->IsAnimationEnd())
+
+		//	if (/*조건문 &&*/ false == GetStateChecker())
+		//	{
+		//		EnemyRenderer->ChangeAnimation("JUMP_MAIN");
+		//		SetStateCheckerOn();
+		//		return;
+		//	}
+		//	if (/*조건문 &&*/ true == GetStateChecker()&& nullptr == m_pAttackBox)
+		//	{
+		//		m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
+		//		m_pAttackBox->SetScale(float4(50, 50, 50));
+		//		m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(40, 0, 0));
+		//		float4 f4MyPos = GetTransform()->GetWorldPosition();
+		//		m_pAttackBox->SetTrans(m_f4ShootDir, f4MyPos);
+		//		return;
+		//	}
+		//	if (/*조건문 &&*/m_pAttackBox!=nullptr)
+		//	{
+		//		m_pAttackBox->Death();
+		//		m_pAttackBox = nullptr;
+		//		SetNextState(EnemyGruntState::IDLE);
+		//		return;
+		//	}
+			//if (m_f4HeightPos.Size()<250.f&& false == GetStateChecker())
+			//{
+			//	EnemyRenderer->ChangeAnimation("JUMP_MAIN");
+			//	if (true == EnemyRenderer->IsAnimationEnd())
+			//	{
+			//		m_pAttackBox->Death();
+			//		SetNextState(EnemyGruntState::IDLE);
+			//	}
+			//	return;
+			//}	
+			//
+			m_pCapsuleComp->SetMoveSpeed(m_f4ShootDir*500.f);
+			if (true == EnemyRenderer->IsAnimationEnd()&& false == GetStateChecker())
 			{
-				if (false == GetStateChecker())
+				EnemyRenderer->ChangeAnimation("JUMP_MAIN");
+				SetStateCheckerOn();
+			}
+			if (true == GetStateChecker() )
+			{
+				if (true == EnemyRenderer->IsAnimationEnd())
 				{
-					EnemyRenderer->ChangeAnimation("JUMP_MAIN");
-					SetStateCheckerOn();
-					//StateChecker = true;
-					JumpDir = AggroDir(m_pCapsuleComp);
-					JumpDir.y = 1.0f;
-					m_pCapsuleComp->SetMoveSpeed(JumpDir * GRUNT_JUMP_SPEED);
-				}
-				else
-				{
-					//attack
-					SetNextState(EnemyGruntState::IDLE);
+			
+				SetNextState(EnemyGruntState::IDLE);
+				return;
 				}
 			}
-			//if (true == StateChecker)
-			//{
-			//	m_pCapsuleComp->SetMoveSpeed(JumpDir * GRUNT_JUMP_SPEED);
-			//}
 
 		},
 		[this]
 		{
-			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+			m_pCapsuleComp->DetachShape();
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 		}
 	);
@@ -206,7 +248,7 @@ void EnemyGrunt::SetFSMFUNC()
 	SetFSM(EnemyGruntState::HIT,
 		[this]
 		{
-			AggroDir(m_pCapsuleComp);
+			m_f4ShootDir = AggroDir(m_pCapsuleComp);
 			EnemyRenderer->ChangeAnimation("HIT");
 		},
 		[this](float Delta)

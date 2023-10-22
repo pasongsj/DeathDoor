@@ -3,6 +3,12 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include "ContentsEnum.h"
 
+enum class SubShapeType
+{
+	BOX,
+	SPHERE,
+};
+
 // 설명 : PhysX에서 공통으로 사용할 함수들
 class PhysXDefault
 {
@@ -141,6 +147,10 @@ public:
 		return m_pRigidStatic;
 	}
 
+	physx::PxShape* GetShape()
+	{
+		return m_pShape;
+	}
 	
 	physx::PxPhysics* GetPhysics()
 	{
@@ -209,6 +219,20 @@ public:
 
 	void SetRigidCollide(bool _Value);
 
+
+	virtual void CreateShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos = float4::ZERO);
+
+
+	void AttachShape()
+	{
+		m_pRigidDynamic->attachShape(*m_pSubShape);
+	}
+
+	void DetachShape()
+	{
+		m_pRigidDynamic->detachShape(*m_pSubShape);
+	}
+
 protected:
 	physx::PxController* m_pController = nullptr;
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
@@ -232,6 +256,7 @@ protected:
 
 	physx::PxMaterial* m_pMaterial = nullptr;
 	physx::PxShape* m_pShape = nullptr;
+	physx::PxShape* m_pSubShape = nullptr;
 	
 
 	float4 m_fShapeCenter = float4::ZERO;

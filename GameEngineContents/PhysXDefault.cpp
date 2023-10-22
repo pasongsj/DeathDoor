@@ -269,3 +269,59 @@ void PhysXDefault::SetRigidCollide(bool _Value)
 {
     m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, _Value);
 }
+
+void PhysXDefault::CreateShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos)
+{
+	switch (_Type)
+	{
+	case SubShapeType::BOX:
+	{
+		//m_pSubShape =GetPhysics()->createShape(physx::PxBoxGeometry(_Scale.half().PhysXVec3Return()), *m_pMaterial);
+		m_pSubShape = GetPhysics()->createShape(physx::PxBoxGeometry(_Scale.half().PhysXVec3Return()), *m_pMaterial);
+
+		//m_pController->getActor()->attachShape(*m_pSubShape);
+
+		m_pSubShape->setLocalPose(physx::PxTransform(_LocalPos.PhysXVec3Return()/*, physx::PxQuat(physx::PxHalfPi, float4(0, 0, 1).PhysXVec3Return())*/));
+
+		m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+		m_pSubShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+
+		m_pSubShape->setSimulationFilterData
+		(
+			physx::PxFilterData
+			(
+				static_cast<physx::PxU32>(PhysXFilterGroup::MonsterSkill),
+				0,
+				0,
+				0
+			)
+		);
+	}
+	break;
+	case SubShapeType::SPHERE:
+	{
+		m_pSubShape = GetPhysics()->createShape(physx::PxSphereGeometry(_Scale.half().PhysXVec3Return().y), *m_pMaterial);
+
+
+		m_pSubShape->setLocalPose(physx::PxTransform(_LocalPos.PhysXVec3Return(), physx::PxQuat(physx::PxHalfPi, float4(0, 0, 1).PhysXVec3Return())));
+
+		m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+		m_pSubShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+
+		m_pSubShape->setSimulationFilterData
+		(
+			physx::PxFilterData
+			(
+				static_cast<physx::PxU32>(PhysXFilterGroup::MonsterSkill),
+				0,
+				0,
+				0
+			)
+		);
+	}
+	break;
+	default:
+		break;
+
+	}
+}
