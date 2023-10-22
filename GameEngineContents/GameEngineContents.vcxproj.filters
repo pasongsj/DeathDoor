@@ -785,10 +785,10 @@
     <ClInclude Include="WaterBox.h">
       <Filter>Component\ContentsRenderer\Object\Water</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyJumper.h">
+    <ClInclude Include="Boomerang.h">
       <Filter>FSMObject\Enemy\Jumper</Filter>
     </ClInclude>
-    <ClInclude Include="Boomerang.h">
+    <ClInclude Include="EnemyJumper.h">
       <Filter>FSMObject\Enemy\Jumper</Filter>
     </ClInclude>
   </ItemGroup>

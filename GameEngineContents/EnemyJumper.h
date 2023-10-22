@@ -42,13 +42,21 @@ private:
 		MAX,
 	};
 
-	void SetBoomerangPos(BoomerangState _Pos);
+
+	float4 JumpDir = float4::ZERO;
+
+	void JumpMove(float _DeltaTime);
+
+	void SetBoomerangState(BoomerangState _State);
+
+	void ThrowBoomer();
+
 	void SetFSMFUNC();
+
+	bool CheckBooemrang();
 
 	BoomerangState CurBoomer = BoomerangState::HEAD;
 
-
-	void IdleUpdate(float _deltaTime);
 
 };
 

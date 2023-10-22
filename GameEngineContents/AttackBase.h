@@ -19,6 +19,8 @@ public:
 	AttackBase(AttackBase&& _Other) noexcept = delete;
 	AttackBase& operator=(const AttackBase& _Other) = delete;
 	AttackBase& operator=(AttackBase&& _Other) noexcept = delete;
+
+
 	void SetTrans(const float4& _Dir, const float4& _Pos);
 
 	std::shared_ptr<class PhysXComponent> GetPhysXComponent()
