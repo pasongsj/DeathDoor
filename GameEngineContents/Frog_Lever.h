@@ -38,6 +38,11 @@ public:
 		m_eState = _State;
 	}
 
+	void SetTriggerFunction(std::function<void()> _Func)
+	{
+		m_TriggerFunc = _Func;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -50,6 +55,8 @@ private:
 	std::shared_ptr<class PhysXBoxComponent> m_pPhysXTriggerComponent = nullptr;
 
 	bool m_bIsOpen = false;
+
+	std::function<void()> m_TriggerFunc;
 
 	LeverState m_eState = LeverState::CLOSE;
 };

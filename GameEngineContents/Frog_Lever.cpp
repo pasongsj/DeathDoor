@@ -30,6 +30,12 @@ void Frog_Lever::Update(float _DeltaTime)
 	{
 		int a = 0;
 	}
+
+	//조건을 IsDown, CheckCollision , m_Trigger의 null체크 
+	if (m_TriggerFunc!= nullptr)
+	{
+		m_TriggerFunc();
+	}
 }
 
 void Frog_Lever::InitComponent()
@@ -52,14 +58,4 @@ void Frog_Lever::InitComponent()
 	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, MeshScale* 3.f,float4(0,50,0));
 	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
 	m_pPhysXComponent->AttachShape();
-
-	//m_pPhysXTriggerComponent = CreateComponent<PhysXBoxComponent>();
-	//m_pPhysXTriggerComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
-	//m_pPhysXTriggerComponent->CreatePhysXActors(MeshScale.PhysXVec3Return() * 1.5f, float4::ZERONULL, true);
-	//
-	//m_pPhysXTriggerComponent->SetWorldPosWithParent(GetTransform()->GetWorldPosition() + float4 { 0, 0 , 500});
-	//m_pPhysXTriggerComponent->SetTrigger();
-	//
-	//// 충돌그룹세팅
-	//m_pPhysXTriggerComponent->SetFilterData(PhysXFilterGroup::LeverTrigger);
 }
