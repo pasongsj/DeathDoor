@@ -6,6 +6,7 @@
 #define GRUNT_JUMP_SPEED 500.0f
 #define BAT_MOVE_SPEED 200.0f
 #define GHOUL_MOVE_SPEED 100.0f
+#define JUMPER_MOVE_SPEED 500.0f
 //#define IDLEMOVEROT float4{0,10.0f,0}
 
 
@@ -14,6 +15,7 @@
 #define DEFAULT_DIR_BRUTE		float4{0.0f,90.0f,0.0f}
 #define DEFAULT_DIR_BRUTEGOLD	float4{0.0f,90.0f,0.0f}
 #define DEFAULT_DIR_GHOUL		float4::BACK
+#define DEFAULT_DIR_JUMPER		float4::BACK
 
 //SCALE
 	//RENDERER
@@ -40,3 +42,6 @@
 
 #define RENDERSCALE_MAGE			50.0f
 #define PHYSXSCALE_MAGE				float4{0.0f, 120.0f, 80.0f}
+
+#define RENDERSCALE_JUMPER			60.0f
+#define PHYSXSCALE_JUMPER			float4{0.0f, 241.0f, 240.0f}
