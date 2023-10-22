@@ -285,7 +285,7 @@ void PhysXDefault::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _Loc
 
 		m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
 		m_pSubShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
-
+        m_pSubShape->userData = ParentActor.lock().get();
 		m_pSubShape->setSimulationFilterData
 		(
 			physx::PxFilterData
@@ -307,8 +307,8 @@ void PhysXDefault::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _Loc
 
 		m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
 		m_pSubShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
-
-		m_pSubShape->setSimulationFilterData
+        m_pSubShape->userData = ParentActor.lock().get();
+        m_pSubShape->setSimulationFilterData
 		(
 			physx::PxFilterData
 			(

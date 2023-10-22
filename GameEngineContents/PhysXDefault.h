@@ -225,16 +225,42 @@ public:
 
 	void AttachShape()
 	{
-		m_pRigidDynamic->attachShape(*m_pSubShape);
+		if (m_pRigidDynamic!=nullptr)
+		{
+			m_pRigidDynamic->attachShape(*m_pSubShape);
+			return;
+		}
+
+		if (m_pRigidStatic != nullptr)
+		{
+			m_pRigidStatic->attachShape(*m_pSubShape);
+			return;
+		}
 	}
 
 	void DetachShape()
 	{
-		m_pRigidDynamic->detachShape(*m_pSubShape);
+		if (m_pRigidDynamic != nullptr)
+		{
+			m_pRigidDynamic->detachShape(*m_pSubShape);
+			return;
+		}
+
+		if (m_pRigidStatic != nullptr)
+		{
+			m_pRigidStatic->detachShape(*m_pSubShape);
+			return;
+		}
 	}
 
 	void SetSubShapeFilter(PhysXFilterGroup _ThisFilter)
 	{
+		if (false == m_pSubShape->isExclusive())
+		{
+			MsgAssert("Attach를 하기 전에 설정을 미리 해주세요");
+			return;
+		}
+		
 		m_pSubShape->setSimulationFilterData
 		(
 			physx::PxFilterData
