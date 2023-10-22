@@ -34,6 +34,8 @@ protected:
 
 	bool InRangePlayer(float _Range);
 
+	float4 GetPlayerPosition();
+
 	float4 GetPlayerDir();
 
 	float4 AggroDir(std::shared_ptr<class PhysXControllerComponent> _Comp, float4 DefaultDir = float4::ZERO);

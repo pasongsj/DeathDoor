@@ -1,8 +1,9 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "EnemyAttackSphere.h"
 
-class Boomerang : public GameEngineActor
+class Boomerang : public EnemyAttackSphere
 {
+	friend class EnemyJumper;
 public:
 
 	Boomerang();
@@ -13,15 +14,7 @@ public:
 	Boomerang& operator=(const Boomerang& _Other) = delete;
 	Boomerang& operator=(Boomerang&& _Other) noexcept = delete;
 
-	enum class BoomerType
-	{
-		HEAD,
-		LEFT,
-		RIGHT,
-		MAX
-	};
 
-	void SetBoomer(BoomerType Type, const float4& Position, const float4& Rotation);
 
 
 protected:
@@ -30,9 +23,20 @@ protected:
 
 private:
 
+	bool BackTo = false;
 
-	std::shared_ptr<class ContentFBXRenderer> AttackRenderer = nullptr;
+	bool Destroy = false;
+	void SetDestPos(const float4& _Pos)
+	{
+		DestPostion = _Pos;
+		float4 Dir = DestPostion - GetTransform()->GetWorldPosition();
+		Dir.Normalize();
+		SetTrans(Dir);
+		SetShootSpeed(800.0f);
+	}
 
+
+	float4 DestPostion = float4::ZERONULL;
 
 };
 

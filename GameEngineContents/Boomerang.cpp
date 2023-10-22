@@ -12,6 +12,8 @@ Boomerang::~Boomerang()
 
 void Boomerang::Start()
 {
+	SetRender(float4::ONE * 150.0f, "Boomerang.fbx");
+	SetPhysXComp(float4::ONE * 150.0f, float4::DOWN * 100.0f);
 }
 
 void Boomerang::Update(float _DeltaTime)
@@ -20,37 +22,39 @@ void Boomerang::Update(float _DeltaTime)
 	{
 		return;
 	}
-}
+	AttackRenderer->GetTransform()->SetLocalRotation(float4{ 0.0f, GetLiveTime() * 200.0f ,0 });
 
-void Boomerang::SetBoomer(BoomerType Type, const float4& Position, const float4& Rotation)
-{
-	if (nullptr == AttackRenderer)
+	if (BackTo == false)
 	{
-		AttackRenderer = CreateComponent<ContentFBXRenderer>();
-		AttackRenderer->SetFBXMesh("Boomerang.fbx", "ContentMeshDeffered");
-		switch (Type)
+		if (GetLiveTime() > 3.0f)
 		{
-		case Boomerang::BoomerType::HEAD:
-			//AttackRenderer->SetFBXMesh("handBoomer_HEAD.fbx", "ContentMeshDeffered");
-			AttackRenderer->GetTransform()->SetLocalRotation(float4{-90.0f,-0.0f,90.0f});
-		
-			break;
-		case Boomerang::BoomerType::LEFT:
-			//AttackRenderer->SetFBXMesh("handBoomer_LEFT.fbx", "ContentMeshDeffered");
-		
-			break;
-		case Boomerang::BoomerType::RIGHT:
-			//AttackRenderer->SetFBXMesh("handBoomer_RIGHT.fbx", "ContentMeshDeffered");
-			break;
-		case Boomerang::BoomerType::MAX:
-			break;
-		default:
-			break;
+			SetShootSpeed(50.0f);
+			DestPostion = float4::ZERONULL;
+			BackTo = true;
 		}
-
-		AttackRenderer->GetTransform()->SetWorldScale(float4::ONE * 70.0f);
-
+		else if (GetLiveTime() > 0.7f)
+		{
+			SetShootSpeed(200.0f);
+		}
+		else if (GetLiveTime() > 0.5f)
+		{
+			SetShootSpeed(400.0f);
+		}
 	}
-	AttackRenderer->GetTransform()->SetLocalPosition(Position);
-	AttackRenderer->GetTransform()->SetWorldRotation(Rotation);
+ 	else if(DestPostion != float4::ZERONULL)
+	{
+		float4 Distance = DestPostion - GetTransform()->GetWorldPosition();
+		Distance.y = 0;
+		SetTrans(Distance.NormalizeReturn());
+		if (Distance.Size() < 50.0f)
+		{
+			SetShootSpeed(0.0f);
+			Destroy = true;
+		}
+	}
+	if (GetLiveTime() > 10.0f)
+	{
+		Destroy = true;
+	}
+	AttackBase::Update(_DeltaTime);
 }

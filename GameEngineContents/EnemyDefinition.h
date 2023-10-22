@@ -6,7 +6,7 @@
 #define GRUNT_JUMP_SPEED 800.f
 #define BAT_MOVE_SPEED 200.0f
 #define GHOUL_MOVE_SPEED 100.0f
-#define JUMPER_MOVE_SPEED 500.0f
+#define JUMPER_MOVE_SPEED 1000.0f
 //#define IDLEMOVEROT float4{0,10.0f,0}
 
 
@@ -44,4 +44,4 @@
 #define PHYSXSCALE_MAGE				float4{0.0f, 120.0f, 80.0f}
 
 #define RENDERSCALE_JUMPER			60.0f
-#define PHYSXSCALE_JUMPER			float4{0.0f, 241.0f, 240.0f}
+#define PHYSXSCALE_JUMPER			float4{0.0f, 201.0f, 200.0f}
