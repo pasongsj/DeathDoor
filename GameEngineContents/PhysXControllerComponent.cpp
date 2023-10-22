@@ -88,9 +88,9 @@ void PhysXControllerComponent::CreateSubShape(SubShapeType _Type, float4 _Scale,
 	(
 		physx::PxVec3
 		(
-			m_pController->getPosition().x,
-			m_pController->getPosition().y,
-			m_pController->getPosition().z
+			static_cast<float>(m_pController->getPosition().x),
+			static_cast<float>(m_pController->getPosition().y),
+			static_cast<float>(m_pController->getPosition().z)
 		),
 		physx::PxQuat(ParentActor.lock()->GetTransform()->GetWorldRotation().PhysXQuatReturn())
 	);
@@ -115,9 +115,9 @@ void PhysXControllerComponent::Update(float _DeltaTime)
 		(
 			physx::PxVec3
 			(
-				m_pController->getPosition().x,
-				m_pController->getPosition().y,
-				m_pController->getPosition().z
+				static_cast<float>(m_pController->getPosition().x),
+				static_cast<float>(m_pController->getPosition().y),
+				static_cast<float>(m_pController->getPosition().z)
 			),
 			physx::PxQuat(ParentActor.lock()->GetTransform()->GetWorldRotation().PhysXQuatReturn())
 		);

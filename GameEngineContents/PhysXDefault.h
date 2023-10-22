@@ -254,13 +254,7 @@ public:
 	}
 
 	void SetSubShapeFilter(PhysXFilterGroup _ThisFilter)
-	{
-		if (false == m_pSubShape->isExclusive())
-		{
-			MsgAssert("Attach를 하기 전에 설정을 미리 해주세요");
-			return;
-		}
-		
+	{		
 		m_pSubShape->setSimulationFilterData
 		(
 			physx::PxFilterData
