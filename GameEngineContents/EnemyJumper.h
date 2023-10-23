@@ -63,5 +63,7 @@ private:
 	std::shared_ptr<class Boomerang> Boomer = nullptr;
 
 	float IdleDelayTime = 1.0f;
+
+	void AggroBoomer();
 };
 
