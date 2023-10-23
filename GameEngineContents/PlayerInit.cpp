@@ -25,6 +25,11 @@ void Player::InitInputKey()
 		GameEngineInput::CreateKey("PressN", 'N');
 	}
 
+	if (false == GameEngineInput::IsKey("F"))
+	{
+		GameEngineInput::CreateKey("F", 'F');
+	}
+
 	CameraRot = GetLevel()->GetMainCamera()->GetTransform()->GetWorldRotation();
 }
 
