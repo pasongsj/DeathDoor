@@ -197,7 +197,7 @@ void EnemyMage::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			CheckHit();
+			
 
 			m_pCapsuleComp->SetMoveSpeed(-GetTransform()->GetLocalForwardVector() * 100);
 			if (true == EnemyRenderer->IsAnimationEnd())
@@ -207,6 +207,11 @@ void EnemyMage::SetFSMFUNC()
 				//	SetNextState(EnemyMageState::MOVE);
 				//	return;
 				//}
+				if (true == CheckHit())
+				{
+					SetNextState(EnemyMageState::HIT);
+					return;
+				}
 				SetNextState(EnemyMageState::MOVE);
 			}
 		},
@@ -230,6 +235,7 @@ void EnemyMage::SetFSMFUNC()
 			if (CheckHit() == true)
 			{
 				SetNextState(EnemyMageState::HIT);
+				return;
 			}
 
 			if (false == m_bShoot)

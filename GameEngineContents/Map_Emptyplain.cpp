@@ -28,7 +28,7 @@ void Map_Emptyplain::InitComponent()
 {
 	// ¸Ê ·»´õ·¯ 
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer->SetFBXMesh("BigCrow_Floor.fbx", "ContentMeshForward");
+	m_pRenderer->SetFBXMesh("BigCrow_Floor.fbx", "ContentMeshDeffered");
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
 

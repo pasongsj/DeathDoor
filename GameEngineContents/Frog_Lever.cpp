@@ -20,14 +20,29 @@ void Frog_Lever::Start()
 
 void Frog_Lever::Update(float _DeltaTime)
 {
-	int a = 0;
+	bool b = CheckCollision(PhysXFilterGroup::PlayerDynamic);
+	if (b == true)
+	{
+		int a = 0;
+	}
+
+	if (b == false)
+	{
+		int a = 0;
+	}
+
+	//조건을 IsDown, CheckCollision , m_Trigger의 null체크 
+	if (m_TriggerFunc!= nullptr)
+	{
+		m_TriggerFunc();
+	}
 }
 
 void Frog_Lever::InitComponent()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->GetTransform()->SetLocalScale(float4{ 100, 100, 100 });
-	m_pRenderer->SetFBXMesh("LEVER_MESH.FBX", "MeshAniTexture");
+	m_pRenderer->SetFBXMesh("LEVER_MESH.FBX", "ContentAniMeshDeffered");
 	m_pRenderer->CreateFBXAnimation("Lever_Open", "LEVER_OPEN (1).FBX", { 0.02f, true });
 	m_pRenderer->ChangeAnimation("Lever_Open");
 
@@ -37,15 +52,10 @@ void Frog_Lever::InitComponent()
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
 	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
-	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
-
-	m_pPhysXTriggerComponent = CreateComponent<PhysXBoxComponent>();
-	m_pPhysXTriggerComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
-	m_pPhysXTriggerComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
-
-	m_pPhysXTriggerComponent->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERONULL, GetTransform()->GetLocalPosition() + float4 { 0, 0 , -100}));
-	m_pPhysXTriggerComponent->SetTrigger();
-
-	// 충돌그룹세팅
-	m_pPhysXTriggerComponent->SetFilterData(PhysXFilterGroup::LeverTrigger, PhysXFilterGroup::PlayerDynamic);
+	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
+	//m_pPhysXComponent->SetPositionSetFromParentFlag(true);
+	MeshScale.y = 10.f;
+	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, MeshScale* 3.f,float4(0,50,0));
+	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
+	m_pPhysXComponent->AttachShape();
 }

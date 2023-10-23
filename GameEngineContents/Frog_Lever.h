@@ -28,14 +28,14 @@ public:
 		return m_pPhysXComponent;
 	}
 
-	inline std::shared_ptr<class PhysXBoxComponent> GetTriggerComponent() const
-	{
-		return m_pPhysXTriggerComponent;
-	}
-
 	inline void SetState(LeverState _State)
 	{
 		m_eState = _State;
+	}
+
+	void SetTriggerFunction(std::function<void()> _Func)
+	{
+		m_TriggerFunc = _Func;
 	}
 
 protected:
@@ -50,6 +50,8 @@ private:
 	std::shared_ptr<class PhysXBoxComponent> m_pPhysXTriggerComponent = nullptr;
 
 	bool m_bIsOpen = false;
+
+	std::function<void()> m_TriggerFunc;
 
 	LeverState m_eState = LeverState::CLOSE;
 };

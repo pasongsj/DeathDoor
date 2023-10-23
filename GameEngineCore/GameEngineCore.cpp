@@ -111,11 +111,14 @@ void GameEngineCore::EngineUpdate()
 		return;
 	}
 
-	// 별로 좋은건 아닙니다.
-	/*if (TimeDeltaTime > 1 / 30.0f) 
+
+#ifdef _DEBUG
+
+	if (TimeDeltaTime > 1 / 30.0f)
 	{
 		TimeDeltaTime = 1 / 30.0f;
-	}*/
+	}
+#endif // _DEBUG
 
 	UpdateTime += TimeDeltaTime;
 

@@ -22,6 +22,7 @@ void PlayerAttackArrow::Start()
 	// PhysX
 	CreatePhysXAttComp<PhysXCapsuleComponent>(PLAYER_ATT_ARROW_PHYSX_SCALE, PhysXFilterGroup::PlayerSkill);
 	PhysXComp->SetShapeAxis(0,float4::LEFT);
+	SetDestTarget(PhysXFilterGroup::MonsterDynamic);
 
 	AttackRenderer->SetGlowToUnit(0, 0);
 	AttackRenderer->SetColor({ 0.85f, 0.26f, 0.33f }, 2.25f);

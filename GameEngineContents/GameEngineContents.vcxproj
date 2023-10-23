@@ -168,6 +168,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Boomerang.cpp" />
     <ClCompile Include="Dust.cpp">
       <SubType>
       </SubType>
@@ -268,6 +269,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="EnemyGrunt.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyJumper.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -497,6 +502,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Boomerang.h" />
     <ClInclude Include="Dust.h">
       <SubType>
       </SubType>
@@ -613,6 +619,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EnemyGrunt.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyJumper.h">
       <SubType>
       </SubType>
     </ClInclude>

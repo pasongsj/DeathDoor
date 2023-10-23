@@ -22,6 +22,7 @@ void PlayerAttackBomb::Start()
 	AttackRenderer->GetTransform()->SetLocalScale(PLAYER_ATT_BOMB_RENDER_SCALE);
 	// PhysX
 	CreatePhysXAttComp<PhysXSphereComponent>(PLAYER_ATT_BOMB_PHYSX_SCALE, PhysXFilterGroup::PlayerSkill);
+	SetDestTarget(PhysXFilterGroup::MonsterDynamic);
 
 	AttackRenderer->SetGlowToUnit(0, 0);
 	AttackRenderer->SetBlurColor(float4{1.0f, 0.1f, 0.2f} * 2.5f);

@@ -42,7 +42,7 @@ void Player::Start()
 		m_pCapsuleComp->CreatePhysXActors(PLAYER_PHYSX_SCALE);
 		//m_pCapsuleComp->SetDynamicPivot(float4::BACK * 10.0f);
 		// lever 충돌테스트 
-		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic, PhysXFilterGroup::LeverTrigger);
+		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic);
 	}
 	m_pCapsuleComp->SetWorldPosWithParent(float4{1000.0f, 500.0f, 0.0f},float4::ZERO);
 

@@ -35,6 +35,8 @@ void EnemyAttackSphere::SetPhysXComp(const float4& _PhysXScale, const float4& _P
 	// PhysX
 	CreatePhysXAttComp<PhysXSphereComponent>(_PhysXScale, PhysXFilterGroup::MonsterSkill);
 	PhysXComp->SetDynamicPivot(_Pivot);
+	SetDestTarget(PhysXFilterGroup::PlayerDynamic);
+
 }
 
 

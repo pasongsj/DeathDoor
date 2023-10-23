@@ -16,6 +16,7 @@
 #include "EnemyBrute.h"
 #include "EnemyGhoul.h"
 #include "EnemyBruteGold.h"
+#include "EnemyJumper.h"
 #include "MonsterAnimationTest.h"
 
 //test 
@@ -103,7 +104,7 @@ void MapTestLevel::InitTestLevel()
 		NewLadder->GetTransform()->SetLocalPosition(float4{ 800, 0 , 0 });
 		
 
-		// std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
+		 std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
 
 		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
 		std::shared_ptr<Player> Obj = CreateActor<Player>();
@@ -113,12 +114,12 @@ void MapTestLevel::InitTestLevel()
 		}
 
 
-		//std::shared_ptr<EnemyMage> Mage = CreateActor<EnemyMage>();
-		//Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
+		std::shared_ptr<EnemyJumper> Mage = CreateActor<EnemyJumper>();
+		Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
 
-		std::shared_ptr<EnemyGhoul> Ghoul = CreateActor<EnemyGhoul>();
-		Ghoul->InitGhoul(true);
-		Ghoul->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });
+		//std::shared_ptr<EnemyGhoul> Ghoul = CreateActor<EnemyGhoul>();
+		//Ghoul->InitGhoul(true);
+		//Ghoul->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });
 
 		//CreateActor<EnemyFirePlant>();
 		//CreateActor<PlayerAttMagic>();

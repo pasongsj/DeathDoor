@@ -256,7 +256,6 @@ void Player::SetFSMFunc()
 			{
 				StateInputDelayTime = 0.25f;
 			}
-			MoveUpdate(PLAYER_ATT_MOVE_SPEED);
 
 			{// base attack range
 				AttackActor = GetLevel()->CreateActor<PlayerAttackBasic>();
@@ -275,11 +274,12 @@ void Player::SetFSMFunc()
 				{
 					Trail->CreateTrail(MoveDir, GetTransform()->GetWorldPosition(), isRightAttack, true);
 				}
+
 			}
 		},
 		[this](float Delta)
 		{
-			
+			MoveUpdate(PLAYER_ATT_MOVE_SPEED);
 			if (true == Renderer->IsAnimationEnd())
 			{
 				//StateInputDelayTime = 0.1f;

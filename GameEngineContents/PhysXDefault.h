@@ -3,6 +3,12 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include "ContentsEnum.h"
 
+enum class SubShapeType
+{
+	BOX,
+	SPHERE,
+};
+
 // 설명 : PhysX에서 공통으로 사용할 함수들
 class PhysXDefault
 {
@@ -141,6 +147,10 @@ public:
 		return m_pRigidStatic;
 	}
 
+	physx::PxShape* GetShape()
+	{
+		return m_pShape;
+	}
 	
 	physx::PxPhysics* GetPhysics()
 	{
@@ -199,7 +209,7 @@ public:
 		return m_bStatic;
 	}
 
-	virtual void SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter1 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter2 = PhysXFilterGroup::None);
+	virtual void SetFilterData(PhysXFilterGroup _ThisFilter);
 
 	void SetTrigger()
 	{
@@ -208,6 +218,54 @@ public:
 	}
 
 	void SetRigidCollide(bool _Value);
+
+
+	virtual void CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos = float4::ZERO);
+
+
+	void AttachShape()
+	{
+		if (m_pRigidDynamic!=nullptr)
+		{
+			m_pRigidDynamic->attachShape(*m_pSubShape);
+			return;
+		}
+
+		if (m_pRigidStatic != nullptr)
+		{
+			m_pRigidStatic->attachShape(*m_pSubShape);
+			return;
+		}
+	}
+
+	void DetachShape()
+	{
+		if (m_pRigidDynamic != nullptr)
+		{
+			m_pRigidDynamic->detachShape(*m_pSubShape);
+			return;
+		}
+
+		if (m_pRigidStatic != nullptr)
+		{
+			m_pRigidStatic->detachShape(*m_pSubShape);
+			return;
+		}
+	}
+
+	void SetSubShapeFilter(PhysXFilterGroup _ThisFilter)
+	{		
+		m_pSubShape->setSimulationFilterData
+		(
+			physx::PxFilterData
+			(
+				static_cast<physx::PxU32>(_ThisFilter),
+				0,
+				0,
+				0
+			)
+		);
+	}
 
 protected:
 	physx::PxController* m_pController = nullptr;
@@ -232,6 +290,7 @@ protected:
 
 	physx::PxMaterial* m_pMaterial = nullptr;
 	physx::PxShape* m_pShape = nullptr;
+	physx::PxShape* m_pSubShape = nullptr;
 	
 
 	float4 m_fShapeCenter = float4::ZERO;

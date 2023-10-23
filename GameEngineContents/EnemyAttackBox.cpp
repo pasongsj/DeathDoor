@@ -14,7 +14,8 @@ EnemyAttackBox::~EnemyAttackBox()
 void EnemyAttackBox::Start()
 {
 	// PhysX
-	CreatePhysXAttComp<PhysXBoxComponent>(float4(300,60,150), PhysXFilterGroup::MonsterSkill);
+	CreatePhysXAttComp<PhysXBoxComponent>(float4(100,10,100), PhysXFilterGroup::MonsterSkill);
+	SetDestTarget(PhysXFilterGroup::PlayerDynamic);
 }
 
 void EnemyAttackBox::Update(float _DeltaTime)
