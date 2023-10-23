@@ -19,7 +19,7 @@ void PlayerBow::Start()
 	BowRenderer->GetTransform()->SetLocalScale(PLAYER_BOW_SCALE);
 	BowRenderer->GetTransform()->SetLocalRotation(PLAYER_BOW_DEFAULT_DIR);
 	BowRenderer->SetGlowToUnit(0,0);
-	BowRenderer->SetColor({ 0.85f, 0.26f, 0.33f }, 4.0f);
+	BowRenderer->SetColor({ 0.95f, 0.20f, 0.25f }, 2.0f);
 }
 
 
