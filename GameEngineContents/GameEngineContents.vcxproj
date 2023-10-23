@@ -326,6 +326,10 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
+    <ClCompile Include="LeverBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MapTestLevel.cpp" />
     <ClCompile Include="Map_Emptyplain.cpp" />
     <ClCompile Include="Map_Fortress.cpp" />
@@ -697,6 +701,10 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
+    <ClInclude Include="LeverBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MapTestLevel.h">
       <SubType>
       </SubType>
