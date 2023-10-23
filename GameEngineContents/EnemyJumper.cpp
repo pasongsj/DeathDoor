@@ -186,6 +186,21 @@ void EnemyJumper::JumpMove(float _DeltaTime)
 }
 
 
+void EnemyJumper::AggroBoomer()
+{
+	if (Boomer == nullptr)
+	{
+		return;
+	}
+	float4 BoomerDir = (Boomer->GetTransform()->GetWorldPosition()) - (GetTransform()->GetWorldPosition());
+	float4 Rot = float4::ZERO;
+	Rot.y = float4::GetAngleVectorToVectorDeg360(BoomerDir, float4::FORWARD);
+	Rot -= DEFAULT_DIR_JUMPER;
+	m_pCapsuleComp->SetRotation(Rot);
+
+}
+
+
 void EnemyJumper::SetFSMFUNC()
 {
 	InitFSM(EnemyJumperState::MAX);
@@ -287,6 +302,7 @@ void EnemyJumper::SetFSMFUNC()
 				return;
 			}
 			CheckBoomerang();
+			AggroBoomer();
 
 		},
 		[this]
