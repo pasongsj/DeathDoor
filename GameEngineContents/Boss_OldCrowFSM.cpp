@@ -3,6 +3,7 @@
 #include "Boss_OldCrow.h"
 #include "Boss_OldCrowChain.h"
 #include "Player.h"
+#include "Boss_OldCrowCrowHead.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
 
@@ -69,6 +70,9 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			if (true)
 			{
+				//std::shared_ptr<Boss_OldCrowCrowHead> test1 = GetLevel()->CreateActor<Boss_OldCrowCrowHead>();
+				//test1->SetCrowHead(float4{ 0, 100, 0 }, float4{ 0, 0, 0 });
+
 				SetRandomPattern();
 				return;
 			}
@@ -102,10 +106,14 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			BossRender->ChangeAnimation("Dash");
-			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_DASHSPEED);
+			//m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_DASHSPEED);
+
+			CurrentSpeed = BOSS_OLDCROW_DASHSPEED;
 		},
 		[this](float Delta)
 		{
+			m_pCapsuleComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * CurrentSpeed);
+
 			SetLerpDirection(Delta);
 		},
 		[this]
@@ -241,7 +249,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			StateCalTime += Delta;
 
-			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_MEGADASHSPEED );
+			m_pCapsuleComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_MEGADASHSPEED );
 
 			if (StateCalTime >= 1.0f)
 			{
@@ -419,28 +427,35 @@ void Boss_OldCrow::SetFSMFUNC()
 			float4 Position = float4::LerpClamp(EnemyPos, PlayerPos, 0.5f); //목표 지점
 
 			TargetPos = Position;
-			TargetPos.y += 300.0f;
+			TargetPos.y += 1250.0f;
 
-			JumpForce = TargetPos - GetTransform()->GetWorldPosition();
-			//JumpForce.Normalize();
+			JumpDir = TargetPos - EnemyPos;
+			JumpDir.Normalize();
+
 			m_pCapsuleComp->TurnOffGravity();
+
+			StateCalTime = 0.0f;
+
+			SetDirection();
 		},
 		[this](float Delta)
 		{
-			m_pCapsuleComp->SetMoveSpeed(JumpForce);
+			StateCalTime += Delta;
 
 			SetLerpDirection(Delta);
 
 			float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
-			PlayerPos.y = 0.0f;
-			float4 TargetDistancePos = TargetPos;
-			TargetDistancePos.y = 0.0f;
 			float4 BossPos = GetTransform()->GetWorldPosition();
-			BossPos.y = 0.0f;
 
-			float Value = BossPos.XYZDistance(PlayerPos);
-			float Value2 = TargetPos.XYZDistance(PlayerPos);
-			if (Value2 >= Value)
+			float Value = BossPos.XYZDistance(TargetPos);
+			//float Value2= Boss
+
+			if (Value >= 30.0f)
+			{
+				m_pCapsuleComp->SetMoveSpeed(JumpDir * BOSS_OLDCROW_JUMPFORCE);
+			}
+
+			if (Value <= 30.0f && StateCalTime > 1.0f)
 			{
 				SetNextState(Boss_OldCrowState::SLAM);
 				return;
@@ -459,14 +474,16 @@ void Boss_OldCrow::SetFSMFUNC()
 			BossRender->ChangeAnimation("Slam");
 
 			float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+			float4 BossPos = GetTransform()->GetWorldPosition();
 
-			TargetPos = PlayerPos;
+			SlamDir = PlayerPos - BossPos;
+			SlamDir.Normalize();
 		},
 		[this](float Delta)
 		{
-			m_pCapsuleComp->SetMoveSpeed(TargetPos - GetTransform()->GetWorldPosition());
+			m_pCapsuleComp->SetMoveSpeed(SlamDir * BOSS_OLDCROW_SLAMFORCE);
 
-			SetLerpDirection(Delta);
+			//SetLerpDirection(Delta);
 
 			float4 CollPoint = float4::ZERO;
 			if (true == m_pCapsuleComp->RayCast(GetTransform()->GetWorldPosition(), float4::DOWN, CollPoint, 2000.0f))
@@ -524,12 +541,25 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			BossRender->ChangeAnimation("ScreamMini");
+
+			StateCalTime = 0.0f;
 		},
 		[this](float Delta)
 		{
+			StateCalTime += Delta;
+
 			if (BossRender->IsAnimationEnd())
 			{
 				SetNextPatternState();
+			}
+
+			if (true)
+			{
+
+			}
+			else
+			{
+
 			}
 		},
 		[this]

@@ -103,9 +103,11 @@ private:
 	float StateCalTime2 = 0.0f;
 	float4 TargetPos = float4::ZERO;
 	float4 StartPos = float4::ZERO;
-	float4 JumpForce = float4::ZERO;
+	float4 JumpDir = float4::ZERO;
+	float4 SlamDir = float4::ZERO;
 	int MegaDash2PatternCount = 0;
 	int MegaDash2PatternNumber = 0;  
+	float CurrentSpeed = 0.0f;
 
 	//FSM에서 사용되는 함수
 	void TurnCheck(); //대쉬 중 회전 스테이트로 변경할 것인지 체크

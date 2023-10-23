@@ -7,6 +7,9 @@
 #include "Boss_OldCrow.h"
 #include "Player.h"
 #include "Boss_OldCrowChain.h"
+#include "Boss_OldCrowCrowHead.h"
+
+#include "Boss_OldCrowCrowHead.h"
 
 Boss_OldCrow::Boss_OldCrow() 
 {
@@ -23,16 +26,15 @@ void Boss_OldCrow::Start()
 	EnemyBase::Start();
 	InitPattern();
 	
-
 	// physx
 	{
-		float4 scale = BossRender->GetMeshScale() * BossRender->GetTransform()->GetWorldScale() / BossRender->GetTransform()->GetLocalScale();
-		// scale *= 2.0f;
-		physx::PxVec3 vscale = physx::PxVec3(scale.x, scale.y, scale.z);
 		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(vscale);
+		m_pCapsuleComp->CreatePhysXActors(float4{ 0.0f, 300.0f, 180.0f });
+		m_pCapsuleComp->SetTrigger();
+		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
+
 
 	ChainsInit();
 
@@ -111,10 +113,11 @@ void Boss_OldCrow::SetRandomPattern()
 	CurrentPatternNum = 0;
 
 	//Test용 스테이트 세팅 
-	PatternNum = 3;
-	RandomState = Boss_OldCrowState(Patterns[PatternNum][2]);
+	//PatternNum = 3;
+	//RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
 
 	SetNextState(RandomState);
+
 
 	/*switch (RandomPattern)
 	{
@@ -200,7 +203,7 @@ void Boss_OldCrow::SetMegaDashRandomPos()
 {
 	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 	PlayerPos.y = 0.0f;
-	float4 RandomPos = GetRandomPos(2000.0f);
+	float4 RandomPos = GetRandomPos(2500.0f);
 	RandomPos.y = 0.0f;
 	Dir = PlayerPos - RandomPos;
 
@@ -249,33 +252,35 @@ void Boss_OldCrow::ChainsInit()
 	
 	// 0 ~ 3 Case 1, 4 ~ 7 Case 2
 	{
+		//회전
 		float Value = 500.0f; 
 
-		MegaDash2PatternTransforms1[0]->GetTransform()->SetLocalPosition(float4{ -Value * 2, 0, -Value });
+		MegaDash2PatternTransforms1[0]->GetTransform()->SetLocalPosition(float4{ -Value * 6, 0, -Value });
 		MegaDash2PatternTransforms1[0]->GetTransform()->SetLocalRotation(float4{ 0, 90, 0 });
 
-		MegaDash2PatternTransforms1[1]->GetTransform()->SetLocalPosition(float4{ Value, 0, -Value * 2 });
+		MegaDash2PatternTransforms1[1]->GetTransform()->SetLocalPosition(float4{ Value, 0, -Value * 6 });
 
-		MegaDash2PatternTransforms1[2]->GetTransform()->SetLocalPosition(float4{ Value * 2, 0, Value });
+		MegaDash2PatternTransforms1[2]->GetTransform()->SetLocalPosition(float4{ Value * 6, 0, Value });
 		MegaDash2PatternTransforms1[2]->GetTransform()->SetLocalRotation(float4{ 0, -90, 0 });
 
-		MegaDash2PatternTransforms1[3]->GetTransform()->SetLocalPosition(float4{ -Value, 0, Value * 2 });
+		MegaDash2PatternTransforms1[3]->GetTransform()->SetLocalPosition(float4{ -Value, 0, Value * 6 });
 		MegaDash2PatternTransforms1[3]->GetTransform()->SetLocalRotation(float4{ 0, 180, 0 });
 	}
 	{
-		float Value = 1000.0f; //X값 
-		float Value2 = 300.0f;//Z값 
+		//일자
+		float Value = 3000.0f; //X값 
+		float Value2 = 700.0f; //Z간격
 
-		MegaDash2PatternTransforms2[0]->GetTransform()->SetLocalPosition(float4{ -Value, 0, -Value2 * 2 });
+		MegaDash2PatternTransforms2[0]->GetTransform()->SetLocalPosition(float4{ -Value, 0, ( - Value2 / 2 ) * 3 });
 		MegaDash2PatternTransforms2[0]->GetTransform()->SetLocalRotation(float4{ 0, 90, 0 });
 
-		MegaDash2PatternTransforms2[1]->GetTransform()->SetLocalPosition(float4{ Value, 0, -Value2 });
+		MegaDash2PatternTransforms2[1]->GetTransform()->SetLocalPosition(float4{ Value, 0, ( - Value2 / 2)});
 		MegaDash2PatternTransforms2[1]->GetTransform()->SetLocalRotation(float4{ 0, -90, 0 });
 
-		MegaDash2PatternTransforms2[2]->GetTransform()->SetLocalPosition(float4{ -Value, 0, Value2 });
+		MegaDash2PatternTransforms2[2]->GetTransform()->SetLocalPosition(float4{ -Value, 0, Value2 / 2 });
 		MegaDash2PatternTransforms2[2]->GetTransform()->SetLocalRotation(float4{ 0, 90, 0 });
 
-		MegaDash2PatternTransforms2[3]->GetTransform()->SetLocalPosition(float4{ Value, 0, Value2 * 2 });
+		MegaDash2PatternTransforms2[3]->GetTransform()->SetLocalPosition(float4{ Value, 0, (Value2 / 2 )* 3 });
 		MegaDash2PatternTransforms2[3]->GetTransform()->SetLocalRotation(float4{ 0, -90, 0 });
 	}
 }
