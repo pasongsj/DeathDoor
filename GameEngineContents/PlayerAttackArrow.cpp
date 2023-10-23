@@ -25,6 +25,7 @@ void PlayerAttackArrow::Start()
 	SetDestTarget(PhysXFilterGroup::MonsterDynamic);
 
 	AttackRenderer->SetGlowToUnit(0, 0);
+	AttackRenderer->SetColor({ 0.85f, 0.26f, 0.33f }, 2.25f);
 }
 
 void PlayerAttackArrow::Update(float _DeltaTime)

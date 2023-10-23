@@ -22,5 +22,7 @@ private:
 
 	float4 BlurColor = float4::ZERO;
 	float4 ClipData = {0, 0, 1, 1};
+
+	float4 CamPos = float4::ZERO;
 };
 
