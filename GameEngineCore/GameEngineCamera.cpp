@@ -360,7 +360,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 					if (true == Render->isReflectUnit())
 					{
-						SetViewToReflectMatrix(WaterHeight);
+						SetViewToReflectMatrix(GetLevel()->GetWaterHeight());
 
 						Render->GetRenderer()->RenderTransformUpdate(this);
 						Render->Render(_DeltaTime);

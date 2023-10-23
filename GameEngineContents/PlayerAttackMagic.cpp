@@ -23,11 +23,11 @@ void PlayerAttackMagic::Start()
 	// PhysX
 	CreatePhysXAttComp<PhysXSphereComponent>(PLAYER_ATT_MAGIC_PHYSX_SCALE, PhysXFilterGroup::PlayerSkill);
 
-	AttackRenderer->GetAllRenderUnit()[0][0]->Color.MulColor = { 0.0f, 0.0f, 0.0f };
-	AttackRenderer->GetAllRenderUnit()[0][0]->Color.PlusColor = { 233.0f / 255.0f, 77.0f / 255.0f, 0.0f };
+	//AttackRenderer->GetAllRenderUnit()[0][0]->Color.MulColor = { 0.0f, 0.0f, 0.0f };
+	//AttackRenderer->GetAllRenderUnit()[0][0]->Color.PlusColor = { 233.0f / 255.0f, 77.0f / 255.0f, 0.0f };
 
 	AttackRenderer->SetGlowToUnit(0, 0);
-	AttackRenderer->SetBlurColor({ 233.0f / 255.0f * 4.0f, 77.0f / 255.0f * 4.0f, 0.0f });
+	AttackRenderer->SetBlurColor({ 233.0f / 255.0f, 77.0f / 255.0f, 0.0f });
 }
 
 void PlayerAttackMagic::Update(float _DeltaTime)

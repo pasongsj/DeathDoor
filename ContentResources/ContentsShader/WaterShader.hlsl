@@ -24,6 +24,10 @@ struct Output
     float4 BINORMAL : BINORMAL;
 };
 
+cbuffer CamPos : register(b5)
+{
+    float4 CamPos;
+}
 
 Output ContentMeshDeferred_VS(Input _Input)
 {
@@ -41,7 +45,13 @@ Output ContentMeshDeferred_VS(Input _Input)
     
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
     
-    NewOutPut.NORMAL = mul(InputNormal, WorldView);
+    float4 CameraPos = CamPos;
+    float4 WorldPos = mul(_Input.POSITION, WorldMatrix);
+    float4 CamDir = CameraPos - WorldPos;
+    CamDir = normalize(CamDir);
+    
+    NewOutPut.NORMAL = mul(CamDir, WorldView);
+    
     NewOutPut.BINORMAL = mul(float4(float3(0.0f, 0.0f, 1.0f), 0.0f), WorldView);
     NewOutPut.TANGENT = mul(float4(cross(NewOutPut.NORMAL.xyz, NewOutPut.BINORMAL.xyz), 0.0f), WorldView);
     
@@ -84,6 +94,7 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
     _Input.NORMAL = NormalTexCalculate(NormalMap, WRAPSAMPLER, _Input.TEXCOORD, normalize(_Input.TANGENT), normalize(_Input.BINORMAL), normalize(_Input.NORMAL));
     
     NewOutPut.DifTarget = pow(Color, 2.2f);
+    //NewOutPut.BlurTarget = Color;
     NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;
     NewOutPut.NorTarget = _Input.NORMAL;

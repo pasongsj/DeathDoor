@@ -24,6 +24,7 @@ void PlayerAttackArrow::Start()
 	PhysXComp->SetShapeAxis(0,float4::LEFT);
 
 	AttackRenderer->SetGlowToUnit(0, 0);
+	AttackRenderer->SetColor({ 0.85f, 0.26f, 0.33f }, 2.25f);
 }
 
 void PlayerAttackArrow::Update(float _DeltaTime)
