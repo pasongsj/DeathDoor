@@ -326,7 +326,7 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
-    <ClCompile Include="LeverBase.cpp">
+    <ClCompile Include="TriggerBase.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -701,7 +701,7 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
-    <ClInclude Include="LeverBase.h">
+    <ClInclude Include="TriggerBase.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -398,9 +398,7 @@
     <ClCompile Include="Boomerang.cpp">
       <Filter>FSMObject\Enemy\Jumper</Filter>
     </ClCompile>
-    <ClCompile Include="LeverBase.cpp">
-      <Filter>FSMObject\Lever</Filter>
-    </ClCompile>
+    <ClCompile Include="TriggerBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -794,9 +792,7 @@
     <ClInclude Include="EnemyJumper.h">
       <Filter>FSMObject\Enemy\Jumper</Filter>
     </ClInclude>
-    <ClInclude Include="LeverBase.h">
-      <Filter>FSMObject\Lever</Filter>
-    </ClInclude>
+    <ClInclude Include="TriggerBase.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
