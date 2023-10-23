@@ -26,5 +26,12 @@ protected:
 	void InitComponent() override;
 
 private:
+	enum class LeverState
+	{
+		CLOSE,
+		OPEN,
+		OPEND,
+		MAX
+	};
 
 };

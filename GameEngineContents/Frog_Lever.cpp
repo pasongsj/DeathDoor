@@ -20,13 +20,7 @@ void Frog_Lever::Start()
 
 void Frog_Lever::Update(float _DeltaTime)
 {
-	bool b = CheckCollision(PhysXFilterGroup::PlayerDynamic);
-	if (b == true)
-	{
-		int a = 0;
-	}
-
-	if (b == false)
+	if (TriggerHitCheck())
 	{
 		int a = 0;
 	}
