@@ -146,6 +146,17 @@ public:
 		return AllLight;
 	}
 
+
+	inline void SetWaterHeight(float _Height)
+	{
+		WaterHeight = _Height;
+	}
+
+	inline float GetWaterHeight()
+	{
+		return WaterHeight;
+	}
+
 protected:
 	// 레벨이 바뀌어서 시작할때
 	virtual void LevelChangeStart();
@@ -169,6 +180,8 @@ protected:
 	}
 
 private:
+	float WaterHeight = 0.0f;
+
 	static bool IsDebugRender;
 	int LevelType = -1;
 

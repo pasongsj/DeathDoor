@@ -41,12 +41,67 @@ public:
 		GetAllRenderUnit()[_IndexY][_IndexX]->Mask.UV_MaskingValue = 1.0f;
 	}
 
+	void UnitSetTexture(const std::string_view& _SettingName, const std::string_view& _TextureName, int _IndexY, int _IndexX)
+	{
+		auto Units = GetAllRenderUnit();
+
+		Units[_IndexY][_IndexX]->ShaderResHelper.SetTexture(_SettingName, _TextureName);
+	}
+
+	void SetIntensity(float _Intensity)
+	{
+		auto Units = GetAllRenderUnit();
+
+		for (int i = 0; i < Units.size(); i++)
+		{
+			for (int j = 0; j < Units[i].size(); j++)
+			{
+				Units[i][j]->Color.MulColor = { _Intensity, _Intensity, _Intensity };
+			}
+		}
+
+		Intensity = _Intensity;
+	}
+
+	void SetColor(float4 _RGBA, float _Intensity = -1.0f)
+	{
+		if (_Intensity < 0.0f)
+		{
+			_Intensity = Intensity;
+		}
+
+		auto Units = GetAllRenderUnit();
+
+		for (int i = 0; i < Units.size(); i++)
+		{
+			for (int j = 0; j < Units[i].size(); j++)
+			{
+				Units[i][j]->Color.MulColor = float4::ZERONULL;
+				Units[i][j]->Color.PlusColor = { _RGBA.x * _Intensity, _RGBA.y * _Intensity, _RGBA.z * _Intensity, _RGBA.a };
+			}
+		}
+	}
+
+	void SetUnitColor(int _Y, int _X, float4 _RGBA, float _Intensity = -1.0f)
+	{
+		if (_Intensity < 0.0f)
+		{
+			_Intensity = Intensity;
+		}
+
+		auto Units = GetAllRenderUnit();
+
+		Units[_Y][_X]->Color.MulColor = float4::ZERONULL;
+		Units[_Y][_X]->Color.PlusColor = { _RGBA.x * _Intensity, _RGBA.y * _Intensity, _RGBA.z * _Intensity, _RGBA.a };
+	}
+
 	void SetReflect();
 	void ReflectOff();
 	void ReflectOn();
 
 protected:
 	void Start() override;
+	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 private:
 	void LinkConstantBuffer();
@@ -58,5 +113,10 @@ private:
 	std::string MaterialName;
 
 	std::shared_ptr<ContentFBXRenderer> ReflectRenderer = nullptr;
+
+	float4 WaterHeight = float4::ZERO;
+	float4 CamPos = float4::ZERO;
+
+	float Intensity = 1.0f;
 };
 

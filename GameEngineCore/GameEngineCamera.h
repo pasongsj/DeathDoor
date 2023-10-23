@@ -104,10 +104,6 @@ public:
 		return DeferredPostLightTarget;
 	}
 
-	void SetWaterHeight(float _Height)
-	{
-		WaterHeight = _Height;
-	}
 
 	bool IsView(const TransformData& _TransData);
 	bool IsView(const float4& _Pos,const float4& _Scale);
@@ -172,8 +168,6 @@ private:
 	float FOV = 60.0f;
 	float Near = 0.1f;
 	float Far = 6000.0f;
-
-	float WaterHeight = 0.0f;
 
 	void PushRenderer(std::shared_ptr<GameEngineRenderer> _Render);
 	void PushRenderUnit(std::shared_ptr<GameEngineRenderUnit> _Unit, RenderPath _Path = RenderPath::None);

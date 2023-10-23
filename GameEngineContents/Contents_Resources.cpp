@@ -183,7 +183,7 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("DetectMask.hlsl");
 		Pipe->SetBlendState("AlphaBlend");
-		Pipe->SetDepthState("AlwayDepth");
+		Pipe->SetDepthState("EngineDepth");
 	}
 
 	{
@@ -193,7 +193,7 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("LightMerge.hlsl");
 		Pipe->SetBlendState("MergeBlend");
-		Pipe->SetDepthState("AlwayDepth");
+		Pipe->SetDepthState("EngineDepth");
 	}
 
 	{

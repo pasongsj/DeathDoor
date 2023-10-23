@@ -47,22 +47,13 @@ OutPutTarget DetectMask_PS(OutPut _Value)
     }
     
     float4 DiffuseColor = DiffuseTexture.Sample(POINTSAMPLER, _Value.UV.xy);
-    
-    float BlurGrayScale = (BlurColor.r + BlurColor.g + BlurColor.b) / 3.0f;
-    float DiffuseGrayScale = (DiffuseColor.r + DiffuseColor.g + DiffuseColor.b) / 3.0f;
-    
-    if (BlurGrayScale != DiffuseGrayScale)
-    {
-        clip(-1);
-    }
-    
     float4 DifLight = DifLightTexture.Sample(POINTSAMPLER, _Value.UV.xy);
     float4 SpcLight = SpcLightTexture.Sample(POINTSAMPLER, _Value.UV.xy);
     float4 AmbLight = AmbLightTexture.Sample(POINTSAMPLER, _Value.UV.xy);
    
     OutPutTarget OutPut = (OutPutTarget) 0.0f;
     
-    OutPut.DiffuseTarget = BlurColor;
+    OutPut.DiffuseTarget = DiffuseColor;
     OutPut.DifLightTarget = DifLight;
     OutPut.SpcLightTarget = SpcLight;
     OutPut.AmbLightTarget = AmbLight;

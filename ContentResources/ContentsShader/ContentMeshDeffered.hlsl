@@ -84,12 +84,14 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         clip(-1);
     }
     
-    
     //UV값 변경
     _Input.TEXCOORD.xy *= MulUV;
     _Input.TEXCOORD.xy += AddUV;
         
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+    
+    Color *= MulColor;
+    Color += AddColor;
     
     float4 MaskColor = (float4) 0.0f;
     
@@ -98,20 +100,14 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
     {
         MaskColor = CrackTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
         
-        float3 f3_BlurColor = BlurColor.rgb;
-        
         if (MaskColor.a > 0.0f)
         {
-            NewOutPut.BlurTarget = float4(f3_BlurColor, 1.0f);
+            NewOutPut.BlurTarget = float4(Color.rgb, Color.a);
             Color = NewOutPut.BlurTarget;
             
             NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);
         }
     }
-    
-    //텍스쳐 색상 변경
-    Color *= MulColor;
-    Color += AddColor;
     
     if (Color.a <= 0.0f)
     {

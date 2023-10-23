@@ -25,7 +25,7 @@ void PlayerAttackBomb::Start()
 	SetDestTarget(PhysXFilterGroup::MonsterDynamic);
 
 	AttackRenderer->SetGlowToUnit(0, 0);
-	AttackRenderer->SetBlurColor(float4{1.0f, 0.1f, 0.2f} * 2.5f);
+	AttackRenderer->SetColor(float4{1.0f, 0.1f, 0.2f}, 4.0f);
 
 }
 void PlayerAttackBomb::Death()

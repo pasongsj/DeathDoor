@@ -24,11 +24,8 @@ void PlayerAttackMagic::Start()
 	CreatePhysXAttComp<PhysXSphereComponent>(PLAYER_ATT_MAGIC_PHYSX_SCALE, PhysXFilterGroup::PlayerSkill);
 	SetDestTarget(PhysXFilterGroup::MonsterDynamic);
 
-	AttackRenderer->GetAllRenderUnit()[0][0]->Color.MulColor = { 0.0f, 0.0f, 0.0f };
-	AttackRenderer->GetAllRenderUnit()[0][0]->Color.PlusColor = { 233.0f / 255.0f, 77.0f / 255.0f, 0.0f };
-
 	AttackRenderer->SetGlowToUnit(0, 0);
-	AttackRenderer->SetBlurColor({ 233.0f / 255.0f * 4.0f, 77.0f / 255.0f * 4.0f, 0.0f });
+	AttackRenderer->SetColor({ 233.0f / 255.0f, 77.0f / 255.0f, 0.1f }, 4.0f);
 }
 
 void PlayerAttackMagic::Update(float _DeltaTime)
