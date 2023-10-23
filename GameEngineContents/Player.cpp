@@ -49,7 +49,7 @@ void Player::Start()
 	SetFSMFunc();
 	Renderer->ChangeAnimation("IDLE0");
 	Renderer->SetGlowToUnit(0, 1);
-	Renderer->SetUnitColor(0, 1, { 0.85f, 0.26f, 0.33f }, 4.0f);
+	Renderer->SetUnitColor(0, 1, { 0.95f, 0.20f, 0.25f }, 2.0f);
 }
 
 void Player::Update(float _DeltaTime)

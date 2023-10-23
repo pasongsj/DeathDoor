@@ -22,7 +22,7 @@ void GlowEffect::Start(GameEngineRenderTarget* _Target)
 	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	DetectMaskTarget->CreateDepthTexture();
 
-	BlurSize = { 800, 450 };
+	BlurSize = { 1200, 675  };
 	DoubleBlurSize = { 800, 450 };
 
 	BlurUnit.SetMesh("FullRect");
