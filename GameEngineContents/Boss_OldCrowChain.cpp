@@ -30,7 +30,7 @@ void Boss_OldCrowChain::CreateChainRenderer()
 
 	ChainRenderer->GetTransform()->SetLocalScale(Scale / 5.0f);
 	ChainRenderer->GetTransform()->SetLocalRotation(float4(90, 90, 0));
-	ChainRenderer->GetTransform()->SetLocalPosition({ 0, 0, ChainRenderers.size() * - 105.0f });
+	ChainRenderer->GetTransform()->SetLocalPosition({ 0, 10, ChainRenderers.size() * - 105.0f });
 
 	ChainRenderer->ColorOptionValue.MulColor = float4::BLACK;
 
