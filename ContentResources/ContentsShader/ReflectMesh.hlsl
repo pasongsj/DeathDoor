@@ -62,6 +62,11 @@ struct DeferredOutPut
     float4 BlurTarget : SV_Target7;
 };
 
+cbuffer WaterHeight : register(b4)
+{
+    float4 WaterHeight;
+};
+
 cbuffer BlurColor : register(b5)
 {
     float4 BlurColor;
@@ -75,7 +80,7 @@ cbuffer ClipData : register(b6)
 
 DeferredOutPut ContentMeshDeferred_PS(Output _Input)
 {
-    if (_Input.WORLDPOSITION.y < - 50.0F)
+    if (_Input.WORLDPOSITION.y < WaterHeight.x + 20.0f)
     {
         clip(-1);
     }
@@ -110,7 +115,7 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         
         if (MaskColor.a > 0.0f)
         {
-            NewOutPut.BlurTarget = float4(f3_BlurColor, 1.0f);
+            NewOutPut.BlurTarget = float4(Color.rgb, Color.a);
             Color = NewOutPut.BlurTarget;
             
             NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);

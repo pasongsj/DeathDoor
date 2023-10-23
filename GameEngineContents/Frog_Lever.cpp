@@ -43,7 +43,7 @@ void Frog_Lever::InitComponent()
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->GetTransform()->SetLocalScale(float4{ 100, 100, 100 });
 	m_pRenderer->SetFBXMesh("LEVER_MESH.FBX", "ContentAniMeshDeffered");
-	m_pRenderer->CreateFBXAnimation("Lever_Open", "LEVER_OPEN (1).FBX", { 0.02f, true });
+	m_pRenderer->CreateFBXAnimation("Lever_Open", "LEVER_OPEN (1).FBX", { 1.f/30.f, false });
 	m_pRenderer->ChangeAnimation("Lever_Open");
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
@@ -53,7 +53,7 @@ void Frog_Lever::InitComponent()
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
 	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
-	//m_pPhysXComponent->SetPositionSetFromParentFlag(true);
+
 	MeshScale.y = 10.f;
 	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, MeshScale* 3.f,float4(0,50,0));
 	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);

@@ -20,16 +20,17 @@ void GlowEffect::Start(GameEngineRenderTarget* _Target)
 	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	
-	BlurSize = { 400, 225 };
+	DetectMaskTarget->CreateDepthTexture();
+
+	BlurSize = { 1200, 675  };
 	DoubleBlurSize = { 800, 450 };
 
 	BlurUnit.SetMesh("FullRect");
 	BlurUnit.SetMaterial("AllBlur7x7");
 	BlurUnit.ShaderResHelper.SetConstantBufferLink("Intensity", Intensity);
 	BlurUnit.ShaderResHelper.SetConstantBufferLink("ScreenSize", BlurSize);
-
 	BlurTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, BlurSize, float4::ZERONULL);
+	BlurTarget->CreateDepthTexture();
 
 	DoubleBlurUnit.SetMesh("FullRect");
 	DoubleBlurUnit.SetMaterial("AllBlur7x7");
@@ -58,39 +59,39 @@ void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 	std::shared_ptr<GameEngineTexture> BlurTexture = LevelTarget->GetTexture(7);
 
 	//블러할 부위를 검출
-	//DetectMaskTarget->Clear();
-	//DetectMaskTarget->Setting();
-	//
-	//DetectMaskUnit.ShaderResHelper.SetTexture("DifLightTexture", DiffuseLight);
-	//DetectMaskUnit.ShaderResHelper.SetTexture("SpcLightTexture", SpecularLight);
-	//DetectMaskUnit.ShaderResHelper.SetTexture("AmbLightTexture", AmbientLight);
-	//DetectMaskUnit.ShaderResHelper.SetTexture("DiffuseTexture", DiffuseTexture);
-	//DetectMaskUnit.ShaderResHelper.SetTexture("BlurTexture", BlurTexture);
-	//
-	//DetectMaskUnit.Render(_DeltaTime);
-	//DetectMaskUnit.ShaderResHelper.AllResourcesReset();
+	DetectMaskTarget->Clear();
+	DetectMaskTarget->Setting();
+	
+	DetectMaskUnit.ShaderResHelper.SetTexture("DifLightTexture", DiffuseLight);
+	DetectMaskUnit.ShaderResHelper.SetTexture("SpcLightTexture", SpecularLight);
+	DetectMaskUnit.ShaderResHelper.SetTexture("AmbLightTexture", AmbientLight);
+	DetectMaskUnit.ShaderResHelper.SetTexture("DiffuseTexture", DiffuseTexture);
+	DetectMaskUnit.ShaderResHelper.SetTexture("BlurTexture", BlurTexture);
+	
+	DetectMaskUnit.Render(_DeltaTime);
+	DetectMaskUnit.ShaderResHelper.AllResourcesReset();
 
 	////블러 적용
 	BlurTarget->Clear();
 	BlurTarget->Setting();
 
-	BlurUnit.ShaderResHelper.SetTexture("DiffuseTexture", BlurTexture);
+	BlurUnit.ShaderResHelper.SetTexture("DiffuseTexture", DetectMaskTarget->GetTexture(0));
 	BlurUnit.Render(_DeltaTime);
 
 	BlurUnit.ShaderResHelper.AllResourcesReset();
 	
 	//블러 적용
-	//DoubleBlurTarget->Clear();
-	//DoubleBlurTarget->Setting();
-	//
-	//DoubleBlurUnit.ShaderResHelper.SetTexture("DiffuseTexture", BlurTarget->GetTexture(0));
-	//
-	//DoubleBlurUnit.Render(_DeltaTime);
-	//DoubleBlurUnit.ShaderResHelper.AllResourcesReset();
+	DoubleBlurTarget->Clear();
+	DoubleBlurTarget->Setting();
+	
+	DoubleBlurUnit.ShaderResHelper.SetTexture("DiffuseTexture", BlurTarget->GetTexture(0));
+	
+	DoubleBlurUnit.Render(_DeltaTime);
+	DoubleBlurUnit.ShaderResHelper.AllResourcesReset();
 
 	LevelTarget->Setting();
 	
-	ColorMerge.ShaderResHelper.SetTexture("DiffuseTex", BlurTarget->GetTexture(0));
+	ColorMerge.ShaderResHelper.SetTexture("DiffuseTex", DoubleBlurTarget->GetTexture(0));
 	ColorMerge.Render(_DeltaTime);
 	ColorMerge.ShaderResHelper.AllResourcesReset();
 

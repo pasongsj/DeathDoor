@@ -71,7 +71,6 @@ cbuffer BlurColor : register(b1)
     float4 BlurColor;
 }
 
-
 DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
 {
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
@@ -80,16 +79,17 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
     
     float4 MaskColor = (float4) 0.0f;
     
+    Color *= MulColor;
+    Color += AddColor;
+    
     //Crack
     if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
     {
         MaskColor = CrackTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
         
-        float3 f3_BlurColor = BlurColor.rgb;
-        
         if (MaskColor.a > 0.0f)
-        {            
-            NewOutPut.BlurTarget = float4(f3_BlurColor, 1.0f);
+        {
+            NewOutPut.BlurTarget = float4(Color.rgb, Color.a);
             Color = NewOutPut.BlurTarget;
             
             NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);
@@ -115,4 +115,5 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
     
     return NewOutPut;
  }
+
 

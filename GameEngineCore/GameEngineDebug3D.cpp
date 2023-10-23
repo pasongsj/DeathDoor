@@ -31,7 +31,7 @@ namespace GameEngineDebug
 		{
 			DebugDrawDatas[_Cam].reserve(1000);
 		}
-
+			
 		DebugDrawDatas[_Cam].push_back({ DebugDrawType::Box, _Trans, Color });
 	}
 

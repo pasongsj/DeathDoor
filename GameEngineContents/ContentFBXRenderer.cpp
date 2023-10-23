@@ -17,11 +17,18 @@ void ContentFBXRenderer::Start()
 	PushCameraRender(0);
 }
 
+void ContentFBXRenderer::Update(float _DeltaTime)
+{
+	GameEngineFBXRenderer::Update(_DeltaTime);
+
+	CamPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
+	WaterHeight.x = GetLevel()->GetWaterHeight();
+}
+
 void ContentFBXRenderer::Render(float _DeltaTime)
 {
 	//
 }
-
 
 void ContentFBXRenderer::SetAllUnitTexture(const std::string_view& _SettingName, const std::string_view& _ImageName)
 {
@@ -115,10 +122,20 @@ void ContentFBXRenderer::SetReflect()
 			{
 				Units[i][j]->ShaderResHelper.SetConstantBufferLink("ClipData", ClipData);
 			}
+
+			if (Units[i][j]->ShaderResHelper.IsConstantBuffer("CamPos") == true)
+			{
+				Units[i][j]->ShaderResHelper.SetConstantBufferLink("CamPos", CamPos);
+			}
+
+			if (Units[i][j]->ShaderResHelper.IsConstantBuffer("WaterHeight") == true)
+			{
+				Units[i][j]->ShaderResHelper.SetConstantBufferLink("WaterHeight", WaterHeight);
+			}
 		}
 	}
 
-	ReflectOff();
+	//ReflectOff();
 }
 
 void ContentFBXRenderer::ReflectOn()

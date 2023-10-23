@@ -19,4 +19,5 @@ enum class PhysXFilterGroup //PhysX 충돌 용 그룹
 	CullingTrigger = (1 << 7),       // test                0000 0000 1000 0000
 	MonsterSkill = (1 << 8),		//						0000 0001 0000 0000
 	JumperBoomer = (1 << 9),		//						0000 0010 0000 0000
+	CrowDebuff = (1 << 10),		    // SmallCrow 패턴		0000 0100 0000 0000
 };

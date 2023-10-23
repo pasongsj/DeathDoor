@@ -44,7 +44,10 @@ void ContentLevel::CreateUI()
 void ContentLevel::SetPostPrecessEffect()
 {
 	std::shared_ptr<GlowEffect> Effect = GetLevel()->GetMainCamera()->GetCamAllRenderTarget()->CreateEffect<GlowEffect>();
-	Effect->Init(DynamicThis<GameEngineLevel>(), {2.25f, 0.0f, 0.0f, 0.0f});
+	Effect->Init(DynamicThis<GameEngineLevel>(), {1.0f, 0.0f, 0.0f, 0.0f});
+
+	GameEngineCoreWindow::AddDebugRenderTarget(4, "Detect", Effect->DetectMaskTarget);
+
 
 	GameEngineCoreWindow::AddDebugRenderTarget(0, "CamTG", GetLevel()->GetMainCamera()->GetCamTarget());
 

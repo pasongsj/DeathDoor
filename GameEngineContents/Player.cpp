@@ -46,10 +46,10 @@ void Player::Start()
 	}
 	m_pCapsuleComp->SetWorldPosWithParent(float4{1000.0f, 500.0f, 0.0f},float4::ZERO);
 
-
 	SetFSMFunc();
 	Renderer->ChangeAnimation("IDLE0");
 	Renderer->SetGlowToUnit(0, 1);
+	Renderer->SetUnitColor(0, 1, { 0.95f, 0.20f, 0.25f }, 2.0f);
 }
 
 void Player::Update(float _DeltaTime)
