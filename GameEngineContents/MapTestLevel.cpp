@@ -121,7 +121,7 @@ void MapTestLevel::InitTestLevel()
 		//Ghoul->InitGhoul(true);
 		//Ghoul->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });
 
-		CreateActor<EnemyFirePlant>();
+		//CreateActor<EnemyFirePlant>();
 		//CreateActor<PlayerAttMagic>();
 		
 		break;

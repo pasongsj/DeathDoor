@@ -27,6 +27,46 @@ public:
 		m_TriggerFunc = _Func;
 	}
 
+
+	bool TriggerHitCheck()
+	{
+		if (true== IsPlayerInRange()&&true == IsHit())
+		{
+			return true;
+		}
+		return false;
+	}
+
+	bool TriggerKeyCheck()
+	{
+		if (true == IsPlayerInRange() && true == IsKeyDown())
+		{
+			return true;
+		}
+		return false;
+	}
+
+protected:
+	void Start() override;
+	void Update(float _DetltaTime) override;
+
+	enum class TriggerState
+	{
+		OFF,
+		PROGRESS,
+		ON,
+		MAX
+	};
+
+	virtual void InitComponent() {};
+
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
+	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
+	bool m_bTrigger = false;
+	std::function<void()> m_TriggerFunc;
+
+private:
+
 	bool IsPlayerInRange()
 	{
 		return CheckCollision(PhysXFilterGroup::PlayerDynamic);
@@ -40,26 +80,6 @@ public:
 	{
 		return GameEngineInput::IsDown("F");
 	}
-
-protected:
-
-	virtual void InitComponent() {};
-
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
-	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
-	std::shared_ptr<class PhysXBoxComponent> m_pPhysXTriggerComponent = nullptr;
-	bool m_bIsOpen = false;
-	std::function<void()> m_TriggerFunc;
-
-private:
-
-	enum class LeverState
-	{
-		CLOSE,
-		OPEN,
-		OPEND,
-	};
-
 
 
 };
