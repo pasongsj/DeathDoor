@@ -66,7 +66,7 @@ struct DeferredOutPut
     float4 BlurTarget : SV_Target7;
 };
 
-cbuffer BlurColor : register(b1)
+cbuffer BlurColor : register(b7)
 {
     float4 BlurColor;
 }
@@ -82,6 +82,17 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
     Color *= MulColor;
     Color += AddColor;
     
+    float4 DiffuseBlurColor = (float4) 0.0f;
+    
+    if(BlurColor.a < 0.0f)
+    {
+        DiffuseBlurColor = Color;
+    }
+    else
+    {
+        DiffuseBlurColor = BlurColor;
+    }
+    
     //Crack
     if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
     {
@@ -89,7 +100,7 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
         
         if (MaskColor.a > 0.0f)
         {
-            NewOutPut.BlurTarget = float4(Color.rgb, Color.a);
+            NewOutPut.BlurTarget = float4(DiffuseBlurColor.rgb, Color.a);
             Color = NewOutPut.BlurTarget;
             
             NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);
