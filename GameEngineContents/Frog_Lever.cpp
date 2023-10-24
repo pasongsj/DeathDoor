@@ -1,5 +1,6 @@
 #include "PrecompileHeader.h"
 #include "Frog_Lever.h"
+#include <GameEngineCore/GameEngineFBXAnimation.h>
 
 #include "PhysXBoxComponent.h"
 #include "ContentFBXRenderer.h"
@@ -15,36 +16,18 @@ Frog_Lever::~Frog_Lever()
 
 void Frog_Lever::Start()
 {
+	TriggerBase::Start();
+	InitAnimation();
 	InitComponent();
 }
 
 void Frog_Lever::Update(float _DeltaTime)
 {
-	bool b = CheckCollision(PhysXFilterGroup::PlayerDynamic);
-	if (b == true)
-	{
-		int a = 0;
-	}
-
-	if (b == false)
-	{
-		int a = 0;
-	}
-
-	//조건을 IsDown, CheckCollision , m_Trigger의 null체크 
-	if (m_TriggerFunc!= nullptr)
-	{
-		m_TriggerFunc();
-	}
+	TriggerBase::Update(_DeltaTime);
 }
 
 void Frog_Lever::InitComponent()
 {
-	m_pRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer->GetTransform()->SetLocalScale(float4{ 100, 100, 100 });
-	m_pRenderer->SetFBXMesh("LEVER_MESH.FBX", "ContentAniMeshDeffered");
-	m_pRenderer->CreateFBXAnimation("Lever_Open", "LEVER_OPEN (1).FBX", { 1.f/30.f, false });
-	m_pRenderer->ChangeAnimation("Lever_Open");
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
 	MeshScale *= 100.0f;
@@ -58,4 +41,57 @@ void Frog_Lever::InitComponent()
 	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, MeshScale* 3.f,float4(0,50,0));
 	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
 	m_pPhysXComponent->AttachShape();
+}
+void Frog_Lever::InitAnimation()
+{
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->GetTransform()->SetLocalScale(float4{ 100, 100, 100 });
+	m_pRenderer->SetFBXMesh("LEVER_MESH.FBX", "ContentAniMeshDeffered");
+	m_pRenderer->CreateFBXAnimation("LEVER_OPEN", "LEVER_OPEN (1).FBX", { 1.f / 30.f, false });
+	m_pRenderer->ChangeAnimation("LEVER_OPEN"); // 처음엔 0으로 고정으로 쓰기로 한듯?
+}
+
+void Frog_Lever::SetFSMFUNC()
+{
+	SetChangeFSMCallBack([this]
+		{
+			//StateDuration = 0.0f;
+			//StateChecker = false;
+		});
+
+	SetFSM(TriggerState::OFF,
+		[this]
+		{
+		},
+		[this](float Delta)
+		{
+		},
+		[this]
+		{
+		}
+	);
+
+	SetFSM(TriggerState::PROGRESS,
+		[this]
+		{
+		},
+		[this](float Delta)
+		{
+		},
+		[this]
+		{
+		}
+	);
+
+	SetFSM(TriggerState::ON,
+		[this]
+		{
+		},
+		[this](float Delta)
+		{
+		},
+		[this]
+		{
+		}
+	);
 }
