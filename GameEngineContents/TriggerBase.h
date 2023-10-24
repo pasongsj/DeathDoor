@@ -62,7 +62,6 @@ protected:
 
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
 	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
-	bool m_bTrigger = false;
 	std::function<void()> m_TriggerFunc;
 
 private:

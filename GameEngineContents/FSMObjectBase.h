@@ -94,6 +94,11 @@ protected:
 		StateChecker = _Check;
 	}
 
+	inline void SetTrigger(bool _Value)
+	{
+		IsTrigger = _Value;
+	}
+
 private:
 	class StateFunctionParameter
 	{
@@ -113,6 +118,8 @@ private:
 	bool StateChecker = false;	// Action확인용 bool값
 
 	bool ChangeStateForce = false;	// SetNextState에서 현재 State를 (stateEnd)끝내고 (stateStart)시작하려 할 때 사용
+
+	bool IsTrigger = false;
 
 };
 

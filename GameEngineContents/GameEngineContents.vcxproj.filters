@@ -407,7 +407,6 @@
     <ClCompile Include="ParticleBase.cpp">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\ParticleBase</Filter>
     </ClCompile>
-    <ClCompile Include="TriggerBase.cpp" />
     <ClCompile Include="OldCrowLevel.cpp">
       <Filter>Contents\OldCrowLevel</Filter>
     </ClCompile>
@@ -416,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="BossFrog.cpp">
       <Filter>Contents\Boss\Frog</Filter>
+    </ClCompile>
+    <ClCompile Include="TriggerBase.cpp">
+      <Filter>FSMObject\Trigger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -807,7 +809,6 @@
     <ClInclude Include="WoodenBridge.h">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
-    <ClInclude Include="TriggerBase.h" />
     <ClInclude Include="OldCrowLevel.h">
       <Filter>Contents\OldCrowLevel</Filter>
     </ClInclude>
@@ -828,6 +829,9 @@
     </ClInclude>
     <ClInclude Include="BossFrog.h">
       <Filter>Contents\Boss\Frog</Filter>
+    </ClInclude>
+    <ClInclude Include="TriggerBase.h">
+      <Filter>FSMObject\Trigger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1044,7 +1048,7 @@
     <Filter Include="Contents\Effect\Object\Particle2D%28GPU%29\Feather">
       <UniqueIdentifier>{637c77bb-5f51-47fd-8df9-21bd8279bd80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FSMObject\Lever">
+    <Filter Include="FSMObject\Trigger">
       <UniqueIdentifier>{d3b110a3-3ec6-4f11-b376-c2e3e70f2da4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Contents\OldCrowLevel">
@@ -1055,6 +1059,9 @@
     </Filter>
     <Filter Include="Contents\Boss\Frog">
       <UniqueIdentifier>{8dfd5216-b32a-4c18-9954-e766d7a9eed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Trigger\Lever">
+      <UniqueIdentifier>{c2edb22c-2f23-46fc-a7a4-253bce4438bb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
