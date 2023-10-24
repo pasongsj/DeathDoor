@@ -2,26 +2,20 @@
 #include "FSMObjectBase.h"
 
 
-enum class LeverType
-{
-	NONE,
-	HIT,
-	KEY,
-};
 
 // Ό³Έν :
-class LeverBase : public FSMObjectBase
+class TriggerBase : public FSMObjectBase
 {
 public:
 	// constrcuter destructer
-	LeverBase();
-	~LeverBase();
+	TriggerBase();
+	~TriggerBase();
 
 	// delete Function
-	LeverBase(const LeverBase& _Other) = delete;
-	LeverBase(LeverBase&& _Other) noexcept = delete;
-	LeverBase& operator=(const LeverBase& _Other) = delete;
-	LeverBase& operator=(LeverBase&& _Other) noexcept = delete;
+	TriggerBase(const TriggerBase& _Other) = delete;
+	TriggerBase(TriggerBase&& _Other) noexcept = delete;
+	TriggerBase& operator=(const TriggerBase& _Other) = delete;
+	TriggerBase& operator=(TriggerBase&& _Other) noexcept = delete;
 
 	inline std::shared_ptr<class PhysXBoxComponent> GetPhysXComponent() const
 	{
@@ -38,8 +32,14 @@ public:
 		return CheckCollision(PhysXFilterGroup::PlayerDynamic);
 	}
 
-	bool IsHit();
-	bool IsKeyDown();
+	bool IsHit()
+	{
+		return CheckCollision(PhysXFilterGroup::PlayerSkill);
+	}
+	bool IsKeyDown()
+	{
+		return GameEngineInput::IsDown("F");
+	}
 
 protected:
 
@@ -50,9 +50,6 @@ protected:
 	std::shared_ptr<class PhysXBoxComponent> m_pPhysXTriggerComponent = nullptr;
 	bool m_bIsOpen = false;
 	std::function<void()> m_TriggerFunc;
-	//LeverState m_eState = LeverState::CLOSE;
-
-	LeverType m_eType = LeverType::NONE;
 
 private:
 

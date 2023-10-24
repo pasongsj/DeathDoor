@@ -1,10 +1,10 @@
 #pragma once
-#include "LeverBase.h"
+#include "TriggerBase.h"
 
 
 
 // Ό³Έν :
-class Frog_Lever :  public LeverBase
+class Frog_Lever :  public TriggerBase
 {
 public:
 	// constrcuter destructer
