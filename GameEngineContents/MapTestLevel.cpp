@@ -24,6 +24,7 @@
 #include "Ladder.h"
 #include "Crate.h"
 #include "Frog_Lever.h"
+#include "Frog_Septre.h"
 #include "PlayerAttackMagic.h"
 
 
@@ -104,7 +105,7 @@ void MapTestLevel::InitTestLevel()
 		NewLadder->GetTransform()->SetLocalPosition(float4{ 800, 0 , 0 });
 		
 
-		 std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
+		 std::shared_ptr<Frog_Septre> Lever = CreateActor<Frog_Septre>();
 		 Lever->SetTriggerFunction([] { MsgTextBox("TestFunc"); });
 
 		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();

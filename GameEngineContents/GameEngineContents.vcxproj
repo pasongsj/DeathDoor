@@ -291,6 +291,10 @@
     <ClCompile Include="FrogBossLevel.cpp" />
     <ClCompile Include="FrogFloor.cpp" />
     <ClCompile Include="Frog_Lever.cpp" />
+    <ClCompile Include="Frog_Septre.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FSMObjectBase.cpp">
       <SubType>
       </SubType>
@@ -660,6 +664,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Frog_Lever.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Frog_Septre.h">
       <SubType>
       </SubType>
     </ClInclude>
