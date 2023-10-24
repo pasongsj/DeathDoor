@@ -23,6 +23,6 @@ private:
 	
 	void FadeInAndOut(float _Delta);
 
-	float4 MaskValue = {0.0f, 1.0f, 0.0f, 0.0f};
+	float4 MaskValue = {0.0f, 0.85f, 0.0f, 0.0f};
 };
 
