@@ -173,6 +173,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DustParticle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="DustRenderer.cpp">
       <SubType>
       </SubType>
@@ -348,6 +352,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ParticleBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ParticleCreater.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="ParticleRenderer.cpp" />
     <ClCompile Include="PhysXActor.cpp">
@@ -504,6 +516,10 @@
   <ItemGroup>
     <ClInclude Include="Boomerang.h" />
     <ClInclude Include="Dust.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DustParticle.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -740,6 +756,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MpBar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ParticleBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ParticleCreater.h">
       <SubType>
       </SubType>
     </ClInclude>

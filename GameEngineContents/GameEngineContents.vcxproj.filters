@@ -146,16 +146,16 @@
       <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClCompile>
     <ClCompile Include="StaticParticleManager.cpp">
-      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
+      <Filter>Contents\Effect\Object\Particle%28Delete%29</Filter>
     </ClCompile>
     <ClCompile Include="DynamicParticleManager.cpp">
-      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
+      <Filter>Contents\Effect\Object\Particle%28Delete%29</Filter>
     </ClCompile>
     <ClCompile Include="ParticleManager.cpp">
-      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
+      <Filter>Contents\Effect\Object\Particle%28Delete%29</Filter>
     </ClCompile>
     <ClCompile Include="ParticleRenderer.cpp">
-      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
+      <Filter>Contents\Effect\Object\Particle%28Delete%29</Filter>
     </ClCompile>
     <ClCompile Include="MyTest.cpp">
       <Filter>Contents\UITestLevel</Filter>
@@ -293,7 +293,7 @@
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="FireObject.cpp">
-      <Filter>Component\ContentsRenderer\Object\Fire</Filter>
+      <Filter>Contents\Effect\Object\Fire</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBow.cpp">
       <Filter>FSMObject\Player</Filter>
@@ -341,17 +341,14 @@
     <ClCompile Include="CullingTrigger.cpp">
       <Filter>CullingObject</Filter>
     </ClCompile>
-    <ClCompile Include="SwordTrailRenderer.cpp">
-      <Filter>Component\ContentsRenderer\3D</Filter>
-    </ClCompile>
     <ClCompile Include="FXAA.cpp">
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="DustRenderer.cpp">
-      <Filter>Component\ContentsRenderer\Object\Dust</Filter>
+      <Filter>Contents\Effect\Object\DustBG</Filter>
     </ClCompile>
     <ClCompile Include="Dust.cpp">
-      <Filter>Component\ContentsRenderer\Object\Dust</Filter>
+      <Filter>Contents\Effect\Object\DustBG</Filter>
     </ClCompile>
     <ClCompile Include="BrightBloomEffect.cpp">
       <Filter>Component\PostEffect</Filter>
@@ -390,13 +387,25 @@
       <Filter>FSMObject\Enemy\EnemyAttack</Filter>
     </ClCompile>
     <ClCompile Include="WaterBox.cpp">
-      <Filter>Component\ContentsRenderer\Object\Water</Filter>
+      <Filter>Contents\Effect\Object\Water</Filter>
     </ClCompile>
     <ClCompile Include="EnemyJumper.cpp">
       <Filter>FSMObject\Enemy\Jumper</Filter>
     </ClCompile>
     <ClCompile Include="Boomerang.cpp">
       <Filter>FSMObject\Enemy\Jumper</Filter>
+    </ClCompile>
+    <ClCompile Include="SwordTrailRenderer.cpp">
+      <Filter>Contents\Effect\Object\SwordTrail</Filter>
+    </ClCompile>
+    <ClCompile Include="DustParticle.cpp">
+      <Filter>Contents\Effect\Object\Particle2D%28CPU%29\DustParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleCreater.cpp">
+      <Filter>Contents\Effect\Object\Particle2D%28CPU%29\Creator</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleBase.cpp">
+      <Filter>Contents\Effect\Object\Particle2D%28CPU%29\ParticleBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -542,19 +551,19 @@
       <Filter>Contents\OfficeLevel\Static_Object</Filter>
     </ClInclude>
     <ClInclude Include="ParticleStruct.h">
-      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
+      <Filter>Contents\Effect\Object\Particle%28Delete%29</Filter>
     </ClInclude>
     <ClInclude Include="ParticleRenderer.h">
-      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
+      <Filter>Contents\Effect\Object\Particle%28Delete%29</Filter>
     </ClInclude>
     <ClInclude Include="DynamicParticleManager.h">
-      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
+      <Filter>Contents\Effect\Object\Particle%28Delete%29</Filter>
     </ClInclude>
     <ClInclude Include="StaticParticleManager.h">
-      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
+      <Filter>Contents\Effect\Object\Particle%28Delete%29</Filter>
     </ClInclude>
     <ClInclude Include="ParticleManager.h">
-      <Filter>Component\ContentsRenderer\Object\Particle</Filter>
+      <Filter>Contents\Effect\Object\Particle%28Delete%29</Filter>
     </ClInclude>
     <ClInclude Include="MyTest.h">
       <Filter>Contents\UITestLevel</Filter>
@@ -687,7 +696,7 @@
       <Filter>Component\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="FireObject.h">
-      <Filter>Component\ContentsRenderer\Object\Fire</Filter>
+      <Filter>Contents\Effect\Object\Fire</Filter>
     </ClInclude>
     <ClInclude Include="FrogFloor.h">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
@@ -734,9 +743,6 @@
     <ClInclude Include="CullingTrigger.h">
       <Filter>CullingObject</Filter>
     </ClInclude>
-    <ClInclude Include="SwordTrailRenderer.h">
-      <Filter>Component\ContentsRenderer\3D</Filter>
-    </ClInclude>
     <ClInclude Include="FXAA.h">
       <Filter>Component\PostEffect</Filter>
     </ClInclude>
@@ -747,10 +753,10 @@
       <Filter>Component\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="DustRenderer.h">
-      <Filter>Component\ContentsRenderer\Object\Dust</Filter>
+      <Filter>Contents\Effect\Object\DustBG</Filter>
     </ClInclude>
     <ClInclude Include="Dust.h">
-      <Filter>Component\ContentsRenderer\Object\Dust</Filter>
+      <Filter>Contents\Effect\Object\DustBG</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAttackBox.h">
       <Filter>FSMObject\Enemy\EnemyAttack</Filter>
@@ -783,13 +789,25 @@
       <Filter>FSMObject\Enemy\EnemyAttack</Filter>
     </ClInclude>
     <ClInclude Include="WaterBox.h">
-      <Filter>Component\ContentsRenderer\Object\Water</Filter>
+      <Filter>Contents\Effect\Object\Water</Filter>
     </ClInclude>
     <ClInclude Include="Boomerang.h">
       <Filter>FSMObject\Enemy\Jumper</Filter>
     </ClInclude>
     <ClInclude Include="EnemyJumper.h">
       <Filter>FSMObject\Enemy\Jumper</Filter>
+    </ClInclude>
+    <ClInclude Include="SwordTrailRenderer.h">
+      <Filter>Contents\Effect\Object\SwordTrail</Filter>
+    </ClInclude>
+    <ClInclude Include="DustParticle.h">
+      <Filter>Contents\Effect\Object\Particle2D%28CPU%29\DustParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleCreater.h">
+      <Filter>Contents\Effect\Object\Particle2D%28CPU%29\Creator</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleBase.h">
+      <Filter>Contents\Effect\Object\Particle2D%28CPU%29\ParticleBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -937,18 +955,6 @@
     <Filter Include="CullingObject">
       <UniqueIdentifier>{13870c6d-2456-4b2e-9636-fe4a1727d432}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\ContentsRenderer\Object">
-      <UniqueIdentifier>{69d65129-9f28-4123-8c4d-3306e362249a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\ContentsRenderer\Object\Particle">
-      <UniqueIdentifier>{47fef3f1-0d09-44ae-b450-d11cab6effcc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\ContentsRenderer\Object\Fire">
-      <UniqueIdentifier>{f006ce62-c1d5-49b0-af52-7b38c1a4c551}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\ContentsRenderer\Object\Dust">
-      <UniqueIdentifier>{248418d0-b163-4273-897f-02bdf3f6b1bd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Contents\FortressLevel">
       <UniqueIdentifier>{e22fafa8-2651-4605-9d3a-1361ad8bf611}</UniqueIdentifier>
     </Filter>
@@ -979,11 +985,47 @@
     <Filter Include="Component\ContentsRenderer\3D">
       <UniqueIdentifier>{13009e0f-7393-4e64-9b5c-980fbd9824fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\ContentsRenderer\Object\Water">
-      <UniqueIdentifier>{5edb9211-9288-413c-a436-6c85f2243b19}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FSMObject\Enemy\Jumper">
       <UniqueIdentifier>{4fc9753c-97e3-4330-b0b4-8d4756bcb033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect">
+      <UniqueIdentifier>{9931c12c-4901-4ca3-92d4-20de61e6c265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object">
+      <UniqueIdentifier>{69d65129-9f28-4123-8c4d-3306e362249a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\Fire">
+      <UniqueIdentifier>{f006ce62-c1d5-49b0-af52-7b38c1a4c551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\Water">
+      <UniqueIdentifier>{5edb9211-9288-413c-a436-6c85f2243b19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\SwordTrail">
+      <UniqueIdentifier>{7880671e-f741-4531-b604-67596da8bbc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\DustBG">
+      <UniqueIdentifier>{248418d0-b163-4273-897f-02bdf3f6b1bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\Particle%28Delete%29">
+      <UniqueIdentifier>{47fef3f1-0d09-44ae-b450-d11cab6effcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\Particle2D%28GPU%29">
+      <UniqueIdentifier>{e765f187-f3ed-4ef5-bf98-eb0b78dcbd47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\Particle2D%28CPU%29">
+      <UniqueIdentifier>{f6e915fa-7a9d-4481-8b67-293981d68480}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\Particle2D%28CPU%29\DustParticle">
+      <UniqueIdentifier>{2d3e4305-13c7-4aaf-b91f-02d532b287c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\Particle2D%28CPU%29\Creator">
+      <UniqueIdentifier>{6d80041c-8f63-4eb3-b61c-c439061037fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\Particle2D%28CPU%29\ParticleBase">
+      <UniqueIdentifier>{52355dfe-8f1d-4501-b60b-7785604b6ae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\Particle2D%28GPU%29\Feather">
+      <UniqueIdentifier>{637c77bb-5f51-47fd-8df9-21bd8279bd80}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

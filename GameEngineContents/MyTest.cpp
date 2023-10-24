@@ -6,6 +6,8 @@
 #include "FireObject.h"
 #include "SkillSlot.h"
 
+#include "DustParticle.h"
+
 MyTest::MyTest()
 {
 }
@@ -16,19 +18,11 @@ MyTest::~MyTest()
 
 void MyTest::Start()
 {
-	std::shared_ptr<SkillSlot> MyPlayer = GetLevel()->CreateActor<SkillSlot>();
-	//
-	//TestRd->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
-	//TestRd->GetTransform()->SetLocalPosition({ -50.0f, 0.0f, 0.0f });
-
-	//TestRd->CreateFBXAnimation("Fly", "_E_BAT_Black Variant_FLY.fbx");
-	//TestRd->ChangeAnimation("Fly");
-
+	CreateComponent<DustParticle>();
 }
 
 void MyTest::Update(float _Delta)
 {
-
 }
 
 void MyTest::TestRender()
