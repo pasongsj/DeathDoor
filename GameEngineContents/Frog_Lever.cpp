@@ -73,7 +73,7 @@ void Frog_Lever::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			if (true == TriggerHitCheck())
+			if (true == TriggerKeyCheck())
 			{
 				SetNextState(TriggerState::PROGRESS);
 			};

@@ -11,6 +11,7 @@ TriggerBase::~TriggerBase()
 
 void TriggerBase::Start()
 {
+	SetTrigger(true);
 	InitFSM(TriggerState::MAX);
 }
 
