@@ -51,11 +51,12 @@ void MapTestLevel::Update(float _DeltaTime)
 void MapTestLevel::LevelChangeStart()
 {
 	CreateScene();
-	SetTestLevelType(TestMapType::BigCrow_Floor);
+	SetTestLevelType(TestMapType::OldCrowFloor);
 
 	InitTestLevel();
 	
-	CreateActor<GameEngineLight>();
+	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
+	Light->GetTransform()->SetLocalRotation(float4{ 20, 180, 0 });
 
 	LevelInit();
 }
@@ -90,7 +91,7 @@ void MapTestLevel::InitTestLevel()
 		}
 	}
 		break;
-	case TestMapType::BigCrow_Floor:
+	case TestMapType::OldCrowFloor:
 	{
 		GetMainCamera()->GetTransform()->SetLocalPosition(float4{ 0, 700, -2500 });
 		std::shared_ptr<SecretTile> NewTile = CreateActor<SecretTile>();
@@ -104,7 +105,9 @@ void MapTestLevel::InitTestLevel()
 		NewLadder->GetTransform()->SetLocalPosition(float4{ 800, 0 , 0 });
 		
 
-		 std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
+		std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
+		Lever->GetTransform()->SetLocalPosition(float4{ 0, 0, -1000 });
+		Lever->GetTransform()->SetLocalRotation(float4{ 0, -90 , 0 });
 
 		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
 		std::shared_ptr<Player> Obj = CreateActor<Player>();
