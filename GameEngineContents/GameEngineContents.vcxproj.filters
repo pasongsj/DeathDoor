@@ -407,6 +407,7 @@
     <ClCompile Include="ParticleBase.cpp">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\ParticleBase</Filter>
     </ClCompile>
+    <ClCompile Include="TriggerBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -797,6 +798,7 @@
     <ClInclude Include="EnemyJumper.h">
       <Filter>FSMObject\Enemy\Jumper</Filter>
     </ClInclude>
+    <ClInclude Include="TriggerBase.h" />
     <ClInclude Include="SwordTrailRenderer.h">
       <Filter>Contents\Effect\Object\SwordTrail</Filter>
     </ClInclude>
@@ -1026,6 +1028,9 @@
     </Filter>
     <Filter Include="Contents\Effect\Object\Particle2D%28GPU%29\Feather">
       <UniqueIdentifier>{637c77bb-5f51-47fd-8df9-21bd8279bd80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Lever">
+      <UniqueIdentifier>{d3b110a3-3ec6-4f11-b376-c2e3e70f2da4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
