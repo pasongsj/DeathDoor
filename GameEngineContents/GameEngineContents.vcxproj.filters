@@ -414,6 +414,9 @@
     <ClCompile Include="Map_Emptyplain.cpp">
       <Filter>Contents\OldCrowLevel\Map</Filter>
     </ClCompile>
+    <ClCompile Include="BossFrog.cpp">
+      <Filter>Contents\Boss\Frog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -823,6 +826,9 @@
     <ClInclude Include="ParticleBase.h">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\ParticleBase</Filter>
     </ClInclude>
+    <ClInclude Include="BossFrog.h">
+      <Filter>Contents\Boss\Frog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -936,9 +942,6 @@
     <Filter Include="Component\ContentsRenderer\Font">
       <UniqueIdentifier>{f2100704-c978-4a25-8800-aaeb62a193e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Boss\FrogBoss">
-      <UniqueIdentifier>{8dfd5216-b32a-4c18-9954-e766d7a9eed0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Contents\Boss\OldCrow\Actor">
       <UniqueIdentifier>{f64ffb83-efd2-4822-a36c-33ad4b26ca6e}</UniqueIdentifier>
     </Filter>
@@ -1049,6 +1052,9 @@
     </Filter>
     <Filter Include="Contents\OldCrowLevel\Map">
       <UniqueIdentifier>{9d2aac6d-a6a5-4189-8027-c4dbbdb971aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Boss\Frog">
+      <UniqueIdentifier>{8dfd5216-b32a-4c18-9954-e766d7a9eed0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
