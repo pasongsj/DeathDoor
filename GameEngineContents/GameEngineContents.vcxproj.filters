@@ -398,7 +398,9 @@
     <ClCompile Include="Boomerang.cpp">
       <Filter>FSMObject\Enemy\Jumper</Filter>
     </ClCompile>
-    <ClCompile Include="TriggerBase.cpp" />
+    <ClCompile Include="TriggerBase.cpp">
+      <Filter>FSMObject\Trigger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -792,7 +794,9 @@
     <ClInclude Include="EnemyJumper.h">
       <Filter>FSMObject\Enemy\Jumper</Filter>
     </ClInclude>
-    <ClInclude Include="TriggerBase.h" />
+    <ClInclude Include="TriggerBase.h">
+      <Filter>FSMObject\Trigger</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -987,8 +991,11 @@
     <Filter Include="FSMObject\Enemy\Jumper">
       <UniqueIdentifier>{4fc9753c-97e3-4330-b0b4-8d4756bcb033}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FSMObject\Lever">
+    <Filter Include="FSMObject\Trigger">
       <UniqueIdentifier>{d3b110a3-3ec6-4f11-b376-c2e3e70f2da4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Trigger\Lever">
+      <UniqueIdentifier>{c2edb22c-2f23-46fc-a7a4-253bce4438bb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

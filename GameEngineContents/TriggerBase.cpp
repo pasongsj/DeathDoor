@@ -17,10 +17,5 @@ void TriggerBase::Start()
 
 void TriggerBase::Update(float _DetltaTime)
 {
-	if (m_TriggerFunc!=nullptr)
-	{
-		m_TriggerFunc();
-		m_TriggerFunc = nullptr;
-	}
 	FSMObjectBase::Update(_DetltaTime);
 }

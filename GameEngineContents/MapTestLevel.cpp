@@ -105,6 +105,7 @@ void MapTestLevel::InitTestLevel()
 		
 
 		 std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
+		 Lever->SetTriggerFunction([] { MsgTextBox("TestFunc"); });
 
 		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
 		std::shared_ptr<Player> Obj = CreateActor<Player>();
