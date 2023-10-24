@@ -47,6 +47,16 @@ public:
 	}
 
 protected:
+	void Start() override;
+	void Update(float _DetltaTime) override;
+
+	enum class TriggerState
+	{
+		OFF,
+		PROGRESS,
+		ON,
+		MAX
+	};
 
 	virtual void InitComponent() {};
 
@@ -70,5 +80,7 @@ private:
 	{
 		return GameEngineInput::IsDown("F");
 	}
+
+
 };
 

@@ -24,14 +24,9 @@ protected:
 	void Update(float _DeltaTime) override;
 
 	void InitComponent() override;
+	void InitAnimation();
 
 private:
-	enum class LeverState
-	{
-		CLOSE,
-		OPEN,
-		OPEND,
-		MAX
-	};
+	void SetFSMFUNC();
 
 };
