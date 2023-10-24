@@ -19,6 +19,7 @@ void Frog_Lever::Start()
 	TriggerBase::Start();
 	InitAnimation();
 	InitComponent();
+	SetFSMFUNC();
 }
 
 void Frog_Lever::Update(float _DeltaTime)
@@ -49,6 +50,13 @@ void Frog_Lever::InitAnimation()
 	m_pRenderer->SetFBXMesh("LEVER_MESH.FBX", "ContentAniMeshDeffered");
 	m_pRenderer->CreateFBXAnimation("LEVER_OPEN", "LEVER_OPEN (1).FBX", { 1.f / 30.f, false });
 	m_pRenderer->ChangeAnimation("LEVER_OPEN"); // 처음엔 0으로 고정으로 쓰기로 한듯?
+
+
+
+	m_pRenderer->SetAnimationStartFunc("LEVER_OPEN", 0, [this]
+		{
+			m_pRenderer->PauseOn();
+		});
 }
 
 void Frog_Lever::SetFSMFUNC()
@@ -65,6 +73,10 @@ void Frog_Lever::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if (true == TriggerHitCheck())
+			{
+				SetNextState(TriggerState::PROGRESS);
+			};
 		},
 		[this]
 		{
@@ -74,9 +86,14 @@ void Frog_Lever::SetFSMFUNC()
 	SetFSM(TriggerState::PROGRESS,
 		[this]
 		{
+			m_pRenderer->PauseOff();
 		},
 		[this](float Delta)
 		{
+			if (m_pRenderer->IsAnimationEnd())
+			{
+				SetNextState(TriggerState::ON);
+			}
 		},
 		[this]
 		{
@@ -86,6 +103,7 @@ void Frog_Lever::SetFSMFUNC()
 	SetFSM(TriggerState::ON,
 		[this]
 		{
+			m_pRenderer->PauseOn();
 		},
 		[this](float Delta)
 		{
