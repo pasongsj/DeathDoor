@@ -87,6 +87,9 @@ void Frog_Lever::SetFSMFUNC()
 		[this]
 		{
 			m_pRenderer->PauseOff();
+			SetTriggerFunction([] {
+				MsgTextBox("test");
+				});
 		},
 		[this](float Delta)
 		{
