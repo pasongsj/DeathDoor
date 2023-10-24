@@ -395,6 +395,9 @@
     <ClCompile Include="Boomerang.cpp">
       <Filter>FSMObject\Enemy\Jumper</Filter>
     </ClCompile>
+    <ClCompile Include="WoodenBridge.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
     <ClCompile Include="SwordTrailRenderer.cpp">
       <Filter>Contents\Effect\Object\SwordTrail</Filter>
     </ClCompile>
@@ -797,6 +800,9 @@
     </ClInclude>
     <ClInclude Include="EnemyJumper.h">
       <Filter>FSMObject\Enemy\Jumper</Filter>
+    </ClInclude>
+    <ClInclude Include="WoodenBridge.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="TriggerBase.h" />
     <ClInclude Include="SwordTrailRenderer.h">
