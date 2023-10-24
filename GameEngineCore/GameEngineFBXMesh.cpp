@@ -1501,9 +1501,9 @@ bool GameEngineFBXMesh::ImportBone()
 			Bone& Bone = AllBones[static_cast<int>(LinkIndex)];
 			Bone.Name = GameEngineString::ToUpper(Link->GetName());
 
-			if (false == AllFindMap.contains(Link->GetName()))
+			if (false == AllFindMap.contains(Bone.Name))
 			{
-				AllFindMap[Link->GetName()] = &Bone;
+				AllFindMap[Bone.Name] = &Bone;
 			}
 
 			JointPos& BonePosData = Bone.BonePos;

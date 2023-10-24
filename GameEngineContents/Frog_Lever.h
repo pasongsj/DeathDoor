@@ -24,7 +24,9 @@ protected:
 	void Update(float _DeltaTime) override;
 
 	void InitComponent() override;
+	void InitAnimation();
 
 private:
+	void SetFSMFUNC();
 
 };

@@ -14,77 +14,92 @@ MonsterAnimationTest::~MonsterAnimationTest()
 void MonsterAnimationTest::Start()
 {
 	Renderer = CreateComponent<ContentFBXRenderer>();
-	Renderer->SetFBXMesh("JUMPER_MESH.FBX", "ContentAniMeshDeffered");
+	Renderer->SetFBXMesh("FROG_MESH.FBX", "ContentAniMeshDeffered");
+	Renderer->CreateFBXAnimation("0", "FROG_IDLE.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("1", "FROG_DAMEGED_LOOP.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("2", "FROG_IDLE.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("3", "FROG_JUMP.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("4", "FROG_POGO_BOUNCE.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("5", "FROG_POGO_END.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("6", "FROG_POGO_START.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("7", "FROG_SMASH_START.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("8", "FROG_SWIM.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("9", "FROG_SWIM_EDIT.fbx", {0.1f });
 
 
-	Renderer->CreateFBXAnimation("0", "JUMPER_BOOMER_CATCH.fbx", {0.1f });
-	Renderer->SetAnimationStartFunc("0", 0, [this]
-		{
-			Renderer->SetRenderUnitControl(10, 0, false);
-			Renderer->SetRenderUnitControl(14, 0, false);
-			Renderer->SetRenderUnitControl(20, 0, false);
 
-			Renderer->SetRenderUnitControl(14, 0, true);
-		});
-	Renderer->SetAnimationStartFunc("0", 28,[this]
-		{
-			Renderer->SetRenderUnitControl(10, 0, false);
-			Renderer->SetRenderUnitControl(14, 0, false);
-			Renderer->SetRenderUnitControl(20, 0, false);
 
-			Renderer->SetRenderUnitControl(10, 0, true);
-		});
+	//Renderer->SetFBXMesh("JUMPER_MESH.FBX", "ContentAniMeshDeffered");
 
-	Renderer->CreateFBXAnimation("1", "JUMPER_BOOMER_PREP_WAIT.fbx");//
-	Renderer->CreateFBXAnimation("2", "JUMPER_BOOMER_THROW.fbx");//
 
-	Renderer->SetAnimationStartFunc("2", 0, [this]
-		{
-			Renderer->SetRenderUnitControl(10, 0, false);
-			Renderer->SetRenderUnitControl(14, 0, false);
-			Renderer->SetRenderUnitControl(20, 0, false);
+	//Renderer->CreateFBXAnimation("0", "JUMPER_BOOMER_CATCH.fbx", {0.1f });
+	//Renderer->SetAnimationStartFunc("0", 0, [this]
+	//	{
+	//		Renderer->SetRenderUnitControl(10, 0, false);
+	//		Renderer->SetRenderUnitControl(14, 0, false);
+	//		Renderer->SetRenderUnitControl(20, 0, false);
 
-			Renderer->SetRenderUnitControl(10, 0, true);
-		});
-	Renderer->SetAnimationStartFunc("2", 22, [this]
-		{
-			Renderer->SetRenderUnitControl(10, 0, false);
-			Renderer->SetRenderUnitControl(14, 0, false);
-			Renderer->SetRenderUnitControl(20, 0, false);
+	//		Renderer->SetRenderUnitControl(14, 0, true);
+	//	});
+	//Renderer->SetAnimationStartFunc("0", 28,[this]
+	//	{
+	//		Renderer->SetRenderUnitControl(10, 0, false);
+	//		Renderer->SetRenderUnitControl(14, 0, false);
+	//		Renderer->SetRenderUnitControl(20, 0, false);
 
-			Renderer->SetRenderUnitControl(20, 0, true);
-		});
-	Renderer->SetAnimationStartFunc("2", 53, [this]
-		{
-			Renderer->SetRenderUnitControl(10, 0, false);
-			Renderer->SetRenderUnitControl(14, 0, false);
-			Renderer->SetRenderUnitControl(20, 0, false);
+	//		Renderer->SetRenderUnitControl(10, 0, true);
+	//	});
 
-		});
-	Renderer->CreateFBXAnimation("3", "JUMPER_DROWN.fbx");//
-	Renderer->CreateFBXAnimation("4", "JUMPER_HOP.fbx");//
-	Renderer->CreateFBXAnimation("5", "JUMPER_HOP_LOOP.fbx");
-	Renderer->CreateFBXAnimation("6", "JUMPER_IDLE.fbx");//
-	Renderer->CreateFBXAnimation("7", "JUMPER_IDLE_LOOK.fbx");//
-	Renderer->CreateFBXAnimation("8", "JUMPER_INTERRUPT.fbx");//
-	Renderer->CreateFBXAnimation("9", "JUMPER_JUMP.fbx");//
-	Renderer->CreateFBXAnimation("10", "JUMPER_POISE_BREAK.fbx");//
-	Renderer->CreateFBXAnimation("11", "JUMPER_SKIP_THROW.fbx");//
+	//Renderer->CreateFBXAnimation("1", "JUMPER_BOOMER_PREP_WAIT.fbx");//
+	//Renderer->CreateFBXAnimation("2", "JUMPER_BOOMER_THROW.fbx");//
 
-	Renderer->SetAnimationStartFunc("11", 0, [this]
-		{
-			Renderer->SetRenderUnitControl(10, 0, false);
-			Renderer->SetRenderUnitControl(14, 0, false);
-			Renderer->SetRenderUnitControl(20, 0, false);
+	//Renderer->SetAnimationStartFunc("2", 0, [this]
+	//	{
+	//		Renderer->SetRenderUnitControl(10, 0, false);
+	//		Renderer->SetRenderUnitControl(14, 0, false);
+	//		Renderer->SetRenderUnitControl(20, 0, false);
 
-			Renderer->SetRenderUnitControl(20, 0, true);
-		});
-	Renderer->SetAnimationStartFunc("11", 22, [this]
-		{
-			Renderer->SetRenderUnitControl(10, 0, false);
-			Renderer->SetRenderUnitControl(14, 0, false);
-			Renderer->SetRenderUnitControl(20, 0, false);
-		});
+	//		Renderer->SetRenderUnitControl(10, 0, true);
+	//	});
+	//Renderer->SetAnimationStartFunc("2", 22, [this]
+	//	{
+	//		Renderer->SetRenderUnitControl(10, 0, false);
+	//		Renderer->SetRenderUnitControl(14, 0, false);
+	//		Renderer->SetRenderUnitControl(20, 0, false);
+
+	//		Renderer->SetRenderUnitControl(20, 0, true);
+	//	});
+	//Renderer->SetAnimationStartFunc("2", 53, [this]
+	//	{
+	//		Renderer->SetRenderUnitControl(10, 0, false);
+	//		Renderer->SetRenderUnitControl(14, 0, false);
+	//		Renderer->SetRenderUnitControl(20, 0, false);
+
+	//	});
+	//Renderer->CreateFBXAnimation("3", "JUMPER_DROWN.fbx");//
+	//Renderer->CreateFBXAnimation("4", "JUMPER_HOP.fbx");//
+	//Renderer->CreateFBXAnimation("5", "JUMPER_HOP_LOOP.fbx");
+	//Renderer->CreateFBXAnimation("6", "JUMPER_IDLE.fbx");//
+	//Renderer->CreateFBXAnimation("7", "JUMPER_IDLE_LOOK.fbx");//
+	//Renderer->CreateFBXAnimation("8", "JUMPER_INTERRUPT.fbx");//
+	//Renderer->CreateFBXAnimation("9", "JUMPER_JUMP.fbx");//
+	//Renderer->CreateFBXAnimation("10", "JUMPER_POISE_BREAK.fbx");//
+	//Renderer->CreateFBXAnimation("11", "JUMPER_SKIP_THROW.fbx");//
+
+	//Renderer->SetAnimationStartFunc("11", 0, [this]
+	//	{
+	//		Renderer->SetRenderUnitControl(10, 0, false);
+	//		Renderer->SetRenderUnitControl(14, 0, false);
+	//		Renderer->SetRenderUnitControl(20, 0, false);
+
+	//		Renderer->SetRenderUnitControl(20, 0, true);
+	//	});
+	//Renderer->SetAnimationStartFunc("11", 22, [this]
+	//	{
+	//		Renderer->SetRenderUnitControl(10, 0, false);
+	//		Renderer->SetRenderUnitControl(14, 0, false);
+	//		Renderer->SetRenderUnitControl(20, 0, false);
+	//	});
 
 	//Renderer->CreateFBXAnimation("12", "_E_JUMPER_THROW_Anim.fbx");//
 	//Renderer->ChangeAnimation("12");
@@ -103,7 +118,7 @@ void MonsterAnimationTest::Start()
 
 	Unit = Renderer->GetAllRenderUnit();
 	//Unit[23][0]->Off();
-	Renderer->ChangeAnimation("2");
+	Renderer->ChangeAnimation("0");
 	Unit[0][0]->Off();
 
 	int a = 0;
@@ -130,7 +145,7 @@ void MonsterAnimationTest::Update(float _DeltaTime)
 	{
 		//Renderer->ChangeAnimation("5",true);
 		Renderer->ChangeAnimation(std::to_string(index++));
-		if (index >= 12)
+		if (index >= 10)
 		{
 			index = 0;
 		}

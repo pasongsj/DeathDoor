@@ -169,6 +169,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Boomerang.cpp" />
+    <ClCompile Include="BossFrog.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Dust.cpp">
       <SubType>
       </SubType>
@@ -330,6 +334,7 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
+    <ClCompile Include="OldCrowLevel.cpp" />
     <ClCompile Include="TriggerBase.cpp">
       <SubType>
       </SubType>
@@ -516,9 +521,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WoodenBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boomerang.h" />
+    <ClInclude Include="BossFrog.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Dust.h">
       <SubType>
       </SubType>
@@ -717,6 +727,10 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
+    <ClInclude Include="OldCrowLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TriggerBase.h">
       <SubType>
       </SubType>
@@ -948,6 +962,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="WaterBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WoodenBridge.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -124,9 +124,6 @@
     <ClCompile Include="PlayerInit.cpp">
       <Filter>Contents\PlayerTestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Map_Emptyplain.cpp">
-      <Filter>Contents\TestLevel\MapTestLevel\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="PhysXManager.cpp">
       <Filter>Component\PhysX\ParentClass</Filter>
     </ClCompile>
@@ -395,6 +392,9 @@
     <ClCompile Include="Boomerang.cpp">
       <Filter>FSMObject\Enemy\Jumper</Filter>
     </ClCompile>
+    <ClCompile Include="WoodenBridge.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
     <ClCompile Include="SwordTrailRenderer.cpp">
       <Filter>Contents\Effect\Object\SwordTrail</Filter>
     </ClCompile>
@@ -407,7 +407,18 @@
     <ClCompile Include="ParticleBase.cpp">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\ParticleBase</Filter>
     </ClCompile>
-    <ClCompile Include="TriggerBase.cpp" />
+    <ClCompile Include="OldCrowLevel.cpp">
+      <Filter>Contents\OldCrowLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Map_Emptyplain.cpp">
+      <Filter>Contents\OldCrowLevel\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BossFrog.cpp">
+      <Filter>Contents\Boss\Frog</Filter>
+    </ClCompile>
+    <ClCompile Include="TriggerBase.cpp">
+      <Filter>FSMObject\Trigger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -529,9 +540,6 @@
     </ClInclude>
     <ClInclude Include="PlayerTestLevel.h">
       <Filter>Contents\PlayerTestLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="Map_Emptyplain.h">
-      <Filter>Contents\TestLevel\MapTestLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="PhysXManager.h">
       <Filter>Component\PhysX\ParentClass</Filter>
@@ -798,7 +806,15 @@
     <ClInclude Include="EnemyJumper.h">
       <Filter>FSMObject\Enemy\Jumper</Filter>
     </ClInclude>
-    <ClInclude Include="TriggerBase.h" />
+    <ClInclude Include="WoodenBridge.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="OldCrowLevel.h">
+      <Filter>Contents\OldCrowLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_Emptyplain.h">
+      <Filter>Contents\OldCrowLevel\Map</Filter>
+    </ClInclude>
     <ClInclude Include="SwordTrailRenderer.h">
       <Filter>Contents\Effect\Object\SwordTrail</Filter>
     </ClInclude>
@@ -810,6 +826,12 @@
     </ClInclude>
     <ClInclude Include="ParticleBase.h">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\ParticleBase</Filter>
+    </ClInclude>
+    <ClInclude Include="BossFrog.h">
+      <Filter>Contents\Boss\Frog</Filter>
+    </ClInclude>
+    <ClInclude Include="TriggerBase.h">
+      <Filter>FSMObject\Trigger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -924,9 +946,6 @@
     <Filter Include="Component\ContentsRenderer\Font">
       <UniqueIdentifier>{f2100704-c978-4a25-8800-aaeb62a193e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Boss\FrogBoss">
-      <UniqueIdentifier>{8dfd5216-b32a-4c18-9954-e766d7a9eed0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Contents\Boss\OldCrow\Actor">
       <UniqueIdentifier>{f64ffb83-efd2-4822-a36c-33ad4b26ca6e}</UniqueIdentifier>
     </Filter>
@@ -1029,8 +1048,20 @@
     <Filter Include="Contents\Effect\Object\Particle2D%28GPU%29\Feather">
       <UniqueIdentifier>{637c77bb-5f51-47fd-8df9-21bd8279bd80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FSMObject\Lever">
+    <Filter Include="FSMObject\Trigger">
       <UniqueIdentifier>{d3b110a3-3ec6-4f11-b376-c2e3e70f2da4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OldCrowLevel">
+      <UniqueIdentifier>{9ec9370b-d247-4591-aaec-15f02c51ed71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\OldCrowLevel\Map">
+      <UniqueIdentifier>{9d2aac6d-a6a5-4189-8027-c4dbbdb971aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Boss\Frog">
+      <UniqueIdentifier>{8dfd5216-b32a-4c18-9954-e766d7a9eed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Trigger\Lever">
+      <UniqueIdentifier>{c2edb22c-2f23-46fc-a7a4-253bce4438bb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
