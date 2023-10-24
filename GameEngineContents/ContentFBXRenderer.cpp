@@ -135,7 +135,7 @@ void ContentFBXRenderer::SetReflect()
 		}
 	}
 
-	//ReflectOff();
+	ReflectOff();
 }
 
 void ContentFBXRenderer::ReflectOn()

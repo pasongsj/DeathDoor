@@ -1,6 +1,7 @@
 #include "PrecompileHeader.h"
 #include "SkillSlot.h"
 #include "ContentUIRenderer.h"
+#include "Player.h"
 
 SkillSlot::SkillSlot()
 {
@@ -12,14 +13,26 @@ SkillSlot::~SkillSlot()
 
 void SkillSlot::Start()
 {
-	CreateKey();
 	SetSlot();
 
 	GetTransform()->SetLocalPosition({ -650, 300 });
+
+	//static Player* MainPlayer;
+	//enum class PlayerSkill
+	//{
+	//	ARROW,
+	//	MAGIC,
+	//	BOMB,
+	//	HOOK,
+	//	MAX,
+	//};
+
 }
 
 void SkillSlot::Update(float _DeltaTime)
 {
+	CurSkill = Player::MainPlayer->GetPlayerSkill();
+
 	SkillChange();
 
 	if (UpdateFunc.size() != 0)
@@ -555,120 +568,102 @@ void SkillSlot::SkillChange()
 		return;
 	}
 
-	if (GameEngineInput::IsDown("SkillArrow") == true)
+	if (CurSkill == PrevSkill)
+	{
+		return;
+	}
+
+	if (CurSkill == Player::PlayerSkill::ARROW)
 	{
 		std::function<bool(float)> Func_1 = std::bind(&SkillSlot::LerpSlotScaleUp_Arrow, this, std::placeholders::_1);
 		UpdateFunc.push_back(Func_1);
 
-		if (CurSkillIndex == 1)
+		if (PrevSkill == Player::PlayerSkill::MAGIC)
 		{
 			std::function<bool(float)> Func_2 = std::bind(&SkillSlot::LerpSlotScaleDown_Fire, this, std::placeholders::_1);
 			UpdateFunc.push_back(Func_2);
 		}
-		else if (CurSkillIndex == 2)
+		else if (PrevSkill == Player::PlayerSkill::BOMB)
 		{
 			std::function<bool(float)> Func_2 = std::bind(&SkillSlot::LerpSlotScaleDown_Bomb, this, std::placeholders::_1);
 			UpdateFunc.push_back(Func_2);
 		}
-		else if (CurSkillIndex == 3)
+		else if (PrevSkill == Player::PlayerSkill::HOOK)
 		{
 			std::function<bool(float)> Func_2 = std::bind(&SkillSlot::LerpSlotScaleDown_Hook, this, std::placeholders::_1);
 			UpdateFunc.push_back(Func_2);
 		}
 
-		CurSkillIndex = 0;
+		PrevSkill = CurSkill;
 
 	}
-	else if (GameEngineInput::IsDown("SkillFire") == true)
+	else if (CurSkill == Player::PlayerSkill::MAGIC)
 	{
 		std::function<bool(float)> Func_1 = std::bind(&SkillSlot::LerpSlotScaleUp_Fire, this, std::placeholders::_1);
 		UpdateFunc.push_back(Func_1);
 
-		if (CurSkillIndex == 0)
+		if (PrevSkill == Player::PlayerSkill::ARROW)
 		{
 			std::function<bool(float)> Func_2 = std::bind(&SkillSlot::LerpSlotScaleDown_Arrow, this, std::placeholders::_1);
 			UpdateFunc.push_back(Func_2);
 		}
-		else if (CurSkillIndex == 2)
+		else if (PrevSkill == Player::PlayerSkill::BOMB)
 		{
 			std::function<bool(float)> Func_2 = std::bind(&SkillSlot::LerpSlotScaleDown_Bomb, this, std::placeholders::_1);
 			UpdateFunc.push_back(Func_2);
 		}
-		else if (CurSkillIndex == 3)
+		else if (PrevSkill == Player::PlayerSkill::HOOK)
 		{
 			std::function<bool(float)> Func_2 = std::bind(&SkillSlot::LerpSlotScaleDown_Hook, this, std::placeholders::_1);
 			UpdateFunc.push_back(Func_2);
 		}
 
-		CurSkillIndex = 1;
+		PrevSkill = CurSkill;
 	}
-	else if (GameEngineInput::IsDown("SkillBomb") == true)
+	else if (CurSkill == Player::PlayerSkill::BOMB)
 	{
 		std::function<bool(float)> Func_1 = std::bind(&SkillSlot::LerpSlotScaleUp_Bomb, this, std::placeholders::_1);
 		UpdateFunc.push_back(Func_1);
 
-		if (CurSkillIndex == 0)
+		if (PrevSkill == Player::PlayerSkill::ARROW)
 		{
 			std::function<bool(float)> Func_2 = std::bind(&SkillSlot::LerpSlotScaleDown_Arrow, this, std::placeholders::_1);
 			UpdateFunc.push_back(Func_2);
 		}
-		else if (CurSkillIndex == 1)
+		else if (PrevSkill == Player::PlayerSkill::MAGIC)
 		{
 			std::function<bool(float)> Func_2 = std::bind(&SkillSlot::LerpSlotScaleDown_Fire, this, std::placeholders::_1);
 			UpdateFunc.push_back(Func_2);
 		}
-		else if (CurSkillIndex == 3)
+		else if (PrevSkill == Player::PlayerSkill::HOOK)
 		{
 			std::function<bool(float)> Func_2 = std::bind(&SkillSlot::LerpSlotScaleDown_Hook, this, std::placeholders::_1);
 			UpdateFunc.push_back(Func_2);
 		}
 
-		CurSkillIndex = 2;
+		PrevSkill = CurSkill;
 	}
-	else if (GameEngineInput::IsDown("SkillHook") == true)
+	else if (CurSkill == Player::PlayerSkill::HOOK)
 	{
 		std::function<bool(float)> Func_1 = std::bind(&SkillSlot::LerpSlotScaleUp_Hook, this, std::placeholders::_1);
 		UpdateFunc.push_back(Func_1);
 
-		if (CurSkillIndex == 0)
+		if (PrevSkill == Player::PlayerSkill::ARROW)
 		{
 			std::function<bool(float)> Func_2 = std::bind(&SkillSlot::LerpSlotScaleDown_Arrow, this, std::placeholders::_1);
 			UpdateFunc.push_back(Func_2);
 		}
-		else if (CurSkillIndex == 1)
+		else if (PrevSkill == Player::PlayerSkill::MAGIC)
 		{
 			std::function<bool(float)> Func_2 = std::bind(&SkillSlot::LerpSlotScaleDown_Fire, this, std::placeholders::_1);
 			UpdateFunc.push_back(Func_2);
 		}
-		else if (CurSkillIndex == 2)
+		else if (PrevSkill == Player::PlayerSkill::BOMB)
 		{
 			std::function<bool(float)> Func_2 = std::bind(&SkillSlot::LerpSlotScaleDown_Bomb, this, std::placeholders::_1);
 			UpdateFunc.push_back(Func_2);
 		}
 
-		CurSkillIndex = 3;
-	}
-}
-
-void SkillSlot::CreateKey()
-{
-	if (GameEngineInput::IsKey("SkillArrow") == false)
-	{
-		GameEngineInput::CreateKey("SkillArrow", '1');
-	}
-
-	if (GameEngineInput::IsKey("SkillFire") == false)
-	{
-		GameEngineInput::CreateKey("SkillFire", '2');
-	}
-
-	if (GameEngineInput::IsKey("SkillBomb") == false)
-	{
-		GameEngineInput::CreateKey("SkillBomb", '3');
-	}
-
-	if (GameEngineInput::IsKey("SkillHook") == false)
-	{
-		GameEngineInput::CreateKey("SkillHook", '4');
+		PrevSkill = CurSkill;
 	}
 }
