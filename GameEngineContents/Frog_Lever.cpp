@@ -86,8 +86,11 @@ void Frog_Lever::SetFSMFUNC()
 	SetFSM(TriggerState::PROGRESS,
 		[this]
 		{
+			if (nullptr != m_TriggerFunc)
+			{
+				m_TriggerFunc();
+			}
 			m_pRenderer->PauseOff();
-			m_TriggerFunc();
 		},
 		[this](float Delta)
 		{
