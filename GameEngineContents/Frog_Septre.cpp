@@ -73,6 +73,8 @@ void Frog_Septre::SetFSMFUNC()
 		[this]
 		{
 			m_TriggerFunc();
+			m_pRenderer->SetGlowToUnit(0, 0,"swampPillarMask.png");
+			
 		},
 		[this](float Delta)
 		{
