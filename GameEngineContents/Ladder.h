@@ -15,9 +15,14 @@ public:
 	Ladder& operator=(const Ladder& _Other) = delete;
 	Ladder& operator=(Ladder&& _Other) noexcept = delete;
 
+
 	void SetHidden(bool _Value)
 	{
-		m_bHidden = _Value;
+		m_bHidden = _Value; 
+		if (true == m_bHidden)
+		{
+			SetNextState(TriggerState::OFF,true);
+		}
 	}
 
 

@@ -20,6 +20,7 @@ void Ladder::Start()
 	InitAnimation();
 	InitComponent();
 	SetFSMFUNC();
+	SetNextState(TriggerState::PROGRESS);
 }
 
 void Ladder::Update(float _DeltaTime)
@@ -29,8 +30,6 @@ void Ladder::Update(float _DeltaTime)
 
 void Ladder::InitComponent()
 {
-
-
 	float4 MeshScale = m_pRenderer->GetMeshScale();
 
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
@@ -42,6 +41,7 @@ void Ladder::InitComponent()
 	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, float4(100,10,100), float4(50, 10, 0));
 	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
 	m_pPhysXComponent->AttachShape();
+
 }
 
 void Ladder::InitAnimation()
@@ -64,6 +64,7 @@ void Ladder::SetFSMFUNC()
 	SetFSM(TriggerState::OFF,
 		[this]
 		{
+			m_pRenderer->Off();
 		},
 		[this](float Delta)
 		{
@@ -81,6 +82,8 @@ void Ladder::SetFSMFUNC()
 	SetFSM(TriggerState::PROGRESS,
 		[this]
 		{
+			 m_pRenderer->On();
+
 			if (nullptr!=m_TriggerFunc)
 			{
 				m_TriggerFunc();
