@@ -48,6 +48,7 @@ void Ladder::InitAnimation()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->SetFBXMesh("Ladder.fbx", "ContentMeshDeffered");
+	m_pRenderer->GetTransform()->SetLocalPosition(float4(0, -m_fHeight, 0));
 
 	auto Unit = m_pRenderer->GetAllRenderUnit();
 	Unit[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "BlackScreen.png");
@@ -120,4 +121,9 @@ void Ladder::SetFSMFUNC()
 		{
 		}
 	);
+}
+
+void Ladder::SetLadderPosition()
+{
+	// 플레이어한테 포지션 보내주기
 }

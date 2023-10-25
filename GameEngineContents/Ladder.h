@@ -25,6 +25,11 @@ public:
 		}
 	}
 
+	void SetHeight(int _Amount)
+	{
+		//Ladder clone의 크기 확인해서 한개의 크기만큼 줄여버리기
+		m_fHeight = static_cast<float>(_Amount);
+	}
 
 protected:
 	void Start() override;
@@ -38,5 +43,10 @@ private:
 
 	bool m_bHidden = false;
 
+	float m_fHeight = 0.f;
+
+	void SetLadderPosition();
+
+	
 
 };
