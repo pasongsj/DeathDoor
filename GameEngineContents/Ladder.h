@@ -1,8 +1,8 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "TriggerBase.h"
 
 // Ό³Έν :
-class Ladder : public GameEngineActor
+class Ladder : public TriggerBase
 {
 public:
 	// constrcuter destructer
@@ -15,18 +15,16 @@ public:
 	Ladder& operator=(const Ladder& _Other) = delete;
 	Ladder& operator=(Ladder&& _Other) noexcept = delete;
 
-	inline std::shared_ptr<class PhysXBoxComponent> GetPhysXComponent() const
-	{
-		return m_pPhysXComponent;
-	}
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
-private:
-	void InitComponent();
+	void InitComponent() override;
+	void InitAnimation();
 
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
-	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
+private:
+	void SetFSMFUNC();
+
+
 };

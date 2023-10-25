@@ -72,7 +72,10 @@ void Frog_Septre::SetFSMFUNC()
 	SetFSM(TriggerState::PROGRESS,
 		[this]
 		{
-			m_TriggerFunc();
+			if (nullptr != m_TriggerFunc)
+			{
+				m_TriggerFunc();
+			}
 			m_pRenderer->SetGlowToUnit(0, 0,"swampPillarMask.png");
 			
 		},
