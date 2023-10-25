@@ -4,12 +4,15 @@
 struct Input
 {
     float4 Pos : POSITION;
+    float4 Normal : Normal;
     float4 UV : TEXCOORD;
 };
 
 struct OutPut
 {
     float4 Pos : SV_Position;
+    float4 ViewPos : POSITION;
+    float4 ViewNormal : NORMAL;
     float4 UV : TEXCOORD0;
     float4 ClipUV : TEXCOORD1;
 };
@@ -22,6 +25,9 @@ OutPut ContentTexture_VS(Input _Value)
     _Value.Pos.w = 1.0f;
     OutPutValue.Pos = mul(_Value.Pos, WorldViewProjectionMatrix);
     OutPutValue.UV = _Value.UV;
+    
+    OutPutValue.ViewPos = mul(_Value.Pos, WorldView);
+    OutPutValue.ViewNormal = mul(_Value.Normal, WorldView);
     
     return OutPutValue;
 }
@@ -36,8 +42,17 @@ cbuffer MaskValue : register(b5)
     float Padding;
 };
 
-float4 ContentTexture_PS(OutPut _Value) : SV_Target0
+struct DefferedTarget
 {
+    float4 DiffuseColor : SV_Target1;
+    float4 Position : SV_Target2;
+    float4 Normal : SV_Target3;
+};
+
+DefferedTarget ContentTexture_PS(OutPut _Value)
+{
+    DefferedTarget OutPutTarget = (DefferedTarget) 0.0f;
+    
     float4 Color = NoiseTexture.Sample(CLAMPSAMPLER, _Value.UV.xy);
     
     if(Color.a <= 0.0f)
@@ -50,12 +65,16 @@ float4 ContentTexture_PS(OutPut _Value) : SV_Target0
         clip(-1);
     }
     
-    float Alpha = 1 - Color.r;
+    float Alpha = saturate(1 - Color.r);
         
     Color *= MulColor;
     Color += AddColor;
     
     Color.a = Alpha;
     
-    return Color;
+    OutPutTarget.DiffuseColor = saturate(Color);
+    OutPutTarget.Position = _Value.ViewPos;
+    OutPutTarget.Normal = _Value.ViewNormal;
+    
+    return OutPutTarget;
 }

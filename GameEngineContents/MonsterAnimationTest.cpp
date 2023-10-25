@@ -120,8 +120,13 @@ void MonsterAnimationTest::Start()
 	//Unit[23][0]->Off();
 	Renderer->ChangeAnimation("0");
 	Unit[0][0]->Off();
+	
+	//무기 빛나게 하는 코드
+	Renderer->SetGlowToUnit(12, 0);
+	Renderer->SetUnitColor(12, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
 
-	int a = 0;
+	auto Units = Renderer->GetAllRenderUnit();
+	
 	//Boomer = GetLevel()->CreateActor< Boomerang>();
 	//Boomer->GetTransform()->SetParent(GetTransform());
 	//Boomer->SetBoomer(Boomerang::BoomerType::HEAD, float4::ZERO, float4::ZERO);

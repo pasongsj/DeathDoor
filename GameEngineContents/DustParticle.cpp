@@ -39,7 +39,7 @@ void DustParticle::Render(float _Delta)
 
 void DustParticle::FadeInAndOut(float _Delta)
 {
-	if (MaskValue.x < 1.0f)
+	if (MaskValue.x < 0.85f)
 	{
 		MaskValue.x += 1.5f * _Delta;
 		MaskValue.z = MaskValue.x;

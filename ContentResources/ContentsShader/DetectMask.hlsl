@@ -47,6 +47,12 @@ OutPutTarget DetectMask_PS(OutPut _Value)
     }
     
     float4 DiffuseColor = DiffuseTexture.Sample(POINTSAMPLER, _Value.UV.xy);
+    
+    if (abs(BlurColor.r - DiffuseColor.r) > 0.1f || abs(BlurColor.g - DiffuseColor.g) > 0.1f || abs(BlurColor.b - DiffuseColor.b) > 0.1f)
+    {
+        clip(-1);
+    }
+    
     float4 DifLight = DifLightTexture.Sample(POINTSAMPLER, _Value.UV.xy);
     float4 SpcLight = SpcLightTexture.Sample(POINTSAMPLER, _Value.UV.xy);
     float4 AmbLight = AmbLightTexture.Sample(POINTSAMPLER, _Value.UV.xy);

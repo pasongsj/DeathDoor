@@ -106,7 +106,7 @@ protected:
 private:
 	void LinkConstantBuffer();
 
-	float4 BlurColor = {0.85f, 0.26f, 0.33f};
+	float4 BlurColor = {0.85f, 0.26f, 0.33f, -1.0f};
 	float4 ClipData = { 0.0f, 0.0f, 1.0f, 1.0f };
 
 	std::string FBXName;
