@@ -15,6 +15,11 @@ public:
 	Ladder& operator=(const Ladder& _Other) = delete;
 	Ladder& operator=(Ladder&& _Other) noexcept = delete;
 
+	void SetHidden(bool _Value)
+	{
+		m_bHidden = _Value;
+	}
+
 
 protected:
 	void Start() override;
@@ -25,6 +30,8 @@ protected:
 
 private:
 	void SetFSMFUNC();
+
+	bool m_bHidden = false;
 
 
 };

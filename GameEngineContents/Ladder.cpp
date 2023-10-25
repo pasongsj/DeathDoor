@@ -4,6 +4,8 @@
 #include "PhysXBoxComponent.h"
 #include "ContentFBXRenderer.h"
 
+#include "Player.h"
+
 Ladder::Ladder()
 {
 }
@@ -35,7 +37,7 @@ void Ladder::InitComponent()
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 	
-	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, float4(100,10,100), float4(-50, 10, 0));
+	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, float4(100,10,100), float4(50, 10, 0));
 	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
 	m_pPhysXComponent->AttachShape();
 }
@@ -60,10 +62,11 @@ void Ladder::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			if (true == TriggerHitCheck())
+			if (false == m_bHidden)
 			{
+				//히든 사다리가 해제되면 넘기기
 				SetNextState(TriggerState::PROGRESS);
-			};
+			}
 		},
 		[this]
 		{
@@ -77,15 +80,15 @@ void Ladder::SetFSMFUNC()
 			{
 				m_TriggerFunc();
 			}
-			m_pRenderer->SetGlowToUnit(0, 0, "swampPillarMask.png");
 
 		},
 		[this](float Delta)
 		{
-			if (true)// glow켜고 이펙트 시전후 넘기기
+			// f키 누르라는 ui띄우기
+			if (true == TriggerKeyCheck())
 			{
 				SetNextState(TriggerState::ON);
-			}
+			};
 		},
 		[this]
 		{
