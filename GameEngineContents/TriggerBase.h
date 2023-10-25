@@ -27,6 +27,10 @@ public:
 		m_TriggerFunc = _Func;
 	}
 
+	bool IsPlayerInRange()
+	{
+		return CheckCollision(PhysXFilterGroup::PlayerDynamic);
+	}
 
 	bool TriggerHitCheck()
 	{
@@ -66,10 +70,6 @@ protected:
 
 private:
 
-	bool IsPlayerInRange()
-	{
-		return CheckCollision(PhysXFilterGroup::PlayerDynamic);
-	}
 
 	bool IsHit()
 	{

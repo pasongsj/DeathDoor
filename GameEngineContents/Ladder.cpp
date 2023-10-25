@@ -92,9 +92,13 @@ void Ladder::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			// f키 누르라는 ui띄우기
+			if (true == IsPlayerInRange())
+			{
+				// e키 누르라는 ui띄우기			
+			}
 			if (true == TriggerKeyCheck())
 			{
+				//키눌렸으면 ON으로 전환하고 PlayerClimb상태로 전환
 				SetNextState(TriggerState::ON);
 			};
 		},
@@ -106,9 +110,11 @@ void Ladder::SetFSMFUNC()
 	SetFSM(TriggerState::ON,
 		[this]
 		{
+			//e키 ui끄기
 		},
 		[this](float Delta)
 		{
+			//플레이어가 특정 위치 이상으로 올라가버렸다면 강제적으로 맨위 바닥까지 올려보내주기
 		},
 		[this]
 		{
