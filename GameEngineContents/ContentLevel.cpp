@@ -48,10 +48,6 @@ void ContentLevel::SetPostPrecessEffect()
 
 	GameEngineCoreWindow::AddDebugRenderTarget(4, "Detect", Effect->DetectMaskTarget);
 
-
-	GameEngineCoreWindow::AddDebugRenderTarget(0, "CamTG", GetLevel()->GetMainCamera()->GetCamTarget());
-
-
 	std::shared_ptr<GammaCorrection> Effect2 = GetLevel()->GetLastTarget()->CreateEffect<GammaCorrection>();
 	std::shared_ptr<FXAA> Effect3 = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();
 }

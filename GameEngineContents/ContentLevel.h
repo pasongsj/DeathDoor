@@ -41,9 +41,9 @@ protected:
 	void LevelInit();
 	void CreateUI();
 	void SetPostPrecessEffect();
+	void CreateIMGUIDebugRenderTarget();
 private:
 
-	void CreateIMGUIDebugRenderTarget();
 
 	ContentLevelType m_eLevelType = ContentLevelType::NONE;
 };
