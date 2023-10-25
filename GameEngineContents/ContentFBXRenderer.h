@@ -95,6 +95,14 @@ public:
 		Units[_Y][_X]->Color.PlusColor = { _RGBA.x * _Intensity, _RGBA.y * _Intensity, _RGBA.z * _Intensity, _RGBA.a };
 	}
 
+	void SetUnitDiffuseColorIntensity(int _Y, int _X, float _Intensity)
+	{
+		auto Units = GetAllRenderUnit();
+
+		Units[_Y][_X]->Color.MulColor = { _Intensity , _Intensity , _Intensity, 1.0f };
+	}
+
+
 	void SetReflect();
 	void ReflectOff();
 	void ReflectOn();
