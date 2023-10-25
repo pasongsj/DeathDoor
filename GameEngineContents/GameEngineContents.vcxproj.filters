@@ -232,9 +232,6 @@
     <ClCompile Include="Crate.cpp">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
-    <ClCompile Include="Frog_Lever.cpp">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
-    </ClCompile>
     <ClCompile Include="PhysXControllerComponent.cpp">
       <Filter>Component\PhysX\Component</Filter>
     </ClCompile>
@@ -417,6 +414,12 @@
       <Filter>Contents\Boss\Frog</Filter>
     </ClCompile>
     <ClCompile Include="TriggerBase.cpp">
+      <Filter>FSMObject\Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="Frog_Lever.cpp">
+      <Filter>FSMObject\Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="Frog_Septre.cpp">
       <Filter>FSMObject\Trigger</Filter>
     </ClCompile>
   </ItemGroup>
@@ -650,9 +653,6 @@
     <ClInclude Include="Crate.h">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
-    <ClInclude Include="Frog_Lever.h">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
-    </ClInclude>
     <ClInclude Include="PhysXControllerComponent.h">
       <Filter>Component\PhysX\Component</Filter>
     </ClInclude>
@@ -831,6 +831,12 @@
       <Filter>Contents\Boss\Frog</Filter>
     </ClInclude>
     <ClInclude Include="TriggerBase.h">
+      <Filter>FSMObject\Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="Frog_Lever.h">
+      <Filter>FSMObject\Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="Frog_Septre.h">
       <Filter>FSMObject\Trigger</Filter>
     </ClInclude>
   </ItemGroup>
