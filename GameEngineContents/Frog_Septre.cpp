@@ -32,6 +32,7 @@ void Frog_Septre::InitComponent()
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
 	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
+	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 
 	MeshScale.y = 1.f;
 	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, MeshScale * 10.f, float4(0, 10, 0));
