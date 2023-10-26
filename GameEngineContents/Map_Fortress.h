@@ -20,9 +20,6 @@ public:
 		return m_pNaviRenderer;
 	}
 
-	void NaviRenderSwitch();
-	void TriggerSwitch();
-
 	inline std::vector<std::shared_ptr<class CullingTrigger>>& GetCullingTrigger()
 	{
 		return m_vCullingTriggers;
@@ -32,6 +29,9 @@ public:
 	{
 		return m_vCullingObjects;
 	}
+
+	void NaviRenderSwitch();
+	void TriggerSwitch();
 
 protected:
 	void Start() override;
