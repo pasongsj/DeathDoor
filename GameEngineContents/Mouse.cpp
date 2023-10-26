@@ -14,8 +14,10 @@ Mouse::~Mouse()
 
 void Mouse::Start()
 {
+#ifdef _DEBUG
+#else
 	ShowCursor(false);
-
+#endif
 	MousePivot = CreateComponent<GameEngineComponent>();
 	MousePivot->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0.0f });
 
