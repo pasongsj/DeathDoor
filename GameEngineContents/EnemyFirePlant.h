@@ -18,9 +18,10 @@ public:
 
 	
 protected:
-	void InitAniamtion() override;
+	void InitAnimation() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void SetFSMFUNC() override;
 
 private:
 	enum class EnemyFireFlowerState
@@ -33,7 +34,6 @@ private:
 	};
 
 
-	void SetFSMFUNC();
 
 	float4 ShootDir = float4::ZERO;
 

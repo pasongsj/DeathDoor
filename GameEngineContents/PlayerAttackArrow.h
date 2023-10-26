@@ -22,7 +22,7 @@ protected:
 	void SetShoot(float _Speed = 1500.0f) override
 	{
 		AttackBase::SetShoot(_Speed);
-		AttackRenderer->GetTransform()->SetLocalRotation(float4{ 0.0f,-0.0f,-90.0f });
+		AttackRenderer->GetTransform()->SetLocalRotation(float4{ 90.0f,-0.0f,-90.0f });
 		AttackRenderer->GetTransform()->SetLocalScale(float4{ 2.5f,0.8f,2.5f });
 	}
 

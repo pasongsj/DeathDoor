@@ -17,9 +17,10 @@ public:
 
 protected:
 
-	void InitAniamtion() override;
+	void InitAnimation() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void SetFSMFUNC() override;
 
 private:
 	enum class EnemyBruteState
@@ -36,7 +37,6 @@ private:
 
 
 	void AggroMove(float _DeltaTime);
-	void SetFSMFUNC();
 	
 	std::shared_ptr<class EnemyAttackBox> m_pAttackBox = nullptr;
 	float4 m_f4ShootDir = float4::ZERO;

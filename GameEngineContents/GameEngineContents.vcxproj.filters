@@ -422,6 +422,9 @@
     <ClCompile Include="Frog_Septre.cpp">
       <Filter>FSMObject\Trigger</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyGhoulBig.cpp">
+      <Filter>FSMObject\Enemy\Ghoul</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -838,6 +841,9 @@
     </ClInclude>
     <ClInclude Include="Frog_Septre.h">
       <Filter>FSMObject\Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGhoulBig.h">
+      <Filter>FSMObject\Enemy\Ghoul</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

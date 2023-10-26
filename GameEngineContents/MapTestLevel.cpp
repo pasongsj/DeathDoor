@@ -15,6 +15,7 @@
 #include "EnemyGrunt.h"
 #include "EnemyBrute.h"
 #include "EnemyGhoul.h"
+#include "EnemyGhoulBig.h"
 #include "EnemyBruteGold.h"
 #include "EnemyJumper.h"
 #include "MonsterAnimationTest.h"
@@ -126,12 +127,12 @@ void MapTestLevel::InitTestLevel()
 		}
 
 
-		std::shared_ptr<BossFrogMain> Mage = CreateActor<BossFrogMain>();
-		Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
+		//std::shared_ptr<BossFrogMain> Mage = CreateActor<BossFrogMain>();
+		//Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
 
-		//std::shared_ptr<EnemyGhoul> Ghoul = CreateActor<EnemyGhoul>();
+		std::shared_ptr<EnemyGhoul> Ghoul = CreateActor<EnemyGhoul>();
 		//Ghoul->InitGhoul(true);
-		//Ghoul->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });
+		Ghoul->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });
 
 		//CreateActor<EnemyFirePlant>();
 		//CreateActor<PlayerAttMagic>();

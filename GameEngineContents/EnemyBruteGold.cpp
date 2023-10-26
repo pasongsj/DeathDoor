@@ -10,7 +10,7 @@ EnemyBruteGold::~EnemyBruteGold()
 }
 
 
-void EnemyBruteGold::InitAniamtion()
+void EnemyBruteGold::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("_E_BRUTE_GOLD_MESH.FBX", "ContentAniMeshDeffered");

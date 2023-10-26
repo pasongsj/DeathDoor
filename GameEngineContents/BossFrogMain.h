@@ -19,7 +19,8 @@ public:
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-	void InitAniamtion() override;
+	void InitAnimation() override;
+	void SetFSMFUNC() override;
 
 private:
 
@@ -43,6 +44,5 @@ private:
 	};
 
 	int JumpCount = 0;
-	void SetFSMFUNC();
 };
 

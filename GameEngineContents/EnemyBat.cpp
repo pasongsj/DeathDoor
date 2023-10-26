@@ -12,7 +12,7 @@ EnemyBat::~EnemyBat()
 {
 }
 
-void EnemyBat::InitAniamtion()
+void EnemyBat::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("_E_BAT_Black Variant_MESH.FBX", "ContentAniMeshDeffered");

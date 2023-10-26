@@ -9,7 +9,7 @@ BossFrogMain::~BossFrogMain()
 {
 }
 
-void BossFrogMain::InitAniamtion()
+void BossFrogMain::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("FROG_MESH.FBX", "ContentAniMeshDeffered");

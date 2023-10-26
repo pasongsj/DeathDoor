@@ -27,7 +27,8 @@ protected:
 	std::shared_ptr<class ContentFBXRenderer> EnemyRenderer = nullptr;
 	std::shared_ptr<class PhysXControllerComponent> m_pCapsuleComp = nullptr;
 
-	virtual void InitAniamtion() {};
+	virtual void InitAnimation() {};
+	virtual void SetFSMFUNC() {};
 
 	void Start() override;
 	void Update(float _DetltaTime) override;

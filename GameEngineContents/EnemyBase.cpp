@@ -14,7 +14,11 @@ EnemyBase::~EnemyBase()
 
 void EnemyBase::Start()
 {
-	InitAniamtion();
+	InitAnimation();
+	if (nullptr != EnemyRenderer)
+	{
+		SetFSMFUNC();
+	}
 }
 
 void EnemyBase::Update(float _DetltaTime)
