@@ -24,11 +24,37 @@ FrogFloor::~FrogFloor()
 void FrogFloor::Start()
 {
 	InitComponent();
+	
 }
 
 void FrogFloor::Update(float _DeltaTime)
 {
+	
+	RotationUpdate(_DeltaTime);
 }
+
+void FrogFloor::RotationUpdate(float _DeltaTime)
+{
+	float4 Rot = GetTransform()->GetLocalRotation();
+
+	if (true == m_bRotation)
+	{
+		if (Rot.z >= -10.0f)
+		{
+			GetTransform()->AddLocalRotation(float4{ 0, 0, -0.1f });
+		}
+	}
+
+	else if (false == m_bRotation)
+	{
+		if (Rot.z < 0.0f)
+		{
+			GetTransform()->AddLocalRotation(float4{ 0, 0, 0.2f });
+		}
+	}
+}
+
+
 
 void FrogFloor::InitComponent()
 {
@@ -49,6 +75,11 @@ void FrogFloor::InitComponent()
 	std::shared_ptr<Ladder> Obj = GetLevel()->CreateActor<Ladder>();
 	Obj->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
 	Obj->GetTransform()->SetLocalPosition(float4{ -4880,  -40 , 4947 });
+
+	for (size_t i = 0; i < m_vFireObjects.size(); i++)
+	{
+		m_vFireObjects[i]->GetTransform()->SetParent(GetTransform());
+	}
 }
 
 void FrogFloor::Create_FireObject()

@@ -36,11 +36,29 @@ public:
 		return m_vWalls;
 	}
 
+	void OnRotation()
+	{
+		m_bRotation = true;
+	}
+
+	void OffRotation()
+	{
+		m_bRotation = false;
+	}
+
+	const bool IsRotation() const
+	{
+		return m_bRotation;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 private:
+	void RotationUpdate(float _DeltaTime);
+
+	
 	void InitComponent();
 	void Create_FireObject();
 	void Create_TileObject();
@@ -64,4 +82,6 @@ private:
 	size_t m_Height = 5;
 
 	float4 m_f4FloorPos = float4{ -3871, -197, 3950 };
+
+	bool m_bRotation = false;
 };
