@@ -16,6 +16,7 @@ public:
 	EnemyGhoul& operator=(EnemyGhoul&& _Other) noexcept = delete;
 
 	void InitGhoul(bool IsSingleShhot);
+	const int GhoulFullHP = 6;
 
 protected:
 	void Start() override {};

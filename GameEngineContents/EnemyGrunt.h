@@ -15,7 +15,7 @@ public:
 	EnemyGrunt& operator=(const EnemyGrunt& _Other) = delete;
 	EnemyGrunt& operator=(EnemyGrunt&& _Other) noexcept = delete;
 
-
+	const int GruntFullHP = 4;
 
 protected:
 	void InitAniamtion() override;

@@ -178,7 +178,10 @@ void Player::SetFSMFunc()
 				default:
 					break;
 				}
-				AttackActor->SetTrans(ForwardDir, SkillPos);
+				if (nullptr != AttackActor)
+				{
+					AttackActor->SetTrans(ForwardDir, SkillPos); // ลอมü
+				}
 			}
 			else
 			{

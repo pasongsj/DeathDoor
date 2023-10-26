@@ -46,7 +46,7 @@ void EnemyGrunt::InitAniamtion()
 void EnemyGrunt::Start()
 {
 	EnemyBase::Start();
-	SetEnemyHP(4);
+	SetEnemyHP(GruntFullHP);
 	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_GRUNT);
 
 	// physx

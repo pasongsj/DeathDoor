@@ -53,7 +53,7 @@ void EnemyFirePlant::Start()
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
 	SetFSMFUNC();
-
+	SetEnemyHP(FirePlantFullHP);
 }
 
 
