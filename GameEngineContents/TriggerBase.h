@@ -32,6 +32,11 @@ public:
 		return CheckCollision(PhysXFilterGroup::PlayerDynamic);
 	}
 
+	bool IsHit()
+	{
+		return CheckCollision(PhysXFilterGroup::PlayerSkill);
+	}
+
 	bool TriggerHitCheck()
 	{
 		if (true== IsPlayerInRange()&&true == IsHit())
@@ -71,10 +76,6 @@ protected:
 private:
 
 
-	bool IsHit()
-	{
-		return CheckCollision(PhysXFilterGroup::PlayerSkill);
-	}
 	bool IsKeyDown()
 	{
 		return GameEngineInput::IsDown("E");
