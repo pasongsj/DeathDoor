@@ -26,6 +26,9 @@ public:
 		return m_pFrogFloor;
 	}
 
+	void OnRotationFloor();
+	void OffRotationFloor();
+	
 	void NaviRenderSwitch();
 
 protected:
@@ -34,6 +37,8 @@ protected:
 
 private:
 	void InitComponent();
+	void InitKey();
+	void KeyUpdate();
 	void Create_PhysXComponent();
 
 	std::shared_ptr<class ContentFBXRenderer> m_pNaviRenderer = nullptr;

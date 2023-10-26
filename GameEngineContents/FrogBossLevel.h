@@ -16,6 +16,11 @@ public:
 	FrogBossLevel& operator=(const FrogBossLevel& _Other) = delete;
 	FrogBossLevel& operator=(FrogBossLevel&& _Other) noexcept = delete;
 
+	inline std::shared_ptr<class Map_Sanctuary> GetMap() const
+	{
+		return m_pMap;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
