@@ -369,7 +369,7 @@ void GameEngineFBXRenderer::SetAnimationStartFunc(const std::string_view& _Name,
 	}
 	std::shared_ptr< GameEngineFBXAnimationInfo> Info = Animations[sUpperName];
 	//std::weak_ptr<GameEngineFBXAnimationInfo> AnimInfo = Animations[sUpperName];
-	if ((Info->Start > _Index) || (_Index >= Info->End))
+	if ((Info->Start > _Index) || (_Index > Info->End))
 	{
 		MsgAssert("설정하려는 인덱스가 " + sUpperName + "의 최대 프레임인 " + std::to_string(Info->Start)+","+ std::to_string(Info->End) + " 을(를) 넘었습니다");
 		return;

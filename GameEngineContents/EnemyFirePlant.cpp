@@ -53,13 +53,16 @@ void EnemyFirePlant::Start()
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
 	SetFSMFUNC();
-
+	SetEnemyHP(FirePlantFullHP);
 }
 
 
 void EnemyFirePlant::Update(float _DeltaTime)
 {
-
+	if (DeathCheck() == true)
+	{
+		SetNextState(EnemyFireFlowerState::DIE);
+	}
 	FSMObjectBase::Update(_DeltaTime);
 	
 }
@@ -156,7 +159,7 @@ void EnemyFirePlant::SetFSMFUNC()
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				// Die
+				Death();
 				return;
 			}
 		},

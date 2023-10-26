@@ -80,11 +80,13 @@ void EnemyGhoul::InitGhoul(bool IsSingleShhot)
 	{
 		GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_GHOUL);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_GHOUL);
+		SetEnemyHP(GhoulFullHP);
 	}
 	else
 	{
 		GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_GHOUL_RAPID);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_GHOUL_RAPID);
+		SetEnemyHP(GhoulFullHP +2);
 	}
 	m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 
@@ -96,6 +98,10 @@ void EnemyGhoul::Update(float _DeltaTime)
 	if (nullptr == EnemyRenderer)
 	{
 		return;
+	}
+	if (DeathCheck() == true)
+	{
+		SetNextState(EnemyGhoulState::DEATH);
 	}
 	FSMObjectBase::Update(_DeltaTime);
 }
@@ -236,6 +242,12 @@ void EnemyGhoul::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			float4 f4Result = float4::LerpClamp(float4(0.f, 0.f, 0.f), float4(-90.f, 0.f, 0.f), GetStateDuration());
+			EnemyRenderer->GetTransform()->SetLocalRotation(f4Result);
+			if (GetStateDuration() >= 1.f)
+			{
+				Death();
+			}
 		},
 		[this]
 		{

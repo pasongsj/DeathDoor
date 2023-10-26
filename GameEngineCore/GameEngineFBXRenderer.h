@@ -69,9 +69,9 @@ public:
 	bool Loop = true;
 	int Start = -1;
 	int End = -1;
-	std::vector<float> FrameTime = std::vector<float>();
 	float BlendIn = 0.02f;
 	float BlendOut = 0.02f;
+	std::vector<float> FrameTime = std::vector<float>();
 };
 
 

@@ -29,6 +29,7 @@
 
 
 #include "PlayerAttackTrail.h"
+#include "BossFrogMain.h"
 
 
 
@@ -125,8 +126,8 @@ void MapTestLevel::InitTestLevel()
 		}
 
 
-		//std::shared_ptr<EnemyJumper> Mage = CreateActor<EnemyJumper>();
-		//Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
+		std::shared_ptr<BossFrogMain> Mage = CreateActor<BossFrogMain>();
+		Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
 
 		//std::shared_ptr<EnemyGhoul> Ghoul = CreateActor<EnemyGhoul>();
 		//Ghoul->InitGhoul(true);

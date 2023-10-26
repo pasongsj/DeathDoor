@@ -21,6 +21,28 @@ Map_Sanctuary::~Map_Sanctuary()
 {
 }
 
+void Map_Sanctuary::OnRotationFloor()
+{
+	if (nullptr == m_pFrogFloor)
+	{
+		MsgAssert("FrogFloor가 nullptr 입니다.");
+		return;
+	}
+
+	m_pFrogFloor->OnRotation();
+}
+
+void Map_Sanctuary::OffRotationFloor()
+{
+	if (nullptr == m_pFrogFloor)
+	{
+		MsgAssert("FrogFloor가 nullptr 입니다.");
+		return;
+	}
+
+	m_pFrogFloor->OffRotation();
+}
+
 void Map_Sanctuary::NaviRenderSwitch()
 {
 	if (nullptr != m_pNaviRenderer)
@@ -40,12 +62,37 @@ void Map_Sanctuary::Start()
 {
 	// 컴포넌트 초기화 
 	InitComponent();
+	InitKey();
 
 	m_pFrogFloor = GetLevel()->CreateActor<FrogFloor>();
 }
 
 void Map_Sanctuary::Update(float _DeltaTime)
 {
+	KeyUpdate();
+}
+
+void Map_Sanctuary::InitKey()
+{
+	if (false == GameEngineInput::IsKey("test_rot"))
+	{
+		GameEngineInput::CreateKey("test_rot", '0');
+	}
+}
+
+void Map_Sanctuary::KeyUpdate()
+{
+	if (true == GameEngineInput::IsDown("test_rot"))
+	{
+		if (true == m_pFrogFloor->IsRotation())
+		{
+			OffRotationFloor();
+		}
+		else
+		{
+			OnRotationFloor();
+		}
+	}
 }
 
 void Map_Sanctuary::InitComponent()
