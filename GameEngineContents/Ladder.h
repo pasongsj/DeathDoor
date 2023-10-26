@@ -2,6 +2,14 @@
 #include "TriggerBase.h"
 #define LadderHeight 550.f
 
+class LadderData
+{
+	friend class Player;
+	friend class Ladder;
+	float4 Pos = float4::ZERONULL;
+	float4 Dir = float4::ZERONULL;
+};
+
 // Ό³Έν :
 class Ladder : public TriggerBase
 {
@@ -47,8 +55,5 @@ private:
 
 	float m_fHeight = 0.f;
 
-	void SetLadderPosition();
-
-	
-
+	LadderData m_sData = {};
 };
