@@ -169,7 +169,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Boomerang.cpp" />
-    <ClCompile Include="BossFrog.cpp">
+    <ClCompile Include="BossFrogMain.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -529,7 +529,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boomerang.h" />
-    <ClInclude Include="BossFrog.h">
+    <ClInclude Include="BossFrogMain.h">
       <SubType>
       </SubType>
     </ClInclude>
