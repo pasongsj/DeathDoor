@@ -77,7 +77,7 @@ private:
 	}
 	bool IsKeyDown()
 	{
-		return GameEngineInput::IsDown("F");
+		return GameEngineInput::IsDown("E");
 	}
 
 
