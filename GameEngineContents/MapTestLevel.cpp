@@ -103,11 +103,17 @@ void MapTestLevel::InitTestLevel()
 
 		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
 		NewLadder->GetTransform()->SetLocalRotation(float4{ 0, 90,  0 });
-		NewLadder->GetTransform()->SetLocalPosition(float4{ 800, 0 , 0 });
+		NewLadder->GetTransform()->SetWorldPosition(float4{ 800, 0 , 0 });
+		//NewLadder->SetHidden(true);
+		NewLadder->SetHeight(4);
 		
 
 		 std::shared_ptr<Frog_Septre> Lever = CreateActor<Frog_Septre>();
-		 //Lever->SetTriggerFunction([] { MsgTextBox("TestFunc"); });
+		 Lever->SetTriggerFunction([=]
+			{
+					NewLadder->SetHidden(false);
+			}
+		 );
 		Lever->GetTransform()->SetLocalPosition(float4{ 0, 0, -1000 });
 		Lever->GetTransform()->SetLocalRotation(float4{ 0, -90 , 0 });
 

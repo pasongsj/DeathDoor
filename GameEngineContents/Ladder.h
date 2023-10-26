@@ -1,5 +1,6 @@
 #pragma once
 #include "TriggerBase.h"
+#define LadderHeight 550.f
 
 // 설명 :
 class Ladder : public TriggerBase
@@ -15,11 +16,22 @@ public:
 	Ladder& operator=(const Ladder& _Other) = delete;
 	Ladder& operator=(Ladder&& _Other) noexcept = delete;
 
+
 	void SetHidden(bool _Value)
 	{
-		m_bHidden = _Value;
+		m_bHidden = _Value; 
+		if (true == m_bHidden)
+		{
+			SetNextState(TriggerState::OFF,true);
+		}
 	}
 
+	void SetHeight(int _Amount)
+	{
+		//Ladder clone의 크기 확인해서 한개의 크기만큼 줄여버리기
+		m_fHeight = 50.f*static_cast<float>(_Amount);
+		m_pRenderer->GetTransform()->SetLocalPosition(float4(0, -(LadderHeight - m_fHeight), 0));
+	}
 
 protected:
 	void Start() override;
@@ -33,5 +45,10 @@ private:
 
 	bool m_bHidden = false;
 
+	float m_fHeight = 0.f;
+
+	void SetLadderPosition();
+
+	
 
 };

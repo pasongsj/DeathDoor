@@ -20,6 +20,7 @@ void Ladder::Start()
 	InitAnimation();
 	InitComponent();
 	SetFSMFUNC();
+	SetNextState(TriggerState::PROGRESS);
 }
 
 void Ladder::Update(float _DeltaTime)
@@ -29,8 +30,6 @@ void Ladder::Update(float _DeltaTime)
 
 void Ladder::InitComponent()
 {
-
-
 	float4 MeshScale = m_pRenderer->GetMeshScale();
 
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
@@ -42,13 +41,14 @@ void Ladder::InitComponent()
 	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, float4(100,10,100), float4(50, 10, 0));
 	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
 	m_pPhysXComponent->AttachShape();
+
 }
 
 void Ladder::InitAnimation()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->SetFBXMesh("Ladder.fbx", "ContentMeshDeffered");
-
+	m_pRenderer->GetTransform()->SetLocalPosition(float4(0, LadderHeight - m_fHeight, 0));
 	auto Unit = m_pRenderer->GetAllRenderUnit();
 	Unit[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "BlackScreen.png");
 }
@@ -64,6 +64,7 @@ void Ladder::SetFSMFUNC()
 	SetFSM(TriggerState::OFF,
 		[this]
 		{
+			m_pRenderer->Off();
 		},
 		[this](float Delta)
 		{
@@ -81,6 +82,8 @@ void Ladder::SetFSMFUNC()
 	SetFSM(TriggerState::PROGRESS,
 		[this]
 		{
+			 m_pRenderer->On();
+
 			if (nullptr!=m_TriggerFunc)
 			{
 				m_TriggerFunc();
@@ -89,9 +92,13 @@ void Ladder::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			// f키 누르라는 ui띄우기
+			if (true == IsPlayerInRange())
+			{
+				// e키 누르라는 ui띄우기			
+			}
 			if (true == TriggerKeyCheck())
 			{
+				//키눌렸으면 ON으로 전환하고 PlayerClimb상태로 전환
 				SetNextState(TriggerState::ON);
 			};
 		},
@@ -103,12 +110,19 @@ void Ladder::SetFSMFUNC()
 	SetFSM(TriggerState::ON,
 		[this]
 		{
+			//e키 ui끄기
 		},
 		[this](float Delta)
 		{
+			//플레이어가 특정 위치 이상으로 올라가버렸다면 강제적으로 맨위 바닥까지 올려보내주기
 		},
 		[this]
 		{
 		}
 	);
+}
+
+void Ladder::SetLadderPosition()
+{
+	// 플레이어한테 포지션 보내주기
 }

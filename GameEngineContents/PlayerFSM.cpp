@@ -525,7 +525,7 @@ void Player::SetFSMFunc()
 	// 높이가 차가 있을 때 Falling, Land
 	SetFSM(PlayerState::FALLING,
 		[this]
-		{
+		{			
 			Renderer->ChangeAnimation("FALLING");
 		},
 		[this](float Delta)
@@ -533,6 +533,11 @@ void Player::SetFSMFunc()
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 			if (false == GetStateChecker())
 			{
+				if (GetStateDuration()<0.3f&& GetLiveTime() > 3.0f)
+				{
+					m_pCapsuleComp->SetMoveSpeed(MoveDir * 500);
+				}
+
 				float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
 				PlayerGroundPos.y += 50.0f; // 피직스 컴포넌트 중력값으로 보정되기 전 위치가 측정되는 오류 해결
 				float4 CollPoint = float4::ZERO;
