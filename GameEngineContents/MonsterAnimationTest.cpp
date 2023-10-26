@@ -15,16 +15,15 @@ void MonsterAnimationTest::Start()
 {
 	Renderer = CreateComponent<ContentFBXRenderer>();
 	Renderer->SetFBXMesh("FROG_MESH.FBX", "ContentAniMeshDeffered");
-	Renderer->CreateFBXAnimation("0", "FROG_IDLE.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("1", "FROG_DAMEGED_LOOP.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("2", "FROG_IDLE.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("3", "FROG_JUMP.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("4", "FROG_POGO_BOUNCE.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("5", "FROG_POGO_END.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("6", "FROG_POGO_START.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("7", "FROG_SMASH_START.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("8", "FROG_SWIM.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("9", "FROG_SWIM_EDIT.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("0", "FROG_JUMP.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("1", "FROG_IDLE.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("2", "FROG_DAMEGED_LOOP.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("3", "FROG_POGO_START.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("4", "FROG_SMASH_START.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("5", "FROG_POGO_BOUNCE.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("6", "FROG_POGO_END.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("7", "FROG_SWIM.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("8", "FROG_SWIM_EDIT.fbx", {0.1f });
 
 
 
@@ -103,8 +102,8 @@ void MonsterAnimationTest::Start()
 
 	//Renderer->CreateFBXAnimation("12", "_E_JUMPER_THROW_Anim.fbx");//
 	//Renderer->ChangeAnimation("12");
-	GetTransform()->SetLocalScale(float4::ONE * 100.0f);
-	GetTransform()->SetLocalRotation(float4{90.0f,180.0f,0.0f});
+	GetTransform()->SetLocalScale(float4::ONE * 50.0f);
+	GetTransform()->SetLocalRotation(float4{90.0f,0.0f,0.0f});
 	//Renderer->GetTransform()->SetLocalRotation({ 0.0f,180.0f, 0.0f });
 
 	if (false == GameEngineInput::IsKey("PressN"))
@@ -119,13 +118,13 @@ void MonsterAnimationTest::Start()
 	Unit = Renderer->GetAllRenderUnit();
 	//Unit[23][0]->Off();
 	Renderer->ChangeAnimation("0");
-	Unit[0][0]->Off();
+	//Unit[0][0]->Off();
 	
 	//무기 빛나게 하는 코드
 	Renderer->SetGlowToUnit(12, 0);
 	Renderer->SetUnitColor(12, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
 
-	auto Units = Renderer->GetAllRenderUnit();
+	//auto Units = Renderer->GetAllRenderUnit();
 	
 	//Boomer = GetLevel()->CreateActor< Boomerang>();
 	//Boomer->GetTransform()->SetParent(GetTransform());
@@ -150,7 +149,7 @@ void MonsterAnimationTest::Update(float _DeltaTime)
 	{
 		//Renderer->ChangeAnimation("5",true);
 		Renderer->ChangeAnimation(std::to_string(index++));
-		if (index >= 10)
+		if (index >= 9)
 		{
 			index = 0;
 		}

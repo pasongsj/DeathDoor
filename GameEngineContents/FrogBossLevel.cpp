@@ -5,7 +5,7 @@
 #include "PhysXControllerComponent.h"
 #include "Player.h"
 #include "Map_Sanctuary.h"
-
+#include "BossFrogMain.h"
 
 
 FrogBossLevel::FrogBossLevel()
@@ -77,6 +77,9 @@ void FrogBossLevel::LevelChangeStart()
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_PlayerStartPos();
+
+	//std::shared_ptr<BossFrogMain> Boss = CreateActor<BossFrogMain>();
+	//Boss->GetPhysXComponent()->SetWorldPosWithParent(float4{-4244,850,3152});
 
 }
 

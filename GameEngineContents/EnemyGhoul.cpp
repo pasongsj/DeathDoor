@@ -99,6 +99,10 @@ void EnemyGhoul::Update(float _DeltaTime)
 	{
 		return;
 	}
+	if (DeathCheck() == true)
+	{
+		SetNextState(EnemyGhoulState::DEATH);
+	}
 	FSMObjectBase::Update(_DeltaTime);
 }
 
@@ -238,6 +242,12 @@ void EnemyGhoul::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			float4 f4Result = float4::LerpClamp(float4(0.f, 0.f, 0.f), float4(-90.f, 0.f, 0.f), GetStateDuration());
+			EnemyRenderer->GetTransform()->SetLocalRotation(f4Result);
+			if (GetStateDuration() >= 1.f)
+			{
+				Death();
+			}
 		},
 		[this]
 		{
