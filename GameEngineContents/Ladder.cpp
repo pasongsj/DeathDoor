@@ -30,17 +30,19 @@ void Ladder::Update(float _DeltaTime)
 
 void Ladder::InitComponent()
 {
-	float4 MeshScale = m_pRenderer->GetMeshScale();
+	//float4 MeshScale = m_pRenderer->GetMeshScale();
 
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
-	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
-	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
+	m_pPhysXComponent->CreatePhysXActors(float4(100, 10, 100), float4::ZERONULL, true);
+	m_pPhysXComponent->SetDynamicPivot(float4(0, 10, -50));
+	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::LeverTrigger);
+	m_pPhysXComponent->SetTrigger();
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 	
-	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, float4(100,10,100), float4(50, 10, 0));
-	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
-	m_pPhysXComponent->AttachShape();
+	//m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, float4(100,10,100), float4(50, 10, 0));
+	//m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
+	//m_pPhysXComponent->AttachShape();
 
 }
 
@@ -48,7 +50,8 @@ void Ladder::InitAnimation()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->SetFBXMesh("Ladder.fbx", "ContentMeshDeffered");
-	m_pRenderer->GetTransform()->SetLocalPosition(float4(0, LadderHeight - m_fHeight, 0));
+	m_pRenderer->GetTransform()->SetLocalRotation(float4(0, 90, 0));
+
 	auto Unit = m_pRenderer->GetAllRenderUnit();
 	Unit[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "BlackScreen.png");
 }
@@ -83,6 +86,8 @@ void Ladder::SetFSMFUNC()
 		[this]
 		{
 			 m_pRenderer->On();
+			 m_sData.Pos = GetTransform()->GetWorldPosition();
+			 m_sData.Dir = GetTransform()->GetWorldForwardVector();
 
 			if (nullptr!=m_TriggerFunc)
 			{
@@ -98,7 +103,8 @@ void Ladder::SetFSMFUNC()
 			}
 			if (true == TriggerKeyCheck())
 			{
-				//키눌렸으면 ON으로 전환하고 PlayerClimb상태로 전환
+				//키눌렸으면 ON으로 전환하고 Player에게 포지션 전달
+				Player::MainPlayer->GetLadderData(m_sData);
 				SetNextState(TriggerState::ON);
 			};
 		},
@@ -114,15 +120,14 @@ void Ladder::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			//플레이어가 특정 위치 이상으로 올라가버렸다면 강제적으로 맨위 바닥까지 올려보내주기
+			//언제 Progress로 돌려보내줘야함?
+			if (false == IsPlayerInRange())
+			{
+				SetNextState(TriggerState::PROGRESS);
+			}
 		},
 		[this]
 		{
 		}
 	);
-}
-
-void Ladder::SetLadderPosition()
-{
-	// 플레이어한테 포지션 보내주기
 }

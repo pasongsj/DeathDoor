@@ -104,9 +104,8 @@ void MapTestLevel::InitTestLevel()
 		NewCrate->GetTransform()->SetLocalPosition(float4{ 400, 0 , 0 });
 
 		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
-		NewLadder->GetTransform()->SetLocalRotation(float4{ 0, 90,  0 });
 		NewLadder->GetTransform()->SetWorldPosition(float4{ 800, 0 , 0 });
-		//NewLadder->SetHidden(true);
+		NewLadder->SetHidden(true);
 		NewLadder->SetHeight(4);
 		
 
