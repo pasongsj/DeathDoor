@@ -52,7 +52,7 @@ void EnemyMage::InitAniamtion()
 void EnemyMage::Start()
 {
 	EnemyBase::Start();
-	SetEnemyHP(5);
+	SetEnemyHP(MageFullHP);
 	m_f4RenderScale = float4::ONE * RENDERSCALE_MAGE;
 	EnemyRenderer->GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_MAGE);
 

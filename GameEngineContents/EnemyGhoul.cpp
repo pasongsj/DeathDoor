@@ -80,11 +80,13 @@ void EnemyGhoul::InitGhoul(bool IsSingleShhot)
 	{
 		GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_GHOUL);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_GHOUL);
+		SetEnemyHP(GhoulFullHP);
 	}
 	else
 	{
 		GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_GHOUL_RAPID);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_GHOUL_RAPID);
+		SetEnemyHP(GhoulFullHP +2);
 	}
 	m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 

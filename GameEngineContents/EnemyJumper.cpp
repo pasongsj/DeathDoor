@@ -82,7 +82,6 @@ void EnemyJumper::InitAniamtion()
 void EnemyJumper::Start()
 {
 	EnemyBase::Start();
-	//SetEnemyHP(m_iFullHP);
 	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_JUMPER);
 
 	// physx
@@ -93,6 +92,7 @@ void EnemyJumper::Start()
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
 	SetFSMFUNC();
+	SetEnemyHP(JumperFullHP);
 }
 
 bool EnemyJumper::CheckBoomerang()
