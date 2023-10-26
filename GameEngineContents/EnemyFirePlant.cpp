@@ -59,7 +59,10 @@ void EnemyFirePlant::Start()
 
 void EnemyFirePlant::Update(float _DeltaTime)
 {
-
+	if (DeathCheck() == true)
+	{
+		SetNextState(EnemyFireFlowerState::DIE);
+	}
 	FSMObjectBase::Update(_DeltaTime);
 	
 }
@@ -156,7 +159,7 @@ void EnemyFirePlant::SetFSMFUNC()
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				// Die
+				Death();
 				return;
 			}
 		},
