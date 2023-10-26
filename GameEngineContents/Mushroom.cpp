@@ -34,8 +34,7 @@ void Mushroom::InitComponent()
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
 	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL,true);
-	m_pPhysXComponent->SetTrigger();
-	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::LeverTrigger);
+	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
 	//m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 }
 
@@ -56,10 +55,19 @@ void Mushroom::SetFSMFUNC()
 	SetFSM(TriggerState::OFF,
 		[this]
 		{
-			m_pRenderer->Off();
+			m_pPhysXComponent->PhysXRelease();
+			isPhysXCollision = 0;
+			m_fRenderRatio = 1.f;
 		},
 		[this](float Delta)
 		{
+			m_fRenderRatio -= Delta * 2.f;
+			if (m_fRenderRatio < 0.f)
+			{
+				m_fRenderRatio = 0.f;
+			}
+			m_pRenderer->GetTransform()->SetLocalScale(float4(m_fRenderRatio, m_fRenderRatio, m_fRenderRatio));
+
 			if (GetStateDuration()>5.f)
 			{
 				SetNextState(TriggerState::ON);
@@ -91,11 +99,22 @@ void Mushroom::SetFSMFUNC()
 	SetFSM(TriggerState::ON,
 		[this]
 		{
+			InitComponent();
 			m_pRenderer->On();
+			m_fRenderRatio = 0.f;
 		},
 		[this](float Delta)
 		{
-			SetNextState(TriggerState::PROGRESS);
+			m_fRenderRatio += Delta*2.f;
+			if (m_fRenderRatio>1.f)
+			{
+				m_fRenderRatio = 1.f;
+				m_pRenderer->GetTransform()->SetLocalScale(float4(m_fRenderRatio, m_fRenderRatio, m_fRenderRatio));
+				SetNextState(TriggerState::PROGRESS);
+				return;
+			}
+			m_pRenderer->GetTransform()->SetLocalScale(float4(m_fRenderRatio, m_fRenderRatio, m_fRenderRatio));
+			
 		},
 		[this]
 		{

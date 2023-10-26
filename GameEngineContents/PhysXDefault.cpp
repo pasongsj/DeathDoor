@@ -225,7 +225,7 @@ void PhysXDefault::DeathAndRelease()
     }
 }
 
-void PhysXDefault::Release()
+void PhysXDefault::PhysXRelease()
 {
     if (m_pRigidDynamic != nullptr && m_pRigidDynamic->isReleasable())
     {

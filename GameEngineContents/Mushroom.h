@@ -23,6 +23,7 @@ protected:
 	void InitAnimation();
 
 private:
+	float m_fRenderRatio = 0.f;
 	void SetFSMFUNC();
 
 };
