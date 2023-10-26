@@ -63,6 +63,8 @@ void EnemyGhoul::InitAniamtion()
 	//EnemyRenderer->CreateFBXAnimation("RUN_SWORD", "_E_GHOUL_RUN_SWORD.fbx", { 0.02f,false });
 
 	EnemyRenderer->ChangeAnimation("IDLE_BOW");
+
+	EnemyRenderer->SetBlurColor();
 }
 
 

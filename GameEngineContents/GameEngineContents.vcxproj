@@ -288,6 +288,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FeatherParticle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FireObject.cpp">
       <SubType>
       </SubType>
@@ -661,6 +665,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EnemyMage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FeatherParticle.h">
       <SubType>
       </SubType>
     </ClInclude>

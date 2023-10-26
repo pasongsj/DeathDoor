@@ -25,9 +25,10 @@ public:
 	void SetFBXMesh(const std::string& _MeshName, const std::string _SettingName) override;
 	void SetCrackAmount(float _Amount);
 
-	void SetBlurColor(float4 _Color)
+	void SetBlurColor(float4 _Color = {0.956f, 0.286f, 0.372f, 1.0f}, float _Intensity = 3.0f)
 	{
-		BlurColor = _Color;
+		BlurColor = _Color * _Intensity;
+		BlurColor.a = _Color.a;
 	}
 
 	void SetClipData(float4 _ClipData)

@@ -422,6 +422,9 @@
     <ClCompile Include="Frog_Septre.cpp">
       <Filter>FSMObject\Trigger</Filter>
     </ClCompile>
+    <ClCompile Include="FeatherParticle.cpp">
+      <Filter>Contents\Effect\Object\Particle2D%28CPU%29\Feather</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -839,6 +842,9 @@
     <ClInclude Include="Frog_Septre.h">
       <Filter>FSMObject\Trigger</Filter>
     </ClInclude>
+    <ClInclude Include="FeatherParticle.h">
+      <Filter>Contents\Effect\Object\Particle2D%28CPU%29\Feather</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -1051,9 +1057,6 @@
     <Filter Include="Contents\Effect\Object\Particle2D%28CPU%29\ParticleBase">
       <UniqueIdentifier>{52355dfe-8f1d-4501-b60b-7785604b6ae3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Effect\Object\Particle2D%28GPU%29\Feather">
-      <UniqueIdentifier>{637c77bb-5f51-47fd-8df9-21bd8279bd80}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FSMObject\Trigger">
       <UniqueIdentifier>{d3b110a3-3ec6-4f11-b376-c2e3e70f2da4}</UniqueIdentifier>
     </Filter>
@@ -1068,6 +1071,9 @@
     </Filter>
     <Filter Include="FSMObject\Trigger\Lever">
       <UniqueIdentifier>{c2edb22c-2f23-46fc-a7a4-253bce4438bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\Particle2D%28CPU%29\Feather">
+      <UniqueIdentifier>{637c77bb-5f51-47fd-8df9-21bd8279bd80}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,7 @@
 #include "Boss_OldCrowCrowHead.h"
 
 #include "Boss_OldCrowCrowHead.h"
+#include "FeatherParticle.h"
 
 Boss_OldCrow::Boss_OldCrow() 
 {
@@ -43,9 +44,31 @@ void Boss_OldCrow::Start()
 	SetNextState(Boss_OldCrowState::IDLE);
 }
 
+float Time = 0.0f;
+
 void Boss_OldCrow::Update(float _DeltaTime)
 {
 	FSMObjectBase::Update(_DeltaTime);
+
+	Time += _DeltaTime;
+
+	if (Time >= 0.05f)
+	{
+		if (GetTransform()->GetWorldPosition().y > 50.0f)
+		{
+			return;
+		}
+
+		Time = 0.0f;
+
+		//대충 이런 식으로 만들면 됨. 
+		std::shared_ptr<FeatherParticle> New = CreateComponent<FeatherParticle>();
+
+		float X = GameEngineRandom::MainRandom.RandomFloat(-100, 100);
+		float Z = GameEngineRandom::MainRandom.RandomFloat(-100, 100);
+		
+		New->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ X, 100.0f, Z});
+	}
 }
 
 void Boss_OldCrow::InitPattern()

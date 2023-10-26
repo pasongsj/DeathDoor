@@ -44,6 +44,10 @@ void Frog_Septre::InitAnimation()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->SetFBXMesh("FrogSeptre_Static.FBX", "ContentMeshDeffered");
+
+
+
+	int a = 0;
 }
 
 void Frog_Septre::SetFSMFUNC()
@@ -77,8 +81,9 @@ void Frog_Septre::SetFSMFUNC()
 			{
 				m_TriggerFunc();
 			}
-			m_pRenderer->SetGlowToUnit(0, 0,"swampPillarMask.png");
-			
+			m_pRenderer->SetGlowToUnit(0, 0, "swampPillarMask.png");
+			auto units = m_pRenderer->GetAllRenderUnit();
+			m_pRenderer->SetUnitDiffuseColorIntensity(0, 0, 4.0f);
 		},
 		[this](float Delta)
 		{

@@ -300,6 +300,15 @@ void ContentsCore::ContentsResourcesCreate()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ParticleBasic");
+		Pipe->SetVertexShader("ParticleBasicShader.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("ParticleBasicShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("DustParticle");
 		Pipe->SetVertexShader("DustParticle.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
