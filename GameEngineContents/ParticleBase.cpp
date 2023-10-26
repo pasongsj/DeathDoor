@@ -16,7 +16,6 @@ void ParticleBase::Start()
 	PushCameraRender(0);
 	
 	Unit = CreateRenderUnit();
-	Unit->SetMesh("Rect");
 }
 
 void ParticleBase::Update(float _Delta)
