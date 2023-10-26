@@ -13,7 +13,7 @@ EnemyBrute::~EnemyBrute()
 }
 
 
-void EnemyBrute::InitAniamtion()
+void EnemyBrute::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("_E_BRUTE_MESH.FBX", "ContentAniMeshDeffered");

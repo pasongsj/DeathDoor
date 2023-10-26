@@ -11,7 +11,7 @@ EnemyFirePlant::~EnemyFirePlant()
 {
 }
 
-void EnemyFirePlant::InitAniamtion()
+void EnemyFirePlant::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("_E_FIREPLANT_MESH.FBX", "ContentAniMeshDeffered");

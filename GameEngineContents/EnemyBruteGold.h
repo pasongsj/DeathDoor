@@ -17,9 +17,10 @@ public:
 
 protected:
 
-	void InitAniamtion() override;
+	void InitAnimation() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void SetFSMFUNC() override;
 
 private:
 	enum class EnemyBruteGoldState
@@ -35,7 +36,6 @@ private:
 
 
 	void AggroMove(float _DeltaTime);
-	void SetFSMFUNC();
 
 	//float StateDuration = 0.0f;
 	//bool StateChecker = false;

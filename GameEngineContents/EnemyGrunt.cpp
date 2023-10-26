@@ -12,7 +12,7 @@ EnemyGrunt::~EnemyGrunt()
 }
 
 
-void EnemyGrunt::InitAniamtion()
+void EnemyGrunt::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("_E_GRUNT_MESH.FBX", "ContentAniMeshDeffered");

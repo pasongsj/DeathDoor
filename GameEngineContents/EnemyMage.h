@@ -18,9 +18,10 @@ public:
 	const int MageFullHP = 5;
 
 protected:
-	void InitAniamtion() override;
+	void InitAnimation() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void SetFSMFUNC() override;
 
 private:
 
@@ -38,7 +39,6 @@ private:
 
 	void TeleportRandPos();
 
-	void SetFSMFUNC();
 
 	float m_fTPWaitTime = 2.f;
 	float m_fTeleportRange = 750.f;

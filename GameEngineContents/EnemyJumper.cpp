@@ -11,7 +11,7 @@ EnemyJumper::~EnemyJumper()
 }
 
 
-void EnemyJumper::InitAniamtion()
+void EnemyJumper::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("JUMPER_MESH.FBX", "ContentAniMeshDeffered");

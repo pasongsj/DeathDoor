@@ -19,9 +19,10 @@ public:
 
 
 protected:
-	void InitAniamtion() override;
+	void InitAnimation() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void SetFSMFUNC() override;
 
 private:
 
@@ -57,7 +58,6 @@ private:
 
 	void ThrowBoomer();
 
-	void SetFSMFUNC();
 
 	bool CheckBoomerang();
 
