@@ -169,7 +169,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Boomerang.cpp" />
-    <ClCompile Include="BossFrog.cpp">
+    <ClCompile Include="BossFrogMain.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -273,6 +273,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="EnemyGhoul.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyGhoulBig.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -533,7 +537,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boomerang.h" />
-    <ClInclude Include="BossFrog.h">
+    <ClInclude Include="BossFrogMain.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -653,6 +657,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EnemyGhoul.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyGhoulBig.h">
       <SubType>
       </SubType>
     </ClInclude>

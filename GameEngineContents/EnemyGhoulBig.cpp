@@ -1,12 +1,12 @@
 #include "PreCompileHeader.h"
-#include "EnemyGhoul.h"
+#include "EnemyGhoulBig.h"
 #include "EnemyAttackCapsule.h"
 
-EnemyGhoul::EnemyGhoul() 
+EnemyGhoulBig::EnemyGhoulBig()
 {
 }
 
-EnemyGhoul::~EnemyGhoul() 
+EnemyGhoulBig::~EnemyGhoulBig()
 {
 }
 
@@ -15,7 +15,7 @@ EnemyGhoul::~EnemyGhoul()
 ////ArrowRot = float4
 //ArrowPhysXScale =
 
-void EnemyGhoul::ShootArrow()
+void EnemyGhoulBig::ShootArrow()
 {
 	// 본 위치 가져오기
 	std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
@@ -23,23 +23,24 @@ void EnemyGhoul::ShootArrow()
 	BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("Bow").Pos);
 	float4 BonePivotPos = BonePivot->GetTransform()->GetWorldPosition();
 
-
 	ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_GHOUL);
 	std::shared_ptr<EnemyAttackCapsule> Attack = GetLevel()->CreateActor<EnemyAttackCapsule>();
 	Attack->SetRender(ArrowScale, ArrowRot);
-	Attack->SetPhysXComp(ArrowPhysXScale, float4::DOWN * 100.0f,float4::LEFT);
+	Attack->SetPhysXComp(ArrowPhysXScale, float4::DOWN * 100.0f, float4::LEFT);
 	Attack->SetTrans(ShootDir, BonePivotPos);// 위치와 방향설정
 	Attack->SetShoot(1000.0f);
 	BonePivot->Death();
 }
 
-void EnemyGhoul::InitAnimation()
+void EnemyGhoulBig::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 
-	EnemyRenderer->SetFBXMesh("_E_GHOUL_MESH.FBX", "ContentAniMeshDeffered");
-	EnemyRenderer->CreateFBXAnimation("SHOOT_BOW", "_E_GHOUL_SHOOT_BOW.fbx", { 1.f / 30.f,false });
-	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 74, std::bind(&EnemyGhoul::ShootArrow, this));
+	EnemyRenderer->SetFBXMesh("_E_GHOUL_RAPID_MESH.FBX", "ContentAniMeshDeffered");
+	EnemyRenderer->CreateFBXAnimation("SHOOT_BOW", "_E_GHOUL_SHOOT_BOW_RAPID.fbx", { 1.f / 30.f,false });
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 36, std::bind(&EnemyGhoulBig::ShootArrow, this));
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 74, std::bind(&EnemyGhoulBig::ShootArrow, this));
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 112, std::bind(&EnemyGhoulBig::ShootArrow, this));
 
 	EnemyRenderer->CreateFBXAnimation("IDLE_BOW", "_E_GHOUL_IDLE_BOW.fbx", { 1.f / 30.f,true });
 
@@ -51,30 +52,27 @@ void EnemyGhoul::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("DROWN", "_E_GHOUL_DROWN.fbx", { 1.f / 30.f,false });
 
 	EnemyRenderer->ChangeAnimation("IDLE_BOW");
-	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_GHOUL);
-
-
-	EnemyRenderer->SetBlurColor();
 }
 
 
-void EnemyGhoul::Start()
+void EnemyGhoulBig::Start()
 {
 	EnemyBase::Start();
 	// physx
 	{
 		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_GHOUL);
+		GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_GHOUL_RAPID);
+		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_GHOUL_RAPID);
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 
 	}
 	SetFSMFUNC();
 	SetEnemyHP(GhoulFullHP);
-
 }
 
-void EnemyGhoul::Update(float _DeltaTime)
+
+void EnemyGhoulBig::Update(float _DeltaTime)
 {
 	if (nullptr == EnemyRenderer)
 	{
@@ -82,13 +80,13 @@ void EnemyGhoul::Update(float _DeltaTime)
 	}
 	if (DeathCheck() == true)
 	{
-		SetNextState(EnemyGhoulState::DEATH);
+		SetNextState(EnemyGhoulBigState::DEATH);
 	}
 	FSMObjectBase::Update(_DeltaTime);
 }
 
 
-void EnemyGhoul::AggroMove(float _DeltaTime)
+void EnemyGhoulBig::AggroMove(float _DeltaTime)
 {
 	if (false == GetStateChecker())
 	{
@@ -100,9 +98,9 @@ void EnemyGhoul::AggroMove(float _DeltaTime)
 	}
 }
 
-void EnemyGhoul::SetFSMFUNC()
+void EnemyGhoulBig::SetFSMFUNC()
 {
-	InitFSM(EnemyGhoulState::MAX);
+	InitFSM(EnemyGhoulBigState::MAX);
 
 	SetChangeFSMCallBack([this]
 		{
@@ -110,7 +108,7 @@ void EnemyGhoul::SetFSMFUNC()
 
 
 
-	SetFSM(EnemyGhoulState::IDLE,
+	SetFSM(EnemyGhoulBigState::IDLE,
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("IDLE_BOW");
@@ -119,7 +117,7 @@ void EnemyGhoul::SetFSMFUNC()
 		{
 			if (true == CheckHit())
 			{
-				SetNextState(EnemyGhoulState::HIT);
+				SetNextState(EnemyGhoulBigState::HIT);
 				return;
 			}
 			if (true == InRangePlayer(1000.0f))
@@ -127,13 +125,13 @@ void EnemyGhoul::SetFSMFUNC()
 				AggroDir(m_pCapsuleComp);
 				if (GetStateDuration() > Idle_WaitTime)
 				{
-					SetNextState(EnemyGhoulState::SHOOT);
+					SetNextState(EnemyGhoulBigState::SHOOT);
 				}
 				return;
 			}
 			if (true == InRangePlayer(2000.0f))
 			{
-				SetNextState(EnemyGhoulState::MOVE);
+				SetNextState(EnemyGhoulBigState::MOVE);
 				return;
 			}
 		},
@@ -142,7 +140,7 @@ void EnemyGhoul::SetFSMFUNC()
 		}
 	);
 
-	SetFSM(EnemyGhoulState::MOVE,
+	SetFSM(EnemyGhoulBigState::MOVE,
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("WALK");
@@ -152,7 +150,7 @@ void EnemyGhoul::SetFSMFUNC()
 		{
 			if (true == CheckHit())
 			{
-				SetNextState(EnemyGhoulState::HIT);
+				SetNextState(EnemyGhoulBigState::HIT);
 				return;
 			}
 			if (false == GetStateChecker() && true == EnemyRenderer->IsAnimationEnd())
@@ -163,7 +161,7 @@ void EnemyGhoul::SetFSMFUNC()
 			AggroMove(Delta);
 			if (true == InRangePlayer(900.0f))
 			{
-				SetNextState(EnemyGhoulState::IDLE);
+				SetNextState(EnemyGhoulBigState::IDLE);
 				return;
 			}
 		},
@@ -172,7 +170,7 @@ void EnemyGhoul::SetFSMFUNC()
 		}
 	);
 
-	SetFSM(EnemyGhoulState::SHOOT,
+	SetFSM(EnemyGhoulBigState::SHOOT,
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("SHOOT_BOW");
@@ -182,12 +180,12 @@ void EnemyGhoul::SetFSMFUNC()
 			AggroDir(m_pCapsuleComp, DEFAULT_DIR_GHOUL);
 			if (true == CheckHit())
 			{
-				SetNextState(EnemyGhoulState::HIT);
+				SetNextState(EnemyGhoulBigState::HIT);
 				return;
 			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				SetNextState(EnemyGhoulState::IDLE);
+				SetNextState(EnemyGhoulBigState::IDLE);
 				return;
 			}
 		},
@@ -196,7 +194,7 @@ void EnemyGhoul::SetFSMFUNC()
 		}
 	);
 
-	SetFSM(EnemyGhoulState::HIT,
+	SetFSM(EnemyGhoulBigState::HIT,
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("HIT_BOW");
@@ -206,7 +204,7 @@ void EnemyGhoul::SetFSMFUNC()
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				SetNextState(EnemyGhoulState::IDLE);
+				SetNextState(EnemyGhoulBigState::IDLE);
 				return;
 			}
 		},
@@ -215,7 +213,7 @@ void EnemyGhoul::SetFSMFUNC()
 		}
 	);
 
-	SetFSM(EnemyGhoulState::DEATH,
+	SetFSM(EnemyGhoulBigState::DEATH,
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("DROWN");

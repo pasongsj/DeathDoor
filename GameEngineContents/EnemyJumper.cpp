@@ -11,7 +11,7 @@ EnemyJumper::~EnemyJumper()
 }
 
 
-void EnemyJumper::InitAniamtion()
+void EnemyJumper::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("JUMPER_MESH.FBX", "ContentAniMeshDeffered");
@@ -72,7 +72,7 @@ void EnemyJumper::InitAniamtion()
 		});
 
 	EnemyRenderer->CreateFBXAnimation("INTERRUPT", "JUMPER_INTERRUPT.fbx", { 1.0f / 30,false });
-	EnemyRenderer->CreateFBXAnimation("DROWN", "JUMPER_DROWN.fbx", { 1.0f / 30,false });
+	EnemyRenderer->CreateFBXAnimation("DROWN", "JUMPER_DROWN.fbx", { 1.0f / 30,true });
 
 
 	SetBoomerangState(BoomerangState::HEAD);
@@ -127,7 +127,7 @@ void EnemyJumper::ThrowBoomer()
 {
 	if (Boomer == nullptr)
 	{
-		float4 Dir = GetPlayerDir();
+		float4 Dir = AggroDir(m_pCapsuleComp);
 		Boomer = GetLevel()->CreateActor< Boomerang>();
 		float4 BonePivotPos = GetTransform()->GetWorldPosition() + float4{ 0.0f, 120.0f,0.0f };
 		Boomer->SetTrans(Dir, BonePivotPos);
@@ -264,7 +264,7 @@ void EnemyJumper::SetFSMFUNC()
 				{
 					return;
 				}
-				if (false == InRangePlayer(800.0f) && true == InRangePlayer(1200.0f))
+				if (false == InRangePlayer(500.0f) && true == InRangePlayer(1200.0f))
 				{
 					SetNextState(EnemyJumperState::THROW);
 					return;
@@ -340,7 +340,7 @@ void EnemyJumper::SetFSMFUNC()
 		},
 		[this]
 		{
-			IdleDelayTime = 1.0f;
+			IdleDelayTime = 0.5f;
 		}
 	);
 	// BOOMER_CATCH, BOOMER_PREP_WAIT
@@ -398,7 +398,7 @@ void EnemyJumper::SetFSMFUNC()
 		{
 			JumpDir = float4::ZERO;
 			throw_jump = true;
-			IdleDelayTime = 1.0f;
+			IdleDelayTime = 0.5f;
 		}
 	);
 	//INTERRUPT
@@ -428,10 +428,16 @@ void EnemyJumper::SetFSMFUNC()
 	SetFSM(EnemyJumperState::DEATH,
 		[this]
 		{
-
+			EnemyRenderer->ChangeAnimation("DROWN");
 		},
 		[this](float Delta)
 		{
+			float4 f4Result = float4::LerpClamp(float4(0.f, 0.f, 0.f), float4(-90.f, 0.f, 0.f), GetStateDuration());
+			EnemyRenderer->GetTransform()->SetLocalRotation(f4Result);
+			if (GetStateDuration() >= 1.f)
+			{
+				Death();
+			}
 		},
 		[this]
 		{
@@ -449,6 +455,10 @@ void EnemyJumper::Update(float _DeltaTime)
 	if (nullptr == EnemyRenderer)
 	{
 		return;
+	}
+	if (DeathCheck() == true)
+	{
+		SetNextState(EnemyJumperState::DEATH);
 	}
 	FSMObjectBase::Update(_DeltaTime);
 }

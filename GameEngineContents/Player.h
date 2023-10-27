@@ -2,6 +2,7 @@
 #include <GameEngineBase/GameEngineNetObject.h>
 #include "PlayerDefinition.h"
 #include "FSMObjectBase.h"
+#include "Ladder.h"
 
 
 // 설명 :
@@ -68,6 +69,11 @@ public:
 		return static_cast<int>(CurSkill);
 	}
 
+	void GetLadderData(class LadderData _Data)
+	{
+		sLadder = _Data;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -130,7 +136,8 @@ private:
 	float4 MoveDir = float4::FORWARD; // 플레이어가 다음으로 움직일 방향
 	void DirectionUpdate(float _DeltaTime);
 	float4 GetMousDirection();
-	 
+
+	class LadderData sLadder = {};
 	
 	// State Controll
 	float StateInputDelayTime = 0.0f;

@@ -20,6 +20,7 @@ void Ladder::Start()
 	InitAnimation();
 	InitComponent();
 	SetFSMFUNC();
+	SetNextState(TriggerState::PROGRESS);
 }
 
 void Ladder::Update(float _DeltaTime)
@@ -29,25 +30,27 @@ void Ladder::Update(float _DeltaTime)
 
 void Ladder::InitComponent()
 {
-
-
-	float4 MeshScale = m_pRenderer->GetMeshScale();
+	//float4 MeshScale = m_pRenderer->GetMeshScale();
 
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
-	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
-	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
+	m_pPhysXComponent->CreatePhysXActors(float4(100, 10, 100), float4::ZERONULL, true);
+	m_pPhysXComponent->SetDynamicPivot(float4(0, 10, -50));
+	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::LeverTrigger);
+	m_pPhysXComponent->SetTrigger();
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 	
-	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, float4(100,10,100), float4(50, 10, 0));
-	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
-	m_pPhysXComponent->AttachShape();
+	//m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, float4(100,10,100), float4(50, 10, 0));
+	//m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
+	//m_pPhysXComponent->AttachShape();
+
 }
 
 void Ladder::InitAnimation()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->SetFBXMesh("Ladder.fbx", "ContentMeshDeffered");
+	m_pRenderer->GetTransform()->SetLocalRotation(float4(0, 90, 0));
 
 	auto Unit = m_pRenderer->GetAllRenderUnit();
 	Unit[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "BlackScreen.png");
@@ -64,6 +67,7 @@ void Ladder::SetFSMFUNC()
 	SetFSM(TriggerState::OFF,
 		[this]
 		{
+			m_pRenderer->Off();
 		},
 		[this](float Delta)
 		{
@@ -81,6 +85,10 @@ void Ladder::SetFSMFUNC()
 	SetFSM(TriggerState::PROGRESS,
 		[this]
 		{
+			 m_pRenderer->On();
+			 m_sData.Pos = GetTransform()->GetWorldPosition();
+			 m_sData.Dir = GetTransform()->GetWorldForwardVector();
+
 			if (nullptr!=m_TriggerFunc)
 			{
 				m_TriggerFunc();
@@ -89,9 +97,14 @@ void Ladder::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			// f키 누르라는 ui띄우기
+			if (true == IsPlayerInRange())
+			{
+				// e키 누르라는 ui띄우기			
+			}
 			if (true == TriggerKeyCheck())
 			{
+				//키눌렸으면 ON으로 전환하고 Player에게 포지션 전달
+				Player::MainPlayer->GetLadderData(m_sData);
 				SetNextState(TriggerState::ON);
 			};
 		},
@@ -103,9 +116,15 @@ void Ladder::SetFSMFUNC()
 	SetFSM(TriggerState::ON,
 		[this]
 		{
+			//e키 ui끄기
 		},
 		[this](float Delta)
 		{
+			//언제 Progress로 돌려보내줘야함?
+			if (false == IsPlayerInRange())
+			{
+				SetNextState(TriggerState::PROGRESS);
+			}
 		},
 		[this]
 		{

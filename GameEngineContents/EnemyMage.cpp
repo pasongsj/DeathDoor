@@ -13,7 +13,7 @@ EnemyMage::~EnemyMage()
 {
 }
 
-void EnemyMage::InitAniamtion()
+void EnemyMage::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("_E_MAGE_MESH.FBX", "ContentAniMeshDeffered");

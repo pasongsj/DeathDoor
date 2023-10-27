@@ -15,6 +15,7 @@
 #include "EnemyGrunt.h"
 #include "EnemyBrute.h"
 #include "EnemyGhoul.h"
+#include "EnemyGhoulBig.h"
 #include "EnemyBruteGold.h"
 #include "EnemyJumper.h"
 #include "MonsterAnimationTest.h"
@@ -29,6 +30,7 @@
 
 
 #include "PlayerAttackTrail.h"
+#include "BossFrogMain.h"
 
 
 
@@ -102,12 +104,17 @@ void MapTestLevel::InitTestLevel()
 		NewCrate->GetTransform()->SetLocalPosition(float4{ 400, 0 , 0 });
 
 		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
-		NewLadder->GetTransform()->SetLocalRotation(float4{ 0, 90,  0 });
-		NewLadder->GetTransform()->SetLocalPosition(float4{ 800, 0 , 0 });
+		NewLadder->GetTransform()->SetWorldPosition(float4{ 800, 0 , 0 });
+		NewLadder->SetHidden(true);
+		NewLadder->SetHeight(4);
 		
 
 		 std::shared_ptr<Frog_Septre> Lever = CreateActor<Frog_Septre>();
-		 //Lever->SetTriggerFunction([] { MsgTextBox("TestFunc"); });
+		 Lever->SetTriggerFunction([=]
+			{
+					NewLadder->SetHidden(false);
+			}
+		 );
 		Lever->GetTransform()->SetLocalPosition(float4{ 0, 0, -1000 });
 		Lever->GetTransform()->SetLocalRotation(float4{ 0, -90 , 0 });
 
@@ -119,11 +126,11 @@ void MapTestLevel::InitTestLevel()
 		}
 
 
-		//std::shared_ptr<EnemyJumper> Mage = CreateActor<EnemyJumper>();
+		//std::shared_ptr<BossFrogMain> Mage = CreateActor<BossFrogMain>();
 		//Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
 
 		std::shared_ptr<EnemyGhoul> Ghoul = CreateActor<EnemyGhoul>();
-		Ghoul->InitGhoul(true);
+		//Ghoul->InitGhoul(true);
 		Ghoul->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });
 
 		//CreateActor<EnemyFirePlant>();

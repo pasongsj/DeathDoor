@@ -410,8 +410,8 @@
     <ClCompile Include="Map_Emptyplain.cpp">
       <Filter>Contents\OldCrowLevel\Map</Filter>
     </ClCompile>
-    <ClCompile Include="BossFrog.cpp">
-      <Filter>Contents\Boss\Frog</Filter>
+    <ClCompile Include="BossFrogMain.cpp">
+      <Filter>FSMObject\Frog</Filter>
     </ClCompile>
     <ClCompile Include="TriggerBase.cpp">
       <Filter>FSMObject\Trigger</Filter>
@@ -424,6 +424,9 @@
     </ClCompile>
     <ClCompile Include="FeatherParticle.cpp">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\Feather</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGhoulBig.cpp">
+      <Filter>FSMObject\Enemy\Ghoul</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -830,8 +833,8 @@
     <ClInclude Include="ParticleBase.h">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\ParticleBase</Filter>
     </ClInclude>
-    <ClInclude Include="BossFrog.h">
-      <Filter>Contents\Boss\Frog</Filter>
+    <ClInclude Include="BossFrogMain.h">
+      <Filter>FSMObject\Frog</Filter>
     </ClInclude>
     <ClInclude Include="TriggerBase.h">
       <Filter>FSMObject\Trigger</Filter>
@@ -841,6 +844,9 @@
     </ClInclude>
     <ClInclude Include="Frog_Septre.h">
       <Filter>FSMObject\Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGhoulBig.h">
+      <Filter>FSMObject\Enemy\Ghoul</Filter>
     </ClInclude>
     <ClInclude Include="FeatherParticle.h">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\Feather</Filter>
@@ -1066,11 +1072,11 @@
     <Filter Include="Contents\OldCrowLevel\Map">
       <UniqueIdentifier>{9d2aac6d-a6a5-4189-8027-c4dbbdb971aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Boss\Frog">
-      <UniqueIdentifier>{8dfd5216-b32a-4c18-9954-e766d7a9eed0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FSMObject\Trigger\Lever">
       <UniqueIdentifier>{c2edb22c-2f23-46fc-a7a4-253bce4438bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Frog">
+      <UniqueIdentifier>{8dfd5216-b32a-4c18-9954-e766d7a9eed0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Contents\Effect\Object\Particle2D%28CPU%29\Feather">
       <UniqueIdentifier>{637c77bb-5f51-47fd-8df9-21bd8279bd80}</UniqueIdentifier>

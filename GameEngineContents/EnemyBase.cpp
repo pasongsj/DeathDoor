@@ -14,10 +14,10 @@ EnemyBase::~EnemyBase()
 
 void EnemyBase::Start()
 {
-	InitAniamtion();
-
-	if(EnemyRenderer != nullptr)
+	InitAnimation();
+	if (nullptr != EnemyRenderer)
 	{
+		SetFSMFUNC();
 		EnemyRenderer->SetBlurColor();
 	}
 }

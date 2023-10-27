@@ -2,20 +2,20 @@
 #include "EnemyBase.h"
 
 // 설명 : InitGhoul를 꼭해줘야 합니다
-class EnemyGhoul : public EnemyBase 
+class EnemyGhoulBig : public EnemyBase
 {
-public: 
+public:
 	// constrcuter destructer
-	EnemyGhoul();
-	~EnemyGhoul();
+	EnemyGhoulBig();
+	~EnemyGhoulBig();
 
 	// delete Function
-	EnemyGhoul(const EnemyGhoul& _Other) = delete;
-	EnemyGhoul(EnemyGhoul&& _Other) noexcept = delete;
-	EnemyGhoul& operator=(const EnemyGhoul& _Other) = delete;
-	EnemyGhoul& operator=(EnemyGhoul&& _Other) noexcept = delete;
+	EnemyGhoulBig(const EnemyGhoulBig& _Other) = delete;
+	EnemyGhoulBig(EnemyGhoulBig&& _Other) noexcept = delete;
+	EnemyGhoulBig& operator=(const EnemyGhoulBig& _Other) = delete;
+	EnemyGhoulBig& operator=(EnemyGhoulBig&& _Other) noexcept = delete;
 
-	const int GhoulFullHP = 6;
+	const int GhoulFullHP = 8;
 
 protected:
 	void Start() override;
@@ -25,12 +25,12 @@ protected:
 
 private:
 
-	enum class EnemyGhoulState
+	enum class EnemyGhoulBigState
 	{
 		IDLE,
 		MOVE,
 		SHOOT,
-		HIT, 
+		HIT,
 		DEATH,
 		MAX
 	};

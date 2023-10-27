@@ -11,7 +11,7 @@ EnemyFirePlant::~EnemyFirePlant()
 {
 }
 
-void EnemyFirePlant::InitAniamtion()
+void EnemyFirePlant::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("_E_FIREPLANT_MESH.FBX", "ContentAniMeshDeffered");
@@ -59,7 +59,10 @@ void EnemyFirePlant::Start()
 
 void EnemyFirePlant::Update(float _DeltaTime)
 {
-
+	if (DeathCheck() == true)
+	{
+		SetNextState(EnemyFireFlowerState::DIE);
+	}
 	FSMObjectBase::Update(_DeltaTime);
 	
 }
@@ -156,7 +159,7 @@ void EnemyFirePlant::SetFSMFUNC()
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				// Die
+				Death();
 				return;
 			}
 		},
