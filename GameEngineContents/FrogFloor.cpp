@@ -146,30 +146,36 @@ void FrogFloor::Create_TileObject()
 	float4 MoveXPos = float4::ZERONULL;
 	float4 MoveZPos = float4::ZERONULL;
 
-	m_vTiles.reserve(m_iTileSize);
+	m_vTiles.resize(5);
+
 
 	// 돌면서 5x5 타일 깔아 
 	for (size_t i = 0; i < m_Height; ++i)
 	{
+		m_vTiles[i].resize(5);
+		float4 MovePos = {};
+
 		for (size_t j = 0; j < m_Width; ++j)
 		{
 			// 타일만들고
 			std::shared_ptr<SecretTile> NewTile = CurLevel->CreateActor<SecretTile>();
 			NewTile->GetTransform()->SetParent(GetTransform());
 
+			MovePos = NewTile->GetRender()->GetMeshScale();
+
 			// 위치세팅하고 
 			NewTile->GetTransform()->SetLocalPosition(TileStartPos + MoveXPos + MoveZPos);
 			NewTile->GetTransform()->SetLocalPosition(NewTile->GetTransform()->GetLocalPosition() + float4 { 0, -40, 0 });
-			
+			NewTile->SetTileIndex(static_cast<int>(i),static_cast<int>(j));
 
 			// 벡터에 넣어
-			m_vTiles.push_back(NewTile);
+			m_vTiles[i][j] = NewTile;
 
-			MoveXPos += float4{ PosX, 0, 0 };
+			MoveXPos += float4{ MovePos.x, 0, 0 };
 		}
 
 		MoveXPos = float4::ZERONULL;
-		MoveZPos -= float4{ 0, 0, PosZ };
+		MoveZPos -= float4{ 0, 0, MovePos.z };
 	}
 }
 
@@ -214,24 +220,3 @@ void FrogFloor::Create_WallObject()
 	}
 }
 
-std::shared_ptr<SecretTile> FrogFloor::GetTile(const int _TileIndex)
-{
-	int TileIndex = _TileIndex;
-	size_t VectorSize = m_vTiles.size();
-
-	if (TileIndex < 0 || TileIndex >= static_cast<int>(VectorSize))
-	{
-		MsgAssert("잘못된 타일 인덱스를 입력하였습니다.");
-		return nullptr;
-	}
-
-	std::shared_ptr<SecretTile> Tile = m_vTiles[_TileIndex];
-	
-	if (Tile == nullptr)
-	{
-		MsgAssert("현재 타일이 nullptr 입니다. 맵한테 따져주세요. ㅈㅅ");
-		return nullptr;
-	}
-
-	return Tile;
-}

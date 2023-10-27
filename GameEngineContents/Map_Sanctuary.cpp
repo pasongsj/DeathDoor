@@ -67,6 +67,51 @@ void Map_Sanctuary::Start()
 	m_pFrogFloor = GetLevel()->CreateActor<FrogFloor>();
 }
 
+const float4 Map_Sanctuary::GetTilePos(const int _Y, const int _X)
+{
+	std::vector<std::vector<std::shared_ptr<SecretTile>>> Tiles = m_pFrogFloor->GetTiles();
+	if (_X < 0 || _X >= 5)
+	{
+		MsgAssert("X 인덱스 값이 잘못되었습니다.");
+	}
+
+	if (_Y < 0 || _Y >= 5)
+	{
+		MsgAssert("Y 인덱스 값이 잘못되었습니다.");
+	}
+
+	const float4 TilePos = Tiles[_Y][_X]->GetTransform()->GetWorldPosition();
+
+
+	return TilePos;
+}
+
+const float4 Map_Sanctuary::GetTileIndex(const float4& _Pos)
+{
+	// 타일 배열 받아오고
+	std::vector<std::vector<std::shared_ptr<SecretTile>>> Tiles = m_pFrogFloor->GetTiles();
+	if (true == Tiles.empty())
+	{
+		MsgAssert("타일 버퍼가 비어있습니다.");
+	}
+
+	float4 TilePos = Tiles[0][0]->GetTransform()->GetWorldPosition();
+	float4 TileScale = Tiles[0][0]->GetRender()->GetMeshScale();
+	float TileSize = Tiles[0][0]->GetTileSize();
+
+	float4 Start = TilePos - float4{ 0, 0, -TileSize };
+	
+	float TempX = (_Pos.x - Start.x);
+	float TempZ = (_Pos.z - Start.z);
+	
+	int X = static_cast<int>((TempX / TileSize + -TempZ / TileSize) / 2.0f);
+	int Z = static_cast<int>((-TempZ / TileSize - (TempX / TileSize)) / 2.0f );
+
+	float4 TileIndex = float4{ static_cast<float>(X),static_cast<float>(Z), 0 };
+
+	return TileIndex;
+}
+
 void Map_Sanctuary::Update(float _DeltaTime)
 {
 	KeyUpdate();

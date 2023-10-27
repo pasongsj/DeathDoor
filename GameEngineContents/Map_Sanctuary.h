@@ -26,6 +26,10 @@ public:
 		return m_pFrogFloor;
 	}
 
+	const float4 GetTilePos(const int _Y, const int _X);
+	const float4 GetTileIndex(const float4& _Pos);
+
+	
 	void OnRotationFloor();
 	void OffRotationFloor();
 	
@@ -50,4 +54,6 @@ private:
 	const float4 m_MapRot = float4{ 0 , -135 , 0 };
 	const float4 m_NavRot = float4{ 0, 45, 0 };
 	const float4 m_MapPos = float4{ 0, 0 , 0 };
+
+	
 };
