@@ -1,9 +1,9 @@
 #pragma once
-#include "EnemyBase.h"
+#include "BossFrog.h"
 
 // 설명 : 갑옷을 입고있는 보스로 갑옷을 묶고 있는 끈 3개를 모두 끊으면 다음 페이즈로 넘어간다.
 
-class BossFrogMain : public EnemyBase
+class BossFrogMain : public BossFrog
 {
 public:
 	// constrcuter destructer

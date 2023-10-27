@@ -411,7 +411,7 @@
       <Filter>Contents\OldCrowLevel\Map</Filter>
     </ClCompile>
     <ClCompile Include="BossFrogMain.cpp">
-      <Filter>FSMObject\Frog</Filter>
+      <Filter>FSMObject\BossFrog</Filter>
     </ClCompile>
     <ClCompile Include="TriggerBase.cpp">
       <Filter>FSMObject\Trigger</Filter>
@@ -432,7 +432,10 @@
       <Filter>FSMObject\Enemy\Ghoul</Filter>
     </ClCompile>
     <ClCompile Include="BossFrogFat.cpp">
-      <Filter>FSMObject\Frog</Filter>
+      <Filter>FSMObject\BossFrog</Filter>
+    </ClCompile>
+    <ClCompile Include="FrogBoss.cpp">
+      <Filter>FSMObject\BossFrog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -840,7 +843,7 @@
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\ParticleBase</Filter>
     </ClInclude>
     <ClInclude Include="BossFrogMain.h">
-      <Filter>FSMObject\Frog</Filter>
+      <Filter>FSMObject\BossFrog</Filter>
     </ClInclude>
     <ClInclude Include="TriggerBase.h">
       <Filter>FSMObject\Trigger</Filter>
@@ -861,7 +864,10 @@
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\Feather</Filter>
     </ClInclude>
     <ClInclude Include="BossFrogFat.h">
-      <Filter>FSMObject\Frog</Filter>
+      <Filter>FSMObject\BossFrog</Filter>
+    </ClInclude>
+    <ClInclude Include="BossFrog.h">
+      <Filter>FSMObject\BossFrog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1087,11 +1093,11 @@
     <Filter Include="FSMObject\Trigger\Object">
       <UniqueIdentifier>{c2edb22c-2f23-46fc-a7a4-253bce4438bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FSMObject\Frog">
-      <UniqueIdentifier>{8dfd5216-b32a-4c18-9954-e766d7a9eed0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Contents\Effect\Object\Particle2D%28CPU%29\Feather">
       <UniqueIdentifier>{637c77bb-5f51-47fd-8df9-21bd8279bd80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\BossFrog">
+      <UniqueIdentifier>{8dfd5216-b32a-4c18-9954-e766d7a9eed0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
