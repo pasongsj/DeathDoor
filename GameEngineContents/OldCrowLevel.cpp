@@ -59,7 +59,7 @@ void OldCrowLevel::LevelChangeStart()
 	Set_PlayerStartPos();
 
 	std::shared_ptr<Boss_OldCrow> BossTestObject = CreateActor<Boss_OldCrow>();
-	BossTestObject->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0, 0, -1000 }, float4{ 0, 90, 0 });
+	BossTestObject->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0, 0, -1000 }, float4{ 0, 180, 0 });
 }
 
 void OldCrowLevel::LevelChangeEnd()

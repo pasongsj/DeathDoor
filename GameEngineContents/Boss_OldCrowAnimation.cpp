@@ -1,63 +1,87 @@
 #include "PreCompileHeader.h"
 
+#include "Boss_OldCrowEgg.h"
+
 #include "Boss_OldCrow.h"
 
 void Boss_OldCrow::InitAnimation()
 {
-	BossRender = CreateComponent<ContentFBXRenderer>();
+	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 
-	BossRender->SetFBXMesh("OldCrow.FBX", "ContentAniMeshDeffered");
-	BossRender->CreateFBXAnimation("Idle", "OldCrow_Idle_Anim.FBX", { 0.033f, true });
+	EnemyRenderer->SetFBXMesh("OldCrow.FBX", "ContentAniMeshDeffered");
+	EnemyRenderer->CreateFBXAnimation("Idle", "OldCrow_Idle_Anim.FBX", { 0.033f, true });
 
-	BossRender->CreateFBXAnimation("DashStart", "OldCrow_DashStart_Anim.FBX", { 0.02f, false });
-	BossRender->CreateFBXAnimation("Dash", "OldCrow_Dash_Anim.FBX", { 0.033f, true });
+	EnemyRenderer->CreateFBXAnimation("DashStart", "OldCrow_DashStart_Anim.FBX", { 0.02f, false });
+	EnemyRenderer->CreateFBXAnimation("Dash", "OldCrow_Dash_Anim.FBX", { 0.033f, true });
 	//BossRender->SetAnimationStartFunc("Dash", 1, std::bind(&Boss_OldCrow::, this));
-	BossRender->SetAnimationStartFunc("Dash", 3, [this]
+	EnemyRenderer->SetAnimationStartFunc("Dash", 3, [this]
 		{
 			//m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_DASHSPEED);
 
 			CurrentSpeed = BOSS_OLDCROW_DASHSPEED;
 		});
-	BossRender->SetAnimationStartFunc("Dash", 17, [this]
+	EnemyRenderer->SetAnimationStartFunc("Dash", 17, [this]
 		{
 			//m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_DASHSPEED2 );
 
 			CurrentSpeed = BOSS_OLDCROW_DASHSPEED2;
 		});
-	BossRender->SetAnimationStartFunc("Dash", 19, [this]
+	EnemyRenderer->SetAnimationStartFunc("Dash", 19, [this]
 		{
 			TurnCheck();
 		});
 
-	BossRender->CreateFBXAnimation("TurnLeft", "OldCrow_DashTurnL_Anim.FBX", { 0.033f, false });
-	BossRender->SetAnimationStartFunc("TurnLeft", 3, [this]
+	EnemyRenderer->CreateFBXAnimation("TurnLeft", "OldCrow_DashTurnL_Anim.FBX", { 0.033f, false });
+	EnemyRenderer->SetAnimationStartFunc("TurnLeft", 3, [this]
 		{
 			IsTurn = true;
 		});
-	BossRender->SetAnimationStartFunc("TurnLeft", 15, [this]
+	EnemyRenderer->SetAnimationStartFunc("TurnLeft", 15, [this]
 		{
 			IsTurn = false;
 		});
 
 	// BossRender->CreateFBXAnimation("TurnRight", "OldCrow_DashTurnR_Anim.FBX", { 0.033f, false });
 
-	BossRender->CreateFBXAnimation("MegaDashPrep", "OldCrow_MegaDashPrep_Anim.FBX", { 0.033f, false });
-	BossRender->CreateFBXAnimation("MegaDash", "OldCrow_MegaDash_Anim.FBX", { 0.033f, true });
+	EnemyRenderer->CreateFBXAnimation("MegaDashPrep", "OldCrow_MegaDashPrep_Anim.FBX", { 0.033f, false });
+	EnemyRenderer->CreateFBXAnimation("MegaDash", "OldCrow_MegaDash_Anim.FBX", { 0.033f, true });
 
-	BossRender->CreateFBXAnimation("Jump", "OldCrow_Jump_Anim.FBX", { 0.033f, false });
-	BossRender->CreateFBXAnimation("Slam", "OldCrow_Slam_Anim.FBX", { 0.033f, false });
-	BossRender->CreateFBXAnimation("SlamImpact", "OldCrow_SlamImpact_Anim.FBX", { 0.008f, false });
+	EnemyRenderer->CreateFBXAnimation("Jump", "OldCrow_Jump_Anim.FBX", { 0.033f, false });
+	EnemyRenderer->CreateFBXAnimation("Slam", "OldCrow_Slam_Anim.FBX", { 0.033f, false });
+	EnemyRenderer->CreateFBXAnimation("SlamImpact", "OldCrow_SlamImpact_Anim.FBX", { 0.008f, false });
 
-	BossRender->CreateFBXAnimation("Egg", "OldCrow_Egg_Anim.FBX", { 0.033f, false });
+	EnemyRenderer->CreateFBXAnimation("Egg", "OldCrow_Egg_Anim.FBX", { 0.033f, false });
+	EnemyRenderer->SetAnimationStartFunc("Egg", 80, [this]
+		{
+			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent<GameEngineComponent>();
+			BonePivot->GetTransform()->SetParent(GetTransform());
+			BonePivot->GetTransform()->SetLocalPosition(float4{ 0, 14, 2 });
 
-	BossRender->CreateFBXAnimation("Scream", "OldCrow_Scream_Anim.FBX", { 0.033f, false });
-	BossRender->CreateFBXAnimation("ScreamMini", "OldCrow_ScreamMini_Anim.FBX", { 0.033f, false });
+			float Value = 5.0f;
 
-	BossRender->CreateFBXAnimation("DeathInRunning", "OldCrow_DeathWhileRunning_Anim.FBX", { 0.033f, false });
-	BossRender->CreateFBXAnimation("DeathInUpright", "OldCrow_DeathWhileUpright_Anim.FBX", { 0.033f, false });
+			BonePivot->GetTransform()->AddLocalRotation({ -70.0f, 0.0f, 0.0f });
+
+			float4 EggDir = float4::ZERO;
+			
+			std::shared_ptr<Boss_OldCrowEgg> CrowEgg = GetLevel()->CreateActor<Boss_OldCrowEgg>();
+			CrowEgg->SetCrowEgg(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation(), BonePivot->GetTransform()->GetWorldPosition() - GetTransform()->GetWorldPosition());
+
+		});
+
+	EnemyRenderer->CreateFBXAnimation("Scream", "OldCrow_Scream_Anim.FBX", { 0.033f, false });
+	EnemyRenderer->CreateFBXAnimation("ScreamMini", "OldCrow_ScreamMini_Anim.FBX", { 0.033f, false });
+	EnemyRenderer->SetAnimationStartFunc("ScreamMini", 18, [this]
+		{
+			StateCalBool = true;
+		});
+
+	EnemyRenderer->CreateFBXAnimation("DeathInRunning", "OldCrow_DeathWhileRunning_Anim.FBX", { 0.033f, false });
+	EnemyRenderer->CreateFBXAnimation("DeathInUpright", "OldCrow_DeathWhileUpright_Anim.FBX", { 0.033f, false });
 
 	GetTransform()->SetLocalScale(float4::ONE * 40.0f);
-	BossRender->GetTransform()->SetLocalRotation({ 0, -90, 0 });
+	EnemyRenderer->GetTransform()->SetLocalRotation({ 0, -90, 0 });
+
+	EnemyRenderer->ChangeAnimation("Idle");
 
 	//BossRender->CreateFBXAnimation("", "", { 0.02f, false });
 }

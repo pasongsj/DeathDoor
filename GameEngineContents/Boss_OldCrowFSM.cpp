@@ -4,6 +4,8 @@
 #include "Boss_OldCrowChain.h"
 #include "Player.h"
 #include "Boss_OldCrowCrowHead.h"
+#include "Boss_OldCrowSmallCrow.h"
+#include "Boss_OldCrowEgg.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
 
@@ -46,33 +48,17 @@ void Boss_OldCrow::SetFSMFUNC()
 	//	DEATHWHILEUPRIGHT,
 	//};
 
-	SetFSM(Boss_OldCrowState::EMPTY,
-		[this]
-		{
-			
-		},
-		[this](float Delta)
-		{
-
-		},
-		[this]
-		{
-		}
-	);
-
+	InitFSM(Boss_OldCrowState::MAX);
 
 	SetFSM(Boss_OldCrowState::IDLE,
 		[this]
 		{
-			BossRender->ChangeAnimation("Idle");
+			EnemyRenderer->ChangeAnimation("IDLE");
 		},
 		[this](float Delta)
 		{
 			if (true)
 			{
-				//std::shared_ptr<Boss_OldCrowCrowHead> test1 = GetLevel()->CreateActor<Boss_OldCrowCrowHead>();
-				//test1->SetCrowHead(float4{ 0, 100, 0 }, float4{ 0, 0, 0 });
-
 				SetRandomPattern();
 				return;
 			}
@@ -85,13 +71,13 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::DASHSTART,
 		[this]
 		{
-			BossRender->ChangeAnimation("DashStart");
+			EnemyRenderer->ChangeAnimation("DashStart");
 		},
 		[this](float Delta)
 		{
 			SetLerpDirection(Delta);
 
-			if (BossRender->IsAnimationEnd())
+			if (EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(Boss_OldCrowState::DASH);
 				return;
@@ -105,7 +91,7 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::DASH,
 		[this]
 		{
-			BossRender->ChangeAnimation("Dash");
+			EnemyRenderer->ChangeAnimation("Dash");
 			//m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_DASHSPEED);
 
 			CurrentSpeed = BOSS_OLDCROW_DASHSPEED;
@@ -125,7 +111,7 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::TURN,
 		[this]
 		{
-			BossRender->ChangeAnimation("TurnLeft");
+			EnemyRenderer->ChangeAnimation("TurnLeft");
 			IsTurn = false;
 		},
 		[this](float Delta)
@@ -135,7 +121,7 @@ void Boss_OldCrow::SetFSMFUNC()
 				SetLerpDirection(Delta * 10.0f);
 			}
 
-			if (BossRender->IsAnimationEnd())
+			if (EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextPatternState();
 			}
@@ -149,7 +135,7 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::MEGADASHPREP,
 		[this]
 		{
-			BossRender->ChangeAnimation("MegaDashPrep");
+			EnemyRenderer->ChangeAnimation("MegaDashPrep");
 
 			StateCalTime = 0.0f; //사슬 멈추는 시간
 
@@ -193,7 +179,7 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::MEGADASHPREPRANDOMPOS,
 		[this]
 		{
-			BossRender->ChangeAnimation("MegaDashPrep");
+			EnemyRenderer->ChangeAnimation("MegaDashPrep");
 
 			StateCalTime = 0.0f; //사슬 멈추는 시간
 
@@ -239,7 +225,7 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::MEGADASH,
 		[this]
 		{
-			BossRender->ChangeAnimation("MegaDash");
+			EnemyRenderer->ChangeAnimation("MegaDash");
 
 			ChainsPivots[0]->GetTransform()->SetParent(GetTransform());
 
@@ -275,7 +261,7 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			SettingChainPatternPivot();
 
-			BossRender->ChangeAnimation("MegaDashPrep");
+			EnemyRenderer->ChangeAnimation("MegaDashPrep");
 			MegaDash2PatternCount = 0; //현재 진행중인 패턴 번호
 
 			MegaDash2PatternNumber = GameEngineRandom::MainRandom.RandomInt(0, 1);
@@ -365,7 +351,7 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::MEGADASH2,
 		[this]
 		{
-			BossRender->ChangeAnimation("MegaDash");
+			EnemyRenderer->ChangeAnimation("MegaDash");
 
 			MegaDash2PatternCount = 0;
 
@@ -419,7 +405,7 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::JUMP,
 		[this]
 		{
-			BossRender->ChangeAnimation("Jump");
+			EnemyRenderer->ChangeAnimation("Jump");
 
 			float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 			float4 EnemyPos = GetTransform()->GetWorldPosition();
@@ -450,12 +436,12 @@ void Boss_OldCrow::SetFSMFUNC()
 			float Value = BossPos.XYZDistance(TargetPos);
 			//float Value2= Boss
 
-			if (Value >= 30.0f)
+			if (Value >= 50.0f)
 			{
 				m_pCapsuleComp->SetMoveSpeed(JumpDir * BOSS_OLDCROW_JUMPFORCE);
 			}
 
-			if (Value <= 30.0f && StateCalTime > 1.0f)
+			if (Value <= 50.0f && StateCalTime > 1.0f)
 			{
 				SetNextState(Boss_OldCrowState::SLAM);
 				return;
@@ -471,7 +457,7 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::SLAM,
 		[this]
 		{
-			BossRender->ChangeAnimation("Slam");
+			EnemyRenderer->ChangeAnimation("Slam");
 
 			float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 			float4 BossPos = GetTransform()->GetWorldPosition();
@@ -505,12 +491,12 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::SLAMIMPACT,
 		[this]
 		{
-			BossRender->ChangeAnimation("SlamImpact");
+			EnemyRenderer->ChangeAnimation("SlamImpact");
 
 		},
 		[this](float Delta)
 		{
-			if (BossRender->IsAnimationEnd())
+			if (EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(Boss_OldCrowState::DASH);
 			}
@@ -523,13 +509,13 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::EGG,
 		[this]
 		{
-			BossRender->ChangeAnimation("Egg");
+			EnemyRenderer->ChangeAnimation("Egg");
 		},
 		[this](float Delta)
 		{
-			if (BossRender->IsAnimationEnd())
+			if (EnemyRenderer->IsAnimationEnd())
 			{
-				SetNextPatternState();
+				SetNextState(Boss_OldCrowState::IDLE);
 			}
 		},
 		[this]
@@ -540,22 +526,46 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::SCREAMMINI,
 		[this]
 		{
-			BossRender->ChangeAnimation("ScreamMini");
+			EnemyRenderer->ChangeAnimation("ScreamMini");
 
-			StateCalTime = 0.0f;
+			StateCalBool = false; //애니메이션 상에서 True되어 true상태면 smallcrow까마귀 생성
+
+			StateCalTime = 0.0f; //까마귀 생성
+			StateCalTime2 = 0.0f;
 		},
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
+			StateCalTime2 += Delta;
 
-			if (BossRender->IsAnimationEnd())
+			if (StateCalTime2 > 2.5f)
 			{
 				SetNextPatternState();
 			}
 
-			if (true)
-			{
+			if (GetEnemyHP() <= BOSS_OLDCROW_HP / 2)  //체력이 특정 수치보다 적으면 작은 까마귀 생성
+			{ 
+				if (StateCalTime > 0.1f && true == StateCalBool)
+				{
+					std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent<GameEngineComponent>();
+					BonePivot->GetTransform()->SetParent(GetTransform());
+					BonePivot->GetTransform()->SetLocalPosition(float4{ 0, 14, 5 });
 
+					float Value = 5.0f;
+
+					float RandomXValue = GameEngineRandom::MainRandom.RandomFloat(-Value, Value);
+					float RandomYValue = GameEngineRandom::MainRandom.RandomFloat(-Value, Value);
+					float RandomZValue = GameEngineRandom::MainRandom.RandomFloat(-Value, Value);
+
+
+					BonePivot->GetTransform()->AddLocalRotation({ -20.0f, 0.0f, 0.0f });
+					BonePivot->GetTransform()->AddLocalRotation({ RandomXValue, RandomYValue, RandomZValue });
+
+					std::shared_ptr<Boss_OldCrowSmallCrow> SmallCrow = GetLevel()->CreateActor<Boss_OldCrowSmallCrow>();
+					SmallCrow->SetSmallCrow(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation(), SmallCrowTargetPivot2);
+
+					StateCalTime = 0.0f;
+				}
 			}
 			else
 			{
@@ -567,5 +577,4 @@ void Boss_OldCrow::SetFSMFUNC()
 		}
 	);
 
-	SetNextState(Boss_OldCrowState::EMPTY);
 }

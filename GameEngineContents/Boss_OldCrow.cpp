@@ -26,22 +26,29 @@ void Boss_OldCrow::Start()
 {
 	EnemyBase::Start();
 	InitPattern();
-	
+	SetNextState(Boss_OldCrowState::IDLE);
+
+	//InitAniamtion();
+
 	// physx
 	{
 		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(float4{ 0.0f, 300.0f, 180.0f });
-		m_pCapsuleComp->SetTrigger();
+		m_pCapsuleComp->CreatePhysXActors(float4{ 0.0f, 300.0f, 250.0f });
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
 
+	float4 Scale = EnemyRenderer->GetMeshScale();
+
+	SetEnemyHP(BOSS_OLDCROW_HP / 2);
 
 	ChainsInit();
 
-	SetFSMFUNC();
+	SmallCrowTargetPivot = GetLevel()->CreateActor<GameEngineActor>();
 
-	SetNextState(Boss_OldCrowState::IDLE);
+	SmallCrowTargetPivot2 = GetLevel()->CreateActor<GameEngineActor>();
+	SmallCrowTargetPivot2->GetTransform()->SetParent(SmallCrowTargetPivot->GetTransform());
+	SmallCrowTargetPivot2->GetTransform()->SetLocalPosition({ 0, 0, 500.0f });
 }
 
 float Time = 0.0f;
@@ -49,6 +56,14 @@ float Time = 0.0f;
 void Boss_OldCrow::Update(float _DeltaTime)
 {
 	FSMObjectBase::Update(_DeltaTime);
+
+	SmallCrowTargetPivot->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition());
+	SmallCrowTargetPivot->GetTransform()->AddLocalRotation({ 0, _DeltaTime * 90.0f, 0 });
+
+	if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))
+	{
+		GetDamaged();
+	}
 
 	Time += _DeltaTime;
 
@@ -136,7 +151,7 @@ void Boss_OldCrow::SetRandomPattern()
 	CurrentPatternNum = 0;
 
 	//Test용 스테이트 세팅 
-	//PatternNum = 3;
+	//PatternNum = 5;
 	//RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
 
 	SetNextState(RandomState);
@@ -330,4 +345,16 @@ void Boss_OldCrow::SettingChainPatternPivot()
 	Rotation.y = Angle;
 
 	MegaDash2PatternTransformPivot->GetTransform()->SetLocalRotation(Rotation);
+}
+
+void Boss_OldCrow::GetDamaged()
+{
+	//체력 닳는 이펙트
+
+	//체력 닳으면 까마귀 생성
+	std::shared_ptr<Boss_OldCrowCrowHead> CrowHead = GetLevel()->CreateActor<Boss_OldCrowCrowHead>();
+	CrowHead->SetCrowHead(GetTransform()->GetWorldPosition(), GetPlayerDir());
+	
+	//
+
 }
