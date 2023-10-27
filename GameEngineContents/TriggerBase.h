@@ -17,7 +17,7 @@ public:
 	TriggerBase& operator=(const TriggerBase& _Other) = delete;
 	TriggerBase& operator=(TriggerBase&& _Other) noexcept = delete;
 
-	inline std::shared_ptr<class PhysXBoxComponent> GetPhysXComponent() const
+	inline std::shared_ptr<class PhysXComponent> GetPhysXComponent() const
 	{
 		return m_pPhysXComponent;
 	}
@@ -70,7 +70,7 @@ protected:
 	virtual void InitComponent() {};
 
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
-	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
+	std::shared_ptr<class PhysXComponent> m_pPhysXComponent = nullptr;
 	std::function<void()> m_TriggerFunc;
 
 private:

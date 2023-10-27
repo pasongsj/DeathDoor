@@ -2,7 +2,7 @@
 #include "Mushroom.h"
 #include <GameEngineCore/GameEngineFBXAnimation.h>
 
-#include "PhysXBoxComponent.h"
+#include "PhysXCapsuleComponent.h"
 #include "ContentFBXRenderer.h"
 
 Mushroom::Mushroom() 
@@ -31,7 +31,7 @@ void Mushroom::InitComponent()
 {
 	float4 MeshScale = m_pRenderer->GetMeshScale();
 
-	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
+	m_pPhysXComponent = CreateComponent<PhysXCapsuleComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
 	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL,true);
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
