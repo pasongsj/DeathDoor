@@ -64,11 +64,7 @@ void Boss_OldCrow::SetFSMFUNC()
 	SetFSM(Boss_OldCrowState::IDLE,
 		[this]
 		{
-			if (nullptr == BossRender)
-			{
-				BossRender->ChangeAnimation("Idle");
-
-			}
+			BossRender->ChangeAnimation("Idle");
 		},
 		[this](float Delta)
 		{
