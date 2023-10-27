@@ -7,6 +7,11 @@ enum class TileState
 	DESTROY,
 };
 
+struct TileIndex
+{
+	int X = -1;
+	int Y = -1;
+};
 
 // 설명 :
 class SecretTile : public GameEngineActor
@@ -37,6 +42,17 @@ public:
 		m_eState = _State;
 	}
 
+	inline void SetTileIndex(const int _X, const int _Y)
+	{
+		m_TileIndex.X = _X;
+		m_TileIndex.Y = _Y;
+	}
+
+	inline float GetTileSize() const
+	{
+		return m_TileSize;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -48,4 +64,9 @@ private:
 	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
 
 	TileState m_eState = TileState::NORMAL;
+
+	TileIndex m_TileIndex = {};
+
+	// 타일사이즈 
+	float m_TileSize = 0.0f;
 };

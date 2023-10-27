@@ -1,6 +1,9 @@
 #include "PreCompileHeader.h"
 #include "BossFrogMain.h"
 
+#include "FrogBossLevel.h"
+#include "Map_Sanctuary.h"
+
 BossFrogMain::BossFrogMain()
 {
 }
@@ -61,6 +64,10 @@ void BossFrogMain::Start()
 
 void BossFrogMain::Update(float _DeltaTime)
 {
+	// test 
+	float4 Pos = GetTilePos(1, 1);
+	float4 TileIdx = GetTileIndex(GetTransform()->GetWorldPosition());
+
 	if (true == GameEngineInput::IsDown("PressK"))
 	{
 		SetNextState(BossFrogMainState::DAMAGED);
@@ -233,4 +240,30 @@ void BossFrogMain::SetFSMFUNC()
 		}
 	);
 
+}
+
+const float4 BossFrogMain::GetTilePos(const int _Y, const int _X)
+{
+	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
+	if (nullptr == CurLevel)
+	{
+		MsgAssert("Level 이 nullptr 입니다.");
+	}
+
+	float4 TilePos = CurLevel->GetMap()->GetTilePos(_Y, _X);
+
+	return TilePos;
+}
+
+const float4 BossFrogMain::GetTileIndex(const float4& _Pos)
+{
+	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
+	if (nullptr == CurLevel)
+	{
+		MsgAssert("Level 이 nullptr 입니다.");
+	}
+
+	float4 TileIndex = CurLevel->GetMap()->GetTileIndex(_Pos);
+
+	return TileIndex;
 }

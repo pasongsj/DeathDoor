@@ -38,7 +38,12 @@ private:
 	const float4 m_CameraRot = float4{ 45 , 0 , 0 };
 
 	void Set_PlayerStartPos();
-	const float4 m_StartPos = float4{ 0, 300, 0 } ;
+	const float4 m_StartPos = float4{ -3100 , -180 , 3100 } ;
+
+	void Set_BossStartPos();
+	const float4 m_TestPos = float4{ -3636, -180, 4719 };
+	const float4 m_BossStartPos = float4{ -4100 , -180 , 4100 };
+	std::shared_ptr<class BossFrogMain> m_pBossFrog = nullptr;
 
 	std::shared_ptr<class Map_Sanctuary> m_pMap = nullptr;
 };

@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 
+
 // 보스 타일맵 경기장
 class FrogFloor : public GameEngineActor
 {
@@ -24,12 +25,10 @@ public:
 		return m_pHingeRenderer;
 	}
 
-	inline std::vector<std::shared_ptr<class SecretTile>> GetTiles() const
+	inline std::vector<std::vector<std::shared_ptr<class SecretTile>>> GetTiles() const
 	{
 		return m_vTiles;
 	}
-
-	std::shared_ptr<class SecretTile> GetTile(const int _TileIndex);
 
 	inline std::vector<std::shared_ptr<class RuinsWall>> GetWalls() const
 	{
@@ -70,7 +69,7 @@ private:
 	float4 m_FireObjScale = float4{ 50, 50 , 50 };
 
 	// tile
-	std::vector<std::shared_ptr<class SecretTile>> m_vTiles = std::vector<std::shared_ptr<class SecretTile>>();
+	std::vector<std::vector<std::shared_ptr<class SecretTile>>> m_vTiles = std::vector<std::vector<std::shared_ptr<class SecretTile>>>();
 	const float4 m_TileInitPos = float4{ -390, 55, 725 };
 	int m_iTileSize = 25;
 	float m_fTileMovePos = 396.0f;
