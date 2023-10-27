@@ -26,6 +26,9 @@ private:
 	const float4 GetTilePos(const int _Y, const int _X);
 	const float4 GetTileIndex(const float4& _Pos);
 
+	void FieldRotationStart();
+	void FieldRotationEnd();
+
 	// intro to jump = idle to jump
 	// idle to jump
 	// swim to jump

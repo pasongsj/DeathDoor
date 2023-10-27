@@ -267,3 +267,25 @@ const float4 BossFrogMain::GetTileIndex(const float4& _Pos)
 
 	return TileIndex;
 }
+
+void BossFrogMain::FieldRotationStart()
+{
+	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
+	if (nullptr == CurLevel)
+	{
+		MsgAssert("Level 이 nullptr 입니다.");
+	}
+
+	CurLevel->GetMap()->OnRotationFloor();
+}
+
+void BossFrogMain::FieldRotationEnd()
+{
+	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
+	if (nullptr == CurLevel)
+	{
+		MsgAssert("Level 이 nullptr 입니다.");
+	}
+
+	CurLevel->GetMap()->OffRotationFloor();
+}
