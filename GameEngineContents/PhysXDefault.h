@@ -223,39 +223,39 @@ public:
 	virtual void CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos = float4::ZERO);
 
 
-	void AttachShape()
+	void AttachShape(UINT _INDEX = 0)
 	{
 		if (m_pRigidDynamic!=nullptr)
 		{
-			m_pRigidDynamic->attachShape(*m_pSubShape);
+			m_pRigidDynamic->attachShape(*m_vecSubShape[_INDEX]);
 			return;
 		}
 
 		if (m_pRigidStatic != nullptr)
 		{
-			m_pRigidStatic->attachShape(*m_pSubShape);
+			m_pRigidStatic->attachShape(*m_vecSubShape[_INDEX]);
 			return;
 		}
 	}
 
-	void DetachShape()
+	void DetachShape(UINT _INDEX = 0)
 	{
 		if (m_pRigidDynamic != nullptr)
 		{
-			m_pRigidDynamic->detachShape(*m_pSubShape);
+			m_pRigidDynamic->detachShape(*m_vecSubShape[_INDEX]);
 			return;
 		}
 
 		if (m_pRigidStatic != nullptr)
 		{
-			m_pRigidStatic->detachShape(*m_pSubShape);
+			m_pRigidStatic->detachShape(*m_vecSubShape[_INDEX]);
 			return;
 		}
 	}
 
-	void SetSubShapeFilter(PhysXFilterGroup _ThisFilter)
+	void SetSubShapeFilter(PhysXFilterGroup _ThisFilter, UINT _INDEX = 0)
 	{		
-		m_pSubShape->setSimulationFilterData
+		m_vecSubShape[_INDEX]->setSimulationFilterData
 		(
 			physx::PxFilterData
 			(
@@ -290,7 +290,7 @@ protected:
 
 	physx::PxMaterial* m_pMaterial = nullptr;
 	physx::PxShape* m_pShape = nullptr;
-	physx::PxShape* m_pSubShape = nullptr;
+	std::vector<physx::PxShape*> m_vecSubShape;
 	
 
 	float4 m_fShapeCenter = float4::ZERO;

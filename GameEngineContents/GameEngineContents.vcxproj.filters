@@ -229,9 +229,6 @@
     <ClCompile Include="SecretTile.cpp">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
-    <ClCompile Include="Crate.cpp">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
-    </ClCompile>
     <ClCompile Include="PhysXControllerComponent.cpp">
       <Filter>Component\PhysX\Component</Filter>
     </ClCompile>
@@ -430,6 +427,12 @@
     </ClCompile>
     <ClCompile Include="EnemyGhoulBig.cpp">
       <Filter>FSMObject\Enemy\Ghoul</Filter>
+    </ClCompile>
+    <ClCompile Include="Crate.cpp">
+      <Filter>FSMObject\Trigger\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ShortCutDoor.cpp">
+      <Filter>FSMObject\Trigger\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -659,9 +662,6 @@
     <ClInclude Include="SecretTile.h">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
-    <ClInclude Include="Crate.h">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
-    </ClInclude>
     <ClInclude Include="PhysXControllerComponent.h">
       <Filter>Component\PhysX\Component</Filter>
     </ClInclude>
@@ -856,6 +856,12 @@
     </ClInclude>
     <ClInclude Include="FeatherParticle.h">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\Feather</Filter>
+    </ClInclude>
+    <ClInclude Include="Crate.h">
+      <Filter>FSMObject\Trigger\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ShortCutDoor.h">
+      <Filter>FSMObject\Trigger\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

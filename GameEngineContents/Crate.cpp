@@ -35,3 +35,11 @@ void Crate::InitComponent()
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
 
 }
+
+void Crate::InitAnimation()
+{
+}
+
+void Crate::SetFSMFUNC()
+{
+}
