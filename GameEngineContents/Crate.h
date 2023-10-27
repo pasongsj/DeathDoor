@@ -26,4 +26,8 @@ protected:
 
 private:
 	void SetFSMFUNC();
+
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer1 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer2 = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pRenderer3 = nullptr;
 };

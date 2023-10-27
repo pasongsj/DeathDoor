@@ -428,11 +428,11 @@
     <ClCompile Include="EnemyGhoulBig.cpp">
       <Filter>FSMObject\Enemy\Ghoul</Filter>
     </ClCompile>
-    <ClCompile Include="Crate.cpp">
-      <Filter>FSMObject\Trigger\Object</Filter>
-    </ClCompile>
     <ClCompile Include="ShortCutDoor.cpp">
       <Filter>FSMObject\Trigger\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Crate.cpp">
+      <Filter>FSMObject\Trigger\Object\Crate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -857,11 +857,11 @@
     <ClInclude Include="FeatherParticle.h">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\Feather</Filter>
     </ClInclude>
-    <ClInclude Include="Crate.h">
-      <Filter>FSMObject\Trigger\Object</Filter>
-    </ClInclude>
     <ClInclude Include="ShortCutDoor.h">
       <Filter>FSMObject\Trigger\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Crate.h">
+      <Filter>FSMObject\Trigger\Object\Crate</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1092,6 +1092,9 @@
     </Filter>
     <Filter Include="Contents\Effect\Object\Particle2D%28CPU%29\Feather">
       <UniqueIdentifier>{637c77bb-5f51-47fd-8df9-21bd8279bd80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSMObject\Trigger\Object\Crate">
+      <UniqueIdentifier>{977a08b8-bd47-4873-9cad-d89c7ae4fcc7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
