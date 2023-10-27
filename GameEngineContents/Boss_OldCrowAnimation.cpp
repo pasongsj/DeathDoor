@@ -2,7 +2,7 @@
 
 #include "Boss_OldCrow.h"
 
-void Boss_OldCrow::InitAniamtion()
+void Boss_OldCrow::InitAnimation()
 {
 	BossRender = CreateComponent<ContentFBXRenderer>();
 

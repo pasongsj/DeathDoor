@@ -16,7 +16,7 @@ public:
 	BossBase& operator=(BossBase&& _Other) noexcept = delete;
 
 protected:
-	virtual void InitAniamtion() {};
+	//virtual void InitAniamtion() {};
 	virtual void InitPattern() {};
 
 	std::map<short, std::vector<short>> Patterns;

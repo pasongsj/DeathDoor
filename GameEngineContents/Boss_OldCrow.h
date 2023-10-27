@@ -18,7 +18,7 @@ public:
 
 
 protected:
-	void InitAniamtion() override;
+	void InitAnimation() override;
 	void InitPattern() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
