@@ -18,13 +18,11 @@ public:
 
 
 protected:
+	void InitPattern() override;
 	void SetFSMFUNC() override;
 	void InitAnimation() override;
-	void InitAnimation() override;
-	void InitPattern() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
-	//FSM Init
 
 private:
 	enum class Boss_OldCrowState //스테이트 별
