@@ -22,7 +22,8 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+	void CreateParticle(float _DeltaTime) override;
 private:
-
+	float ParticleCount = 0.0f;
 };
 

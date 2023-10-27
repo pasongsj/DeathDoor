@@ -18,6 +18,7 @@ void EnemyBase::Start()
 	if (nullptr != EnemyRenderer)
 	{
 		SetFSMFUNC();
+		EnemyRenderer->SetBlurColor();
 	}
 }
 
@@ -80,7 +81,8 @@ bool EnemyBase::CheckHit()
 	{
 		--m_iEnemyHP;
 		float Crack = static_cast<float>(m_TotalHP-m_iEnemyHP) / m_TotalHP; // 몬스터에 크랙쉐이더 적용 0~1값
-		EnemyRenderer->SetCrackAmount(Crack);
+		EnemyRenderer->SetCrackAmount(Crack);		
+
 		return true;
 	}
 	return false;

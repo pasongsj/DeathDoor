@@ -91,6 +91,9 @@
     <FxCompile Include="DustParticle.hlsl">
       <Filter>Effect\Particle</Filter>
     </FxCompile>
+    <FxCompile Include="ParticleBasicShader.hlsl">
+      <Filter>Effect\Particle</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

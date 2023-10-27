@@ -79,6 +79,7 @@ protected:
 		DestTarget = Tar;
 	}
 
+	virtual void CreateParticle(float _DeltaTime) {}
 
 private:
 	bool isShoot = false;

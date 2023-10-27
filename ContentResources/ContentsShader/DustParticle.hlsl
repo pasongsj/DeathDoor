@@ -32,8 +32,13 @@ OutPut ContentTexture_VS(Input _Value)
     return OutPutValue;
 }
 
-Texture2D NoiseTexture : register(t0);
+Texture2D DiffuseTexture : register(t0);
+Texture2D NoiseTexture1 : register(t1);
+Texture2D NoiseTexture2 : register(t2);
+Texture2D AlphaTexture : register(t3);
+
 SamplerState CLAMPSAMPLER : register(s0);
+SamplerState WRAPSAMPLER : register(s1);
 
 cbuffer MaskValue : register(b5)
 {
@@ -47,34 +52,69 @@ struct DefferedTarget
     float4 DiffuseColor : SV_Target1;
     float4 Position : SV_Target2;
     float4 Normal : SV_Target3;
+    float4 Blur : SV_Target7;
 };
+
+cbuffer DiffuseUV : register(b6)
+{
+    float2 DiffuseUV;
+    float2 padding;
+}
+
+cbuffer DistortionData : register(b7)
+{
+    float2 Distortion1;
+    float2 Distortion2;
+    float DistortionScale;
+    float DistortionBias;
+}
+
+cbuffer BlurColor : register(b8)
+{
+    float4 BlurColor;
+}
 
 DefferedTarget ContentTexture_PS(OutPut _Value)
 {
     DefferedTarget OutPutTarget = (DefferedTarget) 0.0f;
     
-    float4 Color = NoiseTexture.Sample(CLAMPSAMPLER, _Value.UV.xy);
+    float4 Noise1 = NoiseTexture1.Sample(WRAPSAMPLER, _Value.UV.xy * 0.25f + DiffuseUV);
+    float4 Noise2 = NoiseTexture2.Sample(WRAPSAMPLER, _Value.UV.xy * 0.25f);
+            
+    Noise1 = (Noise1 - 0.5f) * 2.0f;
+    Noise2 = (Noise2 - 0.5f) * 2.0f;
     
-    if(Color.a <= 0.0f)
-    {
-        clip(-1);
-    }
+    Noise1.xy = Noise1.xy * Distortion1;
+    Noise2.xy = Noise2.xy * Distortion2;
     
-    if (Color.r > DeltaTime.x || Color.r > DeltaTime.y)
-    {
-        clip(-1);
-    }
+    float4 FinalNoise = Noise1 + Noise2;
+    float Perturb = ((1.0f - _Value.UV.y) * DistortionScale) + DistortionBias;
     
-    float Alpha = saturate(1 - Color.r);
+    float2 NoiseCoords = (FinalNoise.xy * Perturb) + _Value.UV.xy;
+    
+    float4 DustColor = AddColor;
+   
+    float4 AlphaColor = AlphaTexture.Sample(CLAMPSAMPLER, NoiseCoords.xy);
         
-    Color *= MulColor;
-    Color += AddColor;
+    if (AlphaColor.a <= DeltaTime.x)
+    {
+        clip(-1);
+    }
     
-    Color.a = Alpha;
-    
-    OutPutTarget.DiffuseColor = saturate(Color);
+    DustColor.a = AlphaColor.a;
+   
+    OutPutTarget.DiffuseColor = DustColor;
     OutPutTarget.Position = _Value.ViewPos;
     OutPutTarget.Normal = _Value.ViewNormal;
+    OutPutTarget.Blur = BlurColor;
     
     return OutPutTarget;
 }
+
+
+   
+    
+    
+    
+
+
