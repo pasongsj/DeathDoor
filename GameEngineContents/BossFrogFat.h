@@ -1,8 +1,8 @@
 #pragma once
-#include "EnemyBase.h"
+#include "BossFrog.h"
 
 // Ό³Έν :
-class BossFrogFat : public EnemyBase
+class BossFrogFat : public BossFrog
 {
 public:
 	// constrcuter destructer
