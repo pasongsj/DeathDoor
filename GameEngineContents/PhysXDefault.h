@@ -193,7 +193,7 @@ public:
 
 	void DeathAndRelease();
 
-	void Release();
+	void PhysXRelease();
 
 	inline void SetPositionSetFromParentFlag(bool _Flag)
 	{

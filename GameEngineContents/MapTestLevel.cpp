@@ -20,7 +20,9 @@
 #include "EnemyJumper.h"
 #include "MonsterAnimationTest.h"
 
+
 //test 
+#include "Mushroom.h"
 #include "SecretTile.h"
 #include "Ladder.h"
 #include "Crate.h"
@@ -100,8 +102,8 @@ void MapTestLevel::InitTestLevel()
 		std::shared_ptr<SecretTile> NewTile = CreateActor<SecretTile>();
 		NewTile->GetTransform()->SetLocalPosition(float4{ -400, 100 , 0 });
 
-		std::shared_ptr<Crate> NewCrate = GetLevel()->CreateActor<Crate>();
-		NewCrate->GetTransform()->SetLocalPosition(float4{ 400, 0 , 0 });
+		std::shared_ptr<Mushroom> NewCrate = GetLevel()->CreateActor<Mushroom>();
+		NewCrate->GetPhysXComponent()->SetWorldPosWithParent(float4{ 400, 0 , 0 });
 
 		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
 		NewLadder->GetTransform()->SetWorldPosition(float4{ 800, 0 , 0 });

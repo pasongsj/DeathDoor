@@ -417,10 +417,13 @@
       <Filter>FSMObject\Trigger</Filter>
     </ClCompile>
     <ClCompile Include="Frog_Lever.cpp">
-      <Filter>FSMObject\Trigger</Filter>
+      <Filter>FSMObject\Trigger\Object</Filter>
     </ClCompile>
     <ClCompile Include="Frog_Septre.cpp">
-      <Filter>FSMObject\Trigger</Filter>
+      <Filter>FSMObject\Trigger\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Mushroom.cpp">
+      <Filter>FSMObject\Trigger\Object</Filter>
     </ClCompile>
     <ClCompile Include="FeatherParticle.cpp">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\Feather</Filter>
@@ -839,11 +842,14 @@
     <ClInclude Include="TriggerBase.h">
       <Filter>FSMObject\Trigger</Filter>
     </ClInclude>
-    <ClInclude Include="Frog_Lever.h">
-      <Filter>FSMObject\Trigger</Filter>
-    </ClInclude>
     <ClInclude Include="Frog_Septre.h">
-      <Filter>FSMObject\Trigger</Filter>
+      <Filter>FSMObject\Trigger\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Frog_Lever.h">
+      <Filter>FSMObject\Trigger\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Mushroom.h">
+      <Filter>FSMObject\Trigger\Object</Filter>
     </ClInclude>
     <ClInclude Include="EnemyGhoulBig.h">
       <Filter>FSMObject\Enemy\Ghoul</Filter>
@@ -1072,7 +1078,7 @@
     <Filter Include="Contents\OldCrowLevel\Map">
       <UniqueIdentifier>{9d2aac6d-a6a5-4189-8027-c4dbbdb971aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FSMObject\Trigger\Lever">
+    <Filter Include="FSMObject\Trigger\Object">
       <UniqueIdentifier>{c2edb22c-2f23-46fc-a7a4-253bce4438bb}</UniqueIdentifier>
     </Filter>
     <Filter Include="FSMObject\Frog">

@@ -13,22 +13,29 @@ PhysXCapsuleComponent::~PhysXCapsuleComponent()
 
 void PhysXCapsuleComponent::CreatePhysXActors(float4 _GeoMetryScale, float4 _GeoMetryRotation, bool _Static)
 {
+	
 	CreatePhysXActors(_GeoMetryScale.PhysXVec3Return(), _GeoMetryRotation, _Static);
 }
 
 void PhysXCapsuleComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRotation, bool _Static/* = false*/)
 {
+	physx::PxVec3 v3Scale = _GeoMetryScale;
+
+	if (v3Scale.z >= v3Scale.y)
+	{
+		v3Scale.y = v3Scale.z + 1.f;
+	}
 	m_bStatic = _Static;
 	if (true == m_bStatic)
 	{
-		CreateStatic(_GeoMetryScale, _GeoMetryRotation);
+		CreateStatic(v3Scale, _GeoMetryRotation);
 	}
 	else
 	{
-		CreateDynamic(_GeoMetryScale, _GeoMetryRotation);		
+		CreateDynamic(v3Scale, _GeoMetryRotation);
 	}
 
-	GetTransform()->SetWorldScale(float4(_GeoMetryScale.z, _GeoMetryScale.y, _GeoMetryScale.z));
+	GetTransform()->SetWorldScale(float4(v3Scale.z, v3Scale.y, v3Scale.z));
 }
 
 void PhysXCapsuleComponent::SetRotation(float4 _Rot)
