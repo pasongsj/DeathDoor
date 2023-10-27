@@ -90,12 +90,6 @@ void DustParticle::FadeInAndOut(float _Delta)
 	}
 	else
 	{
-		MaskValue.y -= 1.5f * _Delta;
-		MaskValue.z = MaskValue.y;
-	}
-
-	if (MaskValue.y < 0.0f)
-	{
 		Death();
 	}
 }
