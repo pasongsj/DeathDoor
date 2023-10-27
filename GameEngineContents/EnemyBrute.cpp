@@ -86,7 +86,6 @@ void EnemyBrute::Start()
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_BRUTE);
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
-	SetFSMFUNC();
 }
 
 

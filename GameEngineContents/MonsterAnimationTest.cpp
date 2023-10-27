@@ -31,10 +31,19 @@ void MonsterAnimationTest::Start()
 	Renderer->CreateFBXAnimation("13", "FROG_FAT_TURN.fbx", {0.1f });
 
 
+	WeaponRenderer = CreateComponent<ContentFBXRenderer>();
+	WeaponRenderer->SetFBXMesh("FROG_WEAPONMESH.FBX", "ContentMeshDeffered");
+	//WeaponRenderer->GetTransform()->SetLocalScale(float4::ONE * 100.0f);
+	WeaponRenderer->GetTransform()->SetParent(Renderer->GetTransform());
+	WeaponRenderer->GetTransform()->SetLocalScale(float4::ONE * 1.4f);
+	//WeaponRenderer->SetBone(Renderer.get(), "_FROG_SEPTRE_BONE", float4{0.0f,0.1f,0.0f}, float4{-85.03f,40.0f,0.0f});
+	//WeaponRenderer->GetTransform()->SetLocalRotation(float4{ 0.0f, 0.0f, 90.0f });
+// 
+	//WeaponRenderer->GetTransform()->SetLocalScale(float4::ONE * 0.5f);
 	//Renderer->CreateFBXAnimation("12", "_E_JUMPER_THROW_Anim.fbx");//
 	//Renderer->ChangeAnimation("12");
 	GetTransform()->SetLocalScale(float4::ONE * 50.0f);
-	GetTransform()->SetLocalRotation(float4{0.0f,180.0f,0.0f});
+	GetTransform()->SetLocalRotation(float4{0.0f,0.0f,0.0f});
 	//Renderer->GetTransform()->SetLocalRotation({ 0.0f,180.0f, 0.0f });
 
 	if (false == GameEngineInput::IsKey("PressN"))
@@ -46,7 +55,11 @@ void MonsterAnimationTest::Start()
 		GameEngineInput::CreateKey("PressK", 'K');
 	}
 
-	Unit = Renderer->GetAllRenderUnit();
+	Unit = WeaponRenderer->GetAllRenderUnit();
+	WeaponRenderer->SetGlowToUnit(1, 0);
+	WeaponRenderer->SetUnitColor(1, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
+
+	//Renderer->Off();
 	//Unit[10][0]->SetMaterial();
 	//Unit[23][0]->Off();
 	//Renderer->ChangeAnimation("0");
@@ -69,6 +82,12 @@ float4 MonsterAnimationTest::GetBonePos(const std::string_view& _BoneName)
 
 void MonsterAnimationTest::Update(float _DeltaTime)
 {
+	float4 pos = Renderer->GetBoneData("_FROG_SEPTRE_BONE").Pos;
+	float4 Rot = Renderer->GetBoneData("_FROG_SEPTRE_BONE").RotEuler;
+	WeaponRenderer->GetTransform()->SetLocalPosition(float4{0.0f,0.1f,0.0f} + pos);
+	WeaponRenderer->GetTransform()->SetLocalRotation(float4{-85.03f,40.0f,0.0f}+ Rot);
+	//float4 wpos = WeaponRenderer->GetTransform()->GetWorldPosition();
+	//float4 wscale = WeaponRenderer->GetTransform()->GetWorldScale();
 	if (true == GameEngineInput::IsDown("PressN"))
 	{
 		//Renderer->ChangeAnimation("5",true);

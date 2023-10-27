@@ -38,8 +38,8 @@ void EnemyBruteGold::Start()
 		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_BRUTEGOLD);
+		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
-	SetFSMFUNC();
 }
 
 

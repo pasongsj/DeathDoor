@@ -51,7 +51,6 @@ void BossFrogMain::Start()
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_MAGE * 3.0f);
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
-	SetFSMFUNC();
 	SetEnemyHP(3);
 
 	//test

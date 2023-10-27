@@ -64,7 +64,6 @@ void EnemyMage::Start()
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 		m_pCapsuleComp->TurnOffGravity();
 	}
-	SetFSMFUNC();
 }
 
 void EnemyMage::Update(float _DeltaTime)

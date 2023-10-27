@@ -431,6 +431,9 @@
     <ClCompile Include="EnemyGhoulBig.cpp">
       <Filter>FSMObject\Enemy\Ghoul</Filter>
     </ClCompile>
+    <ClCompile Include="BossFrogFat.cpp">
+      <Filter>FSMObject\Frog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -856,6 +859,9 @@
     </ClInclude>
     <ClInclude Include="FeatherParticle.h">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\Feather</Filter>
+    </ClInclude>
+    <ClInclude Include="BossFrogFat.h">
+      <Filter>FSMObject\Frog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

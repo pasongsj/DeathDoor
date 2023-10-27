@@ -91,7 +91,6 @@ void EnemyJumper::Start()
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_JUMPER);
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
-	SetFSMFUNC();
 	SetEnemyHP(JumperFullHP);
 }
 
