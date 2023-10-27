@@ -1,5 +1,6 @@
 #include "PreCompileHeader.h"
 
+#define BOSS_OLDCROW_HP 40
 
 //Chain
 #define BOSS_OLDCROW_CHAINPIVOTCOUNT 4   //체인 피봇의 개수

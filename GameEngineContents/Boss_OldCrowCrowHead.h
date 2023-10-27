@@ -26,9 +26,13 @@ private:
 	std::shared_ptr<class PhysXSphereComponent> m_pSphereComp = nullptr;
 
 	void SetLerpDirection(float _DeltaTime);
+	void AttackCheck();
+	float4 GetPlayerDir();
 
 	float4 CurrentDir = float4::ZERO;
 	float4 Dir = float4::ZERO;
+
+	bool IsAttacked = false; //플레이어의 공격을 받으면 플레이어가 바라보고 있는 방향으로 날아감.
 
 	//float Angle = 0.0f;
 };
