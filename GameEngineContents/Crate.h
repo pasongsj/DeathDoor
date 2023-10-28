@@ -30,4 +30,19 @@ private:
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer1 = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer2 = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer3 = nullptr;
+
+	int m_iHP = 3;
+	bool CheckBreak()
+	{
+		if (true == IsHit())// 플레이어로부터 공격을 받는다면 
+		{
+			--m_iHP;
+			isPhysXCollision = 0;
+		}
+		if (m_iHP<=0)
+		{
+			return true;
+		}
+		return false;
+	}
 };
