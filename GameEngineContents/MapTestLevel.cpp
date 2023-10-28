@@ -112,14 +112,13 @@ void MapTestLevel::InitTestLevel()
 		NewLadder->SetHeight(4);
 		
 
-		 std::shared_ptr<Frog_Septre> Lever = CreateActor<Frog_Septre>();
+		 std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
 		 Lever->SetTriggerFunction([=]
 			{
 					NewLadder->SetHidden(false);
 			}
 		 );
-		Lever->GetTransform()->SetLocalPosition(float4{ 0, 0, -1000 });
-		Lever->GetTransform()->SetLocalRotation(float4{ 0, -90 , 0 });
+		Lever->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0, 0, -1000 },float4(0,90,0));
 
 		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
 		std::shared_ptr<Player> Obj = CreateActor<Player>();
