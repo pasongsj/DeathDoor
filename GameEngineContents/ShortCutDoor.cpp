@@ -1,6 +1,7 @@
 #include "PrecompileHeader.h"
 #include "ShortCutDoor.h"
 #include "PhysXBoxComponent.h"
+#include <GameEngineCore/GameEngineFBXRenderer.h>
 
 ShortCutDoor::ShortCutDoor() 
 {
@@ -43,15 +44,17 @@ void ShortCutDoor::InitAnimation()
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->GetTransform()->SetLocalScale(float4{ 100, 100, 100 });
 	m_pRenderer->SetFBXMesh("SHORTCUTDOOR_MESH.FBX", "ContentAniMeshDeffered");
+
 	m_pRenderer->CreateFBXAnimation("DROP", "SHORTCUTDOOR_DROP.FBX", { 1.f / 30.f, false });
 	m_pRenderer->CreateFBXAnimation("ROCKED", "SHORTCUTDOOR_ROCKED.FBX", { 1.f / 30.f, false });
 	m_pRenderer->CreateFBXAnimation("FLOOR", "SHORTCUTDOOR_FLOOR.FBX", { 1.f / 30.f, false });
 	m_pRenderer->CreateFBXAnimation("OPEN_Inward", "SHORTCUTDOOR_OPEN_INWARD.FBX", { 1.f / 30.f, false });
 	m_pRenderer->CreateFBXAnimation("OPEN_STILL", "SHORTCUTDOOR_OPEN_STILL.FBX", { 1.f / 30.f, false });
 	m_pRenderer->CreateFBXAnimation("CLOSE_FROM_INWARD", "SHORTCUTDOOR_CLOSE_FROM_INWARD.FBX", { 1.f / 30.f, false });
-	m_pRenderer->ChangeAnimation("FLOOR"); 
+	m_pRenderer->ChangeAnimation("OPEN_Inward"); 
 
-
+	auto Unit = m_pRenderer->GetAllRenderUnit();
+	Unit[0][7]->Off();
 }
 
 void ShortCutDoor::SetFSMFUNC()
@@ -68,10 +71,6 @@ void ShortCutDoor::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			if (true== IsPlayerInRange())
-			{
-				//eÅ° ui¶ç¿ì±â
-			}
 		},
 		[this]
 		{

@@ -64,15 +64,10 @@ void Crate::SetFSMFUNC()
 	SetFSM(TriggerState::OFF,
 		[this]
 		{
-			m_pPhysXComponent->PhysXRelease();
-			isPhysXCollision = 0;
-			m_pRenderer->On();
-			m_pRenderer1->GetTransform()->SetLocalRotation(float4::ZERO);
-			m_pRenderer2->GetTransform()->SetLocalRotation(float4::ZERO);
 		}, 
 		[this](float Delta)
 		{
-			if (true == IsHit())
+			if (true == CheckBreak())
 			{
 				SetNextState(TriggerState::PROGRESS);
 			}
@@ -109,7 +104,7 @@ void Crate::SetFSMFUNC()
 	SetFSM(TriggerState::ON,
 		[this]
 		{
-			//¹®°íÁ¤
+			m_pPhysXComponent->Death();
 		},
 		[this](float Delta)
 		{
