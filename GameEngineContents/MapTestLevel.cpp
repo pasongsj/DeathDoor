@@ -22,6 +22,7 @@
 
 
 //test 
+#include "Crate.h"
 #include "Mushroom.h"
 #include "SecretTile.h"
 #include "Ladder.h"
@@ -102,7 +103,7 @@ void MapTestLevel::InitTestLevel()
 		std::shared_ptr<SecretTile> NewTile = CreateActor<SecretTile>();
 		NewTile->GetTransform()->SetLocalPosition(float4{ -400, 100 , 0 });
 
-		std::shared_ptr<ShortCutDoor> NewCrate = GetLevel()->CreateActor<ShortCutDoor>();
+		std::shared_ptr<Crate> NewCrate = GetLevel()->CreateActor<Crate>();
 		//NewCrate->GetPhysXComponent()->SetWorldPosWithParent(float4{ 400, 0 , 0 });
 
 		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
