@@ -64,6 +64,7 @@ void Crate::SetFSMFUNC()
 	SetFSM(TriggerState::OFF,
 		[this]
 		{
+			m_pPhysXComponent->PhysXRelease();
 			isPhysXCollision = 0;
 			m_pRenderer->On();
 			m_pRenderer1->GetTransform()->SetLocalRotation(float4::ZERO);
@@ -84,17 +85,18 @@ void Crate::SetFSMFUNC()
 	SetFSM(TriggerState::PROGRESS,
 		[this]
 		{
-			m_pRenderer->Off();
 		},
 		[this](float Delta)
 		{
-			m_pRenderer1->GetTransform()->AddLocalRotation(float4(90*Delta,0,0)); //x 136
-			m_pRenderer1->GetTransform()->AddLocalPosition(float4(0, -100 * Delta, 0));
-			m_pRenderer2->GetTransform()->AddLocalRotation(float4(0, 0, -90 * Delta));  //z
-			m_pRenderer2->GetTransform()->AddLocalPosition(float4(0, -100 * Delta, 0));
-			m_pRenderer3->GetTransform()->AddLocalPosition(float4(0, -260 * Delta, 0));
+			float fTime = Delta * 3.f;
+			m_pRenderer1->GetTransform()->AddLocalRotation(float4(90* fTime,0,0)); //x 136
+			m_pRenderer1->GetTransform()->AddLocalPosition(float4(0, -100 * fTime, -130* fTime));
+			m_pRenderer2->GetTransform()->AddLocalRotation(float4(0, 0, -90 * fTime));  //z
+			m_pRenderer2->GetTransform()->AddLocalPosition(float4(-130 * fTime, -100 * fTime, 0));
+			m_pRenderer3->GetTransform()->AddLocalPosition(float4(0, -260 * fTime, 0));
 
-			if (GetStateDuration()>1.f)
+			m_pRenderer->FadeOut(0.33f, Delta);
+			if (GetStateDuration()>0.33f)
 			{
 				SetNextState(TriggerState::ON);
 			}
