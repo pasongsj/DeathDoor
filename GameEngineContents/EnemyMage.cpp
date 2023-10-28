@@ -31,6 +31,8 @@ void EnemyMage::InitAnimation()
 
 			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
 			Attack->SetRender(FIREPLANT_ATT_RENDER_SCALE);
+			Attack->GetRenderer()->SetGlowToUnit(0, 0);
+			Attack->GetRenderer()->SetColor({ 10.f / 255.0f, 255.f / 255.0f, 50.f }, 3.0f);
 			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE);
 			Attack->SetTrans(m_f4ShootDir, TmpPos);
 			Attack->SetShoot(1000.0f);
