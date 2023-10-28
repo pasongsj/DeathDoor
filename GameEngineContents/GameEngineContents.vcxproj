@@ -359,6 +359,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="OldCrowLevel.cpp" />
+    <ClCompile Include="ShortCutDoor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TriggerBase.cpp">
       <SubType>
       </SubType>
@@ -776,6 +780,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="OldCrowLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ShortCutDoor.h">
       <SubType>
       </SubType>
     </ClInclude>

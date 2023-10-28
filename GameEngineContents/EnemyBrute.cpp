@@ -303,6 +303,7 @@ void EnemyBrute::SetFSMFUNC()
 		},
 		[this]
 		{
+			m_pCapsuleComp->SetWorldPosWithParent(m_pCapsuleComp->GetWorldPosition() +(-m_f4ShootDir * 100.f));
 		}
 	);
 
@@ -317,11 +318,14 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			//로테이션 러프시켜서 렌더러 돌리고 아이들상태로 죽여버리기
 			//float4 f4CurRot = EnemyRenderer->GetTransform
-			m_fDeathTime += Delta;
 
-			float4 f4Result = float4::LerpClamp(float4(0.f, 0.f, 0.f), float4(0.f, 0.f, 90.f), m_fDeathTime);
+			float4 f4Result = float4::LerpClamp(float4(0.f, 0.f, 0.f), float4(0.f, 0.f, 90.f), GetStateDuration());
 			EnemyRenderer->GetTransform()->SetLocalRotation(f4Result);
-			if (m_fDeathTime>=1.f)
+			if (GetStateDuration() < 1.f)
+			{
+				EnemyRenderer->FadeOut(1.f, Delta);
+			}
+			else
 			{
 				Death();
 			}

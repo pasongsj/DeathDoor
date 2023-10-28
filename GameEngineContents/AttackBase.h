@@ -28,6 +28,10 @@ public:
 		return PhysXComp;
 	}
 
+	std::shared_ptr<class ContentFBXRenderer> GetRenderer()
+	{
+		return AttackRenderer;
+	}
 	
 protected:
 

@@ -22,7 +22,7 @@ void EnemyMage::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("TELEPORT", "_E_MAGE_TELEPORT.fbx", { 1.f / 30.f,false }); // 타격시인듯??
 	EnemyRenderer->CreateFBXAnimation("TELEPORT_IN", "_E_MAGE_TELEPORT.fbx", { 1.f / 30.f,false });
 	EnemyRenderer->CreateFBXAnimation("DEATH", "_E_MAGE_DEATH.fbx", { 1.f / 30.f,false });
-	EnemyRenderer->SetAnimationStartFunc("SHOOT", 30, [this]
+	EnemyRenderer->SetAnimationStartFunc("SHOOT", 40, [this]
 		{
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
@@ -31,6 +31,8 @@ void EnemyMage::InitAnimation()
 
 			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
 			Attack->SetRender(FIREPLANT_ATT_RENDER_SCALE);
+			Attack->GetRenderer()->SetGlowToUnit(0, 0);
+			Attack->GetRenderer()->SetColor({ 10.f / 255.0f, 255.f / 255.0f, 50.f }, 3.0f);
 			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE);
 			Attack->SetTrans(m_f4ShootDir, TmpPos);
 			Attack->SetShoot(1000.0f);
@@ -126,20 +128,10 @@ void EnemyMage::TeleportRandPos()
 		ResultPos.y = f4PlayerPos.y+10.f;
 
 		//레이캐스팅한 결과값을 받아올 포지션(사실상 값체크용임)
-		float4 RayCastPos = float4::ZERO;
+		//float4 RayCastPos = float4::ZERO;
 
-		//1차검사 랜덤으로 가져온 포지션의 아래 100에 바닥이 있는가 체크
-		bool bGround = m_pCapsuleComp->RayCast(ResultPos, float4::DOWN, RayCastPos,100.f);
-
-		if (false == bGround)
 		{
-			// 바닥이 없으면 해당 포지션을 null로 바꾸고 재검사
-			m_vecRandGrid[RandIndex] = float4::ZERONULL;
-			++m_iCheckCount;
-		}
-		else
-		{
-			if (60.f>f4PlayerPos.XYZDistance(ResultPos))
+			if (60.f>f4PlayerPos.XYZDistance(ResultPos))	
 			{
 				continue;
 			}
@@ -150,9 +142,9 @@ void EnemyMage::TeleportRandPos()
 			return;
 		}
 	}
-	// n번 검사했으나 전부 실패한경우 플레이어의 10만큼 뒤쪽으로 이동
-	m_pCapsuleComp->SetWorldPosWithParent(f4PlayerPos + (Player::MainPlayer->GetTransform()->GetLocalForwardVector()*-10.f+float4(0.f,10.f,0.f)));
-	m_vecRandGrid.clear();
+	//// n번 검사했으나 전부 실패한경우 플레이어의 10만큼 뒤쪽으로 이동
+	//m_pCapsuleComp->SetWorldPosWithParent(f4PlayerPos + (Player::MainPlayer->GetTransform()->GetLocalForwardVector()*-10.f+float4(0.f,10.f,0.f)));
+	//m_vecRandGrid.clear();
 }
 void EnemyMage::SetFSMFUNC()
 {
@@ -281,7 +273,6 @@ void EnemyMage::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("TELEPORT");
-			m_fWaitTime = 1.f;
 		},
 		[this](float Delta)
 		{
@@ -358,17 +349,17 @@ void EnemyMage::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("DEATH");
-			m_fWaitTime = 1.f;
 		},
 		[this](float Delta)
 		{
-			m_fWaitTime -= Delta;
 			//EnemyRenderer 죽는 쉐이더 추가해야함
-
-			if (m_fWaitTime < 0.f)
+			if (GetStateDuration()<1.f)
+			{
+				EnemyRenderer->FadeOut(1.f, Delta);
+			}
+			else
 			{
 				Death();
-				return;
 			}
 		},
 		[this]

@@ -45,5 +45,9 @@ void EnemyAttackSphere::SetPhysXComp(const float4& _PhysXScale, const float4& _P
 
 void EnemyAttackSphere::Update(float _DeltaTime)
 {
+	if (CheckCollision(PhysXFilterGroup::Ground)|| CheckCollision(PhysXFilterGroup::Obstacle) || GetLiveTime()>3.f)
+	{
+		Death();
+	}
 	AttackBase::Update(_DeltaTime);
 }

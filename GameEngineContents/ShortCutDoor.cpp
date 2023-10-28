@@ -1,20 +1,16 @@
 #include "PrecompileHeader.h"
-#include "Frog_Lever.h"
-#include <GameEngineCore/GameEngineFBXAnimation.h>
-
+#include "ShortCutDoor.h"
 #include "PhysXBoxComponent.h"
-#include "ContentFBXRenderer.h"
 
-
-Frog_Lever::Frog_Lever()
+ShortCutDoor::ShortCutDoor() 
 {
 }
 
-Frog_Lever::~Frog_Lever()
+ShortCutDoor::~ShortCutDoor() 
 {
 }
 
-void Frog_Lever::Start()
+void ShortCutDoor::Start()
 {
 	TriggerBase::Start();
 	InitAnimation();
@@ -22,16 +18,14 @@ void Frog_Lever::Start()
 	SetFSMFUNC();
 }
 
-void Frog_Lever::Update(float _DeltaTime)
+void ShortCutDoor::Update(float _DeltaTime)
 {
 	TriggerBase::Update(_DeltaTime);
 }
 
-void Frog_Lever::InitComponent()
+void ShortCutDoor::InitComponent()
 {
-
 	float4 MeshScale = m_pRenderer->GetMeshScale();
-	MeshScale *= 100.0f;
 
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
@@ -39,27 +33,28 @@ void Frog_Lever::InitComponent()
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
 
 	MeshScale.y = 10.f;
-	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, MeshScale* 3.f,float4(0,50,0));
+	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, MeshScale * 3.f, float4(0, 50, 0));
 	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
 	m_pPhysXComponent->AttachShape();
 }
-void Frog_Lever::InitAnimation()
+
+void ShortCutDoor::InitAnimation()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->GetTransform()->SetLocalScale(float4{ 100, 100, 100 });
-	m_pRenderer->SetFBXMesh("LEVER_MESH.FBX", "ContentAniMeshDeffered");
-	m_pRenderer->CreateFBXAnimation("LEVER_OPEN", "LEVER_OPEN (1).FBX", { 1.f / 30.f, false });
-	m_pRenderer->ChangeAnimation("LEVER_OPEN"); // 처음엔 0으로 고정으로 쓰기로 한듯?
+	m_pRenderer->SetFBXMesh("SHORTCUTDOOR_MESH.FBX", "ContentAniMeshDeffered");
+	m_pRenderer->CreateFBXAnimation("DROP", "SHORTCUTDOOR_DROP.FBX", { 1.f / 30.f, false });
+	m_pRenderer->CreateFBXAnimation("ROCKED", "SHORTCUTDOOR_ROCKED.FBX", { 1.f / 30.f, false });
+	m_pRenderer->CreateFBXAnimation("FLOOR", "SHORTCUTDOOR_FLOOR.FBX", { 1.f / 30.f, false });
+	m_pRenderer->CreateFBXAnimation("OPEN_Inward", "SHORTCUTDOOR_OPEN_INWARD.FBX", { 1.f / 30.f, false });
+	m_pRenderer->CreateFBXAnimation("OPEN_STILL", "SHORTCUTDOOR_OPEN_STILL.FBX", { 1.f / 30.f, false });
+	m_pRenderer->CreateFBXAnimation("CLOSE_FROM_INWARD", "SHORTCUTDOOR_CLOSE_FROM_INWARD.FBX", { 1.f / 30.f, false });
+	m_pRenderer->ChangeAnimation("FLOOR"); 
 
 
-
-	m_pRenderer->SetAnimationStartFunc("LEVER_OPEN", 0, [this]
-		{
-			m_pRenderer->PauseOn();
-		});
 }
 
-void Frog_Lever::SetFSMFUNC()
+void ShortCutDoor::SetFSMFUNC()
 {
 	SetChangeFSMCallBack([this]
 		{
@@ -73,10 +68,10 @@ void Frog_Lever::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			if (true == TriggerKeyCheck())
+			if (true== IsPlayerInRange())
 			{
-				SetNextState(TriggerState::PROGRESS);
-			};
+				//e키 ui띄우기
+			}
 		},
 		[this]
 		{
@@ -86,28 +81,20 @@ void Frog_Lever::SetFSMFUNC()
 	SetFSM(TriggerState::PROGRESS,
 		[this]
 		{
-			m_pRenderer->PauseOff();
 		},
 		[this](float Delta)
 		{
-			if (m_pRenderer->IsAnimationEnd())
-			{
-				SetNextState(TriggerState::ON);
-			}
+			//문열리기
 		},
 		[this]
 		{
-			if (nullptr != m_TriggerFunc)
-			{
-				m_TriggerFunc();
-			}
 		}
 	);
 
 	SetFSM(TriggerState::ON,
 		[this]
 		{
-			m_pRenderer->PauseOn();
+			//문고정
 		},
 		[this](float Delta)
 		{

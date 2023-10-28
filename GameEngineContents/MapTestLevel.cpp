@@ -22,10 +22,11 @@
 
 
 //test 
+#include "Crate.h"
 #include "Mushroom.h"
 #include "SecretTile.h"
 #include "Ladder.h"
-#include "Crate.h"
+#include "ShortCutDoor.h"
 #include "Frog_Lever.h"
 #include "Frog_Septre.h"
 #include "PlayerAttackMagic.h"
@@ -103,8 +104,8 @@ void MapTestLevel::InitTestLevel()
 		std::shared_ptr<SecretTile> NewTile = CreateActor<SecretTile>();
 		NewTile->GetTransform()->SetLocalPosition(float4{ -400, 100 , 0 });
 
-		std::shared_ptr<Mushroom> NewCrate = GetLevel()->CreateActor<Mushroom>();
-		NewCrate->GetPhysXComponent()->SetWorldPosWithParent(float4{ 400, 0 , 0 });
+		std::shared_ptr<Crate> NewCrate = GetLevel()->CreateActor<Crate>();
+		//NewCrate->GetPhysXComponent()->SetWorldPosWithParent(float4{ 400, 0 , 0 });
 
 		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
 		NewLadder->GetTransform()->SetWorldPosition(float4{ 800, 0 , 0 });
@@ -112,14 +113,13 @@ void MapTestLevel::InitTestLevel()
 		NewLadder->SetHeight(4);
 		
 
-		 std::shared_ptr<Frog_Septre> Lever = CreateActor<Frog_Septre>();
+		 std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
 		 Lever->SetTriggerFunction([=]
 			{
 					NewLadder->SetHidden(false);
 			}
 		 );
-		Lever->GetTransform()->SetLocalPosition(float4{ 0, 0, -1000 });
-		Lever->GetTransform()->SetLocalRotation(float4{ 0, -90 , 0 });
+		Lever->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0, 0, -1000 },float4(0,90,0));
 
 		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
 		std::shared_ptr<Player> Obj = CreateActor<Player>();
