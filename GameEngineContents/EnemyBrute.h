@@ -43,5 +43,4 @@ private:
 	EnemyBruteState m_ePrevState = EnemyBruteState::MAX;
 
 	int m_iFullHP = 15;
-	float m_fDeathTime = 0.f;
 };
