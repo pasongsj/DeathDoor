@@ -116,6 +116,7 @@ private:
 	// Component
 		// Render
 	std::shared_ptr<ContentFBXRenderer> Renderer = nullptr;
+	std::shared_ptr<GameEngineComponent> BonePivot = nullptr;
 		//physx
 	std::shared_ptr<class PhysXControllerComponent> m_pCapsuleComp = nullptr;
 	//	//Range

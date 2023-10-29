@@ -147,6 +147,28 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta) // update
 		{
+			float4 SkillPos;
+
+			switch (CurSkill)
+			{
+			case Player::PlayerSkill::ARROW:
+				SkillPos = GetBonePos("Weapon_L");
+				break;
+			case Player::PlayerSkill::MAGIC:
+				SkillPos = GetBonePos("Weapon_R");
+				break;
+			case Player::PlayerSkill::BOMB:
+				SkillPos = (GetBonePos("Weapon_R") + GetBonePos("Weapon_L")) * 0.5f/*+ float4{0.0f, 10.0f,0.0f}*/;
+				break;
+			case Player::PlayerSkill::HOOK:
+				SkillPos = GetBonePos("Weapon_R");
+				break;
+			case Player::PlayerSkill::MAX:
+				break;
+			default:
+				break;
+			}
+
 			//StateDuration += Delta;
 			if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
 			{
@@ -157,27 +179,7 @@ void Player::SetFSMFunc()
 				}
 				// 마우스 방향을 바라보도록 함
 				MoveDir = GetMousDirection();
-				float4 SkillPos;
-
-				switch (CurSkill)
-				{
-				case Player::PlayerSkill::ARROW:
-					SkillPos = GetBonePos("Weapon_L");
-					break;
-				case Player::PlayerSkill::MAGIC:
-					SkillPos = GetBonePos("Weapon_R");
-					break;
-				case Player::PlayerSkill::BOMB:
-					SkillPos = (GetBonePos("Weapon_R") + GetBonePos("Weapon_L")) * 0.5f/*+ float4{0.0f, 10.0f,0.0f}*/;
-					break;
-				case Player::PlayerSkill::HOOK:
-					SkillPos = GetBonePos("Weapon_R");
-					break;
-				case Player::PlayerSkill::MAX:
-					break;
-				default:
-					break;
-				}
+				
 				if (nullptr != AttackActor)
 				{
 					AttackActor->SetTrans(ForwardDir, SkillPos); // 터짐
@@ -187,6 +189,7 @@ void Player::SetFSMFunc()
 			{
 				if (nullptr != AttackActor)
 				{
+					AttackActor->SetTrans(ForwardDir, SkillPos); // 터짐
 					AttackActor->SetShoot();
 					AttackActor = nullptr;
 				}

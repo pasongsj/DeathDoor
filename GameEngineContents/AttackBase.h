@@ -65,6 +65,7 @@ protected:
 	virtual void SetShoot(float _Speed = 1500.0f)
 	{
 		SetShootSpeed(_Speed);
+		ResetLiveTime();
 		isShoot = true;
 	}
 
