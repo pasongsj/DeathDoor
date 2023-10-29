@@ -146,30 +146,10 @@ void Boss_OldCrow::SetRandomPattern()
 	CurrentPatternNum = 0;
 
 	//Test용 스테이트 세팅 
-	PatternNum = 5;
-	RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
+	//PatternNum = 5;
+	//RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
 
 	SetNextState(RandomState);
-
-
-	/*switch (RandomPattern)
-	{
-	case Boss_OldCrow::Boss_OldCrowPattern::PATTERN1:
-		break;
-	case Boss_OldCrow::Boss_OldCrowPattern::PATTERN2:
-		break;
-	case Boss_OldCrow::Boss_OldCrowPattern::PATTERN3:
-		break;
-	case Boss_OldCrow::Boss_OldCrowPattern::PATTERN4:
-		break;
-	case Boss_OldCrow::Boss_OldCrowPattern::PATTERN5:
-		break;
-	case Boss_OldCrow::Boss_OldCrowPattern::PATTERN6:
-		break;
-	default:
-		MsgAssert("불가능한 보스 패턴입니다.");
-		break;
-	}*/
 }
 
 void Boss_OldCrow::SetNextPatternState()
