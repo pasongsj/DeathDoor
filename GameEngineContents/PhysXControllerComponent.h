@@ -27,6 +27,14 @@ public:
 		return float4(static_cast<float>(m_pController->getFootPosition().x), static_cast<float>(m_pController->getFootPosition().y), static_cast<float>(m_pController->getFootPosition().z));
 	}
 
+	void SetSlope(float _Deg)
+	{
+		float Deg = 0.f;
+		Deg = cosf((_Deg * GameEngineMath::DegToRad));
+
+		m_pController->setSlopeLimit(Deg);
+	}
+
 	void SetRotation(float4 _Rot)
 	{
 		ParentActor.lock()->GetTransform()->SetWorldRotation(_Rot);	
