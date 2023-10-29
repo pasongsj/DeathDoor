@@ -40,11 +40,6 @@ void GameEngineLevel::LevelCameraInit()
 	{
 		LastTarget = GameEngineRenderTarget::CreateDummy();
 	}
-
-	if (nullptr == FXAATarget)
-	{
-		FXAATarget = GameEngineRenderTarget::CreateDummy();
-	}
 }
 
 GameEngineLevel::~GameEngineLevel()
@@ -355,17 +350,10 @@ void GameEngineLevel::Render(float _DeltaTime)
 		LastTarget->Merge(Target);
 	}
 
+	LastTarget->Setting();
 	LastTarget->Effect(_DeltaTime);
 
-	LastTarget->Setting();
-
-	FXAATarget->Clear();
-	FXAATarget->Setting();
-	
-	
-	FXAAUnit.Render(0.0f);
-
-	GameEngineDevice::GetBackBufferTarget()->Merge(FXAATarget);
+	GameEngineDevice::GetBackBufferTarget()->Merge(LastTarget);
 
 	static bool GUIRender = true;
 
@@ -495,11 +483,6 @@ void GameEngineLevel::InitLevelRenderTarget()
 	}
 
 	LastTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-
-	FXAATarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	FXAAUnit.SetMesh("FullRect");
-	FXAAUnit.SetMaterial("FXAA");
-	FXAAUnit.ShaderResHelper.SetTexture("ScreenTexture", LastTarget->GetTexture(0));
 	
 }
 
@@ -512,10 +495,6 @@ void GameEngineLevel::ReleaseLevelRenderTarget()
 	}
 
 	LastTarget->ReleaseTexture();
-
-	FXAATarget->ReleaseTexture();
-
-	FXAAUnit.ShaderResHelper.ReleaseAllSetter();
 }
 
 void GameEngineLevel::AllActorDestroy()
@@ -550,8 +529,10 @@ void GameEngineLevel::DestroyCamera()
 	for (std::pair<int, std::shared_ptr<GameEngineCamera>> _Cam : Cameras)
 	{
 		_Cam.second->Renderers.clear();
+		_Cam.second->AllRenderTarget->ReleaseAllEffect();
 		_Cam.second->ReleaseCameraRenderTarget();
 	}
+	LastTarget->ReleaseAllEffect();
 	Cameras.clear();
 }
 

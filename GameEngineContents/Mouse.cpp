@@ -2,6 +2,7 @@
 #include "Mouse.h"
 #include "ContentFBXUIRenderer.h"
 #include "ContentFBXRenderer.h"
+#include "Player.h"
 
 Mouse::Mouse()
 {
@@ -13,21 +14,12 @@ Mouse::~Mouse()
 
 void Mouse::Start()
 {
+#ifdef _DEBUG
+#else
 	ShowCursor(false);
-
+#endif
 	MousePivot = CreateComponent<GameEngineComponent>();
 	MousePivot->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0.0f });
-
-	Player = CreateComponent<ContentFBXRenderer>();
-	Player->SetFBXMesh("sphere.fbx", "ContentMesh");
-	Player->GetTransform()->SetLocalPosition({ 100, 200 });
-	Player->GetTransform()->SetLocalScale({30.0f, 30.0f, 30.0f});
-	
-	std::shared_ptr<GameEngineCollision> New = CreateComponent<GameEngineCollision>();
-	New->GetTransform()->SetLocalPosition({ 100, 200 });
-	New->GetTransform()->SetLocalScale({ 100.0f, 100.0f, 100.0f });
-	New->SetColType(ColType::AABBBOX3D);
-	New->SetOrder(1);
 
 	Ray = CreateComponent<GameEngineCollision>();
 	Ray->GetTransform()->SetLocalPosition({ 0, 0 });
@@ -36,7 +28,7 @@ void Mouse::Start()
 	Ray->SetOrder(2);
 
 	MouseCursor = CreateComponent<ContentFBXUIRenderer>();
-	MouseCursor->SetFBXMesh("Mouse.FBX", "ContentMesh");
+	MouseCursor->SetFBXMesh("Mouse.FBX", "ContentMeshForward");
 	MouseCursor->GetTransform()->SetLocalScale({ 30, 30, 30 });
 	MouseCursor->GetTransform()->SetParent(MousePivot->GetTransform());
 
@@ -124,7 +116,7 @@ void Mouse::RayCasting()
 
 void Mouse::MouseRotationUpdate()
 {
-	float4 PlayerPos = Player->GetTransform()->GetWorldPosition();
+	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 
 	float4 ScreenSize = GameEngineWindow::GetScreenSize();
 	float4 ScreenMousePos = GameEngineWindow::GetMousePosition();
@@ -147,7 +139,8 @@ void Mouse::MouseRotationUpdate()
 
 	float4 PlayerDecartPos = { PlayerScreenPos.x - ScreenSize.hx(), ScreenSize.hy() - PlayerScreenPos.y };
 	float4 PlayerToMouseDir = DecartMousePos - PlayerDecartPos;
-
+	PlayerToMouseDir.z = 0;
+	PlayerToMouseDir.RotationAllDeg(Camera->GetTransform()->GetWorldRotation());
 	PlayerToMouseDir.Normalize();
 
 	float Cos_ZRotAngle = PlayerToMouseDir.x;

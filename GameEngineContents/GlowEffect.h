@@ -21,16 +21,18 @@ public:
 
 	std::shared_ptr<GameEngineRenderTarget> DetectMaskTarget = nullptr;
 	std::shared_ptr<GameEngineRenderTarget> BlurTarget = nullptr;
+	std::shared_ptr<GameEngineRenderTarget> DoubleBlurTarget = nullptr;
 
-	void SetIntensity(float _Intensity)
+	//x는 DiffuseColor, y는 DiffuseLight, z는 SpecularLight, w는 AmbientLight
+	void SetIntensity(float4 _Intensity)
 	{
-		Intensity.x = _Intensity;
-		Intensity.y = _Intensity;
-		Intensity.z = _Intensity;
-		Intensity.w = _Intensity;
+		Intensity.x = _Intensity.x;
+		Intensity.y = _Intensity.y;
+		Intensity.z = _Intensity.z;
+		Intensity.w = _Intensity.w;
 	}
 
-	void Init(std::weak_ptr<GameEngineLevel> _Level, float _Intensity)
+	void Init(std::weak_ptr<GameEngineLevel> _Level, float4 _Intensity)
 	{
 		SetLevel(_Level);
 		SetIntensity(_Intensity);
@@ -46,8 +48,11 @@ private:
 	GameEngineRenderUnit DetectMaskUnit;
 	GameEngineRenderUnit BlurMergeUnit;
 	GameEngineRenderUnit BlurUnit;
+	GameEngineRenderUnit DoubleBlurUnit;
 	GameEngineRenderUnit ColorMerge;
 
-	float4 Intensity = { 0.0f, 0.0f };
+	float4 Intensity = { 1.0f, 1.0f, 1.0f, 1.0f };
+	float4 BlurSize = { 1600.0f, 900.0f };
+	float4 DoubleBlurSize = { 1600.0f, 900.0f };
 };
 

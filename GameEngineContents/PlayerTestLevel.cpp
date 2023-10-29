@@ -16,25 +16,30 @@ PlayerTestLevel::~PlayerTestLevel()
 
 void PlayerTestLevel::Start()
 {
-	CreateScene();
 }
 
 void PlayerTestLevel::Update(float _DeltaTime)
 {
+	int  a = 0;
 }
 
 
 void PlayerTestLevel::LevelChangeStart()
 {
+	CreateScene();
+
 	CreateActor<GameEngineLight>();
 
-	GetMainCamera()->SetProjectionType(CameraType::Perspective);
+	//LevelInit(); 
+	//CreateUI();
 
-	//GetMainCamera()->GetTransform()->SetLocalRotation({ 0.0f, 0.0f, 0 });
+	CreateIMGUIDebugRenderTarget();
+	SetPostPrecessEffect();
+
+	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
 
 	CreateActor<MonsterAnimationTest>();
-	//CreateActor<EnemyFirePlant>();
 }
 
 void PlayerTestLevel::LevelChangeEnd()

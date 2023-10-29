@@ -1501,9 +1501,9 @@ bool GameEngineFBXMesh::ImportBone()
 			Bone& Bone = AllBones[static_cast<int>(LinkIndex)];
 			Bone.Name = GameEngineString::ToUpper(Link->GetName());
 
-			if (false == AllFindMap.contains(Link->GetName()))
+			if (false == AllFindMap.contains(Bone.Name))
 			{
-				AllFindMap[Link->GetName()] = &Bone;
+				AllFindMap[Bone.Name] = &Bone;
 			}
 
 			JointPos& BonePosData = Bone.BonePos;
@@ -1944,7 +1944,7 @@ void GameEngineFBXMesh::BuildSkeletonSystem(fbxsdk::FbxScene* pScene, std::vecto
 void GameEngineFBXMesh::CreateGameEngineStructuredBuffer()
 {
 	AllBoneStructuredBuffers = std::make_shared<GameEngineStructuredBuffer>();
-	AllBoneStructuredBuffers->CreateResize(sizeof(float4x4), static_cast<int>(AllBones.size()), nullptr);
+	AllBoneStructuredBuffers->CreateResize(sizeof(float4x4), static_cast<int>(AllBones.size()), StructuredBufferType::SRV_ONLY, nullptr);
 }
 
 std::shared_ptr<GameEngineStructuredBuffer> GameEngineFBXMesh::GetAnimationStructuredBuffer()

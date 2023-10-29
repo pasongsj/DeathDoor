@@ -31,29 +31,21 @@ float4 Fading(Texture2D _MaskTexture, SamplerState _Sampler, float2 _UV)
         clip(-1);
     }
     
-    float2 UVsize = (1.0f / 1600.0f, 1.0f / 900.0f);
-    
-    float2 BaseUV = _UV;
-    float2 StartUV = float2(BaseUV.x - 2.0f * UVsize.x, BaseUV.y - 2.0f * UVsize.y);
-    float2 CurUV = StartUV;
-    
-    for (int i = 0; i < 5; i++)
-    {
-        for (int j = 0; j < 5; j++)
-        {
-            float4 CurFliterColor = _MaskTexture.Sample(_Sampler, CurUV);
-            
-            if (CurFliterColor.r <= Delta)
-            {
-                Color.rgb = float3(1.0f, 0.0f, 1.0f);
-                break;
-            }
-    
-            CurUV += float2(UVsize.x, 0);
-        }
-    
-        CurUV = float2(StartUV.x, StartUV.y + (i + 1) * UVsize.y);
-    }
-    
     return Color;
+}
+
+float4 NormalTexCalculate(Texture2D NormalTex, SamplerState Smp, float4 UV, float4 _Tangent, float4 _BiNormal, float4 _Normal)
+{
+    float4 TexNormal = NormalTex.Sample(Smp, UV.xy);
+    
+    TexNormal = TexNormal * 2.0f - 1.0f;
+    TexNormal.w = 0.0f;
+    TexNormal = normalize(TexNormal);
+    
+    float4 Result = (float4) 0.0f;
+        
+    float3x3 TangentSpace = float3x3(_Tangent.xyz, _BiNormal.xyz, _Normal.xyz);
+    Result.xyz = mul(TexNormal.xyz, TangentSpace);
+    
+    return Result;
 }

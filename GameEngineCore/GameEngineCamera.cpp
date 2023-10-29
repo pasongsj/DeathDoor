@@ -109,6 +109,7 @@ void GameEngineCamera::InitCameraRenderTarget()
 
 	CalLightUnit.ShaderResHelper.SetTexture("PositionTex", AllRenderTarget->GetTexture(2));
 	CalLightUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));
+	CalLightUnit.ShaderResHelper.SetTexture("DiffuseColor", AllRenderTarget->GetTexture(1));
 
 	LightPostUnit.SetMesh("FullRect");
 	LightPostUnit.SetMaterial("DeferredPostLight");
@@ -324,7 +325,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 	AllRenderTarget->Setting();
 	DeferredLightTarget->Clear();
-
+	
 	{
 		for (std::pair<const RenderPath, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>& Path : Units)
 		{
@@ -356,13 +357,26 @@ void GameEngineCamera::Render(float _DeltaTime)
 					{
 						continue;
 					}
-					std::shared_ptr<GameEngineFBXRenderer> FbxRenderer = Render->GetRenderer()->DynamicThis<GameEngineFBXRenderer>();
-					if (FbxRenderer !=nullptr && Render->GetUnitPos()!= float4::ZERONULL)					{
-						if (false == IsView(Render->GetUnitPos(), Render->GetUnitScale()))
-						{
-							continue;
-						}						
+
+					if (true == Render->isReflectUnit())
+					{
+						SetViewToReflectMatrix(GetLevel()->GetWaterHeight());
+
+						Render->GetRenderer()->RenderTransformUpdate(this);
+						Render->Render(_DeltaTime);
+
+						RevertView();
+
+						continue;
 					}
+
+					//std::shared_ptr<GameEngineFBXRenderer> FbxRenderer = Render->GetRenderer()->DynamicThis<GameEngineFBXRenderer>();
+					//if (FbxRenderer !=nullptr && Render->GetUnitPos()!= float4::ZERONULL)					{
+					//	if (false == IsView(Render->GetUnitPos(), Render->GetUnitScale()))
+					//	{
+					//		continue;
+					//	}						
+					//}
 
 					Render->Render(_DeltaTime);
 				}
@@ -423,6 +437,8 @@ void GameEngineCamera::Render(float _DeltaTime)
 			}
 		}
 
+		AllRenderTarget->Effect(_DeltaTime);
+
 		GameEngineRenderTarget::Reset();
 		
 		DeferredLightTarget->Setting();
@@ -440,14 +456,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 		// 한번 빛을 수정하고 들어갈 것이다.
 		DeferredLightTarget->Effect(_DeltaTime);
 
-		DeferredPostLightTarget->Clear();
-		DeferredPostLightTarget->Setting();
-		LightPostUnit.Render(_DeltaTime);
-
-		CamDeferrdTarget->Clear();
-		CamDeferrdTarget->Setting();
-		DefferdMergeUnit.Render(_DeltaTime);
-
 		CamForwardTarget->Clear();
 		CamForwardTarget->Merge(AllRenderTarget, 0);
 
@@ -456,10 +464,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 		CamTarget->Clear();
 		CamTarget->Merge(CamForwardTarget);
-		CamTarget->Merge(CamDeferrdTarget);
+		CamTarget->Merge(DeferredLightTarget);
 		CamTarget->Merge(CamAlphaTarget);
-	}
 
+		CamTarget->Effect(_DeltaTime);
+	}
 }
 
 void GameEngineCamera::CameraTransformUpdate()
@@ -482,11 +491,11 @@ void GameEngineCamera::CameraTransformUpdate()
 	{
 		Projection.PerspectiveFovLH(FOV, Width / Height, Near, Far);
 
-		float4 Dir = GetTransform()->GetLocalForwardVector();
-		float4 WorldPos = GetTransform()->GetWorldPosition();
+		//float4 Dir = GetTransform()->GetLocalForwardVector();
+		//float4 WorldPos = GetTransform()->GetWorldPosition();
 		//WorldPos.y = -WorldPos.y;
-		Frustum.CreateFromMatrix(Frustum,Projection);
-		Frustum.Origin = (WorldPos).DirectFloat3;
+		//Frustum.CreateFromMatrix(Frustum,Projection);
+		//Frustum.Origin = (WorldPos).DirectFloat3;
 		//Frustum.Near = Near;
 		//Frustum.Far = Far;
 		//Frustum.LeftSlope = -(FOV * GameEngineMath::DegToRad) * 0.7f;
@@ -494,7 +503,7 @@ void GameEngineCamera::CameraTransformUpdate()
 		//Frustum.TopSlope = (FOV / (Width / Height) * GameEngineMath::DegToRad) * 0.7f;
 		//Frustum.BottomSlope = -(FOV / (Width / Height) * GameEngineMath::DegToRad) * 0.7f;
 
-		Frustum.Orientation = GetTransform()->GetWorldQuaternion().DirectFloat4;
+		//Frustum.Orientation = GetTransform()->GetWorldQuaternion().DirectFloat4;
 		break;
 	}
 	case CameraType::Orthogonal:
@@ -514,9 +523,37 @@ void GameEngineCamera::CameraTransformUpdate()
 	Box.Extents.x = Width * 0.6f;
 	Box.Extents.y = Height * 0.6f;
 	Box.Orientation = GetTransform()->GetWorldQuaternion().DirectFloat4;
-
 }
 
+void GameEngineCamera::SetViewToReflectMatrix(float _WaterHeight)
+{
+	// 뷰행렬을 만들기 위해서는 이 2개의 행렬이 필요하다.
+	ViewSave = View;
+	TransformSave = GetTransform()->GetTransDataRef();
+	
+	GetTransform()->SetWorldRotation({ -GetTransform()->GetWorldRotation().x, 0.0f, 0.0f});
+	GetTransform()->SetWorldPosition({ GetTransform()->GetWorldPosition().x, -GetTransform()->GetWorldPosition().y + 2.0f * _WaterHeight, GetTransform()->GetWorldPosition().z });
+
+	float4 EyeDir = GetTransform()->GetLocalForwardVector();
+	float4 EyeUp = GetTransform()->GetLocalUpVector();
+	float4 EyePos = GetTransform()->GetLocalPosition();
+
+	View.LookToLH(EyePos, EyeDir, EyeUp);
+
+	DirectX::XMMATRIX ReflectMatrix = DirectX::XMMatrixIdentity();
+	ReflectMatrix.r[1].m128_f32[1] = -1.0f;
+	
+	View *= ReflectMatrix;
+}
+
+void GameEngineCamera::RevertView()
+{
+	View = ViewSave;
+
+	GetTransform()->SetLocalRotation(TransformSave.WorldRotation);
+	GetTransform()->SetWorldPosition(TransformSave.WorldPosition);
+
+}
 
 void GameEngineCamera::PushRenderer(std::shared_ptr<GameEngineRenderer> _Render)
 {

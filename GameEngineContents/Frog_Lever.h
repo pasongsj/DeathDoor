@@ -1,16 +1,10 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "TriggerBase.h"
 
-enum class LeverState
-{
-	CLOSE,
-	OPEN,
-	OPEND,
-};
 
 
 // Ό³Έν :
-class Frog_Lever : public GameEngineActor
+class Frog_Lever :  public TriggerBase
 {
 public:
 	// constrcuter destructer
@@ -23,33 +17,16 @@ public:
 	Frog_Lever& operator=(const Frog_Lever& _Other) = delete;
 	Frog_Lever& operator=(Frog_Lever&& _Other) noexcept = delete;
 
-	inline std::shared_ptr<class PhysXBoxComponent> GetPhysXComponent() const
-	{
-		return m_pPhysXComponent;
-	}
 
-	inline std::shared_ptr<class PhysXBoxComponent> GetTriggerComponent() const
-	{
-		return m_pPhysXTriggerComponent;
-	}
-
-	inline void SetState(LeverState _State)
-	{
-		m_eState = _State;
-	}
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+	void InitComponent() override;
+	void InitAnimation();
+
 private:
-	void InitComponent();
+	void SetFSMFUNC();
 
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
-	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
-	std::shared_ptr<class PhysXBoxComponent> m_pPhysXTriggerComponent = nullptr;
-
-	bool m_bIsOpen = false;
-
-	LeverState m_eState = LeverState::CLOSE;
 };

@@ -41,7 +41,7 @@ void TestLevel::Start()
 
 	}
 
-	CreateActor<TestObject>();
+	//CreateActor<TestObject>();
 	CreateActor<GameEngineLight>();
 }
 

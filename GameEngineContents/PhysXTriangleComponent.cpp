@@ -86,9 +86,8 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool
 		//shape_->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
 
 		//충돌할때 필요한 필터 데이터
-		//충돌할때 필요한 필터 데이터
 		
-		SetFilterData(PhysXFilterGroup::Ground, PhysXFilterGroup::PlayerDynamic);		
+		SetFilterData(PhysXFilterGroup::Ground);		
 	}
 
 

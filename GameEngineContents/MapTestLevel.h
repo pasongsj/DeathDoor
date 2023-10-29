@@ -1,16 +1,16 @@
 #pragma once
-#include "PhysXLevel.h"
+#include "ContentLevel.h"
 
 enum class TestMapType
 {
 	Office,
-	BigCrow_Floor,
+	OldCrowFloor,
 	None,
 };
 
 
 // Ό³Έν :
-class MapTestLevel : public PhysXLevel
+class MapTestLevel : public ContentLevel
 {
 public:
 	// constrcuter destructer

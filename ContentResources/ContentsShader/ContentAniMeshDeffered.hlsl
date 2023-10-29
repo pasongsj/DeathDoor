@@ -66,11 +66,10 @@ struct DeferredOutPut
     float4 BlurTarget : SV_Target7;
 };
 
-cbuffer BlurColor : register(b1)
+cbuffer BlurColor : register(b7)
 {
     float4 BlurColor;
 }
-
 
 DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
 {
@@ -80,17 +79,31 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
     
     float4 MaskColor = (float4) 0.0f;
     
+    Color *= MulColor;
+    Color += AddColor;
+    
+    float4 DiffuseBlurColor = (float4) 0.0f;
+    
+    if(BlurColor.a < 0.0f)
+    {
+        DiffuseBlurColor = Color;
+    }
+    else
+    {
+        DiffuseBlurColor = BlurColor;
+    }
+    
     //Crack
     if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
     {
         MaskColor = CrackTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
         
-        float3 f3_BlurColor = BlurColor.rgb;
-        
         if (MaskColor.a > 0.0f)
-        {            
-            NewOutPut.BlurTarget = float4(f3_BlurColor, 1.0f);
+        {
+            NewOutPut.BlurTarget = float4(DiffuseBlurColor.rgb, Color.a);
             Color = NewOutPut.BlurTarget;
+            
+            NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);
         }
     }
     
@@ -99,18 +112,27 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
         clip(-1);
     }
     
+    
     //Fade
-    if (Delta > 0.0f)
+    float4 FadeMask = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+
+    if (Delta > 0.0f && FadeMask.r <= Delta)
     {
-        NewOutPut.BlurTarget *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
-        Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
+        clip(-1);
     }
     
-    NewOutPut.DifTarget = Color;
+    if (FadeMask.r > Delta && FadeMask.r <= Delta * 1.1f)
+    {
+        Color = float4(DiffuseBlurColor * 3.0f);
+    }
+
+    
+    NewOutPut.DifTarget = pow(Color, 2.2f);
     NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;
     NewOutPut.NorTarget = _Input.NORMAL;
     
     return NewOutPut;
  }
+
 

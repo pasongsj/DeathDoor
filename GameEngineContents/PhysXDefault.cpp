@@ -93,7 +93,10 @@ float4 PhysXDefault::GetWorldPosition()
     {
         return float4(m_pRigidStatic->getGlobalPose().p.x, m_pRigidStatic->getGlobalPose().p.y, m_pRigidStatic->getGlobalPose().p.z);
     }
-    
+    else
+    {
+        return float4::ZERONULL;
+    }    
 }
 
 float4 PhysXDefault::GetQuaternionEulerAngles(float4 rot)
@@ -222,7 +225,7 @@ void PhysXDefault::DeathAndRelease()
     }
 }
 
-void PhysXDefault::Release()
+void PhysXDefault::PhysXRelease()
 {
     if (m_pRigidDynamic != nullptr && m_pRigidDynamic->isReleasable())
     {
@@ -236,18 +239,91 @@ void PhysXDefault::Release()
         m_pRigidStatic->release();
         m_pRigidStatic = nullptr;
     }
+    if (m_pController != nullptr)
+    {
+        if (m_pScene->userData != nullptr)
+        {
+            m_pController->release();
+        }
+
+        m_pShape->userData = nullptr;
+        m_pController = nullptr;
+    }
 }
 
-void PhysXDefault::SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0, PhysXFilterGroup _OtherFilter1, PhysXFilterGroup _OtherFilter2)
+void PhysXDefault::SetFilterData(PhysXFilterGroup _ThisFilter)
 {
     m_pShape->setSimulationFilterData
     (
         physx::PxFilterData
         (
             static_cast<physx::PxU32>(_ThisFilter),
-            static_cast<physx::PxU32>(_OtherFilter0),
-            static_cast<physx::PxU32>(_OtherFilter1),
-            static_cast<physx::PxU32>(_OtherFilter2)
+            0,
+            0,
+            0
         )
     );
+}
+
+void PhysXDefault::SetRigidCollide(bool _Value)
+{
+    m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, _Value);
+}
+
+void PhysXDefault::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos)
+{
+	switch (_Type)
+	{
+	case SubShapeType::BOX:
+	{
+		//m_pSubShape =GetPhysics()->createShape(physx::PxBoxGeometry(_Scale.half().PhysXVec3Return()), *m_pMaterial);
+		physx::PxShape* m_pSubShape = GetPhysics()->createShape(physx::PxBoxGeometry(_Scale.half().PhysXVec3Return()), *m_pMaterial);
+
+		//m_pController->getActor()->attachShape(*m_pSubShape);
+
+		m_pSubShape->setLocalPose(physx::PxTransform(_LocalPos.PhysXVec3Return()/*, physx::PxQuat(physx::PxHalfPi, float4(0, 0, 1).PhysXVec3Return())*/));
+
+		m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+		m_pSubShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+        m_pSubShape->userData = ParentActor.lock().get();
+		m_pSubShape->setSimulationFilterData
+		(
+			physx::PxFilterData
+			(
+				static_cast<physx::PxU32>(PhysXFilterGroup::MonsterSkill),
+				0,
+				0,
+				0
+			)
+		);
+        m_vecSubShape.push_back(m_pSubShape);
+	}
+	break;
+	case SubShapeType::SPHERE:
+	{
+        physx::PxShape* m_pSubShape = GetPhysics()->createShape(physx::PxSphereGeometry(_Scale.half().PhysXVec3Return().y), *m_pMaterial);
+
+
+		m_pSubShape->setLocalPose(physx::PxTransform(_LocalPos.PhysXVec3Return(), physx::PxQuat(physx::PxHalfPi, float4(0, 0, 1).PhysXVec3Return())));
+
+		m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+		m_pSubShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+        m_pSubShape->userData = ParentActor.lock().get();
+        m_pSubShape->setSimulationFilterData
+		(
+			physx::PxFilterData
+			(
+				static_cast<physx::PxU32>(PhysXFilterGroup::MonsterSkill),
+				0,
+				0,
+				0
+			)
+		);
+        m_vecSubShape.push_back(m_pSubShape);
+	}
+	break;
+	default:
+		break;
+
+	}
 }

@@ -8,9 +8,34 @@
 #include "GameEngineMaterial.h"
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
+#include "GameEngineComputeShader.h"
+#include "GameEngineGeometryShader.h"
 #include "GameEngineShaderResHelper.h"
 #include "GameEngineMesh.h"
 #include "GameEngineInputLayOut.h"
+
+void GameEngineComputeUnit::Execute()
+{
+	ShaderResHelper.ComputeSetting();
+
+	// ShaderResHelper.Setting();
+	ComputeShader->Setting();
+	GameEngineDevice::GetContext()->Dispatch(m_iGroupX, m_iGroupY, m_iGroupZ);
+	ShaderResHelper.AllResourcesReset();
+}
+
+void GameEngineComputeUnit::SetComputeShader(const std::string_view& _Name)
+{
+	ComputeShader = GameEngineComputeShader::Find(_Name);
+
+	if (nullptr == ComputeShader)
+	{
+		MsgAssert(std::string(_Name) + "존재하지 않는 컴퓨트 쉐이더를 세팅하려고 했습니다");
+	}
+
+	const GameEngineShaderResHelper& Res = ComputeShader->GetShaderResHelper();
+	ShaderResHelper.Copy(Res);
+}
 
 GameEngineRenderUnit::GameEngineRenderUnit()
 {
@@ -68,6 +93,14 @@ void GameEngineRenderUnit::SetMaterial(const std::string_view& _Name, RenderPath
 		const GameEngineShaderResHelper& Res = Material->GetPixelShader()->GetShaderResHelper();
 		ShaderResHelper.Copy(Res);
 	}
+
+	
+	if (nullptr != Material->GetGeometryShader())
+	{
+		const GameEngineShaderResHelper& Res = Material->GetGeometryShader()->GetShaderResHelper();
+		ShaderResHelper.Copy(Res);
+	}
+	
 
 	if (false == InputLayOutPtr->IsCreate() && nullptr != Mesh)
 	{
@@ -171,6 +204,12 @@ void GameEngineRenderUnit::Draw()
 	GameEngineDevice::GetContext()->DrawIndexed(IndexCount, 0, 0);
 }
 
+void GameEngineRenderUnit::DrawParticle(int _Count)
+{
+	UINT IndexCount = Mesh->IndexBufferPtr->GetIndexCount();
+	GameEngineDevice::GetContext()->DrawIndexedInstanced(IndexCount, _Count, 0, 0, 0);
+}
+
 void GameEngineRenderUnit::ShadowOn()
 {
 	IsShadow = true;
@@ -191,13 +230,28 @@ void GameEngineRenderUnit::Render(float _DeltaTime)
 		return;
 	}
 
-	Setting();
-	Draw();
+	switch (RenderModeValue)
+	{
+	case RenderMode::Base:
+		Setting();
+		Draw();
+		break;
+	case RenderMode::Particle:
+		Setting();
+		DrawParticle(InstanceCount);
+		GameEngineDevice::GetContext()->GSSetShader(nullptr, nullptr, 0);
+		break;
+	default:
+		break;
+	}
+
+	ShaderResHelper.AllResourcesReset();
 }
 
 GameEngineRenderer::GameEngineRenderer()
 {
-	BaseValue.ScreenScale = GameEngineWindow::GetScreenSize();
+	BaseValue.ScreenScale = GameEngineWindow::GetScreenSize();	
+	BaseValue.NoiseResolution = { 1024, 1024 };
 }
 
 GameEngineRenderer::~GameEngineRenderer()

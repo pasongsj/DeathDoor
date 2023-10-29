@@ -18,6 +18,7 @@ public:
 	{
 		UVData = _Data;
 	}
+	std::shared_ptr<GameEngineRenderUnit> Unit;
 
 protected:
 	void Start() override;

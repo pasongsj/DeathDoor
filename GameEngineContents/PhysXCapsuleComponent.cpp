@@ -13,23 +13,29 @@ PhysXCapsuleComponent::~PhysXCapsuleComponent()
 
 void PhysXCapsuleComponent::CreatePhysXActors(float4 _GeoMetryScale, float4 _GeoMetryRotation, bool _Static)
 {
+	
 	CreatePhysXActors(_GeoMetryScale.PhysXVec3Return(), _GeoMetryRotation, _Static);
 }
 
 void PhysXCapsuleComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRotation, bool _Static/* = false*/)
 {
+	physx::PxVec3 v3Scale = _GeoMetryScale;
+
+	if (v3Scale.z >= v3Scale.y)
+	{
+		v3Scale.y = v3Scale.z + 1.f;
+	}
 	m_bStatic = _Static;
 	if (true == m_bStatic)
 	{
-		CreateStatic(_GeoMetryScale, _GeoMetryRotation);
+		CreateStatic(v3Scale, _GeoMetryRotation);
 	}
 	else
 	{
-		CreateDynamic(_GeoMetryScale, _GeoMetryRotation);		
+		CreateDynamic(v3Scale, _GeoMetryRotation);
 	}
 
-	GetTransform()->SetWorldScale(float4(_GeoMetryScale.x , _GeoMetryScale.y, _GeoMetryScale.z ));	
-	GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
+	GetTransform()->SetWorldScale(float4(v3Scale.z, v3Scale.y, v3Scale.z));
 }
 
 void PhysXCapsuleComponent::SetRotation(float4 _Rot)
@@ -116,12 +122,15 @@ void PhysXCapsuleComponent::Update(float _DeltaTime)
 	}
 	if (true == GetLevel()->GetDebugRender())
 	{
-		float4 ShapePos = float4(m_pShape->getLocalPose().p.x, m_pShape->getLocalPose().p.y, m_pShape->getLocalPose().p.z);
-		float4 ResultPos = ParentActor.lock()->GetTransform()->GetWorldPosition();
-		ResultPos.y += ShapePos.y * 0.5f;
-		GetTransform()->SetWorldRotation(ParentActor.lock()->GetTransform()->GetWorldRotation());
-		GetTransform()->SetWorldPosition(ResultPos);
-		//GetTransform()->SetWorldPosition(ParentActor.lock()->GetTransform()->GetWorldPosition());
+		float4 ShapeRot = float4(m_pShape->getLocalPose().q.x, m_pShape->getLocalPose().q.y, m_pShape->getLocalPose().q.z);
+		ShapeRot = ShapeRot.QuaternionToEulerDeg();
+		ShapeRot.z -= 90.f;
+
+		float4 ParentPos = ParentActor.lock()->GetTransform()->GetWorldPosition();
+
+		GetTransform()->SetWorldPosition(ParentPos+m_fShapeCenter + m_f4DynamicPivot);
+		GetTransform()->SetLocalRotation(ShapeRot);
+		GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
 	}
 }
 
@@ -246,7 +255,7 @@ void PhysXCapsuleComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _G
 	// 충돌체의 형태
 	// 충돌체의 크기는 절반의 크기를 설정하므로 실제 Renderer의 스케일은 충돌체의 2배로 설정되어야 함
 	// TODO::부모 액터의 RenderUnit으로부터 Mesh의 Scale 과 WorldScale의 연산의 결과를 지오메트리의 Scale로 세팅해야함.
-	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidStatic, physx::PxCapsuleGeometry(ScaledRadius, ScaledHeight), *m_pMaterial);
+	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidStatic, physx::PxCapsuleGeometry(ScaledRadius, ScaledHeight- ScaledRadius), *m_pMaterial);
 
 
 
@@ -335,7 +344,7 @@ void PhysXCapsuleComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _
 	// 충돌체의 형태
 	// 충돌체의 크기는 절반의 크기를 설정하므로 실제 Renderer의 스케일은 충돌체의 2배로 설정되어야 함
 	// TODO::부모 액터의 RenderUnit으로부터 Mesh의 Scale 과 WorldScale의 연산의 결과를 지오메트리의 Scale로 세팅해야함.
-	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidDynamic, physx::PxCapsuleGeometry(ScaledRadius, ScaledHeight), *m_pMaterial);
+	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidDynamic, physx::PxCapsuleGeometry(ScaledRadius, ScaledHeight- ScaledRadius), *m_pMaterial);
 
 
 

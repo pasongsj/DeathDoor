@@ -42,9 +42,15 @@ struct LightOutPut
 Texture2D PositionTex : register(t0);
 Texture2D NormalTex : register(t1);
 Texture2D ShadowTex : register(t2);
+Texture2D DiffuseColor : register(t3);
 SamplerState POINTWRAP : register(s0);
 
-LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
+float4 ToneMaping_ACES(float4 _Color)
+{
+    return saturate((_Color * (2.51f * _Color + 0.03f)) / (_Color * (2.43f * _Color + 0.59f) + 0.14f));
+}
+
+float4 DeferredCalLight_PS(Output _Input) : SV_Target0
 {
     LightOutPut NewOutPut = (LightOutPut) 0;
     
@@ -108,28 +114,36 @@ LightOutPut DeferredCalLight_PS(Output _Input) : SV_Target0
         {
             NewOutPut.ShadowTest.x = 1.0f;
             NewOutPut.ShadowTest.a = 1.0f;
-            // DiffuseRatio *= 0.01f;
-            // SpacularRatio *= 0.01f;
         }
     }
-    
-    NewOutPut.DifLight = DiffuseRatio;
-    NewOutPut.SpcLight = SpacularRatio;
-    NewOutPut.AmbLight = AmbientRatio;
-    NewOutPut.PointLight = PointLight;
-    
-// 카메라 행렬
-// 빛의 위치
-// 그려져있는 빛을 기반으로한 깊이 버퍼 텍스처.
 
-    
-    return NewOutPut;
-
-    //NewOutPut.DifLight = float4(1.0f, 0.0f, 0.0f, 1.0f);
-    //NewOutPut.SpcLight = float4(0.0f, 1.0f, 0.0f, 1.0f);
-    //NewOutPut.AmbLight = float4(0.0f, 0.0f, 1.0f, 1.0f);
-    
-    // return NewOutPut;
-
+    if (0 != NewOutPut.ShadowTest.x)
+    {
+        DiffuseRatio = 0.2f / NewOutPut.ShadowTest.x;
+        SpacularRatio = 0.2f / NewOutPut.ShadowTest.x;
     }
+    
+    float4 DifColor = DiffuseColor.Sample(POINTWRAP, _Input.TEXCOORD.xy);
+    
+    float4 ResultColor = (float4) 0.0f;
+    
+    if (DifColor.a)
+    {
+    //      0.1f
+        ResultColor.xyz = DifColor.xyz * (PointLight.xyz + DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
+        ResultColor.a = saturate(DifColor.a + (PointLight.w + DiffuseRatio.w + SpacularRatio.w + AmbientRatio.w));
+        ResultColor.a = 1.0f;
+    }
+    else
+    {
+        ResultColor.xyz = (PointLight.xyz + DiffuseRatio.xyz + SpacularRatio.xyz + AmbientRatio.xyz);
+        ResultColor.a = saturate(ResultColor.x);
+    }
+    
+    float Alpha = ResultColor.a;
+    ResultColor = ToneMaping_ACES(ResultColor);
+    ResultColor.a = Alpha;
+    
+    return ResultColor;
+}
 

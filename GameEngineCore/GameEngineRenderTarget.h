@@ -100,6 +100,7 @@ public:
 	}
 
 	void ReleaseEffect(std::shared_ptr<GameEnginePostProcess> _Effect);
+	void ReleaseAllEffect();
 
 	void Effect(float _DeltaTime);
 

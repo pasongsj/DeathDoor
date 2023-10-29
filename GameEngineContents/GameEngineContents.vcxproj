@@ -132,7 +132,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -150,12 +150,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PrecompileHeader.h</PrecompiledHeaderFile>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -165,6 +168,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HitCircle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Boomerang.cpp" />
+    <ClCompile Include="BossFrogFat.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BossFrogMain.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Dust.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DustParticle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DustRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Bench.cpp" />
     <ClCompile Include="BlackScreen.cpp" />
     <ClCompile Include="BossBase.cpp">
@@ -175,12 +203,37 @@
     <ClCompile Include="BossTestLevel.cpp" />
     <ClCompile Include="Boss_OldCrow.cpp" />
     <ClCompile Include="Boss_OldCrowAnimation.cpp" />
+    <ClCompile Include="Boss_OldCrowChain.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrowCrowHead.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Boss_OldCrowDefinition.cpp" />
+    <ClCompile Include="Boss_OldCrowEgg.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Boss_OldCrowFSM.cpp" />
+    <ClCompile Include="Boss_OldCrowSmallCrow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BrightBloomEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentFBXRenderer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="ContentFBXUIRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -198,6 +251,18 @@
     </ClCompile>
     <ClCompile Include="Conveyor.cpp" />
     <ClCompile Include="Crate.cpp" />
+    <ClCompile Include="EnemyAttackBox.cpp" />
+    <ClCompile Include="EnemyAttackCapsule.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyAttackSphere.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CullingManager.cpp" />
+    <ClCompile Include="CullingObject.cpp" />
+    <ClCompile Include="CullingTrigger.cpp" />
     <ClCompile Include="EnemyBase.cpp">
       <SubType>
       </SubType>
@@ -219,7 +284,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EnemyGhoulBig.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EnemyGrunt.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyJumper.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -227,17 +300,60 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FeatherParticle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FireObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FlowerPot.cpp" />
     <ClCompile Include="FortressLevel.cpp" />
     <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="DynamicParticleManager.cpp" />
+    <ClCompile Include="BossFrog.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FrogBossLevel.cpp" />
+    <ClCompile Include="BossFrogWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FrogFloor.cpp" />
     <ClCompile Include="Frog_Lever.cpp" />
+    <ClCompile Include="Frog_Septre.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FSMObjectBase.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FXAA.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameContentsMapActor.cpp" />
+    <ClCompile Include="GammaCorrection.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GlobalValue.cpp" />
     <ClCompile Include="GlowEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GrayScaleEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="HitEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="HitParticle.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -254,9 +370,23 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
+    <ClCompile Include="Mushroom.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="OldCrowLevel.cpp" />
+    <ClCompile Include="ShortCutDoor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TriggerBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MapTestLevel.cpp" />
     <ClCompile Include="Map_Emptyplain.cpp" />
     <ClCompile Include="Map_Fortress.cpp" />
+    <ClCompile Include="Map_Sanctuary.cpp" />
     <ClCompile Include="Map_Office.cpp" />
     <ClCompile Include="MiniDesk.cpp" />
     <ClCompile Include="MiniOffice.cpp" />
@@ -275,6 +405,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ParticleBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ParticleCreater.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="ParticleRenderer.cpp" />
     <ClCompile Include="PhysXActor.cpp">
@@ -283,6 +421,10 @@
     </ClCompile>
     <ClCompile Include="PhysXBoxComponent.cpp" />
     <ClCompile Include="PhysXCapsuleComponent.cpp" />
+    <ClCompile Include="PhysXComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PhysXControllerComponent.cpp" />
     <ClCompile Include="PhysXConvexComponent.cpp" />
     <ClCompile Include="PhysXCustom.cpp" />
@@ -320,31 +462,49 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerAttackRange.cpp">
+    <ClCompile Include="PlayerAttackArrow.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PlayerAttMagic.cpp">
+    <ClCompile Include="PlayerAttackBasic.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="AttackBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackBomb.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackMagic.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackTrail.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerBow.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayerFSM.cpp" />
     <ClCompile Include="PlayerInit.cpp" />
-    <ClCompile Include="PlayerAttSkill.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="PlayerTestLevel.cpp" />
     <ClCompile Include="PreCompileHeader.cpp">
       <SubType>
       </SubType>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ProcessMapInfo.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Railing.cpp" />
+    <ClCompile Include="RuinsWall.cpp" />
     <ClCompile Include="SecretTile.cpp" />
     <ClCompile Include="SemiCircleTable.cpp" />
     <ClCompile Include="ServerPacket.cpp" />
@@ -383,6 +543,10 @@
     <ClCompile Include="StreetLamp.cpp" />
     <ClCompile Include="StaticParticleManager.cpp" />
     <ClCompile Include="StreetLamp_2.cpp" />
+    <ClCompile Include="SwordTrailRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <SubType>
       </SubType>
@@ -397,8 +561,38 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WaterBox.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WoodenBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HitCircle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Boomerang.h" />
+    <ClInclude Include="BossFrogFat.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BossFrogMain.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Dust.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DustParticle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DustRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Bench.h">
       <SubType>
       </SubType>
@@ -411,7 +605,31 @@
     <ClInclude Include="BossLevelTestObject.h" />
     <ClInclude Include="BossTestLevel.h" />
     <ClInclude Include="Boss_OldCrow.h" />
+    <ClInclude Include="Boss_OldCrowChain.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Boss_OldCrowCrowHead.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Boss_OldCrowEgg.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Boss_OldCrowSmallCrow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BrightBloomEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentFBXUIRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -439,6 +657,27 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EnemyAttackBox.h" />
+    <ClInclude Include="EnemyAttackCapsule.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackSphere.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CullingManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CullingObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CullingTrigger.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EnemyBase.h">
       <SubType>
       </SubType>
@@ -461,11 +700,27 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EnemyGhoulBig.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EnemyGrunt.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EnemyJumper.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EnemyMage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FeatherParticle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FireObject.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -482,7 +737,27 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DynamicParticleManager.h" />
+    <ClInclude Include="BossFrog.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FrogBossLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BossFrogWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FrogFloor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Frog_Lever.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Frog_Septre.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -490,9 +765,29 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="FXAA.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameContentsMapActor.h" />
+    <ClInclude Include="GammaCorrection.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="GlowEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GrayScaleEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HitEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HitParticle.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -512,12 +807,32 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
+    <ClInclude Include="Mushroom.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="OldCrowLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ShortCutDoor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TriggerBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MapTestLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Map_Emptyplain.h" />
     <ClInclude Include="Map_Fortress.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Map_Sanctuary.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -554,6 +869,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ParticleBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ParticleCreater.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="ParticleRenderer.h" />
     <ClInclude Include="ParticleStruct.h" />
@@ -563,6 +886,10 @@
     </ClInclude>
     <ClInclude Include="PhysXBoxComponent.h" />
     <ClInclude Include="PhysXCapsuleComponent.h" />
+    <ClInclude Include="PhysXComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PhysXControllerComponent.h" />
     <ClInclude Include="PhysXConvexComponent.h" />
     <ClInclude Include="PhysXCustom.h" />
@@ -601,19 +928,36 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerAttackRange.h">
+    <ClInclude Include="PlayerAttackArrow.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PlayerAttMagic.h">
+    <ClInclude Include="PlayerAttackBasic.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="AttackBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackBomb.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackDefinition.h" />
+    <ClInclude Include="PlayerAttackMagic.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackTrail.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerBow.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayerDefinition.h" />
-    <ClInclude Include="PlayerAttSkill.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="PlayerTestLevel.h" />
     <ClInclude Include="PreCompileHeader.h">
       <SubType>
@@ -624,6 +968,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Railing.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="RuinsWall.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -677,6 +1025,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="SwordTrailRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TestLevel.h">
       <SubType>
       </SubType>
@@ -694,6 +1046,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UITestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WaterBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WoodenBridge.h">
       <SubType>
       </SubType>
     </ClInclude>

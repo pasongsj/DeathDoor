@@ -24,6 +24,13 @@ void Player::InitInputKey()
 	{
 		GameEngineInput::CreateKey("PressN", 'N');
 	}
+
+	if (false == GameEngineInput::IsKey("E"))
+	{
+		GameEngineInput::CreateKey("E", 'E');
+	}
+
+	CameraRot = GetLevel()->GetMainCamera()->GetTransform()->GetWorldRotation();
 }
 
 
@@ -102,8 +109,8 @@ void Player::InitPlayerAnimation()
 	//Pivot->GetTransform()->SetParent(GetTransform());
 	//Pivot->GetTransform()->SetLocalPosition(float4::FORWARD * 10.0f);
 	//Renderer->GetTransform()->SetParent(Pivot->GetTransform());
-	Renderer->GetTransform()->SetLocalPosition(float4::BACK * 10.0f);
-	GetTransform()->SetLocalScale(float4::ONE * PlayerScaleRatio);
+	//Renderer->GetTransform()->SetLocalPosition(float4::BACK * 10.0f);
+	GetTransform()->SetLocalScale(float4::ONE * PLAYER_SCALE_RATIO);
 }
 
 

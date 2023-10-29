@@ -103,15 +103,22 @@ std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(std::vector<std::str
 
 		bool Check = false;
 
-		for (size_t i = 0; i < UpperExts.size(); i++)
+		if (0 != UpperExts.size())
 		{
-			const std::string& ExtText = UpperExts[i];
-
-			if (ExtText == UpperExt)
+			for (size_t i = 0; i < UpperExts.size(); i++)
 			{
-				Check = true;
-				break;
+				const std::string& ExtText = UpperExts[i];
+
+				if (ExtText == UpperExt)
+				{
+					Check = true;
+					break;
+				}
 			}
+		}
+		else
+		{
+			Check = true;
 		}
 
 		if (false == Check)

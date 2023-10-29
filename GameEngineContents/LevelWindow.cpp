@@ -11,8 +11,11 @@
 #include "MapTestLevel.h"
 #include "OfficeLevel.h"
 #include "FortressLevel.h"
+#include "FrogBossLevel.h"
 #include "UITestLevel.h"
+#include "OldCrowLevel.h"
 
+#include "Player.h"
 
 LevelWindow::LevelWindow() 
 {
@@ -52,17 +55,17 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		GameEngineCore::ChangeLevel("CenterLevel");
 	}
 
-	if (ImGui::Button("TestLevel") && Level->DynamicThis<TestLevel>().get() != GetLevel())
-	{
-		m_CurLevelName = "TestLevel";
-		GameEngineCore::ChangeLevel("TestLevel");
-	}
+	//if (ImGui::Button("TestLevel") && Level->DynamicThis<TestLevel>().get() != GetLevel())
+	//{
+	//	m_CurLevelName = "TestLevel";
+	//	GameEngineCore::ChangeLevel("TestLevel");
+	//}
 
-	if (ImGui::Button("ServerTestLevel") && Level->DynamicThis<ServerTestLevel>().get() != GetLevel())
-	{
-		m_CurLevelName = "ServerTestLevel";
-		GameEngineCore::ChangeLevel("ServerTestLevel");
-	}
+	//if (ImGui::Button("ServerTestLevel") && Level->DynamicThis<ServerTestLevel>().get() != GetLevel())
+	//{
+	//	m_CurLevelName = "ServerTestLevel";
+	//	GameEngineCore::ChangeLevel("ServerTestLevel");
+	//}
 	
 	if (ImGui::Button("PhysXTestLevel") && Level->DynamicThis<PhysXTestLevel>().get() != GetLevel())
 	{
@@ -103,6 +106,18 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	{
 		m_CurLevelName = "FortressLevel";
 		GameEngineCore::ChangeLevel("FortressLevel");
+	}
+
+	if (ImGui::Button("FrogBossLevel") && Level->DynamicThis<FortressLevel>().get() != GetLevel())
+	{
+		m_CurLevelName = "FrogBossLevel";
+		GameEngineCore::ChangeLevel("FrogBossLevel");
+	}
+
+	if (ImGui::Button("OldCrowLevel") && Level->DynamicThis<FortressLevel>().get() != GetLevel())
+	{
+		m_CurLevelName = "OldCrowLevel";
+		GameEngineCore::ChangeLevel("OldCrowLevel");
 	}
 
 
@@ -217,6 +232,35 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		Lights.begin()->get()->GetTransform()->AddLocalRotation({ 0.0f, 0.0f, 90.0f });
 	}
 
+	// PlayerController
 
+	if (nullptr == Player::MainPlayer)
+	{
+		return;
+	}
+	ImGui::Text("Current Player Mode : ");
+	ImGui::SameLine();
+	if (true == Player::MainPlayer->PlayerTestMode)
+	{
+		ImGui::Text("TEST");
+	}
+	else
+	{
+		ImGui::Text("GAME");
+	}
+	if (ImGui::Button("TEST"))
+	{
+		Player::MainPlayer->PlayerTestMode = true;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("GAME"))
+	{
+		Player::MainPlayer->PlayerTestMode = false;
+	}
+
+	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetLocalPosition();
+	std::string PositionText = "X : " + std::to_string(PlayerPos.x) + " Y : " + std::to_string(PlayerPos.y) + " Z : " + std::to_string(PlayerPos.z);
+	ImGui::Text(PositionText.c_str());
+	
 }
 

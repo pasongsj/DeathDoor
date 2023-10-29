@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include "Player.h"
 
 class SkillSlot : public GameEngineActor
 {
@@ -21,6 +22,9 @@ protected:
 
 private:
 
+	Player::PlayerSkill CurSkill;
+	Player::PlayerSkill PrevSkill;
+
 	void SetSlot();
 	bool LerpSlotScaleUp_Fire(float _DeltaTime);
 	bool LerpSlotScaleDown_Fire(float _DeltaTime);
@@ -35,7 +39,6 @@ private:
 	bool LerpSlotScaleDown_Hook(float _DeltaTime);
 
 	void SkillChange();
-	void CreateKey();
 
 	float LerpUpRatio = 0.0f;
 	float LerpDownRatio = 0.0f;
@@ -53,12 +56,13 @@ private:
 
 		std::shared_ptr<class ContentUIRenderer> SkillRender = nullptr;
 
+		float4 BasicPos_SkillRender = { 0, 0 };
+
 		float4 BasicPos_Half_1 = { 0, 0 };
 
 		float4 BasicScale_SkillRender = { 0, 0 };
 	};
 
 	std::vector<std::shared_ptr<Slot>> SlotList;
-
 };
 

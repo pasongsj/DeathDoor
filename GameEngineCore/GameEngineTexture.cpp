@@ -155,6 +155,28 @@ void GameEngineTexture::PSSetting(UINT _Slot)
 	GameEngineDevice::GetContext()->PSSetShaderResources(_Slot, 1, &SRV);
 }
 
+void GameEngineTexture::GSSetting(UINT _Slot)
+{
+	if (nullptr == SRV)
+	{
+		MsgAssert("SRV가 존재하지 않는 텍스처를 쉐이더에 세팅할수 없습니다.");
+		return;
+	}
+
+	GameEngineDevice::GetContext()->GSSetShaderResources(_Slot, 1, &SRV);
+}
+
+void GameEngineTexture::CSSetting(UINT _Slot)
+{
+	if (nullptr == SRV)
+	{
+		MsgAssert("SRV가 존재하지 않는 텍스처를 쉐이더에 세팅할수 없습니다.");
+		return;
+	}
+
+	GameEngineDevice::GetContext()->CSSetShaderResources(_Slot, 1, &SRV);
+}
+
 void GameEngineTexture::VSReset(UINT _Slot)
 {
 	static ID3D11ShaderResourceView* Nullptr = nullptr;
@@ -166,6 +188,20 @@ void GameEngineTexture::PSReset(UINT _Slot)
 	static ID3D11ShaderResourceView* Nullptr = nullptr;
 
 	GameEngineDevice::GetContext()->PSSetShaderResources(_Slot, 1, &Nullptr);
+}
+
+void GameEngineTexture::GSReset(UINT _Slot)
+{
+	static ID3D11ShaderResourceView* Nullptr = nullptr;
+
+	GameEngineDevice::GetContext()->GSSetShaderResources(_Slot, 1, &Nullptr);
+}
+
+void GameEngineTexture::CSReset(UINT _Slot)
+{
+	static ID3D11ShaderResourceView* Nullptr = nullptr;
+
+	GameEngineDevice::GetContext()->CSSetShaderResources(_Slot, 1, &Nullptr);
 }
 
 void GameEngineTexture::ResCreate(const D3D11_TEXTURE2D_DESC& _Value) 

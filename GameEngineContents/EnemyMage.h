@@ -15,12 +15,13 @@ public:
 	EnemyMage& operator=(const EnemyMage& _Other) = delete;
 	EnemyMage& operator=(EnemyMage&& _Other) noexcept = delete;
 
-
+	const int MageFullHP = 5;
 
 protected:
-	void InitAniamtion() override;
+	void InitAnimation() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void SetFSMFUNC() override;
 
 private:
 
@@ -28,12 +29,28 @@ private:
 	{
 		IDLE,
 		SHOOT,
+		MOVE,
+		HIT,
 		TELEPORT,// ªÁ∂Û¡¸
 		TELEPORT_IN, // µÓ¿Â
 		DEATH,
 		MAX
 	};
 
+	void TeleportRandPos();
 
-	void SetFSMFUNC();
+
+	float m_fTPWaitTime = 2.f;
+	float m_fTeleportRange = 750.f;
+	float m_fGridRange = 300.f;
+	std::vector<float4> m_vecRandGrid;
+	UINT m_iCheckCount = 0;
+
+	float4 m_f4ShootDir = float4::ZERO;
+	float4 m_f4RenderScale = float4::ZERO;
+	float m_fScaleRatio = 0.f;
+	float m_fWaitTime = 1.f;
+
+	bool m_bCheckPlayer = false;
+	bool m_bShoot = false;
 };

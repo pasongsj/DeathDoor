@@ -10,7 +10,7 @@ EnemyBruteGold::~EnemyBruteGold()
 }
 
 
-void EnemyBruteGold::InitAniamtion()
+void EnemyBruteGold::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 	EnemyRenderer->SetFBXMesh("_E_BRUTE_GOLD_MESH.FBX", "ContentAniMeshDeffered");
@@ -35,11 +35,11 @@ void EnemyBruteGold::Start()
 
 	// physx
 	{
-		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_BRUTEGOLD);
+		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
-	SetFSMFUNC();
 }
 
 
@@ -142,7 +142,6 @@ void EnemyBruteGold::SetFSMFUNC()
 		},
 		[this]
 		{
-			m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 		}
 	);

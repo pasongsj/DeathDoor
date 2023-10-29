@@ -11,7 +11,6 @@ public:
 
 	// delete Function
 	MonsterAnimationTest(const MonsterAnimationTest& _Other) = delete;
-	MonsterAnimationTest(MonsterAnimationTest&& _Other) noexcept = delete;
 	MonsterAnimationTest& operator=(const MonsterAnimationTest& _Other) = delete;
 	MonsterAnimationTest& operator=(MonsterAnimationTest&& _Other) noexcept = delete;
 
@@ -20,9 +19,15 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
+	float4 GetBonePos(const std::string_view& _BoneName);
 
-	std::shared_ptr<class GameEngineFBXRenderer> Renderer = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> Renderer = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> WeaponRenderer = nullptr;
+	std::shared_ptr<class Boomerang> Boomer = nullptr;
 	std::vector<std::string> AnimationName;
 	int index = 0;
+
+	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> Unit;
+	int mainindex = 0;
 };
 

@@ -6,6 +6,7 @@
 #include "ServerWindow.h"
 #include "LevelWindow.h"
 #include "MapEditorWindow.h"
+#include "BossFrogWindow.h"
 
 #include "CenterLevel.h"
 #include "TestLevel.h"
@@ -17,8 +18,10 @@
 #include "StartLevel.h"
 #include "OfficeLevel.h"
 #include "FortressLevel.h"
+#include "FrogBossLevel.h"
 #include "UITestLevel.h"
 #include "BossTestLevel.h"
+#include "OldCrowLevel.h"
 
 #include "PlayerTestLevel.h"
 
@@ -34,19 +37,21 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::GameStart()
 {
+	ContentsResourcesCreate();
+
 	GameEngineGUI::GUIWindowCreate<GameEngineCoreWindow>("CoreWindow");	
 
 	GameEngineGUI::GUIWindowCreate<LevelWindow>("LevelWindow");
 	GameEngineGUI::GUIWindowCreate<ServerWindow>("ServerWindow");
 	GameEngineGUI::GUIWindowCreate<MapEditorWindow>("MapEditorWindow");
+	GameEngineGUI::GUIWindowCreate<BossFrogWindow>("BossFrogWindow");
 	
-	ContentsResourcesCreate();
 
 	//InstallFont();
 
 	GameEngineCore::CreateLevel<CenterLevel>();
-	GameEngineCore::CreateLevel<TestLevel>();
-	GameEngineCore::CreateLevel<ServerTestLevel>();
+	//GameEngineCore::CreateLevel<TestLevel>();
+	//GameEngineCore::CreateLevel<ServerTestLevel>();
 	GameEngineCore::CreateLevel<MapEditorLevel>();
 	GameEngineCore::CreateLevel<PhysXTestLevel>();
 	GameEngineCore::CreateLevel<StartLevel>();
@@ -54,6 +59,8 @@ void ContentsCore::GameStart()
 	GameEngineCore::CreateLevel<MapTestLevel>();
 	GameEngineCore::CreateLevel<OfficeLevel>();
 	GameEngineCore::CreateLevel<FortressLevel>();
+	GameEngineCore::CreateLevel<FrogBossLevel>();
+	GameEngineCore::CreateLevel<OldCrowLevel>();
 	GameEngineCore::CreateLevel<PlayerTestLevel>();
 	GameEngineCore::CreateLevel<BossTestLevel>();
 

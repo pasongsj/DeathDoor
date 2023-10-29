@@ -1,10 +1,14 @@
 #include "PrecompileHeader.h"
 #include "FortressLevel.h"
 
-#include "Player.h"
 #include "PhysXCapsuleComponent.h"
+#include "PhysXControllerComponent.h"
 
+#include "Player.h"
 #include "Map_Fortress.h"
+#include "CullingManager.h"
+#include "WaterBox.h"
+#include "BossFrog.h"
 
 FortressLevel::FortressLevel()
 {
@@ -16,8 +20,9 @@ FortressLevel::~FortressLevel()
 
 void FortressLevel::Start()
 {
-	SetLevelType(PacketLevelType::FortressLevel);
+	SetContentLevelType(ContentLevelType::FortressLevel);
 	InitKey();
+
 }
 
 void FortressLevel::Update(float _DeltaTime)
@@ -27,9 +32,13 @@ void FortressLevel::Update(float _DeltaTime)
 
 	float4 Pos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 
+	// test 
 	if (false == GetMainCamera()->IsFreeCamera())
 	{
-		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4{ 0, 1200, -1200 });
+		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		nextPos.y += 1000.0f;
+		nextPos.z -= 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
+		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
 	}
 }
 
@@ -38,6 +47,7 @@ void FortressLevel::InitKey()
 	if (false == GameEngineInput::IsKey("NaviMesh_Switch_Fortress"))
 	{
 		GameEngineInput::CreateKey("NaviMesh_Switch_Fortress", 'M');
+		GameEngineInput::CreateKey("Fortress_Trigger_Switch", 'T');
 	}
 }
 
@@ -50,11 +60,21 @@ void FortressLevel::KeyUpdate(float _DeltaTime)
 			m_pMap->NaviRenderSwitch();
 		}
 	}
+
+	if (true == GameEngineInput::IsDown("Fortress_Trigger_Switch"))
+	{
+		if (nullptr != m_pMap)
+		{
+			m_pMap->TriggerSwitch();
+		}
+	}
 }
 
 void FortressLevel::LevelChangeStart()
 {
 	CreateScene();
+
+	LevelInit();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
@@ -67,7 +87,13 @@ void FortressLevel::LevelChangeStart()
 
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
-	Set_StartPos(Obj);
+	Set_PlayerStartPos();
+
+	Create_Manager();
+
+	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
+	Actor->CreateComponent<WaterBox>();
+
 }
 
 void FortressLevel::LevelChangeEnd()
@@ -75,15 +101,15 @@ void FortressLevel::LevelChangeEnd()
 	AllActorDestroy();
 }
 
-void FortressLevel::Set_StartPos(std::shared_ptr<class Player> _Player)
+void FortressLevel::Set_PlayerStartPos()
 {
-	if (nullptr == _Player)
+	if (nullptr == Player::MainPlayer)
 	{
 		MsgAssert("Player 가 nullptr 입니다.");
 		return;
 	}
 
-	std::shared_ptr<PhysXCapsuleComponent> Comp = _Player->GetPhysXComponent();
+	std::shared_ptr<PhysXControllerComponent> Comp = Player::MainPlayer->GetPhysXComponent();
 
 	if (nullptr == Comp)
 	{
@@ -91,5 +117,10 @@ void FortressLevel::Set_StartPos(std::shared_ptr<class Player> _Player)
 		return;
 	}
 
-	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_StartPos));
+	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
+}
+
+void FortressLevel::Create_Manager()
+{
+	m_pCullingManager = CreateActor<CullingManager>();
 }

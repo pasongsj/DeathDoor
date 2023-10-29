@@ -14,12 +14,14 @@ public:
 	EnemyFirePlant(EnemyFirePlant&& _Other) noexcept = delete;
 	EnemyFirePlant& operator=(const EnemyFirePlant& _Other) = delete;
 	EnemyFirePlant& operator=(EnemyFirePlant&& _Other) noexcept = delete;
+	const int FirePlantFullHP = 4;
 
 	
 protected:
-	void InitAniamtion() override;
+	void InitAnimation() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void SetFSMFUNC() override;
 
 private:
 	enum class EnemyFireFlowerState
@@ -32,9 +34,8 @@ private:
 	};
 
 
-	void SetFSMFUNC();
 
-	//bool CheckAttack();
+	float4 ShootDir = float4::ZERO;
 
 };
 

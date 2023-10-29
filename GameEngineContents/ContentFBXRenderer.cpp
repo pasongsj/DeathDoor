@@ -17,11 +17,18 @@ void ContentFBXRenderer::Start()
 	PushCameraRender(0);
 }
 
+void ContentFBXRenderer::Update(float _DeltaTime)
+{
+	GameEngineFBXRenderer::Update(_DeltaTime);
+
+	CamPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
+	WaterHeight.x = GetLevel()->GetWaterHeight();
+}
+
 void ContentFBXRenderer::Render(float _DeltaTime)
 {
 	//
 }
-
 
 void ContentFBXRenderer::SetAllUnitTexture(const std::string_view& _SettingName, const std::string_view& _ImageName)
 {
@@ -75,8 +82,91 @@ void ContentFBXRenderer::SetFadeMask(const std::string_view& _MaskTextureName)
 	}
 }
 
+void ContentFBXRenderer::SetReflect()
+{
+	if (GetActor() == nullptr)
+	{
+		return;
+	}
 
-void ContentFBXRenderer::LinkBlurColor()
+	ReflectRenderer = GetActor()->CreateComponent<ContentFBXRenderer>();
+	ReflectRenderer->GetTransform()->SetParent(GetTransform());
+
+	std::string_view Material = "";
+
+	if (MaterialName == "CONTENTANIMESHDEFFERED")
+	{
+		Material = "REFLECTANIMESH";
+	}
+	else if (MaterialName == "CONTENTMESHDEFFERED")
+	{
+		Material = "REFLECTMESH";
+	}
+
+	ReflectRenderer->GameEngineFBXRenderer::SetFBXMesh(FBXName, Material.data());
+
+	auto Units = ReflectRenderer->GetAllRenderUnit();
+
+	for (int i = 0; i < Units.size(); i++)
+	{
+		for (int j = 0; j < Units[i].size(); j++)
+		{
+			Units[i][j]->SetReflect();
+
+			if (Units[i][j]->ShaderResHelper.IsConstantBuffer("BlurColor") == true)
+			{
+				Units[i][j]->ShaderResHelper.SetConstantBufferLink("BlurColor", BlurColor);
+			}
+
+			if (Units[i][j]->ShaderResHelper.IsConstantBuffer("ClipData") == true)
+			{
+				Units[i][j]->ShaderResHelper.SetConstantBufferLink("ClipData", ClipData);
+			}
+
+			if (Units[i][j]->ShaderResHelper.IsConstantBuffer("CamPos") == true)
+			{
+				Units[i][j]->ShaderResHelper.SetConstantBufferLink("CamPos", CamPos);
+			}
+
+			if (Units[i][j]->ShaderResHelper.IsConstantBuffer("WaterHeight") == true)
+			{
+				Units[i][j]->ShaderResHelper.SetConstantBufferLink("WaterHeight", WaterHeight);
+			}
+		}
+	}
+
+	ReflectOff();
+}
+
+void ContentFBXRenderer::ReflectOn()
+{
+	auto Units = ReflectRenderer->GetAllRenderUnit();
+
+	for (int i = 0; i < Units.size(); i++)
+	{
+		for (int j = 0; j < Units[i].size(); j++)
+		{
+			ReflectRenderer->On();
+			Units[i][j]->SetReflect();
+		}
+	}
+}
+
+void ContentFBXRenderer::ReflectOff()
+{
+	auto Units = ReflectRenderer->GetAllRenderUnit();
+
+	for (int i = 0; i < Units.size(); i++)
+	{
+		for (int j = 0; j < Units[i].size(); j++)
+		{
+			ReflectRenderer->Off();
+			Units[i][j]->SetReflectOff();
+		}
+	}
+}
+
+void ContentFBXRenderer::LinkConstantBuffer()
 {
 	auto AllUnits = GetAllRenderUnit();
 
@@ -87,6 +177,11 @@ void ContentFBXRenderer::LinkBlurColor()
 			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("BlurColor") == true)
 			{
 				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("BlurColor", BlurColor);
+			}
+
+			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("ClipData") == true)
+			{
+				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("ClipData", ClipData);
 			}
 		}
 	}
@@ -145,17 +240,15 @@ void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::str
 	std::string UpperSettingName = GameEngineString::ToUpper(_SettingName);
 
 	if (UpperSettingName != "CONTENTANIMESHDEFFERED" &&
-		UpperSettingName != "CONTENTANIMESHFORWARD" &&
-		UpperSettingName != "CONTENTMESHFORWARD" &&
 		UpperSettingName != "CONTENTMESHDEFFERED")
 	{
-		MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentAniMeshForward, ContentMeshForward, ContentMeshDeffered 중 하나여야 합니다.");
+		MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentMeshDeffered 중 하나여야 합니다.");
 		return;
 	}
 
 	GameEngineFBXRenderer::SetFBXMesh(_MeshName, _SettingName);
 	
-	if (UpperSettingName == "CONTENTMESHFORWARD" || UpperSettingName == "CONTENTMESHDEFFERED")
+	if (UpperSettingName == "CONTENTMESHDEFFERED")
 	{
 		SetFadeMask();
 	}
@@ -165,8 +258,11 @@ void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::str
 		SetCrackMask();
 	}
 
-	LinkBlurColor();
-		
+	LinkConstantBuffer();
+
+	FBXName = _MeshName;
 	MaterialName = UpperSettingName;
+
+	SetReflect();
 }
 

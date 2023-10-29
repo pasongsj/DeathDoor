@@ -4,6 +4,11 @@
 #include "Map_Office.h"
 #include "Player.h"
 #include "PhysXCapsuleComponent.h"
+#include "PhysXControllerComponent.h"
+
+#include "Dust.h"
+
+#include <GameEngineCore/GameEngineCoreWindow.h>
 
 OfficeLevel::OfficeLevel()
 {
@@ -17,7 +22,13 @@ void OfficeLevel::Start()
 {
 	SetLevelType(PacketLevelType::OfficeLevel);
 	InitKey();
+
+	SetPointLight();
+
+	CreateNewCamera(-1);
+	GetCamera(-1)->SetProjectionType(CameraType::Orthogonal);
 }
+
 
 void OfficeLevel::Update(float _DeltaTime)
 {
@@ -26,17 +37,23 @@ void OfficeLevel::Update(float _DeltaTime)
 	// test 
 	if (false == GetMainCamera()->IsFreeCamera())
 	{
-		GetMainCamera()->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4 { 0, 1200, -1200 });
+		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		nextPos.y += 1000.0f;
+		nextPos.z -= 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
+		GetMainCamera()->GetTransform()->SetWorldPosition(float4::LerpClamp(GetMainCamera()->GetTransform()->GetWorldPosition(),nextPos, _DeltaTime * 3.0f));
 	}
 }
 
 void OfficeLevel::LevelChangeStart()
 {
+	LevelInit();
+
 	CreateScene();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
+	GetMainCamera()->SetZoomRatio(2.5f);
 
 
 	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
@@ -45,13 +62,24 @@ void OfficeLevel::LevelChangeStart()
 
 	// 플레이어 생성후 Set_StartPos함수 호출하면 해당 위치에 세팅
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
-	Set_StartPos(Obj);
+
+	Set_PlayerStartPos();
+	if (false == GetMainCamera()->IsFreeCamera())
+	{
+		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		nextPos.y += 3000.0f;
+		nextPos.z -= 3000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
+		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
+	}
+
+	CreateActor<Dust>();
 }
 
 void OfficeLevel::LevelChangeEnd()
 {
 	AllActorDestroy();
 }
+
 
 void OfficeLevel::InitKey()
 {
@@ -72,15 +100,15 @@ void OfficeLevel::KeyUpdate(float _DeltaTime)
 	}
 }
 
-void OfficeLevel::Set_StartPos(std::shared_ptr<Player> _Player)
+void OfficeLevel::Set_PlayerStartPos()
 {
-	if (nullptr == _Player)
+	if (nullptr == Player::MainPlayer)
 	{
 		MsgAssert("Player 가 nullptr 입니다.");
 		return;
 	}
 
-	std::shared_ptr<PhysXCapsuleComponent> Comp = _Player->GetPhysXComponent();
+	std::shared_ptr<PhysXControllerComponent> Comp = Player::MainPlayer->GetPhysXComponent();
 
 	if (nullptr == Comp)
 	{
@@ -88,5 +116,23 @@ void OfficeLevel::Set_StartPos(std::shared_ptr<Player> _Player)
 		return;
 	}
 	
-	Comp->GetDynamic()->setGlobalPose(float4::PhysXTransformReturn(float4::ZERO, m_StartPos));
+	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
 }
+
+void OfficeLevel::SetPointLight()
+{
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 3375 , 75 , -5050 },.MaxDist = 200.0f,.Intensity = 10.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 2010 , 75 , -5050 },.MaxDist = 150.0f,.Intensity = 10.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 910 , 75 , -5050 },.MaxDist = 150.0f,.Intensity = 10.0f });
+
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 875 , 125 ,-3200 },.MaxDist = 150.0f,.Intensity = 10.0f });
+
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { -850 ,550 , -3125 },.MaxDist = 150.0f,.Intensity = 10.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 250 , 850 , 1000 },.MaxDist = 150.0f,.Intensity = 10.0f });
+
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 2825 , 825 , 2325 },.MaxDist = 150.0f,.Intensity = 10.0f });
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 3150 , 950 , 2350 },.MaxDist = 150.0f,.Intensity = 10.0f });
+
+	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 525 , 1450 , 4225 },.MaxDist = 100.0f,.Intensity = 5.0f });
+}
+

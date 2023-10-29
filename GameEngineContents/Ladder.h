@@ -1,8 +1,17 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "TriggerBase.h"
+#define LadderHeight 550.f
+
+class LadderData
+{
+	friend class Player;
+	friend class Ladder;
+	float4 Pos = float4::ZERONULL;
+	float4 Dir = float4::ZERONULL;
+};
 
 // 설명 :
-class Ladder : public GameEngineActor
+class Ladder : public TriggerBase
 {
 public:
 	// constrcuter destructer
@@ -15,18 +24,36 @@ public:
 	Ladder& operator=(const Ladder& _Other) = delete;
 	Ladder& operator=(Ladder&& _Other) noexcept = delete;
 
-	inline std::shared_ptr<class PhysXBoxComponent> GetPhysXComponent() const
+
+	void SetHidden(bool _Value)
 	{
-		return m_pPhysXComponent;
+		m_bHidden = _Value; 
+		if (true == m_bHidden)
+		{
+			SetNextState(TriggerState::OFF,true);
+		}
+	}
+
+	void SetHeight(int _Amount)
+	{
+		//Ladder clone의 크기 확인해서 한개의 크기만큼 줄여버리기
+		m_fHeight = 50.f*static_cast<float>(_Amount);
+		m_pRenderer->GetTransform()->SetLocalPosition(float4(0, -(LadderHeight - m_fHeight), 0));
 	}
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
-private:
-	void InitComponent();
+	void InitComponent() override;
+	void InitAnimation();
 
-	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
-	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
+private:
+	void SetFSMFUNC();
+
+	bool m_bHidden = false;
+
+	float m_fHeight = 0.f;
+
+	LadderData m_sData = {};
 };

@@ -4,8 +4,8 @@
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 #include "PhysXTestLevel.h"
 #include "PhysXCapsuleComponent.h"
+#include "PhysXControllerComponent.h"
 
-#include "PlayerAttackRange.h"
 
 
 #define PlayerInitRotation float4{ 90,0,0 }
@@ -27,7 +27,6 @@ Player::~Player()
 {
 }
 
-#define PLAYER_PHYSX_SCALE float4{0.0f, 75.0f, 50.0f}
 
 void Player::Start()
 {
@@ -38,24 +37,27 @@ void Player::Start()
 	// physx
 	{
 
-		m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
+		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PLAYER_PHYSX_SCALE);
-
+		//m_pCapsuleComp->SetDynamicPivot(float4::BACK * 10.0f);
 		// lever 충돌테스트 
-		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic, PhysXFilterGroup::LeverTrigger);
+		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic);
 	}
-
-	//m_pCapsuleComp->SetDynamicPivot()
-	AttackRange = GetLevel()->CreateActor< PlayerAttackRange>();
-	AttackRange->Off();
+	m_pCapsuleComp->SetWorldPosWithParent(float4{1000.0f, 500.0f, 0.0f},float4::ZERO);
 
 	SetFSMFunc();
 	Renderer->ChangeAnimation("IDLE0");
+	Renderer->SetGlowToUnit(0, 1);
+	Renderer->SetUnitColor(0, 1, { 0.95f, 0.20f, 0.25f }, 2.0f);
 }
 
 void Player::Update(float _DeltaTime)
 {
+	if (true == CheckCollision(PhysXFilterGroup::MonsterSkill))
+	{
+		int a = 0;
+	}
 	DirectionUpdate(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
 	DefaultPhysX();
@@ -79,18 +81,20 @@ void Player::Update(float _DeltaTime)
 		SetSkill();
 	}
 
+
 	StackDuration -= _DeltaTime;
 	if (StackDuration < 0.0f)
 	{
 		AttackStack = 0;
 	}
 	// 뭔지? 모름?
-	m_pCapsuleComp->GetDynamic()->setMass(65);
+	//m_pCapsuleComp->GetDynamic()->setMass(65);
 
 
+	PlayerState Checker = GetCurState<PlayerState>();
 	// test
 	float4 MyPos = GetTransform()->GetWorldPosition();
-
+	
 }
 
 
@@ -119,7 +123,7 @@ void Player::CheckDirInput(float _DeltaTime)
 		SetNextState(PlayerState::WALK);
 		//DirectionUpdate(_DeltaTime);
 		MoveDir = Dir.NormalizeReturn();
-		MoveUpdate(PlayerMoveSpeed);
+		MoveUpdate(PLAYER_MOVE_SPEED);
 	}
 	else // 방향 입력이 없다면 IDLE
 	{
@@ -144,10 +148,30 @@ void Player::CheckStateInput(float _DeltaTime)
 	}
 	else if (true == GameEngineInput::IsPress("PlayerLBUTTON"))
 	{
-		SetNextState(PlayerState::BASE_ATT);
+		SetNextState(PlayerState::BASIC_ATT);
 	}
 	else if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
 	{
+		switch (CurSkill)
+		{
+		case Player::PlayerSkill::ARROW:
+		case Player::PlayerSkill::MAGIC:
+			if (SpellCost < 1)
+			{
+				return;
+			}
+			break;
+		case Player::PlayerSkill::BOMB:
+			if (SpellCost < 2)
+			{
+				return;
+			}
+			break;
+		case Player::PlayerSkill::HOOK:
+			break;
+		default:
+			break;
+		}
 		SetNextState(PlayerState::SKILL);
 	}
 	else if (true == GameEngineInput::IsPress("PlayerMBUTTON"))
@@ -155,19 +179,46 @@ void Player::CheckStateInput(float _DeltaTime)
 		SetNextState(PlayerState::CHARGE_ATT);
 	}
 }
+void Player::ModifyHeight()
+{
+	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // 플레이어의 위치
+	PlayerGroundPos.y += 50.0f;
+	float4 CollPoint = float4::ZERO; // 충돌체크할 변수
+	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
+	{
+		if (GetTransform()->GetWorldPosition().y > CollPoint.y + 30.0f) // 플레이어가 허공에 떠있다면 
+		{
+			//MoveUpdate(300.0f, float4::DOWN); // 아래로 눌러줌
+			return;
+		}
+		else if (GetTransform()->GetWorldPosition().y < CollPoint.y)
+		{
+			//MoveUpdate(2.0f, float4::UP); // 아래로 눌러줌
+		
+		}
+	}
+}
 
 void Player::CheckFalling()
 {
+	ModifyHeight();
 	// Falling Check
-	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // ground 와 약 y값 25차이가 난다.
-	float4 CollPoint = float4::ZERO;
-	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
+	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // 플레이어의 위치
+	PlayerGroundPos.y += 50.0f;
+	float4 CollPoint = float4::ZERO; // 충돌체크할 변수
+	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f)) // 플레이어 위치에서 float4::DOWN 방향으로 2000.0f 길이만큼 체크한다.
 	{
-		float4 PPos = GetTransform()->GetWorldPosition();
-		if (PPos.y > CollPoint.y + 120.0f)
+		if (GetTransform()->GetWorldPosition().y > CollPoint.y + 100.0f) // 300.0 이상 차이가 나는경우 falling state로 변경한다.
 		{
 			SetNextState(PlayerState::FALLING);
 			return;
+		}
+	}
+	else
+	{
+		if (false == PlayerTestMode)
+		{
+			SetNextState(PlayerState::DROWN);
 		}
 	}
 }
@@ -181,6 +232,7 @@ void Player::CheckState(float _DeltaTime)
 	CheckDirInput(_DeltaTime);
 	CheckStateInput(_DeltaTime);
 	CheckFalling();
+	CheckPlayerHit();
 }
 
 
@@ -192,10 +244,9 @@ void Player::DirectionUpdate(float _DeltaTime)
 		return;
 	}
 	float4 LerpDir = float4::LerpClamp(ForwardDir, MoveDir, _DeltaTime * 10.0f);
-	//float4 NextFRot = float4::LerpClamp(MoveDir, NextDir, _DeltaTime * 10.0f);
 
 	float4 CalRot = float4::ZERO;
-	CalRot.y = float4::GetAngleVectorToVectorDeg360(PlayerDefaultDir, LerpDir);
+	CalRot.y = float4::GetAngleVectorToVectorDeg360(PLAYER_DEFAULT_DIR, LerpDir);
 	m_pCapsuleComp->SetRotation(/*PlayerInitRotation*/ -CalRot);
 	ForwardDir = LerpDir;
 }
@@ -203,7 +254,7 @@ void Player::DirectionUpdate(float _DeltaTime)
 
 void Player::MoveUpdate(float _MoveVec, float4 _Dir)
 {
-	m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+	//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 	if (float4::ZERONULL == _Dir)
 	{
 		m_pCapsuleComp->SetMoveSpeed(MoveDir * _MoveVec);
@@ -238,11 +289,11 @@ void Player::DefaultPhysX()
 				return;
 			}
 		}
-		if (PlayerState::FALLING == GetCurState< PlayerState>() || PlayerState::BASE_ATT == GetCurState<PlayerState>())
+		if (PlayerState::FALLING == GetCurState< PlayerState>() || PlayerState::BASIC_ATT == GetCurState<PlayerState>())
 		{
 			return;
 		}
-		MoveUpdate(0.0f);
+		//MoveUpdate(0.0f);
 		//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 		//m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 	}
@@ -280,19 +331,27 @@ float4 Player::GetMousDirection()
 	std::shared_ptr<GameEngineCamera> MainCam = GetLevel()->GetMainCamera();
 	float4x4 CamViewProjectionMat = MainCam->GetView() * MainCam->GetProjection() * MainCam->GetViewPort();
 
-	float4 Player2DPos = GetTransform()->GetWorldPosition() * CamViewProjectionMat;
+	float4 Player2DPos = GetBonePos("Weapon_L");
+	Player2DPos *= CamViewProjectionMat;
 	Player2DPos /= Player2DPos.w;
 	Player2DPos.w = 1.0f;
 
 	// Windows Forms to Cartesian Coordinate System
 	Player2DPos -= GameEngineWindow::GetScreenSize().half();
 	Player2DPos.y = -Player2DPos.y;
-
+	Player2DPos.z = 0;
 
 	float4 NDir = Mouse2DPos - Player2DPos;
+	NDir.z = 0;
+	NDir.RotationAllDeg(CameraRot);
+	NDir.Normalize();
 
+	float4 Ydir = float4{ 0.0f,NDir.y,0.0f };
+	Ydir.RotaitonXDeg(90.0f - CameraRot.y);
+	NDir += Ydir;
+	NDir.y = 0;
 
-	return  float4{ NDir.x, 0, NDir.y }.NormalizeReturn();
+	return  NDir;
 }
 
 
@@ -301,11 +360,33 @@ float4 Player::GetBonePos(const std::string_view& _BoneName)
 	AnimationBoneData Bone = Renderer->GetBoneData(_BoneName.data());
 	float4 PPos = Renderer->GetTransform()->GetWorldPosition(); // 피봇문제로 제대로 가져오질 않음
 
-
-
 	std::shared_ptr< GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 	BonePivot->GetTransform()->SetParent(GetTransform());
 	BonePivot->GetTransform()->SetLocalPosition(Bone.Pos);
 
 	return BonePivot->GetTransform()->GetWorldPosition();
+}
+
+
+void Player::CheckPlayerHit()
+{
+	if (true == PlayerTestMode)
+	{
+		return;
+	}
+	if (true == CheckCollision(PhysXFilterGroup::MonsterSkill))
+	{
+		if (false  == PlayerTestMode)
+		{
+			--PlayerHP;
+		}
+		if (0 >= PlayerHP)
+		{
+			SetNextState(PlayerState::DEAD);
+		}
+		else
+		{
+			SetNextState(PlayerState::HIT);
+		}
+	}
 }

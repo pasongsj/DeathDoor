@@ -1,6 +1,7 @@
 #include "PrecompileHeader.h"
 #include "ContentUIRenderer.h"
 #include "HpBar.h"
+#include "Player.h"
 
 HpBar::HpBar()
 {
@@ -31,6 +32,7 @@ void HpBar::Start()
 
 void HpBar::Update(float _DeltaTime)
 {
+	HpUpdate();
 }
 
 void HpBar::Render(float _DeltaTime)
@@ -38,18 +40,42 @@ void HpBar::Render(float _DeltaTime)
 
 }
 
-void HpBar::ReduceHp()
+void HpBar::HpUpdate()
 {
-
-	if (CurHp <= 1)
+	if (nullptr == Player::MainPlayer)
 	{
-		HpBlocks[CurHp - 1]->SetScaleToTexture("Hp_Empty.png");
-		//Á×À½
 		return;
 	}
+	CurHp = Player::MainPlayer->GetPlayerHP();
 
-	HpBlocks[CurHp - 1]->SetScaleToTexture("Hp_Empty.png");
-	CurHp--;
+	if (CurHp != PrevHp)
+	{
+		if (CurHp <= 0)
+		{
+			HpBlocks[0]->SetScaleToTexture("Hp_Empty.png");
+			return;
+		}
 
-	HpBlocks[CurHp - 1]->ColorOptionValue.MulColor = { 0.71f, 1.2f, 0.0f, 1.0f };
+		if (CurHp > MaxHp)
+		{
+			return;
+		}
+
+		for (int i = 0; i < CurHp - 1; i++)
+		{
+			HpBlocks[i]->SetScaleToTexture("Hp.png");
+			HpBlocks[i]->ColorOptionValue.MulColor = { 0.67f, 0.91f, 0.37f, 1.0f };
+		}
+
+		for (int i = CurHp; i < MaxHp; i++)
+		{
+			HpBlocks[i]->SetScaleToTexture("Hp_Empty.png");
+		}
+
+		HpBlocks[CurHp - 1]->SetScaleToTexture("Hp.png");
+		HpBlocks[CurHp - 1]->ColorOptionValue.MulColor = { 0.71f, 1.2f, 0.0f, 1.0f };
+
+		PrevHp = CurHp;
+	}
+
 }

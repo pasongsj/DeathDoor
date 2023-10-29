@@ -27,7 +27,6 @@ private:
 	std::shared_ptr<class GameEngineComponent> MousePivot = nullptr;
 	std::shared_ptr<class ContentFBXUIRenderer> MouseCursor = nullptr;
 
-	std::shared_ptr<class ContentFBXRenderer> Player = nullptr;
 	std::shared_ptr<class GameEngineCollision> Ray = nullptr;
 };
 

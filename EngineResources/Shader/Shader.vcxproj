@@ -151,7 +151,6 @@
     <FxCompile Include="DeferredCalLight.hlsl" />
     <FxCompile Include="DeferredMerge.hlsl" />
     <FxCompile Include="DeferredPostLight.hlsl" />
-    <FxCompile Include="FXAA.hlsl" />
     <FxCompile Include="GridShader.hlsl" />
     <FxCompile Include="Light.fx" />
     <FxCompile Include="MeshAniTexture.hlsl" />
@@ -162,6 +161,8 @@
     <FxCompile Include="MergeShader.hlsl" />
     <FxCompile Include="MeshTextureAlpha.hlsl" />
     <FxCompile Include="MeshTextureDeferred.hlsl" />
+    <FxCompile Include="Particle.hlsl" />
+    <FxCompile Include="ParticleUpdate.fx" />
     <FxCompile Include="RenderBaseValue.fx" />
     <FxCompile Include="Shadow.hlsl" />
     <FxCompile Include="TextureShader.hlsl" />

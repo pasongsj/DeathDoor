@@ -3,6 +3,12 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include "ContentsEnum.h"
 
+enum class SubShapeType
+{
+	BOX,
+	SPHERE,
+};
+
 // 설명 : PhysX에서 공통으로 사용할 함수들
 class PhysXDefault
 {
@@ -54,19 +60,21 @@ public:
 
 
 	//중력끄기
-	void TurnOffGravity()
+	virtual void TurnOffGravity() 
 	{
 		if (m_pRigidDynamic!=nullptr)
 		{
+			m_bGravity = false;
 			m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, true);
 		}
 	}
 
 	//중력키기
-	void TurnOnGravity()
+	virtual void TurnOnGravity()
 	{
 		if (m_pRigidDynamic != nullptr)
 		{
+			m_bGravity = true;
 			m_pRigidDynamic->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, false);
 		}
 	}
@@ -92,18 +100,25 @@ public:
 		m_pAggregate->addActor(*_Actor);
 	}
 
-	void SetWorldPosWithParent(float4 _Pos, float4 _Rot = float4::ZERONULL);
+	virtual void SetWorldPosWithParent(float4 _Pos, float4 _Rot = float4::ZERONULL);
 
 
 
 	float4 GetWorldPosition();
 
-	void SetMoveSpeed(float4 _MoveSpeed)
+	virtual void SetMoveSpeed(float4 _MoveSpeed) 
 	{
 		if (m_pRigidDynamic!=nullptr)
 		{
-			//Y축은 중력에 의해 가속도를 받지만 X,Z는 가속도를 없애서 정속 이동을 하게끔 함
-			m_pRigidDynamic->setLinearVelocity({ 0,m_pRigidDynamic->getLinearVelocity().y,0 });
+			if (true == m_bGravity)
+			{
+				//Y축은 중력에 의해 가속도를 받지만 X,Z는 가속도를 없애서 정속 이동을 하게끔 함
+				m_pRigidDynamic->setLinearVelocity({ 0,m_pRigidDynamic->getLinearVelocity().y,0 });
+			}
+			else
+			{
+				m_pRigidDynamic->setLinearVelocity({ 0,0,0 });
+			}
 			// 캐릭터의 방향을 힘으로 조절
 			m_pRigidDynamic->addForce(_MoveSpeed.PhysXVec3Return(), physx::PxForceMode::eVELOCITY_CHANGE);
 		}		
@@ -132,6 +147,10 @@ public:
 		return m_pRigidStatic;
 	}
 
+	physx::PxShape* GetShape()
+	{
+		return m_pShape;
+	}
 	
 	physx::PxPhysics* GetPhysics()
 	{
@@ -174,7 +193,7 @@ public:
 
 	void DeathAndRelease();
 
-	void Release();
+	void PhysXRelease();
 
 	inline void SetPositionSetFromParentFlag(bool _Flag)
 	{
@@ -190,7 +209,7 @@ public:
 		return m_bStatic;
 	}
 
-	void SetFilterData(PhysXFilterGroup _ThisFilter, PhysXFilterGroup _OtherFilter0 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter1 = PhysXFilterGroup::None, PhysXFilterGroup _OtherFilter2 = PhysXFilterGroup::None);
+	virtual void SetFilterData(PhysXFilterGroup _ThisFilter);
 
 	void SetTrigger()
 	{
@@ -198,8 +217,58 @@ public:
 		m_pShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
 	}
 
+	void SetRigidCollide(bool _Value);
+
+
+	virtual void CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos = float4::ZERO);
+
+
+	void AttachShape(UINT _INDEX = 0)
+	{
+		if (m_pRigidDynamic!=nullptr)
+		{
+			m_pRigidDynamic->attachShape(*m_vecSubShape[_INDEX]);
+			return;
+		}
+
+		if (m_pRigidStatic != nullptr)
+		{
+			m_pRigidStatic->attachShape(*m_vecSubShape[_INDEX]);
+			return;
+		}
+	}
+
+	void DetachShape(UINT _INDEX = 0)
+	{
+		if (m_pRigidDynamic != nullptr)
+		{
+			m_pRigidDynamic->detachShape(*m_vecSubShape[_INDEX]);
+			return;
+		}
+
+		if (m_pRigidStatic != nullptr)
+		{
+			m_pRigidStatic->detachShape(*m_vecSubShape[_INDEX]);
+			return;
+		}
+	}
+
+	void SetSubShapeFilter(PhysXFilterGroup _ThisFilter, UINT _INDEX = 0)
+	{		
+		m_vecSubShape[_INDEX]->setSimulationFilterData
+		(
+			physx::PxFilterData
+			(
+				static_cast<physx::PxU32>(_ThisFilter),
+				0,
+				0,
+				0
+			)
+		);
+	}
 
 protected:
+	physx::PxController* m_pController = nullptr;
 	physx::PxRigidDynamic* m_pRigidDynamic = nullptr;
 	physx::PxRigidStatic* m_pRigidStatic = nullptr;
 	float m_fStaticFriction = 0.0f;
@@ -210,6 +279,8 @@ protected:
 	bool m_bAggregateObj = false;
 	bool m_bStatic = false;
 
+	bool m_bGravity = true;
+
 	static physx::PxAggregate* m_pAggregate;
 	std::weak_ptr<GameEngineActor> ParentActor;
 
@@ -219,6 +290,7 @@ protected:
 
 	physx::PxMaterial* m_pMaterial = nullptr;
 	physx::PxShape* m_pShape = nullptr;
+	std::vector<physx::PxShape*> m_vecSubShape;
 	
 
 	float4 m_fShapeCenter = float4::ZERO;

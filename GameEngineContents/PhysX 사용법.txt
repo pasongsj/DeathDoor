@@ -10,17 +10,18 @@ CreateComponent의 인자는 크기, 회전값, 스태틱여부 총 3가지를 넣을수 있습니다.
 
 만든 액터를 충돌 체크를 하고 싶을때는 SetFilterData() 를 사용합니다. (PhysXTrigger에 견본 有)
 인자의 들어가는 enum은 ContentsEnum.h 의 PhysXFilterGroup에 추가하여 사용 가능합니다.
-인자는 처음은 본인의 유형, 나머지 3개는 상대의 유형입니다. 최대 3개까지 지정 가능합니다.
+인자는 처음은 본인의 유형을 설정합니다.
+(본인을 여러개의 필터로 설정도 가능한데 전부 쓰고싶은거면 말좀해주셈 추가해야함)
+
+원하는것을 세팅했다면 GlobalValue에 가서 Pair를 통해 서로 연결되어있는지 확인해야합니다. 서순은 상관x
+없으면 추가 ㄱㄱ
 
 
-충돌체크는 PhysXCustom.cpp에서 가능합니다. (PhysXCustom에 견본 有)
-Trigger충돌은 onTrigger함수에서, 트리거가 아니라면 onContact에서 체크 가능합니다.
-PhysXComponent가 만들어질떄 보면 m_pShape->userData = GetActor()를 하고 있습니다.
-userData는 void* 라서 어떤 포인터든지 받을수 있기에, 액터를 넣어두었습니다.
-따라서 충돌했을때 가져온 Shape의 userData를 reinterpret_cast를 통해 충돌한 액터로 변환하여 사용할 수 있게 만들어두었습니다.
-불러온 해당 액터에게 콜백을 두고, 충돌했을때 호출되는 함수에서 람다로 넣어줘도 될듯 합니다.
+충돌체크는 PhysXCustom.cpp에서 합니다. (PhysXCustom에 견본 有)
 
-
+충돌했으면 Actor포인터에 IsPhysXCollision을 해당 비트값으로 바꿔주기에
+액터는 CheckCollision(상대 필터) 를 통하여 충돌했는지 bool값으로 알수 있습니다.
+FSM Base쓰는 액터는 거기에 IsPhysXCollision를 0으로 바꿔주는게 있는데 그거 안쓰는 액터는 업데이트 종료시 직접 0을 해줘야합니다.
 
 
 추가적으로 엔진 Update는 안정적인 충돌연산을 위해 120프레임으로 제한을 뒀습니다. (PhysX Simulate가 Update 더 많이 돌아야 안정적)

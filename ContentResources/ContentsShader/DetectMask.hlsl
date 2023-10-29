@@ -35,10 +35,7 @@ struct OutPutTarget
     float4 AmbLightTarget : SV_Target3;
 };
 
-cbuffer Intensity : register(b0)
-{
-    float4 Intensity;
-};
+
     
 OutPutTarget DetectMask_PS(OutPut _Value)
 {
@@ -51,7 +48,7 @@ OutPutTarget DetectMask_PS(OutPut _Value)
     
     float4 DiffuseColor = DiffuseTexture.Sample(POINTSAMPLER, _Value.UV.xy);
     
-    if (BlurColor.r != DiffuseColor.r || BlurColor.g != DiffuseColor.g || BlurColor.b != DiffuseColor.b)
+    if (abs(BlurColor.r - DiffuseColor.r) > 0.1f || abs(BlurColor.g - DiffuseColor.g) > 0.1f || abs(BlurColor.b - DiffuseColor.b) > 0.1f)
     {
         clip(-1);
     }
@@ -63,10 +60,9 @@ OutPutTarget DetectMask_PS(OutPut _Value)
     OutPutTarget OutPut = (OutPutTarget) 0.0f;
     
     OutPut.DiffuseTarget = DiffuseColor;
-    
-    OutPut.DifLightTarget = DifLight * Intensity.x;
-    OutPut.SpcLightTarget = SpcLight * Intensity.y;
-    OutPut.AmbLightTarget = AmbLight * Intensity.z;
+    OutPut.DifLightTarget = DifLight;
+    OutPut.SpcLightTarget = SpcLight;
+    OutPut.AmbLightTarget = AmbLight;
 
     return OutPut;
 }

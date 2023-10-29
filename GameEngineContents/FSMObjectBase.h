@@ -21,9 +21,10 @@ protected:
 
 	// state
 	template<typename Enumclass>
-	inline void SetNextState(Enumclass _Num) //다음 State 설정
+	inline void SetNextState(Enumclass _Num,bool _Force = false) //다음 State 설정
 	{
 		NextState = static_cast<int>(_Num);
+		ChangeStateForce = _Force;
 	}
 
 	template<typename Enumclass> // 현재 State Get
@@ -93,6 +94,11 @@ protected:
 		StateChecker = _Check;
 	}
 
+	inline void SetTrigger(bool _Value)
+	{
+		IsTrigger = _Value;
+	}
+
 private:
 	class StateFunctionParameter
 	{
@@ -108,8 +114,12 @@ private:
 	int NextState = 0;
 
 	// Update
-	float StateDuration = 0.0f;
-	bool StateChecker = false;
+	float StateDuration = 0.0f; // 해당하는 State가 지속되는 시간
+	bool StateChecker = false;	// Action확인용 bool값
+
+	bool ChangeStateForce = false;	// SetNextState에서 현재 State를 (stateEnd)끝내고 (stateStart)시작하려 할 때 사용
+
+	bool IsTrigger = false;
 
 };
 

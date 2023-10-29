@@ -28,8 +28,7 @@ void PhysXBoxComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _
 		CreateDynamic(_GeoMetryScale, _GeoMetryRot);
 	}
 
-	GetTransform()->SetWorldScale(float4(_GeoMetryScale.x, _GeoMetryScale.y, _GeoMetryScale.z));
-	GameEngineDebug::DrawBox(GetLevel()->GetMainCamera().get(), GetTransform());
+	GetTransform()->SetWorldScale(float4(_GeoMetryScale.z, _GeoMetryScale.y, _GeoMetryScale.z));
 }
 
 void PhysXBoxComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRot)
@@ -52,11 +51,7 @@ void PhysXBoxComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _GeoMe
 	// Staticfriction : 정적마찰 // Dynamicfriction : 동적마찰 // Resitution : 탄성계수
 	m_pMaterial = m_pPhysics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
 
-	// TODO::배율을 적용할 경우 이쪽 코드를 사용
-	//float4 tmpMagnification = { SIZE_MAGNIFICATION_RATIO };
-	//physx::PxVec3 tmpGeoMetryScale(_GeoMetryScale.x * tmpMagnification.x * 0.5f, 
-	//							   _GeoMetryScale.y * tmpMagnification.y * 0.5f, 
-	//							   _GeoMetryScale.z * tmpMagnification.z * 0.5f);
+	
 
 	physx::PxVec3 tmpGeoMetryScale
 	(
@@ -79,15 +74,17 @@ void PhysXBoxComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _GeoMe
 
 
 	//피벗 설정
-	physx::PxVec3 Pivot(m_f4DynamicPivot.x, m_f4DynamicPivot.y, m_f4DynamicPivot.z);
-	m_pShape->setLocalPose(physx::PxTransform(Pivot));		
+	m_fShapeCenter = float4(0.f, tmpGeoMetryScale.y, 0.f);
+	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
+	DynamicCenter += m_f4DynamicPivot.PhysXVec3Return();
+	m_pShape->setLocalPose(physx::PxTransform(DynamicCenter));
 
 	//충돌할때 필요한 필터 데이터
 	m_pShape->setSimulationFilterData
 	(
 		physx::PxFilterData
 		(
-			static_cast<physx::PxU32>(PhysXFilterGroup::None),
+			static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle),
 			0,
 			0,
 			0
@@ -95,6 +92,7 @@ void PhysXBoxComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _GeoMe
 	);
 
 	m_pShape->userData = GetActor();
+
 	// Scene에 액터 추가
 	if (true == m_bAggregateObj)
 	{
@@ -151,25 +149,27 @@ void PhysXBoxComponent::CreateDynamic(physx::PxVec3 _GeoMetryScale, float4 _GeoM
 	// 충돌체의 크기는 절반의 크기를 설정하므로 실제 Renderer의 스케일은 충돌체의 2배로 설정되어야 함
 	// TODO::부모 액터의 RenderUnit으로부터 Mesh의 Scale 과 WorldScale의 연산의 결과를 지오메트리의 Scale로 세팅해야함.
 	m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidDynamic, physx::PxBoxGeometry(tmpGeoMetryScale), *m_pMaterial);
-
+	
 	// RigidDynamic의 밀도를 설정
 	physx::PxRigidBodyExt::updateMassAndInertia(*m_pRigidDynamic, 0.1f);
 
 	//피벗 설정
-	physx::PxVec3 Pivot(m_f4DynamicPivot.x, m_f4DynamicPivot.y, m_f4DynamicPivot.z);
-	m_pShape->setLocalPose(physx::PxTransform(Pivot));
+	m_fShapeCenter = float4(0.f, tmpGeoMetryScale.y, 0.f);
+	physx::PxVec3 DynamicCenter = m_fShapeCenter.PhysXVec3Return();
+	DynamicCenter += m_f4DynamicPivot.PhysXVec3Return();
+	m_pShape->setLocalPose(physx::PxTransform(DynamicCenter));
 
-
-	///////////////////////////
-	//m_pShape->setSimulationFilterData(physx::PxFilterData(static_cast<physx::PxU32>(PhysXFilterGroup::Ground),
-	//	static_cast<physx::PxU32>(PhysXFilterGroup::PlayerDynamic), 0, 0));
-	///////////////////////////
-
-
-	
-
-	//콜백피벗 설정
-	m_pShape->setLocalPose(physx::PxTransform(Pivot));
+	//충돌할때 필요한 필터 데이터
+	m_pShape->setSimulationFilterData
+	(
+		physx::PxFilterData
+		(
+			static_cast<physx::PxU32>(PhysXFilterGroup::Obstacle),
+			0,
+			0,
+			0
+		)
+	);
 
 	m_pShape->userData = GetActor();
 	// Scene에 액터 추가
@@ -255,8 +255,13 @@ void PhysXBoxComponent::Update(float _DeltaTime)
 	}
 	if (true == GetLevel()->GetDebugRender())
 	{
-		GetTransform()->SetWorldRotation(ParentActor.lock()->GetTransform()->GetWorldRotation());
-		GetTransform()->SetWorldPosition(ParentActor.lock()->GetTransform()->GetWorldPosition());
+		float4 ShapeRot = float4(m_pShape->getLocalPose().q.x, m_pShape->getLocalPose().q.y, m_pShape->getLocalPose().q.z);
+
+		float4 ParentPos = ParentActor.lock()->GetTransform()->GetWorldPosition();
+
+		GetTransform()->SetWorldPosition(ParentPos + m_fShapeCenter + m_f4DynamicPivot);
+		GetTransform()->SetLocalRotation(ShapeRot);
+		GameEngineDebug::DrawBox(GetLevel()->GetMainCamera().get(), GetTransform());
 	}
 }
 

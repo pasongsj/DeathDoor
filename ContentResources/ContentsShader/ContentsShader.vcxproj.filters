@@ -58,6 +58,43 @@
     <FxCompile Include="Rain.hlsl">
       <Filter>Effect</Filter>
     </FxCompile>
+    <FxCompile Include="GrayScale.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="FireShader.hlsl">
+      <Filter>Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="SwordTrailShader.hlsl">
+      <Filter>ObjectShader</Filter>
+    </FxCompile>
+    <FxCompile Include="DustShader.hlsl">
+      <Filter>ObjectShader</Filter>
+    </FxCompile>
+    <FxCompile Include="DetectLuminance.hlsl">
+      <Filter>Effect\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="WaterShader.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ReflectMesh.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ReflectAniMesh.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="FXAA.hlsl">
+      <Filter>Effect\Graphic</Filter>
+    </FxCompile>
+    <FxCompile Include="GammaCorrection.hlsl">
+      <Filter>Effect\Graphic</Filter>
+    </FxCompile>
+    <FxCompile Include="DustParticle.hlsl">
+      <Filter>Effect\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="ParticleBasicShader.hlsl">
+      <Filter>Effect\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="HitCircle.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -71,6 +108,18 @@
     </Filter>
     <Filter Include="Effect\Glow">
       <UniqueIdentifier>{73680677-87cb-44d6-8a23-6f3fc68d75ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectShader">
+      <UniqueIdentifier>{a9dbb74c-91ea-4f90-8285-392b95a2df0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Bloom">
+      <UniqueIdentifier>{66718ebb-476e-4a25-a5c0-555ea905dd6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Graphic">
+      <UniqueIdentifier>{2292e790-ff25-4fce-96fd-dd70c193f21a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Particle">
+      <UniqueIdentifier>{afc3a8f6-db40-4479-8d70-ffb2d5f0fc9b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

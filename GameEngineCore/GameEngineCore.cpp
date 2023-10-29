@@ -80,7 +80,7 @@ void GameEngineCore::EngineUpdate()
 		{
 			MainLevel->LevelChangeEnd();
 			MainLevel->ActorLevelChangeEnd();
-			MainLevel->ReleaseLevelRenderTarget(); // 렌더타겟 실제로 생성
+			MainLevel->ReleaseLevelRenderTarget(); // 생성했던 렌더타겟 삭제
 		}
 
 		MainLevel = NextLevel;
@@ -88,7 +88,7 @@ void GameEngineCore::EngineUpdate()
 		if (nullptr != MainLevel)
 		{
 			CurLoadLevel = MainLevel;
-			MainLevel->InitLevelRenderTarget();// 생성했던 렌더타겟 삭제
+			MainLevel->InitLevelRenderTarget(); // 렌더타겟 실제로 생성
 			PhysXManager::GetInst()->ChangeScene(MainLevel->GetName()); // PhysX Scene변경 없으면 null로 만들어서 사용불가
 			MainLevel->LevelChangeStart();
 			MainLevel->ActorLevelChangeStart(); 
@@ -111,20 +111,23 @@ void GameEngineCore::EngineUpdate()
 		return;
 	}
 
-	// 별로 좋은건 아닙니다.
-	if (TimeDeltaTime > 1 / 30.0f) 
+
+#ifdef _DEBUG
+
+	if (TimeDeltaTime > 1 / 30.0f)
 	{
 		TimeDeltaTime = 1 / 30.0f;
 	}
+#endif // _DEBUG
 
 	UpdateTime += TimeDeltaTime;
 
 	PhysXManager::GetInst()->Simulate(TimeDeltaTime); // PhysX Simulate는 DeltaTime으로 돌게함
 
-	if (1.f/120.f > UpdateTime) // EngineUpdate는 120프레임으로 돌게함
-	{
-		return;
-	}
+	//if (1.f/120.f > UpdateTime) // EngineUpdate는 120프레임으로 돌게함
+	//{
+	//	return;
+	//}
 
 	TimeDeltaTime = UpdateTime;
 	UpdateTime = 0.f;

@@ -1,8 +1,8 @@
 #pragma once
-#include "PhysXLevel.h"
+#include "ContentLevel.h"
 
 // 설명 : 보스 테스트용 레벨
-class BossTestLevel : public PhysXLevel
+class BossTestLevel : public ContentLevel
 {
 public:
 	// constrcuter destructer

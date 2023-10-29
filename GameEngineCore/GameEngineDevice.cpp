@@ -94,7 +94,7 @@ void GameEngineDevice::CreateSwapChain()
 
 	// 화면 갱신률
 	SwapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-	SwapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
+	SwapChainDesc.BufferDesc.RefreshRate.Numerator = 144;
 
 	// 그래픽이미지 포맷
 	SwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;

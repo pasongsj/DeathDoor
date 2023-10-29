@@ -30,7 +30,15 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 	{
 		return;
 	}
-
+	if (false == AnimationFirstFrameFunc && CurFrame == Start)
+	{
+		if (StartFunc[CurFrame].bStart == false && StartFunc[CurFrame].pFunc != nullptr)
+		{
+			StartFunc[CurFrame].pFunc();
+			StartFunc[CurFrame].bStart = true;
+		}
+		AnimationFirstFrameFunc = true;
+	}
 	CurFrameTime += _DeltaTime;
 	PlayTime += _DeltaTime;
 	//                      0.1
@@ -46,15 +54,9 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 		// 여분의 시간이 남게되죠?
 		// 여분의 시간이 중요합니다.
 		CurFrameTime -= CurInter;
+		
 		++CurFrame;
-		if (StartFunc.end() != StartFunc.find(CurFrame))
-		{
-			if (StartFunc[CurFrame].bStart == false && StartFunc[CurFrame].pFunc != nullptr)
-			{
-				StartFunc[CurFrame].pFunc();
-				StartFunc[CurFrame].bStart = true;
-			}
-		}
+		
 		if (false == bOnceStart && CurFrame == 0)
 		{
 			bOnceStart = true;
@@ -69,7 +71,7 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 			break;
 		}
 
-		if (CurFrame >= End)
+		if (CurFrame > End)
 		{
 			if (true == Loop)
 			{
@@ -82,18 +84,31 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 			}
 			else
 			{
-				CurFrame = End - 1;
+				CurFrame = End;
 				EndValue = true;
 			}
 
 		}
+		if (StartFunc.end() != StartFunc.find(CurFrame))
+		{
+			if (StartFunc[CurFrame].bStart == false && StartFunc[CurFrame].pFunc != nullptr)
+			{
+				StartFunc[CurFrame].pFunc();
+				StartFunc[CurFrame].bStart = true;
+			}
+		}
+		
 	}
 	
 
 	unsigned int NextFrame = CurFrame + 1;
-	if (NextFrame >= End)
+	if (NextFrame > End)
 	{
 		NextFrame = Start;
+		if (false == Loop)
+		{
+			NextFrame = CurFrame;
+		}
 	}
 
 	// mesh      subset
@@ -311,7 +326,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 		// 텍스쳐이름 확인용 test 코드 
 		// 683 0 
 		// 683 1 
-		if (MatData.DifTextureName == "Floormark_Check.png")
+		if (MatData.DifTextureName == "swampKingBodyText.png")
 		{
 			int a = 0;
 		}
@@ -344,7 +359,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 	return RenderUnit;
 }
 
-void GameEngineFBXRenderer::SetAnimationStartFunc(const std::string_view& _Name, UINT _Index, std::function<void()> _Func)
+void GameEngineFBXRenderer::SetAnimationStartFunc(const std::string_view& _Name, UINT _Index, std::function<void()> _Func) // 애니메이션 이름, 프레임인덱스, 함수
 {	
 	std::string sUpperName = GameEngineString::ToUpper(_Name);
 	if (Animations.end() == Animations.find(sUpperName))
@@ -354,7 +369,7 @@ void GameEngineFBXRenderer::SetAnimationStartFunc(const std::string_view& _Name,
 	}
 	std::shared_ptr< GameEngineFBXAnimationInfo> Info = Animations[sUpperName];
 	//std::weak_ptr<GameEngineFBXAnimationInfo> AnimInfo = Animations[sUpperName];
-	if ((Info->Start > _Index) || (_Index >= Info->End))
+	if ((Info->Start > _Index) || (_Index > Info->End))
 	{
 		MsgAssert("설정하려는 인덱스가 " + sUpperName + "의 최대 프레임인 " + std::to_string(Info->Start)+","+ std::to_string(Info->End) + " 을(를) 넘었습니다");
 		return;
@@ -467,6 +482,7 @@ void GameEngineFBXRenderer::ChangeAnimation(const std::string& _AnimationName, b
 	}
 	FindIter->second->Reset();
 	CurAnimation = FindIter->second;
+	FindIter->second->AnimationFirstFrameFunc = false;
 }
 
 void GameEngineFBXRenderer::CalculateUnitPos()

@@ -17,12 +17,12 @@ TestObject::~TestObject()
 
 void TestObject::Start()
 {
-	std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
-	pRenderer->SetFBXMesh("House1.fbx", "MeshTexture");
+	//std::shared_ptr<GameEngineFBXRenderer> pRenderer = CreateComponent<GameEngineFBXRenderer>();
+	//pRenderer->SetFBXMesh("House1.fbx", "MeshTexture");
 
-	float4 Scale = pRenderer->GetTransform()->GetLocalScale();
-	pRenderer->GetTransform()->SetLocalScale(Scale * 10.0f);
-	GetTransform()->SetLocalPosition(float4(0.f, 10.f, 0.f));
+	//float4 Scale = pRenderer->GetTransform()->GetLocalScale();
+	//pRenderer->GetTransform()->SetLocalScale(Scale * 10.0f);
+	//GetTransform()->SetLocalPosition(float4(0.f, 10.f, 0.f));
 	
 }
 

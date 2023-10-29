@@ -1,10 +1,10 @@
 #pragma once
 #include "EnemyBase.h"
 
-// 설명 :
+// 설명 : InitGhoul를 꼭해줘야 합니다
 class EnemyGhoul : public EnemyBase 
 {
-public:
+public: 
 	// constrcuter destructer
 	EnemyGhoul();
 	~EnemyGhoul();
@@ -15,11 +15,13 @@ public:
 	EnemyGhoul& operator=(const EnemyGhoul& _Other) = delete;
 	EnemyGhoul& operator=(EnemyGhoul&& _Other) noexcept = delete;
 
+	const int GhoulFullHP = 6;
 
 protected:
-	void InitAniamtion() override;
 	void Start() override;
+	void InitAnimation() override;
 	void Update(float _DeltaTime) override;
+	void SetFSMFUNC() override;
 
 private:
 
@@ -34,9 +36,17 @@ private:
 	};
 
 	void AggroMove(float _DeltaTime);
-	void SetFSMFUNC();
 
-	//float StateDuration = 0.0f;
-	//bool StateChecker = false;
+
+	const float Idle_WaitTime = 1.0f;
+	float4 ShootDir = float4::ZERO;
+
+	void ShootArrow();
+
+
+	const float4 ArrowScale = float4{ 3.0f,1.0f,3.0f };
+	const float4 ArrowRot = float4{ 0.0f,-0.0f,-90.0f };
+	const float4 ArrowPhysXScale = float4{ 0.0f, 100.0f, 10.0f };
+
 };
 

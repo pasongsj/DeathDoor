@@ -63,7 +63,8 @@ float4 ContentTexture_PS(OutPut _Value) : SV_Target0
     Color *= MulColor;
     Color += PlusColor;
     
-    Color = saturate(Color);
+    Color.rgb = pow(Color.rgb, 2.2f);
+    Color.a = saturate(Color.a);
     
     return Color;
 }

@@ -146,6 +146,17 @@ public:
 		return AllLight;
 	}
 
+
+	inline void SetWaterHeight(float _Height)
+	{
+		WaterHeight = _Height;
+	}
+
+	inline float GetWaterHeight()
+	{
+		return WaterHeight;
+	}
+
 protected:
 	// 레벨이 바뀌어서 시작할때
 	virtual void LevelChangeStart();
@@ -169,15 +180,14 @@ protected:
 	}
 
 private:
+	float WaterHeight = 0.0f;
+
 	static bool IsDebugRender;
 	int LevelType = -1;
 
 	// 모든 카메라의 내용이 다 종합된.
 	std::shared_ptr<GameEngineRenderTarget> LastTarget;
-	
-	//안티에일리어싱
-	std::shared_ptr<GameEngineRenderTarget> FXAATarget;
-	GameEngineRenderUnit FXAAUnit;
+
 
 	//      이름           경로
 	std::map<std::string, std::string> TexturePath;

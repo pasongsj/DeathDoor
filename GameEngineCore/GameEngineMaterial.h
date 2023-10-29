@@ -31,6 +31,11 @@ public:
 		return PixelShaderPtr;
 	}
 
+	inline  std::shared_ptr<class GameEngineGeometryShader> GetGeometryShader()
+	{
+		return GeometryShaderPtr;
+	}
+
 	//void SetVertexBuffer(const std::string_view& _Value);
 	//void SetIndexBuffer(const std::string_view& _Value);
 

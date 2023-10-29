@@ -24,9 +24,6 @@ void ContentsCore::ContentsResourcesCreate()
 		{
 			GameEngineShader::AutoCompile(Files[i]);
 		}
-
-		//GameEngineVertexShader::Load(Files[0].GetFullPath(), "MyShader_VS");
-		//GameEnginePixelShader::Load(Files[0].GetFullPath(), "MyShader_PS");
 	}
 
 
@@ -65,6 +62,26 @@ void ContentsCore::ContentsResourcesCreate()
 	}
 
 
+	//알파블렌드
+	{
+		D3D11_BLEND_DESC Desc = { 0, };
+
+		Desc.AlphaToCoverageEnable = false;
+		Desc.IndependentBlendEnable = false;
+
+		Desc.RenderTarget[0].BlendEnable = true;
+		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+
+		GameEngineBlend::Create("WaterBlend", Desc);
+	}
+
 	//{
 	//	std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("My2DTexture");
 
@@ -76,7 +93,6 @@ void ContentsCore::ContentsResourcesCreate()
 	//	Pipe->SetBlendState("AlphaBlend");
 	//	Pipe->SetDepthState("EngineDepth");
 	//}
-
 
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Fade");
@@ -93,8 +109,6 @@ void ContentsCore::ContentsResourcesCreate()
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshForward");
 
-		//Pipe->SetVertexBuffer("FullRect");
-		//Pipe->SetIndexBuffer("FullRect");
 		Pipe->SetVertexShader("ContentMeshForward.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("ContentMeshForward.hlsl");
@@ -105,8 +119,6 @@ void ContentsCore::ContentsResourcesCreate()
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshDeffered");
 
-		//Pipe->SetVertexBuffer("FullRect");
-		//Pipe->SetIndexBuffer("FullRect");
 		Pipe->SetVertexShader("ContentMeshDeffered.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("ContentMeshDeffered.hlsl");
@@ -117,8 +129,6 @@ void ContentsCore::ContentsResourcesCreate()
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentAniMeshForward");
 
-		//Pipe->SetVertexBuffer("FullRect");
-		//Pipe->SetIndexBuffer("FullRect");
 		Pipe->SetVertexShader("ContentAnitMeshForward.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("ContentAnitMeshForward.hlsl");
@@ -129,8 +139,6 @@ void ContentsCore::ContentsResourcesCreate()
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentAniMeshDeffered");
 
-		//Pipe->SetVertexBuffer("FullRect");
-		//Pipe->SetIndexBuffer("FullRect");
 		Pipe->SetVertexShader("ContentAniMeshDeffered.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("ContentAniMeshDeffered.hlsl");
@@ -141,8 +149,6 @@ void ContentsCore::ContentsResourcesCreate()
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Content2DTexture");
 
-		//Pipe->SetVertexBuffer("FullRect");
-		//Pipe->SetIndexBuffer("FullRect");
 		Pipe->SetVertexShader("ContentTextureShader.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("ContentTextureShader.hlsl");
@@ -206,7 +212,7 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetVertexShader("LightMerge.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("LightMerge.hlsl");
-		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetBlendState("MergeBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
 
@@ -216,9 +222,130 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetVertexShader("DefferedColorMerge.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("DefferedColorMerge.hlsl");
+		Pipe->SetBlendState("MergeBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("GrayScale");
+
+		Pipe->SetVertexShader("GrayScale.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("GrayScale.hlsl");
 		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Fire");
+
+		Pipe->SetVertexShader("FireShader.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("FireShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("SwordTrailShader");
+
+		Pipe->SetVertexShader("SwordTrailShader.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("SwordTrailShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("FXAA");
+		Pipe->SetVertexShader("FXAA.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("FXAA.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("AlwayDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("DetectLum");
+		Pipe->SetVertexShader("DetectLuminance.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("DetectLuminance.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("AlwayDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("GammaCorrection");
+		Pipe->SetVertexShader("GammaCorrection.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("GammaCorrection.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("AlwayDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Dust");
+		Pipe->SetVertexShader("DustShader.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("DustShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ReflectMesh");
+		Pipe->SetVertexShader("ReflectMesh.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("ReflectMesh.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ReflectAniMesh");
+		Pipe->SetVertexShader("ReflectAniMesh.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("ReflectAniMesh.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Water");
+		Pipe->SetVertexShader("WaterShader.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("WaterShader.hlsl");
+		Pipe->SetBlendState("WaterBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ParticleBasic");
+		Pipe->SetVertexShader("ParticleBasicShader.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("ParticleBasicShader.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+	
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("DustParticle");
+		Pipe->SetVertexShader("DustParticle.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("DustParticle.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("HitCircle");
+		Pipe->SetVertexShader("HitCircle.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("HitCircle.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
 	//{
 	//	// 블랜드
 	//	D3D11_BLEND_DESC Desc = { 0, };
@@ -264,8 +391,7 @@ void ContentsCore::ContentsResourcesCreate()
 
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("DebugRect");
-		//Pipe->SetVertexBuffer("Rect");
-		//Pipe->SetIndexBuffer("Rect");
+
 		Pipe->SetVertexShader("DebugMeshRender.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("DebugMeshRender.hlsl");
@@ -298,77 +424,66 @@ void ContentsCore::ContentsResourcesCreate()
 	//	Pipe->SetDepthState("EngineDepth");
 	//}
 
+	//FBX STATIC MESH LOAD
 	{
 		GameEngineDirectory NewDir;
 		NewDir.MoveParentToDirectory("ContentResources");
-		NewDir.Move("ContentResources");
-		NewDir.Move("Mesh");
-		NewDir.Move("Characters");
-
+		NewDir.Move("ContentResources\\Mesh\\Static");
 		std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".FBX" });
-		
 		for (size_t i = 0; i < Files.size(); i++)
 		{
 			GameEngineFBXMesh::Load(Files[i].GetFullPath());
 		}
-		
-
-		// ----------------------------------- Map -------------------------------------
-		NewDir.MoveParent();
-		NewDir.Move("Map");
-		NewDir.Move("Office");
-		
-		std::vector<GameEngineFile> MapOfficeFiles = NewDir.GetAllFile({ ".FBX" });
-		
-		for (size_t i = 0; i < MapOfficeFiles.size(); i++)
-		{
-			GameEngineFBXMesh::Load(MapOfficeFiles[i].GetFullPath());
-		}
-
-		NewDir.MoveParent();
-		NewDir.Move("Fortress");
-
-		std::vector<GameEngineFile> MapFortressFiles = NewDir.GetAllFile({ ".FBX" });
-
-		for (size_t i = 0; i < MapFortressFiles.size(); i++)
-		{
-			GameEngineFBXMesh::Load(MapFortressFiles[i].GetFullPath());
-		}
-
-
-		NewDir.MoveParent();
-		NewDir.MoveParent();
-		NewDir.Move("Animations");
-		
-		std::vector<GameEngineFile> PlayerFiles = NewDir.GetAllFile({ ".FBX" });
-		
-		for (size_t i = 0; i < PlayerFiles.size(); i++)
-		{
-			GameEngineFBXAnimation::Load(PlayerFiles[i].GetFullPath());
-		}
 	}
 
-
+	// FBX ANIMATOR MESH LOAD
 	{
 		GameEngineDirectory NewDir;
 		NewDir.MoveParentToDirectory("ContentResources");
-		NewDir.Move("ContentResources");
-		NewDir.Move("Mesh");
-		NewDir.Move("AniMesh");
-
-		std::vector<GameEngineFile> PlayerFiles = NewDir.GetAllFile({ ".FBX" });
-
-		for (size_t i = 0; i < PlayerFiles.size(); i++)
+		NewDir.Move("ContentResources\\Mesh\\Animator");
+		std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".FBX" });
+		for (size_t i = 0; i < Files.size(); i++)
 		{
-			GameEngineFBXMesh::Load(PlayerFiles[i].GetFullPath());
-			GameEngineFBXAnimation::Load(PlayerFiles[i].GetFullPath());
+			GameEngineFBXMesh::Load(Files[i].GetFullPath());
 		}
 	}
+
+
+	// FBX ANIMATION MESH LOAD
+	{
+		GameEngineDirectory NewDir;
+		NewDir.MoveParentToDirectory("ContentResources");
+		NewDir.Move("ContentResources\\Mesh\\Animation");
+		std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".FBX" });
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFBXAnimation::Load(Files[i].GetFullPath());
+		}
+	}
+
+
+
+	//{
+	//	GameEngineDirectory NewDir;
+	//	NewDir.MoveParentToDirectory("ContentResources");
+	//	NewDir.Move("ContentResources");
+	//	NewDir.Move("Mesh");
+	//	NewDir.Move("AniMesh");
+
+	//	std::vector<GameEngineFile> PlayerFiles = NewDir.GetAllFile({ ".FBX" });
+
+	//	for (size_t i = 0; i < PlayerFiles.size(); i++)
+	//	{
+	//		GameEngineFBXMesh::Load(PlayerFiles[i].GetFullPath());
+	//		GameEngineFBXAnimation::Load(PlayerFiles[i].GetFullPath());
+	//	}
+	//}
 
 	{
 		GameEngineFont::Load("맑은 고딕");
 	}
 
+	ContentsCore::CreateCylinderMesh();
 
 	//여기까지
 
@@ -390,4 +505,53 @@ void ContentsCore::ContentsResourcesCreate()
 	//	}
 	//}
 
+}
+
+void ContentsCore::CreateCylinderMesh()
+{
+	std::vector<GameEngineVertex> Vertices;
+	std::vector<UINT> Indices;
+
+	float Radius = 1.0f;    // 원기둥의 반지름
+	float Height = 2.0f * GameEngineMath::PIE;  // 원기둥의 높이 (원기둥 옆면을 펼쳤을 때, 정사각형이 되는 비율이 가장 좋다 생각해서 2PIE로 설정)
+	int NumSegments = 32;   // 원기둥의 세그먼트 수
+
+	for (int i = 0; i <= NumSegments; ++i)
+	{
+		float CurTheta = 2.0f * GameEngineMath::PIE * float(i) / float(NumSegments);
+		float CurX = Radius * cosf(CurTheta);
+		float CurZ = Radius * sinf(CurTheta);
+
+		// 상단 원기둥 버텍스
+		Vertices.push_back({ { CurX, Height * 0.5f, CurZ }, { i / float(NumSegments), 0.0f } });
+	}
+
+	// 하단 원기둥 버텍스
+	for (int i = 0; i <= NumSegments; ++i)
+	{
+		float CurTheta = 2.0f * GameEngineMath::PIE * float(i) / float(NumSegments);
+		float CurX = Radius * cosf(CurTheta);
+		float CurZ = Radius * sinf(CurTheta);
+
+		// 하단 원기둥 버텍스
+		Vertices.push_back({ { CurX, -Height * 0.5f, CurZ }, { i / float(NumSegments), 1.0f } });
+	}
+
+	for (int i = 0; i < NumSegments; i++)
+	{
+		Indices.push_back(i);
+		Indices.push_back(i + 1);
+		Indices.push_back(i + NumSegments + 1);
+	}
+
+	for (int i = 0; i < NumSegments; i++)
+	{
+		Indices.push_back(i + 1);
+		Indices.push_back(i + NumSegments + 2);
+		Indices.push_back(i + NumSegments + 1);
+	}
+
+	GameEngineVertexBuffer::Create("Cylinder", Vertices);
+	GameEngineIndexBuffer::Create("Cylinder", Indices);
+	GameEngineMesh::Create("Cylinder");
 }

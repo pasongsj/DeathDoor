@@ -15,12 +15,13 @@ public:
 	EnemyGrunt& operator=(const EnemyGrunt& _Other) = delete;
 	EnemyGrunt& operator=(EnemyGrunt&& _Other) noexcept = delete;
 
-
+	const int GruntFullHP = 4;
 
 protected:
-	void InitAniamtion() override;
+	void InitAnimation() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void SetFSMFUNC() override;
 
 
 private:
@@ -36,9 +37,14 @@ private:
 	};
 
 	void AggroMove(float _DeltaTime);
-	void SetFSMFUNC();
-	
 
+	std::shared_ptr<class EnemyAttackBox> m_pAttackBox = nullptr;
+	float4 m_f4ShootDir = float4::ZERO;
+	float4 m_f4TargetPos = float4::ZERO;
+	float4 m_f4WaitPos   = float4::ZERO;
+	float m_fDistance = 0.f;
 	//float StateDuration = 0.0f;
 	//bool StateChecker = false;
+
+
 };

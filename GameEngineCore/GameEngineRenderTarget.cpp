@@ -179,6 +179,11 @@ void GameEngineRenderTarget::ReleaseEffect(std::shared_ptr<GameEnginePostProcess
 	}
 }
 
+void GameEngineRenderTarget::ReleaseAllEffect()
+{
+	Effects.clear();
+}
+
 void GameEngineRenderTarget::Effect(float _DeltaTime)
 {
 	for (size_t i = 0; i < Effects.size(); i++)
