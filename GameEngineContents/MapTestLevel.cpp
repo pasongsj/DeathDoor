@@ -104,7 +104,8 @@ void MapTestLevel::InitTestLevel()
 		std::shared_ptr<SecretTile> NewTile = CreateActor<SecretTile>();
 		NewTile->GetTransform()->SetLocalPosition(float4{ -400, 100 , 0 });
 
-		std::shared_ptr<Crate> NewCrate = GetLevel()->CreateActor<Crate>();
+		std::shared_ptr<ShortCutDoor> NewCrate = GetLevel()->CreateActor<ShortCutDoor>();
+		NewCrate->SetState(StartState::CLOSE);
 		//NewCrate->GetPhysXComponent()->SetWorldPosWithParent(float4{ 400, 0 , 0 });
 
 		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
