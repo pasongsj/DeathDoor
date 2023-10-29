@@ -12,6 +12,7 @@ BossFrogFat::~BossFrogFat()
 void BossFrogFat::Start()
 {
 	EnemyBase::Start();
+	BossFrog::Start();
 	// physx
 	{
 		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();

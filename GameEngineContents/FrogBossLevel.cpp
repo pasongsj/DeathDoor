@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "Map_Sanctuary.h"
 #include "BossFrogMain.h"
-
+#include "BossFrogWindow.h"
 
 FrogBossLevel::FrogBossLevel()
 {
@@ -29,15 +29,22 @@ void FrogBossLevel::Update(float _DeltaTime)
 	// float4 Pos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 
 		// test 
-	if (false == GetMainCamera()->IsFreeCamera()) // 계산이 안되서 임시
+	if (nullptr != BossFrog::MainBoss)
 	{
-		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
-		nextPos.y += 1000.0f; // 카메라 높이
-		float4 xzPos = float4::FORWARD * 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad); //xz연산
-		xzPos.RotaitonYDeg(m_CameraRot.y);
-		nextPos -= xzPos;
+		float4 nextPos = BossFrog::MainBoss->GetTransform()->GetWorldPosition();
+		nextPos.y += 3000.0f;
+		nextPos.z -= 3000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
 		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
 	}
+	//if (false == GetMainCamera()->IsFreeCamera()) // 계산이 안되서 임시
+	//{
+	//	float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+	//	nextPos.y += 1000.0f; // 카메라 높이
+	//	float4 xzPos = float4::FORWARD * 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad); //xz연산
+	//	xzPos.RotaitonYDeg(m_CameraRot.y);
+	//	nextPos -= xzPos;
+	//	GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
+	//}
 }
 
 void FrogBossLevel::InitKey()
@@ -81,11 +88,15 @@ void FrogBossLevel::LevelChangeStart()
 	m_pBossFrog = CreateActor<BossFrogMain>();
 	Set_BossStartPos();
 
+	BossFrogWindow::EditorGUI->On();
+
 }
 
 void FrogBossLevel::LevelChangeEnd()
 {
 	AllActorDestroy();
+	BossFrogWindow::EditorGUI->Off();
+
 }
 
 void FrogBossLevel::Set_PlayerStartPos()

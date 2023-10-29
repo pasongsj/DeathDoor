@@ -4,12 +4,23 @@
 #include "FrogBossLevel.h"
 #include "Map_Sanctuary.h"
 
+BossFrog* BossFrog::MainBoss;
+
 BossFrog::BossFrog()
 {
 }
 
 BossFrog::~BossFrog()
 {
+}
+void BossFrog::Start()
+{
+	if (nullptr != MainBoss)
+	{
+		MainBoss->Death();
+		MainBoss = nullptr;
+	}
+	MainBoss = this;
 }
 
 const float4 BossFrog::GetTilePos(const int _Y, const int _X)
