@@ -26,10 +26,10 @@ void Boss_OldCrow::InitAnimation()
 
 			CurrentSpeed = BOSS_OLDCROW_DASHSPEED2;
 		});
-	EnemyRenderer->SetAnimationStartFunc("Dash", 19, [this]
-		{
-			TurnCheck();
-		});
+	//EnemyRenderer->SetAnimationStartFunc("Dash", 19, [this]
+	//	{
+	//		
+	//	});
 
 	EnemyRenderer->CreateFBXAnimation("TurnLeft", "OldCrow_DashTurnL_Anim.FBX", { 0.033f, false });
 	EnemyRenderer->SetAnimationStartFunc("TurnLeft", 3, [this]

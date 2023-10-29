@@ -36,6 +36,10 @@ void Boss_OldCrow::Start()
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(float4{ 0.0f, 300.0f, 250.0f });
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+		
+		m_pCapsuleComp->CreateSubShape(SubShapeType::BOX, float4{ 250, 200, 200 }, float4{ 0, 0, 100 });
+		m_pCapsuleComp->SetSubShapeFilter(PhysXFilterGroup::MonsterSkill);
+		m_pCapsuleComp->AttachShape();
 	}
 
 	float4 Scale = EnemyRenderer->GetMeshScale();
@@ -43,27 +47,18 @@ void Boss_OldCrow::Start()
 	SetEnemyHP(BOSS_OLDCROW_HP / 2);
 
 	ChainsInit();
-
-	SmallCrowTargetPivot = GetLevel()->CreateActor<GameEngineActor>();
-
-	SmallCrowTargetPivot2 = GetLevel()->CreateActor<GameEngineActor>();
-	SmallCrowTargetPivot2->GetTransform()->SetParent(SmallCrowTargetPivot->GetTransform());
-	SmallCrowTargetPivot2->GetTransform()->SetLocalPosition({ 0, 0, 500.0f });
 }
 
 float Time = 0.0f;
 
 void Boss_OldCrow::Update(float _DeltaTime)
 {
-	FSMObjectBase::Update(_DeltaTime);
-
-	SmallCrowTargetPivot->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition());
-	SmallCrowTargetPivot->GetTransform()->AddLocalRotation({ 0, _DeltaTime * 90.0f, 0 });
-
 	if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))
 	{
 		GetDamaged();
 	}
+
+	FSMObjectBase::Update(_DeltaTime);
 
 	Time += _DeltaTime;
 
@@ -98,7 +93,7 @@ void Boss_OldCrow::InitPattern()
 
 	//Pattern1
 	{
-		std::vector<short> Pattern1 = std::vector<short>{ static_cast<short>(Boss_OldCrowState::DASHSTART), static_cast<short>(Boss_OldCrowState::DASHSTART) };
+		std::vector<short> Pattern1 = std::vector<short>{ static_cast<short>(Boss_OldCrowState::DASHSTART)};
 
 		Patterns.insert(std::pair(static_cast<short>(Boss_OldCrowPattern::PATTERN1), Pattern1));
 	}
@@ -133,7 +128,7 @@ void Boss_OldCrow::InitPattern()
 
 	//Pattern6
 	{
-		std::vector<short> Pattern6 = std::vector<short>{static_cast<short>(Boss_OldCrowState::EGG) };
+		std::vector<short> Pattern6 = std::vector<short>{static_cast<short>(Boss_OldCrowState::EGG), static_cast<short>(Boss_OldCrowState::JUMP) };
 
 		Patterns.insert(std::pair(static_cast<short>(Boss_OldCrowPattern::PATTERN6), Pattern6));
 	}
@@ -151,8 +146,8 @@ void Boss_OldCrow::SetRandomPattern()
 	CurrentPatternNum = 0;
 
 	//Test용 스테이트 세팅 
-	//PatternNum = 5;
-	//RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
+	PatternNum = 5;
+	RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
 
 	SetNextState(RandomState);
 
@@ -353,8 +348,12 @@ void Boss_OldCrow::GetDamaged()
 
 	//체력 닳으면 까마귀 생성
 	std::shared_ptr<Boss_OldCrowCrowHead> CrowHead = GetLevel()->CreateActor<Boss_OldCrowCrowHead>();
-	CrowHead->SetCrowHead(GetTransform()->GetWorldPosition(), GetPlayerDir());
-	
-	//
 
+	float Angle = GameEngineRandom::MainRandom.RandomFloat(0, 359);
+	float4 Dir = float4::ZERO;
+
+	Dir.y = Angle;
+	Dir.x = -45.0f;
+
+	CrowHead->SetCrowHead(GetTransform()->GetWorldPosition(), Dir);
 }
