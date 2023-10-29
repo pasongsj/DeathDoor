@@ -34,7 +34,7 @@ public:
 		case StartState::CLOSE:
 
 		{
-			m_pRenderer->ChangeAnimation("ROCKED");
+			m_pRenderer->ChangeAnimation("FLOOR");
 		}
 			break;
 		default:

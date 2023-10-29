@@ -54,24 +54,24 @@ void ShortCutDoor::InitAnimation()
 	m_pRenderer->ChangeAnimation("FLOOR"); 
 
 
-	//m_pRenderer1= CreateComponent<ContentFBXRenderer>();
-	//m_pRenderer1->GetTransform()->SetLocalScale(float4{ 100, 100, 100 });
-	//m_pRenderer1->SetFBXMesh("SHORTCUTDOOR_path.FBX", "ContentMeshDeffered");
+	m_pRenderer1= CreateComponent<ContentFBXRenderer>();
+	m_pRenderer1->GetTransform()->SetLocalScale(float4{ 100, 100, 100 });
+	m_pRenderer1->SetFBXMesh("SHORTCUTDOOR_path.FBX", "ContentMeshDeffered");
 	auto Unit = m_pRenderer->GetAllRenderUnit();
 	Unit[0][4]->Off();
 	Unit[0][5]->Off();
 	Unit[0][6]->Off();
 	Unit[0][7]->Off();
-	//Unit[0][8]->Off();
-	Unit[0][8]->ShaderResHelper.SetTexture("DiffuseTexture", "OldCrowFloor.png");
-	m_pRenderer->SetGlowToUnit(0, 8);
-	m_pRenderer->SetUnitDiffuseColorIntensity(0, 8, 4.0f);
+	Unit[0][8]->Off();
+	//Unit[0][8]->ShaderResHelper.SetTexture("DiffuseTexture", "OldCrowFloor.png");
+	//m_pRenderer->SetGlowToUnit(0, 8);
+	//m_pRenderer->SetUnitDiffuseColorIntensity(0, 8, 4.0f);
 	
 	
-	//auto Unit1 = m_pRenderer1->GetAllRenderUnit();
-	//Unit1[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "OldCrowFloor.png");
-	//m_pRenderer1->SetGlowToUnit(0, 0);
-	//m_pRenderer1->SetUnitDiffuseColorIntensity(0, 0, 4.0f);
+	auto Unit1 = m_pRenderer1->GetAllRenderUnit();
+	Unit1[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "OldCrowFloor.png");
+	m_pRenderer1->SetGlowToUnit(0, 0);
+	m_pRenderer1->SetUnitDiffuseColorIntensity(0, 0, 4.0f);
 }
 
 float test = 0.f;
