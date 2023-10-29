@@ -119,8 +119,5 @@ private:
 	//
 	void GetDamaged();		//피격 체크
 	
-	//SmallCrow 관련
-	std::shared_ptr<class GameEngineActor> SmallCrowTargetPivot = nullptr; //플레이어와 위치 맞춰줄 피봇
-	std::shared_ptr<class GameEngineActor> SmallCrowTargetPivot2 = nullptr;//피봇1에 패런트로 묶어놓고 돌아갈 피봇
 };
 

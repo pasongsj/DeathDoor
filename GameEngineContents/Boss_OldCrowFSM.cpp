@@ -100,6 +100,8 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			m_pCapsuleComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * CurrentSpeed);
 
+			TurnCheck();
+
 			SetLerpDirection(Delta);
 		},
 		[this]
@@ -422,6 +424,7 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			StateCalTime = 0.0f;
 
+			m_pCapsuleComp->DetachShape();
 			SetDirection();
 		},
 		[this](float Delta)
@@ -430,7 +433,6 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			SetLerpDirection(Delta);
 
-			float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 			float4 BossPos = GetTransform()->GetWorldPosition();
 
 			float Value = BossPos.XYZDistance(TargetPos);
@@ -442,6 +444,12 @@ void Boss_OldCrow::SetFSMFUNC()
 			}
 
 			if (Value <= 50.0f && StateCalTime > 1.0f)
+			{
+				SetNextState(Boss_OldCrowState::SLAM);
+				return;
+			}
+
+			if (StateCalTime > 2.0f)
 			{
 				SetNextState(Boss_OldCrowState::SLAM);
 				return;
@@ -476,6 +484,8 @@ void Boss_OldCrow::SetFSMFUNC()
 			{
 				if (CollPoint.y + 100.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
 				{
+					m_pCapsuleComp->AttachShape();
+
 					SetNextState(Boss_OldCrowState::SLAMIMPACT);
 					return;
 				}
@@ -510,9 +520,18 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("Egg");
+
+			StateCalTime = 0.0f;
 		},
 		[this](float Delta)
 		{
+			StateCalTime += Delta;
+
+			if (StateCalTime >= 4.0f)
+			{
+				SetNextPatternState();
+			}
+
 			if (EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(Boss_OldCrowState::IDLE);
@@ -531,14 +550,14 @@ void Boss_OldCrow::SetFSMFUNC()
 			StateCalBool = false; //애니메이션 상에서 True되어 true상태면 smallcrow까마귀 생성
 
 			StateCalTime = 0.0f; //까마귀 생성
-			StateCalTime2 = 0.0f;
+			StateCalTime2 = 0.0f;//다음패턴 체크
 		},
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
 			StateCalTime2 += Delta;
 
-			if (StateCalTime2 > 2.5f)
+			if (StateCalTime2 >= 2.5f)
 			{
 				SetNextPatternState();
 			}
@@ -562,14 +581,10 @@ void Boss_OldCrow::SetFSMFUNC()
 					BonePivot->GetTransform()->AddLocalRotation({ RandomXValue, RandomYValue, RandomZValue });
 
 					std::shared_ptr<Boss_OldCrowSmallCrow> SmallCrow = GetLevel()->CreateActor<Boss_OldCrowSmallCrow>();
-					SmallCrow->SetSmallCrow(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation(), SmallCrowTargetPivot2);
+					SmallCrow->SetSmallCrow(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation());
 
 					StateCalTime = 0.0f;
 				}
-			}
-			else
-			{
-
 			}
 		},
 		[this]

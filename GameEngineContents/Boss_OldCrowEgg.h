@@ -25,12 +25,17 @@ private:
 	std::shared_ptr<class ContentFBXRenderer> Renderer = nullptr;
 	std::shared_ptr<class PhysXSphereComponent> m_pSphereComp = nullptr;
 
+	std::shared_ptr<class GameEngineActor> PentagramPivot = nullptr;
+
 	std::shared_ptr<GameEngineSpriteRenderer> PentagramRenderer1;
 	std::shared_ptr<GameEngineSpriteRenderer> PentagramRenderer2;
 
 	float4 Dir = float4::ZERO;
 
-	float PentaGramScale = 0.0f;
+	float PentagramScale = 0.0f;
+	
 	bool IsGround = false;
+
+	void SetPentagramEffect(float _DeltaTime);
 };
 
