@@ -32,7 +32,7 @@ protected:
 
 private:
 	void SetLevel();
-	std::shared_ptr<class FrogBossLevel> m_pCurLevel = nullptr;
+	class FrogBossLevel* m_pCurLevel = nullptr;
 	
 };
 

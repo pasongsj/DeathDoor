@@ -12,6 +12,7 @@ BossFrog::BossFrog()
 
 BossFrog::~BossFrog()
 {
+	m_pCurLevel = nullptr;
 }
 void BossFrog::Start()
 {
@@ -66,9 +67,8 @@ void BossFrog::FieldRotationEnd()
 
 void BossFrog::SetLevel()
 {
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr != CurLevel)
+	if (nullptr == m_pCurLevel)
 	{
-		m_pCurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
+		m_pCurLevel = GetLevel()->DynamicThis<FrogBossLevel>().get();
 	}
 }
