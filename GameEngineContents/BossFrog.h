@@ -15,6 +15,12 @@ public:
 	BossFrog& operator=(BossFrog&& _Other) noexcept = delete;
 
 protected:
+	const float4 GetTilePos(const int _Y, const int _X);
+	const float4 GetTileIndex(const float4& _Pos);
+
+	void FieldRotationStart();
+	void FieldRotationEnd();
+
 
 private:
 

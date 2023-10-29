@@ -1,8 +1,6 @@
 #include "PreCompileHeader.h"
 #include "BossFrogMain.h"
 
-#include "FrogBossLevel.h"
-#include "Map_Sanctuary.h"
 
 BossFrogMain::BossFrogMain()
 {
@@ -239,52 +237,4 @@ void BossFrogMain::SetFSMFUNC()
 		}
 	);
 
-}
-
-const float4 BossFrogMain::GetTilePos(const int _Y, const int _X)
-{
-	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
-	if (nullptr == CurLevel)
-	{
-		MsgAssert("Level 이 nullptr 입니다.");
-	}
-
-	float4 TilePos = CurLevel->GetMap()->GetTilePos(_Y, _X);
-
-	return TilePos;
-}
-
-const float4 BossFrogMain::GetTileIndex(const float4& _Pos)
-{
-	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
-	if (nullptr == CurLevel)
-	{
-		MsgAssert("Level 이 nullptr 입니다.");
-	}
-
-	float4 TileIndex = CurLevel->GetMap()->GetTileIndex(_Pos);
-
-	return TileIndex;
-}
-
-void BossFrogMain::FieldRotationStart()
-{
-	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
-	if (nullptr == CurLevel)
-	{
-		MsgAssert("Level 이 nullptr 입니다.");
-	}
-
-	CurLevel->GetMap()->OnRotationFloor();
-}
-
-void BossFrogMain::FieldRotationEnd()
-{
-	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
-	if (nullptr == CurLevel)
-	{
-		MsgAssert("Level 이 nullptr 입니다.");
-	}
-
-	CurLevel->GetMap()->OffRotationFloor();
 }

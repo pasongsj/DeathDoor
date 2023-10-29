@@ -308,7 +308,7 @@
     <ClCompile Include="FortressLevel.cpp" />
     <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="DynamicParticleManager.cpp" />
-    <ClCompile Include="FrogBoss.cpp">
+    <ClCompile Include="BossFrog.cpp">
       <SubType>
       </SubType>
     </ClCompile>
