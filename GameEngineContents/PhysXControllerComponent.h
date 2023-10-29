@@ -73,17 +73,19 @@ public:
 
 	void RigidSwitch(bool _Value)
 	{
-		if (false == m_bRigid&&true == _Value)
+		/*if (false == m_bRigid&&true == _Value)
 		{
 			m_bRigid = _Value;
 			m_pController->getActor()->attachShape(*m_pShape);
+			m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
 		}
 		else if (true == m_bRigid && false == _Value)
 		{
 			m_bRigid = _Value;
 			m_pShape->acquireReference();
+			m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
 			m_pController->getActor()->detachShape(*m_pShape);
-		}
+		}*/
 	}
 
 
