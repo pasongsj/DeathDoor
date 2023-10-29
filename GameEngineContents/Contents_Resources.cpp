@@ -62,6 +62,26 @@ void ContentsCore::ContentsResourcesCreate()
 	}
 
 
+	//¾ËÆÄºí·»µå
+	{
+		D3D11_BLEND_DESC Desc = { 0, };
+
+		Desc.AlphaToCoverageEnable = false;
+		Desc.IndependentBlendEnable = false;
+
+		Desc.RenderTarget[0].BlendEnable = true;
+		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+
+		GameEngineBlend::Create("WaterBlend", Desc);
+	}
+
 	//{
 	//	std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("My2DTexture");
 
@@ -295,7 +315,7 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetVertexShader("WaterShader.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("WaterShader.hlsl");
-		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetBlendState("WaterBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
 
@@ -307,12 +327,21 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
-
+	
 	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("DustParticle");
 		Pipe->SetVertexShader("DustParticle.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("DustParticle.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("HitCircle");
+		Pipe->SetVertexShader("HitCircle.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("HitCircle.hlsl");
 		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}

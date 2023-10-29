@@ -428,6 +428,15 @@
     <ClCompile Include="EnemyGhoulBig.cpp">
       <Filter>FSMObject\Enemy\Ghoul</Filter>
     </ClCompile>
+    <ClCompile Include="HitCircle.cpp">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="HitParticle.cpp">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="HitEffect.cpp">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -851,6 +860,15 @@
     <ClInclude Include="FeatherParticle.h">
       <Filter>Contents\Effect\Object\Particle2D%28CPU%29\Feather</Filter>
     </ClInclude>
+    <ClInclude Include="HitCircle.h">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="HitParticle.h">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="HitEffect.h">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -1080,6 +1098,9 @@
     </Filter>
     <Filter Include="Contents\Effect\Object\Particle2D%28CPU%29\Feather">
       <UniqueIdentifier>{637c77bb-5f51-47fd-8df9-21bd8279bd80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\HitEffect">
+      <UniqueIdentifier>{c2022eee-f496-46e8-ac0d-b7d979687420}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -93,16 +93,28 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
     Color *= MulColor;
     Color += AddColor;
     
-    float4 MaskColor = (float4) 0.0f;
+    float4 DiffuseBlurColor = (float4) 0.0f;
+    
+    if (BlurColor.a < 0.0f)
+    {
+        DiffuseBlurColor = Color;
+    }
+    else
+    {
+        DiffuseBlurColor = BlurColor;
+    }
+    
     
     //Crack
     if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
     {
+        float4 MaskColor = (float4) 0.0f;
+        
         MaskColor = CrackTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
         
         if (MaskColor.a > 0.0f)
         {
-            NewOutPut.BlurTarget = float4(Color.rgb, Color.a);
+            NewOutPut.BlurTarget = float4(DiffuseBlurColor);
             Color = NewOutPut.BlurTarget;
             
             NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);
@@ -115,9 +127,16 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
     }
     
     //Fade
-    if (Delta > 0.0f)
+    float4 FadeMask = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+
+    if (Delta > 0.0f && FadeMask.r <= Delta)
     {
-        Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
+        clip(-1);
+    }
+    
+    if (FadeMask.r > Delta && FadeMask.r <= Delta * 1.1f)
+    {
+        Color = float4(DiffuseBlurColor * 3.0f);
     }
     
     NewOutPut.DifTarget = pow(Color, 2.2f);

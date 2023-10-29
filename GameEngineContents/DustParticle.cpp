@@ -20,7 +20,7 @@ void DustParticle::Start()
 	//GetUnit()->ShaderResHelper.SetTexture("DiffuseTexture", "DustParticleNoise.png");
 	GetUnit()->ShaderResHelper.SetTexture("NoiseTexture1", "ParticleNoise1.png");
 	GetUnit()->ShaderResHelper.SetTexture("NoiseTexture2", "ParticleNoise2.png");
-	GetUnit()->ShaderResHelper.SetTexture("AlphaTexture", "PaticleAlpha.png");
+	GetUnit()->ShaderResHelper.SetTexture("AlphaTexture", "ParticleAlpha.png");
 
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("MaskValue", MaskValue);
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("DistortionData", Distortion);
