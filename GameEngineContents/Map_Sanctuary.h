@@ -1,7 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-
 // Ό³Έν :
 class Map_Sanctuary : public GameEngineActor
 {
@@ -29,7 +28,10 @@ public:
 	const float4 GetTilePos(const int _Y, const int _X);
 	const float4 GetTileIndex(const float4& _Pos);
 
-	
+	void DestroyTile(const int _Y, const int _X);
+	bool IsTile(const int _Y, const int _X);
+	void ResetTile();
+
 	void OnRotationFloor();
 	void OffRotationFloor();
 	

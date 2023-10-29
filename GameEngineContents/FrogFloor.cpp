@@ -10,11 +10,8 @@
 #include "RuinsWall.h"
 #include "Ladder.h"
 
-FrogFloor* FrogFloor::MainFloor = nullptr;
-
 FrogFloor::FrogFloor()
 {
-	MainFloor = this;
 }
 
 FrogFloor::~FrogFloor()
@@ -31,6 +28,19 @@ void FrogFloor::Update(float _DeltaTime)
 {
 	
 	RotationUpdate(_DeltaTime);
+}
+
+void FrogFloor::DestroyTile(const int _Y, const int _X)
+{
+}
+
+bool FrogFloor::IsTile(const int _Y, const int _X)
+{
+	return false;
+}
+
+void FrogFloor::ResetTile()
+{
 }
 
 void FrogFloor::RotationUpdate(float _DeltaTime)

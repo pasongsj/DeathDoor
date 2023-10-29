@@ -53,6 +53,10 @@ public:
 		return m_TileSize;
 	}
 
+	// 여기서 내가 활성화 상태가 아니라면 
+	// 렌더러와 피직스컴포넌트를 off 시킬건데
+	// 일단 되게 만들고. 쉐이더는 나중에 생각. 
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
