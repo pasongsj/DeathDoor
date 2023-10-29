@@ -437,7 +437,7 @@
     <ClCompile Include="BossFrogFat.cpp">
       <Filter>FSMObject\BossFrog</Filter>
     </ClCompile>
-    <ClCompile Include="FrogBoss.cpp">
+    <ClCompile Include="BossFrog.cpp">
       <Filter>FSMObject\BossFrog</Filter>
     </ClCompile>
   </ItemGroup>
