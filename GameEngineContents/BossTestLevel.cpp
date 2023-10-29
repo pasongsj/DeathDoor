@@ -21,7 +21,6 @@ BossTestLevel::~BossTestLevel()
 
 void BossTestLevel::Start()
 {	
-	CreateActor<GameEngineLight>();
 }
 
 void BossTestLevel::Update(float _DeltaTime)
@@ -38,12 +37,15 @@ void BossTestLevel::Update(float _DeltaTime)
 
 void BossTestLevel::LevelChangeStart()
 {
+
 	CreateScene();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 
 	GetMainCamera()->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0 });
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0, 300.0f, 0.0f });
+
+	CreateActor<GameEngineLight>();
 
 	//std::shared_ptr<BossLevelTestObject> TestObject = CreateActor<BossLevelTestObject>();
 	//TestObject->GetTransform()->SetLocalScale({ 100, 100, 100 });

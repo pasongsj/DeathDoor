@@ -529,8 +529,10 @@ void GameEngineLevel::DestroyCamera()
 	for (std::pair<int, std::shared_ptr<GameEngineCamera>> _Cam : Cameras)
 	{
 		_Cam.second->Renderers.clear();
+		_Cam.second->AllRenderTarget->ReleaseAllEffect();
 		_Cam.second->ReleaseCameraRenderTarget();
 	}
+	LastTarget->ReleaseAllEffect();
 	Cameras.clear();
 }
 
