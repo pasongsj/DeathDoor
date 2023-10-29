@@ -20,53 +20,55 @@ void BossFrog::Start()
 		MainBoss->Death();
 		MainBoss = nullptr;
 	}
+
 	MainBoss = this;
+	SetLevel();
 }
 
 const float4 BossFrog::GetTilePos(const int _Y, const int _X)
 {
-	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
-	if (nullptr == CurLevel)
-	{
-		MsgAssert("Level 이 nullptr 입니다.");
-	}
-
-	float4 TilePos = CurLevel->GetMap()->GetTilePos(_Y, _X);
+	float4 TilePos = m_pCurLevel->GetMap()->GetTilePos(_Y, _X);
 
 	return TilePos;
 }
 
 const float4 BossFrog::GetTileIndex(const float4& _Pos)
 {
-	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
-	if (nullptr == CurLevel)
-	{
-		MsgAssert("Level 이 nullptr 입니다.");
-	}
-
-	float4 TileIndex = CurLevel->GetMap()->GetTileIndex(_Pos);
+	float4 TileIndex = m_pCurLevel->GetMap()->GetTileIndex(_Pos);
 
 	return TileIndex;
 }
 
+void BossFrog::DestroyTile(const int _Y, const int _X)
+{
+	m_pCurLevel->GetMap()->DestroyTile(_Y, _X);
+}
+
+bool BossFrog::IsTile(const int _Y, const int _X)
+{
+	return m_pCurLevel->GetMap()->IsTile(_Y, _X);
+}
+
+void BossFrog::ResetTile()
+{
+	m_pCurLevel->GetMap()->ResetTile();
+}
+
 void BossFrog::FieldRotationStart()
 {
-	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
-	if (nullptr == CurLevel)
-	{
-		MsgAssert("Level 이 nullptr 입니다.");
-	}
-
-	CurLevel->GetMap()->OnRotationFloor();
+	m_pCurLevel->GetMap()->OnRotationFloor();
 }
 
 void BossFrog::FieldRotationEnd()
 {
-	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
-	if (nullptr == CurLevel)
-	{
-		MsgAssert("Level 이 nullptr 입니다.");
-	}
+	m_pCurLevel->GetMap()->OffRotationFloor();
+}
 
-	CurLevel->GetMap()->OffRotationFloor();
+void BossFrog::SetLevel()
+{
+	GameEngineLevel* CurLevel = GetLevel();
+	if (nullptr != CurLevel)
+	{
+		m_pCurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
+	}
 }

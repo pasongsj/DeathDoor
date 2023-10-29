@@ -39,5 +39,5 @@ void SecretTile::InitComponent()
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
 
-	m_TileSize = static_cast<float>(MeshScale.x) * sqrt(2) / 2.0f;;
+	m_TileSize = static_cast<float>(MeshScale.x * sqrt(2) / 2.0f);
 }

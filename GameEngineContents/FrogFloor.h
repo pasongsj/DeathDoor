@@ -1,13 +1,11 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-
-
 // 보스 타일맵 경기장
 class FrogFloor : public GameEngineActor
 {
 public:
-	static FrogFloor* MainFloor;
+	friend class Map_Sanctuary;
 
 public:
 	// constrcuter destructer
@@ -35,6 +33,11 @@ public:
 		return m_vWalls;
 	}
 
+protected:
+	void Start() override;
+	void Update(float _DeltaTime) override;
+
+private:
 	void OnRotation()
 	{
 		m_bRotation = true;
@@ -50,13 +53,11 @@ public:
 		return m_bRotation;
 	}
 
-protected:
-	void Start() override;
-	void Update(float _DeltaTime) override;
+	void DestroyTile(const int _Y, const int _X);
+	bool IsTile(const int _Y, const int _X);
+	void ResetTile();
 
-private:
 	void RotationUpdate(float _DeltaTime);
-
 	
 	void InitComponent();
 	void Create_FireObject();

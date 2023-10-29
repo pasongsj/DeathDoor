@@ -112,6 +112,19 @@ const float4 Map_Sanctuary::GetTileIndex(const float4& _Pos)
 	return TileIndex;
 }
 
+void Map_Sanctuary::DestroyTile(const int _Y, const int _X)
+{
+}
+
+bool Map_Sanctuary::IsTile(const int _Y, const int _X)
+{
+	return false;
+}
+
+void Map_Sanctuary::ResetTile()
+{
+}
+
 void Map_Sanctuary::Update(float _DeltaTime)
 {
 	KeyUpdate();
