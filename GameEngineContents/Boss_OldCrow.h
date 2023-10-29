@@ -118,6 +118,6 @@ private:
 
 	//
 	void GetDamaged();		//피격 체크
-	
+
 };
 
