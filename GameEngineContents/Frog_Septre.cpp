@@ -44,10 +44,6 @@ void Frog_Septre::InitAnimation()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->SetFBXMesh("FrogSeptre_Static.FBX", "ContentMeshDeffered");
-
-
-
-	int a = 0;
 }
 
 void Frog_Septre::SetFSMFUNC()
