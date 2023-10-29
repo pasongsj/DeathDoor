@@ -50,6 +50,7 @@ void Player::Start()
 	Renderer->ChangeAnimation("IDLE0");
 	Renderer->SetGlowToUnit(0, 1);
 	Renderer->SetUnitColor(0, 1, { 0.95f, 0.20f, 0.25f }, 2.0f);
+	BonePivot = CreateComponent<GameEngineComponent>();
 }
 
 void Player::Update(float _DeltaTime)
@@ -358,10 +359,6 @@ float4 Player::GetMousDirection()
 float4 Player::GetBonePos(const std::string_view& _BoneName)
 {
 	AnimationBoneData Bone = Renderer->GetBoneData(_BoneName.data());
-	float4 PPos = Renderer->GetTransform()->GetWorldPosition(); // 피봇문제로 제대로 가져오질 않음
-
-	std::shared_ptr< GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
-	BonePivot->GetTransform()->SetParent(GetTransform());
 	BonePivot->GetTransform()->SetLocalPosition(Bone.Pos);
 
 	return BonePivot->GetTransform()->GetWorldPosition();

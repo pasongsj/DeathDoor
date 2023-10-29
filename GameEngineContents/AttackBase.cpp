@@ -27,10 +27,10 @@ void AttackBase::Update(float _DeltaTime)
 	{
 		return;
 	}
-	if (PhysXFilterGroup::None != DestTarget &&  true == CheckCollision(DestTarget) /*|| GetLiveTime() > FireTime + 30.0f*/)
+	if (PhysXFilterGroup::None != DestTarget &&  true == CheckCollision(DestTarget) || GetLiveTime() > FireTime + 20.0f)
 	{
 
-		//Death();
+		Death();
 		return;
 	}
 	PhysXComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
@@ -48,7 +48,7 @@ void AttackBase::SetTrans(const float4& _Dir, const float4& _Pos)
 		return;
 	}
 
-	if (nullptr == PhysXComp->GetDynamic())
+	if (nullptr == PhysXComp->GetDynamic() || nullptr == PhysXComp)
 	{
 		MsgAssert("PhysX Component가 생성되지 않았습니다.");
 		return;
