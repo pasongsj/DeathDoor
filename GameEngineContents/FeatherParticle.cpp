@@ -38,16 +38,13 @@ void FeatherParticle::Update(float _DeltaTime)
 {
 	BillBoarding();
 
+	Speed -= Accel * _DeltaTime;
 	GetTransform()->AddWorldPosition(Dir * Speed * _DeltaTime);
 
 	float4 Scale = GetTransform()->GetLocalScale();
-
 	GetTransform()->SetLocalScale({ Scale.x - 2.0f * _DeltaTime, Scale.y - 2.0f * _DeltaTime, 1.0f });
-	float4 Scale1 = GetTransform()->GetLocalScale();
 
-	Speed -= Accel * _DeltaTime;
-
-	if (Scale1.x <= 0.0f)
+	if (GetLiveTime() >= 2.1f)
 	{
 		Death();
 	}

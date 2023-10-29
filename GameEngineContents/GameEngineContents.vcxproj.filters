@@ -440,6 +440,15 @@
     <ClCompile Include="BossFrog.cpp">
       <Filter>FSMObject\BossFrog</Filter>
     </ClCompile>
+    <ClCompile Include="HitCircle.cpp">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="HitParticle.cpp">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="HitEffect.cpp">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -875,6 +884,15 @@
     <ClInclude Include="BossFrog.h">
       <Filter>FSMObject\BossFrog</Filter>
     </ClInclude>
+    <ClInclude Include="HitCircle.h">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="HitParticle.h">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="HitEffect.h">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -1107,6 +1125,9 @@
     </Filter>
     <Filter Include="FSMObject\BossFrog">
       <UniqueIdentifier>{8dfd5216-b32a-4c18-9954-e766d7a9eed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\HitEffect">
+      <UniqueIdentifier>{c2022eee-f496-46e8-ac0d-b7d979687420}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

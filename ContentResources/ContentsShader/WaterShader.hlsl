@@ -91,7 +91,10 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         clip(-1);
     }
     
-    _Input.NORMAL = NormalTexCalculate(NormalMap, WRAPSAMPLER, _Input.TEXCOORD, normalize(_Input.TANGENT), normalize(_Input.BINORMAL), normalize(_Input.NORMAL));
+    float4 Normal = NormalTexCalculate(NormalMap, WRAPSAMPLER, _Input.TEXCOORD, normalize(_Input.TANGENT), normalize(_Input.BINORMAL), normalize(_Input.NORMAL));
+    float4 Normal2 = NormalTexCalculate(NormalMap, WRAPSAMPLER, _Input.TEXCOORD * 2.0f, normalize(_Input.TANGENT), normalize(_Input.BINORMAL), normalize(_Input.NORMAL));
+    
+    _Input.NORMAL = (Normal + Normal2) / 2.0f;
     
     NewOutPut.DifTarget = pow(Color, 2.2f);
     //NewOutPut.BlurTarget = Color;

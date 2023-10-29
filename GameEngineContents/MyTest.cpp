@@ -6,7 +6,9 @@
 #include "FireObject.h"
 #include "SkillSlot.h"
 
-#include "DustParticle.h"
+#include "HitEffect.h"
+
+#include <GameEngineBase/GameEngineRandom.h>
 
 MyTest::MyTest()
 {
@@ -18,11 +20,16 @@ MyTest::~MyTest()
 
 void MyTest::Start()
 {
-	CreateComponent<DustParticle>();
+	CreateKey();
+
 }
 
 void MyTest::Update(float _Delta)
 {
+	if (GameEngineInput::IsDown("MyTest") == true)
+	{
+		GetLevel()->CreateActor<HitEffect>();
+	}
 }
 
 void MyTest::TestRender()

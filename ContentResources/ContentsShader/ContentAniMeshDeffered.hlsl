@@ -112,12 +112,20 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
         clip(-1);
     }
     
+    
     //Fade
-    if (Delta > 0.0f)
+    float4 FadeMask = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+
+    if (Delta > 0.0f && FadeMask.r <= Delta)
     {
-        NewOutPut.BlurTarget *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
-        Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
+        clip(-1);
     }
+    
+    if (FadeMask.r > Delta && FadeMask.r <= Delta * 1.1f)
+    {
+        Color = float4(DiffuseBlurColor * 3.0f);
+    }
+
     
     NewOutPut.DifTarget = pow(Color, 2.2f);
     NewOutPut.PosTarget = _Input.VIEWPOSITION;

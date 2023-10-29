@@ -168,6 +168,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HitCircle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Boomerang.cpp" />
     <ClCompile Include="BossFrogFat.cpp">
       <SubType>
@@ -338,6 +342,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GrayScaleEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="HitEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="HitParticle.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -552,6 +564,10 @@
     <ClCompile Include="WoodenBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HitCircle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Boomerang.h" />
     <ClInclude Include="BossFrogFat.h">
       <SubType>
@@ -756,6 +772,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GrayScaleEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HitEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HitParticle.h">
       <SubType>
       </SubType>
     </ClInclude>
