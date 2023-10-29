@@ -137,21 +137,10 @@ void BossFrogMain::Start()
 	}
 	SetEnemyHP(3);
 
-	//test
-
-	if (false == GameEngineInput::IsKey("PressK"))
-	{
-		GameEngineInput::CreateKey("PressK", 'K');
-	}
 }
 
 void BossFrogMain::Update(float _DeltaTime)
 {
-	// test 
-	if (true == GameEngineInput::IsDown("PressK"))
-	{
-		SetNextState(BossFrogMainState::DAMAGED);
-	}
 	FSMObjectBase::Update(_DeltaTime);
 }
 bool BossFrogMain::CheckHit()
@@ -242,11 +231,57 @@ void BossFrogMain::SetFSMFUNC()
 	SetFSM(BossFrogMainState::DAMAGED,
 		[this]
 		{
-			Phase++;
 			EnemyRenderer->ChangeAnimation("DAMEGED_LOOP");
+			switch (Phase)
+			{
+			case 1:
+				EnemyRenderer->SetGlowToUnit(23, 0);
+				EnemyRenderer->SetUnitColor(23, 0, float4::RED, 1.0f);				
+				EnemyRenderer->SetGlowToUnit(24, 0);
+				EnemyRenderer->SetUnitColor(24, 0, float4::RED, 1.0f);
+				break;		   
+			case 2:
+				EnemyRenderer->SetGlowToUnit(25, 0);
+				EnemyRenderer->SetUnitColor(25, 0, float4::RED, 1.0f);
+				EnemyRenderer->SetGlowToUnit(26, 0);
+				EnemyRenderer->SetUnitColor(26, 0, float4::RED, 1.0f);
+				EnemyRenderer->SetGlowToUnit(27, 0);
+				EnemyRenderer->SetUnitColor(27, 0, float4::RED, 1.0f);
+				break;
+			case 3:
+				EnemyRenderer->SetGlowToUnit(21, 0);
+				EnemyRenderer->SetUnitColor(21, 0, float4::RED, 1.0f);
+				EnemyRenderer->SetGlowToUnit(22, 0);
+				EnemyRenderer->SetUnitColor(22, 0, float4::RED, 1.0f);
+				break;
+			default:
+				break;
+			}
 		},
 		[this](float Delta)
 		{
+			if (false == GetStateChecker() && GetStateDuration() > 0.5f)
+			{
+				switch (Phase)
+				{
+				case 1:
+					EnemyRenderer->SetRenderUnitControl(23, 0, false);
+					EnemyRenderer->SetRenderUnitControl(24, 0, false);
+					break;
+				case 2:
+					EnemyRenderer->SetRenderUnitControl(25, 0, false);
+					EnemyRenderer->SetRenderUnitControl(26, 0, false);
+					EnemyRenderer->SetRenderUnitControl(27, 0, false);
+					break;
+				case 3:
+					EnemyRenderer->SetRenderUnitControl(21, 0, false);
+					EnemyRenderer->SetRenderUnitControl(22, 0, false);
+					break;
+				default:
+					break;
+				}
+				SetStateCheckerOff();
+			}
 			if (GetStateDuration() > 1.0f)
 			{
 				SetNextState(BossFrogMainState::SWIM);
@@ -254,6 +289,7 @@ void BossFrogMain::SetFSMFUNC()
 		},
 		[this]
 		{
+			Phase++;
 		}
 	);
 	
