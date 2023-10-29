@@ -43,7 +43,7 @@ protected:
 
 	float4 GetRotationDegree(const float4& _CurDir);
 
-	bool CheckHit();
+	virtual bool CheckHit();
 
 	bool DeathCheck();
 

@@ -8,6 +8,7 @@
 #include "Map_Fortress.h"
 #include "CullingManager.h"
 #include "WaterBox.h"
+#include "BossFrog.h"
 
 FortressLevel::FortressLevel()
 {

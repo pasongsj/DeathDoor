@@ -24,17 +24,13 @@ protected:
 
 private:
 
-
-	// intro to jump = idle to jump
-	// idle to jump
-	// swim to jump
-
+	bool CheckHit() override;
 	const float IdleStateDuration = 3.0f;
 
 	enum class BossFrogMainState
 	{
-		IDLE, //IDLE
 		INTRO, //POGO_START 포효만 함
+		IDLE, //IDLE
 		SWIM, // SWIM_EDIT
 		DAMAGED, // DAMEGED_LOOP
 		IDLE_JUMP_START,	//Idle to jump
@@ -44,6 +40,11 @@ private:
 		MAX,
 	};
 
+	int Phase = 1;
+	float4 MoveSpeed = float4::ZERO;
 	int JumpCount = 0;
+
+	void MoveUpdate();
+	float4 GetNextPostition();
 };
 

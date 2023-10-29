@@ -4,6 +4,7 @@
 class BossFrog : public EnemyBase
 {
 public:
+	static BossFrog* MainBoss;
 	// constrcuter destructer
 	BossFrog() ;
 	~BossFrog();
@@ -15,6 +16,7 @@ public:
 	BossFrog& operator=(BossFrog&& _Other) noexcept = delete;
 
 protected:
+	void Start() override;
 	const float4 GetTilePos(const int _Y, const int _X);
 	const float4 GetTileIndex(const float4& _Pos);
 
