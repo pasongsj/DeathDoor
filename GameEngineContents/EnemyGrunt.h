@@ -43,7 +43,6 @@ private:
 	float4 m_f4TargetPos = float4::ZERO;
 	float4 m_f4WaitPos   = float4::ZERO;
 	float m_fDistance = 0.f;
-	float m_fDeathTime = 0.f;
 	//float StateDuration = 0.0f;
 	//bool StateChecker = false;
 

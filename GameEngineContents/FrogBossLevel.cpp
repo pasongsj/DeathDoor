@@ -78,8 +78,8 @@ void FrogBossLevel::LevelChangeStart()
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_PlayerStartPos();
 
-	//std::shared_ptr<BossFrogMain> Boss = CreateActor<BossFrogMain>();
-	//Boss->GetPhysXComponent()->SetWorldPosWithParent(float4{-4244,850,3152});
+	m_pBossFrog = CreateActor<BossFrogMain>();
+	Set_BossStartPos();
 
 }
 
@@ -105,5 +105,24 @@ void FrogBossLevel::Set_PlayerStartPos()
 	}
 
 	Comp->SetWorldPosWithParent(m_StartPos);
+}
+
+void FrogBossLevel::Set_BossStartPos()
+{
+	if (nullptr == m_pBossFrog)
+	{
+		MsgAssert("Boss 가 nullptr 입니다.");
+		return;
+	}
+
+	std::shared_ptr<PhysXControllerComponent> Comp = m_pBossFrog->GetPhysXComponent();
+
+	if (nullptr == Comp)
+	{
+		MsgAssert("Player 의 PhysXComponent가 nullptr 입니다.");
+		return;
+	}
+
+	Comp->SetWorldPosWithParent(m_TestPos);
 }
 

@@ -225,7 +225,7 @@ void PhysXDefault::DeathAndRelease()
     }
 }
 
-void PhysXDefault::Release()
+void PhysXDefault::PhysXRelease()
 {
     if (m_pRigidDynamic != nullptr && m_pRigidDynamic->isReleasable())
     {
@@ -277,7 +277,7 @@ void PhysXDefault::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _Loc
 	case SubShapeType::BOX:
 	{
 		//m_pSubShape =GetPhysics()->createShape(physx::PxBoxGeometry(_Scale.half().PhysXVec3Return()), *m_pMaterial);
-		m_pSubShape = GetPhysics()->createShape(physx::PxBoxGeometry(_Scale.half().PhysXVec3Return()), *m_pMaterial);
+		physx::PxShape* m_pSubShape = GetPhysics()->createShape(physx::PxBoxGeometry(_Scale.half().PhysXVec3Return()), *m_pMaterial);
 
 		//m_pController->getActor()->attachShape(*m_pSubShape);
 
@@ -296,11 +296,12 @@ void PhysXDefault::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _Loc
 				0
 			)
 		);
+        m_vecSubShape.push_back(m_pSubShape);
 	}
 	break;
 	case SubShapeType::SPHERE:
 	{
-		m_pSubShape = GetPhysics()->createShape(physx::PxSphereGeometry(_Scale.half().PhysXVec3Return().y), *m_pMaterial);
+        physx::PxShape* m_pSubShape = GetPhysics()->createShape(physx::PxSphereGeometry(_Scale.half().PhysXVec3Return().y), *m_pMaterial);
 
 
 		m_pSubShape->setLocalPose(physx::PxTransform(_LocalPos.PhysXVec3Return(), physx::PxQuat(physx::PxHalfPi, float4(0, 0, 1).PhysXVec3Return())));
@@ -318,6 +319,7 @@ void PhysXDefault::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _Loc
 				0
 			)
 		);
+        m_vecSubShape.push_back(m_pSubShape);
 	}
 	break;
 	default:

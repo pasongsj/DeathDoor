@@ -12,6 +12,8 @@ SecretTile::~SecretTile()
 {
 }
 
+
+
 void SecretTile::Start()
 {
 	InitComponent();
@@ -36,4 +38,6 @@ void SecretTile::InitComponent()
 	m_pPhysXComponent->SetDynamicPivot(float4{ 0.0f, -MeshScale.y , 0.0f });
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
+
+	m_TileSize = static_cast<float>(MeshScale.x) * sqrt(2) / 2.0f;;
 }

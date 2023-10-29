@@ -20,10 +20,13 @@
 #include "EnemyJumper.h"
 #include "MonsterAnimationTest.h"
 
+
 //test 
+#include "Crate.h"
+#include "Mushroom.h"
 #include "SecretTile.h"
 #include "Ladder.h"
-#include "Crate.h"
+#include "ShortCutDoor.h"
 #include "Frog_Lever.h"
 #include "Frog_Septre.h"
 #include "PlayerAttackMagic.h"
@@ -31,6 +34,7 @@
 
 #include "PlayerAttackTrail.h"
 #include "BossFrogMain.h"
+#include "BossFrogFat.h"
 
 
 
@@ -101,7 +105,7 @@ void MapTestLevel::InitTestLevel()
 		NewTile->GetTransform()->SetLocalPosition(float4{ -400, 100 , 0 });
 
 		std::shared_ptr<Crate> NewCrate = GetLevel()->CreateActor<Crate>();
-		NewCrate->GetTransform()->SetLocalPosition(float4{ 400, 0 , 0 });
+		//NewCrate->GetPhysXComponent()->SetWorldPosWithParent(float4{ 400, 0 , 0 });
 
 		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
 		NewLadder->GetTransform()->SetWorldPosition(float4{ 800, 0 , 0 });
@@ -109,14 +113,13 @@ void MapTestLevel::InitTestLevel()
 		NewLadder->SetHeight(4);
 		
 
-		 std::shared_ptr<Frog_Septre> Lever = CreateActor<Frog_Septre>();
+		 std::shared_ptr<Frog_Lever> Lever = CreateActor<Frog_Lever>();
 		 Lever->SetTriggerFunction([=]
 			{
 					NewLadder->SetHidden(false);
 			}
 		 );
-		Lever->GetTransform()->SetLocalPosition(float4{ 0, 0, -1000 });
-		Lever->GetTransform()->SetLocalRotation(float4{ 0, -90 , 0 });
+		Lever->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0, 0, -1000 },float4(0,90,0));
 
 		std::shared_ptr<Map_Emptyplain> NewMap = CreateActor<Map_Emptyplain>();
 		std::shared_ptr<Player> Obj = CreateActor<Player>();
@@ -126,12 +129,14 @@ void MapTestLevel::InitTestLevel()
 		}
 
 
-		//std::shared_ptr<BossFrogMain> Mage = CreateActor<BossFrogMain>();
-		//Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
+		std::shared_ptr<BossFrogFat> Mage = CreateActor<BossFrogFat>();
+		Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
 
-		std::shared_ptr<EnemyGhoul> Ghoul = CreateActor<EnemyGhoul>();
-		//Ghoul->InitGhoul(true);
-		Ghoul->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });
+		//std::shared_ptr<EnemyMage> Ghoul = CreateActor<EnemyMage>();
+		//Ghoul->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });		
+		
+		//std::shared_ptr<BossFrogFat> Ghoul = CreateActor<BossFrogFat>();
+		//Ghoul->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });
 
 		//CreateActor<EnemyFirePlant>();
 		//CreateActor<PlayerAttMagic>();

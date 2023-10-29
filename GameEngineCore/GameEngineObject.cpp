@@ -127,7 +127,7 @@ void GameEngineObject::AllDestroy()
 		std::shared_ptr<PhysXDefault> pPhysXActor = this->DynamicThis<PhysXDefault>();
 		if (nullptr != pPhysXActor)
 		{
-			pPhysXActor->Release();
+			pPhysXActor->PhysXRelease();
 		}
 		Destroy();
 	}

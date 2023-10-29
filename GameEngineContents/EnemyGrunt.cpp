@@ -57,7 +57,6 @@ void EnemyGrunt::Start()
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 		m_pCapsuleComp->CreateSubShape(SubShapeType::BOX, float4(60, 10, 100), float4(0,0,50));
 	}
-	SetFSMFUNC();
 }
 
 void EnemyGrunt::Update(float _DeltaTime)
@@ -254,11 +253,14 @@ void EnemyGrunt::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			m_fDeathTime += Delta;
 
-			float4 f4Result = float4::LerpClamp(float4(0.f, 0.f, 0.f), float4(-90.f, 0.f, 0.f), m_fDeathTime);
+			float4 f4Result = float4::LerpClamp(float4(0.f, 0.f, 0.f), float4(-90.f, 0.f, 0.f), GetStateDuration());
 			EnemyRenderer->GetTransform()->SetLocalRotation(f4Result);
-			if (m_fDeathTime >= 1.f)
+			if (GetStateDuration() < 1.f)
+			{
+				EnemyRenderer->FadeOut(1.f, Delta);
+			}
+			else
 			{
 				Death();
 			}

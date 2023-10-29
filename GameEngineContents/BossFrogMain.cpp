@@ -1,6 +1,7 @@
 #include "PreCompileHeader.h"
 #include "BossFrogMain.h"
 
+
 BossFrogMain::BossFrogMain()
 {
 }
@@ -48,7 +49,6 @@ void BossFrogMain::Start()
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_MAGE * 3.0f);
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 	}
-	SetFSMFUNC();
 	SetEnemyHP(3);
 
 	//test
@@ -61,6 +61,10 @@ void BossFrogMain::Start()
 
 void BossFrogMain::Update(float _DeltaTime)
 {
+	// test 
+	float4 Pos = GetTilePos(1, 1);
+	float4 TileIdx = GetTileIndex(GetTransform()->GetWorldPosition());
+
 	if (true == GameEngineInput::IsDown("PressK"))
 	{
 		SetNextState(BossFrogMainState::DAMAGED);

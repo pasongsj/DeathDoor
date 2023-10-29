@@ -326,7 +326,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 		// 텍스쳐이름 확인용 test 코드 
 		// 683 0 
 		// 683 1 
-		if (MatData.DifTextureName == "ripple_tile.png")
+		if (MatData.DifTextureName == "swampKingBodyText.png")
 		{
 			int a = 0;
 		}

@@ -173,6 +173,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Boomerang.cpp" />
+    <ClCompile Include="BossFrogFat.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BossFrogMain.cpp">
       <SubType>
       </SubType>
@@ -308,6 +312,10 @@
     <ClCompile Include="FortressLevel.cpp" />
     <ClCompile Include="Fountain.cpp" />
     <ClCompile Include="DynamicParticleManager.cpp" />
+    <ClCompile Include="BossFrog.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FrogBossLevel.cpp" />
     <ClCompile Include="FrogFloor.cpp" />
     <ClCompile Include="Frog_Lever.cpp" />
@@ -358,7 +366,15 @@
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="Contents_Resources.cpp" />
     <ClCompile Include="FadeEffect.cpp" />
+    <ClCompile Include="Mushroom.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="OldCrowLevel.cpp" />
+    <ClCompile Include="ShortCutDoor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TriggerBase.cpp">
       <SubType>
       </SubType>
@@ -553,6 +569,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Boomerang.h" />
+    <ClInclude Include="BossFrogFat.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BossFrogMain.h">
       <SubType>
       </SubType>
@@ -713,6 +733,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DynamicParticleManager.h" />
+    <ClInclude Include="BossFrog.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="FrogBossLevel.h">
       <SubType>
       </SubType>
@@ -775,7 +799,15 @@
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="FadeEffect.h" />
+    <ClInclude Include="Mushroom.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="OldCrowLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ShortCutDoor.h">
       <SubType>
       </SubType>
     </ClInclude>
