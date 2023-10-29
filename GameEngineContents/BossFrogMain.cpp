@@ -71,7 +71,7 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("JUMP_END", "FROG_POGO_END.fbx", { 1.0f / 30, false ,-1,-1,0.0f,0.0f}); // 점프 + 스매쉬
 	EnemyRenderer->SetAnimationStartFunc("JUMP_END", 36, [this]
 		{
-			m_pCapsuleComp->TurnOnGravity();
+			//m_pCapsuleComp->TurnOnGravity();
 			SetStateCheckerOn();
 		});
 	// 물 내부에서 수영
@@ -172,7 +172,7 @@ void BossFrogMain::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			MoveUpdate();
+			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 			if (true == CheckHit())
 			{
 				SetNextState(BossFrogMainState::DAMAGED);
@@ -297,7 +297,8 @@ void BossFrogMain::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("IDLE_TO_JUMP");
-			m_pCapsuleComp->TurnOffGravity();
+			//m_pCapsuleComp->TurnOffGravity();
+			m_pCapsuleComp->RigidSwitch(false);
 		},
 		[this](float Delta)
 		{
@@ -316,7 +317,7 @@ void BossFrogMain::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("SWIM_TO_JUMP");
-			m_pCapsuleComp->TurnOffGravity();
+			//m_pCapsuleComp->TurnOffGravity();
 
 		},
 		[this](float Delta)
@@ -358,6 +359,8 @@ void BossFrogMain::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("JUMP_END");
+
+			m_pCapsuleComp->RigidSwitch(true);
 		},
 		[this](float Delta)
 		{
@@ -380,5 +383,6 @@ void BossFrogMain::SetFSMFUNC()
 }
 void BossFrogMain::MoveUpdate()
 {
+	MoveSpeed.y = 0;
 	m_pCapsuleComp->SetMoveSpeed(MoveSpeed);
 }

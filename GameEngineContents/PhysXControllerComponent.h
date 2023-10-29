@@ -71,6 +71,21 @@ public:
 		m_bGravity = true;
 	}
 
+	void RigidSwitch(bool _Value)
+	{
+		if (false == m_bRigid&&true == _Value)
+		{
+			m_bRigid = _Value;
+			m_pController->getActor()->attachShape(*m_pShape);
+		}
+		else if (true == m_bRigid && false == _Value)
+		{
+			m_bRigid = _Value;
+			m_pShape->acquireReference();
+			m_pController->getActor()->detachShape(*m_pShape);
+		}
+	}
+
 
 	void CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos = float4::ZERO) override;
 
@@ -86,6 +101,6 @@ private:
 	bool m_bGravity = true;
 	float m_fHeight = 0.f;
 	physx::PxVec3 GeoMetryScale;
-
+	bool m_bRigid = true;
 };
 
