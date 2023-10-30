@@ -22,7 +22,7 @@ void SecretTile::InActive()
 	m_pRenderer->Off();
 	Off();
 	
-	m_pPhysXComponent->DeathAndRelease();
+	m_pPhysXComponent->Death();
 	m_pPhysXComponent = nullptr;
 }
 

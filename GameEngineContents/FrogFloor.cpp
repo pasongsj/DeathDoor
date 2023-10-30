@@ -30,6 +30,12 @@ void FrogFloor::Update(float _DeltaTime)
 
 void FrogFloor::DestroyTile(const int _Y, const int _X)
 {
+	if (_Y == -1 && _X == -1)
+	{
+		return;
+	}
+
+
 	if (true == m_vTiles[_Y][_X]->IsActive())
 	{
 		m_vTiles[_Y][_X]->InActive();
