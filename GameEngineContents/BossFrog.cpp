@@ -15,11 +15,11 @@ BossFrog::~BossFrog()
 }
 void BossFrog::Start()
 {
-	if (nullptr != MainBoss)
-	{
-		MainBoss->Death();
-		MainBoss = nullptr;
-	}
+	//if (nullptr != MainBoss)
+	//{
+	//	MainBoss->Death();
+	//	MainBoss = nullptr;
+	//}
 
 	MainBoss = this;
 	SetLevel();
@@ -70,5 +70,37 @@ void BossFrog::SetLevel()
 	if (nullptr != CurLevel)
 	{
 		m_pCurLevel = CurLevel->DynamicThis<FrogBossLevel>();
+	}
+}
+
+float4 BossFrog::GetWaterPoint()
+{
+	float4 ForwardVec = GetTransform()->GetWorldForwardVector();
+	if (ForwardVec.x < 0)
+	{
+		if (ForwardVec.z < 0)
+		{
+			//west
+			return WPointWest;
+		}
+		else
+		{
+			//north
+			return WPointNorth;
+		}
+	}
+	else
+	{
+		if (ForwardVec.z < 0)
+		{
+			//south
+			return WPointSouth;
+		}
+		else
+		{
+			//east
+			return WPointEast;
+		}
+
 	}
 }

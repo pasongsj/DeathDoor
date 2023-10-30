@@ -145,6 +145,11 @@ public:
 	{
 		return Unit;
 	}
+	
+	std::shared_ptr<GameEngineRenderUnit> GetIndexRenderUnit(int first, int second)
+	{
+		return Unit[first][second];
+	}
 
 	void Update(float _DeltaTime) override;
 
