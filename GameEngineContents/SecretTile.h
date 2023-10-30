@@ -70,6 +70,19 @@ public:
 		return false;
 	}
 
+	void TileShake(float _DeltaTime);
+
+	void OnShake()
+	{
+		m_bShake = true;
+	}
+
+	void OffShake()
+	{
+		m_bShake = false;
+		m_fShakeTime = 2.0f;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -88,4 +101,7 @@ private:
 	float m_TileSize = 0.0f;
 
 	bool m_bIsActive = true;
+	
+	bool m_bShake = false;
+	float m_fShakeTime = 2.0f;
 };

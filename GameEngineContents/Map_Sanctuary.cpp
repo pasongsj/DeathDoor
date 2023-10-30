@@ -127,6 +127,11 @@ void Map_Sanctuary::ResetTile()
 	m_pFrogFloor->ResetTile();
 }
 
+void Map_Sanctuary::ShakeTile(const int _Y, const int _X)
+{
+	m_pFrogFloor->ShakeTile(_Y, _X);
+}
+
 void Map_Sanctuary::Update(float _DeltaTime)
 {
 	KeyUpdate();

@@ -44,6 +44,11 @@ void BossFrog::DestroyTile(const int _Y, const int _X)
 	m_pCurLevel.lock()->GetMap().lock()->DestroyTile(_Y, _X);
 }
 
+void BossFrog::ShakeTile(const int _Y, const int _X)
+{
+	m_pCurLevel.lock()->GetMap().lock()->ShakeTile(_Y, _X);
+}
+
 bool BossFrog::IsTile(const int _Y, const int _X)
 {
 	return  m_pCurLevel.lock()->GetMap().lock()->IsTile(_Y, _X);

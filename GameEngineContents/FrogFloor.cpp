@@ -87,6 +87,17 @@ void FrogFloor::ResetTile()
 	}
 }
 
+void FrogFloor::ShakeTile(const int _Y, const int _X)
+{
+	if (_Y < 0 || _Y >= m_vTiles.size() || _X < 0 || _X >= m_vTiles[_Y].size())
+	{
+		MsgAssert("인덱스 범위를 초과했습니다.");
+		return;
+	}
+
+	m_vTiles[_Y][_X]->OnShake();
+}
+
 void FrogFloor::RotationUpdate(float _DeltaTime)
 {
 	float4 Rot = GetTransform()->GetLocalRotation();
