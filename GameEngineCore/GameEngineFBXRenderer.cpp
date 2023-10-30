@@ -159,7 +159,7 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 void GameEngineFBXAnimationInfo::Reset()
 {
 	CurFrameTime = 0.0f;
-	CurFrame = 0;
+	CurFrame = Start;
 	PlayTime = 0.0f;
 	EndValue = false;
 	for (std::pair<const UINT, AnimStartFunc>& PairStartFunc : StartFunc)
@@ -447,7 +447,7 @@ void GameEngineFBXRenderer::PauseSwtich()
 	Pause = !Pause;
 }
 
-void GameEngineFBXRenderer::ChangeAnimation(const std::string& _AnimationName, bool _Force, float _BlendTime)
+void GameEngineFBXRenderer::ChangeAnimation(const std::string& _AnimationName, bool _Force, int _StartFrame, float _BlendTime)
 {
 	std::string UpperName = GameEngineString::ToUpper(_AnimationName);
 
@@ -481,6 +481,16 @@ void GameEngineFBXRenderer::ChangeAnimation(const std::string& _AnimationName, b
 		}
 	}
 	FindIter->second->Reset();
+	if (-1 != _StartFrame)
+	{
+		UINT _NextFrame = static_cast<UINT>(_StartFrame);
+		if ((FindIter->second->Start > _NextFrame) || (_NextFrame > FindIter->second->End))
+		{
+			MsgAssert("설정하려는 인덱스가 최대 프레임인 " + std::to_string(FindIter->second->Start) + "," + std::to_string(FindIter->second->End) + " 을(를) 넘었습니다");
+			return;
+		}
+		FindIter->second->CurFrame = _NextFrame;
+	}
 	CurAnimation = FindIter->second;
 	FindIter->second->AnimationFirstFrameFunc = false;
 }

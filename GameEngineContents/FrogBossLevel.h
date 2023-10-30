@@ -16,7 +16,7 @@ public:
 	FrogBossLevel& operator=(const FrogBossLevel& _Other) = delete;
 	FrogBossLevel& operator=(FrogBossLevel&& _Other) noexcept = delete;
 
-	inline std::shared_ptr<class Map_Sanctuary> GetMap() const
+	inline std::weak_ptr<class Map_Sanctuary> GetMap() const
 	{
 		return m_pMap;
 	}
@@ -45,5 +45,5 @@ private:
 	const float4 m_BossStartPos = float4{ -4100 , -180 , 4100 };
 	std::shared_ptr<class BossFrogMain> m_pBossFrog = nullptr;
 
-	std::shared_ptr<class Map_Sanctuary> m_pMap = nullptr;
+	std::weak_ptr<class Map_Sanctuary> m_pMap;
 };

@@ -15,11 +15,11 @@ BossFrog::~BossFrog()
 }
 void BossFrog::Start()
 {
-	if (nullptr != MainBoss)
-	{
-		MainBoss->Death();
-		MainBoss = nullptr;
-	}
+	//if (nullptr != MainBoss)
+	//{
+	//	MainBoss->Death();
+	//	MainBoss = nullptr;
+	//}
 
 	MainBoss = this;
 	SetLevel();
@@ -27,41 +27,46 @@ void BossFrog::Start()
 
 const float4 BossFrog::GetTilePos(const int _Y, const int _X)
 {
-	float4 TilePos = m_pCurLevel->GetMap()->GetTilePos(_Y, _X);
+	float4 TilePos = m_pCurLevel.lock()->GetMap().lock()->GetTilePos(_Y, _X);
 
 	return TilePos;
 }
 
 const float4 BossFrog::GetTileIndex(const float4& _Pos)
 {
-	float4 TileIndex = m_pCurLevel->GetMap()->GetTileIndex(_Pos);
+	float4 TileIndex = m_pCurLevel.lock()->GetMap().lock()->GetTileIndex(_Pos);
 
 	return TileIndex;
 }
 
 void BossFrog::DestroyTile(const int _Y, const int _X)
 {
-	m_pCurLevel->GetMap()->DestroyTile(_Y, _X);
+	m_pCurLevel.lock()->GetMap().lock()->DestroyTile(_Y, _X);
+}
+
+void BossFrog::ShakeTile(const int _Y, const int _X)
+{
+	m_pCurLevel.lock()->GetMap().lock()->ShakeTile(_Y, _X);
 }
 
 bool BossFrog::IsTile(const int _Y, const int _X)
 {
-	return m_pCurLevel->GetMap()->IsTile(_Y, _X);
+	return  m_pCurLevel.lock()->GetMap().lock()->IsTile(_Y, _X);
 }
 
-void BossFrog::ResetTile()
+void BossFrog::AllTileReset()
 {
-	m_pCurLevel->GetMap()->ResetTile();
+	m_pCurLevel.lock()->GetMap().lock()->ResetTile();
 }
 
 void BossFrog::FieldRotationStart()
 {
-	m_pCurLevel->GetMap()->OnRotationFloor();
+	m_pCurLevel.lock()->GetMap().lock()->OnRotationFloor();
 }
 
 void BossFrog::FieldRotationEnd()
 {
-	m_pCurLevel->GetMap()->OffRotationFloor();
+	m_pCurLevel.lock()->GetMap().lock()->OffRotationFloor();
 }
 
 void BossFrog::SetLevel()
@@ -69,6 +74,38 @@ void BossFrog::SetLevel()
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr != CurLevel)
 	{
-		m_pCurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
+		m_pCurLevel = CurLevel->DynamicThis<FrogBossLevel>();
+	}
+}
+
+float4 BossFrog::GetWaterPoint()
+{
+	float4 ForwardVec = GetTransform()->GetWorldForwardVector();
+	if (ForwardVec.x < 0)
+	{
+		if (ForwardVec.z < 0)
+		{
+			//west
+			return WPointWest;
+		}
+		else
+		{
+			//north
+			return WPointNorth;
+		}
+	}
+	else
+	{
+		if (ForwardVec.z < 0)
+		{
+			//south
+			return WPointSouth;
+		}
+		else
+		{
+			//east
+			return WPointEast;
+		}
+
 	}
 }

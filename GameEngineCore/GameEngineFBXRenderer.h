@@ -145,6 +145,11 @@ public:
 	{
 		return Unit;
 	}
+	
+	std::shared_ptr<GameEngineRenderUnit> GetIndexRenderUnit(int first, int second)
+	{
+		return Unit[first][second];
+	}
 
 	void Update(float _DeltaTime) override;
 
@@ -159,7 +164,7 @@ public:
 		Pause = false;
 	}
 
-	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false, float _BlendTime = -1.0f);
+	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false,int _StartFrame = -1, float _BlendTime = -1.0f);
 
 	AnimationBoneData GetBoneData(std::string _Name);
 

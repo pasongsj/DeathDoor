@@ -40,11 +40,15 @@ private:
 		MAX,
 	};
 
+	bool OnlySmash = false;
+
+	const float4 Center = float4{ -3634.12842f, -723.0f ,3618.32715f };
+	float4 SelectedPos = float4::ZERO;
 	int Phase = 1;
 	float4 MoveSpeed = float4::ZERO;
 	int JumpCount = 0;
-
 	void MoveUpdate();
 	float4 GetNextPostition();
+	void CalMoveAmount(const float4& Dest, float MoveTime, float Yaxis = 0.0f); // 도착지점, 움직이는 시간(의 역), y축 가중치
 };
 

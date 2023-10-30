@@ -56,6 +56,7 @@ private:
 	void DestroyTile(const int _Y, const int _X);
 	bool IsTile(const int _Y, const int _X);
 	void ResetTile();
+	void ShakeTile(const int _Y, const int _X);
 
 	void RotationUpdate(float _DeltaTime);
 	

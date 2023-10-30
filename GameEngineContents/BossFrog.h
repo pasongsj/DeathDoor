@@ -23,16 +23,26 @@ protected:
 	const float4 GetTileIndex(const float4& _Pos);
 	
 	void DestroyTile(const int _Y, const int _X);
+	void ShakeTile(const int _Y, const int _X);
 	bool IsTile(const int _Y, const int _X);
-	void ResetTile();
+	void AllTileReset();
 
 	// 보스 필드
 	void FieldRotationStart();
 	void FieldRotationEnd();
 
+	// 보스
+	float4 GetWaterPoint();
+
+	const float4 WPointWest = float4{ -4815,-730,2620 };
+	const float4 WPointEast = float4{ -2475,-730,4740 };
+	const float4 WPointNorth = float4{ -4790,-730,4800 };
+	const float4 WPointSouth = float4{ -2400,-730,2450 };
+
+
 private:
 	void SetLevel();
-	std::shared_ptr<class FrogBossLevel> m_pCurLevel = nullptr;
+	std::weak_ptr<class FrogBossLevel> m_pCurLevel;
 	
 };
 

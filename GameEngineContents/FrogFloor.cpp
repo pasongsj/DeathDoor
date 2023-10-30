@@ -21,26 +21,81 @@ FrogFloor::~FrogFloor()
 void FrogFloor::Start()
 {
 	InitComponent();
-	
 }
 
 void FrogFloor::Update(float _DeltaTime)
 {
-	
 	RotationUpdate(_DeltaTime);
 }
 
 void FrogFloor::DestroyTile(const int _Y, const int _X)
 {
+	if (_Y == -1 && _X == -1)
+	{
+		return;
+	}
+
+
+	if (true == m_vTiles[_Y][_X]->IsActive())
+	{
+		m_vTiles[_Y][_X]->InActive();
+		return;
+	}
+
+	if (false == m_vTiles[_Y][_X]->IsActive())
+	{
+		MsgAssert("이미 사라져 있는 타일을 파괴하려고 했습니다.");
+		return;
+	}
 }
 
 bool FrogFloor::IsTile(const int _Y, const int _X)
 {
+	if (true == m_vTiles.empty())
+	{
+		MsgAssert("타일 버퍼가 비어있습니다.");
+	}
+	if (_Y < 0 || _Y >= m_vTiles.size() || _X < 0 || _X >= m_vTiles[_Y].size())
+	{
+		return false;
+	}
+	if (true == m_vTiles[_Y][_X]->IsActive())
+	{
+		return true;
+	}
+
 	return false;
 }
 
 void FrogFloor::ResetTile()
 {
+	if (true == m_vTiles.empty())
+	{
+		MsgAssert("타일 버퍼가 비어있습니다.");
+		return;
+	}
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		for (size_t j = 0; j < 5; j++)
+		{
+			if (false == m_vTiles[i][j]->IsActive())
+			{
+				m_vTiles[i][j]->Active();
+			}
+		}
+	}
+}
+
+void FrogFloor::ShakeTile(const int _Y, const int _X)
+{
+	if (_Y < 0 || _Y >= m_vTiles.size() || _X < 0 || _X >= m_vTiles[_Y].size())
+	{
+		MsgAssert("인덱스 범위를 초과했습니다.");
+		return;
+	}
+
+	m_vTiles[_Y][_X]->OnShake();
 }
 
 void FrogFloor::RotationUpdate(float _DeltaTime)
