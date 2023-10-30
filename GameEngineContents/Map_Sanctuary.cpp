@@ -158,16 +158,21 @@ void Map_Sanctuary::KeyUpdate()
 void Map_Sanctuary::InitComponent()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer->SetFBXMesh("Map_Sanctuary.fbx", "ContentMeshDeffered");
+	m_pRenderer->SetFBXMesh("Map_Sanctuary_Blender.fbx", "ContentMeshDeffered");
 	m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 
 
 	// test 
 	auto AllUnit = m_pRenderer->GetAllRenderUnit();
+	AllUnit[0][0]->Off();
+	AllUnit[1][0]->Off();
+	AllUnit[2][0]->Off();
+	AllUnit[3][0]->Off();
+	AllUnit[4][0]->Off();
 	auto Unit = m_pRenderer->GetUnTexturedUnit();
 
 	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pNaviRenderer->SetFBXMesh("Map_Sanctuary_Navi.fbx", "ContentMeshDeffered");
+	m_pNaviRenderer->SetFBXMesh("Map_Sanctuary_Navi_Blender.fbx", "ContentMeshDeffered");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_NavRot);
 	m_pNaviRenderer->Off();
 
@@ -178,7 +183,7 @@ void Map_Sanctuary::InitComponent()
 	// ÄÄÆ÷³ÍÆ® 
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	m_pTriangleComp->CreatePhysXActors("Map_Sanctuary_Navi.fbx", true);
+	m_pTriangleComp->CreatePhysXActors("Map_Sanctuary_Navi_Blender.fbx", true);
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_NavRot, m_MapPos));
 }
 
