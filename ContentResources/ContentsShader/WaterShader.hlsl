@@ -37,7 +37,7 @@ Output ContentMeshDeferred_VS(Input _Input)
     InputPos.w = 1.0f;
     
     float4 InputNormal = _Input.NORMAL;
-    InputNormal.w = 0.0f;
+    InputNormal.w = 0.0f;   
     
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;

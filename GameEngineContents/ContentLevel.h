@@ -41,6 +41,11 @@ public:
 		m_eLevelType = _Type;
 	}
 
+	std::shared_ptr<class GlowEffect> GetGlowEffect()
+	{
+		return Glow;
+	}
+
 protected:
 	void LevelInit(float4 _BlurSize);
 	void CreateUI();

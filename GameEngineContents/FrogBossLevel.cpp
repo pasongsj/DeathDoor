@@ -8,6 +8,9 @@
 #include "BossFrogMain.h"
 #include "BossFrogWindow.h"
 
+#include "WaterBox.h"
+#include "GlowEffect.h"
+
 FrogBossLevel::FrogBossLevel()
 {
 }
@@ -69,6 +72,7 @@ void FrogBossLevel::KeyUpdate(float _DeltaTime)
 void FrogBossLevel::LevelChangeStart()
 {
 	LevelInit({ 3200, 1800, 800, 450 });
+	GetGlowEffect()->DoubleBlurOff();
 
 	CreateScene();
 
@@ -90,6 +94,11 @@ void FrogBossLevel::LevelChangeStart()
 
 	BossFrogWindow::EditorGUI->On();
 
+	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
+	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
+	Box->GetTransform()->SetLocalScale({ 10000, 1, 10000 });
+	Box->GetTransform()->SetLocalPosition({-4000, -500, 5000 });
+	Box->GetTransform()->SetLocalRotation({ 0.0f, 45.0f , 0.0f});
 }
 
 void FrogBossLevel::LevelChangeEnd()

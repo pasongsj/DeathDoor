@@ -25,6 +25,10 @@ struct Output
     float4 NORMAL : NORMAL;
 };
 
+cbuffer WaterHeight : register(b4)
+{
+    float4 WaterHeight;
+};
 
 Output ContentMeshDeferred_VS(Input _Input)
 {
@@ -62,10 +66,6 @@ struct DeferredOutPut
     float4 BlurTarget : SV_Target7;
 };
 
-cbuffer WaterHeight : register(b4)
-{
-    float4 WaterHeight;
-};
 
 cbuffer BlurColor : register(b5)
 {
@@ -80,7 +80,7 @@ cbuffer ClipData : register(b6)
 
 DeferredOutPut ContentMeshDeferred_PS(Output _Input)
 {
-    if (_Input.WORLDPOSITION.y < WaterHeight.x + 20.0f)
+    if (_Input.WORLDPOSITION.y < WaterHeight.x)
     {
         clip(-1);
     }
