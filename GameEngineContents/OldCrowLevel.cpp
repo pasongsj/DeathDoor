@@ -42,7 +42,7 @@ void OldCrowLevel::Update(float _DeltaTime)
 
 void OldCrowLevel::LevelChangeStart()
 {
-	LevelInit();
+	LevelInit({ 800, 450, 800, 450 });
 	CreateScene();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);

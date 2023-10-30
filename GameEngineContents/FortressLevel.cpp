@@ -74,7 +74,7 @@ void FortressLevel::LevelChangeStart()
 {
 	CreateScene();
 
-	LevelInit();
+	LevelInit({ 800, 450, 800, 450 });
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);

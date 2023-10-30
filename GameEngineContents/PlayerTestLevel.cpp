@@ -34,7 +34,7 @@ void PlayerTestLevel::LevelChangeStart()
 	//CreateUI();
 
 	CreateIMGUIDebugRenderTarget();
-	SetPostPrecessEffect();
+	SetPostPrecessEffect({ 800, 450, 800, 450 });
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
