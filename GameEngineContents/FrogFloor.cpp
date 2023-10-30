@@ -21,9 +21,6 @@ FrogFloor::~FrogFloor()
 void FrogFloor::Start()
 {
 	InitComponent();
-
-	DestroyTile(0, 0);
-	DestroyTile(0, 1);
 }
 
 void FrogFloor::Update(float _DeltaTime)
