@@ -365,7 +365,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//3
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_1_Fix.fbx");
+		CullingObj->InitComponent("Fortress_Part1_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -330, 302, 430 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -374,7 +374,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//4
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_2_Fix.fbx");
+		CullingObj->InitComponent("Fortress_Part2_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -9190, 350, 11669 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -383,7 +383,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//5
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_3_Fix.fbx");
+		CullingObj->InitComponent("Fortress_Part3_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -8566, 336, 13834 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -392,7 +392,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//6
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_3_1_Fix.fbx");
+		CullingObj->InitComponent("Fortress_Part3_1_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -6990, 310, 13580 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -402,7 +402,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//7
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_4_Fix.fbx");
+		CullingObj->InitComponent("Fortress_Part4_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{  -9160, 324, 14630 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -411,7 +411,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//8
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_5.fbx");
+		CullingObj->InitComponent("Fortress_Part5_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -12870, -16, 10350 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -420,7 +420,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//9
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_6.fbx");
+		CullingObj->InitComponent("Fortress_Part6_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -13380, 93, 10940 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -429,7 +429,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//10
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_7.fbx");
+		CullingObj->InitComponent("Fortress_Part7_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -14480, -3, 11935 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -438,7 +438,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//11
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_8_Test.fbx");
+		CullingObj->InitComponent("Fortress_Part8_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -14460, -80, 13570 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -447,7 +447,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//12
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_9.fbx");
+		CullingObj->InitComponent("Fortress_Part9_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -16120, 63, 13870 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -456,7 +456,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//13
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_10.fbx");
+		CullingObj->InitComponent("Fortress_Part10_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -9970, 284, 11910 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -465,7 +465,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//14
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_11.fbx");
+		CullingObj->InitComponent("Fortress_Part11_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -9156, -50, 16337 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -474,7 +474,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		// 15
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_12.fbx");
+		CullingObj->InitComponent("Fortress_Part12_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -14090, 250, 19250 });
 		m_vCullingObjects.push_back(CullingObj);
@@ -483,7 +483,7 @@ void Map_Fortress::Set_CullingObject()
 	{
 		//16
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
-		CullingObj->InitComponent("Fortress_Part_13.fbx");
+		CullingObj->InitComponent("Fortress_Part13_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
 		CullingObj->GetTransform()->SetLocalPosition(float4{ -14782, 285, 17658 });
 		m_vCullingObjects.push_back(CullingObj);
