@@ -59,10 +59,9 @@ void FrogBossLevel::KeyUpdate(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsDown("NaviMesh_Swtich"))
 	{
-		if (nullptr != m_pMap)
-		{
-			m_pMap->NaviRenderSwitch();
-		}
+	
+		m_pMap.lock()->NaviRenderSwitch();
+		
 	}
 }
 
