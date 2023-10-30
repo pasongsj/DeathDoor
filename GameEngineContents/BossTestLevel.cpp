@@ -72,7 +72,7 @@ void BossTestLevel::LevelChangeStart()
 	//BossTestObject->GetTransform()->SetLocalPosition({ 0, 0, -10 });
 
 
-	LevelInit();
+	LevelInit({ 800, 450, 800, 450 });
 }
 
 void BossTestLevel::LevelChangeEnd()

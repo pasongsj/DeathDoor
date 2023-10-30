@@ -46,8 +46,7 @@ void OfficeLevel::Update(float _DeltaTime)
 
 void OfficeLevel::LevelChangeStart()
 {
-	LevelInit();
-
+	LevelInit({800, 450, 800, 450});
 	CreateScene();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);

@@ -68,7 +68,7 @@ void FrogBossLevel::KeyUpdate(float _DeltaTime)
 
 void FrogBossLevel::LevelChangeStart()
 {
-	LevelInit();
+	LevelInit({ 3200, 1800, 800, 450 });
 
 	CreateScene();
 

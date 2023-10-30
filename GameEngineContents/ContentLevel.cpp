@@ -18,10 +18,10 @@ ContentLevel::~ContentLevel()
 {
 }
 
-void ContentLevel::LevelInit()
+void ContentLevel::LevelInit(float4 _BlurSize)
 {
 	CreateUI();
-	SetPostPrecessEffect();
+	SetPostPrecessEffect(_BlurSize);
 	CreateIMGUIDebugRenderTarget();
 }
 
@@ -41,13 +41,27 @@ void ContentLevel::CreateUI()
 	CreateActor<MpBar>();
 }
 
-void ContentLevel::SetPostPrecessEffect()
+void ContentLevel::SetPostPrecessEffect(float4 _BlurSize)
 {
-	std::shared_ptr<GlowEffect> Effect = GetLevel()->GetMainCamera()->GetCamAllRenderTarget()->CreateEffect<GlowEffect>();
-	Effect->Init(DynamicThis<GameEngineLevel>(), {1.0f, 0.0f, 0.0f, 0.0f});
+	Glow = GetLevel()->GetMainCamera()->GetCamAllRenderTarget()->CreateEffect<GlowEffect>();
+	Glow->Init(DynamicThis<GameEngineLevel>(), {1.0f, 0.0f, 0.0f, 0.0f}, _BlurSize);
 
-	GameEngineCoreWindow::AddDebugRenderTarget(4, "Detect", Effect->DetectMaskTarget);
+	GameEngineCoreWindow::AddDebugRenderTarget(4, "Detect", Glow->DetectMaskTarget);
 
 	std::shared_ptr<GammaCorrection> Effect2 = GetLevel()->GetLastTarget()->CreateEffect<GammaCorrection>();
 	std::shared_ptr<FXAA> Effect3 = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();
+}
+
+void ContentLevel::SetGlowScale(float _Distance)
+{
+	float4 BasicScale = { 1600, 900, 800, 450 };
+
+	float Ratio = _Distance / 4000.0f;
+
+	BasicScale *= 1.0f / Ratio;
+
+	if (Glow != nullptr)
+	{
+		Glow->SetBlurScale(BasicScale);
+	}
 }

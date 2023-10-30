@@ -65,7 +65,7 @@ void MapTestLevel::LevelChangeStart()
 	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
 	Light->GetTransform()->SetLocalRotation(float4{ 20, 180, 0 });
 
-	LevelInit();
+	LevelInit({ 800, 450, 800, 450 });
 }
 
 void MapTestLevel::LevelChangeEnd()

@@ -1,6 +1,7 @@
 #include "PrecompileHeader.h"
 
 #include "GlowEffect.h"
+#include "Player.h"
 #include <GameEngineCore/GameEngineCamera.h>
 
 GlowEffect::GlowEffect()
@@ -13,41 +14,11 @@ GlowEffect::~GlowEffect()
 
 void GlowEffect::Start(GameEngineRenderTarget* _Target)
 {
-	DetectMaskUnit.SetMesh("FullRect");
-	DetectMaskUnit.SetMaterial("DetectMask");
-
-	DetectMaskTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	DetectMaskTarget->CreateDepthTexture();
-
-	BlurSize = { 800, 450  };
-	DoubleBlurSize = { 800, 450 };
-
-	BlurUnit.SetMesh("FullRect");
-	BlurUnit.SetMaterial("AllBlur7x7");
-	BlurUnit.ShaderResHelper.SetConstantBufferLink("Intensity", Intensity);
-	BlurUnit.ShaderResHelper.SetConstantBufferLink("ScreenSize", BlurSize);
-	BlurTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, BlurSize, float4::ZERONULL);
-	BlurTarget->CreateDepthTexture();
-
-	DoubleBlurUnit.SetMesh("FullRect");
-	DoubleBlurUnit.SetMaterial("AllBlur7x7");
-	DoubleBlurUnit.ShaderResHelper.SetConstantBufferLink("ScreenSize", DoubleBlurSize);
-	DoubleBlurUnit.ShaderResHelper.SetConstantBufferLink("Intensity", Intensity);
-
-	DoubleBlurTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, DoubleBlurSize, float4::ZERONULL);
-
-	BlurMergeUnit.SetMesh("FullRect");
-	BlurMergeUnit.SetMaterial("LightMerge");
-
-	ColorMerge.SetMesh("FullRect");
-	ColorMerge.SetMaterial("DefferedColorMerge");
 }
 
 void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 {
+
 	std::shared_ptr<GameEngineRenderTarget> LevelTarget = EffectedLevel.lock()->GetMainCamera()->GetCamAllRenderTarget();
 	//diffuselight
 	std::shared_ptr<GameEngineTexture> DiffuseLight = _Target->GetTexture(0);
@@ -81,17 +52,17 @@ void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 	BlurUnit.ShaderResHelper.AllResourcesReset();
 	
 	//블러 적용
-	DoubleBlurTarget->Clear();
-	DoubleBlurTarget->Setting();
-	
-	DoubleBlurUnit.ShaderResHelper.SetTexture("DiffuseTexture", BlurTarget->GetTexture(0));
-	
-	DoubleBlurUnit.Render(_DeltaTime);
-	DoubleBlurUnit.ShaderResHelper.AllResourcesReset();
+	//DoubleBlurTarget->Clear();
+	//DoubleBlurTarget->Setting();
+	//
+	//DoubleBlurUnit.ShaderResHelper.SetTexture("DiffuseTexture", BlurTarget->GetTexture(0));
+	//
+	//DoubleBlurUnit.Render(_DeltaTime);
+	//DoubleBlurUnit.ShaderResHelper.AllResourcesReset();
 
 	LevelTarget->Setting();
 	
-	ColorMerge.ShaderResHelper.SetTexture("DiffuseTex", DoubleBlurTarget->GetTexture(0));
+	ColorMerge.ShaderResHelper.SetTexture("DiffuseTex", BlurTarget->GetTexture(0));
 	ColorMerge.Render(_DeltaTime);
 	ColorMerge.ShaderResHelper.AllResourcesReset();
 
@@ -106,4 +77,39 @@ void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 	//BlurMergeUnit.Render(_DeltaTime);
 	//BlurMergeUnit.ShaderResHelper.AllResourcesReset();
 
+}
+
+void GlowEffect::CreateTarget(float4 _BlurSize)
+{
+	DetectMaskUnit.SetMesh("FullRect");
+	DetectMaskUnit.SetMaterial("DetectMask");
+
+	DetectMaskTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	DetectMaskTarget->CreateDepthTexture();
+
+	BlurSize = { 1600, 900 };
+	DoubleBlurSize = { 800, 450 };
+
+	BlurUnit.SetMesh("FullRect");
+	BlurUnit.SetMaterial("AllBlur7x7");
+	BlurUnit.ShaderResHelper.SetConstantBufferLink("Intensity", Intensity);
+	BlurUnit.ShaderResHelper.SetConstantBufferLink("ScreenSize", BlurSize);
+	BlurTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, BlurSize, float4::ZERONULL);
+	BlurTarget->CreateDepthTexture();
+
+	DoubleBlurUnit.SetMesh("FullRect");
+	DoubleBlurUnit.SetMaterial("AllBlur7x7");
+	DoubleBlurUnit.ShaderResHelper.SetConstantBufferLink("ScreenSize", DoubleBlurSize);
+	DoubleBlurUnit.ShaderResHelper.SetConstantBufferLink("Intensity", Intensity);
+
+	DoubleBlurTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, DoubleBlurSize, float4::ZERONULL);
+
+	BlurMergeUnit.SetMesh("FullRect");
+	BlurMergeUnit.SetMaterial("LightMerge");
+
+	ColorMerge.SetMesh("FullRect");
+	ColorMerge.SetMaterial("DefferedColorMerge");
 }

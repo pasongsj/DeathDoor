@@ -26,6 +26,10 @@ public:
 		return m_eLevelType;
 	}
 
+	//카메라와 플레이어의 거리
+	void SetGlowScale(float _Distance);
+
+
 	inline void SetContentLevelType(ContentLevelType _Type)
 	{
 		if (_Type == ContentLevelType::NONE)
@@ -38,13 +42,13 @@ public:
 	}
 
 protected:
-	void LevelInit();
+	void LevelInit(float4 _BlurSize);
 	void CreateUI();
-	void SetPostPrecessEffect();
+	void SetPostPrecessEffect(float4 _BlurSize);
 	void CreateIMGUIDebugRenderTarget();
 private:
 
-
+	std::shared_ptr<class GlowEffect> Glow = nullptr;
 	ContentLevelType m_eLevelType = ContentLevelType::NONE;
 };
 
