@@ -40,7 +40,7 @@ private:
 		MAX,
 	};
 
-	const float4 Center = float4{ -3634.12842f, -723.0f ,3618.32715 };
+	const float4 Center = float4{ -3634.12842f, -723.0f ,3618.32715f };
 	float4 SelectedPos = float4::ZERO;
 	int Phase = 1;
 	float4 MoveSpeed = float4::ZERO;
