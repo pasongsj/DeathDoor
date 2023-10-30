@@ -19,6 +19,7 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("INTRO_JUMP", 45, [this]
 		{
 			CalMoveAmount(GetTilePos(2, 1), 1.2f);
+			m_pCapsuleComp->RigidSwitch(false);
 			SetStateCheckerOn();
 		});
 	EnemyRenderer->SetAnimationStartFunc("INTRO_JUMP", 70, [this]
@@ -34,6 +35,7 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("IDLE_TO_JUMP", 44, [this]
 		{
 			CalMoveAmount(GetNextPostition(), 1.071428f);
+			m_pCapsuleComp->RigidSwitch(false);
 		});// 44~74
 	EnemyRenderer->SetAnimationStartFunc("IDLE_TO_JUMP", 72, [this]
 		{
@@ -43,14 +45,16 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("SWIM_TO_JUMP", 18, [this]
 		{
 			float height = -183 - GetTransform()->GetWorldPosition().y;
-			CalMoveAmount(GetTransform()->GetWorldPosition(), 5.0f, height);
 			float4 CurTile = GetTileIndex(GetTransform()->GetWorldPosition());
 			DestroyTile(CurTile.iy(), CurTile.ix());
+			CalMoveAmount(GetTransform()->GetWorldPosition(), 5.0f, height);
+			m_pCapsuleComp->RigidSwitch(false);;
 		});
 
 	EnemyRenderer->SetAnimationStartFunc("SWIM_TO_JUMP", 24, [this]
 		{
 			CalMoveAmount(GetNextPostition(), 1.2f);
+			m_pCapsuleComp->RigidSwitch(false);
 		});
 	EnemyRenderer->SetAnimationStartFunc("SWIM_TO_JUMP", 49, [this]
 		{
@@ -89,11 +93,13 @@ void BossFrogMain::InitAnimation()
 			if(NextPos != float4::ZERONULL)
 			{
 				CalMoveAmount(NextPos, 0.88f);
+				m_pCapsuleComp->RigidSwitch(false);
 			}
 		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_END", 36, [this]
 		{
 			MoveSpeed = float4::ZERO;
+			m_pCapsuleComp->RigidSwitch(true);
 			SetStateCheckerOn();
 		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_END", 40, [this]
@@ -367,7 +373,6 @@ void BossFrogMain::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("IDLE_TO_JUMP");
-			m_pCapsuleComp->RigidSwitch(false);
 		},
 		[this](float Delta)
 		{
@@ -400,7 +405,6 @@ void BossFrogMain::SetFSMFUNC()
 		},
 		[this]
 		{
-
 		}
 	);
 	
@@ -430,7 +434,6 @@ void BossFrogMain::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("JUMP_END");
 
-			m_pCapsuleComp->RigidSwitch(true);
 		},
 		[this](float Delta)
 		{
