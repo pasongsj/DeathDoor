@@ -114,15 +114,17 @@ const float4 Map_Sanctuary::GetTileIndex(const float4& _Pos)
 
 void Map_Sanctuary::DestroyTile(const int _Y, const int _X)
 {
+	m_pFrogFloor->DestroyTile(_Y, _X);
 }
 
 bool Map_Sanctuary::IsTile(const int _Y, const int _X)
 {
-	return false;
+	return m_pFrogFloor->IsTile(_Y, _X);
 }
 
 void Map_Sanctuary::ResetTile()
 {
+	m_pFrogFloor->ResetTile();
 }
 
 void Map_Sanctuary::Update(float _DeltaTime)
