@@ -51,18 +51,24 @@ void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 
 	BlurUnit.ShaderResHelper.AllResourcesReset();
 	
-	//블러 적용
-	//DoubleBlurTarget->Clear();
-	//DoubleBlurTarget->Setting();
-	//
-	//DoubleBlurUnit.ShaderResHelper.SetTexture("DiffuseTexture", BlurTarget->GetTexture(0));
-	//
-	//DoubleBlurUnit.Render(_DeltaTime);
-	//DoubleBlurUnit.ShaderResHelper.AllResourcesReset();
+	std::shared_ptr<GameEngineTexture> ResultTex = BlurTarget->GetTexture(0);
+
+	if(isDoubleBlur == true)
+	{
+		DoubleBlurTarget->Clear();
+		DoubleBlurTarget->Setting();
+
+		DoubleBlurUnit.ShaderResHelper.SetTexture("DiffuseTexture", BlurTarget->GetTexture(0));
+
+		DoubleBlurUnit.Render(_DeltaTime);
+		DoubleBlurUnit.ShaderResHelper.AllResourcesReset();
+
+		ResultTex = DoubleBlurTarget->GetTexture(0);
+	}
 
 	LevelTarget->Setting();
 	
-	ColorMerge.ShaderResHelper.SetTexture("DiffuseTex", BlurTarget->GetTexture(0));
+	ColorMerge.ShaderResHelper.SetTexture("DiffuseTex", ResultTex);
 	ColorMerge.Render(_DeltaTime);
 	ColorMerge.ShaderResHelper.AllResourcesReset();
 

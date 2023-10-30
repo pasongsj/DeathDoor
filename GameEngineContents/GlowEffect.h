@@ -49,6 +49,15 @@ public:
 		DoubleBlurSize = { _Scale.z, _Scale.w };
 	}
 
+	void DoubleBlurOn()
+	{
+		isDoubleBlur = true;
+	}
+
+	void DoubleBlurOff()
+	{
+		isDoubleBlur = false;
+	} 
 protected:
 	void Start(GameEngineRenderTarget* _Target) override;
 	void Effect(GameEngineRenderTarget* _Target, float _DeltaTime) override;
@@ -65,5 +74,7 @@ private:
 	float4 Intensity = { 1.0f, 1.0f, 1.0f, 1.0f };
 	float4 BlurSize = { 1600.0f, 900.0f };
 	float4 DoubleBlurSize = { 1600.0f, 900.0f };
+
+	bool isDoubleBlur = true;
 };
 
