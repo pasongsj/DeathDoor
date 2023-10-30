@@ -75,19 +75,27 @@ public:
 	{
 		if (false == m_bRigid&&true == _Value)
 		{
+			m_Filter.SetRigid(_Value);
 			m_bRigid = _Value;
-			m_pController->getActor()->attachShape(*m_pShape);
 			m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
 		}
 		else if (true == m_bRigid && false == _Value)
 		{
+			m_Filter.SetRigid(_Value);
 			m_bRigid = _Value;
-			m_pShape->acquireReference();
 			m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
-			m_pController->getActor()->detachShape(*m_pShape);
 		}
 	}
 
+	void SetFilter(physx::PxController& _Other)
+	{
+		m_Filter.filter(*m_pController, _Other);
+	}
+
+	physx::PxController* GetController()
+	{
+		return m_pController;
+	}
 
 	void CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos = float4::ZERO) override;
 
@@ -97,6 +105,22 @@ protected:
 	//void Render() override {}
 
 private:
+	class MyControllerFilterCallback : public physx::PxControllerFilterCallback
+	{
+	public:
+		virtual bool filter(const physx::PxController& a, const physx::PxController& b)
+		{
+			return m_bReturnValue;
+		}
+		void SetRigid(bool _Value)
+		{
+			m_bReturnValue = _Value;
+		}
+	private:
+		bool m_bReturnValue;
+	};
+
+	MyControllerFilterCallback m_Filter;
 	physx::PxControllerFilters m_pControllerFilter = nullptr;
 	float4 m_pControllerDir = float4::ZERO;
 	bool m_bSpeedLimit = false;

@@ -1,7 +1,7 @@
 #include "PreCompileHeader.h"
 #include "BossFrogMain.h"
 
-
+#include "Player.h"
 BossFrogMain::BossFrogMain()
 {
 }
@@ -133,6 +133,8 @@ void BossFrogMain::Start()
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_MAGE * 3.0f);//float4{ 0.0f,150.0f,90.0f }
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 		m_pCapsuleComp->SetRotation(GetTransform()->GetWorldRotation() + float4{ 0.0f, 135.0f,0.0f });
+
+		m_pCapsuleComp->SetFilter(*Player::MainPlayer->GetPhysXComponent()->GetController());
 	}
 	SetEnemyHP(3);
 
