@@ -65,7 +65,7 @@ void Map_Office::InitComponent()
 {
 	// ¸Ê ·»´õ·¯ 
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer->SetFBXMesh("Map_Office_Test.fbx", "ContentMeshDeffered");
+	m_pRenderer->SetFBXMesh("Map_Office.fbx", "ContentMeshDeffered");
 	m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer->CalculateUnitPos();
 
@@ -73,32 +73,32 @@ void Map_Office::InitComponent()
 	auto AllUnit = m_pRenderer->GetAllRenderUnit();
 	auto Unit = m_pRenderer->GetUnTexturedUnit();
 
-	//AllUnit[124][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
-	//AllUnit[124][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+	AllUnit[124][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[124][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
 
-	//AllUnit[683][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ruin_CobbleStone_Dirt_Tile_HoD.png");
-	//AllUnit[683][0]->UVdata = { 0.1f, 0.1f, 0.0f, 0.0f };
+	AllUnit[683][0]->ShaderResHelper.SetTexture("DiffuseTexture", "Ruin_CobbleStone_Dirt_Tile_HoD.png");
+	AllUnit[683][0]->UVdata = { 0.1f, 0.1f, 0.0f, 0.0f };
 
-	//AllUnit[683][1]->ShaderResHelper.SetTexture("DiffuseTexture", "Ruin_CobbleStone_Dirt_Tile_HoD.png");
-	//AllUnit[683][1]->UVdata = { 0.1f, 0.1f, 0.0f, 0.0f };
+	AllUnit[683][1]->ShaderResHelper.SetTexture("DiffuseTexture", "Ruin_CobbleStone_Dirt_Tile_HoD.png");
+	AllUnit[683][1]->UVdata = { 0.1f, 0.1f, 0.0f, 0.0f };
 
-	//AllUnit[684][0]->ShaderResHelper.SetTexture("DiffuseTexture", "DetailMap_GroundVariationLighter.png");
-	////AllUnit[684][0]->UVdata = { 0.1f, 0.1f, 0.0f, 0.0f };
+	AllUnit[684][0]->ShaderResHelper.SetTexture("DiffuseTexture", "DetailMap_GroundVariationLighter.png");
+	//AllUnit[684][0]->UVdata = { 0.1f, 0.1f, 0.0f, 0.0f };
 
-	//AllUnit[684][1]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
-	//AllUnit[684][1]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+	AllUnit[684][1]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[684][1]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
 
-	//AllUnit[684][2]->ShaderResHelper.SetTexture("DiffuseTexture", "Ruin_CobbleStone_Dirt_Tile_HoD.png");
-	//AllUnit[684][2]->UVdata = { 0.1f, 0.1f, 0.0f, 0.0f };
+	AllUnit[684][2]->ShaderResHelper.SetTexture("DiffuseTexture", "Ruin_CobbleStone_Dirt_Tile_HoD.png");
+	AllUnit[684][2]->UVdata = { 0.1f, 0.1f, 0.0f, 0.0f };
 
-	//AllUnit[1227][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
-	//AllUnit[1227][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+	AllUnit[1227][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[1227][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
 
-	//AllUnit[1229][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
-	//AllUnit[1229][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+	AllUnit[1229][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[1229][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
 
-	//AllUnit[1339][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
-	//AllUnit[1339][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
+	AllUnit[1339][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
+	AllUnit[1339][0]->UVdata = { 0.03f, 0.03f, 0.0f, 0.0f };
 
 
 	/*AllUnit[683][0]->ShaderResHelper.SetTexture("DiffuseTexture", "FloorMark.png");
