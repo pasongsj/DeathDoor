@@ -164,7 +164,7 @@ public:
 		Pause = false;
 	}
 
-	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false, float _BlendTime = -1.0f);
+	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false,int _StartFrame = -1, float _BlendTime = -1.0f);
 
 	AnimationBoneData GetBoneData(std::string _Name);
 

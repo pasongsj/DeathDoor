@@ -70,6 +70,7 @@ void BossFrogMain::InitAnimation()
 			float4 NextPos = GetNextPostition();
 			if(NextPos == float4::ZERONULL)
 			{
+				OnlySmash = true;
 				SetNextState(BossFrogMainState::JUMP_END);
 			}
 			else
@@ -107,6 +108,7 @@ void BossFrogMain::InitAnimation()
 			AllTileReset();
 			m_pCapsuleComp->TurnOnGravity();
 		});
+	//
 	// 물 내부에서 수영
 	EnemyRenderer->CreateFBXAnimation("SWIM", "FROG_SWIM.fbx", { 1.0f / 30, false });
 	EnemyRenderer->CreateFBXAnimation("SWIM_EDIT", "FROG_SWIM_EDIT.fbx", { 1.0f / 30, true, -1, -1, 1.0f / 30 , 0.0f});
@@ -373,6 +375,7 @@ void BossFrogMain::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("IDLE_TO_JUMP");
+			m_pCapsuleComp->TurnOffGravity();
 		},
 		[this](float Delta)
 		{
@@ -432,7 +435,16 @@ void BossFrogMain::SetFSMFUNC()
 	SetFSM(BossFrogMainState::JUMP_END,
 		[this]
 		{
-			EnemyRenderer->ChangeAnimation("JUMP_END");
+			if (true == OnlySmash)
+			{
+				EnemyRenderer->ChangeAnimation("JUMP_END",false,3);
+
+			}
+			else
+			{
+				EnemyRenderer->ChangeAnimation("JUMP_END");
+
+			}
 
 		},
 		[this](float Delta)
@@ -450,6 +462,7 @@ void BossFrogMain::SetFSMFUNC()
 		},
 		[this]
 		{
+			OnlySmash = false;
 		}
 	);
 
