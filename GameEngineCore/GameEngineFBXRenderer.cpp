@@ -159,7 +159,7 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 void GameEngineFBXAnimationInfo::Reset()
 {
 	CurFrameTime = 0.0f;
-	CurFrame = 0;
+	CurFrame = Start;
 	PlayTime = 0.0f;
 	EndValue = false;
 	for (std::pair<const UINT, AnimStartFunc>& PairStartFunc : StartFunc)

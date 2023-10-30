@@ -39,10 +39,10 @@ void BossFrogMain::InitAnimation()
 		{
 			MoveSpeed = float4::ZERO;
 		});
-	EnemyRenderer->CreateFBXAnimation("SWIM_TO_JUMP", "FROG_SMASH_START.fbx", { 1.0f / 30, false,-1,49,0.0f,0.0f });// 물에서 올라옴 + 콩콩이 1회
+	EnemyRenderer->CreateFBXAnimation("SWIM_TO_JUMP", "FROG_SMASH_START.fbx", { 1.0f / 30, false,17,49,0.0f,0.0f });// 물에서 올라옴 + 콩콩이 1회
 	EnemyRenderer->SetAnimationStartFunc("SWIM_TO_JUMP", 18, [this]
 		{
-			float height = -180.0f - GetTransform()->GetWorldPosition().y;
+			float height = -183 - GetTransform()->GetWorldPosition().y;
 			CalMoveAmount(GetTransform()->GetWorldPosition(), 5.0f, height);
 			float4 CurTile = GetTileIndex(GetTransform()->GetWorldPosition());
 			DestroyTile(CurTile.iy(), CurTile.ix());
@@ -60,9 +60,18 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("JUMP_LOOP", "FROG_POGO_BOUNCE.fbx", { 1.0f / 30, true });
 	EnemyRenderer->SetAnimationStartFunc("JUMP_LOOP", 2, [this]
 		{
-			DestroyTile(NextDestroyTile.first, NextDestroyTile.second);
-			NextDestroyTile.first = -1, NextDestroyTile.second = -1;
-			CalMoveAmount(GetNextPostition(), 1.5f);
+			float4 CurTileindex = GetTileIndex(GetTransform()->GetWorldPosition());
+			DestroyTile(CurTileindex.iy(), CurTileindex.ix());
+
+			float4 NextPos = GetNextPostition();
+			if(NextPos == float4::ZERONULL)
+			{
+				SetNextState(BossFrogMainState::JUMP_END);
+			}
+			else
+			{
+				CalMoveAmount(NextPos, 1.5f);
+			}
 		});// 44~74
 	EnemyRenderer->SetAnimationStartFunc("JUMP_LOOP", 22, [this]
 		{
@@ -73,24 +82,28 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("JUMP_END", "FROG_POGO_END.fbx", { 1.0f / 30, false ,-1,-1,0.0f,0.0f}); // 점프 + 스매쉬
 	EnemyRenderer->SetAnimationStartFunc("JUMP_END", 2, [this]
 		{
-			DestroyTile(NextDestroyTile.first, NextDestroyTile.second);
-			NextDestroyTile.first = -1, NextDestroyTile.second = -1;
-			CalMoveAmount(GetNextPostition(), 0.88f);
+			float4 CurTileindex = GetTileIndex(GetTransform()->GetWorldPosition());
+			DestroyTile(CurTileindex.iy(), CurTileindex.ix());
+
+			float4 NextPos = GetNextPostition();
+			if(NextPos != float4::ZERONULL)
+			{
+				CalMoveAmount(NextPos, 0.88f);
+			}
 		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_END", 36, [this]
 		{
 			MoveSpeed = float4::ZERO;
-			m_pCapsuleComp->TurnOnGravity();
 			SetStateCheckerOn();
 		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_END", 40, [this]
 		{
 			AllTileReset();
-
+			m_pCapsuleComp->TurnOnGravity();
 		});
 	// 물 내부에서 수영
 	EnemyRenderer->CreateFBXAnimation("SWIM", "FROG_SWIM.fbx", { 1.0f / 30, false });
-	EnemyRenderer->CreateFBXAnimation("SWIM_EDIT", "FROG_SWIM_EDIT.fbx", { 1.0f / 30, false });
+	EnemyRenderer->CreateFBXAnimation("SWIM_EDIT", "FROG_SWIM_EDIT.fbx", { 1.0f / 30, true, -1, -1, 1.0f / 30 , 0.0f});
 
 	EnemyRenderer->SetGlowToUnit(12, 0);
 	EnemyRenderer->SetUnitColor(12, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
@@ -106,36 +119,47 @@ float4 BossFrogMain::GetNextPostition()
 	float4 PlayerIndex = GetTileIndex(GetPlayerPosition());
 	float4 DiffTile = PlayerIndex - CurTileIndex;
 
-	std::vector<float4> CheckRout;
+	// y +1 float4{ 0.0f, 225.0f,0.0f }
+	// y -1 float4{ 0.0f, 45.0f,0.0f }
+
+	// x +1 135
+	// x -1 315
+	int _X = DiffTile.ix() == 0 ? 1 : DiffTile.ix() / abs(DiffTile.ix());
+	int _Y = DiffTile.iy() == 0 ? 1 : DiffTile.iy() / abs(DiffTile.iy());
+	std::vector<std::pair<float4, int>> CheckRout;
+
 	if (abs(DiffTile.x) > abs(DiffTile.y))
 	{
-		CheckRout.push_back(CurTileIndex + float4{ DiffTile.x / abs(DiffTile.x), 0.0f, 0.0f });
-		CheckRout.push_back(CurTileIndex + float4{ 0.0f, DiffTile.y / abs(DiffTile.y), 0.0f });
-		CheckRout.push_back(CurTileIndex + float4{ -DiffTile.x / abs(DiffTile.x), 0.0f, 0.0f });
-		CheckRout.push_back(CurTileIndex + float4{ 0.0f, -DiffTile.y / abs(DiffTile.y), 0.0f });
+
+		CheckRout.push_back(std::make_pair(CurTileIndex + float4{ static_cast<float>(_X), 0.0f, 0.0f }, 225 + 90 * -_X));
+		CheckRout.push_back(std::make_pair(CurTileIndex + float4{ 0.0f, static_cast<float>(_Y), 0.0f }, 135 + 90 * _Y));
+		CheckRout.push_back(std::make_pair(CurTileIndex + float4{ static_cast<float>(-_X), 0.0f, 0.0f }, 225 + 90 * _X));
+		CheckRout.push_back(std::make_pair(CurTileIndex + float4{ 0.0f, static_cast<float>(-_Y), 0.0f }, 135 + 90 * -_Y));
 
 	}
 	else
 	{
-		CheckRout.push_back(CurTileIndex + float4{ 0.0f, DiffTile.y / abs(DiffTile.y), 0.0f });
-		CheckRout.push_back(CurTileIndex + float4{ DiffTile.x / abs(DiffTile.x), 0.0f, 0.0f });
-		CheckRout.push_back(CurTileIndex + float4{ 0.0f, -DiffTile.y / abs(DiffTile.y), 0.0f });
-		CheckRout.push_back(CurTileIndex + float4{ -DiffTile.x / abs(DiffTile.x), 0.0f, 0.0f });
+		CheckRout.push_back(std::make_pair(CurTileIndex + float4{ 0.0f, static_cast<float>(_Y), 0.0f }, 135 + 90 * _Y));
+		CheckRout.push_back(std::make_pair(CurTileIndex + float4{ static_cast<float>(_X), 0.0f, 0.0f }, 225 + 90 * -_X));
+		CheckRout.push_back(std::make_pair(CurTileIndex + float4{ 0.0f, static_cast<float>(-_Y), 0.0f }, 135 + 90 * -_Y));
+		CheckRout.push_back(std::make_pair(CurTileIndex + float4{ static_cast<float>(-_X), 0.0f, 0.0f }, 225 + 90 * _X));
+
 	}
 
 	float4 resultTile = CurTileIndex;
 
-	for (const float4& checktile : CheckRout)
+	for (const std::pair < float4, int>& checktile : CheckRout)
 	{
-		if (true == IsTile(checktile.iy(), checktile.ix()))
+		if (true == IsTile(checktile.first.iy(), checktile.first.ix()))
 		{
-			resultTile = checktile;
-			NextDestroyTile = std::make_pair(resultTile.iy(), resultTile.ix());
-			break;
+			resultTile = checktile.first;
+			m_pCapsuleComp->SetRotation(float4{ 0.0f, static_cast<float>(checktile.second),0.0f });
+			return GetTilePos(resultTile.iy(), resultTile.ix());
 		}
 	}
 
-	return GetTilePos(resultTile.iy(), resultTile.ix());
+	return float4::ZERONULL;
+	
 }
 
 void BossFrogMain::Start()
@@ -240,12 +264,25 @@ void BossFrogMain::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("SWIM_EDIT");
 			m_pCapsuleComp->SetRotation(GetTransform()->GetWorldRotation() + float4{ 0.0f, 180.0f,0.0f });
-			CalMoveAmount(GetPlayerPosition(), 0.5f);
+			CalMoveAmount(Center, 2.0f);
 		},
 		[this](float Delta)
 		{
+			
 			MoveUpdate();
-			if (GetStateDuration() > 2.0f)
+			if (false == GetStateChecker() && GetStateDuration() > 0.5f)
+			{
+				MoveSpeed = float4::ZERO;
+			}
+			if (false == GetStateChecker() && GetStateDuration() > 1.5f)
+			{
+				SelectedPos = GetPlayerPosition();
+				SelectedPos.y = -720.0f;
+				float4 Tile = GetTileIndex(SelectedPos);
+				ShakeTile(Tile.iy(), Tile.ix());
+				SetStateCheckerOn();
+			}
+			if (true == GetStateChecker() && GetStateDuration() > 2.5f) // 땅이 부글부글 거리는 타이밍
 			{
 				SetNextState(BossFrogMainState::SWIM_JUMP_START);
 			}
@@ -261,7 +298,7 @@ void BossFrogMain::SetFSMFUNC()
 		{
 			m_pCapsuleComp->TurnOnGravity();
 			EnemyRenderer->ChangeAnimation("DAMEGED_LOOP");
-			CalMoveAmount(GetWaterPoint(), 1.0f, -100.0f);
+			CalMoveAmount(GetWaterPoint(), 1.1f, -300.0f);
 			switch (Phase)
 			{
 			case 1:
@@ -348,6 +385,7 @@ void BossFrogMain::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("SWIM_TO_JUMP");
+			m_pCapsuleComp->SetWorldPosWithParent(SelectedPos);
 			m_pCapsuleComp->TurnOffGravity();
 
 		},
