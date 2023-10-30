@@ -236,23 +236,23 @@ void BossFrogMain::SetFSMFUNC()
 			{
 			case 1:
 				EnemyRenderer->SetGlowToUnit(23, 0);
-				EnemyRenderer->SetUnitColor(23, 0, float4::RED, 1.0f);				
+				EnemyRenderer->SetUnitColor(23, 0, float4::RED, 0.5f);				
 				EnemyRenderer->SetGlowToUnit(24, 0);
-				EnemyRenderer->SetUnitColor(24, 0, float4::RED, 1.0f);
+				EnemyRenderer->SetUnitColor(24, 0, float4::RED, 0.5f);
 				break;		   
 			case 2:
 				EnemyRenderer->SetGlowToUnit(25, 0);
-				EnemyRenderer->SetUnitColor(25, 0, float4::RED, 1.0f);
+				EnemyRenderer->SetUnitColor(25, 0, float4::RED, 0.5f);
 				EnemyRenderer->SetGlowToUnit(26, 0);
-				EnemyRenderer->SetUnitColor(26, 0, float4::RED, 1.0f);
+				EnemyRenderer->SetUnitColor(26, 0, float4::RED, 0.5f);
 				EnemyRenderer->SetGlowToUnit(27, 0);
-				EnemyRenderer->SetUnitColor(27, 0, float4::RED, 1.0f);
+				EnemyRenderer->SetUnitColor(27, 0, float4::RED, 0.5f);
 				break;
 			case 3:
 				EnemyRenderer->SetGlowToUnit(21, 0);
-				EnemyRenderer->SetUnitColor(21, 0, float4::RED, 1.0f);
+				EnemyRenderer->SetUnitColor(21, 0, float4::RED, 0.5f);
 				EnemyRenderer->SetGlowToUnit(22, 0);
-				EnemyRenderer->SetUnitColor(22, 0, float4::RED, 1.0f);
+				EnemyRenderer->SetUnitColor(22, 0, float4::RED, 0.5f);
 				break;
 			default:
 				break;
