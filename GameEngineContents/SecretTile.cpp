@@ -14,6 +14,18 @@ SecretTile::~SecretTile()
 
 
 
+void SecretTile::InActive()
+{
+	m_bIsActive = false;
+	Off();
+}
+
+void SecretTile::Active()
+{
+	m_bIsActive = true; 
+	On();
+}
+
 void SecretTile::Start()
 {
 	InitComponent();
@@ -21,6 +33,7 @@ void SecretTile::Start()
 
 void SecretTile::Update(float _DeltaTime)
 {
+	
 }
 
 void SecretTile::InitComponent()

@@ -24,7 +24,7 @@ protected:
 	
 	void DestroyTile(const int _Y, const int _X);
 	bool IsTile(const int _Y, const int _X);
-	void ResetTile();
+	void AllTileReset();
 
 	// 보스 필드
 	void FieldRotationStart();

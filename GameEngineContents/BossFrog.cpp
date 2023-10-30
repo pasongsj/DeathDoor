@@ -49,7 +49,7 @@ bool BossFrog::IsTile(const int _Y, const int _X)
 	return  m_pCurLevel.lock()->GetMap().lock()->IsTile(_Y, _X);
 }
 
-void BossFrog::ResetTile()
+void BossFrog::AllTileReset()
 {
 	m_pCurLevel.lock()->GetMap().lock()->ResetTile();
 }

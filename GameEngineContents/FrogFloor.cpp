@@ -21,26 +21,64 @@ FrogFloor::~FrogFloor()
 void FrogFloor::Start()
 {
 	InitComponent();
-	
+
+	DestroyTile(0, 0);
+	DestroyTile(0, 1);
 }
 
 void FrogFloor::Update(float _DeltaTime)
 {
-	
 	RotationUpdate(_DeltaTime);
 }
 
 void FrogFloor::DestroyTile(const int _Y, const int _X)
 {
+	if (true == m_vTiles[_Y][_X]->IsActive())
+	{
+		m_vTiles[_Y][_X]->InActive();
+		return;
+	}
+
+	if (false == m_vTiles[_Y][_X]->IsActive())
+	{
+		MsgTextBox("이미 사라져 있는 타일을 파괴하려고 했습니다.");
+		return;
+	}
 }
 
 bool FrogFloor::IsTile(const int _Y, const int _X)
 {
+	if (true == m_vTiles.empty())
+	{
+		MsgAssert("타일 버퍼가 비어있습니다.");
+	}
+
+	if (true == m_vTiles[_Y][_X]->IsUpdate())
+	{
+		return true;
+	}
+
 	return false;
 }
 
 void FrogFloor::ResetTile()
 {
+	if (true == m_vTiles.empty())
+	{
+		MsgAssert("타일 버퍼가 비어있습니다.");
+		return;
+	}
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		for (size_t j = 0; j < 5; j++)
+		{
+			if (false == m_vTiles[i][j]->IsActive())
+			{
+				m_vTiles[i][j]->Active();
+			}
+		}
+	}
 }
 
 void FrogFloor::RotationUpdate(float _DeltaTime)

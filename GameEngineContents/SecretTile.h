@@ -55,7 +55,20 @@ public:
 
 	// 여기서 내가 활성화 상태가 아니라면 
 	// 렌더러와 피직스컴포넌트를 off 시킬건데
-	// 일단 되게 만들고. 쉐이더는 나중에 생각. 
+	// 일단 되게 만들고. 쉐이더는 나중에 생각.
+	
+	void InActive();
+	void Active();
+
+	bool IsActive()
+	{
+		if (true == m_bIsActive)
+		{
+			return true;
+		}
+
+		return false;
+	}
 
 protected:
 	void Start() override;
@@ -73,4 +86,6 @@ private:
 
 	// 타일사이즈 
 	float m_TileSize = 0.0f;
+
+	bool m_bIsActive = true;
 };
