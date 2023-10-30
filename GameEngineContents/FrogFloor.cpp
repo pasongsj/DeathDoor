@@ -44,7 +44,7 @@ void FrogFloor::DestroyTile(const int _Y, const int _X)
 
 	if (false == m_vTiles[_Y][_X]->IsActive())
 	{
-		MsgTextBox("이미 사라져 있는 타일을 파괴하려고 했습니다.");
+		MsgAssert("이미 사라져 있는 타일을 파괴하려고 했습니다.");
 		return;
 	}
 }
@@ -59,7 +59,7 @@ bool FrogFloor::IsTile(const int _Y, const int _X)
 	{
 		return false;
 	}
-	if (true == m_vTiles[_Y][_X]->IsUpdate())
+	if (true == m_vTiles[_Y][_X]->IsActive())
 	{
 		return true;
 	}
