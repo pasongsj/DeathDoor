@@ -49,7 +49,10 @@ bool FrogFloor::IsTile(const int _Y, const int _X)
 	{
 		MsgAssert("타일 버퍼가 비어있습니다.");
 	}
-
+	if (_Y < 0 || _Y >= m_vTiles.size() || _X < 0 || _X >= m_vTiles[_Y].size())
+	{
+		return false;
+	}
 	if (true == m_vTiles[_Y][_X]->IsUpdate())
 	{
 		return true;

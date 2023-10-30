@@ -38,15 +38,19 @@ public:
 
 	void SetGlowToUnit(int _IndexY, int _IndexX, const std::string_view& _MaskName = "WholeMask.png")
 	{
-		GetAllRenderUnit()[_IndexY][_IndexX]->ShaderResHelper.SetTexture("CrackTexture", _MaskName);
-		GetAllRenderUnit()[_IndexY][_IndexX]->Mask.UV_MaskingValue = 1.0f;
+		std::shared_ptr<GameEngineRenderUnit> CurUnit = GetIndexRenderUnit(_IndexY, _IndexX);
+		CurUnit->ShaderResHelper.SetTexture("CrackTexture", _MaskName);
+		CurUnit->Mask.UV_MaskingValue = 1.0f;
+		//GetAllRenderUnit()[_IndexY][_IndexX]->ShaderResHelper.SetTexture("CrackTexture", _MaskName);
+		//GetAllRenderUnit()[_IndexY][_IndexX]->Mask.UV_MaskingValue = 1.0f;
 	}
 
 	void UnitSetTexture(const std::string_view& _SettingName, const std::string_view& _TextureName, int _IndexY, int _IndexX)
 	{
-		auto Units = GetAllRenderUnit();
-
-		Units[_IndexY][_IndexX]->ShaderResHelper.SetTexture(_SettingName, _TextureName);
+		//auto Units = GetAllRenderUnit();
+		std::shared_ptr<GameEngineRenderUnit> CurUnit = GetIndexRenderUnit(_IndexY, _IndexX);
+		CurUnit->ShaderResHelper.SetTexture(_SettingName, _TextureName);
+		//Units[_IndexY][_IndexX]->ShaderResHelper.SetTexture(_SettingName, _TextureName);
 	}
 
 	void SetIntensity(float _Intensity)
@@ -89,18 +93,23 @@ public:
 		{
 			_Intensity = Intensity;
 		}
+		std::shared_ptr<GameEngineRenderUnit> CurUnit = GetIndexRenderUnit(_Y, _X);
+		//auto Units = GetAllRenderUnit();
 
-		auto Units = GetAllRenderUnit();
-
-		Units[_Y][_X]->Color.MulColor = float4::ZERONULL;
-		Units[_Y][_X]->Color.PlusColor = { _RGBA.x * _Intensity, _RGBA.y * _Intensity, _RGBA.z * _Intensity, _RGBA.a };
+		CurUnit->Color.MulColor = float4::ZERONULL;
+		CurUnit->Color.PlusColor = { _RGBA.x * _Intensity, _RGBA.y * _Intensity, _RGBA.z * _Intensity, _RGBA.a };
+		//Units[_Y][_X]->Color.MulColor = float4::ZERONULL;
+		//Units[_Y][_X]->Color.PlusColor = { _RGBA.x * _Intensity, _RGBA.y * _Intensity, _RGBA.z * _Intensity, _RGBA.a };
 	}
 
 	void SetUnitDiffuseColorIntensity(int _Y, int _X, float _Intensity)
 	{
-		auto Units = GetAllRenderUnit();
+		std::shared_ptr<GameEngineRenderUnit> CurUnit = GetIndexRenderUnit(_Y, _X);
+		CurUnit->Color.MulColor = { _Intensity , _Intensity , _Intensity, 1.0f };
 
-		Units[_Y][_X]->Color.MulColor = { _Intensity , _Intensity , _Intensity, 1.0f };
+		//auto Units = GetAllRenderUnit();
+		//
+		//Units[_Y][_X]->Color.MulColor = { _Intensity , _Intensity , _Intensity, 1.0f };
 	}
 
 

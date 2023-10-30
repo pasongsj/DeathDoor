@@ -45,3 +45,6 @@
 
 #define RENDERSCALE_JUMPER			60.0f
 #define PHYSXSCALE_JUMPER			float4{0.0f, 201.0f, 200.0f}
+
+
+#define PHYSXSCALE_FROGMAIN			float4{0.0f, 210.0f, 200.0f}
