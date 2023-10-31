@@ -273,7 +273,7 @@ void BossFrogMain::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("SWIM_EDIT");
 			m_pCapsuleComp->SetRotation(GetTransform()->GetWorldRotation() + float4{ 0.0f, 180.0f,0.0f });
-			CalMoveAmount(Center, 2.0f);
+			CalMoveAmount(UnderWaterCenter, 2.0f);
 		},
 		[this](float Delta)
 		{

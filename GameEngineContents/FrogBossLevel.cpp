@@ -5,7 +5,9 @@
 #include "PhysXControllerComponent.h"
 #include "Player.h"
 #include "Map_Sanctuary.h"
+#include "BossFrog.h"
 #include "BossFrogMain.h"
+#include "BossFrogFat.h"
 #include "BossFrogWindow.h"
 
 FrogBossLevel::FrogBossLevel()
@@ -84,9 +86,11 @@ void FrogBossLevel::LevelChangeStart()
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_PlayerStartPos();
 
-	m_pBossFrog = CreateActor<BossFrogMain>();
-	Set_BossStartPos();
+	//m_pBossFrog = CreateActor<BossFrogMain>();
+	//Set_BossStartPos();
 
+	m_pBossFrog = CreateActor<BossFrogFat>();
+	
 	BossFrogWindow::EditorGUI->On();
 
 }
