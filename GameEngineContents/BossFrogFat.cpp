@@ -10,8 +10,8 @@ BossFrogFat::~BossFrogFat()
 }
 
 
-const float4 FatPointNorth = float4{ -4790,-630,4800 };
-const float4 FatPointSouth = float4{ -2400,-630,2450 };
+const float4 FatPointNorth = float4{ -4790,-610,4800 };
+const float4 FatPointSouth = float4{ -2400,-610,2450 };
 
 void BossFrogFat::Start()
 {
@@ -25,6 +25,11 @@ void BossFrogFat::Start()
 		m_pCapsuleComp->TurnOffGravity();
 		m_pCapsuleComp->SetRotation(GetTransform()->GetWorldRotation() + float4{ 0.0f, 135.0f,0.0f });
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+		if (nullptr != Player::MainPlayer)
+		{
+			m_pCapsuleComp->SetFilter(*Player::MainPlayer->GetPhysXComponent()->GetController());
+			m_pCapsuleComp->RigidSwitch(false);
+		}
 		m_pCapsuleComp->SetWorldPosWithParent(BossFrog::WPointNorth);
 	}
 
@@ -89,15 +94,20 @@ void BossFrogFat::InitAnimation()
 		{
 			isJumpTime = false;
 		});
-	EnemyRenderer->CreateFBXAnimation("SHOOT", "FROG_FAT_SHOOT.fbx", { 1.0f / 30, true });							   //¿ÞÂÊ¿¡¼­ 6¹ø ´øÁü
-	
+	EnemyRenderer->CreateFBXAnimation("SHOOT", "FROG_FAT_SHOOT.fbx", { 2.0f / 30, true});							   //¿ÞÂÊ¿¡¼­ 6¹ø ´øÁü
+	EnemyRenderer->SetAnimationStartFunc("SHOOT", 0, [this]
+		{
+			++LoopCnt;
+		});
 	EnemyRenderer->CreateFBXAnimation("TURN", "FROG_FAT_TURN.fbx", { 1.0f / 30, false ,-1,-1,1.0f / 30,0.0f });
+	
 	EnemyRenderer->CreateFBXAnimation("TILT", "FROG_FAT_TILT.fbx", { 1.0f / 30, false ,17,-1,0.0f});							   //¶¥ Àâ±â
 	EnemyRenderer->SetAnimationStartFunc("TILT", 35, [this]
 		{
 			FieldRotationStart();
 		});
 	EnemyRenderer->CreateFBXAnimation("TILT_GRABBED", "FROG_FAT_TILT_GRABBED.fbx", { 1.0f / 30, false ,-1,-1,0.0f});			   //´©¸£±â
+	EnemyRenderer->CreateFBXAnimation("GRABBED_IDLE", "FROG_FAT_TILT_GRABBED.fbx", { 1.0f / 30, false ,1,8,0.0f});			   //´©¸£±â
 	
 	EnemyRenderer->CreateFBXAnimation("SUCK", "FROG_FAT_SUCK.fbx", { 1.0f / 30, true });							   //¿À¸¥ÂÊ¿¡¼­ ¹ßÆÇ 5°³ ¸ÔÀ½
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB", "FROG_FAT_SUCK_BOMB.fbx", { 1.0f / 30, false });					   //ÈíÀÔ Áß ÆøÅº ¸ÔÀ½
@@ -137,8 +147,6 @@ void BossFrogFat::SetFSMFUNC()
 
 	SetChangeFSMCallBack([this]
 		{
-			//StateDuration = 0.0f;
-			//StateChecker = false;
 		});
 
 	SetFSM(BossFrogFatState::INTRO, // ÀÎÆ®·Î 1.5f
@@ -186,6 +194,38 @@ void BossFrogFat::SetFSMFUNC()
 		{
 		}
 	);
+	SetFSM(BossFrogFatState::GRABBED_IDLE, // Â«Çª ÈÄ Àá±ñ idleÅ¸ÀÓ
+		[this]
+		{
+			EnemyRenderer->ChangeAnimation("GRABBED_IDLE", true, -1, 0.0f);
+		},
+		[this](float Delta)
+		{
+			if (true == EnemyRenderer->IsAnimationEnd())
+			{
+				if (0 < LoopCnt)
+				{
+					SetNextState(BossFrogFatState::JUMP_TO_GROUND);
+					LoopCnt = 0;
+				}
+				else
+				{
+					if (true == isRightPattern)
+					{
+						SetNextState(BossFrogFatState::TILT);
+					}
+					else
+					{
+						SetNextState(BossFrogFatState::SHOOT);
+					}
+
+				}
+			}
+		},
+		[this]
+		{
+		}
+	);
 
 	SetFSM(BossFrogFatState::JUMP_TO_WATER,// ¶¥->¹°
 		[this]
@@ -224,7 +264,7 @@ void BossFrogFat::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("TILT_JUMP");
 			JumpStartPoint = GetTransform()->GetWorldPosition();
-			JumpEndPoint = OnGroundCenter;
+			JumpEndPoint = GetPlayerPosition();
 			CalJumpPoint();
 		},
 		[this](float Delta)
@@ -254,14 +294,7 @@ void BossFrogFat::SetFSMFUNC()
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				if (true == isRightPattern)
-				{
-					SetNextState(BossFrogFatState::TILT);
-				}
-				else
-				{
-					SetNextState(BossFrogFatState::SHOOT);
-				}
+				SetNextState(BossFrogFatState::GRABBED_IDLE);
 			}
 		},
 		[this]
@@ -275,7 +308,8 @@ void BossFrogFat::SetFSMFUNC()
 	SetFSM(BossFrogFatState::TILT, // tilt¿Í suck
 		[this]
 		{
-			EnemyRenderer->ChangeAnimation("TILT");
+			EnemyRenderer->ChangeAnimation("TILT", false, -1, 1.0f / 30);
+
 		},
 		[this](float Delta)
 		{
@@ -283,59 +317,50 @@ void BossFrogFat::SetFSMFUNC()
 			{
 				SetNextState(BossFrogFatState::SUCK);
 			}
-			/*if (true == EnemyRenderer->IsAnimationEnd())
-			{
-				SetNextState(BossFrogFatState::SUCK);
-			}*/
 		},
 		[this]
 		{
 		}
 	);
-	SetFSM(BossFrogFatState::SUCK, // tilt¿Í suck
+	SetFSM(BossFrogFatState::SUCK, // tilt¿Í suck 3ÃÊ¿¡ ¼¼¿ì°í 4ÃÊ¿¡
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("SUCK");
 		},
 		[this](float Delta)
 		{
-			if (false == GetStateChecker())
+			if (true == GameEngineInput::IsDown("PressK")) // ÀÓ½Ã(ÆøÅº¿¡ ¸Â¾Ò´Ù¸é)
 			{
-				if (GetStateDuration() > 3.0f)
-				{
-					SetNextState(BossFrogFatState::JUMP_TO_GROUND);
-					
-				}
-				else if(true == GameEngineInput::IsDown("PressK")) // ÀÓ½Ã(ÆøÅº¿¡ ¸Â¾Ò´Ù¸é)
-				{
-					EnemyRenderer->ChangeAnimation("SUCK_BOMB");
-					SetStateCheckerOn();
-				}
+				FieldRotationEnd();
+				SetNextState(BossFrogFatState::SUCK_BOMB);
 			}
-			else
+			if (false == GetStateChecker() && GetStateDuration() > 3.0f)
 			{
-				if (true == EnemyRenderer->IsAnimationEnd())
-				{
-					SetNextState(BossFrogFatState::SUCK_BOMB);
-				}
+				FieldRotationEnd();
+				SetStateCheckerOn();
+			}
+			else if (true == GetStateChecker() && GetStateDuration() > 4.0f)
+			{
+				SetNextState(BossFrogFatState::JUMP_TO_GROUND);
+				return;
 			}
 		},
 		[this]
 		{
-			FieldRotationEnd();
 		}
 	);
 
 	SetFSM(BossFrogFatState::SHOOT, // ÆøÅº ´øÁö±â
 		[this]
 		{
-			EnemyRenderer->ChangeAnimation("SHOOT");
+			LoopCnt = 0;
+			EnemyRenderer->ChangeAnimation("SHOOT", false, -1, 3.0f / 30);
 		},
 		[this](float Delta)
 		{
-			if (GetStateDuration() > 3.0f)
+			if (LoopCnt >=6)
 			{
-				SetNextState(BossFrogFatState::JUMP_TO_GROUND);
+				SetNextState(BossFrogFatState::GRABBED_IDLE);
 			}
 		},
 		[this]
@@ -344,6 +369,24 @@ void BossFrogFat::SetFSMFUNC()
 	);
 
 	SetFSM(BossFrogFatState::SUCK_BOMB, // ÆÐÅÏ ÆÄÈÑ ½Ã
+		[this]
+		{
+			EnemyRenderer->ChangeAnimation("SUCK_BOMB");
+			
+		},
+		[this](float Delta)
+		{
+			if (true == EnemyRenderer->IsAnimationEnd())
+			{
+				SetNextState(BossFrogFatState::SUCK_BOMB_END);
+				return;
+			}
+		},
+		[this]
+		{
+		}
+	);
+	SetFSM(BossFrogFatState::SUCK_BOMB_END, // ÆÐÅÏ ÆÄÈÑ ½Ã
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("SUCK_BOMB_LOOP");

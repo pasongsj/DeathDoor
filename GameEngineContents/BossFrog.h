@@ -1,5 +1,6 @@
 #pragma once
 #include "EnemyBase.h"
+#include "Player.h"
 
 class BossFrog : public EnemyBase
 {

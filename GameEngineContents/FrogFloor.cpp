@@ -104,7 +104,7 @@ void FrogFloor::RotationUpdate(float _DeltaTime)
 
 	if (true == m_bRotation)
 	{
-		if (Rot.z >= -10.0f)
+		if (Rot.z >= -15.0f)
 		{
 			m_pPivotTile.lock()->GetTransform()->AddLocalRotation(float4{ 0, 0, -0.1f });
 		}
