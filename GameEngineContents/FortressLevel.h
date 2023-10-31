@@ -41,6 +41,9 @@ private:
 	std::shared_ptr<class Map_Fortress> m_pMap = nullptr;
 
 	void Create_Manager();
+	
+	void Create_FieldEnemy();
+	void Create_FieldObject();
 
 	std::shared_ptr<class CullingManager> m_pCullingManager = nullptr;
 };
