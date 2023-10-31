@@ -4,6 +4,8 @@
 #include "FrogBossLevel.h"
 #include "Map_Sanctuary.h"
 
+#include "TileManager.h"
+
 BossFrog* BossFrog::MainBoss;
 
 BossFrog::BossFrog()
@@ -22,60 +24,50 @@ void BossFrog::Start()
 	//}
 
 	MainBoss = this;
-	SetLevel();
 }
 
 const float4 BossFrog::GetTilePos(const int _Y, const int _X)
 {
-	float4 TilePos = m_pCurLevel.lock()->GetMap().lock()->GetTilePos(_Y, _X);
+	float4 TilePos = TileManager::MainManager->GetTilePos(_Y, _X);
 
 	return TilePos;
 }
 
 const float4 BossFrog::GetTileIndex(const float4& _Pos)
 {
-	float4 TileIndex = m_pCurLevel.lock()->GetMap().lock()->GetTileIndex(_Pos);
+	float4 TileIndex = TileManager::MainManager->GetTileIndex(_Pos);
 
 	return TileIndex;
 }
 
 void BossFrog::DestroyTile(const int _Y, const int _X)
 {
-	m_pCurLevel.lock()->GetMap().lock()->DestroyTile(_Y, _X);
+	TileManager::MainManager->DestroyTile(_Y, _X);
 }
 
 void BossFrog::ShakeTile(const int _Y, const int _X, float _ShakeTime)
 {
-	m_pCurLevel.lock()->GetMap().lock()->ShakeTile(_Y, _X, _ShakeTime);
+	TileManager::MainManager->ShakeTile(_Y, _X, _ShakeTime);
 }
 
 bool BossFrog::IsTile(const int _Y, const int _X)
 {
-	return  m_pCurLevel.lock()->GetMap().lock()->IsTile(_Y, _X);
+	return TileManager::MainManager->IsTile(_Y, _X);
 }
 
 void BossFrog::AllTileReset()
 {
-	m_pCurLevel.lock()->GetMap().lock()->ResetTile();
+	TileManager::MainManager->ResetTile();
 }
 
 void BossFrog::FieldRotationStart()
 {
-	m_pCurLevel.lock()->GetMap().lock()->OnRotationFloor();
+	TileManager::MainManager->OnRotation();
 }
 
 void BossFrog::FieldRotationEnd()
 {
-	m_pCurLevel.lock()->GetMap().lock()->OffRotationFloor();
-}
-
-void BossFrog::SetLevel()
-{
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr != CurLevel)
-	{
-		m_pCurLevel = CurLevel->DynamicThis<FrogBossLevel>();
-	}
+	TileManager::MainManager->OffRotation();
 }
 
 float4 BossFrog::GetWaterPoint()
