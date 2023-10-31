@@ -10,6 +10,17 @@
 #include "WaterBox.h"
 #include "BossFrog.h"
 
+#include "EnemyBrute.h"
+#include "EnemyBruteGold.h"
+#include "EnemyFirePlant.h"
+#include "EnemyGhoul.h"
+#include "EnemyGhoulBig.h"
+#include "EnemyGrunt.h"
+#include "EnemyJumper.h"
+#include "EnemyMage.h"
+
+
+
 FortressLevel::FortressLevel()
 {
 }
@@ -22,7 +33,6 @@ void FortressLevel::Start()
 {
 	SetContentLevelType(ContentLevelType::FortressLevel);
 	InitKey();
-
 }
 
 void FortressLevel::Update(float _DeltaTime)
@@ -94,6 +104,9 @@ void FortressLevel::LevelChangeStart()
 	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
 	Actor->CreateComponent<WaterBox>();
 
+
+	Create_FieldEnemy();
+	
 }
 
 void FortressLevel::LevelChangeEnd()
@@ -123,4 +136,165 @@ void FortressLevel::Set_PlayerStartPos()
 void FortressLevel::Create_Manager()
 {
 	m_pCullingManager = CreateActor<CullingManager>();
+}
+
+void FortressLevel::Create_FieldEnemy()
+{
+	{
+		std::shared_ptr<EnemyGhoul> Monster = CreateActor<EnemyGhoul>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1656, -6, 514 });
+	}
+	{
+		std::shared_ptr<EnemyGhoul> Monster = CreateActor<EnemyGhoul>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -972, -6, 1706 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -3054, -6, 3439 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -3388, -6, 2988 });
+	}
+	{
+		std::shared_ptr<EnemyFirePlant> Monster = CreateActor<EnemyFirePlant>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -3862, -6, 3031 });
+	}
+	{
+		std::shared_ptr<EnemyJumper> Monster = CreateActor<EnemyJumper>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1400, 146, 5013 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ 337, 139, 4000 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ 715, 140, 4647 });
+	}
+	{
+		std::shared_ptr<EnemyGhoul> Monster = CreateActor<EnemyGhoul>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -55, 140, 4234 });
+	}
+	{
+		std::shared_ptr<EnemyMage> Monster = CreateActor<EnemyMage>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1585, 146, 6556 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1082, 595, 6392 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -237, 595, 6737 });
+	}
+	{
+		std::shared_ptr<EnemyFirePlant> Monster = CreateActor<EnemyFirePlant>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -182, 595, 7702 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1452, 595, 7571 });
+	}
+	{
+		std::shared_ptr<EnemyFirePlant> Monster = CreateActor<EnemyFirePlant>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -2851, 593, 9373 });
+	}
+	{
+		std::shared_ptr<EnemyFirePlant> Monster = CreateActor<EnemyFirePlant>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -2308, 593, 9914 });
+	}
+	{
+		std::shared_ptr<EnemyJumper> Monster = CreateActor<EnemyJumper>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1482, 593, 9087 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -2255, -6, 7951 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ - 2368, -6, 8466 });
+	}
+	{
+		std::shared_ptr<EnemyFirePlant> Monster = CreateActor<EnemyFirePlant>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -4515, -53, 7123 });
+	}
+	{
+		std::shared_ptr<EnemyJumper> Monster = CreateActor<EnemyJumper>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -3006, -6, 5802 });
+	}
+	{
+		std::shared_ptr<EnemyGhoulBig> Monster = CreateActor<EnemyGhoulBig>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -4768, -6, 4968 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -5131, -6, 4671 });
+	}
+	{
+		std::shared_ptr<EnemyJumper> Monster = CreateActor<EnemyJumper>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -5758, -6, 2642 });
+	}
+	{
+		std::shared_ptr<EnemyFirePlant> Monster = CreateActor<EnemyFirePlant>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -6374, -6, 3598 });
+	}
+	{
+		std::shared_ptr<EnemyFirePlant> Monster = CreateActor<EnemyFirePlant>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -5071, -6, 2146 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -8308, -6, 2334 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -8421, -6, 1527 });
+	}
+	{
+		std::shared_ptr<EnemyMage> Monster = CreateActor<EnemyMage>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -9355, -6, 2211 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -9873, -6, 2915 });
+	}
+	{
+		std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -9923, -6, 3578 });
+	}
+	{
+		std::shared_ptr<EnemyGhoulBig> Monster = CreateActor<EnemyGhoulBig>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -9352, -6, 3705 });
+	}
+	{
+		std::shared_ptr<EnemyGhoul> Monster = CreateActor<EnemyGhoul>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -9237, -6, 4168 });
+	}
+	{
+		std::shared_ptr<EnemyFirePlant> Monster = CreateActor<EnemyFirePlant>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -11177, 40, 5777 });
+	}
+	{
+		std::shared_ptr<EnemyFirePlant> Monster = CreateActor<EnemyFirePlant>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -10732, 46, 6292 });
+	}
+	{
+		std::shared_ptr<EnemyBruteGold> Monster = CreateActor<EnemyBruteGold>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -10908, 26, 6030 });
+	}
+	{
+		std::shared_ptr<EnemyGhoul> Monster = CreateActor<EnemyGhoul>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -12380, 46, 6936 });
+	}
+	{
+		std::shared_ptr<EnemyGhoul> Monster = CreateActor<EnemyGhoul>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -12658, 46, 7780 });
+	}
+}
+
+void FortressLevel::Create_FieldObject()
+{
+	
 }
