@@ -37,6 +37,7 @@ private:
 
 	bool isRightPattern = true;
 	bool isTurned = false;
+	int LoopCnt = 0;
 
 	//등장->포효->우측으로 점프-> 턴->기울기 ->5개 흡입 ->//SUCK_BOMB- >눈뺑글뻉글->고개 도리도리->올라와->궁디흔들고 왼쪽 점프
 	//->턴 ->6번 던지기-> 점프 ->우측점프
@@ -44,6 +45,7 @@ private:
 	{
 		INTRO,//intro
 		IDLE,
+		GRABBED_IDLE,
 		JUMP_TO_WATER,
 		JUMP_TO_GROUND,
 		TURN,
@@ -51,6 +53,7 @@ private:
 		SUCK,
 		SHOOT,
 		SUCK_BOMB,
+		SUCK_BOMB_END,
 		MAX,
 	};
 };
