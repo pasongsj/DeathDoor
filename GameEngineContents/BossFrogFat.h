@@ -23,6 +23,14 @@ protected:
 
 private:
 
+	bool isJumpTime = false;
+
+	float4 JumpStartPoint = float4::ZERO;
+	float4 JumpP2 = float4::ZERO;
+	float4 JumpP3 = float4::ZERO;
+	float4 JumpEndPoint = float4::ZERO;
+	void CalJumpPoint();
+
 	const float4 WeaponPivotPos = float4{ 0.0f,0.1f,0.0f };
 	const float4 WeaponPivotRot = float4{ -85.03f,40.0f,0.0f };
 	std::shared_ptr<class ContentFBXRenderer> WeaponRenderer = nullptr;
@@ -34,7 +42,7 @@ private:
 	//->턴 ->6번 던지기-> 점프 ->우측점프
 	enum class BossFrogFatState
 	{
-		JUMP_SCREAM,//intro
+		INTRO,//intro
 		IDLE,
 		JUMP_TO_WATER,
 		JUMP_TO_GROUND,

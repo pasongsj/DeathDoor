@@ -5,8 +5,11 @@
 #include "PhysXControllerComponent.h"
 #include "Player.h"
 #include "Map_Sanctuary.h"
+#include "BossFrog.h"
 #include "BossFrogMain.h"
+#include "BossFrogFat.h"
 #include "BossFrogWindow.h"
+#include "FrogFloor.h"
 
 #include "WaterBox.h"
 #include "GlowEffect.h"
@@ -55,6 +58,8 @@ void FrogBossLevel::InitKey()
 	if (false == GameEngineInput::IsKey("NaviMesh_Switch_FrogBoss"))
 	{
 		GameEngineInput::CreateKey("NaviMesh_Switch_FrogBoss", 'M');
+		GameEngineInput::CreateKey("Debug_DestroyTile", '8');
+		GameEngineInput::CreateKey("Debug_ResetTile", '9');
 	}
 }
 
@@ -62,10 +67,18 @@ void FrogBossLevel::KeyUpdate(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsDown("NaviMesh_Swtich"))
 	{
-	
 		m_pMap.lock()->NaviRenderSwitch();
-		
 	}
+
+	if (true == GameEngineInput::IsDown("Debug_DestroyTile"))
+	{
+		m_pMap.lock()->GetFloor()->DestroyTile(2, 2);
+	}
+	if (true == GameEngineInput::IsDown("Debug_ResetTile"))
+	{
+		m_pMap.lock()->GetFloor()->ResetTile();
+	}
+
 }
 
 void FrogBossLevel::LevelChangeStart()
@@ -88,9 +101,11 @@ void FrogBossLevel::LevelChangeStart()
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_PlayerStartPos();
 
-	m_pBossFrog = CreateActor<BossFrogMain>();
-	Set_BossStartPos();
+	//m_pBossFrog = CreateActor<BossFrogMain>();
+	//Set_BossStartPos();
 
+	m_pBossFrog = CreateActor<BossFrogFat>();
+	
 	BossFrogWindow::EditorGUI->On();
 
 	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();

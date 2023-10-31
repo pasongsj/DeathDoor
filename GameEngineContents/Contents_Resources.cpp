@@ -1,6 +1,7 @@
 #include "PrecompileHeader.h"
 #include "ContentsCore.h"
 #include <GameEngineBase/GameEngineDirectory.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineVertexShader.h>
 #include <GameEngineCore/GameEnginePixelShader.h>
 #include <GameEngineCore/GameEngineMaterial.h>
@@ -11,6 +12,7 @@
 void ContentsCore::ContentsResourcesCreate()
 {
 	// 텍스처 로드만 각 레벨별로 하고 정리하는 습관을 들이세요.
+	
 
 	{
 		GameEngineDirectory NewDir;

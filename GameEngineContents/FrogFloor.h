@@ -6,6 +6,7 @@ class FrogFloor : public GameEngineActor
 {
 public:
 	friend class Map_Sanctuary;
+	friend class FrogBossLevel;
 
 public:
 	// constrcuter destructer
@@ -79,6 +80,8 @@ private:
 	// wall 
 	std::vector<std::shared_ptr<class RuinsWall>> m_vWalls = std::vector<std::shared_ptr<class RuinsWall>>();
 
+	std::weak_ptr<class SecretTile> m_pPivotTile;
+	
 	size_t m_Width = 5;
 	size_t m_Height = 5;
 

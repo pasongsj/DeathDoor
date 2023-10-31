@@ -22,9 +22,7 @@ CenterLevel::~CenterLevel()
 void CenterLevel::Start()
 {
 	SetLevelType(PacketLevelType::CenterLevel);
-	GameEngineInput::CreateKey("TestLevel", '0');
-
-
+	
 
 	{
 		/////test
@@ -45,10 +43,6 @@ void CenterLevel::Start()
 
 void CenterLevel::Update(float _DeltaTime)
 {
-	if (true == GameEngineInput::IsDown("TestLevel"))
-	{
-		GameEngineCore::ChangeLevel("TestLevel");
-	}
 }
 
 void CenterLevel::LevelChangeStart()
