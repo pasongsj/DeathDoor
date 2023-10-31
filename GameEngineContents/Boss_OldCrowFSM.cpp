@@ -11,43 +11,6 @@
 
 void Boss_OldCrow::SetFSMFUNC()
 {
-	//enum class Boss_OldCrowState //스테이트 별
-	//{
-	//	EMPTY,
-
-	//	IDLE,
-
-	//	//대쉬
-	//	STARTDASH,
-	//	DASH,
-	//	TURN,
-
-	//	//사슬
-	//	MEGADASHPREP,
-	//	MEGADASH,
-
-	//	//연속 사슬
-	//	MEGADASH2PREP,
-	//	MEGADASH2,
-
-	//	//점프
-	//	JUMP,
-	//	SLAM,
-	//	SLAMIMPACT,
-
-	//	//Egg
-	//	EGG,
-
-	//	//SmallCrow
-	//	SCREAM,
-	//	SCREAMMINI,
-
-	//	//Death
-	//	DEATHWHILERUNNING,
-
-	//	DEATHWHILEUPRIGHT,
-	//};
-
 	InitFSM(Boss_OldCrowState::MAX);
 
 	SetFSM(Boss_OldCrowState::IDLE,
@@ -92,7 +55,8 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("Dash");
-			//m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_DASHSPEED);
+
+			m_pCapsuleComp->RigidSwitch(false);
 
 			CurrentSpeed = BOSS_OLDCROW_DASHSPEED;
 		},
@@ -114,6 +78,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("TurnLeft");
+
 			IsTurn = false;
 		},
 		[this](float Delta)
@@ -131,6 +96,8 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
+
+			m_pCapsuleComp->RigidSwitch(true);
 		}
 	);
 
@@ -231,6 +198,8 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			ChainsPivots[0]->GetTransform()->SetParent(GetTransform());
 
+			m_pCapsuleComp->RigidSwitch(false);
+
 			StateCalTime = 0.0f;
 		},
 		[this](float Delta)
@@ -252,6 +221,8 @@ void Boss_OldCrow::SetFSMFUNC()
 			ChainsPivots[0]->GetTransform()->SetParent(nullptr);
 
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
+
+			m_pCapsuleComp->RigidSwitch(true);
 
 		}
 	);
@@ -359,6 +330,8 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetParent(GetTransform());
 
+			m_pCapsuleComp->RigidSwitch(false);
+
 			StateCalTime = 0.0f;
 		},
 		[this](float Delta)
@@ -401,6 +374,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 
+			m_pCapsuleComp->RigidSwitch(true);
 		}
 	);
 
@@ -426,6 +400,8 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			m_pCapsuleComp->DetachShape();
 			SetDirection();
+
+			m_pCapsuleComp->RigidSwitch(false);
 		},
 		[this](float Delta)
 		{
@@ -495,6 +471,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			m_pCapsuleComp->TurnOnGravity();
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
+			m_pCapsuleComp->RigidSwitch(true);
 		}
 	);
 
@@ -532,10 +509,6 @@ void Boss_OldCrow::SetFSMFUNC()
 				SetNextPatternState();
 			}
 
-			if (EnemyRenderer->IsAnimationEnd())
-			{
-				SetNextState(Boss_OldCrowState::IDLE);
-			}
 		},
 		[this]
 		{
@@ -551,6 +524,10 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			StateCalTime = 0.0f; //까마귀 생성
 			StateCalTime2 = 0.0f;//다음패턴 체크
+
+			StateCalFloat = GameEngineRandom::MainRandom.RandomFloat(0, 35);
+			StateCalFloat *= 10.0f;
+
 		},
 		[this](float Delta)
 		{
@@ -568,7 +545,7 @@ void Boss_OldCrow::SetFSMFUNC()
 				{
 					std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent<GameEngineComponent>();
 					BonePivot->GetTransform()->SetParent(GetTransform());
-					BonePivot->GetTransform()->SetLocalPosition(float4{ 0, 14, 5 });
+					BonePivot->GetTransform()->SetLocalPosition(float4{ 0, 10, 5 });
 
 					float Value = 5.0f;
 
@@ -580,8 +557,10 @@ void Boss_OldCrow::SetFSMFUNC()
 					BonePivot->GetTransform()->AddLocalRotation({ -20.0f, 0.0f, 0.0f });
 					BonePivot->GetTransform()->AddLocalRotation({ RandomXValue, RandomYValue, RandomZValue });
 
+					float RandomFloat = GameEngineRandom::MainRandom.RandomFloat(-5, 5);
+
 					std::shared_ptr<Boss_OldCrowSmallCrow> SmallCrow = GetLevel()->CreateActor<Boss_OldCrowSmallCrow>();
-					SmallCrow->SetSmallCrow(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation());
+					SmallCrow->SetSmallCrow(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation(), StateCalFloat + RandomFloat);
 
 					StateCalTime = 0.0f;
 				}
@@ -592,4 +571,48 @@ void Boss_OldCrow::SetFSMFUNC()
 		}
 	);
 
+	SetFSM(Boss_OldCrowState::DEATHWHILERUNNING,
+		[this]
+		{
+			EnemyRenderer->ChangeAnimation("DeathInRunning");
+
+			StateCalTime = 0.0f;
+			StateCalFloat = 300.0f;
+		},
+		[this](float Delta)
+		{
+			StateCalTime += Delta;
+			StateCalFloat -= Delta * 150.0f;
+
+			if (StateCalFloat <= 0.0f)
+			{
+				StateCalFloat = 0.0f;
+			}
+
+			if (StateCalTime <= 2.0f)
+			{
+				m_pCapsuleComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * StateCalFloat);
+			}
+		},
+		[this]
+		{
+
+		}
+	);
+
+	SetFSM(Boss_OldCrowState::DEATHWHILEUPRIGHT,
+		[this]
+		{
+			EnemyRenderer->ChangeAnimation("DeathInUpright");
+
+		},
+		[this](float Delta)
+		{
+
+		},
+		[this]
+		{
+
+		}
+	);
 }

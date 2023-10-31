@@ -15,7 +15,7 @@ public:
 	Boss_OldCrowSmallCrow& operator=(const Boss_OldCrowSmallCrow& _Other) = delete;
 	Boss_OldCrowSmallCrow& operator=(Boss_OldCrowSmallCrow&& _Other) noexcept = delete;
 
-	void SetSmallCrow(float4 _Pos, float4 _Rot);
+	void SetSmallCrow(float4 _Pos, float4 _Rot, float _TargetAngle);
 
 protected:
 	void Start() override;
@@ -33,8 +33,13 @@ private:
 	void SetDirection();
 	void SetTargetTransform(float _DeltaTime);
 
+	bool CreatedGravity = false; // 1.5초 이후 중력을 받아 내려오는 연출을 위해  
+	bool IsStickPlayer = false;
+	float4 StickPos = float4::ZERO;
+
 	float4 CurrentDir = float4::ZERO;
 	float4 Dir = float4::ZERO;
+	float CurrentDistance = BOSS_OLDCROW_OrbitDistance;
 
 };
 

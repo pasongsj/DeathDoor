@@ -37,6 +37,11 @@ void Boss_OldCrow::Start()
 		m_pCapsuleComp->CreatePhysXActors(float4{ 0.0f, 300.0f, 250.0f });
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 		
+		if (nullptr != Player::MainPlayer)
+		{
+			m_pCapsuleComp->SetFilter(*Player::MainPlayer->GetPhysXComponent()->GetController());
+		}
+
 		m_pCapsuleComp->CreateSubShape(SubShapeType::BOX, float4{ 250, 200, 200 }, float4{ 0, 0, 100 });
 		m_pCapsuleComp->SetSubShapeFilter(PhysXFilterGroup::MonsterSkill);
 		m_pCapsuleComp->AttachShape();
@@ -44,7 +49,7 @@ void Boss_OldCrow::Start()
 
 	float4 Scale = EnemyRenderer->GetMeshScale();
 
-	SetEnemyHP(BOSS_OLDCROW_HP / 2);
+	SetEnemyHP(BOSS_OLDCROW_HP);
 
 	ChainsInit();
 }
@@ -53,9 +58,14 @@ float Time = 0.0f;
 
 void Boss_OldCrow::Update(float _DeltaTime)
 {
-	if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))
+	if (false == DeathCheck() && true == CheckHit())
 	{
 		GetDamaged();
+	}
+
+	if (true == DeathCheck())
+	{
+		SetDeathState();
 	}
 
 	FSMObjectBase::Update(_DeltaTime);
@@ -146,8 +156,8 @@ void Boss_OldCrow::SetRandomPattern()
 	CurrentPatternNum = 0;
 
 	//Test용 스테이트 세팅 
-	//PatternNum = 5;
-	//RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
+	PatternNum = 5;
+	RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
 
 	SetNextState(RandomState);
 }
@@ -327,6 +337,14 @@ void Boss_OldCrow::GetDamaged()
 	//체력 닳는 이펙트
 
 	//체력 닳으면 까마귀 생성
+	CreateCrowHead();
+
+	//플레이어 스펠 코스트 추가
+	AddPlayerSpellCost();
+}
+
+void Boss_OldCrow::CreateCrowHead()
+{
 	std::shared_ptr<Boss_OldCrowCrowHead> CrowHead = GetLevel()->CreateActor<Boss_OldCrowCrowHead>();
 
 	float Angle = GameEngineRandom::MainRandom.RandomFloat(0, 359);
@@ -336,4 +354,23 @@ void Boss_OldCrow::GetDamaged()
 	Dir.x = -45.0f;
 
 	CrowHead->SetCrowHead(GetTransform()->GetWorldPosition(), Dir);
+}
+
+void Boss_OldCrow::SetDeathState()
+{
+	Boss_OldCrowState CurState = GetCurState<Boss_OldCrowState>();
+
+	switch (CurState)
+	{
+	case Boss_OldCrowState::DASH:
+	case Boss_OldCrowState::TURN:
+	case Boss_OldCrowState::MEGADASH:
+	case Boss_OldCrowState::MEGADASH2:
+		SetNextState(Boss_OldCrowState::DEATHWHILERUNNING);
+		break;
+	default :
+		SetNextState(Boss_OldCrowState::DEATHWHILEUPRIGHT);
+		break;
+	}
+
 }
