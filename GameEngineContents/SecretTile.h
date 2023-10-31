@@ -74,11 +74,17 @@ public:
 
 	void OnShake(const float _ShakeTime)
 	{
+		m_bIsActive = false;
 		m_bShake = true;
 		m_fShakeTime = _ShakeTime;
 	}
 
 	void OffShake();
+
+	void SetActiveType(bool Type)
+	{
+		m_bIsActive = Type;
+	}
 
 protected:
 	void Start() override;

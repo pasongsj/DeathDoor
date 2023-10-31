@@ -9,6 +9,7 @@ public:
 	static TileManager* MainManager;
 	friend class BossFrog;
 	friend class FrogBossLevel;
+	friend class BossFrogBomb;
 
 public:
 	// constrcuter destructer
@@ -59,6 +60,7 @@ private:
 	const float4 GetTilePos(const int _Y, const int _X);
 	const float4 GetTileIndex(const float4& _Pos);
 
+	void InActiveTile(const int _Y, const int _X);
 	void DestroyTile(const int _Y, const int _X);
 	bool IsTile(const int _Y, const int _X);
 	void ResetTile();

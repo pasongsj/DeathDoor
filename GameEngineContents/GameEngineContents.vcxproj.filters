@@ -449,6 +449,9 @@
     <ClCompile Include="HitEffect.cpp">
       <Filter>Contents\Effect\Object\HitEffect</Filter>
     </ClCompile>
+    <ClCompile Include="BossFrogBomb.cpp">
+      <Filter>FSMObject\BossFrog</Filter>
+    </ClCompile>
     <ClCompile Include="TileManager.cpp">
       <Filter>Contents\FortressLevel\Manager</Filter>
     </ClCompile>
@@ -898,6 +901,9 @@
     </ClInclude>
     <ClInclude Include="HitEffect.h">
       <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="BossFrogBomb.h">
+      <Filter>FSMObject\BossFrog</Filter>
     </ClInclude>
     <ClInclude Include="TileManager.h">
       <Filter>Contents\FortressLevel\Manager</Filter>

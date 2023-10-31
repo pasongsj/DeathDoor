@@ -77,6 +77,16 @@ const float4 TileManager::GetTileIndex(const float4& _Pos)
 
 	return TileIndex;
 }
+void TileManager::InActiveTile(const int _Y, const int _X)
+{
+	if (_Y == -1 && _X == -1)
+	{
+		return;
+	}
+
+	m_vTiles[_Y][_X]->SetActiveType(false);
+}
+
 
 void TileManager::DestroyTile(const int _Y, const int _X)
 {
@@ -86,13 +96,13 @@ void TileManager::DestroyTile(const int _Y, const int _X)
 	}
 
 
-	if (true == m_vTiles[_Y][_X]->IsActive())
+	if (true == m_vTiles[_Y][_X]->GetRender()->IsUpdate())
 	{
 		m_vTiles[_Y][_X]->InActive();
 		return;
 	}
 
-	if (false == m_vTiles[_Y][_X]->IsActive())
+	if (false == m_vTiles[_Y][_X]->GetRender()->IsUpdate())
 	{
 		MsgAssert("이미 사라져 있는 타일을 파괴하려고 했습니다.");
 		return;
