@@ -14,11 +14,7 @@ public:
 
 	}
 
-	GameEngineSoundPlayer(FMOD::Channel* _Channel)
-		: Channel(_Channel)
-	{
-		Channel->setChannelGroup(GameEngineSound::ChannelGroup);
-	}
+	GameEngineSoundPlayer(FMOD::Channel* _Channel);
 
 	inline bool IsValid() const
 	{
