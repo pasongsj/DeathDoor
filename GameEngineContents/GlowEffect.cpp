@@ -71,18 +71,6 @@ void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 	ColorMerge.ShaderResHelper.SetTexture("DiffuseTex", ResultTex);
 	ColorMerge.Render(_DeltaTime);
 	ColorMerge.ShaderResHelper.AllResourcesReset();
-
-	//_Target->Setting();
-	//
-	////ºû ¹èÀ² Áõ°¡
-	//BlurMergeUnit.ShaderResHelper.SetTexture("DiffuseColor", DoubleBlurTarget->GetTexture(4));
-	//BlurMergeUnit.ShaderResHelper.SetTexture("DiffuseLight", DoubleBlurTarget->GetTexture(1));
-	//BlurMergeUnit.ShaderResHelper.SetTexture("SpecularLight", DoubleBlurTarget->GetTexture(2));
-	//BlurMergeUnit.ShaderResHelper.SetTexture("AmbientLight", DoubleBlurTarget->GetTexture(3));
-	//
-	//BlurMergeUnit.Render(_DeltaTime);
-	//BlurMergeUnit.ShaderResHelper.AllResourcesReset();
-
 }
 
 void GlowEffect::CreateTarget(float4 _BlurSize)
