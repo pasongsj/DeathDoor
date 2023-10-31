@@ -1,6 +1,8 @@
 #include "PreCompileHeader.h"
 #include "BossFrogFat.h"
+#include "BossFrogBomb.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
 BossFrogFat::BossFrogFat()
 {
 }
@@ -10,8 +12,8 @@ BossFrogFat::~BossFrogFat()
 }
 
 
-const float4 FatPointNorth = float4{ -4790,-610,4800 };
-const float4 FatPointSouth = float4{ -2400,-610,2450 };
+const float4 FatPointNorth = float4{ -4740,-610,4750 };
+const float4 FatPointSouth = float4{ -2450,-610,2500 };
 
 void BossFrogFat::Start()
 {
@@ -21,7 +23,7 @@ void BossFrogFat::Start()
 	{
 		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_MAGE * 3.0f);
+		m_pCapsuleComp->CreatePhysXActors(float4{0.0f,1000.0f,400.0f});
 		m_pCapsuleComp->TurnOffGravity();
 		m_pCapsuleComp->SetRotation(GetTransform()->GetWorldRotation() + float4{ 0.0f, 135.0f,0.0f });
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
@@ -38,6 +40,35 @@ void BossFrogFat::Start()
 		GameEngineInput::CreateKey("PressK", 'K');
 	}
 }
+float4 BossFrogFat::GetRandomTileIndex()
+{
+	int cnt = 0;
+	while (true)
+	{
+		if (cnt > 50)
+		{
+			return float4::ZERONULL;
+		}
+		int y = GameEngineRandom::MainRandom.RandomInt(0, 4);
+		int x = GameEngineRandom::MainRandom.RandomInt(0, 4);
+		if (true == IsTile(y, x))
+		{
+			return float4{ static_cast<float>(x),static_cast<float>(y) };
+		}
+		cnt++;
+	}
+}
+
+float4 BossFrogFat::GetRandomTilePos()
+{
+	float4 index = GetRandomTileIndex();
+	if (index == float4::ZERONULL)
+	{
+		return index;
+	}
+	return GetTilePos(index.iy(), index.ix());
+}
+
 
 void BossFrogFat::Update(float _DeltaTime)
 {
@@ -99,8 +130,19 @@ void BossFrogFat::InitAnimation()
 		{
 			++LoopCnt;
 		});
+	EnemyRenderer->SetAnimationStartFunc("SHOOT", 8 , [this]
+		{
+			std::shared_ptr< BossFrogBomb> Bomb = GetLevel()->CreateActor< BossFrogBomb>();
+			float4 StartP = GetTransform()->GetWorldPosition();
+			StartP.y = 100.0f;
+			float4 Destindex = GetRandomTileIndex();
+			Bomb->SetTargetTile(StartP, Destindex);
+		});
 	EnemyRenderer->CreateFBXAnimation("TURN", "FROG_FAT_TURN.fbx", { 1.0f / 30, false ,-1,-1,1.0f / 30,0.0f });
-	
+	EnemyRenderer->SetAnimationStartFunc("TURN", 56, [this] 
+		{
+			SetStateCheckerOn();
+		});
 	EnemyRenderer->CreateFBXAnimation("TILT", "FROG_FAT_TILT.fbx", { 1.0f / 30, false ,17,-1,0.0f});							   //¶¥ Àâ±â
 	EnemyRenderer->SetAnimationStartFunc("TILT", 35, [this]
 		{
@@ -109,7 +151,32 @@ void BossFrogFat::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("TILT_GRABBED", "FROG_FAT_TILT_GRABBED.fbx", { 1.0f / 30, false ,-1,-1,0.0f});			   //´©¸£±â
 	EnemyRenderer->CreateFBXAnimation("GRABBED_IDLE", "FROG_FAT_TILT_GRABBED.fbx", { 1.0f / 30, false ,1,8,0.0f});			   //´©¸£±â
 	
-	EnemyRenderer->CreateFBXAnimation("SUCK", "FROG_FAT_SUCK.fbx", { 1.0f / 30, true });							   //¿À¸¥ÂÊ¿¡¼­ ¹ßÆÇ 5°³ ¸ÔÀ½
+	EnemyRenderer->CreateFBXAnimation("SUCK", "FROG_FAT_SUCK.fbx", { 1.0f / 30, false });							   //¿À¸¥ÂÊ¿¡¼­ ¹ßÆÇ 5°³ ¸ÔÀ½
+
+	EnemyRenderer->SetAnimationStartFunc("SUCK", 40, [this]
+		{
+			SuckTile();
+		});
+	EnemyRenderer->SetAnimationStartFunc("SUCK", 55, [this]
+		{
+			SuckTile();
+		});
+	EnemyRenderer->SetAnimationStartFunc("SUCK", 65, [this]
+		{
+			SuckTile();
+		});
+
+	EnemyRenderer->SetAnimationStartFunc("SUCK", 75, [this]
+		{
+			SuckTile();
+		});
+
+	EnemyRenderer->SetAnimationStartFunc("SUCK", 85, [this]
+		{
+			SuckTile();
+		});
+
+
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB", "FROG_FAT_SUCK_BOMB.fbx", { 1.0f / 30, false });					   //ÈíÀÔ Áß ÆøÅº ¸ÔÀ½
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB_GETUP", "FROG_FAT_SUCK_BOMB_GETUP.fbx", { 1.0f / 30, false });		   //´«¾Ë ºùºù ÈÄ ÀÏ¾î³²
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB_LOOP", "FROG_FAT_SUCK_BOMB_LOOP.fbx", { 1.0f / 30, true });		   //´«±ò ºùºù
@@ -130,6 +197,15 @@ void BossFrogFat::InitAnimation()
 	WeaponRenderer->SetGlowToUnit(1, 0);
 	WeaponRenderer->SetUnitColor(1, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
 
+}
+void BossFrogFat::SuckTile()
+{
+	float4 index = GetRandomTileIndex();
+	if (index == float4::ZERONULL)
+	{
+		return;
+	}
+	ShakeTile(index.iy(), index.ix(), 1.0f);
 }
 
 void BossFrogFat::CalJumpPoint()
@@ -185,6 +261,10 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if (false == isTurned && true == CheckHit())
+			{
+				AllTileReset();
+			}
 			if (GetStateDuration() > 1.0f && false == isTurned)
 			{
 				SetNextState(BossFrogFatState::TURN);
@@ -292,6 +372,10 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if (false == GetStateChecker() && true == CheckHit())
+			{
+				AllTileReset();
+			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(BossFrogFatState::GRABBED_IDLE);
@@ -325,11 +409,13 @@ void BossFrogFat::SetFSMFUNC()
 	SetFSM(BossFrogFatState::SUCK, // tilt¿Í suck 3ÃÊ¿¡ ¼¼¿ì°í 4ÃÊ¿¡
 		[this]
 		{
+			LoopCnt = 0;
 			EnemyRenderer->ChangeAnimation("SUCK");
+
 		},
 		[this](float Delta)
 		{
-			if (true == GameEngineInput::IsDown("PressK")) // ÀÓ½Ã(ÆøÅº¿¡ ¸Â¾Ò´Ù¸é)
+			if (true == CheckHit()) // ÀÓ½Ã(ÆøÅº¿¡ ¸Â¾Ò´Ù¸é)
 			{
 				FieldRotationEnd();
 				SetNextState(BossFrogFatState::SUCK_BOMB);
@@ -339,7 +425,7 @@ void BossFrogFat::SetFSMFUNC()
 				FieldRotationEnd();
 				SetStateCheckerOn();
 			}
-			else if (true == GetStateChecker() && GetStateDuration() > 4.0f)
+			else if (true == EnemyRenderer->IsAnimationEnd()/*true == GetStateChecker() && GetStateDuration() > 4.0f*/)
 			{
 				SetNextState(BossFrogFatState::JUMP_TO_GROUND);
 				return;
@@ -409,4 +495,3 @@ void BossFrogFat::SetFSMFUNC()
 	);
 
 }
-
