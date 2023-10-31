@@ -452,6 +452,9 @@
     <ClCompile Include="TileManager.cpp">
       <Filter>Contents\FortressLevel\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Wires.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -898,6 +901,9 @@
     </ClInclude>
     <ClInclude Include="TileManager.h">
       <Filter>Contents\FortressLevel\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Wires.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

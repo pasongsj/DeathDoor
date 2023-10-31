@@ -565,6 +565,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Wires.cpp" />
     <ClCompile Include="WoodenBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -1050,6 +1051,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="WaterBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Wires.h">
       <SubType>
       </SubType>
     </ClInclude>
