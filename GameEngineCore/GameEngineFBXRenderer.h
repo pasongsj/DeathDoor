@@ -110,9 +110,9 @@ public:
 	GameEngineFBXRenderer& operator=(const GameEngineFBXRenderer& _Other) = delete;
 	GameEngineFBXRenderer& operator=(GameEngineFBXRenderer&& _Other) noexcept = delete;
 
-	virtual void SetFBXMesh(const std::string& _Name, std::string _Material);
-	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex);
-	virtual std::shared_ptr<GameEngineRenderUnit> SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex);
+	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, RenderPath _Path = RenderPath::None);
+	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, RenderPath _Path = RenderPath::None);
+	virtual std::shared_ptr<GameEngineRenderUnit> SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex, RenderPath _Path = RenderPath::None);
 
 	void SetAnimationStartFunc(const std::string_view& _Name, UINT _Index, std::function<void()> _Func);
 

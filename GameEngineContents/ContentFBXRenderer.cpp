@@ -132,6 +132,12 @@ void ContentFBXRenderer::SetReflect()
 			{
 				Units[i][j]->ShaderResHelper.SetConstantBufferLink("WaterHeight", WaterHeight);
 			}
+
+
+			if (Units[i][j]->ShaderResHelper.IsConstantBuffer("CamPos") == true)
+			{
+				Units[i][j]->ShaderResHelper.SetConstantBufferLink("CamPos", GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition());
+			}
 		}
 	}
 
@@ -183,6 +189,12 @@ void ContentFBXRenderer::LinkConstantBuffer()
 			{
 				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("ClipData", ClipData);
 			}
+
+			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("WaterHeight") == true)
+			{
+				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("WaterHeight", WaterHeight);
+			}
+
 		}
 	}
 }
@@ -235,7 +247,7 @@ void ContentFBXRenderer::FadeIn(float _MaxTime, float _DeltaTime)
 	}
 }
 
-void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::string _SettingName)
+void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::string _SettingName, RenderPath _Path)
 {
 	std::string UpperSettingName = GameEngineString::ToUpper(_SettingName);
 
@@ -246,7 +258,7 @@ void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::str
 		return;
 	}
 
-	GameEngineFBXRenderer::SetFBXMesh(_MeshName, _SettingName);
+	GameEngineFBXRenderer::SetFBXMesh(_MeshName, _SettingName, _Path);
 	
 	if (UpperSettingName == "CONTENTMESHDEFFERED")
 	{

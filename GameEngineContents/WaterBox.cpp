@@ -17,23 +17,34 @@ void WaterBox::Start()
 	Unit = CreateRenderUnit();
 	Unit->SetMesh("Box");
 	Unit->SetMaterial("Water");
-	//Unit->SetWaterUnit();
-
 	Unit->ShaderResHelper.SetTexture("NormalMap", "WaterNormal.png");
 	Unit->Color.MulColor = float4::ZERONULL;
-	Unit->Color.PlusColor = float4{ 0.0f, 0.5f, 1.0f, 0.8f };
+	Unit->Color.PlusColor = float4{ 0.0f, 0.7f, 1.0f, 0.8f };
+}
 
-	GetTransform()->SetLocalPosition({ -5000, -120 ,4500 });
-	GetTransform()->SetLocalScale({ 15000 , 1 , 15000 });
-	GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });
+void WaterBox::SetWaterPosition(float4 _Pos)
+{
+	GetTransform()->SetLocalPosition(_Pos);
+	GetLevel()->SetWaterHeight(_Pos.y);
 
-	Unit->UVdata = { 15000.0f / 4096.0f, 15000.0f / 4096.0f };
-
-	GetLevel()->SetWaterHeight(-120.0f);
+	Height = _Pos.y;
 }
 
 void WaterBox::Update(float _Delta)
 {
+	float4 Scale = GetTransform()->GetLocalScale();
+
+	Unit->UVdata.x = Scale.x / 4096.0f;
+	Unit->UVdata.y = Scale.z / 4096.0f;
+
+	Angle += 0.2f * _Delta;
+	
+	float Y = Height + 25.0f * sin(Angle);
+
+	float4 Position = GetTransform()->GetLocalPosition();
+	GetTransform()->SetLocalPosition({ Position.x, Y,Position.z });
+	GetLevel()->SetWaterHeight(Y);
+
 	Unit->UVdata.z += 0.01f * _Delta;
 	Unit->UVdata.w += 0.01f * _Delta;
 

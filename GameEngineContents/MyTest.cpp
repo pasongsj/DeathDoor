@@ -7,6 +7,7 @@
 #include "SkillSlot.h"
 
 #include "HitEffect.h"
+#include "WaterBox.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
 
@@ -21,7 +22,6 @@ MyTest::~MyTest()
 void MyTest::Start()
 {
 	CreateKey();
-
 }
 
 void MyTest::Update(float _Delta)

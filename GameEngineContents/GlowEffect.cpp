@@ -51,32 +51,26 @@ void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 
 	BlurUnit.ShaderResHelper.AllResourcesReset();
 	
-	//블러 적용
-	//DoubleBlurTarget->Clear();
-	//DoubleBlurTarget->Setting();
-	//
-	//DoubleBlurUnit.ShaderResHelper.SetTexture("DiffuseTexture", BlurTarget->GetTexture(0));
-	//
-	//DoubleBlurUnit.Render(_DeltaTime);
-	//DoubleBlurUnit.ShaderResHelper.AllResourcesReset();
+	std::shared_ptr<GameEngineTexture> ResultTex = BlurTarget->GetTexture(0);
+
+	if(isDoubleBlur == true)
+	{
+		DoubleBlurTarget->Clear();
+		DoubleBlurTarget->Setting();
+
+		DoubleBlurUnit.ShaderResHelper.SetTexture("DiffuseTexture", BlurTarget->GetTexture(0));
+
+		DoubleBlurUnit.Render(_DeltaTime);
+		DoubleBlurUnit.ShaderResHelper.AllResourcesReset();
+
+		ResultTex = DoubleBlurTarget->GetTexture(0);
+	}
 
 	LevelTarget->Setting();
 	
-	ColorMerge.ShaderResHelper.SetTexture("DiffuseTex", BlurTarget->GetTexture(0));
+	ColorMerge.ShaderResHelper.SetTexture("DiffuseTex", ResultTex);
 	ColorMerge.Render(_DeltaTime);
 	ColorMerge.ShaderResHelper.AllResourcesReset();
-
-	//_Target->Setting();
-	//
-	////빛 배율 증가
-	//BlurMergeUnit.ShaderResHelper.SetTexture("DiffuseColor", DoubleBlurTarget->GetTexture(4));
-	//BlurMergeUnit.ShaderResHelper.SetTexture("DiffuseLight", DoubleBlurTarget->GetTexture(1));
-	//BlurMergeUnit.ShaderResHelper.SetTexture("SpecularLight", DoubleBlurTarget->GetTexture(2));
-	//BlurMergeUnit.ShaderResHelper.SetTexture("AmbientLight", DoubleBlurTarget->GetTexture(3));
-	//
-	//BlurMergeUnit.Render(_DeltaTime);
-	//BlurMergeUnit.ShaderResHelper.AllResourcesReset();
-
 }
 
 void GlowEffect::CreateTarget(float4 _BlurSize)

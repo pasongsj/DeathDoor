@@ -16,7 +16,7 @@ HitEffect::~HitEffect()
 void HitEffect::Start()
 {
 	std::shared_ptr<HitCircle> Circle = CreateComponent<HitCircle>();
-	Circle->SetAngle({ 0.0f, 0.0f, 0.0f});
+	Circle->SetAngle({30.0f, 0.0f, 0.0f});
 
 	for (int i = 0; i < 10; i++)
 	{

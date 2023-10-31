@@ -102,7 +102,11 @@ void FortressLevel::LevelChangeStart()
 	Create_Manager();
 
 	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
-	Actor->CreateComponent<WaterBox>();
+	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
+
+	Box->SetWaterPosition({ -5000, -120 ,4500 });
+	Box->GetTransform()->SetLocalScale({ 15000 , 1 , 15000 });
+	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });
 
 
 	Create_FieldEnemy();
