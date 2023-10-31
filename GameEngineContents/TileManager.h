@@ -1,23 +1,25 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-// 보스 타일맵 경기장
-class FrogFloor : public GameEngineActor
+// 보스 타일맵 경기장인데
+// 타일매니저로 변경
+class TileManager : public GameEngineActor
 {
 public:
-	friend class Map_Sanctuary;
+	static TileManager* MainManager;
+	friend class BossFrog;
 	friend class FrogBossLevel;
 
 public:
 	// constrcuter destructer
-	FrogFloor();
-	~FrogFloor();
+	TileManager();
+	~TileManager();
 
 	// delete Function
-	FrogFloor(const FrogFloor& _Other) = delete;
-	FrogFloor(FrogFloor&& _Other) noexcept = delete;
-	FrogFloor& operator=(const FrogFloor& _Other) = delete;
-	FrogFloor& operator=(FrogFloor&& _Other) noexcept = delete;
+	TileManager(const TileManager& _Other) = delete;
+	TileManager(TileManager&& _Other) noexcept = delete;
+	TileManager& operator=(const TileManager& _Other) = delete;
+	TileManager& operator=(TileManager&& _Other) noexcept = delete;
 
 	inline std::shared_ptr<class ContentFBXRenderer> GetHingeRender() const
 	{
@@ -53,6 +55,9 @@ private:
 	{
 		return m_bRotation;
 	}
+
+	const float4 GetTilePos(const int _Y, const int _X);
+	const float4 GetTileIndex(const float4& _Pos);
 
 	void DestroyTile(const int _Y, const int _X);
 	bool IsTile(const int _Y, const int _X);

@@ -1,5 +1,5 @@
 #include "PrecompileHeader.h"
-#include "FrogFloor.h"
+#include "TileManager.h"
 
 #include "SecretTile.h"
 
@@ -10,25 +10,70 @@
 #include "RuinsWall.h"
 #include "Ladder.h"
 
-FrogFloor::FrogFloor()
+
+TileManager* TileManager::MainManager = nullptr;
+
+TileManager::TileManager()
+{
+	MainManager = this;
+}
+
+TileManager::~TileManager()
 {
 }
 
-FrogFloor::~FrogFloor()
-{
-}
-
-void FrogFloor::Start()
+void TileManager::Start()
 {
 	InitComponent();
 }
 
-void FrogFloor::Update(float _DeltaTime)
+void TileManager::Update(float _DeltaTime)
 {
 	RotationUpdate(_DeltaTime);
 }
 
-void FrogFloor::DestroyTile(const int _Y, const int _X)
+const float4 TileManager::GetTilePos(const int _Y, const int _X)
+{
+	if (_X < 0 || _X >= 5)
+	{
+		MsgAssert("X 인덱스 값이 잘못되었습니다.");
+	}
+
+	if (_Y < 0 || _Y >= 5)
+	{
+		MsgAssert("Y 인덱스 값이 잘못되었습니다.");
+	}
+
+	const float4 TilePos = m_vTiles[_Y][_X]->GetTransform()->GetWorldPosition();
+
+	return TilePos;
+}
+
+const float4 TileManager::GetTileIndex(const float4& _Pos)
+{
+	if (true == m_vTiles.empty())
+	{
+		MsgAssert("타일 버퍼가 비어있습니다.");
+	}
+
+	float4 TilePos = m_vTiles[0][0]->GetTransform()->GetWorldPosition();
+	float4 TileScale = m_vTiles[0][0]->GetRender()->GetMeshScale();
+	float TileSize = m_vTiles[0][0]->GetTileSize();
+
+	float4 Start = TilePos - float4{ 0, 0, -TileSize };
+
+	float TempX = (_Pos.x - Start.x);
+	float TempZ = (_Pos.z - Start.z);
+
+	int X = static_cast<int>((TempX / TileSize + -TempZ / TileSize) / 2.0f);
+	int Z = static_cast<int>((-TempZ / TileSize - (TempX / TileSize)) / 2.0f);
+
+	float4 TileIndex = float4{ static_cast<float>(X),static_cast<float>(Z), 0 };
+
+	return TileIndex;
+}
+
+void TileManager::DestroyTile(const int _Y, const int _X)
 {
 	if (_Y == -1 && _X == -1)
 	{
@@ -49,7 +94,7 @@ void FrogFloor::DestroyTile(const int _Y, const int _X)
 	}
 }
 
-bool FrogFloor::IsTile(const int _Y, const int _X)
+bool TileManager::IsTile(const int _Y, const int _X)
 {
 	if (true == m_vTiles.empty())
 	{
@@ -67,7 +112,7 @@ bool FrogFloor::IsTile(const int _Y, const int _X)
 	return false;
 }
 
-void FrogFloor::ResetTile()
+void TileManager::ResetTile()
 {
 	if (true == m_vTiles.empty())
 	{
@@ -87,7 +132,7 @@ void FrogFloor::ResetTile()
 	}
 }
 
-void FrogFloor::ShakeTile(const int _Y, const int _X, float _ShakeTime)
+void TileManager::ShakeTile(const int _Y, const int _X, float _ShakeTime)
 {
 	if (_Y < 0 || _Y >= m_vTiles.size() || _X < 0 || _X >= m_vTiles[_Y].size())
 	{
@@ -98,7 +143,7 @@ void FrogFloor::ShakeTile(const int _Y, const int _X, float _ShakeTime)
 	m_vTiles[_Y][_X]->OnShake(_ShakeTime);
 }
 
-void FrogFloor::RotationUpdate(float _DeltaTime)
+void TileManager::RotationUpdate(float _DeltaTime)
 {
 	float4 Rot = m_pPivotTile.lock()->GetTransform()->GetLocalRotation();
 
@@ -121,7 +166,7 @@ void FrogFloor::RotationUpdate(float _DeltaTime)
 
 
 
-void FrogFloor::InitComponent()
+void TileManager::InitComponent()
 {
 	GetTransform()->SetLocalPosition(m_f4FloorPos);
 
@@ -155,7 +200,7 @@ void FrogFloor::InitComponent()
 	GetTransform()->SetParent(m_pPivotTile.lock()->GetTransform());
 }
 
-void FrogFloor::Create_FireObject()
+void TileManager::Create_FireObject()
 {
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
@@ -200,7 +245,7 @@ void FrogFloor::Create_FireObject()
 	}
 }
 
-void FrogFloor::Create_TileObject()
+void TileManager::Create_TileObject()
 {
 	float4 TileStartPos = m_TileInitPos;
 
@@ -252,7 +297,7 @@ void FrogFloor::Create_TileObject()
 	}
 }
 
-void FrogFloor::Create_WallObject()
+void TileManager::Create_WallObject()
 {
 	m_vWalls.reserve(4);
 

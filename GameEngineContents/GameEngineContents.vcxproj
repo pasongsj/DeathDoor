@@ -321,7 +321,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="FrogFloor.cpp" />
+    <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="Frog_Lever.cpp" />
     <ClCompile Include="Frog_Septre.cpp">
       <SubType>
@@ -749,7 +749,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="FrogFloor.h">
+    <ClInclude Include="TileManager.h">
       <SubType>
       </SubType>
     </ClInclude>

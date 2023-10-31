@@ -9,7 +9,7 @@
 #include "BossFrogMain.h"
 #include "BossFrogFat.h"
 #include "BossFrogWindow.h"
-#include "FrogFloor.h"
+#include "TileManager.h"
 
 FrogBossLevel::FrogBossLevel()
 {
@@ -69,11 +69,11 @@ void FrogBossLevel::KeyUpdate(float _DeltaTime)
 
 	if (true == GameEngineInput::IsDown("Debug_DestroyTile"))
 	{
-		m_pMap.lock()->GetFloor()->DestroyTile(2, 2);
+		TileManager::MainManager->DestroyTile(2, 2);
 	}
 	if (true == GameEngineInput::IsDown("Debug_ResetTile"))
 	{
-		m_pMap.lock()->GetFloor()->ResetTile();
+		TileManager::MainManager->ResetTile();
 	}
 
 }
@@ -88,6 +88,8 @@ void FrogBossLevel::LevelChangeStart()
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
 
+	CreateActor<TileManager>();
+
 	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
 	Light->GetTransform()->SetLocalRotation(float4{ 50, 100, 0 });
 
@@ -97,10 +99,10 @@ void FrogBossLevel::LevelChangeStart()
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_PlayerStartPos();
 
-	m_pBossFrog = CreateActor<BossFrogMain>();
-	Set_BossStartPos();
+	/*m_pBossFrog = CreateActor<BossFrogMain>();
+	Set_BossStartPos();*/
 
-	//m_pBossFrog = CreateActor<BossFrogFat>();
+	m_pBossFrog = CreateActor<BossFrogFat>();
 	
 	BossFrogWindow::EditorGUI->On();
 

@@ -43,8 +43,5 @@ protected:
 	const float4 WPointSouth = float4{ -2400,-730,2450 };
 
 private:
-	void SetLevel();
-	std::weak_ptr<class FrogBossLevel> m_pCurLevel;
-	
 };
 
