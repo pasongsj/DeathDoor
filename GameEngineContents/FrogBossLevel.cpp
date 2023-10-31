@@ -100,7 +100,7 @@ void FrogBossLevel::LevelChangeStart()
 	//m_pBossFrog = CreateActor<BossFrogMain>();
 	//Set_BossStartPos();
 
-	m_pBossFrog = CreateActor<BossFrogFat>();
+	//m_pBossFrog = CreateActor<BossFrogFat>();
 	
 	BossFrogWindow::EditorGUI->On();
 

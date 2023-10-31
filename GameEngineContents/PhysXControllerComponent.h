@@ -105,10 +105,19 @@ protected:
 	//void Render() override {}
 
 private:
-	class MyControllerFilterCallback : public physx::PxControllerFilterCallback
+	class CustomBehaviorCallback : public physx::PxControllerBehaviorCallback
+	{
+		physx::PxControllerBehaviorFlags getBehaviorFlags(const physx::PxShape& shape, const physx::PxActor& actor) override
+		{
+				
+		}
+
+	};
+
+	class CustomFilterCallback : public physx::PxControllerFilterCallback
 	{
 	public:
-		virtual bool filter(const physx::PxController& a, const physx::PxController& b)
+		bool filter(const physx::PxController& a, const physx::PxController& b) override
 		{
 			return m_bReturnValue;
 		}
@@ -120,7 +129,7 @@ private:
 		bool m_bReturnValue;
 	};
 
-	MyControllerFilterCallback m_Filter;
+	CustomFilterCallback m_Filter;
 	physx::PxControllerFilters m_pControllerFilter = nullptr;
 	float4 m_pControllerDir = float4::ZERO;
 	bool m_bSpeedLimit = false;

@@ -44,6 +44,7 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 	ControllerDesc.density = 1.f;
 	ControllerDesc.height = static_cast<physx::PxF32>(m_fHeight);
 	ControllerDesc.material = m_pMaterial;
+	ControllerDesc.behaviorCallback;
 	ControllerDesc.radius = static_cast<physx::PxF32>(HalfScale.z );
 	ControllerDesc.upDirection = physx::PxVec3(0, 1, 0);
 	ControllerDesc.userData = GetActor();
