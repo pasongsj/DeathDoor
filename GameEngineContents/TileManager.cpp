@@ -200,6 +200,7 @@ void TileManager::InitComponent()
 	m_pPivotTile.lock()->GetRender()->Off();
 	m_pPivotTile.lock()->GetTransform()->SetWorldPosition(float4{-3213, -350, 3215});
 	m_pPivotTile.lock()->GetTransform()->SetLocalRotation(float4{0, 45, 0});
+	m_pPivotTile.lock()->GetPhysXComponent()->Death();
 
 	GetTransform()->SetParent(m_pPivotTile.lock()->GetTransform());
 }
