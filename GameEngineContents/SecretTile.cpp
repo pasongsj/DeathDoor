@@ -16,7 +16,6 @@ SecretTile::~SecretTile()
 }
 
 
-
 void SecretTile::InActive()
 {
 	OffShake();
@@ -36,6 +35,7 @@ void SecretTile::Active()
 
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
+
 	// 여기서 프로그 보스레벨이면 45도 회전시킨다. 
 	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
 	if (CurLevel != nullptr)
@@ -58,8 +58,10 @@ void SecretTile::TileShake(float _DeltaTime)
 {
 	if (0.0f >= m_fShakeTime)
 	{
-		m_bShake = false;
+ 		m_bShake = false;
 		m_fShakeTime = 2.0f;
+
+		InActive();
 		return;
 	}
 
@@ -77,6 +79,12 @@ void SecretTile::TileShake(float _DeltaTime)
 	{
 		GetTransform()->SetLocalRotation(float4{ 0 , 0, RandomRotValue });
 	}
+}
+
+void SecretTile::OffShake()
+{
+	m_bShake = false;
+	m_fShakeTime = 2.0f;
 }
 
 void SecretTile::Start()
