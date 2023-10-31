@@ -79,13 +79,13 @@ public:
 		{
 			m_FilterCallback.SetRigid(_Value);
 			m_bRigid = _Value;
-			m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
+			//m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
 		}
 		else if (true == m_bRigid && false == _Value)
 		{
 			m_FilterCallback.SetRigid(_Value);
 			m_bRigid = _Value;
-			m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+			//m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
 		}
 	}
 
