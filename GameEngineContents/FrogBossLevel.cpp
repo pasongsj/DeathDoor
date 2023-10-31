@@ -71,12 +71,12 @@ void FrogBossLevel::KeyUpdate(float _DeltaTime)
 
 	if (true == GameEngineInput::IsDown("R"))
 	{
-		Player::MainPlayer->GetPhysXComponent()->SetWorldPosWithParent(float4(3634.12842f,-170.f, 3898.349123f));
+		Player::MainPlayer->GetPhysXComponent()->SetWorldPosWithParent(float4(-3634.12842f,-170.f, 3898.349123f));
 	}
 	if (true == GameEngineInput::IsDown("Debug_DestroyTile"))
 	{
 		TileManager::MainManager->DestroyTile(1, 1);
-		TileManager::MainManager->DestroyTile(1, 2);
+		TileManager::MainManager->DestroyTile(2, 1);
 		TileManager::MainManager->DestroyTile(2, 2);
 	}
 	if (true == GameEngineInput::IsDown("Debug_ResetTile"))

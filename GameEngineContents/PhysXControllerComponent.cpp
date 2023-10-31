@@ -61,6 +61,8 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 	m_pController->getActor()->getShapes(&m_pShape, sizeof(m_pShape));
 	m_pShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 	m_pShape->userData = GetActor();
+	m_pShape->getActor()->getWorldBounds(0.9f);
+	//physx::PxHitFlag::eMTD
 
 	//GetTransform()->SetWorldScale(float4(_GeoMetryScale.x, _GeoMetryScale.y, _GeoMetryScale.z ));
 	//GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
