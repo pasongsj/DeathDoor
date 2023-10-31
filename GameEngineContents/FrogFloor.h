@@ -6,6 +6,7 @@ class FrogFloor : public GameEngineActor
 {
 public:
 	friend class Map_Sanctuary;
+	friend class FrogBossLevel;
 
 public:
 	// constrcuter destructer
