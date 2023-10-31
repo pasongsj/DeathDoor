@@ -24,7 +24,7 @@ protected:
 	const float4 GetTileIndex(const float4& _Pos);
 	
 	void DestroyTile(const int _Y, const int _X);
-	void ShakeTile(const int _Y, const int _X);
+	void ShakeTile(const int _Y, const int _X, float _ShakeTime);
 	bool IsTile(const int _Y, const int _X);
 	void AllTileReset();
 
