@@ -25,11 +25,13 @@ TileManager::~TileManager()
 void TileManager::Start()
 {
 	InitComponent();
+	InitKey();
 }
 
 void TileManager::Update(float _DeltaTime)
 {
 	RotationUpdate(_DeltaTime);
+	KeyUpdate();
 }
 
 const float4 TileManager::GetTilePos(const int _Y, const int _X)
@@ -56,8 +58,11 @@ const float4 TileManager::GetTileIndex(const float4& _Pos)
 		MsgAssert("타일 버퍼가 비어있습니다.");
 	}
 
+	// 타일위치 받아옴 
 	float4 TilePos = m_vTiles[0][0]->GetTransform()->GetWorldPosition();
+	// 타일스케일 받아옴
 	float4 TileScale = m_vTiles[0][0]->GetRender()->GetMeshScale();
+	// 
 	float TileSize = m_vTiles[0][0]->GetTileSize();
 
 	float4 Start = TilePos - float4{ 0, 0, -TileSize };
@@ -160,6 +165,30 @@ void TileManager::RotationUpdate(float _DeltaTime)
 		if (Rot.z < 0.0f)
 		{
 			m_pPivotTile.lock()->GetTransform()->AddLocalRotation(float4{ 0, 0, 0.2f });
+		}
+	}
+}
+
+void TileManager::InitKey()
+{
+	if (false == GameEngineInput::IsKey("Debug_Rotation_Switch"))
+	{
+		GameEngineInput::CreateKey("Debug_Rotation_Switch", '0');
+	}
+}
+
+void TileManager::KeyUpdate()
+{
+	if (true == GameEngineInput::IsDown("Debug_Rotation_Switch"))
+	{
+		if (false == m_bRotation)
+		{
+			OnRotation();
+		}
+
+		else if (true == m_bRotation)
+		{
+			OffRotation();
 		}
 	}
 }
