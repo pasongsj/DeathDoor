@@ -106,7 +106,7 @@ void FrogFloor::RotationUpdate(float _DeltaTime)
 	{
 		if (Rot.z >= -15.0f)
 		{
-			m_pPivotTile.lock()->GetTransform()->AddLocalRotation(float4{ 0, 0, -0.1f });
+			m_pPivotTile.lock()->GetTransform()->AddLocalRotation(float4{ 0, 0, -0.35f });
 		}
 	}
 
@@ -149,7 +149,7 @@ void FrogFloor::InitComponent()
 
 	m_pPivotTile = GetLevel()->CreateActor<SecretTile>();
 	m_pPivotTile.lock()->GetRender()->Off();
-	m_pPivotTile.lock()->GetTransform()->SetWorldPosition(float4{-2850, -350, 2900});
+	m_pPivotTile.lock()->GetTransform()->SetWorldPosition(float4{-3213, -350, 3215});
 	m_pPivotTile.lock()->GetTransform()->SetLocalRotation(float4{0, 45, 0});
 
 	GetTransform()->SetParent(m_pPivotTile.lock()->GetTransform());
