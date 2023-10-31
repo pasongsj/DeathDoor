@@ -100,13 +100,13 @@ void FrogFloor::ShakeTile(const int _Y, const int _X)
 
 void FrogFloor::RotationUpdate(float _DeltaTime)
 {
-	float4 Rot = GetTransform()->GetLocalRotation();
+	float4 Rot = m_pPivotTile.lock()->GetTransform()->GetLocalRotation();
 
 	if (true == m_bRotation)
 	{
 		if (Rot.z >= -10.0f)
 		{
-			GetTransform()->AddLocalRotation(float4{ 0, 0, -0.1f });
+			m_pPivotTile.lock()->GetTransform()->AddLocalRotation(float4{ 0, 0, -0.1f });
 		}
 	}
 
@@ -114,7 +114,7 @@ void FrogFloor::RotationUpdate(float _DeltaTime)
 	{
 		if (Rot.z < 0.0f)
 		{
-			GetTransform()->AddLocalRotation(float4{ 0, 0, 0.2f });
+			m_pPivotTile.lock()->GetTransform()->AddLocalRotation(float4{ 0, 0, 0.2f });
 		}
 	}
 }
@@ -145,6 +145,14 @@ void FrogFloor::InitComponent()
 	{
 		m_vFireObjects[i]->GetTransform()->SetParent(GetTransform());
 	}
+
+
+	m_pPivotTile = GetLevel()->CreateActor<SecretTile>();
+	m_pPivotTile.lock()->GetRender()->Off();
+	m_pPivotTile.lock()->GetTransform()->SetWorldPosition(float4{-2850, -350, 2900});
+	m_pPivotTile.lock()->GetTransform()->SetLocalRotation(float4{0, 45, 0});
+
+	GetTransform()->SetParent(m_pPivotTile.lock()->GetTransform());
 }
 
 void FrogFloor::Create_FireObject()
