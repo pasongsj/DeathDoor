@@ -118,6 +118,10 @@ private:
 		friend class PhysXControllerComponent;
 		physx::PxControllerBehaviorFlags getBehaviorFlags(const physx::PxShape& shape, const physx::PxActor& actor) override
 		{
+			if (m_pOwnerComp.lock() == nullptr)
+			{
+				return physx::PxControllerBehaviorFlag::eCCT_CAN_RIDE_ON_OBJECT;
+			}
 			float4 PlayerGroundPos = m_pOwnerComp.lock()->GetWorldPosition();
 			PlayerGroundPos.y += 50.0f; // 피직스 컴포넌트 중력값으로 보정되기 전 위치가 측정되는 오류 해결
 			float4 CollPoint = float4::ZERO;
