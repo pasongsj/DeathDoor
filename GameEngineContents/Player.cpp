@@ -296,7 +296,7 @@ void Player::DefaultPhysX()
 		}
 		//MoveUpdate(0.0f);
 		//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-		//m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
+		m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 	}
 }
 
