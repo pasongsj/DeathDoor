@@ -87,7 +87,7 @@ void FrogFloor::ResetTile()
 	}
 }
 
-void FrogFloor::ShakeTile(const int _Y, const int _X)
+void FrogFloor::ShakeTile(const int _Y, const int _X, float _ShakeTime)
 {
 	if (_Y < 0 || _Y >= m_vTiles.size() || _X < 0 || _X >= m_vTiles[_Y].size())
 	{
@@ -95,7 +95,7 @@ void FrogFloor::ShakeTile(const int _Y, const int _X)
 		return;
 	}
 
-	m_vTiles[_Y][_X]->OnShake();
+	m_vTiles[_Y][_X]->OnShake(_ShakeTime);
 }
 
 void FrogFloor::RotationUpdate(float _DeltaTime)
