@@ -17,13 +17,13 @@ void HitParticle::Start()
 
 	Unit = CreateRenderUnit();
 	Unit->SetMesh("Rect");
-	Unit->SetMaterial("ParticleBasic");
+	Unit->SetMaterial("ParticleBasic", RenderPath::Alpha);
 
 	Unit->ShaderResHelper.SetTexture("DiffuseTexture", "ParticleAlpha.png");
 	
 	float ScaleX = GameEngineRandom::MainRandom.RandomFloat(1.0f, 4.0f);
 	
-	GetTransform()->SetLocalScale({ ScaleX, 0.1f });
+	GetTransform()->SetLocalScale({ ScaleX, 0.1f});
 	Scale = ScaleX;
 
 }
