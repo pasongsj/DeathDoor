@@ -66,6 +66,9 @@ private:
 
 	void RotationUpdate(float _DeltaTime);
 	
+	void InitKey();
+	void KeyUpdate();
+	
 	void InitComponent();
 	void Create_FireObject();
 	void Create_TileObject();
