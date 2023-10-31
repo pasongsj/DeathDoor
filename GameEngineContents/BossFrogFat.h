@@ -56,6 +56,11 @@ private:
 		SUCK_BOMB_END,
 		MAX,
 	};
+
+	float4 GetRandomTilePos();
+	float4 GetRandomTileIndex();
+
+	void SuckTile();
 };
 //DIE_LAND", "FROG_F
 //DIE_STANDING", "FR

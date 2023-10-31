@@ -33,6 +33,11 @@ const float4 BossFrog::GetTilePos(const int _Y, const int _X)
 	return TilePos;
 }
 
+void BossFrog::InActiveTile(const int _Y, const int _X)
+{
+	TileManager::MainManager->InActiveTile(_Y, _X);
+}
+
 const float4 BossFrog::GetTileIndex(const float4& _Pos)
 {
 	float4 TileIndex = TileManager::MainManager->GetTileIndex(_Pos);
