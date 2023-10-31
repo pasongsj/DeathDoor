@@ -3,6 +3,8 @@
 
 //#include "GameEngineLevel.h"
 #include <GameEngineCore/GameEngineFBXMesh.h>
+#include "Player.h"
+#include "PhysXControllerComponent.h"
 
 PhysXTriangleComponent::PhysXTriangleComponent()
 {
@@ -112,6 +114,11 @@ void PhysXTriangleComponent::Start()
 
 void PhysXTriangleComponent::Update(float _DeltaTime)
 {
+	if (Player::MainPlayer!=nullptr && m_bInit == false)
+	{
+		Player::MainPlayer->GetPhysXComponent()->SetGroundFilter(DynamicThis<PhysXTriangleComponent>());
+		m_bInit = true;
+	}
 	if (true == PositionSetFromParentFlag)
 	{
 		float4 tmpQuat = ParentActor.lock()->GetTransform()->GetWorldRotation().EulerDegToQuaternion();
