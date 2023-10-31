@@ -31,22 +31,21 @@ void SecretTile::Active()
 	m_bIsActive = true; 
 	m_pRenderer->On();
 	
-	GetTransform()->SetLocalRotation(float4{ 0, 0, 0 });
+	InitComponent();
 	
-	float4 MeshScale = m_pRenderer->GetMeshScale();
-
-	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
-	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
-	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERO, true);
-
-	m_pPhysXComponent->SetDynamicPivot(float4{ 0.0f, -MeshScale.y , 0.0f });
-	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
-	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
-
-	float4 Test = GetTransform()->GetLocalRotation();
-
-	// 타일사이즈저장
-	m_TileSize = static_cast<float>(MeshScale.x * sqrt(2) / 2.0f);
+	//float4 MeshScale = m_pRenderer->GetMeshScale();
+	//m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();									
+	//m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
+	//m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERO, true);
+	//
+	//m_pPhysXComponent->SetDynamicPivot(float4{ 0.0f, -MeshScale.y , 0.0f });
+	//m_pPhysXComponent->SetPositionSetFromParentFlag(true);
+	//m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
+	//
+	//float4 Test = GetTransform()->GetLocalRotation();
+	//
+	////타일사이즈저장
+	//m_TileSize = static_cast<float>(MeshScale.x * sqrt(2) / 2.0f);
 }
 
 void SecretTile::TileShake(float _DeltaTime)
@@ -85,6 +84,11 @@ void SecretTile::OffShake()
 
 void SecretTile::Start()
 {
+	GetTransform()->SetLocalPosition(float4{ 0.0f , 0.0f , 0.0f });
+
+	m_pRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pRenderer->SetFBXMesh("FrogTile.fbx", "ContentMeshDeffered");
+
 	InitComponent();
 }
 
@@ -98,10 +102,7 @@ void SecretTile::Update(float _DeltaTime)
 
 void SecretTile::InitComponent()
 {
-	GetTransform()->SetLocalPosition(float4{ 0.0f , 0.1f , 0.0f });
-
-	m_pRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer->SetFBXMesh("FrogTile.fbx", "ContentMeshDeffered");
+	GetTransform()->SetLocalRotation(float4{ 0, 0, 0 });
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
 

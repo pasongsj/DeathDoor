@@ -22,7 +22,7 @@ public:
 	void CreatePhysXActors(float4 _GeoMetryScale = float4(2.0f, 2.0f, 2.0f), float4 _GeoMetryRotation = float4::ZERO);
 	void CreatePhysXActors(physx::PxVec3 _GeoMetryScale = physx::PxVec3(2.0f, 2.0f, 2.0f), float4 _GeoMetryRotation = float4::ZERO);
 
-	void SetMoveSpeed(float4 _MoveSpeed);
+	bool SetMoveSpeed(float4 _MoveSpeed);
 
 	inline float4 GetWorldPosition()
 	{
@@ -94,7 +94,8 @@ public:
 		m_FilterCallback.filter(*m_pController, _Other);
 	}
 
-	void SetGroundFilter(std::shared_ptr<PhysXTriangleComponent> _Comp)
+	template <typename Component>
+	void SetGroundFilter(std::shared_ptr<Component> _Comp)
 	{
 		m_BehaviorCallback.SetOwner(this->DynamicThis<PhysXControllerComponent>());
 		m_BehaviorCallback.getBehaviorFlags(*_Comp->GetShape(), *_Comp->GetStatic());
@@ -123,16 +124,13 @@ private:
 				return physx::PxControllerBehaviorFlag::eCCT_CAN_RIDE_ON_OBJECT;
 			}
 			float4 PlayerGroundPos = m_pOwnerComp.lock()->GetWorldPosition();
-			PlayerGroundPos.y += 50.0f; // 피직스 컴포넌트 중력값으로 보정되기 전 위치가 측정되는 오류 해결
 			float4 CollPoint = float4::ZERO;
-			if (true == m_pOwnerComp.lock()->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
+			if (true == m_pOwnerComp.lock()->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 30.0f))
 			{
-				if (CollPoint.y + 20.0f > m_pOwnerComp.lock()->GetActor()->GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
-				{
-					return physx::PxControllerBehaviorFlag::eCCT_CAN_RIDE_ON_OBJECT;
-				}
+				
+				return physx::PxControllerBehaviorFlag::eCCT_CAN_RIDE_ON_OBJECT;				
+			
 			}
-
 			return physx::PxControllerBehaviorFlag::eCCT_SLIDE;
 
 		}
@@ -175,6 +173,7 @@ private:
 	CustomBehaviorCallback m_BehaviorCallback;// = nullptr;
 	CustomFilterCallback m_FilterCallback;
 	physx::PxControllerFilters m_pControllerFilter = nullptr;
+	float m_fElapseTime =0.f;
 	float4 m_pControllerDir = float4::ZERO;
 	bool m_bSpeedLimit = false;
 	bool m_bGravity = true;

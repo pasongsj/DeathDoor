@@ -58,6 +58,7 @@ void FrogBossLevel::InitKey()
 		GameEngineInput::CreateKey("NaviMesh_Switch_FrogBoss", 'M');
 		GameEngineInput::CreateKey("Debug_DestroyTile", '8');
 		GameEngineInput::CreateKey("Debug_ResetTile", '9');
+		GameEngineInput::CreateKey("R", 'R');
 	}
 }
 
@@ -68,8 +69,14 @@ void FrogBossLevel::KeyUpdate(float _DeltaTime)
 		m_pMap.lock()->NaviRenderSwitch();
 	}
 
+	if (true == GameEngineInput::IsDown("R"))
+	{
+		Player::MainPlayer->GetPhysXComponent()->SetWorldPosWithParent(float4(3634.12842f,-170.f, 3898.349123f));
+	}
 	if (true == GameEngineInput::IsDown("Debug_DestroyTile"))
 	{
+		TileManager::MainManager->DestroyTile(1, 1);
+		TileManager::MainManager->DestroyTile(1, 2);
 		TileManager::MainManager->DestroyTile(2, 2);
 	}
 	if (true == GameEngineInput::IsDown("Debug_ResetTile"))
@@ -103,7 +110,7 @@ void FrogBossLevel::LevelChangeStart()
 	//m_pBossFrog = CreateActor<BossFrogMain>();
 	//Set_BossStartPos();
 
-	m_pBossFrog = CreateActor<BossFrogFat>();
+	//m_pBossFrog = CreateActor<BossFrogFat>();
 	
 	BossFrogWindow::EditorGUI->On();
 

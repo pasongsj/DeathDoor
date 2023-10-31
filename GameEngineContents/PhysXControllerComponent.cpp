@@ -38,9 +38,9 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 
 	m_pMaterial = m_pPhysics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
 	m_pControllerFilter = physx::PxControllerFilters(NULL, NULL, &m_FilterCallback);
-	GetScene()->userData = ControllerManager;
+	m_pScene->userData = ControllerManager;
 	physx::PxCapsuleControllerDesc  ControllerDesc;
-	ControllerDesc.contactOffset = 0.2f;
+	ControllerDesc.contactOffset = 0.02f;
 	ControllerDesc.density = 1.f;
 	ControllerDesc.height = static_cast<physx::PxF32>(m_fHeight);
 	ControllerDesc.material = m_pMaterial;
@@ -48,38 +48,45 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 	ControllerDesc.radius = static_cast<physx::PxF32>(HalfScale.z );
 	ControllerDesc.upDirection = physx::PxVec3(0, 1, 0);
 	ControllerDesc.userData = GetActor();
+	ControllerDesc.nonWalkableMode = physx::PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
+	ControllerDesc.volumeGrowth = 1.0f;
 	ControllerDesc.position = physx::PxExtendedVec3(ParentActor.lock()->GetTransform()->GetWorldPosition().x
 													, ParentActor.lock()->GetTransform()->GetWorldPosition().y
 													, ParentActor.lock()->GetTransform()->GetWorldPosition().z);
 	m_pController = ControllerManager->createController(ControllerDesc);
-
-
 	m_pController->setFootPosition(physx::PxExtendedVec3(
 		ParentActor.lock()->GetTransform()->GetWorldPosition().x
 		, ParentActor.lock()->GetTransform()->GetWorldPosition().y
 		, ParentActor.lock()->GetTransform()->GetWorldPosition().z));
 	m_pController->getActor()->getShapes(&m_pShape, sizeof(m_pShape));
 	m_pShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
-	m_pShape->userData = GetActor(); 
-
+	m_pShape->userData = GetActor();
 
 	//GetTransform()->SetWorldScale(float4(_GeoMetryScale.x, _GeoMetryScale.y, _GeoMetryScale.z ));
 	//GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
 }
 
-void PhysXControllerComponent::SetMoveSpeed(float4 _MoveSpeed)
+bool PhysXControllerComponent::SetMoveSpeed(float4 _MoveSpeed)
 {
 	m_pControllerDir = _MoveSpeed;
+	physx::PxControllerCollisionFlags eDownFlag; 
 	float fTime = GameEngineTime::GlobalTime.GetDeltaTime();
 	if (m_bGravity)
 	{
-		m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y - (SCENE_GRAVITY), m_pControllerDir.z).PhysXVec3Return() * fTime, 0.01f, fTime, m_pControllerFilter);
+		eDownFlag = m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y - (SCENE_GRAVITY), m_pControllerDir.z).PhysXVec3Return() * fTime, 0.00f, m_fElapseTime, m_pControllerFilter);
 	}
 	else
 	{
-		m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y, m_pControllerDir.z).PhysXVec3Return() * fTime, 0.01f, fTime, m_pControllerFilter);
+		eDownFlag = m_pController->move(float4(m_pControllerDir.x, m_pControllerDir.y, m_pControllerDir.z).PhysXVec3Return() * fTime, 0.00f, m_fElapseTime, m_pControllerFilter);
 	}
 	m_pControllerDir = float4::ZERO;
+	m_fElapseTime = GameEngineTime::GlobalTime.GetDeltaTime();
+
+	if (eDownFlag == physx::PxControllerCollisionFlag::eCOLLISION_DOWN)
+	{
+		return true;
+	}
+	return false;
 }
 
 
