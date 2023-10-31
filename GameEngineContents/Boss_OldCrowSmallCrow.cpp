@@ -4,6 +4,7 @@
 
 #include "Player.h"
 #include "PhysXSphereComponent.h"
+#include "PhysXControllerComponent.h"
 
 #include "Boss_OldCrowSmallCrow.h"
 
@@ -23,6 +24,7 @@ void Boss_OldCrowSmallCrow::Start()
 	Renderer->CreateFBXAnimation("Fly", "Boss_OldCrow_CrowMiniFly.FBX", { 0.033f, true });
 
 	Renderer->ChangeAnimation("Fly");
+	Renderer->SetColor(float4::BLACK, 0.9f);
 
 	if (m_pSphereComp == nullptr)
 	{
@@ -32,13 +34,12 @@ void Boss_OldCrowSmallCrow::Start()
 		m_pSphereComp->CreatePhysXActors(float4{ 0.0f, 50.0f, 50.0f });
 		m_pSphereComp->TurnOffGravity();
 		m_pSphereComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+		//m_pSphereComp->SetTrigger();
 
-		m_pSphereComp->CreateSubShape(SubShapeType::SPHERE, float4{ 50, 50, 50 });
+		m_pSphereComp->CreateSubShape(SubShapeType::BOX, float4{ 100, 100, 100 }, float4 {0, 0, 0});
 		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::MonsterSkill);
+		m_pSphereComp->AttachShape();
 	}
-
-	Angle = GameEngineRandom::MainRandom.RandomFloat(0, 35);
-	Angle *= 10.0f;
 
 	GetTransform()->SetLocalScale(float4::ONE * 100.0f);
 }
@@ -47,8 +48,6 @@ void Boss_OldCrowSmallCrow::SetLerpDirection(float _DeltaTime)
 {
 	if (GetLiveTime() > 1.5f)
 	{
-		m_pSphereComp->TurnOnGravity();
-
 		float4 PlayerPos = TargetPosition;
 		PlayerPos.y = 0.0f;
 		float4 EnemyPos = GetTransform()->GetWorldPosition();
@@ -93,30 +92,62 @@ void Boss_OldCrowSmallCrow::Update(float _DeltaTime)
 		return;
 	}
 
-	SetTargetTransform(_DeltaTime);
-	SetLerpDirection(_DeltaTime);
-	//SetDirection();
-
-	if (GetTransform()->GetWorldPosition().y <= 30.0f)
+	if (true == CheckCollision(PhysXFilterGroup::PlayerDynamic) && false == IsStickPlayer)
 	{
-		m_pSphereComp->TurnOffGravity();
+		//슬로우 걸어주고
+		IsStickPlayer = true;
+		StickPos = GetTransform()->GetWorldPosition() - Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+		StickPos.y = 30.0f;
 	}
 
-	m_pSphereComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_SMALLCROWSPEED);
+	if (false == IsStickPlayer)
+	{
+		SetTargetTransform(_DeltaTime);
+		SetLerpDirection(_DeltaTime);
+
+		if (GetLiveTime() > 1.5f && false == CreatedGravity)
+		{
+			CreatedGravity = true;
+			m_pSphereComp->TurnOnGravity();
+		}
+
+		if (GetTransform()->GetWorldPosition().y <= 30.0f)
+		{
+			m_pSphereComp->TurnOffGravity();
+		}
+
+		// 10초 이후 점점 공전 거리가 짧아짐
+		if (GetLiveTime() > 10.0f)
+		{
+			CurrentDistance -= 100 * _DeltaTime;
+
+			if (CurrentDistance < 0.0f)
+			{
+				CurrentDistance = 0.0f;
+			}
+		}
+		m_pSphereComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_SMALLCROWSPEED);
+	}
+	else
+	{
+		m_pSphereComp->SetWorldPosWithParent(Player::MainPlayer->GetPhysXComponent()->GetWorldPosition() + StickPos);
+	}
 
 
 }
 
-void Boss_OldCrowSmallCrow::SetSmallCrow(float4 _Pos, float4 _Rot)
+void Boss_OldCrowSmallCrow::SetSmallCrow(float4 _Pos, float4 _Rot, float _TargetAngle)
 {
 	m_pSphereComp->SetWorldPosWithParent(_Pos, _Rot);
+
+	Angle = _TargetAngle;
 }
 
 void Boss_OldCrowSmallCrow::SetTargetTransform(float _DeltaTime)
 {
 	Angle += BOSS_OLDCROW_OrbitSpeed * _DeltaTime;
 
-	float4 TargetPos = Player::MainPlayer->GetTransform()->GetWorldPosition() + float4{ 0, 0, BOSS_OLDCROW_OrbitDistance };
+	float4 TargetPos = Player::MainPlayer->GetTransform()->GetWorldPosition() + float4{ 0, 0, CurrentDistance };
 	float4 Dir = TargetPos - Player::MainPlayer->GetTransform()->GetWorldPosition();
 
 	float4 Rot = float4::ZERO;

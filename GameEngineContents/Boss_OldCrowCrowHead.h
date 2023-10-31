@@ -34,6 +34,6 @@ private:
 
 	bool IsAttacked = false; //플레이어의 공격을 받으면 플레이어가 바라보고 있는 방향으로 날아감.
 	bool IsCreated = false; //처음 생성되는 연출을 위한 bool값
-	//float Angle = 0.0f;
+	float ParryingTime = 0.0f;
 };
 
