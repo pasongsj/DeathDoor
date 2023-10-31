@@ -20,9 +20,17 @@ struct Output
     float4 POSITION : SV_POSITION;
     float4 VIEWPOSITION : POSITION;
     float4 WORLDPOSITION : POSITION1;
+    
     float4 WVPPOSITION : POSITION5;
     float4 TEXCOORD : TEXCOORD;
+
     float4 NORMAL : NORMAL;
+    float4 EYEVECTOR : TEXCOORD2;
+};
+
+cbuffer CamPos : register(b8)
+{
+    float4 CamPos;
 };
 
 cbuffer WaterHeight : register(b4)
@@ -43,6 +51,9 @@ Output ContentMeshDeferred_VS(Input _Input)
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
     NewOutPut.WVPPOSITION = NewOutPut.POSITION;
+    
+    float4 EyeDir = InputPos - CamPos;
+    NewOutPut.EYEVECTOR = mul(EyeDir, WorldView);
     
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
     NewOutPut.NORMAL = mul(InputNormal, WorldView);
@@ -137,10 +148,19 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
     }
     
-    NewOutPut.DifTarget = pow(Color, 2.2f);
-    NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;
     NewOutPut.NorTarget = _Input.NORMAL;
+    
+    float4 EyeDir = _Input.EYEVECTOR;
+    EyeDir = normalize(EyeDir);
+    
+    float Ndv = saturate(dot(normalize(_Input.NORMAL), EyeDir));
+    float Fresnel = 1 - pow(Ndv, 5.0f) *  5.0f;
+    Color.rgb = (Color.rgb * Fresnel);
+    
+    NewOutPut.DifTarget = pow(Color, 2.2f);
+    NewOutPut.PosTarget = _Input.VIEWPOSITION;
+
     
     return NewOutPut;
 }

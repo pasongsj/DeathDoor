@@ -19,10 +19,12 @@ struct Output
 {
     float4 POSITION : SV_POSITION;
     float4 VIEWPOSITION : POSITION;
+    float4 WORLDPOSITION : POSITION2;
     float4 WVPPOSITION : POSITION5;
     float4 TEXCOORD : TEXCOORD;
     float4 NORMAL : NORMAL;
 };
+
 
 
 Output ContentMeshDeferred_VS(Input _Input)
@@ -39,6 +41,7 @@ Output ContentMeshDeferred_VS(Input _Input)
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
     NewOutPut.WVPPOSITION = NewOutPut.POSITION;
     
+    NewOutPut.WORLDPOSITION = mul(InputPos, WorldMatrix);
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
     NewOutPut.NORMAL = mul(InputNormal, WorldView);
     
@@ -70,8 +73,19 @@ cbuffer ClipData : register(b6)
     float2 MaxClipData;
 };
 
+cbuffer WaterHeight : register(b4)
+{
+    float4 WaterHeight;
+};
+
 DeferredOutPut ContentMeshDeferred_PS(Output _Input)
 {
+     
+    if (_Input.WORLDPOSITION.y < WaterHeight.x)
+    {
+        clip(-1);
+    }
+    
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
     
     if (saturate(_Input.TEXCOORD.x) < MinClipData.x && saturate(_Input.TEXCOORD.y) < MinClipData.y)

@@ -94,7 +94,7 @@ void FortressLevel::LevelChangeStart()
 	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
 	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
 
-	Box->GetTransform()->SetLocalPosition({ -5000, -120 ,4500 });
+	Box->SetWaterPosition({ -5000, -120 ,4500 });
 	Box->GetTransform()->SetLocalScale({ 15000 , 1 , 15000 });
 	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });
 

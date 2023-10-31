@@ -183,7 +183,7 @@ GameEngineFBXRenderer::~GameEngineFBXRenderer()
 }
 
 
-void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material)
+void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, RenderPath _Path)
 {
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
@@ -213,11 +213,11 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 	// 너 몇개 가지고 있어.
 	for (size_t UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
 	{
-		SetFBXMesh(_Name, _Material, UnitCount);
+		SetFBXMesh(_Name, _Material, UnitCount, _Path);
 	}
 }
 
-void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex)
+void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, RenderPath _Path)
 {
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
@@ -225,7 +225,7 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 	{
 		size_t SubSet = FindFBXMesh->GetSubSetCount(MeshIndex);
 
-		SetFBXMesh(_Name, _Material, MeshIndex, SubSetCount);
+		SetFBXMesh(_Name, _Material, MeshIndex, SubSetCount, _Path);
 	}
 }
 
@@ -233,7 +233,8 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name,
 	std::string _Material,
 	size_t _MeshIndex,
-	size_t _SubSetIndex /*= 0*/)
+	size_t _SubSetIndex,
+	RenderPath _Path/*= 0*/)
 {
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
@@ -276,7 +277,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 	std::shared_ptr <GameEngineMesh> GetFBXMesh = FBXMesh->GetGameEngineMesh(_MeshIndex, _SubSetIndex);
 
 	RenderUnit->SetMesh(GetFBXMesh);
-	RenderUnit->SetMaterial(_Material);
+	RenderUnit->SetMaterial(_Material, _Path);
 
 
 	if (0 == AnimationBoneMatrixs.size())
