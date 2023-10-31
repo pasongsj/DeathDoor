@@ -72,6 +72,7 @@ private:
 	void Create_WallObject();
 
 	std::shared_ptr<class ContentFBXRenderer> m_pHingeRenderer = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pWiresRenderer = nullptr;
 
 	std::vector <std::shared_ptr<class FireObject>> m_vFireObjects = std::vector<std::shared_ptr<class FireObject>>();
 	float4 m_FireObjScale = float4{ 50, 50 , 50 };

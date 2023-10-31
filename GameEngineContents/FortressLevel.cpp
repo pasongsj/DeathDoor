@@ -292,6 +292,26 @@ void FortressLevel::Create_FieldEnemy()
 		std::shared_ptr<EnemyGhoul> Monster = CreateActor<EnemyGhoul>();
 		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -12658, 46, 7780 });
 	}
+	{
+		std::shared_ptr<EnemyFirePlant> Monster = CreateActor<EnemyFirePlant>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -11822, -6, 6028 });
+	}
+	{
+		std::shared_ptr<EnemyBruteGold> Monster = CreateActor<EnemyBruteGold>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -12816, 46, 5620 });
+	}
+	{
+		std::shared_ptr<EnemyMage> Monster = CreateActor<EnemyMage>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -14031, 46, 6810 });
+	}
+	{
+		std::shared_ptr<EnemyBrute> Monster = CreateActor<EnemyBrute>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -14128, 46, 8229 });
+	}
+	{
+		std::shared_ptr<EnemyMage> Monster = CreateActor<EnemyMage>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -14104, 46, 8449 });
+	}
 }
 
 void FortressLevel::Create_FieldObject()

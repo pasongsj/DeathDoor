@@ -174,6 +174,10 @@ void TileManager::InitComponent()
 	m_pHingeRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pHingeRenderer->SetFBXMesh("Hinge.fbx", "ContentMeshDeffered");
 
+	m_pWiresRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pWiresRenderer->SetFBXMesh("Wires.fbx", "ContentMeshDeffered");
+	m_pWiresRenderer->GetTransform()->AddLocalPosition(float4{ 0, -30, 0 });
+
 	Create_TileObject();
 	Create_FireObject();
 
