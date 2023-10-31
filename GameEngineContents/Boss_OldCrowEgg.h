@@ -33,8 +33,10 @@ private:
 	float4 Dir = float4::ZERO;
 
 	float PentagramScale = 0.0f;
-	
+	float ScaleValue = 1.0f;
+
 	bool IsGround = false;
+	bool IsEnd = false;
 
 	void SetPentagramEffect(float _DeltaTime);
 };

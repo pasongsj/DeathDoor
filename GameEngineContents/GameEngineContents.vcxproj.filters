@@ -277,9 +277,6 @@
     <ClCompile Include="PlayerAttackBomb.cpp">
       <Filter>FSMObject\Player\Att\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="FrogFloor.cpp">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
-    </ClCompile>
     <ClCompile Include="GrayScaleEffect.cpp">
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
@@ -451,6 +448,15 @@
     </ClCompile>
     <ClCompile Include="HitEffect.cpp">
       <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="BossFrogBomb.cpp">
+      <Filter>FSMObject\BossFrog</Filter>
+    </ClCompile>
+    <ClCompile Include="TileManager.cpp">
+      <Filter>Contents\FortressLevel\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Wires.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -734,9 +740,6 @@
     <ClInclude Include="FireObject.h">
       <Filter>Contents\Effect\Object\Fire</Filter>
     </ClInclude>
-    <ClInclude Include="FrogFloor.h">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerBow.h">
       <Filter>FSMObject\Player</Filter>
     </ClInclude>
@@ -898,6 +901,15 @@
     </ClInclude>
     <ClInclude Include="HitEffect.h">
       <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="BossFrogBomb.h">
+      <Filter>FSMObject\BossFrog</Filter>
+    </ClInclude>
+    <ClInclude Include="TileManager.h">
+      <Filter>Contents\FortressLevel\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Wires.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1137,6 +1149,9 @@
     </Filter>
     <Filter Include="Contents\Effect\Object\HitEffect">
       <UniqueIdentifier>{c2022eee-f496-46e8-ac0d-b7d979687420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\FortressLevel\Manager">
+      <UniqueIdentifier>{b46931c1-b1cd-4710-9500-c9b905b540fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

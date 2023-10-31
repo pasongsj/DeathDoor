@@ -9,7 +9,7 @@
 #include "BossFrogMain.h"
 #include "BossFrogFat.h"
 #include "BossFrogWindow.h"
-#include "FrogFloor.h"
+#include "TileManager.h"
 
 #include "WaterBox.h"
 #include "GlowEffect.h"
@@ -35,22 +35,23 @@ void FrogBossLevel::Update(float _DeltaTime)
 	// float4 Pos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 
 		// test 
-	if (nullptr != BossFrog::MainBoss)
-	{
-		float4 nextPos = BossFrog::MainBoss->GetTransform()->GetWorldPosition();
-		nextPos.y += 3000.0f;
-		nextPos.z -= 3000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
-		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
-	}
-	//if (false == GetMainCamera()->IsFreeCamera()) // 계산이 안되서 임시
+	
+	//if (false == GetMainCamera()->IsFreeCamera() && nullptr != BossFrog::MainBoss)
 	//{
-	//	float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
-	//	nextPos.y += 1000.0f; // 카메라 높이
-	//	float4 xzPos = float4::FORWARD * 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad); //xz연산
-	//	xzPos.RotaitonYDeg(m_CameraRot.y);
-	//	nextPos -= xzPos;
+	//	float4 nextPos = BossFrog::MainBoss->GetTransform()->GetWorldPosition();
+	//	nextPos.y += 1000.0f;
+	//	nextPos.z -= 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
 	//	GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
 	//}
+	if (false == GetMainCamera()->IsFreeCamera()) // 계산이 안되서 임시
+	{
+		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		nextPos.y += 1000.0f; // 카메라 높이
+		float4 xzPos = float4::FORWARD * 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad); //xz연산
+		xzPos.RotaitonYDeg(m_CameraRot.y);
+		nextPos -= xzPos;
+		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
+	}
 }
 
 void FrogBossLevel::InitKey()
@@ -72,11 +73,11 @@ void FrogBossLevel::KeyUpdate(float _DeltaTime)
 
 	if (true == GameEngineInput::IsDown("Debug_DestroyTile"))
 	{
-		m_pMap.lock()->GetFloor()->DestroyTile(2, 2);
+		TileManager::MainManager->DestroyTile(2, 2);
 	}
 	if (true == GameEngineInput::IsDown("Debug_ResetTile"))
 	{
-		m_pMap.lock()->GetFloor()->ResetTile();
+		TileManager::MainManager->ResetTile();
 	}
 
 }
@@ -91,6 +92,8 @@ void FrogBossLevel::LevelChangeStart()
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
+
+	CreateActor<TileManager>();
 
 	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
 	Light->GetTransform()->SetLocalRotation(float4{ 50, 100, 0 });

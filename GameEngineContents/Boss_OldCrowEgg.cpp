@@ -17,6 +17,8 @@ void Boss_OldCrowEgg::Start()
 
 	Renderer->SetFBXMesh("Boss_OldCrow_Egg.FBX", "ContentAniMeshDeffered");
 
+	Renderer->SetColor(float4::BLACK, 0.9f);
+
 	PentagramPivot = GetLevel()->CreateActor<GameEngineActor>();
 
 	PentagramPivot->GetTransform()->SetWorldScale(float4::ZERO);
@@ -42,7 +44,10 @@ void Boss_OldCrowEgg::Start()
 		m_pSphereComp->SetPhysxMaterial(1.0f, 1.0f, 0.0f);
 		m_pSphereComp->CreatePhysXActors(float4{ 0.0f, 30.0f, 30.0f });
 		m_pSphereComp->TurnOffGravity();
-		//m_pSphereComp->SetFilterData(PhysXFilterGroup::CrowDebuff);
+
+		m_pSphereComp->CreateSubShape(SubShapeType::SPHERE, float4{ 0, 500, 500 }, float4{ 0, 0, 0 });
+		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::CrowDebuff);
+		//m_pSphereComp->AttachShape();
 	}
 }
 
@@ -52,11 +57,16 @@ void Boss_OldCrowEgg::Update(float _DeltaTime)
 	if (false == IsGround)
 	{
 		float4 CollPoint = float4::ZERO;
+		float4 CurrentPos = GetTransform()->GetWorldPosition();
 
-		if (GetTransform()->GetWorldPosition().y <= 30.0f)
+		if (CurrentPos.y <= 30.0f)
 		{
 			PentagramPivot->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
 			PentagramPivot->GetTransform()->SetWorldRotation(float4{ 90, 0, 0 });
+
+			m_pSphereComp->SetWorldPosWithParent(float4{ CurrentPos.x, 30.0f, CurrentPos.z });
+
+			m_pSphereComp->AttachShape();
 
 			IsGround = true;
 			return;
@@ -74,8 +84,20 @@ void Boss_OldCrowEgg::Update(float _DeltaTime)
 
 	if (GetLiveTime() > 10.0f)
 	{
+		if (IsEnd == false)
+		{
+			IsEnd = true;
+			ScaleValue = -1;
+			m_pSphereComp->DetachShape();
+		}
+	}
+
+	if (GetLiveTime() > 11.0f)
+	{
+		PentagramPivot->Death();
 		Death();
 	}
+
 }
 
 void Boss_OldCrowEgg::SetCrowEgg(float4 _Pos, float4 _Rot, float4 _Dir)
@@ -87,11 +109,16 @@ void Boss_OldCrowEgg::SetCrowEgg(float4 _Pos, float4 _Rot, float4 _Dir)
 
 void Boss_OldCrowEgg::SetPentagramEffect(float _DeltaTime)
 {
-	PentagramScale += _DeltaTime;
+	PentagramScale += _DeltaTime * ScaleValue;
 
 	if (PentagramScale > 1.0f)
 	{
 		PentagramScale = 1.0f;
+	}
+	
+	if (PentagramScale < 0.0f)
+	{
+		PentagramScale = 0.0f;
 	}
 
 	PentagramPivot->GetTransform()->SetWorldScale(float4::ONE * PentagramScale);

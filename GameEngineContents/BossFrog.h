@@ -1,5 +1,6 @@
 #pragma once
 #include "EnemyBase.h"
+#include "Player.h"
 
 class BossFrog : public EnemyBase
 {
@@ -23,7 +24,8 @@ protected:
 	const float4 GetTileIndex(const float4& _Pos);
 	
 	void DestroyTile(const int _Y, const int _X);
-	void ShakeTile(const int _Y, const int _X);
+	void InActiveTile(const int _Y, const int _X);
+	void ShakeTile(const int _Y, const int _X, float _ShakeTime);
 	bool IsTile(const int _Y, const int _X);
 	void AllTileReset();
 
@@ -42,8 +44,5 @@ protected:
 	const float4 WPointSouth = float4{ -2400,-730,2450 };
 
 private:
-	void SetLevel();
-	std::weak_ptr<class FrogBossLevel> m_pCurLevel;
-	
 };
 

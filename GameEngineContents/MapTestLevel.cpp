@@ -36,6 +36,8 @@
 #include "BossFrogMain.h"
 #include "BossFrogFat.h"
 
+#include "Wires.h"
+
 
 
 MapTestLevel::MapTestLevel()
@@ -132,6 +134,8 @@ void MapTestLevel::InitTestLevel()
 
 		std::shared_ptr<BossFrogFat> Mage = CreateActor<BossFrogFat>();
 		Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
+
+		CreateActor<Wires>();
 
 		//std::shared_ptr<EnemyMage> Ghoul = CreateActor<EnemyMage>();
 		//Ghoul->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });		

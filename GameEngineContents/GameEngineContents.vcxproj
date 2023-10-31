@@ -168,6 +168,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BossFrogBomb.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="HitCircle.cpp">
       <SubType>
       </SubType>
@@ -321,7 +325,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="FrogFloor.cpp" />
+    <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="Frog_Lever.cpp" />
     <ClCompile Include="Frog_Septre.cpp">
       <SubType>
@@ -565,9 +569,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Wires.cpp" />
     <ClCompile Include="WoodenBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BossFrogBomb.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="HitCircle.h">
       <SubType>
       </SubType>
@@ -749,7 +758,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="FrogFloor.h">
+    <ClInclude Include="TileManager.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1050,6 +1059,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="WaterBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Wires.h">
       <SubType>
       </SubType>
     </ClInclude>

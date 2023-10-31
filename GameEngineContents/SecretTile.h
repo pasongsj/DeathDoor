@@ -72,15 +72,18 @@ public:
 
 	void TileShake(float _DeltaTime);
 
-	void OnShake()
+	void OnShake(const float _ShakeTime)
 	{
+		m_bIsActive = false;
 		m_bShake = true;
+		m_fShakeTime = _ShakeTime;
 	}
 
-	void OffShake()
+	void OffShake();
+
+	void SetActiveType(bool Type)
 	{
-		m_bShake = false;
-		m_fShakeTime = 2.0f;
+		m_bIsActive = Type;
 	}
 
 protected:

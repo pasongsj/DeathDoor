@@ -20,22 +20,6 @@ public:
 		return m_pNaviRenderer;
 	}
 
-	inline std::shared_ptr<class FrogFloor> GetFloor() const
-	{
-		return m_pFrogFloor;
-	}
-
-	const float4 GetTilePos(const int _Y, const int _X);
-	const float4 GetTileIndex(const float4& _Pos);
-
-	void DestroyTile(const int _Y, const int _X);
-	bool IsTile(const int _Y, const int _X);
-	void ResetTile();
-	void ShakeTile(const int _Y, const int _X);
-
-	void OnRotationFloor();
-	void OffRotationFloor();
-	
 	void NaviRenderSwitch();
 
 protected:
@@ -52,11 +36,7 @@ private:
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
 
-	std::shared_ptr<class FrogFloor> m_pFrogFloor = nullptr;
-
 	const float4 m_MapRot = float4{ 0 , -135 , 0 };
 	const float4 m_NavRot = float4{ 0, 45, 0 };
 	const float4 m_MapPos = float4{ 0, 0 , 0 };
-
-	
 };

@@ -16,7 +16,6 @@ SecretTile::~SecretTile()
 }
 
 
-
 void SecretTile::InActive()
 {
 	OffShake();
@@ -32,25 +31,21 @@ void SecretTile::Active()
 	m_bIsActive = true; 
 	m_pRenderer->On();
 	
+	GetTransform()->SetLocalRotation(float4{ 0, 0, 0 });
+	
 	float4 MeshScale = m_pRenderer->GetMeshScale();
 
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
-	// 여기서 프로그 보스레벨이면 45도 회전시킨다. 
-	std::shared_ptr<FrogBossLevel> CurLevel = GetLevel()->DynamicThis<FrogBossLevel>();
-	if (CurLevel != nullptr)
-	{
-		m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4 { 0, -45, 0 }, true);
-	}
-	else if(CurLevel == nullptr)
-	{
-		m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
-	}
+	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERO, true);
 
 	m_pPhysXComponent->SetDynamicPivot(float4{ 0.0f, -MeshScale.y , 0.0f });
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
 
+	float4 Test = GetTransform()->GetLocalRotation();
+
+	// 타일사이즈저장
 	m_TileSize = static_cast<float>(MeshScale.x * sqrt(2) / 2.0f);
 }
 
@@ -58,8 +53,10 @@ void SecretTile::TileShake(float _DeltaTime)
 {
 	if (0.0f >= m_fShakeTime)
 	{
-		m_bShake = false;
+ 		m_bShake = false;
 		m_fShakeTime = 2.0f;
+
+		InActive();
 		return;
 	}
 
@@ -77,6 +74,13 @@ void SecretTile::TileShake(float _DeltaTime)
 	{
 		GetTransform()->SetLocalRotation(float4{ 0 , 0, RandomRotValue });
 	}
+}
+
+void SecretTile::OffShake()
+{
+	m_bShake = false;
+	m_fShakeTime = 2.0f;
+	// GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
 }
 
 void SecretTile::Start()

@@ -97,6 +97,7 @@ private:
 	float CurrentChainSpeed = 10.0f;
 	float StateCalTime = 0.0f;
 	float StateCalTime2 = 0.0f;
+	float StateCalFloat = 0.0f;
 	float4 TargetPos = float4::ZERO;
 	float4 StartPos = float4::ZERO;
 	float4 JumpDir = float4::ZERO;
@@ -105,7 +106,6 @@ private:
 	int MegaDash2PatternNumber = 0;  
 	float CurrentSpeed = 0.0f;
 	bool StateCalBool = false;
-
 
 	//FSM에서 사용되는 함수
 	void TurnCheck(); //대쉬 중 회전 스테이트로 변경할 것인지 체크
@@ -116,8 +116,12 @@ private:
 
 	float4 GetRandomPos(float _Value);
 
-	//
 	void GetDamaged();		//피격 체크
+	float DamagedTime = 0.0f; //특정 시간동안 데미지 받지 않게끔 
+
+	void SetDeathState();
+
+	void CreateCrowHead();
 
 };
 

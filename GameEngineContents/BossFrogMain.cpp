@@ -1,7 +1,6 @@
 #include "PreCompileHeader.h"
 #include "BossFrogMain.h"
 
-#include "Player.h"
 BossFrogMain::BossFrogMain()
 {
 }
@@ -46,7 +45,7 @@ void BossFrogMain::InitAnimation()
 		{
 			float height = -183 - GetTransform()->GetWorldPosition().y;
 			float4 CurTile = GetTileIndex(GetTransform()->GetWorldPosition());
-			DestroyTile(CurTile.iy(), CurTile.ix());
+			//DestroyTile(CurTile.iy(), CurTile.ix());
 			CalMoveAmount(GetTransform()->GetWorldPosition(), 5.0f, height);
 			m_pCapsuleComp->RigidSwitch(false);;
 		});
@@ -181,8 +180,10 @@ void BossFrogMain::Start()
 		m_pCapsuleComp->CreatePhysXActors(float4{ 0.0f,150.0f,90.0f });//float4{ 0.0f,150.0f,90.0f }
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 		m_pCapsuleComp->SetRotation(GetTransform()->GetWorldRotation() + float4{ 0.0f, 135.0f,0.0f });
-
-		m_pCapsuleComp->SetFilter(*Player::MainPlayer->GetPhysXComponent()->GetController());
+		if (nullptr != Player::MainPlayer)
+		{
+			m_pCapsuleComp->SetFilter(*Player::MainPlayer->GetPhysXComponent()->GetController());
+		}
 	}
 	SetEnemyHP(3);
 
@@ -288,7 +289,7 @@ void BossFrogMain::SetFSMFUNC()
 				SelectedPos = GetPlayerPosition();
 				SelectedPos.y = -720.0f;
 				float4 Tile = GetTileIndex(SelectedPos);
-				ShakeTile(Tile.iy(), Tile.ix());
+				ShakeTile(Tile.iy(), Tile.ix(), 1.0f);
 				SetStateCheckerOn();
 			}
 			if (true == GetStateChecker() && GetStateDuration() > 2.5f) // 땅이 부글부글 거리는 타이밍

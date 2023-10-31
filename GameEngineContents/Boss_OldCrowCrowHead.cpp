@@ -20,6 +20,7 @@ void Boss_OldCrowCrowHead::Start()
 	Renderer->SetFBXMesh("Boss_OldCrow_CrowHead.FBX", "ContentAniMeshDeffered");
 	Renderer->CreateFBXAnimation("Fly", "Boss_OldCrow_CrowHeadFly.FBX", { 0.033f, true });
 	Renderer->GetTransform()->AddLocalPosition(float4{ 0.0f, 0.2f, 0.0f });
+	Renderer->SetColor(float4::BLACK, 0.9f);
 
 	Renderer->ChangeAnimation("Fly");
 
@@ -31,9 +32,6 @@ void Boss_OldCrowCrowHead::Start()
 
 void Boss_OldCrowCrowHead::SetCrowHead(float4 _Pos, float4 _Rot)
 {
-	//m_pSphereComp->SetWorldPosWithParent(_Pos, _Rot);
-	//CurrentDir = _Rot;
-
 	_Pos.y += 50.0f;
 
 	GetTransform()->SetWorldPosition(_Pos);
@@ -56,7 +54,7 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 				m_pSphereComp->TurnOffGravity();
 				m_pSphereComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 
-				m_pSphereComp->CreateSubShape(SubShapeType::BOX, float4{ 100, 10, 100 }, float4 {0, 0, 50});
+				m_pSphereComp->CreateSubShape(SubShapeType::BOX, float4{ 100, 50, 100 }, float4 {0, 0, 40});
 				m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::MonsterSkill);
 				m_pSphereComp->AttachShape();
 			}
@@ -92,16 +90,13 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 	//플레이어 공격 받은 후 업데이트 (패링 이후)
 	else
 	{
-		m_pSphereComp->DetachShape();
-		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::PlayerSkill);
-		m_pSphereComp->AttachShape();
-
-		m_pSphereComp->SetTrigger();
 		m_pSphereComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_CROWHEADPARRYINGSPEED);
+
+		ParryingTime += _DeltaTime;	
 	}
 
 
-	if (true == CheckCollision(PhysXFilterGroup::Obstacle))
+	if (ParryingTime > 5.0f)
 	{
 		Death();
 		return;
@@ -144,6 +139,12 @@ void Boss_OldCrowCrowHead::ParryingCheck() //패링 여부
 		CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, Dir);
 
 		m_pSphereComp->SetChangedRot(-CalRot);
+
+		m_pSphereComp->DetachShape();
+		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::PlayerSkill);
+		m_pSphereComp->AttachShape();
+
+		m_pSphereComp->SetTrigger();
 	}
 }
 

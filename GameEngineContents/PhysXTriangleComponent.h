@@ -29,7 +29,7 @@ protected:
 private:
 	// Phys액터 생성에 필요한 정보
 	physx::PxCooking* m_pCooking = nullptr;
-
+	bool m_bInit = false;
 
 	std::vector<std::vector<physx::PxVec3>> VertexVec;
 	std::vector<std::vector<physx::PxU32>> IndexVec;

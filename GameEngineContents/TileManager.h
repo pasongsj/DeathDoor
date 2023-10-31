@@ -1,23 +1,26 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-// 보스 타일맵 경기장
-class FrogFloor : public GameEngineActor
+// 보스 타일맵 경기장인데
+// 타일매니저로 변경
+class TileManager : public GameEngineActor
 {
 public:
-	friend class Map_Sanctuary;
+	static TileManager* MainManager;
+	friend class BossFrog;
 	friend class FrogBossLevel;
+	friend class BossFrogBomb;
 
 public:
 	// constrcuter destructer
-	FrogFloor();
-	~FrogFloor();
+	TileManager();
+	~TileManager();
 
 	// delete Function
-	FrogFloor(const FrogFloor& _Other) = delete;
-	FrogFloor(FrogFloor&& _Other) noexcept = delete;
-	FrogFloor& operator=(const FrogFloor& _Other) = delete;
-	FrogFloor& operator=(FrogFloor&& _Other) noexcept = delete;
+	TileManager(const TileManager& _Other) = delete;
+	TileManager(TileManager&& _Other) noexcept = delete;
+	TileManager& operator=(const TileManager& _Other) = delete;
+	TileManager& operator=(TileManager&& _Other) noexcept = delete;
 
 	inline std::shared_ptr<class ContentFBXRenderer> GetHingeRender() const
 	{
@@ -54,12 +57,19 @@ private:
 		return m_bRotation;
 	}
 
+	const float4 GetTilePos(const int _Y, const int _X);
+	const float4 GetTileIndex(const float4& _Pos);
+
+	void InActiveTile(const int _Y, const int _X);
 	void DestroyTile(const int _Y, const int _X);
 	bool IsTile(const int _Y, const int _X);
 	void ResetTile();
-	void ShakeTile(const int _Y, const int _X);
+	void ShakeTile(const int _Y, const int _X, float _ShakeTime);
 
 	void RotationUpdate(float _DeltaTime);
+	
+	void InitKey();
+	void KeyUpdate();
 	
 	void InitComponent();
 	void Create_FireObject();
@@ -67,6 +77,7 @@ private:
 	void Create_WallObject();
 
 	std::shared_ptr<class ContentFBXRenderer> m_pHingeRenderer = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pWiresRenderer = nullptr;
 
 	std::vector <std::shared_ptr<class FireObject>> m_vFireObjects = std::vector<std::shared_ptr<class FireObject>>();
 	float4 m_FireObjScale = float4{ 50, 50 , 50 };

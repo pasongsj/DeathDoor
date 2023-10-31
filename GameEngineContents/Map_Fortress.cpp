@@ -293,6 +293,12 @@ void Map_Fortress::Set_CullingTrigger()
 		m_vCullingTriggers.push_back(Trigger);
 		Trigger->GetTransform()->SetParent(GetTransform());
 	}
+
+	size_t Size = m_vCullingTriggers.size();
+	for (size_t i = 0; i < Size; i++)
+	{
+		m_vCullingTriggers[i]->GetRenderer()->Off();
+	}
 }
 
 void Map_Fortress::Set_CullingTrigger_WorldPos()
@@ -495,15 +501,17 @@ void Map_Fortress::Create_PhysXComponent()
 {
 	// 네비메쉬 위치확인용 렌더러
 	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pNaviRenderer->SetFBXMesh("Fortress_NaviMesh.fbx", "ContentMeshDeffered");
+	m_pNaviRenderer->SetFBXMesh("Fortress_Navi_Blender.fbx", "ContentMeshDeffered");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
 	m_pNaviRenderer->GetTransform()->SetParent(GetTransform());
+
+	m_pNaviRenderer->Off();
 	// m_pNaviRenderer->Off();
 
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	m_pTriangleComp->CreatePhysXActors("Fortress_NaviMesh.fbx", true);
+	m_pTriangleComp->CreatePhysXActors("Fortress_Navi_Blender.fbx", true);
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4 { 0 , -135, 0}, m_MapPos));
 
 }
