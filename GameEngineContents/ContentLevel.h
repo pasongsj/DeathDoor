@@ -54,6 +54,7 @@ protected:
 private:
 
 	std::shared_ptr<class GlowEffect> Glow = nullptr;
+	std::shared_ptr<class AlphaGlowEffect> AlphaGlow = nullptr;
 	ContentLevelType m_eLevelType = ContentLevelType::NONE;
 };
 
