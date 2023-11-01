@@ -14,6 +14,15 @@ public:
 	ParticleBase& operator=(const ParticleBase& _Other) = delete;
 	ParticleBase& operator=(ParticleBase&& _Other) noexcept = delete;
 
+	void BillboardingOn()
+	{
+		isBillBoarding = true;
+	}
+	void BillboardingOff()
+	{
+		isBillBoarding = false;
+	}
+
 	void SetAngle(float4 _RotAngle);
 
 protected:
@@ -23,6 +32,7 @@ protected:
 
 	void BillBoarding();
 private:
+	bool isBillBoarding = true;
 
 	float4 RotAngle = float4::ZERO;
 	std::shared_ptr<GameEngineRenderUnit> Unit;

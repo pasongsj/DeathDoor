@@ -35,6 +35,11 @@ void ParticleBase::SetAngle(float4 _RotAngle)
 
 void ParticleBase::BillBoarding()
 {
+	if (isBillBoarding == false)
+	{
+		//return;
+	}
+
 	std::shared_ptr<GameEngineCamera> Cam = GetLevel()->GetMainCamera();
 	float4 CamRot = Cam->GetTransform()->GetWorldRotation();
 	float4x4 CamRotMatrix = CamRot.QuaternionToRotationMatrix();
