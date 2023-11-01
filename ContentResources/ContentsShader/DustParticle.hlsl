@@ -104,13 +104,28 @@ DefferedTarget ContentTexture_PS(OutPut _Value)
         clip(-1);
     }
     
-    DustColor = pow(DustColor, 2.2f);
-    DustColor = ToneMaping_ACES(DustColor);
     
-    DustColor.a = saturate(AlphaColor.a * 1.2f);
    
-    OutPutTarget.DiffuseColor = DustColor;
-    OutPutTarget.Blur = BlurColor;
+    if(BlurColor.a < 0.0f)
+    {
+        DustColor = pow(DustColor, 2.2f);
+        
+        DustColor = ToneMaping_ACES(DustColor);
+        DustColor.a = saturate(AlphaColor.a * 1.2f);
+        
+        OutPutTarget.DiffuseColor = DustColor;
+        return OutPutTarget;
+    }
+    else
+    {
+        float4 ResultBlurColor = pow(BlurColor, 2.2f);
+        ResultBlurColor.a = saturate(AlphaColor.a * 1.2f);
+
+        OutPutTarget.DiffuseColor = ResultBlurColor;
+        OutPutTarget.Blur = ResultBlurColor;
+    }
+
+
     
     return OutPutTarget;
 }

@@ -95,6 +95,9 @@
       <Filter>Effect\Particle</Filter>
     </FxCompile>
     <FxCompile Include="HitCircle.hlsl" />
+    <FxCompile Include="AlphaColorMerge.hlsl">
+      <Filter>Effect\Glow</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
