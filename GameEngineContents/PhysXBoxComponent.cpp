@@ -194,7 +194,8 @@ void PhysXBoxComponent::Update(float _DeltaTime)
 {
 	if (Player::MainPlayer != nullptr && m_bInit == false)
 	{
-		Player::MainPlayer->GetPhysXComponent()->SetGroundFilter(DynamicThis<PhysXBoxComponent>());
+		Player::MainPlayer->GetPhysXComponent()->SetPreFilter(DynamicThis<PhysXBoxComponent>());
+		//Player::MainPlayer->GetPhysXComponent()->SetGroundFilter(DynamicThis<PhysXBoxComponent>());
 		m_bInit = true;
 	}
 	if (true == IsStatic())

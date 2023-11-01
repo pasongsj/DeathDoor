@@ -48,11 +48,19 @@ private:
 class CustomQueryFilterCallback : public physx::PxQueryFilterCallback
 {
 	friend class PhysXControllerComponent;
-private:
+public:
 	physx::PxQueryHitType::Enum preFilter(
 		const physx::PxFilterData& filterData, const physx::PxShape* shape, const physx::PxRigidActor* actor, physx::PxHitFlags& queryFlags) override;
 
+	physx::PxQueryHitType::Enum postFilter(const  physx::PxFilterData& filterData, const  physx::PxQueryHit& hit)override;
+	void SetOwner(std::shared_ptr<class PhysXControllerComponent> _OwnerComp)
+	{
+		m_pOwnerComp = _OwnerComp;
+	}
+
 private:
+	std::weak_ptr<class PhysXControllerComponent> m_pOwnerComp;
+
 };
 class CustomCctBehaviorCallback : public physx::PxControllerBehaviorCallback
 {

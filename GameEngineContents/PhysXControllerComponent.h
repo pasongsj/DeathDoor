@@ -95,6 +95,19 @@ public:
 	}
 
 	template <typename Component>
+	void SetPreFilter(std::shared_ptr<Component> _Comp)
+	{
+		//PhysXDefault Comp = std::make_shared<Component>(_Comp);
+
+		if (_Comp !=nullptr)
+		{
+			m_QueryFilterCallback.SetOwner(this->DynamicThis<PhysXControllerComponent>());
+			physx::PxShape* pShape = _Comp->GetShape();
+			m_QueryFilterCallback.preFilter(pShape->getQueryFilterData(), pShape, _Comp->GetStatic(), m_eFlag);
+		}
+	}
+
+	template <typename Component>
 	void SetGroundFilter(std::shared_ptr<Component> _Comp)
 	{
 		m_BehaviorCallback.SetOwner(this->DynamicThis<PhysXControllerComponent>());
@@ -106,6 +119,7 @@ public:
 		return m_pController;
 	}
 
+
 	void CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos = float4::ZERO) override;
 protected:
 	void Start() override;
@@ -115,8 +129,9 @@ protected:
 private:
 	CustomCctBehaviorCallback m_BehaviorCallback;// = nullptr;
 	CustomCctFilterCallback m_FilterCallback;
-	CustomQueryFilterCallback* m_QueryFilterCallback = nullptr;
+	CustomQueryFilterCallback m_QueryFilterCallback;
 	physx::PxControllerFilters m_pControllerFilter = nullptr;
+	physx::PxHitFlags m_eFlag;
 	float m_fElapseTime =0.f;
 	float4 m_pControllerDir = float4::ZERO;
 	bool m_bSpeedLimit = false;

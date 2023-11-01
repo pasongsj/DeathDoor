@@ -222,5 +222,24 @@ physx::PxControllerBehaviorFlags CustomCctBehaviorCallback::getBehaviorFlags(con
 
 physx::PxQueryHitType::Enum CustomQueryFilterCallback::preFilter(const physx::PxFilterData& filterData, const physx::PxShape* shape, const physx::PxRigidActor* actor, physx::PxHitFlags& queryFlags)
 {
-	return physx::PxQueryHitType::Enum();
+	if (m_pOwnerComp.lock() == nullptr)
+	{
+		return physx::PxQueryHitType::eBLOCK;
+	}
+	float4 PlayerGroundPos = m_pOwnerComp.lock()->GetWorldPosition();
+	float4 CollPoint = float4::ZERO;
+	if (false == m_pOwnerComp.lock()->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 30.0f)&& shape->getGeometryType() == physx::PxBoxGeometry().getType())
+	{
+		return physx::PxQueryHitType::eNONE;
+	}
+	else
+	{
+		return physx::PxQueryHitType::eBLOCK;
+	}
+
+}
+
+physx::PxQueryHitType::Enum CustomQueryFilterCallback::postFilter(const physx::PxFilterData& filterData, const physx::PxQueryHit& hit)
+{
+	return physx::PxQueryHitType::eBLOCK;
 }

@@ -37,7 +37,7 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 	}
 
 	m_pMaterial = m_pPhysics->createMaterial(m_fStaticFriction, m_fDynamicFriction, m_fResitution);
-	m_pControllerFilter = physx::PxControllerFilters(NULL, NULL, &m_FilterCallback);
+	m_pControllerFilter = physx::PxControllerFilters(NULL, &m_QueryFilterCallback, &m_FilterCallback);
 	m_pScene->userData = ControllerManager;
 	physx::PxCapsuleControllerDesc  ControllerDesc;
 	ControllerDesc.contactOffset = 0.02f;
