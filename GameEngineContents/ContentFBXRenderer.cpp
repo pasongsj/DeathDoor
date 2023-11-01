@@ -82,6 +82,26 @@ void ContentFBXRenderer::SetFadeMask(const std::string_view& _MaskTextureName)
 	}
 }
 
+void ContentFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBXName, const AnimationCreateParams& _Params, int _Index)
+{
+	GameEngineFBXRenderer::CreateFBXAnimation(_AnimationName, _AnimationFBXName, _Params, _Index);
+	
+	if(ReflectRenderer != nullptr)
+	{
+		ReflectRenderer->GameEngineFBXRenderer::CreateFBXAnimation(_AnimationName, _AnimationFBXName, _Params, _Index);
+	}
+}
+
+void ContentFBXRenderer::ChangeAnimation(const std::string& _AnimationName, bool _Force, int _StartFrame, float _BlendTime)
+{
+	GameEngineFBXRenderer::ChangeAnimation(_AnimationName, _Force, _StartFrame, _BlendTime);
+
+	if (ReflectRenderer != nullptr)
+	{
+		ReflectRenderer->GameEngineFBXRenderer::ChangeAnimation(_AnimationName, _Force, _StartFrame, _BlendTime);
+	}
+}
+
 void ContentFBXRenderer::SetReflect()
 {
 	if (GetActor() == nullptr)

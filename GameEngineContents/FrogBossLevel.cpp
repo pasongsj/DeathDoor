@@ -113,8 +113,8 @@ void FrogBossLevel::LevelChangeStart()
 
 	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
 	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
-	Box->GetTransform()->SetLocalScale({ 6000, 1, 3600 });
-	Box->SetWaterPosition({-3800, -700, 3800 });
+	Box->GetTransform()->SetLocalScale({ 6000, 1, 3800 });
+	Box->SetWaterPosition({-3800, -450, 3850 });
 	Box->GetTransform()->SetLocalRotation({ 0.0f, 45.0f , 0.0f});
 }
 

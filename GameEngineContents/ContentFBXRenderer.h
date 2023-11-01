@@ -112,7 +112,8 @@ public:
 		//Units[_Y][_X]->Color.MulColor = { _Intensity , _Intensity , _Intensity, 1.0f };
 	}
 
-
+	void CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBXName, const AnimationCreateParams& _Params = { 0.05f,true }, int _Index = 0);
+	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false, int _StartFrame = -1, float _BlendTime = -1.0f);
 	void SetReflect();
 	void ReflectOff();
 	void ReflectOn();
