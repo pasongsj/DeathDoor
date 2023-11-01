@@ -16,10 +16,10 @@ void WaterBox::Start()
 
 	Unit = CreateRenderUnit();
 	Unit->SetMesh("Box");
-	Unit->SetMaterial("Water");
+	Unit->SetMaterial("Water", RenderPath::Deferred);
 	Unit->ShaderResHelper.SetTexture("NormalMap", "WaterNormal.png");
 	Unit->Color.MulColor = float4::ZERONULL;
-	Unit->Color.PlusColor = float4{ 0.0f, 0.7f, 1.0f, 0.8f };
+	Unit->Color.PlusColor = float4{ 0.0f, 1.0f, 0.4f, 0.8f };
 }
 
 void WaterBox::SetWaterPosition(float4 _Pos)
@@ -33,13 +33,16 @@ void WaterBox::SetWaterPosition(float4 _Pos)
 void WaterBox::Update(float _Delta)
 {
 	float4 Scale = GetTransform()->GetLocalScale();
-
-	Unit->UVdata.x = Scale.x / 4096.0f;
-	Unit->UVdata.y = Scale.z / 4096.0f;
-
-	Angle += 0.2f * _Delta;
 	
-	float Y = Height + 25.0f * sin(Angle);
+	//Unit->UVdata.x = Scale.x  / 4096.0f;
+	//Unit->UVdata.y = Scale.z / 4096.0f;
+	Unit->UVdata.x = Scale.x / (Scale.x * 4096.0f / 15000.0f);
+	Unit->UVdata.y = Scale.z / (Scale.z * 4096.0f / 15000.0f);
+
+	Angle += 30.0f * _Delta;
+	float RadAngle = Angle * GameEngineMath::DegToRad;
+
+	float Y = Height + 25.0f * sin(RadAngle);
 
 	float4 Position = GetTransform()->GetLocalPosition();
 	GetTransform()->SetLocalPosition({ Position.x, Y,Position.z });
