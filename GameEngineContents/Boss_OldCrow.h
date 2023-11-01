@@ -93,6 +93,7 @@ private:
 	float4 CurrentDir = float4::ZERO; //현재 Dir
 
 	bool IsTurn = false; //회전 여부
+	bool IsDeath = false;
 
 	float CurrentChainSpeed = 10.0f;
 	float StateCalTime = 0.0f;
