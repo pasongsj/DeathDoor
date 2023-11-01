@@ -68,6 +68,12 @@ public:
 		Intensity = _Intensity;
 	}
 
+	void Off()
+	{
+		GameEngineFBXRenderer::Off();
+		ReflectOff();
+	}
+
 	void SetColor(float4 _RGBA, float _Intensity = -1.0f)
 	{
 		if (_Intensity < 0.0f)
