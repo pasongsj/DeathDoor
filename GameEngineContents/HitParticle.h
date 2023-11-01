@@ -29,5 +29,7 @@ private:
 
 	float4 Dir = float4::ZERO;
 	float Scale = 0.0f;
+	float Speed = 10.0f;
+	float Accel = 10.0f;
 };
 

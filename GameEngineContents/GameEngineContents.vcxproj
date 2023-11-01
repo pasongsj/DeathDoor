@@ -168,6 +168,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AlphaGlowEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BossFrogBomb.cpp">
       <SubType>
       </SubType>
@@ -573,6 +577,10 @@
     <ClCompile Include="WoodenBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlphaGlowEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BossFrogBomb.h">
       <SubType>
       </SubType>

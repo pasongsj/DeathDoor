@@ -16,6 +16,7 @@ public:
 
 	void SetColor(float4 _RGBA = { 0.815f, 0.576f, 0.427f, 1.0f });
 	void SetGlow(float4 _GlowColor = float4::ZERO);
+	void FadeLoop(float _Delta);
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -36,7 +37,8 @@ private:
 	};
 
 	DistortionData Distortion;
+	float LoopAngle = 0.0f;
 
-	float4 BlurColor = float4::ZERO;
+	float4 BlurColor = {1.0f, 1.0f, 1.0f, -1.0f};
 };
 
