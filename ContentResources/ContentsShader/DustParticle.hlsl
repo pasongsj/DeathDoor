@@ -49,9 +49,7 @@ cbuffer MaskValue : register(b5)
 
 struct DefferedTarget
 {
-    float4 DiffuseColor : SV_Target1;
-    float4 Position : SV_Target2;
-    float4 Normal : SV_Target3;
+    float4 DiffuseColor : SV_Target6;
     float4 Blur : SV_Target7;
 };
 
@@ -96,16 +94,22 @@ DefferedTarget ContentTexture_PS(OutPut _Value)
    
     float4 AlphaColor = AlphaTexture.Sample(CLAMPSAMPLER, NoiseCoords.xy);
         
-    if (AlphaColor.a <= DeltaTime.x)
+    if (1 - AlphaColor.a >= DeltaTime.x)
     {
         clip(-1);
     }
     
-    DustColor.a = AlphaColor.a;
+    if (1 - AlphaColor.a >= DeltaTime.y)
+    {
+        clip(-1);
+    }
+    
+    DustColor = pow(DustColor, 2.2f);
+    DustColor = ToneMaping_ACES(DustColor);
+    
+    DustColor.a = saturate(AlphaColor.a * 1.2f);
    
     OutPutTarget.DiffuseColor = DustColor;
-    OutPutTarget.Position = _Value.ViewPos;
-    OutPutTarget.Normal = _Value.ViewNormal;
     OutPutTarget.Blur = BlurColor;
     
     return OutPutTarget;

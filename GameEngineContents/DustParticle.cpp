@@ -15,7 +15,7 @@ void DustParticle::Start()
 	ParticleBase::Start();
 
 	GetUnit()->SetMesh("Rect");
-	GetUnit()->SetMaterial("DustParticle");
+	GetUnit()->SetMaterial("DustParticle", RenderPath::Alpha);
 
 	//GetUnit()->ShaderResHelper.SetTexture("DiffuseTexture", "DustParticleNoise.png");
 	GetUnit()->ShaderResHelper.SetTexture("NoiseTexture1", "ParticleNoise1.png");
@@ -85,10 +85,15 @@ void DustParticle::FadeInAndOut(float _Delta)
 {
 	if (MaskValue.x < 1.0f)
 	{
-		MaskValue.x += 1.5f * _Delta;
+		MaskValue.x += 2.0f * _Delta;
 		MaskValue.z = MaskValue.x;
 	}
-	else
+	else if(MaskValue.y > 0.0f)
+	{
+		MaskValue.y -= 2.0f * _Delta;
+		MaskValue.z = MaskValue.y;
+	}
+	else if (MaskValue.y <= 0.0f)
 	{
 		Death();
 	}
