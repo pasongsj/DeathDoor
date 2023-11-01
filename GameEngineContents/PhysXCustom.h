@@ -43,3 +43,63 @@ private:
 		MsgAssert(Code);
 	}
 };
+
+
+class CustomQueryFilterCallback : public physx::PxQueryFilterCallback
+{
+	friend class PhysXControllerComponent;
+public:
+	physx::PxQueryHitType::Enum preFilter(
+		const physx::PxFilterData& filterData, const physx::PxShape* shape, const physx::PxRigidActor* actor, physx::PxHitFlags& queryFlags) override;
+
+	physx::PxQueryHitType::Enum postFilter(const  physx::PxFilterData& filterData, const  physx::PxQueryHit& hit)override;
+	void SetOwner(std::shared_ptr<class PhysXControllerComponent> _OwnerComp)
+	{
+		m_pOwnerComp = _OwnerComp;
+	}
+
+private:
+	std::weak_ptr<class PhysXControllerComponent> m_pOwnerComp;
+
+};
+class CustomCctBehaviorCallback : public physx::PxControllerBehaviorCallback
+{
+	friend class PhysXControllerComponent;
+	physx::PxControllerBehaviorFlags getBehaviorFlags(const physx::PxShape& shape, const physx::PxActor& actor) override;
+
+	physx::PxControllerBehaviorFlags getBehaviorFlags(const physx::PxController& controller) override
+	{
+		return physx::PxControllerBehaviorFlag::eCCT_CAN_RIDE_ON_OBJECT;
+	}
+
+	physx::PxControllerBehaviorFlags getBehaviorFlags(const physx::PxObstacle& obstacle)  override
+	{
+		return physx::PxControllerBehaviorFlag::eCCT_CAN_RIDE_ON_OBJECT;
+	}
+
+	void SetOwner(std::shared_ptr<class PhysXControllerComponent> _OwnerComp)
+	{
+		m_pOwnerComp = _OwnerComp;
+	}
+
+private:
+	
+	std::weak_ptr<class PhysXControllerComponent> m_pOwnerComp;
+
+};
+
+class CustomCctFilterCallback : public physx::PxControllerFilterCallback
+{
+	friend class PhysXControllerComponent;
+public:
+	bool filter(const physx::PxController& a, const physx::PxController& b) override
+	{
+		return m_bReturnValue;
+	}
+	void SetRigid(bool _Value)
+	{
+		m_bReturnValue = _Value;
+	}
+private:
+	bool m_bReturnValue;
+};
