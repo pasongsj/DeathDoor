@@ -78,8 +78,6 @@ void Map_Fortress::Start()
 {
 	// 컴포넌트 초기화 
 	InitComponent();
-	Create_StaticObject();
-	Create_ActiveObject();
 }
 
 void Map_Fortress::Update(float _DeltaTime)
@@ -294,11 +292,11 @@ void Map_Fortress::Set_CullingTrigger()
 		Trigger->GetTransform()->SetParent(GetTransform());
 	}
 
-	size_t Size = m_vCullingTriggers.size();
+	/*size_t Size = m_vCullingTriggers.size();
 	for (size_t i = 0; i < Size; i++)
 	{
 		m_vCullingTriggers[i]->GetRenderer()->Off();
-	}
+	}*/
 }
 
 void Map_Fortress::Set_CullingTrigger_WorldPos()
@@ -506,7 +504,7 @@ void Map_Fortress::Create_PhysXComponent()
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
 	m_pNaviRenderer->GetTransform()->SetParent(GetTransform());
 
-	m_pNaviRenderer->Off();
+	// m_pNaviRenderer->Off();
 	// m_pNaviRenderer->Off();
 
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
@@ -516,18 +514,3 @@ void Map_Fortress::Create_PhysXComponent()
 
 }
 
-void Map_Fortress::Create_StaticObject()
-{
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
-	{
-		MsgAssert("현재 레벨이 nullptr 입니다.");
-		return;
-	}
-}
-
-void Map_Fortress::Create_ActiveObject()
-{
-	
-	
-}
