@@ -46,9 +46,6 @@ private:
 	void Set_CullingObject();
 	void Create_PhysXComponent();
 
-	void Create_StaticObject();
-	void Create_ActiveObject();
-
 	std::shared_ptr<class PhysXTriangleComponent> m_pTriangleComp = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> m_pNaviRenderer = nullptr;
 

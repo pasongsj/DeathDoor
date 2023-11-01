@@ -10,6 +10,8 @@
 #include "WaterBox.h"
 #include "BossFrog.h"
 
+
+// enemy 
 #include "EnemyBrute.h"
 #include "EnemyBruteGold.h"
 #include "EnemyFirePlant.h"
@@ -19,7 +21,12 @@
 #include "EnemyJumper.h"
 #include "EnemyMage.h"
 
-
+// field obj
+#include "Ladder.h"
+#include "Frog_Lever.h"
+#include "Frog_Septre.h"
+#include "ShortCutDoor.h"
+#include "Mushroom.h"
 
 FortressLevel::FortressLevel()
 {
@@ -110,7 +117,7 @@ void FortressLevel::LevelChangeStart()
 
 
 	Create_FieldEnemy();
-	
+	Create_FieldObject();
 }
 
 void FortressLevel::LevelChangeEnd()
@@ -320,5 +327,57 @@ void FortressLevel::Create_FieldEnemy()
 
 void FortressLevel::Create_FieldObject()
 {
-	
+	{
+		std::shared_ptr<Ladder> Obj = CreateActor<Ladder>();
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -2310, -160, 750 });
+	}
+
+	{
+		// 큰대문과 세트인 레버
+		std::shared_ptr<Frog_Lever> Obj = CreateActor<Frog_Lever>();
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -2750, 320, 1750 });
+
+		// 마지막에 대문 만들어
+	}
+	{
+		std::shared_ptr<Mushroom> Obj = CreateActor<Mushroom>();
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 665, -6, 49 });
+	}
+	{
+		std::shared_ptr<Mushroom> Obj = CreateActor<Mushroom>();
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -733, -6, -140 });
+	}
+	{
+		std::shared_ptr<Mushroom> Obj = CreateActor<Mushroom>();
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -838, -6, 2030 });
+	}
+	{
+		std::shared_ptr<Mushroom> Obj = CreateActor<Mushroom>();
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1893, -6, 873 });
+	}
+	{
+		std::shared_ptr<Mushroom> Obj = CreateActor<Mushroom>();
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -178, 146, 6317 });
+	}
+	{
+		std::shared_ptr<Mushroom> Obj = CreateActor<Mushroom>();
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -846, 146, 5913 });
+	}
+	{
+		std::shared_ptr<Mushroom> Obj = CreateActor<Mushroom>();
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -977, 146, 6962 });
+	}
+	{
+		// set 
+		std::shared_ptr<Frog_Lever> Obj = CreateActor<Frog_Lever>();
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1116, 140, 5023 });
+
+		// off 상태여야함? 
+		std::shared_ptr<Ladder> Obj2 = CreateActor<Ladder>();
+		Obj2->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
+		Obj2->GetPhysXComponent()->SetWorldPosWithParent(float4{ 105, 46, 6140 });
+	}
 }
