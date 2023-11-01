@@ -113,65 +113,9 @@ protected:
 	//void Render() override {}
 
 private:
-
-	class CustomBehaviorCallback : public physx::PxControllerBehaviorCallback
-	{
-		friend class PhysXControllerComponent;
-		physx::PxControllerBehaviorFlags getBehaviorFlags(const physx::PxShape& shape, const physx::PxActor& actor) override
-		{
-			if (m_pOwnerComp.lock() == nullptr)
-			{
-				return physx::PxControllerBehaviorFlag::eCCT_CAN_RIDE_ON_OBJECT;
-			}
-			float4 PlayerGroundPos = m_pOwnerComp.lock()->GetWorldPosition();
-			float4 CollPoint = float4::ZERO;
-			if (true == m_pOwnerComp.lock()->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 30.0f))
-			{
-				
-				return physx::PxControllerBehaviorFlag::eCCT_CAN_RIDE_ON_OBJECT;				
-			
-			}
-			return physx::PxControllerBehaviorFlag::eCCT_SLIDE;
-
-		}
-
-		physx::PxControllerBehaviorFlags getBehaviorFlags(const physx::PxController& controller) override
-		{
-			return physx::PxControllerBehaviorFlag::eCCT_CAN_RIDE_ON_OBJECT;
-		}
-
-		physx::PxControllerBehaviorFlags getBehaviorFlags(const physx::PxObstacle& obstacle)  override
-		{ 
-			return physx::PxControllerBehaviorFlag::eCCT_CAN_RIDE_ON_OBJECT;
-		}
-
-		void SetOwner(std::shared_ptr<PhysXControllerComponent> _OwnerComp)
-		{
-			m_pOwnerComp = _OwnerComp;
-		}
-
-	private:
-		std::weak_ptr<PhysXControllerComponent> m_pOwnerComp;
-
-	};
-
-	class CustomFilterCallback : public physx::PxControllerFilterCallback
-	{
-		friend class PhysXControllerComponent;
-	public:
-		bool filter(const physx::PxController& a, const physx::PxController& b) override
-		{
-			return m_bReturnValue;
-		}
-		void SetRigid(bool _Value)
-		{
-			m_bReturnValue = _Value;
-		}
-	private:
-		bool m_bReturnValue;
-	};
-	CustomBehaviorCallback m_BehaviorCallback;// = nullptr;
-	CustomFilterCallback m_FilterCallback;
+	CustomCctBehaviorCallback m_BehaviorCallback;// = nullptr;
+	CustomCctFilterCallback m_FilterCallback;
+	CustomQueryFilterCallback* m_QueryFilterCallback = nullptr;
 	physx::PxControllerFilters m_pControllerFilter = nullptr;
 	float m_fElapseTime =0.f;
 	float4 m_pControllerDir = float4::ZERO;
