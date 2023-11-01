@@ -578,12 +578,12 @@ void Boss_OldCrow::SetFSMFUNC()
 			EnemyRenderer->ChangeAnimation("DeathInRunning");
 
 			StateCalTime = 0.0f;
-			StateCalFloat = 300.0f;
+			StateCalFloat = 500.0f;
 		},
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
-			StateCalFloat -= Delta * 150.0f;
+			StateCalFloat -= Delta * 300.0f;
 
 			if (StateCalFloat <= 0.0f)
 			{
