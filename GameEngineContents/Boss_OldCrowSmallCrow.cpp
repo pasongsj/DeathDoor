@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "PhysXSphereComponent.h"
 #include "PhysXControllerComponent.h"
+#include "PhysXCapsuleComponent.h"
 
 #include "Boss_OldCrowSmallCrow.h"
 
@@ -28,10 +29,10 @@ void Boss_OldCrowSmallCrow::Start()
 
 	if (m_pSphereComp == nullptr)
 	{
-		m_pSphereComp = CreateComponent<PhysXSphereComponent>();
+		m_pSphereComp = CreateComponent<PhysXControllerComponent>();
 
 		m_pSphereComp->SetPhysxMaterial(1.0f, 1.0f, 0.0f);
-		m_pSphereComp->CreatePhysXActors(float4{ 0.0f, 50.0f, 50.0f });
+		m_pSphereComp->CreatePhysXActors(float4{ 0.0f, 51.0f, 50.0f });
 		m_pSphereComp->TurnOffGravity();
 		m_pSphereComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 		//m_pSphereComp->SetTrigger();
@@ -66,7 +67,7 @@ void Boss_OldCrowSmallCrow::SetLerpDirection(float _DeltaTime)
 
 		CurrentDir = LerpDir;
 
-		m_pSphereComp->SetChangedRot(-CalRot);
+		m_pSphereComp->SetRotation(-CalRot);
 	}
 }
 
@@ -136,11 +137,23 @@ void Boss_OldCrowSmallCrow::Update(float _DeltaTime)
 
 }
 
-void Boss_OldCrowSmallCrow::SetSmallCrow(float4 _Pos, float4 _Rot, float _TargetAngle)
+void Boss_OldCrowSmallCrow::SetSmallCrow(float4 _Pos, float4 _Rot, float _TargetAngle, std::shared_ptr<PhysXControllerComponent> _BossPhysXComponent)
 {
 	m_pSphereComp->SetWorldPosWithParent(_Pos, _Rot);
 
 	Angle = _TargetAngle;
+	
+	if (nullptr != Player::MainPlayer)
+	{
+		m_pSphereComp->SetFilter(*Player::MainPlayer->GetPhysXComponent()->GetController());
+	}
+
+	if (nullptr != _BossPhysXComponent)
+	{
+		m_pSphereComp->SetFilter(*_BossPhysXComponent->GetController());
+	}
+
+	m_pSphereComp->RigidSwitch(false);
 }
 
 void Boss_OldCrowSmallCrow::SetTargetTransform(float _DeltaTime)

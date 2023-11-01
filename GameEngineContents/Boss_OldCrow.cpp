@@ -353,7 +353,7 @@ void Boss_OldCrow::CreateCrowHead()
 	Dir.y = Angle;
 	Dir.x = -45.0f;
 
-	CrowHead->SetCrowHead(GetTransform()->GetWorldPosition(), Dir);
+	CrowHead->SetCrowHead(GetTransform()->GetWorldPosition(), Dir, m_pCapsuleComp);
 }
 
 void Boss_OldCrow::SetDeathState()

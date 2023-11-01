@@ -47,13 +47,30 @@ void Boss_OldCrowEgg::Start()
 
 		m_pSphereComp->CreateSubShape(SubShapeType::SPHERE, float4{ 0, 500, 500 }, float4{ 0, 0, 0 });
 		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::CrowDebuff);
-		//m_pSphereComp->AttachShape();
 	}
 }
 
 
 void Boss_OldCrowEgg::Update(float _DeltaTime)
 {
+	if (GetLiveTime() > 11.0f)
+	{
+		PentagramPivot->Death();
+		Death();
+
+		return;
+	}
+
+	if (GetLiveTime() > 10.0f)
+	{
+		if (IsEnd == false)
+		{
+			IsEnd = true;
+			ScaleValue = -1;
+			m_pSphereComp->DetachShape();
+		}
+	}
+
 	if (false == IsGround)
 	{
 		float4 CollPoint = float4::ZERO;
@@ -82,21 +99,7 @@ void Boss_OldCrowEgg::Update(float _DeltaTime)
 		SetPentagramEffect(_DeltaTime);
 	}
 
-	if (GetLiveTime() > 10.0f)
-	{
-		if (IsEnd == false)
-		{
-			IsEnd = true;
-			ScaleValue = -1;
-			m_pSphereComp->DetachShape();
-		}
-	}
 
-	if (GetLiveTime() > 11.0f)
-	{
-		PentagramPivot->Death();
-		Death();
-	}
 
 }
 
