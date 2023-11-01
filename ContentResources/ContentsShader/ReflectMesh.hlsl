@@ -44,6 +44,7 @@ Output ContentMeshDeferred_VS(Input _Input)
     
     float4 InputPos = _Input.POSITION;
     InputPos.w = 1.0f;
+    InputPos.y *= 0.7f;
     
     float4 InputNormal = _Input.NORMAL;
     InputNormal.w = 0.0f;
@@ -153,10 +154,6 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
     
     float4 EyeDir = _Input.EYEVECTOR;
     EyeDir = normalize(EyeDir);
-    
-    float Ndv = saturate(dot(normalize(_Input.NORMAL), EyeDir));
-    float Fresnel = 1 - pow(Ndv, 5.0f) *  5.0f;
-    Color.rgb = (Color.rgb * Fresnel);
     
     NewOutPut.DifTarget = pow(Color, 2.2f);
     NewOutPut.PosTarget = _Input.VIEWPOSITION;

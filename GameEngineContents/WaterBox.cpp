@@ -42,7 +42,7 @@ void WaterBox::Update(float _Delta)
 	Angle += 30.0f * _Delta;
 	float RadAngle = Angle * GameEngineMath::DegToRad;
 
-	float Y = Height + 25.0f * sin(RadAngle);
+	float Y = Height + 15.0f * sin(RadAngle);
 
 	float4 Position = GetTransform()->GetLocalPosition();
 	GetTransform()->SetLocalPosition({ Position.x, Y,Position.z });
