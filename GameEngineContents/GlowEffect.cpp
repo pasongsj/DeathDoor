@@ -33,9 +33,6 @@ void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 	DetectMaskTarget->Clear();
 	DetectMaskTarget->Setting();
 	
-	DetectMaskUnit.ShaderResHelper.SetTexture("DifLightTexture", DiffuseLight);
-	DetectMaskUnit.ShaderResHelper.SetTexture("SpcLightTexture", SpecularLight);
-	DetectMaskUnit.ShaderResHelper.SetTexture("AmbLightTexture", AmbientLight);
 	DetectMaskUnit.ShaderResHelper.SetTexture("DiffuseTexture", DiffuseTexture);
 	DetectMaskUnit.ShaderResHelper.SetTexture("BlurTexture", BlurTexture);
 	
@@ -79,9 +76,6 @@ void GlowEffect::CreateTarget(float4 _BlurSize)
 	DetectMaskUnit.SetMaterial("DetectMask");
 
 	DetectMaskTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
-	DetectMaskTarget->AddNewTexture(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
 	DetectMaskTarget->CreateDepthTexture();
 
 	BlurSize = { 1600, 900 };
