@@ -15,7 +15,7 @@ public:
 	Boss_OldCrowCrowHead& operator=(const Boss_OldCrowCrowHead& _Other) = delete;
 	Boss_OldCrowCrowHead& operator=(Boss_OldCrowCrowHead&& _Other) noexcept = delete;
 
-	void SetCrowHead(float4 _Pos, float4 _Rot);
+	void SetCrowHead(float4 _Pos, float4 _Rot, std::shared_ptr<class PhysXControllerComponent> _BossPhysXComponent);
 
 protected:
 	void Start() override;
@@ -23,7 +23,8 @@ protected:
 
 private:
 	std::shared_ptr<class ContentFBXRenderer> Renderer = nullptr;
-	std::shared_ptr<class PhysXSphereComponent> m_pSphereComp = nullptr;
+	std::shared_ptr<class PhysXControllerComponent> m_pSphereComp = nullptr;
+	std::shared_ptr<class PhysXControllerComponent> BossPhysXComponent = nullptr;
 
 	void SetLerpDirection(float _DeltaTime);
 	void ParryingCheck();
