@@ -109,7 +109,7 @@ void ContentFBXRenderer::SetReflect()
 		return;
 	}
 
-	ReflectRenderer = GetActor()->CreateComponent<ContentFBXRenderer>();
+	ReflectRenderer = GetActor()->CreateComponent<GameEngineFBXRenderer>();
 	ReflectRenderer->GetTransform()->SetParent(GetTransform());
 
 	std::string_view Material = "";
@@ -122,8 +122,12 @@ void ContentFBXRenderer::SetReflect()
 	{
 		Material = "REFLECTMESH";
 	}
+	else
+	{
+		return;
+	}
 
-	ReflectRenderer->GameEngineFBXRenderer::SetFBXMesh(FBXName, Material.data());
+	ReflectRenderer->GameEngineFBXRenderer::SetFBXMesh(FBXName, Material.data(), Path);
 
 	auto Units = ReflectRenderer->GetAllRenderUnit();
 
@@ -153,15 +157,12 @@ void ContentFBXRenderer::SetReflect()
 				Units[i][j]->ShaderResHelper.SetConstantBufferLink("WaterHeight", WaterHeight);
 			}
 
-
 			if (Units[i][j]->ShaderResHelper.IsConstantBuffer("CamPos") == true)
 			{
 				Units[i][j]->ShaderResHelper.SetConstantBufferLink("CamPos", GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition());
 			}
 		}
 	}
-
-	ReflectOff();
 }
 
 void ContentFBXRenderer::ReflectOn()
@@ -178,7 +179,6 @@ void ContentFBXRenderer::ReflectOn()
 		for (int j = 0; j < Units[i].size(); j++)
 		{
 			ReflectRenderer->On();
-			Units[i][j]->SetReflect();
 		}
 	}
 }
@@ -197,7 +197,6 @@ void ContentFBXRenderer::ReflectOff()
 		for (int j = 0; j < Units[i].size(); j++)
 		{
 			ReflectRenderer->Off();
-			Units[i][j]->SetReflectOff();
 		}
 	}
 }
@@ -304,7 +303,6 @@ void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::str
 
 	FBXName = _MeshName;
 	MaterialName = UpperSettingName;
-
-	SetReflect();
+	Path = _Path;
 }
 
