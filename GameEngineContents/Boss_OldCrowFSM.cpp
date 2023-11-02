@@ -533,6 +533,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			StateCalTime += Delta;
 			StateCalTime2 += Delta;
+			StateCalFloat += BOSS_OLDCROW_OrbitSpeed * Delta;
 
 			if (StateCalTime2 >= 2.5f)
 			{
@@ -557,10 +558,10 @@ void Boss_OldCrow::SetFSMFUNC()
 					BonePivot->GetTransform()->AddLocalRotation({ -20.0f, 0.0f, 0.0f });
 					BonePivot->GetTransform()->AddLocalRotation({ RandomXValue, RandomYValue, RandomZValue });
 
-					float RandomFloat = GameEngineRandom::MainRandom.RandomFloat(-5, 5);
+					float RandomFloat = GameEngineRandom::MainRandom.RandomFloat(-30, 30);
 
 					std::shared_ptr<Boss_OldCrowSmallCrow> SmallCrow = GetLevel()->CreateActor<Boss_OldCrowSmallCrow>();
-					SmallCrow->SetSmallCrow(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation(), StateCalFloat + RandomFloat);
+					SmallCrow->SetSmallCrow(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation(), StateCalFloat + RandomFloat, m_pCapsuleComp);
 
 					StateCalTime = 0.0f;
 				}
@@ -577,12 +578,12 @@ void Boss_OldCrow::SetFSMFUNC()
 			EnemyRenderer->ChangeAnimation("DeathInRunning");
 
 			StateCalTime = 0.0f;
-			StateCalFloat = 300.0f;
+			StateCalFloat = 500.0f;
 		},
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
-			StateCalFloat -= Delta * 150.0f;
+			StateCalFloat -= Delta * 300.0f;
 
 			if (StateCalFloat <= 0.0f)
 			{

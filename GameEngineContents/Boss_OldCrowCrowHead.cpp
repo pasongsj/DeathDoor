@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "PhysXSphereComponent.h"
+#include "PhysXControllerComponent.h"
 
 #include "Boss_OldCrowCrowHead.h"
 
@@ -30,12 +31,14 @@ void Boss_OldCrowCrowHead::Start()
 	IsCreated = false;
 }
 
-void Boss_OldCrowCrowHead::SetCrowHead(float4 _Pos, float4 _Rot)
+void Boss_OldCrowCrowHead::SetCrowHead(float4 _Pos, float4 _Rot, std::shared_ptr<PhysXControllerComponent> _BossPhysXComponent)
 {
 	_Pos.y += 50.0f;
 
 	GetTransform()->SetWorldPosition(_Pos);
 	GetTransform()->SetWorldRotation(_Rot);
+
+	BossPhysXComponent = _BossPhysXComponent;
 }
 
 void Boss_OldCrowCrowHead::Update(float _DeltaTime)
@@ -47,10 +50,10 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 		{
 			if (m_pSphereComp == nullptr)
 			{
-				m_pSphereComp = CreateComponent<PhysXSphereComponent>();
+				m_pSphereComp = CreateComponent<PhysXControllerComponent>();
 
 				m_pSphereComp->SetPhysxMaterial(1.0f, 1.0f, 0.0f);
-				m_pSphereComp->CreatePhysXActors(float4{ 0.0f, 100.0f, 100.0f });
+				m_pSphereComp->CreatePhysXActors(float4{ 0.0f, 101.0f, 100.0f });
 				m_pSphereComp->TurnOffGravity();
 				m_pSphereComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 
@@ -58,6 +61,18 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 				m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::MonsterSkill);
 				m_pSphereComp->AttachShape();
 			}
+
+			if (nullptr != Player::MainPlayer)
+			{
+				m_pSphereComp->SetFilter(*Player::MainPlayer->GetPhysXComponent()->GetController());
+			}
+
+			if (nullptr != BossPhysXComponent)
+			{
+				m_pSphereComp->SetFilter(*BossPhysXComponent->GetController());
+			}
+
+			m_pSphereComp->RigidSwitch(false);
 
 
 			IsCreated = true;
@@ -119,7 +134,7 @@ void Boss_OldCrowCrowHead::SetLerpDirection(float _DeltaTime)
 
 	CurrentDir = LerpDir;
 
-	m_pSphereComp->SetChangedRot(-CalRot);
+	m_pSphereComp->SetRotation(-CalRot);
 }
 
 void Boss_OldCrowCrowHead::ParryingCheck() //패링 여부
@@ -138,13 +153,13 @@ void Boss_OldCrowCrowHead::ParryingCheck() //패링 여부
 		float4 CalRot = float4::ZERO;
 		CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, Dir);
 
-		m_pSphereComp->SetChangedRot(-CalRot);
+		m_pSphereComp->SetRotation(-CalRot);
 
 		m_pSphereComp->DetachShape();
 		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::PlayerSkill);
 		m_pSphereComp->AttachShape();
 
-		m_pSphereComp->SetTrigger();
+		//m_pSphereComp->SetTrigger();
 	}
 }
 

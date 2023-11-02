@@ -39,12 +39,16 @@ public:
 		m_bSpeedLimit = !m_bSpeedLimit;
 	}
 
+
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 private:
 	bool m_bSpeedLimit = false;
+	bool m_bInit = false;
+
 
 	//속도제한 함수
 	void SpeedLimit();

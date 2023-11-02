@@ -65,7 +65,7 @@ void Boss_OldCrow::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("DeathInRunning", "OldCrow_DeathWhileRunning_Anim.FBX", { 0.033f, false });
 	EnemyRenderer->CreateFBXAnimation("DeathInUpright", "OldCrow_DeathWhileUpright_Anim.FBX", { 0.033f, false });
 
-	GetTransform()->SetLocalScale(float4::ONE * 40.0f);
+	GetTransform()->SetLocalScale(float4::ONE * 50.0f);
 	EnemyRenderer->GetTransform()->SetLocalRotation({ 0, -90, 0 });
 
 	EnemyRenderer->ChangeAnimation("Idle");

@@ -50,6 +50,7 @@ void Boss_OldCrow::Start()
 	float4 Scale = EnemyRenderer->GetMeshScale();
 
 	SetEnemyHP(BOSS_OLDCROW_HP);
+	IsDeath = false;
 
 	ChainsInit();
 }
@@ -63,8 +64,9 @@ void Boss_OldCrow::Update(float _DeltaTime)
 		GetDamaged();
 	}
 
-	if (true == DeathCheck())
+	if (true == DeathCheck() && false == IsDeath)
 	{
+		IsDeath = true;
 		SetDeathState();
 	}
 
@@ -156,8 +158,8 @@ void Boss_OldCrow::SetRandomPattern()
 	CurrentPatternNum = 0;
 
 	//Test용 스테이트 세팅 
-	PatternNum = 5;
-	RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
+	//PatternNum = 5;
+	//RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
 
 	SetNextState(RandomState);
 }
@@ -353,7 +355,7 @@ void Boss_OldCrow::CreateCrowHead()
 	Dir.y = Angle;
 	Dir.x = -45.0f;
 
-	CrowHead->SetCrowHead(GetTransform()->GetWorldPosition(), Dir);
+	CrowHead->SetCrowHead(GetTransform()->GetWorldPosition(), Dir, m_pCapsuleComp);
 }
 
 void Boss_OldCrow::SetDeathState()

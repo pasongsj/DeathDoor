@@ -15,7 +15,7 @@ public:
 	Boss_OldCrowSmallCrow& operator=(const Boss_OldCrowSmallCrow& _Other) = delete;
 	Boss_OldCrowSmallCrow& operator=(Boss_OldCrowSmallCrow&& _Other) noexcept = delete;
 
-	void SetSmallCrow(float4 _Pos, float4 _Rot, float _TargetAngle);
+	void SetSmallCrow(float4 _Pos, float4 _Rot, float _TargetAngle, std::shared_ptr<class PhysXControllerComponent> _BossPhysXComponent);
 
 protected:
 	void Start() override;
@@ -23,7 +23,7 @@ protected:
 
 private:
 	std::shared_ptr<class ContentFBXRenderer> Renderer = nullptr;
-	std::shared_ptr<class PhysXSphereComponent> m_pSphereComp = nullptr;
+	std::shared_ptr<class PhysXControllerComponent> m_pSphereComp = nullptr;
 
 	float4 TargetPosition = float4::ZERO;
 

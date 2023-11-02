@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "PhysXTestActor.h"
 #include "PhysXTrigger.h"
+#include "PhysXControllerComponent.h"
 
 physx::PxFilterFlags CustomFilterShader
 (
@@ -199,4 +200,46 @@ void CustomSimulationEventCallback::onContact(const physx::PxContactPairHeader& 
 		}
 
 	}
+}
+
+physx::PxControllerBehaviorFlags CustomCctBehaviorCallback::getBehaviorFlags(const physx::PxShape& shape, const physx::PxActor& actor)
+{
+
+	if (m_pOwnerComp.lock() == nullptr)
+	{
+		return physx::PxControllerBehaviorFlag::eCCT_CAN_RIDE_ON_OBJECT;
+	}
+	float4 PlayerGroundPos = m_pOwnerComp.lock()->GetWorldPosition();
+	float4 CollPoint = float4::ZERO;
+	if (true == m_pOwnerComp.lock()->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 30.0f))
+	{
+		return physx::PxControllerBehaviorFlag::eCCT_CAN_RIDE_ON_OBJECT;
+	}
+	return physx::PxControllerBehaviorFlag::eCCT_SLIDE;
+
+
+}
+
+physx::PxQueryHitType::Enum CustomQueryFilterCallback::preFilter(const physx::PxFilterData& filterData, const physx::PxShape* shape, const physx::PxRigidActor* actor, physx::PxHitFlags& queryFlags)
+{
+	if (m_pOwnerComp.lock() == nullptr)
+	{
+		return physx::PxQueryHitType::eBLOCK;
+	}
+	float4 PlayerGroundPos = m_pOwnerComp.lock()->GetWorldPosition();
+	float4 CollPoint = float4::ZERO;
+	if (false == m_pOwnerComp.lock()->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 30.0f)&& shape->getGeometryType() == physx::PxBoxGeometry().getType())
+	{
+		return physx::PxQueryHitType::eNONE;
+	}
+	else
+	{
+		return physx::PxQueryHitType::eBLOCK;
+	}
+
+}
+
+physx::PxQueryHitType::Enum CustomQueryFilterCallback::postFilter(const physx::PxFilterData& filterData, const physx::PxQueryHit& hit)
+{
+	return physx::PxQueryHitType::eBLOCK;
 }
