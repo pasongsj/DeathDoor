@@ -18,8 +18,7 @@ void DustParticle::Start()
 	GetUnit()->SetMaterial("DustParticle", RenderPath::Alpha);
 
 	//GetUnit()->ShaderResHelper.SetTexture("DiffuseTexture", "DustParticleNoise.png");
-	GetUnit()->ShaderResHelper.SetTexture("NoiseTexture1", "ParticleNoise1.png");
-	GetUnit()->ShaderResHelper.SetTexture("NoiseTexture2", "ParticleNoise2.png");
+	GetUnit()->ShaderResHelper.SetTexture("NoiseTexture1", "ParticleNoise.png");
 	GetUnit()->ShaderResHelper.SetTexture("AlphaTexture", "ParticleAlpha.png");
 
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("MaskValue", MaskValue);
@@ -27,16 +26,22 @@ void DustParticle::Start()
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("DiffuseUV", DiffuseUV);
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("BlurColor", BlurColor);
 
-	float Distortion1 = GameEngineRandom::MainRandom.RandomFloat(0.2f, 0.5f);
-	float Distortion2 = GameEngineRandom::MainRandom.RandomFloat(0.2f, 0.5f);
+	float Distortion1 = GameEngineRandom::MainRandom.RandomFloat(0.2f, 0.3f);
+	float Distortion2 = GameEngineRandom::MainRandom.RandomFloat(0.2f, 0.3f);
 
-	float DistortionScale = GameEngineRandom::MainRandom.RandomFloat(0.2f, 0.4f);
-	float DistortionBias = GameEngineRandom::MainRandom.RandomFloat(0.2f, 0.4f);
+	float DistortionScale = GameEngineRandom::MainRandom.RandomFloat(0.2f, 0.3f);
+	float DistortionBias = GameEngineRandom::MainRandom.RandomFloat(0.2f, 0.3f);
 
 	Distortion.Distortion = float4{ Distortion1 ,Distortion1 ,Distortion2, Distortion2 };
 
 	Distortion.DistortionScale = DistortionScale;
 	Distortion.DistortionBias = DistortionBias;
+
+	float DirX = GameEngineRandom::MainRandom.RandomFloat(0.1f, 1.0f);
+	float DirY = GameEngineRandom::MainRandom.RandomFloat(0.1f, 1.0f);
+
+	Dir = { DirX, DirY };
+	Dir.Normalize();
 
 	GetTransform()->SetLocalScale({ 5.0f, 5.0f, 1.0f });
 
@@ -47,8 +52,8 @@ void DustParticle::Start()
 
 void DustParticle::Update(float _Delta)
 {
-	DiffuseUV.x += 0.5f * _Delta;
-	DiffuseUV.y += 0.5f * _Delta;
+	DiffuseUV.x += Dir.x * _Delta;
+	DiffuseUV.y += Dir.y * _Delta;
 
 	BillBoarding();
 
@@ -108,9 +113,9 @@ void DustParticle::FadeInAndOut(float _Delta)
 
 void DustParticle::FadeIn(float _Delta)
 {
-	if (MaskValue.y > 0.0f)
+	if (MaskValue.x <= 1.0f)
 	{
-	MaskValue.y -= 2.0f * _Delta;
+	MaskValue.x += 2.0f * _Delta;
 	MaskValue.z = MaskValue.y;
 	}
 	else
@@ -121,9 +126,9 @@ void DustParticle::FadeIn(float _Delta)
 
 void DustParticle::FadeOut(float _Delta)
 {
-	if (MaskValue.x < 1.0f)
+	if (MaskValue.x >= 0.0f)
 	{
-		MaskValue.x += 2.0f * _Delta;
+		MaskValue.x -= 2.0f * _Delta;
 		MaskValue.z = MaskValue.x;
 	}
 	else
