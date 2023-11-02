@@ -43,12 +43,6 @@ void DustParticle::Start()
 	SetAngle({ 55.0f, 0.0f, 0.0f });
 	
 	SetColor();
-
-	//float DiffuseUVX = GameEngineRandom::MainRandom.RandomFloat(0.0f, 1.0f);
-	//float DiffuseUVY = GameEngineRandom::MainRandom.RandomFloat(0.0f, 1.0f);
-	//
-	
-
 }
 
 void DustParticle::Update(float _Delta)
@@ -58,8 +52,10 @@ void DustParticle::Update(float _Delta)
 
 	BillBoarding();
 
-	FadeLoop(_Delta);
-
+	if (UpdateFunc != nullptr)
+	{
+		UpdateFunc(_Delta);
+	}
 }
 
 void DustParticle::Render(float _Delta)
@@ -105,6 +101,32 @@ void DustParticle::FadeInAndOut(float _Delta)
 		MaskValue.z = MaskValue.y;
 	}
 	else if (MaskValue.y <= 0.0f)
+	{
+		Death();
+	}
+}
+
+void DustParticle::FadeIn(float _Delta)
+{
+	if (MaskValue.y > 0.0f)
+	{
+	MaskValue.y -= 2.0f * _Delta;
+	MaskValue.z = MaskValue.y;
+	}
+	else
+	{
+		Death();
+	}
+}
+
+void DustParticle::FadeOut(float _Delta)
+{
+	if (MaskValue.x < 1.0f)
+	{
+		MaskValue.x += 2.0f * _Delta;
+		MaskValue.z = MaskValue.x;
+	}
+	else
 	{
 		Death();
 	}
