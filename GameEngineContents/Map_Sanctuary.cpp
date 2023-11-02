@@ -66,16 +66,23 @@ void Map_Sanctuary::InitComponent()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->SetFBXMesh("Map_Sanctuary_Blender.fbx", "ContentMeshDeffered");
+	m_pRenderer->SetReflectRenderer();
 	m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 
+	m_pRenderer->UnitOff(0, 0);
+	m_pRenderer->UnitOff(1, 0);
+	m_pRenderer->UnitOff(2, 0);
+	m_pRenderer->UnitOff(3, 0);
+	m_pRenderer->UnitOff(4, 0);
 
-	// test 
+	// 이렇게 말고 위에걸로 오프하셔야함
 	auto AllUnit = m_pRenderer->GetAllRenderUnit();
 	AllUnit[0][0]->Off();
 	AllUnit[1][0]->Off();
 	AllUnit[2][0]->Off();
 	AllUnit[3][0]->Off();
 	AllUnit[4][0]->Off();
+
 	auto Unit = m_pRenderer->GetUnTexturedUnit();
 
 	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();

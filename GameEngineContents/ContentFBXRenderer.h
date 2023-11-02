@@ -74,6 +74,32 @@ public:
 		ReflectOff();
 	}
 
+	void UnitOff(int _Y, int _X)
+	{
+		GetAllRenderUnit()[_Y][_X]->Off();
+		ReflectRenderer->GetAllRenderUnit()[_Y][_X]->Off();
+	}
+
+	void On()
+	{
+		GameEngineFBXRenderer::On();
+		ReflectOn();
+	}
+
+	void UnitOn(int _Y, int _X)
+	{
+		GetAllRenderUnit()[_Y][_X]->On();
+		ReflectRenderer->GetAllRenderUnit()[_Y][_X]->On();
+	}
+
+	void SetReflectRenderer()
+	{
+		if (ReflectRenderer == nullptr)
+		{
+			SetReflect();
+		}
+	}
+
 	void SetColor(float4 _RGBA, float _Intensity = -1.0f)
 	{
 		if (_Intensity < 0.0f)
@@ -120,7 +146,6 @@ public:
 
 	void CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBXName, const AnimationCreateParams& _Params = { 0.05f,true }, int _Index = 0);
 	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false, int _StartFrame = -1, float _BlendTime = -1.0f);
-	void SetReflect();
 	void ReflectOff();
 	void ReflectOn();
 
@@ -129,6 +154,7 @@ protected:
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 private:
+	void SetReflect();
 	void LinkConstantBuffer();
 
 	float4 BlurColor = {0.85f, 0.26f, 0.33f, -1.0f};
@@ -136,8 +162,9 @@ private:
 
 	std::string FBXName;
 	std::string MaterialName;
+	RenderPath Path;
 
-	std::shared_ptr<ContentFBXRenderer> ReflectRenderer = nullptr;
+	std::shared_ptr<GameEngineFBXRenderer> ReflectRenderer = nullptr;
 
 	float4 WaterHeight = float4::ZERO;
 	float4 CamPos = float4::ZERO;
