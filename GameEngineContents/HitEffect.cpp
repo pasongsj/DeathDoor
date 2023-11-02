@@ -16,7 +16,7 @@ HitEffect::~HitEffect()
 void HitEffect::Start()
 {
 	std::shared_ptr<HitCircle> Circle = CreateComponent<HitCircle>();
-	Circle->SetAngle({30.0f, 0.0f, 0.0f});
+	Circle->SetAngle({25.0f, 0.0f, 0.0f});
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -24,7 +24,7 @@ void HitEffect::Start()
 		float ZAngle = GameEngineRandom::MainRandom.RandomFloat(0.0f, 360.0f);
 		float4 XY = { cos(ZAngle / 180.0f * GameEngineMath::PIE), sin(ZAngle / 180.0f * GameEngineMath::PIE) };
 
-		New->GetTransform()->AddLocalPosition({ XY.x, XY.y });
+		New->GetTransform()->AddLocalPosition({ 0.5f * XY.x, 0.5f * XY.y });
 		New->SetAngle({ 0.0f, 0.0f, ZAngle });
 		New->SetDir(XY.NormalizeReturn());
 	}

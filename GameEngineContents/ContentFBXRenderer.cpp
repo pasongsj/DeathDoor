@@ -166,6 +166,11 @@ void ContentFBXRenderer::SetReflect()
 
 void ContentFBXRenderer::ReflectOn()
 {
+	if (ReflectRenderer == nullptr)
+	{
+		return;
+	}
+
 	auto Units = ReflectRenderer->GetAllRenderUnit();
 
 	for (int i = 0; i < Units.size(); i++)
@@ -180,6 +185,11 @@ void ContentFBXRenderer::ReflectOn()
 
 void ContentFBXRenderer::ReflectOff()
 {
+	if (ReflectRenderer == nullptr)
+	{
+		return;
+	}
+
 	auto Units = ReflectRenderer->GetAllRenderUnit();
 
 	for (int i = 0; i < Units.size(); i++)

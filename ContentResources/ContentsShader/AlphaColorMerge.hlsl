@@ -1,3 +1,5 @@
+#include "ContentFunction.fx"
+
 struct Input
 {
     float4 Pos : POSITION;
@@ -25,10 +27,11 @@ OutPut Merge_VS(Input _Value)
 Texture2D DiffuseTex : register(t0);
 SamplerState WRAPSAMPLER : register(s0);
 
-float4 Merge_PS(OutPut _Value) : SV_Target1
+float4 Merge_PS(OutPut _Value) : SV_Target6
 {
     float4 Color = DiffuseTex.Sample(WRAPSAMPLER, _Value.UV.xy);
-    float GrayScale = (Color.r + Color.g + Color.b) / 3.0f;
-
+    
+    Color = ToneMaping_ACES(Color);
+    
     return Color;
 }

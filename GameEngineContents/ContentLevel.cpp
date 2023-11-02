@@ -8,6 +8,7 @@
 #include "FXAA.h"
 #include "GammaCorrection.h"
 #include "BrightBloomEffect.h"
+#include "AlphaGlowEffect.h"
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
 ContentLevel::ContentLevel()
@@ -46,7 +47,10 @@ void ContentLevel::SetPostPrecessEffect(float4 _BlurSize)
 	Glow = GetLevel()->GetMainCamera()->GetCamAllRenderTarget()->CreateEffect<GlowEffect>();
 	Glow->Init(DynamicThis<GameEngineLevel>(), {1.0f, 0.0f, 0.0f, 0.0f}, _BlurSize);
 
-	GameEngineCoreWindow::AddDebugRenderTarget(4, "Detect", Glow->DetectMaskTarget);
+	AlphaGlow = GetLevel()->GetMainCamera()->GetCamAllRenderTarget()->CreateEffect<AlphaGlowEffect>();
+	AlphaGlow->Init(DynamicThis<GameEngineLevel>(), { 1.0f, 0.0f, 0.0f, 0.0f }, _BlurSize);
+
+	GameEngineCoreWindow::AddDebugRenderTarget(4, "Detect", AlphaGlow->DetectMaskTarget);
 
 	std::shared_ptr<GammaCorrection> Effect2 = GetLevel()->GetLastTarget()->CreateEffect<GammaCorrection>();
 	std::shared_ptr<FXAA> Effect3 = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();

@@ -26,7 +26,7 @@ private:
 	void Render2Dto3D();
 
 	float4 Test = float4::ZERO;
-	
+
 	std::shared_ptr<class ContentFBXRenderer> TestRd = nullptr;
 
 };

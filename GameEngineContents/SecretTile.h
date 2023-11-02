@@ -77,6 +77,8 @@ public:
 		m_bIsActive = false;
 		m_bShake = true;
 		m_fShakeTime = _ShakeTime;
+		
+		CreateDustParticle();
 	}
 
 	void OffShake();
@@ -92,6 +94,9 @@ protected:
 
 private:
 	void InitComponent();
+	void CreateDustParticle();
+
+	std::vector<std::shared_ptr<class DustParticle>> DustParticleList;
 
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
 	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;

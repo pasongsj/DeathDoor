@@ -1,41 +1,37 @@
 #include "PrecompileHeader.h"
 
-#include "GlowEffect.h"
+#include "AlphaGlowEffect.h"
 #include "Player.h"
 #include <GameEngineCore/GameEngineCamera.h>
 
-GlowEffect::GlowEffect()
+AlphaGlowEffect::AlphaGlowEffect()
 {
 }
 
-GlowEffect::~GlowEffect()
+AlphaGlowEffect::~AlphaGlowEffect()
 {
 }
 
-void GlowEffect::Start(GameEngineRenderTarget* _Target)
+void AlphaGlowEffect::Start(GameEngineRenderTarget* _Target)
 {
 }
 
-void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
+void AlphaGlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 {
 
 	std::shared_ptr<GameEngineRenderTarget> LevelTarget = EffectedLevel.lock()->GetMainCamera()->GetCamAllRenderTarget();
 	//diffuselight
-	std::shared_ptr<GameEngineTexture> DiffuseLight = _Target->GetTexture(0);
-	std::shared_ptr<GameEngineTexture> SpecularLight = _Target->GetTexture(1);
-	std::shared_ptr<GameEngineTexture> AmbientLight = _Target->GetTexture(2);
-
-	std::shared_ptr<GameEngineTexture> DiffuseTexture = LevelTarget->GetTexture(1);
+	std::shared_ptr<GameEngineTexture> DiffuseTexture = LevelTarget->GetTexture(6);
 
 	std::shared_ptr<GameEngineTexture> BlurTexture = LevelTarget->GetTexture(7);
 
 	//블러할 부위를 검출
 	DetectMaskTarget->Clear();
 	DetectMaskTarget->Setting();
-	
+
 	DetectMaskUnit.ShaderResHelper.SetTexture("DiffuseTexture", DiffuseTexture);
 	DetectMaskUnit.ShaderResHelper.SetTexture("BlurTexture", BlurTexture);
-	
+
 	DetectMaskUnit.Render(_DeltaTime);
 	DetectMaskUnit.ShaderResHelper.AllResourcesReset();
 
@@ -47,10 +43,10 @@ void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 	BlurUnit.Render(_DeltaTime);
 
 	BlurUnit.ShaderResHelper.AllResourcesReset();
-	
+
 	std::shared_ptr<GameEngineTexture> ResultTex = BlurTarget->GetTexture(0);
 
-	if(isDoubleBlur == true)
+	if (isDoubleBlur == true)
 	{
 		DoubleBlurTarget->Clear();
 		DoubleBlurTarget->Setting();
@@ -64,13 +60,13 @@ void GlowEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 	}
 
 	LevelTarget->Setting();
-	
+
 	ColorMerge.ShaderResHelper.SetTexture("DiffuseTex", ResultTex);
 	ColorMerge.Render(_DeltaTime);
 	ColorMerge.ShaderResHelper.AllResourcesReset();
 }
 
-void GlowEffect::CreateTarget(float4 _BlurSize)
+void AlphaGlowEffect::CreateTarget(float4 _BlurSize)
 {
 	DetectMaskUnit.SetMesh("FullRect");
 	DetectMaskUnit.SetMaterial("DetectMask");
@@ -99,5 +95,5 @@ void GlowEffect::CreateTarget(float4 _BlurSize)
 	BlurMergeUnit.SetMaterial("LightMerge");
 
 	ColorMerge.SetMesh("FullRect");
-	ColorMerge.SetMaterial("DefferedColorMerge");
+	ColorMerge.SetMaterial("AlphaColorMerge");
 }

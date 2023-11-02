@@ -6,7 +6,7 @@
 #include "FireObject.h"
 #include "SkillSlot.h"
 
-#include "HitEffect.h"
+#include "DustParticle.h"
 #include "WaterBox.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
@@ -28,7 +28,11 @@ void MyTest::Update(float _Delta)
 {
 	if (GameEngineInput::IsDown("MyTest") == true)
 	{
-		GetLevel()->CreateActor<HitEffect>();
+		std::shared_ptr<DustParticle> Eff4 = CreateComponent<DustParticle>();
+		Eff4->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+		Eff4->GetTransform()->SetWorldScale({ 10.0f, 10.0f });
+		//Eff4->GetTransform()->SetLocalRotation({ 90.0f, -45.0f, 0.0f });
+		Eff4->BillboardingOff();
 	}
 }
 

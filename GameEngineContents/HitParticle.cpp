@@ -21,7 +21,7 @@ void HitParticle::Start()
 
 	Unit->ShaderResHelper.SetTexture("DiffuseTexture", "ParticleAlpha.png");
 	
-	float ScaleX = GameEngineRandom::MainRandom.RandomFloat(1.0f, 4.0f);
+	float ScaleX = GameEngineRandom::MainRandom.RandomFloat(2.0f, 4.0f);
 	
 	GetTransform()->SetLocalScale({ ScaleX, 0.1f});
 	Scale = ScaleX;
@@ -38,9 +38,12 @@ void HitParticle::Update(float _Delta)
 
 void HitParticle::Move(float _Delta)
 {
-	GetTransform()->AddLocalPosition( Dir * 5.0f * _Delta);
+	Speed -= Accel * _Delta;
 
-	Scale -= 5.0f * _Delta;
+	GetTransform()->AddLocalPosition( Dir * Speed * _Delta);
+
+	Scale -= Speed * _Delta;
+
 	if (Scale <= 0.0f)
 	{
 		Death();

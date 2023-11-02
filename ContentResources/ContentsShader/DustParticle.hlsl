@@ -76,8 +76,8 @@ DefferedTarget ContentTexture_PS(OutPut _Value)
 {
     DefferedTarget OutPutTarget = (DefferedTarget) 0.0f;
     
-    float4 Noise1 = NoiseTexture1.Sample(WRAPSAMPLER, _Value.UV.xy * 0.25f + DiffuseUV);
-    float4 Noise2 = NoiseTexture2.Sample(WRAPSAMPLER, _Value.UV.xy * 0.25f);
+    float4 Noise1 = NoiseTexture1.Sample(WRAPSAMPLER, _Value.UV.xy * 0.35f + DiffuseUV);
+    float4 Noise2 = NoiseTexture2.Sample(WRAPSAMPLER, _Value.UV.xy * 0.35f);
             
     Noise1 = (Noise1 - 0.5f) * 2.0f;
     Noise2 = (Noise2 - 0.5f) * 2.0f;
@@ -104,13 +104,28 @@ DefferedTarget ContentTexture_PS(OutPut _Value)
         clip(-1);
     }
     
-    DustColor = pow(DustColor, 2.2f);
-    DustColor = ToneMaping_ACES(DustColor);
     
-    DustColor.a = saturate(AlphaColor.a * 1.2f);
    
-    OutPutTarget.DiffuseColor = DustColor;
-    OutPutTarget.Blur = BlurColor;
+    if(BlurColor.a < 0.0f)
+    {
+        DustColor = pow(DustColor, 2.2f);
+        
+        DustColor += AlphaColor.a;
+        DustColor = ToneMaping_ACES(DustColor);
+        
+        OutPutTarget.DiffuseColor = DustColor;
+        return OutPutTarget;
+    }
+    else
+    {
+        float4 ResultBlurColor = pow(BlurColor, 2.2f);
+        ResultBlurColor += AlphaColor.a;
+
+        OutPutTarget.DiffuseColor = ResultBlurColor;
+        OutPutTarget.Blur = ResultBlurColor;
+    }
+
+
     
     return OutPutTarget;
 }
