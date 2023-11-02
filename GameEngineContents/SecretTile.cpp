@@ -5,6 +5,8 @@
 #include "ContentFBXRenderer.h"
 
 #include "FrogBossLevel.h"
+#include "DustParticle.h"
+
 #include <GameEngineBase/GameEngineRandom.h>
 
 SecretTile::SecretTile()
@@ -81,6 +83,13 @@ void SecretTile::OffShake()
 	m_bShake = false;
 	m_fShakeTime = 2.0f;
 	// GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
+
+	for (int i = 0; i < DustParticleList.size(); i++)
+	{
+		DustParticleList[i]->SetFadeOut();
+	}
+
+	DustParticleList.clear();
 }
 
 void SecretTile::Start()
@@ -113,4 +122,50 @@ void SecretTile::InitComponent()
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
 
 	m_TileSize = static_cast<float>(MeshScale.x * sqrt(2) / 2.0f);
+}
+void SecretTile::CreateDustParticle()
+{
+	for(int i = 0; i < 8; i++)
+	{
+		std::shared_ptr<DustParticle> Particle = CreateComponent<DustParticle>();
+		Particle->GetTransform()->SetWorldScale({ 100.0f, 100.0f });
+		Particle->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 0.0f});
+		
+		//어떤 선 위에 위치할 것인가
+		//1 : 왼쪽 세로선
+		//2 : 오른쪽 세로선
+		//3 : 위쪽 가로선
+		//4 : 아래쪽 가로선
+
+		int Line = GameEngineRandom::MainRandom.RandomInt(1, 4);
+
+		float X = 0.0f;
+		float Y = 0.0f;
+
+		if (Line == 1)
+		{
+			X = -200;
+			Y = GameEngineRandom::MainRandom.RandomFloat(-200, 200);
+		}
+		if (Line == 2)
+		{
+			X = 200;
+			Y = GameEngineRandom::MainRandom.RandomFloat(-200, 200);
+		}
+		if (Line == 3)
+		{
+			X = GameEngineRandom::MainRandom.RandomFloat(-200, 200);
+			Y = 200;
+		}
+		if (Line == 4)
+		{
+			X = GameEngineRandom::MainRandom.RandomFloat(-200, 200);
+			Y = -200;
+		}
+
+		Particle->GetTransform()->SetLocalPosition({ X, 30.0f, Y });
+		Particle->BillboardingOff();
+		
+		DustParticleList.push_back(Particle);
+	}
 }
