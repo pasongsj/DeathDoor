@@ -131,7 +131,7 @@ void SecretTile::CreateDustParticle()
 		std::shared_ptr<DustParticle> Particle = CreateComponent<DustParticle>();
 		Particle->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0.0f });
 
-		float Scale = GameEngineRandom::MainRandom.RandomFloat(40.0f, 110.0f);
+		float Scale = GameEngineRandom::MainRandom.RandomFloat(60.0f, 130.0f);
 		Particle->GetTransform()->SetWorldScale({ Scale, Scale });
 		
 		//어떤 선 위에 위치할 것인가
@@ -180,8 +180,8 @@ void SecretTile::CreateDustParticle()
 
 		float ScaleGap = 100.0f - Scale;
 
-		Particle->GetTransform()->SetLocalPosition({ X + XSign * ScaleGap * 0.5f, 1.0f + i, Y + YSign * ScaleGap * 0.5f });
-		Particle->BillboardingOff();
+		Particle->GetTransform()->SetLocalPosition({ X + XSign * ScaleGap * 0.5f, 30.0f + i, Y + YSign * ScaleGap * 0.5f });
+		//Particle->BillboardingOff();
 		Particle->SetLoop();
 
 		DustParticleList.push_back(Particle);

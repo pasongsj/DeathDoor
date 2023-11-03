@@ -91,7 +91,7 @@ DefferedTarget ContentTexture_PS(OutPut _Value)
     float2 NoiseCoords = (FinalNoise.xy * Perturb) + _Value.UV.xy;
     
     float4 DustColor = AddColor;
-   
+    
     float4 AlphaColor = AlphaTexture.Sample(CLAMPSAMPLER, NoiseCoords.xy);
         
     if (1 - AlphaColor.a >= DeltaTime.x)
@@ -103,19 +103,27 @@ DefferedTarget ContentTexture_PS(OutPut _Value)
     {
         clip(-1);
     }
-    
    
     if(BlurColor.a < 0.0f)
     {
         DustColor = pow(DustColor, 2.2f);
         
-        float Alpha = DustColor.a;
+        float Alpha = 0.0f;
         
-        DustColor.rgb += AlphaColor.a;
+        if (AddColor.a >= 0.0f)
+        {
+            Alpha = DustColor.a;
+            DustColor.rgb += AlphaColor.a;
+        }
+        else
+        {
+            Alpha = 1.0f;
+        }
+        
         DustColor = ceil(DustColor * 5.0f) / 5.0f;
         DustColor = ToneMaping_ACES(DustColor);
-        
         DustColor.a = Alpha;
+        
         
         OutPutTarget.DiffuseColor = DustColor;
         return OutPutTarget;
@@ -123,7 +131,7 @@ DefferedTarget ContentTexture_PS(OutPut _Value)
     else
     {
         float4 ResultBlurColor = pow(BlurColor, 2.2f);
-        ResultBlurColor.rgb += AlphaColor.a;
+        //ResultBlurColor.rgb += AlphaColor.a;
         
         OutPutTarget.DiffuseColor = ResultBlurColor;
         OutPutTarget.Blur = ResultBlurColor;

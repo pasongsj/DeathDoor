@@ -36,5 +36,9 @@ private:
 	bool IsAttacked = false; //플레이어의 공격을 받으면 플레이어가 바라보고 있는 방향으로 날아감.
 	bool IsCreated = false; //처음 생성되는 연출을 위한 bool값
 	float ParryingTime = 0.0f;
+
+	//파티클
+	void CreateDustParticle(float _Delta, float4 _RGB = { 0.0f, 0.0f, 0.0f, -1.0f }, bool _isGlow = false);
+	float ParticleCount = 0.0f;
 };
 

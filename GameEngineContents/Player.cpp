@@ -6,7 +6,8 @@
 #include "PhysXCapsuleComponent.h"
 #include "PhysXControllerComponent.h"
 
-
+#include "DustParticle.h"
+#include "ContentLevel.h"
 
 #define PlayerInitRotation float4{ 90,0,0 }
 
@@ -385,5 +386,22 @@ void Player::CheckPlayerHit()
 		{
 			SetNextState(PlayerState::HIT);
 		}
+	}
+}
+
+void Player::CreateDustParticle(float _Delta)
+{
+	ParticleCount += _Delta;
+
+	if (ParticleCount >= 0.3f)
+	{
+		ParticleCount = 0.0f;
+
+		std::shared_ptr<DustParticle> Particle = CreateComponent<DustParticle>();
+		Particle->GetTransform()->SetParent(GetLevel()->DynamicThis<ContentLevel>()->GetPivotActor()->GetTransform());
+		
+		Particle->SetFadeOut(true);
+		Particle->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{0.0f, 50.0f, -10.0f});
+		Particle->GetTransform()->SetWorldScale({ 40.0f, 40.0f });
 	}
 }

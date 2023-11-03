@@ -6,6 +6,9 @@
 
 #include "Boss_OldCrowCrowHead.h"
 
+#include "DustParticle.h"
+#include "ContentLevel.h"
+
 Boss_OldCrowCrowHead::Boss_OldCrowCrowHead() 
 {
 }
@@ -84,6 +87,7 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 			float RotSpeed = 30.0f;
 
 			GetTransform()->AddWorldRotation(float4{ _DeltaTime * 90.0f, 0, 0 });
+
 		}
 
 		return;
@@ -94,6 +98,7 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 	{
 		SetLerpDirection(_DeltaTime);
 		m_pSphereComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_CROWHEADSPEED);
+		CreateDustParticle(_DeltaTime);
 		ParryingCheck();
 
 		if (true == CheckCollision(PhysXFilterGroup::PlayerDynamic))
@@ -105,6 +110,8 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 	//플레이어 공격 받은 후 업데이트 (패링 이후)
 	else
 	{
+		CreateDustParticle(_DeltaTime, { 0.99f, 0.2f, 0.4f, 1.0f}, true);
+
 		m_pSphereComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_CROWHEADPARRYINGSPEED);
 
 		ParryingTime += _DeltaTime;	
@@ -116,7 +123,6 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 		Death();
 		return;
 	}
-
 }
 
 void Boss_OldCrowCrowHead::SetLerpDirection(float _DeltaTime)
@@ -159,6 +165,8 @@ void Boss_OldCrowCrowHead::ParryingCheck() //패링 여부
 		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::PlayerSkill);
 		m_pSphereComp->AttachShape();
 
+		Renderer->SetColor({ 0.99f, 0.1f, 0.2f, 1.0f });
+		Renderer->SetGlowToUnit(0, 0);
 		//m_pSphereComp->SetTrigger();
 	}
 }
@@ -171,4 +179,29 @@ float4 Boss_OldCrowCrowHead::GetPlayerDir()
 	EnemyPos.y = 0.0f;
 
 	return (PlayerPos - EnemyPos).NormalizeReturn();
+}
+
+void Boss_OldCrowCrowHead::CreateDustParticle(float _Delta, float4 _RGB, bool _isGlow)
+{
+	ParticleCount += _Delta;
+
+	if (ParticleCount >= 0.05f)
+	{
+		ParticleCount = 0.0f;
+
+		std::shared_ptr<DustParticle> Particle = CreateComponent<DustParticle>();
+
+		Particle->GetTransform()->SetParent(GetLevel()->DynamicThis<ContentLevel>()->GetPivotActor()->GetTransform());
+		Particle->GetTransform()->SetWorldPosition(Renderer->GetTransform()->GetWorldPosition() + float4{ 0.0f, 0.0f, 0.0f });
+		Particle->GetTransform()->SetWorldScale({ 100.0f, 100.0f });
+		Particle->BillboardingOff();
+		Particle->SetColor(_RGB);
+		Particle->SetFadeOut(true);
+		Particle->GetTransform()->SetWorldRotation(float4{90.0f, 0.0f, 0.0f});
+
+		if (_isGlow == true)
+		{
+			Particle->SetGlow();
+		}
+	}
 }
