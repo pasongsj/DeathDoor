@@ -157,6 +157,10 @@ private:
 
 	void CheckPlayerHit();
 
+	//ÆÄÆ¼Å¬
+	void CreateDustParticle(float _Delta);
+	float ParticleCount = 0.0f;
+
 	// Attack
 	std::shared_ptr< class AttackBase> AttackActor = nullptr;
 

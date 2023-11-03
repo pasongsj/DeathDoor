@@ -78,6 +78,7 @@ void Player::SetFSMFunc()
 			{
 				Renderer->ChangeAnimation("WALK");
 				MoveUpdate(PLAYER_WALK_SPEED);
+
 				if (true == Renderer->IsAnimationEnd())
 				{
 					SetNextState(PlayerState::IDLE);
@@ -87,6 +88,7 @@ void Player::SetFSMFunc()
 			else
 			{
 				CheckState(Delta);
+				CreateDustParticle(Delta);
 			}
 
 		},
