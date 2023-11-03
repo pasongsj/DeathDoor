@@ -97,12 +97,12 @@ void DustParticle::FadeInAndOut(float _Delta)
 {
 	if (MaskValue.x < 1.0f)
 	{
-		MaskValue.x += 2.0f * _Delta;
+		MaskValue.x += FadeSpeed * _Delta;
 		MaskValue.z = MaskValue.x;
 	}
 	else if(MaskValue.y > 0.0f)
 	{
-		MaskValue.y -= 2.0f * _Delta;
+		MaskValue.y -= FadeSpeed * _Delta;
 		MaskValue.z = MaskValue.y;
 	}
 	else if (MaskValue.y <= 0.0f)
@@ -115,7 +115,7 @@ void DustParticle::FadeIn(float _Delta)
 {
 	if (MaskValue.x <= 1.0f)
 	{
-	MaskValue.x += 2.0f * _Delta;
+	MaskValue.x += FadeSpeed * _Delta;
 	MaskValue.z = MaskValue.y;
 	}
 	else
@@ -128,7 +128,7 @@ void DustParticle::FadeOut(float _Delta)
 {
 	if (MaskValue.x >= 0.0f)
 	{
-		MaskValue.x -= 2.0f * _Delta;
+		MaskValue.x -= FadeSpeed * _Delta;
 		MaskValue.z = MaskValue.x;
 	}
 	else

@@ -57,6 +57,10 @@ public:
 		UpdateFunc = std::bind(&DustParticle::FadeIn, this, std::placeholders::_1);
 	}
 
+	void SetFadeSpeed(float _Speed)
+	{
+		FadeSpeed = _Speed;
+	}
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -83,6 +87,7 @@ private:
 
 	DistortionData Distortion;
 	float LoopAngle = 0.0f;
+	float FadeSpeed = 2.0f;
 
 	float4 BlurColor = {1.0f, 1.0f, 1.0f, -1.0f };
 
