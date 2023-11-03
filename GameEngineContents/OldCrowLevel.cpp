@@ -8,6 +8,7 @@
 #include "PhysXCapsuleComponent.h"
 #include "PhysXBoxComponent.h"
 #include "PhysXControllerComponent.h"
+#include "GlowEffect.h"
 
 
 
@@ -42,7 +43,8 @@ void OldCrowLevel::Update(float _DeltaTime)
 
 void OldCrowLevel::LevelChangeStart()
 {
-	LevelInit({ 800, 450, 800, 450 });
+	LevelInit({ 3200, 1800, 800, 450 });
+	GetGlowEffect()->DoubleBlurOff();
 	CreateScene();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);

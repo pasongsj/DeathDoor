@@ -124,5 +124,11 @@ private:
 
 	void CreateCrowHead();
 
+	//Particle
+	void CreateFeatherParticle();
+	float FeatherCount = 0.0f;
+
+	void CreateDustParticle();
+	float DustCount = 0.0f;
 };
 

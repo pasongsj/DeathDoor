@@ -15,7 +15,7 @@ void FeatherParticle::Start()
 	ParticleBase::Start();
 
 	GetUnit()->SetMesh("Rect");
-	GetUnit()->SetMaterial("ParticleBasic");
+	GetUnit()->SetMaterial("ParticleBasic", RenderPath::Alpha);
 
 	GetUnit()->ShaderResHelper.SetTexture("DiffuseTexture", "FeatherParticle.png");
 

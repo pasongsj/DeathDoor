@@ -11,6 +11,9 @@
 
 #include "Boss_OldCrowCrowHead.h"
 #include "FeatherParticle.h"
+#include "DustParticle.h"
+#include "ContentLevel.h"
+
 
 Boss_OldCrow::Boss_OldCrow() 
 {
@@ -55,8 +58,6 @@ void Boss_OldCrow::Start()
 	ChainsInit();
 }
 
-float Time = 0.0f;
-
 void Boss_OldCrow::Update(float _DeltaTime)
 {
 	if (false == DeathCheck() && true == CheckHit())
@@ -71,26 +72,6 @@ void Boss_OldCrow::Update(float _DeltaTime)
 	}
 
 	FSMObjectBase::Update(_DeltaTime);
-
-	Time += _DeltaTime;
-
-	if (Time >= 0.05f)
-	{
-		if (GetTransform()->GetWorldPosition().y > 50.0f)
-		{
-			return;
-		}
-
-		Time = 0.0f;
-
-		//대충 이런 식으로 만들면 됨. 
-		std::shared_ptr<FeatherParticle> New = CreateComponent<FeatherParticle>();
-
-		float X = GameEngineRandom::MainRandom.RandomFloat(-100, 100);
-		float Z = GameEngineRandom::MainRandom.RandomFloat(-100, 100);
-		
-		New->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ X, 100.0f, Z});
-	}
 }
 
 void Boss_OldCrow::InitPattern()
@@ -375,4 +356,40 @@ void Boss_OldCrow::SetDeathState()
 		break;
 	}
 
+}
+
+void Boss_OldCrow::CreateFeatherParticle()
+{
+	std::shared_ptr<FeatherParticle> New = CreateComponent<FeatherParticle>();
+
+	float X = GameEngineRandom::MainRandom.RandomFloat(-100, 100);
+	float Z = GameEngineRandom::MainRandom.RandomFloat(-100, 100);
+
+	New->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ X, 100.0f, Z });
+}
+
+void Boss_OldCrow::CreateDustParticle()
+{
+	std::shared_ptr<DustParticle> Particle = CreateComponent<DustParticle>();
+	Particle->GetTransform()->SetParent(GetLevel()->DynamicThis<ContentLevel>()->GetPivotActor()->GetTransform());
+	Particle->SetFadeOut(true);
+	
+	float X =GameEngineRandom::MainRandom.RandomFloat(-300.0f, 300.0f);
+	float Z =GameEngineRandom::MainRandom.RandomFloat(-300.0f, 300.0f);
+	
+	float4 CrowPos = GetTransform()->GetWorldPosition();
+
+	while(CrowPos.XYZDistance({ X, 0.0f, Z }) <= 150.0f)
+	{
+		X = GameEngineRandom::MainRandom.RandomFloat(-300.0f, 300.0f);
+		Z = GameEngineRandom::MainRandom.RandomFloat(-300.0f, 300.0f);
+	}
+
+	Particle->GetTransform()->SetWorldPosition(float4{ GetTransform()->GetWorldPosition().x + X, 40.0f, GetTransform()->GetWorldPosition().z + Z });
+	Particle->GetTransform()->SetWorldScale({ 80.0f, 80.0f });
+	Particle->GetTransform()->SetWorldRotation({ 90.0f, 0.0f });
+
+	Particle->BillboardingOff();
+	Particle->SetColor({ 0.05f, 0.05f, 0.05f, -1.0f });
+	Particle->SetFadeSpeed(1.0f);
 }

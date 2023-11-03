@@ -39,7 +39,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this](float Delta)
 		{
 			SetLerpDirection(Delta);
-
+			
 			if (EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(Boss_OldCrowState::DASH);
@@ -59,6 +59,11 @@ void Boss_OldCrow::SetFSMFUNC()
 			m_pCapsuleComp->RigidSwitch(false);
 
 			CurrentSpeed = BOSS_OLDCROW_DASHSPEED;
+
+			for (int i = 0; i < 10; i++)
+			{
+				CreateFeatherParticle();
+			}
 		},
 		[this](float Delta)
 		{
@@ -100,7 +105,7 @@ void Boss_OldCrow::SetFSMFUNC()
 			m_pCapsuleComp->RigidSwitch(true);
 		}
 	);
-
+	
 	SetFSM(Boss_OldCrowState::MEGADASHPREP,
 		[this]
 		{
@@ -119,6 +124,14 @@ void Boss_OldCrow::SetFSMFUNC()
 			//SetLerpDirection(Delta);
 
 			StateCalTime += Delta;
+			FeatherCount += Delta;
+			
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
+
+				CreateFeatherParticle();
+			}
 
 			Chains[0]->GetTransform()->AddLocalPosition(float4::FORWARD * BOSS_OLDCROW_CHAINSPEED * Delta);
 
@@ -142,6 +155,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		},
 		[this]
 		{
+			FeatherCount = 0.0f;
 		}
 	);
 
@@ -160,11 +174,18 @@ void Boss_OldCrow::SetFSMFUNC()
 			Chains[0]->OnChainEffect();
 
 			CurrentChainSpeed = BOSS_OLDCROW_CHAINSPEED;
-
 		},
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
+			FeatherCount += Delta;
+
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
+
+				CreateFeatherParticle();
+			}
 
 			Chains[0]->GetTransform()->AddLocalPosition(float4::FORWARD * CurrentChainSpeed * Delta);
 
@@ -188,6 +209,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		},
 		[this]
 		{
+			FeatherCount = 0.0f;
 		}
 	);
 
@@ -205,6 +227,14 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
+			FeatherCount += Delta;
+
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
+
+				CreateFeatherParticle();
+			}
 
 			m_pCapsuleComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_MEGADASHSPEED );
 
@@ -224,6 +254,7 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			m_pCapsuleComp->RigidSwitch(true);
 
+			FeatherCount = 0.0f;
 		}
 	);
 
@@ -267,6 +298,15 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
+
+			FeatherCount += Delta;
+
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
+
+				CreateFeatherParticle();
+			}
 
 			Chains[MegaDash2PatternCount]->GetTransform()->AddLocalPosition(float4::FORWARD * CurrentChainSpeed * Delta);
 
@@ -317,7 +357,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		},
 		[this]
 		{
-
+			FeatherCount = 0.0f;
 		}
 	);
 
@@ -337,6 +377,14 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
+			
+			FeatherCount += Delta;
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
+
+				CreateFeatherParticle();
+			}
 
 			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_MEGADASHSPEED);
 
@@ -375,6 +423,8 @@ void Boss_OldCrow::SetFSMFUNC()
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 
 			m_pCapsuleComp->RigidSwitch(true);
+
+			FeatherCount = 0.0f;
 		}
 	);
 
@@ -402,10 +452,22 @@ void Boss_OldCrow::SetFSMFUNC()
 			SetDirection();
 
 			m_pCapsuleComp->RigidSwitch(false);
+
+			for (int i = 0; i < 15; i++)
+			{
+				CreateFeatherParticle();
+			}
 		},
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
+			FeatherCount += Delta;
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
+
+				CreateFeatherParticle();
+			}
 
 			SetLerpDirection(Delta);
 
@@ -433,6 +495,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		},
 		[this]
 		{
+			FeatherCount = 0.0f;
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 			SetDirection();
 		}
@@ -452,7 +515,13 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this](float Delta)
 		{
 			m_pCapsuleComp->SetMoveSpeed(SlamDir * BOSS_OLDCROW_SLAMFORCE);
+			FeatherCount += Delta;
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
 
+				CreateFeatherParticle();
+			}
 			//SetLerpDirection(Delta);
 
 			float4 CollPoint = float4::ZERO;
@@ -472,6 +541,7 @@ void Boss_OldCrow::SetFSMFUNC()
 			m_pCapsuleComp->TurnOnGravity();
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 			m_pCapsuleComp->RigidSwitch(true);
+			FeatherCount = 0.0f;
 		}
 	);
 
@@ -480,6 +550,16 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("SlamImpact");
 
+			for (int i = 0; i < 15; i++)
+			{
+				CreateFeatherParticle();
+				GetLevel()->TimeEvent.AddEvent(0.05f, [this](GameEngineTimeEvent::TimeEvent&, GameEngineTimeEvent*)
+					{
+						CreateDustParticle();
+					}
+				);
+
+			}
 		},
 		[this](float Delta)
 		{
