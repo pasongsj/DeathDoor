@@ -25,13 +25,31 @@ public:
 
 	void SetAngle(float4 _RotAngle);
 
+	void SetWorldMove()
+	{
+		isWorldMove = true;
+	}
+
+	void SetMoveInfo(float4 _Dir, float _Speed)
+	{
+		MoveDir = _Dir;
+		MoveSpeed = _Speed;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
+	void Move(float _Delta);
 
 	void BillBoarding();
 private:
+
+
+	float4 MoveDir = float4::ZERO;
+	float MoveSpeed = 0.0f;
+	
+	bool isWorldMove = false;
 	bool isBillBoarding = true;
 
 	float4 RotAngle = float4::ZERO;

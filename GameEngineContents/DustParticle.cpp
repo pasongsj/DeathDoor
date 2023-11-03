@@ -54,6 +54,8 @@ void DustParticle::Update(float _Delta)
 	DiffuseUV.y += Dir.y * _Delta;
 
 	BillBoarding();
+	
+	Move(_Delta);
 
 	if (UpdateFunc != nullptr)
 	{
