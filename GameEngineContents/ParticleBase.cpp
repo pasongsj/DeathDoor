@@ -53,7 +53,7 @@ void ParticleBase::BillBoarding()
 	RotMatrix.Arr2D[2][2] = CamRotMatrix.Arr2D[2][2];
 
 	float4 Rotation = float4::ZERO;
-	Rotation = Rotation.MatrixToQuaternion(RotMatrix.InverseReturn());
+	Rotation = Rotation.MatrixToQuaternion(CamRotMatrix.InverseReturn());
 	Rotation += RotAngle;
 
 	//¿Ã∞Õµµ µ .

@@ -70,7 +70,6 @@ void BossFrogBomb::Update(float _DeltaTime)
 
 			Dust->SetMoveInfo(Dir, 200.0f);
 			Dust->SetWorldMove();
-			Dust->BillboardingOff();
 		}
 		
 		float Angle = 0.0f;
@@ -87,12 +86,11 @@ void BossFrogBomb::Update(float _DeltaTime)
 			float4 Dir = { cos(Angle), 0.0f, sin(Angle) };
 			Dir.Normalize();
 
-			Dust->SetMoveInfo(Dir, 100.0f);
+			Dust->SetMoveInfo(Dir, 200.0f);
 			Dust->SetWorldMove();
 
 			Dust->GetTransform()->AddWorldPosition({ 100 * cos(Angle), 1.0f + i , 100 * sin(Angle)});
 			Dust->GetTransform()->SetWorldRotation({ 90.0f, 0.0f , 0.0f});
-			Dust->BillboardingOff();
 		}
 	}
 	GetTransform()->SetWorldPosition(float4::Bazier3LerpClamp(Startpoint, P2, Target, GetLiveTime() * 0.66666f));
