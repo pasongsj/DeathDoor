@@ -37,7 +37,7 @@ void ParticleBase::BillBoarding()
 {
 	if (isBillBoarding == false)
 	{
-		//return;
+		return;
 	}
 
 	std::shared_ptr<GameEngineCamera> Cam = GetLevel()->GetMainCamera();
@@ -64,4 +64,16 @@ void ParticleBase::BillBoarding()
 	//float4 RotQT = DirectX::XMQuaternionRotationMatrix(RotTest);
 
 	GetTransform()->SetWorldRotation(Rotation);
+}
+
+void ParticleBase::Move(float _Delta)
+{
+	if (isWorldMove == true)
+	{
+		GetTransform()->AddWorldPosition(MoveDir * MoveSpeed * _Delta);
+	}
+	else
+	{
+		GetTransform()->AddLocalPosition(MoveDir * MoveSpeed * _Delta);
+	}
 }

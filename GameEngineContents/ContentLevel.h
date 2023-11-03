@@ -46,6 +46,11 @@ public:
 		return Glow;
 	}
 
+	std::shared_ptr<GameEngineActor> GetPivotActor()
+	{
+		return PivotActor;
+	}
+	
 protected:
 	void LevelInit(float4 _BlurSize);
 	void CreateUI();
@@ -53,8 +58,12 @@ protected:
 	void CreateIMGUIDebugRenderTarget();
 private:
 
+	void CreatePivotActor();
+
 	std::shared_ptr<class GlowEffect> Glow = nullptr;
 	std::shared_ptr<class AlphaGlowEffect> AlphaGlow = nullptr;
 	ContentLevelType m_eLevelType = ContentLevelType::NONE;
+
+	std::shared_ptr<GameEngineActor> PivotActor = nullptr;
 };
 

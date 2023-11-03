@@ -9,6 +9,8 @@
 #include "DustParticle.h"
 #include "WaterBox.h"
 
+#include "SecretTile.h"
+
 #include <GameEngineBase/GameEngineRandom.h>
 
 MyTest::MyTest()
@@ -28,11 +30,8 @@ void MyTest::Update(float _Delta)
 {
 	if (GameEngineInput::IsDown("MyTest") == true)
 	{
-		std::shared_ptr<DustParticle> Eff4 = CreateComponent<DustParticle>();
-		Eff4->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
-		Eff4->GetTransform()->SetWorldScale({ 10.0f, 10.0f });
-		//Eff4->GetTransform()->SetLocalRotation({ 90.0f, -45.0f, 0.0f });
-		Eff4->BillboardingOff();
+		std::shared_ptr<SecretTile> Eff4 =GetLevel()->CreateActor<SecretTile>();
+		Eff4->GetTransform()->SetWorldPosition({ 100.0f, 100.0f, 100.0f });
 	}
 }
 

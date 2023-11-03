@@ -26,11 +26,11 @@ void DustParticle::Start()
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("DiffuseUV", DiffuseUV);
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("BlurColor", BlurColor);
 
-	float Distortion1 = GameEngineRandom::MainRandom.RandomFloat(0.2f, 0.3f);
-	float Distortion2 = GameEngineRandom::MainRandom.RandomFloat(0.2f, 0.3f);
+	float Distortion1 = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.4f);
+	float Distortion2 = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.4f);
 
-	float DistortionScale = GameEngineRandom::MainRandom.RandomFloat(0.2f, 0.3f);
-	float DistortionBias = GameEngineRandom::MainRandom.RandomFloat(0.2f, 0.3f);
+	float DistortionScale = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.4f);
+	float DistortionBias = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.4f);
 
 	Distortion.Distortion = float4{ Distortion1 ,Distortion1 ,Distortion2, Distortion2 };
 
@@ -44,8 +44,6 @@ void DustParticle::Start()
 	Dir.Normalize();
 
 	GetTransform()->SetLocalScale({ 5.0f, 5.0f, 1.0f });
-
-	SetAngle({ 55.0f, 0.0f, 0.0f });
 	
 	SetColor();
 }
@@ -56,6 +54,8 @@ void DustParticle::Update(float _Delta)
 	DiffuseUV.y += Dir.y * _Delta;
 
 	BillBoarding();
+	
+	Move(_Delta);
 
 	if (UpdateFunc != nullptr)
 	{
@@ -88,7 +88,7 @@ void DustParticle::FadeLoop(float _Delta)
 	LoopAngle += 540.0f * _Delta;
 	float LadLoopAngle = LoopAngle * GameEngineMath::DegToRad;
 
-	MaskValue.x = 0.6f + 0.4f * sin(LadLoopAngle);
+	MaskValue.x = (sin(LadLoopAngle) / 4.0f) + 0.75f;
 	MaskValue.z = MaskValue.x;
 }
 
