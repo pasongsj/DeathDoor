@@ -131,7 +131,7 @@ DefferedTarget ContentTexture_PS(OutPut _Value)
     else
     {
         float4 ResultBlurColor = pow(BlurColor, 2.2f);
-        ResultBlurColor.rgb += AlphaColor.a;
+        //ResultBlurColor.rgb += AlphaColor.a;
         
         OutPutTarget.DiffuseColor = ResultBlurColor;
         OutPutTarget.Blur = ResultBlurColor;
