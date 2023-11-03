@@ -37,7 +37,7 @@ void ParticleBase::BillBoarding()
 {
 	if (isBillBoarding == false)
 	{
-		//return;
+		return;
 	}
 
 	std::shared_ptr<GameEngineCamera> Cam = GetLevel()->GetMainCamera();
