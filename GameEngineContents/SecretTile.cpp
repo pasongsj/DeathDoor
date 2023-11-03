@@ -180,7 +180,7 @@ void SecretTile::CreateDustParticle()
 
 		float ScaleGap = 100.0f - Scale;
 
-		Particle->GetTransform()->SetLocalPosition({ X + XSign * ScaleGap * 0.5f, 10.0f + i, Y + YSign * ScaleGap * 0.5f });
+		Particle->GetTransform()->SetLocalPosition({ X + XSign * ScaleGap * 0.5f, 1.0f + i, Y + YSign * ScaleGap * 0.5f });
 		Particle->BillboardingOff();
 		Particle->SetLoop();
 
