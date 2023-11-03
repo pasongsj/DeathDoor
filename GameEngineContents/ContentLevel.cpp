@@ -24,6 +24,7 @@ void ContentLevel::LevelInit(float4 _BlurSize)
 	CreateUI();
 	SetPostPrecessEffect(_BlurSize);
 	CreateIMGUIDebugRenderTarget();
+	CreatePivotActor();
 }
 
 void ContentLevel::CreateIMGUIDebugRenderTarget()
@@ -68,4 +69,9 @@ void ContentLevel::SetGlowScale(float _Distance)
 	{
 		Glow->SetBlurScale(BasicScale);
 	}
+}
+
+void ContentLevel::CreatePivotActor()
+{
+	PivotActor = CreateActor<GameEngineActor>();
 }
