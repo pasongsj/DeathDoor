@@ -134,6 +134,12 @@ public:
 		return ZoomRatio;
 	}
 
+	inline void SetNearAndFar(float _Near, float _Far)
+	{
+		Near = _Near;
+		Far = _Far;
+	}
+
 protected:
 	void Start() override;
 

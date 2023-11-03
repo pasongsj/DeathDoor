@@ -1,7 +1,7 @@
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
+#include "ContentLevel.h"
 
-class StartLevel : public GameEngineLevel
+class StartLevel : public ContentLevel
 {
 
 public:
