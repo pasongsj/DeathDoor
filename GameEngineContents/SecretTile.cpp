@@ -126,11 +126,13 @@ void SecretTile::InitComponent()
 }
 void SecretTile::CreateDustParticle()
 {
-	for(int i = 0; i < 8; i++)
+	for(int i = 0; i < 15; i++)
 	{
 		std::shared_ptr<DustParticle> Particle = CreateComponent<DustParticle>();
-		Particle->GetTransform()->SetWorldScale({ 100.0f, 100.0f });
-		Particle->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 0.0f});
+		Particle->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0.0f });
+
+		float Scale = GameEngineRandom::MainRandom.RandomFloat(40.0f, 110.0f);
+		Particle->GetTransform()->SetWorldScale({ Scale, Scale });
 		
 		//어떤 선 위에 위치할 것인가
 		//1 : 왼쪽 세로선
@@ -145,28 +147,43 @@ void SecretTile::CreateDustParticle()
 
 		if (Line == 1)
 		{
-			X = -200;
-			Y = GameEngineRandom::MainRandom.RandomFloat(-200, 200);
+			X = -185;
+			Y = GameEngineRandom::MainRandom.RandomFloat(-185, 185);
 		}
 		if (Line == 2)
 		{
-			X = 200;
-			Y = GameEngineRandom::MainRandom.RandomFloat(-200, 200);
+			X = 185;
+			Y = GameEngineRandom::MainRandom.RandomFloat(-185, 185);
 		}
 		if (Line == 3)
 		{
-			X = GameEngineRandom::MainRandom.RandomFloat(-200, 200);
-			Y = 200;
+			X = GameEngineRandom::MainRandom.RandomFloat(-185, 185);
+			Y = 185;
 		}
 		if (Line == 4)
 		{
-			X = GameEngineRandom::MainRandom.RandomFloat(-200, 200);
-			Y = -200;
+			X = GameEngineRandom::MainRandom.RandomFloat(-185, 185);
+			Y = -185;
+		}
+		
+		if (X == 0)
+		{
+			X += 0.1f;
+		}
+		if (Y == 0)
+		{
+			Y = 0.1f;
 		}
 
-		Particle->GetTransform()->SetLocalPosition({ X, 30.0f, Y });
+		float XSign = X / abs(X);
+		float YSign = Y / abs(Y);
+
+		float ScaleGap = 100.0f - Scale;
+
+		Particle->GetTransform()->SetLocalPosition({ X + XSign * ScaleGap * 0.5f, 10.0f + i, Y + YSign * ScaleGap * 0.5f });
 		Particle->BillboardingOff();
-		
+		Particle->SetLoop();
+
 		DustParticleList.push_back(Particle);
 	}
 }
