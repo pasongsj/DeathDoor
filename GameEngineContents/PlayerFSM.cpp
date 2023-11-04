@@ -259,10 +259,10 @@ void Player::SetFSMFunc()
 
 			// 마우스 방향을 바라보도록 함
 			MoveDir = GetMousDirection();
-			StackDuration = 0.55f;
+			StackDuration = 0.35;
 			if (++AttackStack >= 3)
 			{
-				StateInputDelayTime = 0.25f;
+				StateInputDelayTime = 0.15;
 			}
 
 			{// base attack range
@@ -287,9 +287,13 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta)
 		{
-			MoveUpdate(PLAYER_ATT_MOVE_SPEED);
+			if (GetStateDuration() < 2.8f)
+			{
+				MoveUpdate(PLAYER_ATT_MOVE_SPEED);
+			}
 			if (true == Renderer->IsAnimationEnd())
 			{
+				float tmp = GetStateDuration();
 				//StateInputDelayTime = 0.1f;
 				SetNextState(PlayerState::IDLE);
 				AttackActor->Death();
