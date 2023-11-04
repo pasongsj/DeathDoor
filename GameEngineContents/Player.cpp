@@ -56,13 +56,9 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
-	if (true == CheckCollision(PhysXFilterGroup::MonsterSkill))
-	{
-		int a = 0;
-	}
-	DirectionUpdate(_DeltaTime);
-	FSMObjectBase::Update(_DeltaTime);
+	DirectionUpdate(_DeltaTime); // 플레이어 방향 업데이트
 	DefaultPhysX();
+	FSMObjectBase::Update(_DeltaTime);
 
 
 	// input 사다리타기 추후 trigger로 변경할 예정
@@ -89,8 +85,7 @@ void Player::Update(float _DeltaTime)
 	{
 		AttackStack = 0;
 	}
-	// 뭔지? 모름?
-	//m_pCapsuleComp->GetDynamic()->setMass(65);
+
 
 
 	PlayerState Checker = GetCurState<PlayerState>();

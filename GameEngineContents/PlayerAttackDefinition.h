@@ -1,5 +1,5 @@
 #pragma once
-#define PLAYER_ATT_BOX_PHYSX_SCALE		float4{200.0f, 1.0f, 200.0f}
+#define PLAYER_ATT_BOX_PHYSX_SCALE		float4{300.0f, 1.0f, 300.0f}
 
 #define PLAYER_ATT_MAGIC_PHYSX_SCALE	float4{50.0f, 50.0f, 50.0f}
 #define PLAYER_ATT_MAGIC_RENDER_SCALE	float4{0.2f, 0.2f, 0.2f}
