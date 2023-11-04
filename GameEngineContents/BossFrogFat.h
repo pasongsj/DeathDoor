@@ -23,25 +23,6 @@ protected:
 
 
 private:
-
-	bool isJumpTime = false;
-
-	float4 JumpStartPoint = float4::ZERO;
-	float4 JumpP2 = float4::ZERO;
-	float4 JumpP3 = float4::ZERO;
-	float4 JumpEndPoint = float4::ZERO;
-	void CalJumpPoint();
-
-	const float4 WeaponPivotPos = float4{ 0.0f,0.1f,0.0f };
-	const float4 WeaponPivotRot = float4{ -85.03f,40.0f,0.0f };
-	std::shared_ptr<class ContentFBXRenderer> WeaponRenderer = nullptr;
-
-	bool isRightPattern = true;
-	bool isTurned = false;
-	int LoopCnt = 0;
-
-	//등장->포효->우측으로 점프-> 턴->기울기 ->5개 흡입 ->//SUCK_BOMB- >눈뺑글뻉글->고개 도리도리->올라와->궁디흔들고 왼쪽 점프
-	//->턴 ->6번 던지기-> 점프 ->우측점프
 	enum class BossFrogFatState
 	{
 		INTRO,//intro
@@ -57,11 +38,32 @@ private:
 		SUCK_BOMB_END,
 		MAX,
 	};
+	// jump
+	bool isJumpTime = false;
+	float4 JumpStartPoint = float4::ZERO;
+	float4 JumpP2 = float4::ZERO;
+	float4 JumpP3 = float4::ZERO;
+	float4 JumpEndPoint = float4::ZERO;
+	void CalJumpPoint();
 
+	// weapon 
+	const float4 WeaponPivotPos = float4{ 0.0f,0.1f,0.0f };
+	const float4 WeaponPivotRot = float4{ -85.03f,40.0f,0.0f };
+	std::shared_ptr<class ContentFBXRenderer> WeaponRenderer = nullptr;
+
+	// pattern
+	bool isRightPattern = true;
+	bool isTurned = false;
+	int LoopCnt = 0;
+	void SuckTile();
+
+	//std::shared_ptr<class PhysXBoxComponent> MonsterPatternDynamic = nullptr;
+
+	//등장->포효->우측으로 점프-> 턴->기울기 ->5개 흡입 ->//SUCK_BOMB- >눈뺑글뻉글->고개 도리도리->올라와->궁디흔들고 왼쪽 점프
+	//->턴 ->6번 던지기-> 점프 ->우측점프
+	
 	float4 GetRandomTilePos();
 	float4 GetRandomTileIndex();
-
-	void SuckTile();
 };
 //DIE_LAND", "FROG_F
 //DIE_STANDING", "FR

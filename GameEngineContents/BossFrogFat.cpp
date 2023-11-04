@@ -1,8 +1,9 @@
 #include "PreCompileHeader.h"
+#include <GameEngineBase/GameEngineRandom.h>
 #include "BossFrogFat.h"
 #include "BossFrogBomb.h"
+#include "PhysXBoxComponent.h"
 
-#include <GameEngineBase/GameEngineRandom.h>
 BossFrogFat::BossFrogFat()
 {
 }
@@ -12,8 +13,7 @@ BossFrogFat::~BossFrogFat()
 }
 
 
-const float4 FatPointNorth = float4{ -4740,-610,4750 };
-const float4 FatPointSouth = float4{ -2450,-610,2500 };
+
 
 void BossFrogFat::Start()
 {
@@ -33,6 +33,7 @@ void BossFrogFat::Start()
 			m_pCapsuleComp->RigidSwitch(false);
 		}
 		m_pCapsuleComp->SetWorldPosWithParent(BossFrog::WPointNorth);
+		m_pCapsuleComp->CreateSubShape(SubShapeType::BOX, float4{ 800.0f,200.0f,200.0f }, float4{ 0.0f, 100.0f, 400.0f });
 	}
 
 	if (false == GameEngineInput::IsKey("PressK"))
@@ -278,6 +279,7 @@ void BossFrogFat::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("GRABBED_IDLE", true, -1, 0.0f);
+			m_pCapsuleComp->AttachShape();
 		},
 		[this](float Delta)
 		{
@@ -304,6 +306,7 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this]
 		{
+			m_pCapsuleComp->DetachShape();
 		}
 	);
 
@@ -336,6 +339,7 @@ void BossFrogFat::SetFSMFUNC()
 		[this]
 		{
 			isTurned = false;
+			m_pCapsuleComp->RigidSwitch(true);
 		}
 	);
 	
@@ -346,6 +350,7 @@ void BossFrogFat::SetFSMFUNC()
 			JumpStartPoint = GetTransform()->GetWorldPosition();
 			JumpEndPoint = GetPlayerPosition();
 			CalJumpPoint();
+			m_pCapsuleComp->RigidSwitch(false);
 		},
 		[this](float Delta)
 		{
@@ -393,7 +398,7 @@ void BossFrogFat::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("TILT", false, -1, 1.0f / 30);
-
+			m_pCapsuleComp->AttachShape();
 		},
 		[this](float Delta)
 		{
@@ -404,6 +409,8 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this]
 		{
+			m_pCapsuleComp->DetachShape();
+
 		}
 	);
 	SetFSM(BossFrogFatState::SUCK, // tilt와 suck 3초에 세우고 4초에
@@ -441,6 +448,8 @@ void BossFrogFat::SetFSMFUNC()
 		{
 			LoopCnt = 0;
 			EnemyRenderer->ChangeAnimation("SHOOT", false, -1, 3.0f / 30);
+			m_pCapsuleComp->AttachShape();
+
 		},
 		[this](float Delta)
 		{
@@ -451,6 +460,7 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this]
 		{
+			m_pCapsuleComp->DetachShape();
 		}
 	);
 
