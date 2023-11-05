@@ -132,7 +132,7 @@ void MapTestLevel::InitTestLevel()
 		}
 
 
-		std::shared_ptr<BossFrogFat> Mage = CreateActor<BossFrogFat>();
+		std::shared_ptr<EnemyGhoulBig> Mage = CreateActor<EnemyGhoulBig>();
 		Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
 
 		CreateActor<Wires>();

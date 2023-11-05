@@ -41,10 +41,11 @@ private:
 	const float Idle_WaitTime = 1.0f;
 	float4 ShootDir = float4::ZERO;
 
-	void ShootArrow();
+	void CreateArrow();
+	std::shared_ptr<GameEngineComponent> BonePivot = nullptr;
+	std::shared_ptr<class EnemyAttackCapsule> ArrowActor = nullptr;
 
-
-	const float4 ArrowScale = float4{ 3.0f,1.0f,3.0f };
+	const float4 ArrowScale = float4{ 2.0f,1.0f,2.0f };
 	const float4 ArrowRot = float4{ 0.0f,-0.0f,-90.0f };
 	const float4 ArrowPhysXScale = float4{ 0.0f, 100.0f, 10.0f };
 
