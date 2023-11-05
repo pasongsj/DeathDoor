@@ -265,10 +265,10 @@ void Player::SetFSMFunc()
 
 			// 마우스 방향을 바라보도록 함
 			MoveDir = GetMousDirection();
-			StackDuration = 0.35;
+			StackDuration = 0.35f;
 			if (++AttackStack >= 3)
 			{
-				StateInputDelayTime = 0.15;
+				StateInputDelayTime = 0.15f;
 			}
 
 			{// base attack range
@@ -541,6 +541,33 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta)
 		{
+			if (GetStateDuration() > 2.0f)
+			{
+				--PlayerHP;
+				if (PlayerHP <= 0)
+				{
+					SetNextState(PlayerState::DEAD);
+					return;
+				}
+				else
+				{
+					while(!responePos.empty())
+					{ 
+						float4 TempPos = responePos.front();
+						TempPos.y += 50.0f;
+						responePos.pop();
+						float4 CollPoint = float4::ZERO;
+						if (true == m_pCapsuleComp->RayCast(TempPos, float4::DOWN, CollPoint))
+						{
+							m_pCapsuleComp->SetWorldPosWithParent(TempPos);
+							SetNextState(PlayerState::IDLE);
+							return;
+						}
+					}
+				}
+				SetNextState(PlayerState::DEAD);
+				return;
+			}
 		},
 		[this]
 		{

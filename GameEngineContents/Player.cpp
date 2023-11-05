@@ -56,6 +56,20 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
+	PosInter -= _DeltaTime;
+	if ((true == responePos.empty() || PosInter < 0.0f) && 
+		GetTransform()->GetWorldPosition().Size() > 1 &&
+		GetCurState< PlayerState>() != PlayerState::CLIMB && 
+		GetCurState< PlayerState>() != PlayerState::FALLING)
+	{
+		if (responePos.size() >= 10)
+		{
+			responePos.pop();
+		}
+		responePos.push(GetTransform()->GetWorldPosition());
+		PosInter = 20.0f;
+	}
+
 	DirectionUpdate(_DeltaTime); // 플레이어 방향 업데이트
 	DefaultPhysX();
 	FSMObjectBase::Update(_DeltaTime);
@@ -176,29 +190,10 @@ void Player::CheckStateInput(float _DeltaTime)
 		SetNextState(PlayerState::CHARGE_ATT);
 	}
 }
-void Player::ModifyHeight()
-{
-	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // 플레이어의 위치
-	PlayerGroundPos.y += 50.0f;
-	float4 CollPoint = float4::ZERO; // 충돌체크할 변수
-	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
-	{
-		if (GetTransform()->GetWorldPosition().y > CollPoint.y + 30.0f) // 플레이어가 허공에 떠있다면 
-		{
-			//MoveUpdate(300.0f, float4::DOWN); // 아래로 눌러줌
-			return;
-		}
-		else if (GetTransform()->GetWorldPosition().y < CollPoint.y)
-		{
-			//MoveUpdate(2.0f, float4::UP); // 아래로 눌러줌
-		
-		}
-	}
-}
+
 
 void Player::CheckFalling()
 {
-	//ModifyHeight();
 	// Falling Check
 	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // 플레이어의 위치
 	PlayerGroundPos.y += 50.0f;
@@ -286,10 +281,10 @@ void Player::DefaultPhysX()
 				return;
 			}
 		}
-		if (PlayerState::FALLING == GetCurState< PlayerState>() || PlayerState::BASIC_ATT == GetCurState<PlayerState>())
-		{
-			return;
-		}
+		//if (PlayerState::FALLING == GetCurState< PlayerState>() || PlayerState::BASIC_ATT == GetCurState<PlayerState>())
+		//{
+		//	return;
+		//}
 		//MoveUpdate(0.0f);
 		//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 		m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
