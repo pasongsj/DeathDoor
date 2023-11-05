@@ -55,7 +55,7 @@ void Mushroom::SetFSMFUNC()
 	SetFSM(TriggerState::OFF,
 		[this]
 		{
-			m_pPhysXComponent->PhysXRelease();
+			m_pPhysXComponent->Death();
 			isPhysXCollision = 0;
 			m_fRenderRatio = 1.f;
 		},
