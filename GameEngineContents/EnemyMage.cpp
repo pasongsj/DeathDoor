@@ -353,7 +353,7 @@ void EnemyMage::SetFSMFUNC()
 		[this](float Delta)
 		{
 			//EnemyRenderer 죽는 쉐이더 추가해야함
-			if (GetStateDuration()<1.f)
+			if (GetStateDuration() < 1.f)
 			{
 				EnemyRenderer->FadeOut(1.f, Delta);
 			}
