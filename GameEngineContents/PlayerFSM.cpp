@@ -111,34 +111,40 @@ void Player::SetFSMFunc()
 			{
 			case Player::PlayerSkill::ARROW:
 			{
+				// Animation
 				Renderer->ChangeAnimation("ARROW");
-				//bow
-				WeaponActor = GetLevel()->CreateActor<PlayerBow>();
-				float4 BowPos = GetBonePos("Weapon_L");
-				WeaponActor->SetTrans(BowPos, GetTransform()->GetLocalRotation());
-				//arrow
-				AttackActor = GetLevel()->CreateActor<PlayerAttackArrow>();
+
 				float4 ArrowPos = GetBonePos("Weapon_L");
+				// bow
+				WeaponActor = GetLevel()->CreateActor<PlayerBow>();
+				WeaponActor->SetTrans(ArrowPos, GetTransform()->GetLocalRotation());
+				// arrow
+				AttackActor = GetLevel()->CreateActor<PlayerAttackArrow>();
 				AttackActor->SetTrans(MoveDir, ArrowPos);
 				break;
 			}
 			case Player::PlayerSkill::MAGIC:
 			{
+				// Animation
 				Renderer->ChangeAnimation("MAGIC");
-				AttackActor = GetLevel()->CreateActor<PlayerAttackMagic>();
+
 				float4 MagicPos = GetBonePos("Weapon_R");
+				AttackActor = GetLevel()->CreateActor<PlayerAttackMagic>();
 				AttackActor->SetTrans(MoveDir, MagicPos);
 				break;
 			}
 			case Player::PlayerSkill::BOMB:
 			{
+				// Animation
 				Renderer->ChangeAnimation("BOMB");
-				AttackActor = GetLevel()->CreateActor<PlayerAttackBomb>();
+
 				float4 BombPos = (GetBonePos("Weapon_R") + GetBonePos("Weapon_L")) * 0.5f;
+				AttackActor = GetLevel()->CreateActor<PlayerAttackBomb>();
 				AttackActor->SetTrans(MoveDir, BombPos);
 				break;
 			}
 			case Player::PlayerSkill::HOOK:
+				// Animation
 				Renderer->ChangeAnimation("HOOK");
 				break;
 			case Player::PlayerSkill::MAX:
@@ -146,63 +152,62 @@ void Player::SetFSMFunc()
 			default:
 				break;
 			}
-			//MoveUpdate(0.0f);
+	
 		},
 		[this](float Delta) // update
 		{
-			float4 SkillPos;
-
-			switch (CurSkill)
-			{
-			case Player::PlayerSkill::ARROW:
-				SkillPos = GetBonePos("Weapon_L");
-				break;
-			case Player::PlayerSkill::MAGIC:
-				SkillPos = GetBonePos("Weapon_R");
-				break;
-			case Player::PlayerSkill::BOMB:
-				SkillPos = (GetBonePos("Weapon_R") + GetBonePos("Weapon_L")) * 0.5f/*+ float4{0.0f, 10.0f,0.0f}*/;
-				break;
-			case Player::PlayerSkill::HOOK:
-				SkillPos = GetBonePos("Weapon_R");
-				break;
-			case Player::PlayerSkill::MAX:
-				break;
-			default:
-				break;
-			}
-
-			//StateDuration += Delta;
 			if (true == GameEngineInput::IsPress("PlayerRBUTTON"))
 			{
-				if (nullptr != WeaponActor)
-				{
-					float4 BowPos = GetBonePos("Weapon_L");
-					WeaponActor->SetTrans(BowPos, GetTransform()->GetLocalRotation());
-				}
 				// 마우스 방향을 바라보도록 함
 				MoveDir = GetMousDirection();
-				
+				float4 SkillBonePos;
+				switch (CurSkill)
+				{
+				case Player::PlayerSkill::ARROW:
+					SkillBonePos = GetBonePos("Weapon_L");
+					if (nullptr != WeaponActor)
+					{
+						WeaponActor->SetTrans(SkillBonePos, GetTransform()->GetLocalRotation());
+					}
+					break;
+				case Player::PlayerSkill::MAGIC:
+					SkillBonePos = GetBonePos("Weapon_R");
+					break;
+				case Player::PlayerSkill::BOMB:
+					SkillBonePos = (GetBonePos("Weapon_R") + GetBonePos("Weapon_L")) * 0.5f/*+ float4{0.0f, 10.0f,0.0f}*/;
+					break;
+				case Player::PlayerSkill::HOOK:
+					SkillBonePos = GetBonePos("Weapon_R");
+					break;
+				case Player::PlayerSkill::MAX:
+					break;
+				default:
+					break;
+				}
 				if (nullptr != AttackActor)
 				{
-					AttackActor->SetTrans(ForwardDir, SkillPos); // 터짐
+					AttackActor->SetTrans(ForwardDir, SkillBonePos); // 터짐
 				}
 			}
 			else
 			{
-				if (nullptr != AttackActor)
+				if (true == Renderer->IsAnimationEnd())
 				{
-					AttackActor->SetTrans(ForwardDir, SkillPos); // 터짐
 					AttackActor->SetShoot();
-					AttackActor = nullptr;
+				}
+				else
+				{
+					AttackActor->Death();
 				}
 				if (nullptr != WeaponActor)
 				{
 					WeaponActor->Death();
 					WeaponActor = nullptr;
 				}
+				AttackActor = nullptr;
 				SetNextState(PlayerState::IDLE);
 			}
+			
 		},
 		[this]
 		{
@@ -281,9 +286,6 @@ void Player::SetFSMFunc()
 				}
 				AttackActor->SetTrans(MoveDir, AttackPos);
 
-				//AttackActor = GetLevel()->CreateActor<PlayerAttackBasic>();
-				//float4 AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 200.0f + float4{ 0.0f,50.0f,0.0f };
-				//AttackActor->SetTrans(MoveDir, AttackPos);
 			}
 			
 			{
@@ -329,11 +331,6 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			Renderer->ChangeAnimation("ROLL");
-
-			// Player의 Speed를 초기화한다.
-			//MoveUpdate(0.0f);
-
-
 		},
 		[this](float Delta)
 		{
@@ -566,11 +563,6 @@ void Player::SetFSMFunc()
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 			if (false == GetStateChecker())
 			{
-				//if (GetStateDuration()<0.3f&& GetLiveTime() > 3.0f)
-				//{
-				//	m_pCapsuleComp->SetMoveSpeed(MoveDir * 500);
-				//}
-
 				float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
 				PlayerGroundPos.y += 50.0f; // 피직스 컴포넌트 중력값으로 보정되기 전 위치가 측정되는 오류 해결
 				float4 CollPoint = float4::ZERO;
@@ -608,7 +600,6 @@ void Player::CheckClimbInput(float _DeltaTime)
 		Renderer->ChangeAnimation("Climbing_ladder");
 		Renderer->PauseOff();
 		MoveUpdate(PLAYER_CLIMB_SPEED, float4::UP);
-		//m_pCapsuleComp->SetMoveSpeed(float4::UP * PlayerMoveSpeed * ClimbSpeedRatio);
 	}
 	else if (true == GameEngineInput::IsPress("PlayerDown"))
 	{
@@ -626,8 +617,6 @@ void Player::CheckClimbInput(float _DeltaTime)
 		Renderer->ChangeAnimation("Climbing_ladder_down");
 		Renderer->PauseOff();
 		MoveUpdate(PLAYER_CLIMB_SPEED, float4::DOWN);
-		//m_pCapsuleComp->SetMoveSpeed(float4::DOWN * PlayerMoveSpeed * ClimbSpeedRatio);s
-
 	}
 	else
 	{
