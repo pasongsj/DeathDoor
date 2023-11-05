@@ -198,7 +198,7 @@ void Player::ModifyHeight()
 
 void Player::CheckFalling()
 {
-	ModifyHeight();
+	//ModifyHeight();
 	// Falling Check
 	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // 플레이어의 위치
 	PlayerGroundPos.y += 50.0f;
