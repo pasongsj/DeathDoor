@@ -15,6 +15,7 @@
 
 #include "PlayerBow.h"
 #include "PlayerAttackTrail.h"
+#include "PhysXBoxComponent.h"
 
 
 void Player::SetFSMFunc()
@@ -266,9 +267,23 @@ void Player::SetFSMFunc()
 			}
 
 			{// base attack range
-				AttackActor = GetLevel()->CreateActor<PlayerAttackBasic>();
-				float4 AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 200.0f + float4{ 0.0f,50.0f,0.0f };
-				AttackActor->SetTrans(float4::ONE, AttackPos);
+				AttackActor = GetLevel()->CreateActor<AttackBase>();
+				float4 AttackPos = float4::ZERO;
+				if (false == isChargeAttack)
+				{
+					AttackActor->CreatePhysXAttComp<PhysXBoxComponent>(float4{ 300.0f, 1.0f, 300.0f }, PhysXFilterGroup::PlayerSkill);
+					AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 200.0f + float4{ 0.0f,50.0f,0.0f };
+				}
+				else
+				{
+					AttackActor->CreatePhysXAttComp<PhysXBoxComponent>(float4{ 500.0f, 1.0f, 500.0f }, PhysXFilterGroup::PlayerSkill);
+					AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 300.0f + float4{ 0.0f,50.0f,0.0f };
+				}
+				AttackActor->SetTrans(MoveDir, AttackPos);
+
+				//AttackActor = GetLevel()->CreateActor<PlayerAttackBasic>();
+				//float4 AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 200.0f + float4{ 0.0f,50.0f,0.0f };
+				//AttackActor->SetTrans(MoveDir, AttackPos);
 			}
 			
 			{
@@ -352,6 +367,10 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			Renderer->ChangeAnimation("ROLL_SLASH_END");
+			AttackActor = GetLevel()->CreateActor<AttackBase>();
+			AttackActor->CreatePhysXAttComp<PhysXBoxComponent>(float4{300.0f, 100.0f, 100.0f }, PhysXFilterGroup::PlayerSkill);
+			float4 AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 200.0f + float4{ 0.0f,50.0f,0.0f };
+			AttackActor->SetTrans(MoveDir, AttackPos);
 		},
 		[this](float Delta)
 		{
@@ -362,6 +381,8 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			AttackActor->Death();
+			AttackActor = nullptr;
 		}
 	); 
 

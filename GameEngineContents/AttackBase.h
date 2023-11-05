@@ -33,6 +33,7 @@ public:
 		return AttackRenderer;
 	}
 	
+
 protected:
 
 	void Start() override;
@@ -40,6 +41,7 @@ protected:
 
 	std::shared_ptr<class ContentFBXRenderer> AttackRenderer = nullptr;
 	std::shared_ptr<class PhysXComponent> PhysXComp = nullptr;
+
 
 	template<typename PhysXType>
 	void CreatePhysXAttComp(const float4& _Scale, PhysXFilterGroup _Group)
