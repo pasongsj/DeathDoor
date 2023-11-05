@@ -3,7 +3,7 @@
 #include "PlayerDefinition.h"
 #include "FSMObjectBase.h"
 #include "Ladder.h"
-
+#include <queue>
 
 // 설명 :
 class Player : public FSMObjectBase, public GameEngineNetObject
@@ -119,8 +119,6 @@ private:
 	std::shared_ptr<GameEngineComponent> BonePivot = nullptr;
 		//physx
 	std::shared_ptr<class PhysXControllerComponent> m_pCapsuleComp = nullptr;
-	//	//Range
-	//std::shared_ptr<GameEngineActor> AttackRange = nullptr;
 
 		// Attack
 	PlayerSkill CurSkill = PlayerSkill::ARROW;
@@ -132,7 +130,6 @@ private:
 	float StackDuration = 0.0f;
 	
 	// Direction
-	//float4 NextForwardDir = float4::BACK; // 플레이어가 변화 할 방향
 	float4 ForwardDir = float4::BACK; // 플레이어가 바라보는 방향
 	float4 MoveDir = float4::FORWARD; // 플레이어가 다음으로 움직일 방향
 	void DirectionUpdate(float _DeltaTime);
@@ -150,8 +147,6 @@ private:
 
 	void CheckClimbInput(float _DeltaTime);
 	void MoveUpdate(float _MoveVec, float4 _Dir = float4::ZERONULL);	//MoveDir에 해당하는 값만 처리하기 때문에
-
-	void ModifyHeight();
 
 	void DefaultPhysX();
 
@@ -173,6 +168,10 @@ private:
 
 	// Level
 	float4 CameraRot = float4::ZERO;
+
+	// respone pos
+	std::queue<float4> responePos;
+	float PosInter = 0.0f;
 
 };
 
