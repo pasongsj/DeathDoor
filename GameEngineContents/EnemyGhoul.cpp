@@ -10,36 +10,21 @@ EnemyGhoul::~EnemyGhoul()
 {
 }
 
-
-//ArrowScale = floa
-////ArrowRot = float4
-//ArrowPhysXScale =
-
-void EnemyGhoul::ShootArrow()
-{
-	// 본 위치 가져오기
-	std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
-	BonePivot->GetTransform()->SetParent(GetTransform());
-	BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("Bow").Pos);
-	float4 BonePivotPos = BonePivot->GetTransform()->GetWorldPosition();
-
-
-	ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_GHOUL);
-	std::shared_ptr<EnemyAttackCapsule> Attack = GetLevel()->CreateActor<EnemyAttackCapsule>();
-	Attack->SetRender(ArrowScale, ArrowRot);
-	Attack->SetPhysXComp(ArrowPhysXScale, float4::DOWN * 100.0f,float4::LEFT);
-	Attack->SetTrans(ShootDir, BonePivotPos);// 위치와 방향설정
-	Attack->SetShoot(1000.0f);
-	BonePivot->Death();
-}
-
 void EnemyGhoul::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 
 	EnemyRenderer->SetFBXMesh("_E_GHOUL_MESH.FBX", "ContentAniMeshDeffered");
 	EnemyRenderer->CreateFBXAnimation("SHOOT_BOW", "_E_GHOUL_SHOOT_BOW.fbx", { 1.f / 30.f,false });
-	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 74, std::bind(&EnemyGhoul::ShootArrow, this));
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 74, [this]
+		{
+			if (nullptr != ArrowActor)
+			{
+				ArrowActor->SetShoot(1000.0f);
+				ArrowActor = nullptr;
+			}
+			SetStateCheckerOn();
+		});
 
 	EnemyRenderer->CreateFBXAnimation("IDLE_BOW", "_E_GHOUL_IDLE_BOW.fbx", { 1.f / 30.f,true });
 
@@ -69,6 +54,9 @@ void EnemyGhoul::Start()
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 
 	}
+	BonePivot = CreateComponent<GameEngineComponent>(); // 더미컴포넌트
+
+
 	SetEnemyHP(GhoulFullHP);
 
 }
@@ -175,10 +163,20 @@ void EnemyGhoul::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("SHOOT_BOW");
+			ArrowActor = GetLevel()->CreateActor<EnemyAttackCapsule>();
+			ArrowActor->SetRender(ArrowScale, ArrowRot);
+			ArrowActor->SetPhysXComp(ArrowPhysXScale, float4::DOWN * 100.0f, float4::LEFT);
+
 		},
 		[this](float Delta)
 		{
-			AggroDir(m_pCapsuleComp, DEFAULT_DIR_GHOUL);
+			if (false == GetStateChecker())
+			{
+				ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_GHOUL);
+				BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("Bow").Pos);
+				float4 BonePivotPos = BonePivot->GetTransform()->GetWorldPosition();
+				ArrowActor->SetTrans(ShootDir, BonePivotPos);// 위치와 방향설정
+			}
 			if (true == CheckHit())
 			{
 				SetNextState(EnemyGhoulState::HIT);

@@ -64,6 +64,7 @@ private:
 	BoomerangState CurBoomer = BoomerangState::HEAD;
 
 	std::shared_ptr<class Boomerang> Boomer = nullptr;
+	std::shared_ptr<class EnemyAttackBox> JumpAttack = nullptr;
 
 	float IdleDelayTime = 1.0f;
 

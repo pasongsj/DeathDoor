@@ -1,6 +1,7 @@
 #include "PreCompileHeader.h"
 #include "EnemyJumper.h"
 #include "Boomerang.h"
+#include "EnemyAttackBox.h"
 
 EnemyJumper::EnemyJumper()
 {
@@ -69,6 +70,9 @@ void EnemyJumper::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("JUMP", 50, [this]
 		{
 			JumpDir = float4::ZERO;
+			JumpAttack = GetLevel()->CreateActor<EnemyAttackBox>();
+			JumpAttack->SetScale(float4{ 120.0f,10.0f,120.0f });
+			JumpAttack->SetTrans(GetTransform()->GetWorldRotation(), GetTransform()->GetWorldPosition());
 		});
 
 	EnemyRenderer->CreateFBXAnimation("INTERRUPT", "JUMPER_INTERRUPT.fbx", { 1.0f / 30,false });
@@ -398,6 +402,11 @@ void EnemyJumper::SetFSMFUNC()
 			JumpDir = float4::ZERO;
 			throw_jump = true;
 			IdleDelayTime = 0.5f;
+			if (nullptr != JumpAttack)
+			{
+				JumpAttack->Death();
+			}
+			JumpAttack = nullptr;
 		}
 	);
 	//INTERRUPT
