@@ -25,18 +25,22 @@ protected:
 private:
 	enum class EnemyBruteGoldState
 	{
-		IDLE, // IDLE
-		MOVE, // WALK, RUN
-		SLAM,
-		SWING, 
-		THROW, 
-		BREAK, 
+		IDLE,  // IDLE
+		MOVE,  // WALK, RUN
+		SLAM,  // 첫 평타
+		SWING, // 후속 평타
+		THROW, // 원거리시 불던지기
+		BREAK, // 3번째 피격시
+		DEATH, // 사망시
 		MAX
 	};
 
 
 	void AggroMove(float _DeltaTime);
 
-	//float StateDuration = 0.0f;
-	//bool StateChecker = false;
+	std::shared_ptr<class EnemyAttackBox> m_pAttackBox = nullptr;
+	float4 m_f4ShootDir = float4::ZERO;
+	EnemyBruteGoldState m_ePrevState = EnemyBruteGoldState::MAX;
+
+	int m_iFullHP = 15;
 };
