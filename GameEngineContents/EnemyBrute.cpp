@@ -3,6 +3,7 @@
 #include "EnemyAttackSphere.h"
 #include "EnemyAttackBox.h"
 #include "PhysXControllerComponent.h"
+#include "PlayerAttackMagic.h"
 
 EnemyBrute::EnemyBrute() 
 {
@@ -58,12 +59,18 @@ void EnemyBrute::InitAnimation()
 
 	EnemyRenderer->SetAnimationStartFunc("THROW", 15, [this]
 		{
-			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
 			BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("hand_l").Pos);
 			float4 TmpPos = BonePivot->GetTransform()->GetWorldPosition();
+
+			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
+			Attack->SetRender(FIREPLANT_ATT_RENDER_SCALE*2.f);
+			//Attack->GetRenderer()->SetGlowToUnit(0, 0);
+			Attack->GetRenderer()->SetColor({ 255.f / 255.0f, 10.f / 255.0f, 00.f }, 1.0f);
+			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE*2.f);
 			Attack->SetTrans(m_f4ShootDir, TmpPos);
+			Attack->SetShoot(1000.0f);
 			BonePivot->Death();
 
 		});
