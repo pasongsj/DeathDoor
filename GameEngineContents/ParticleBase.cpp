@@ -56,13 +56,12 @@ void ParticleBase::BillBoarding()
 	Rotation = Rotation.MatrixToQuaternion(CamRotMatrix.InverseReturn());
 	Rotation += RotAngle;
 
-	//ÀÌ°Íµµ µÊ.
 	//float4 Dir = GetTransform()->GetWorldPosition() - Cam->GetTransform()->GetWorldPosition();
 	//Dir.Normalize();
 	//
 	//DirectX::XMMATRIX RotTest = DirectX::XMMatrixLookAtLH(Dir, Cam->GetTransform()->GetWorldUpVector(), float4::Cross3DReturn(Cam->GetTransform()->GetWorldUpVector(), Dir));
 	//float4 RotQT = DirectX::XMQuaternionRotationMatrix(RotTest);
-
+	//
 	GetTransform()->SetWorldRotation(Rotation);
 }
 
