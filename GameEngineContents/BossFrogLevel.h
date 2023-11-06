@@ -43,6 +43,7 @@ private:
 	void Set_BossStartPos();
 	const float4 m_TestPos = float4{ -5200, 500, 5180 };
 	const float4 m_BossStartPos = float4{ -4100 , -180 , 4100 };
+	bool isFatPhase = false;
 	std::shared_ptr<class BossFrog> m_pBossFrog = nullptr;
 
 	std::weak_ptr<class Map_Sanctuary> m_pMap;

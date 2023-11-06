@@ -23,23 +23,6 @@ protected:
 
 
 private:
-
-	bool isJumpTime = false;
-
-	float4 JumpStartPoint = float4::ZERO;
-	float4 JumpP2 = float4::ZERO;
-	float4 JumpP3 = float4::ZERO;
-	float4 JumpEndPoint = float4::ZERO;
-	void CalJumpPoint();
-
-	const float4 WeaponPivotPos = float4{ 0.0f,0.1f,0.0f };
-	const float4 WeaponPivotRot = float4{ -85.03f,40.0f,0.0f };
-	std::shared_ptr<class ContentFBXRenderer> WeaponRenderer = nullptr;
-
-	bool isRightPattern = true;
-	bool isTurned = false;
-	int LoopCnt = 0;
-
 	enum class BossFrogFatState
 	{
 		INTRO,//intro
@@ -53,8 +36,27 @@ private:
 		SHOOT,
 		SUCK_BOMB,
 		SUCK_BOMB_END,
+		DEATH,
 		MAX,
 	};
+	// jump
+	bool isJumpTime = false;
+	float4 JumpStartPoint = float4::ZERO;
+	float4 JumpP2 = float4::ZERO;
+	float4 JumpP3 = float4::ZERO;
+	float4 JumpEndPoint = float4::ZERO;
+	void CalJumpPoint();
+
+	// weapon 
+	const float4 WeaponPivotPos = float4{ 0.0f,0.1f,0.0f };
+	const float4 WeaponPivotRot = float4{ -85.03f,40.0f,0.0f };
+	std::shared_ptr<class ContentFBXRenderer> WeaponRenderer = nullptr;
+
+	// pattern
+	bool isRightPattern = true;
+	bool isTurned = false;
+	int LoopCnt = 0;
+
 
 	float4 GetRandomTilePos();
 	float4 GetRandomTileIndex();

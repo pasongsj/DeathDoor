@@ -31,6 +31,13 @@ void BossFrogLevel::Start()
 void BossFrogLevel::Update(float _DeltaTime)
 {
 	KeyUpdate(_DeltaTime);
+	if (false == isFatPhase && true == m_pBossFrog->GetIsFrogDeath())
+	{
+		m_pBossFrog->Death();
+		m_pBossFrog = CreateActor<BossFrogFat>();
+		isFatPhase = true;
+	}
+
 
 	// float4 Pos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 
@@ -111,10 +118,10 @@ void BossFrogLevel::LevelChangeStart()
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_PlayerStartPos();
 
-	//m_pBossFrog = CreateActor<BossFrogMain>();
-	//Set_BossStartPos();
+	m_pBossFrog = CreateActor<BossFrogMain>();
+	Set_BossStartPos();
 
-	m_pBossFrog = CreateActor<BossFrogFat>();
+	//m_pBossFrog = CreateActor<BossFrogFat>();
 	
 	BossFrogWindow::EditorGUI->On();
 
