@@ -38,17 +38,17 @@ void HitParticle::Move(float _Delta)
 		Speed = 0.0f;
 	}
 
-	GetTransform()->AddWorldPosition( Dir * Speed * _Delta);
+	GetTransform()->AddLocalPosition( Dir * Speed * _Delta);
 }
 
 void HitParticle::ScaleDecrease(float _Delta)
 {
-	Scale -= FirstScale * 0.5f * _Delta;
+	Scale -= FirstScale * _Delta;
 
 	if (Scale <= 0.0f)
 	{
 		Death();
 	}
 
-	GetTransform()->SetWorldScale({ Scale, Scale / 10.0f });
+	GetTransform()->SetLocalScale({ Scale, Scale / 10.0f });
 }

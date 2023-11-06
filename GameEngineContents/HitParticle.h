@@ -28,13 +28,19 @@ public:
 		Accel = _Accel;
 	}
 
-	void SetScaleRange(float _Min, float _Max)
+	void SetScaleRange(float _Min, float _Max, bool _isDefaultSpeed = true)
 	{
 		float ScaleX = GameEngineRandom::MainRandom.RandomFloat(_Min, _Max);
 
-		GetTransform()->SetWorldScale({ ScaleX, ScaleX / 10.0f });
+		GetTransform()->SetLocalScale({ ScaleX, ScaleX / 10.0f });
 		FirstScale = ScaleX;
 		Scale = ScaleX;
+
+		if (_isDefaultSpeed == true)
+		{
+			Speed = FirstScale * 5.0f;
+			Accel = Speed;
+		}
 	}
 
 protected:
