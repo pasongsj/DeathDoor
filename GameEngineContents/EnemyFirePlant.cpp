@@ -62,8 +62,8 @@ void EnemyFirePlant::Update(float _DeltaTime)
 	{
 		SetNextState(EnemyFireFlowerState::DIE);
 	}
-	FSMObjectBase::Update(_DeltaTime);
-	
+	FSMObjectBase::Update(_DeltaTime);	
+
 }
 
 

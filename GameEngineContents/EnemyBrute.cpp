@@ -203,6 +203,11 @@ void EnemyBrute::SetFSMFUNC()
 			}
 			AggroMove(Delta);
 
+			if (false == InRangePlayer(2000.0f))
+			{
+				SetNextState(EnemyBruteState::IDLE);
+				return;
+			}
 		},
 		[this]
 		{

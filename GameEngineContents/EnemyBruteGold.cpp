@@ -79,6 +79,8 @@ void EnemyBruteGold::InitAnimation()
 void EnemyBruteGold::Start()
 {
 	EnemyBase::Start();
+	SetEnemyHP(m_iFullHP);
+
 	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_BRUTEGOLD);
 
 	// physx
@@ -93,6 +95,13 @@ void EnemyBruteGold::Start()
 
 void EnemyBruteGold::Update(float _DeltaTime)
 {
+	bool bDeath = DeathCheck();
+
+	if (bDeath == true)
+	{
+		SetNextState(EnemyBruteGoldState::DEATH);
+	}
+
 	FSMObjectBase::Update(_DeltaTime);
 
 }
@@ -191,6 +200,11 @@ void EnemyBruteGold::SetFSMFUNC()
 			}
 			AggroMove(Delta);
 
+			if (false == InRangePlayer(2000.0f))
+			{
+				SetNextState(EnemyBruteGoldState::IDLE);
+				return;
+			}
 		},
 		[this]
 		{
