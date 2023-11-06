@@ -3,6 +3,7 @@
 #include "BossFrogFat.h"
 #include "BossFrogBomb.h"
 #include "PhysXBoxComponent.h"
+#include "AttackBase.h"
 
 BossFrogFat::BossFrogFat()
 {
@@ -34,6 +35,12 @@ void BossFrogFat::Start()
 		}
 		m_pCapsuleComp->SetWorldPosWithParent(BossFrog::WPointNorth);
 		m_pCapsuleComp->CreateSubShape(SubShapeType::BOX, float4{ 800.0f,200.0f,200.0f }, float4{ 0.0f, 100.0f, 400.0f });
+	}
+	{
+		PatternBlocker = GetLevel()->CreateActor<AttackBase>();
+		PatternBlocker->CreatePhysXAttComp<PhysXBoxComponent>(float4{ 800.0f,200.0f,200.0f }, PhysXFilterGroup::Obstacle);
+		//PatternBlocker->SetTrans(float4{ 0.0f, 45.0f,0.0f });
+		PatternBlocker->Off();
 	}
 
 	if (false == GameEngineInput::IsKey("PressK"))
@@ -280,6 +287,10 @@ void BossFrogFat::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("GRABBED_IDLE", true, -1, 0.0f);
 			m_pCapsuleComp->AttachShape();
+			float4 Pos = GetTransform()->GetWorldPosition() + GetTransform()->GetWorldForwardVector() * 450.0f;
+			Pos.y += 400.0f;
+			PatternBlocker->SetTrans(GetTransform()->GetWorldLeftVector(), Pos);
+			PatternBlocker->On();
 		},
 		[this](float Delta)
 		{
@@ -307,6 +318,7 @@ void BossFrogFat::SetFSMFUNC()
 		[this]
 		{
 			m_pCapsuleComp->DetachShape();
+			PatternBlocker->Off();
 		}
 	);
 
@@ -399,6 +411,10 @@ void BossFrogFat::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("TILT", false, -1, 1.0f / 30);
 			m_pCapsuleComp->AttachShape();
+			float4 Pos = GetTransform()->GetWorldPosition() + GetTransform()->GetWorldForwardVector() * 450.0f;
+			Pos.y += 400.0f;
+			PatternBlocker->SetTrans(GetTransform()->GetWorldLeftVector(), Pos);
+			PatternBlocker->On();
 		},
 		[this](float Delta)
 		{
@@ -410,7 +426,7 @@ void BossFrogFat::SetFSMFUNC()
 		[this]
 		{
 			m_pCapsuleComp->DetachShape();
-
+			PatternBlocker->Off();
 		}
 	);
 	SetFSM(BossFrogFatState::SUCK, // tilt와 suck 3초에 세우고 4초에
@@ -449,6 +465,10 @@ void BossFrogFat::SetFSMFUNC()
 			LoopCnt = 0;
 			EnemyRenderer->ChangeAnimation("SHOOT", false, -1, 3.0f / 30);
 			m_pCapsuleComp->AttachShape();
+			float4 Pos = GetTransform()->GetWorldPosition() + GetTransform()->GetWorldForwardVector() * 450.0f;
+			Pos.y += 400.0f;
+			PatternBlocker->SetTrans(GetTransform()->GetWorldLeftVector(), Pos);
+			PatternBlocker->On();
 
 		},
 		[this](float Delta)
@@ -461,6 +481,7 @@ void BossFrogFat::SetFSMFUNC()
 		[this]
 		{
 			m_pCapsuleComp->DetachShape();
+			PatternBlocker->Off();
 		}
 	);
 

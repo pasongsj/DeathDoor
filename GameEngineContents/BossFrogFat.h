@@ -56,7 +56,7 @@ private:
 	bool isTurned = false;
 	int LoopCnt = 0;
 	void SuckTile();
-
+	std::shared_ptr<class AttackBase> PatternBlocker = nullptr;
 	//std::shared_ptr<class PhysXBoxComponent> MonsterPatternDynamic = nullptr;
 
 	//등장->포효->우측으로 점프-> 턴->기울기 ->5개 흡입 ->//SUCK_BOMB- >눈뺑글뻉글->고개 도리도리->올라와->궁디흔들고 왼쪽 점프
