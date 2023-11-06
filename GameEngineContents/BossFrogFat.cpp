@@ -1,11 +1,12 @@
 #include "PreCompileHeader.h"
+#include <GameEngineBase/GameEngineRandom.h>
 #include "BossFrogFat.h"
 #include "BossFrogBomb.h"
 #include "DustParticle.h"
 #include "ContentLevel.h"
 #include "HitParticle.h"
+#include "PhysXBoxComponent.h"
 
-#include <GameEngineBase/GameEngineRandom.h>
 BossFrogFat::BossFrogFat()
 {
 }
@@ -15,8 +16,7 @@ BossFrogFat::~BossFrogFat()
 }
 
 
-const float4 FatPointNorth = float4{ -4740,-610,4750 };
-const float4 FatPointSouth = float4{ -2450,-610,2500 };
+
 
 void BossFrogFat::Start()
 {
@@ -36,12 +36,14 @@ void BossFrogFat::Start()
 			m_pCapsuleComp->RigidSwitch(false);
 		}
 		m_pCapsuleComp->SetWorldPosWithParent(BossFrog::WPointNorth);
+		m_pCapsuleComp->CreateSubShape(SubShapeType::BOX, float4{ 800.0f,200.0f,200.0f }, float4{ 0.0f, 100.0f, 400.0f });
 	}
 
 	if (false == GameEngineInput::IsKey("PressK"))
 	{
 		GameEngineInput::CreateKey("PressK", 'K');
 	}
+	SetEnemyHP(50);
 }
 float4 BossFrogFat::GetRandomTileIndex()
 {
@@ -79,7 +81,11 @@ void BossFrogFat::Update(float _DeltaTime)
 	AnimationBoneData BoneData = EnemyRenderer->GetBoneData("_FROG_SEPTRE_BONE");
 	WeaponRenderer->GetTransform()->SetLocalPosition(WeaponPivotPos + BoneData.Pos);
 	WeaponRenderer->GetTransform()->SetLocalRotation(WeaponPivotRot + BoneData.RotEuler);
-
+	
+	if (true == DeathCheck())
+	{
+		SetFrogDeath();
+	}
 	
 	FSMObjectBase::Update(_DeltaTime);
 }
@@ -159,7 +165,7 @@ void BossFrogFat::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("TILT_GRABBED", "FROG_FAT_TILT_GRABBED.fbx", { 1.0f / 30, false ,-1,-1,0.0f});			   //누르기
 	EnemyRenderer->CreateFBXAnimation("GRABBED_IDLE", "FROG_FAT_TILT_GRABBED.fbx", { 1.0f / 30, false ,1,8,0.0f});			   //누르기
 	
-	EnemyRenderer->CreateFBXAnimation("SUCK", "FROG_FAT_SUCK.fbx", { 1.0f / 30, false });							   //오른쪽에서 발판 5개 먹음
+	EnemyRenderer->CreateFBXAnimation("SUCK", "FROG_FAT_SUCK.fbx", { 2.0f / 30, false });							   //오른쪽에서 발판 5개 먹음
 
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 40, [this]
 		{
@@ -286,6 +292,7 @@ void BossFrogFat::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("GRABBED_IDLE", true, -1, 0.0f);
+			m_pCapsuleComp->AttachShape();
 		},
 		[this](float Delta)
 		{
@@ -312,6 +319,7 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this]
 		{
+			m_pCapsuleComp->DetachShape();
 		}
 	);
 
@@ -344,6 +352,7 @@ void BossFrogFat::SetFSMFUNC()
 		[this]
 		{
 			isTurned = false;
+			m_pCapsuleComp->RigidSwitch(true);
 		}
 	);
 	
@@ -354,6 +363,7 @@ void BossFrogFat::SetFSMFUNC()
 			JumpStartPoint = GetTransform()->GetWorldPosition();
 			JumpEndPoint = GetPlayerPosition();
 			CalJumpPoint();
+			m_pCapsuleComp->RigidSwitch(false);
 		},
 		[this](float Delta)
 		{
@@ -401,7 +411,7 @@ void BossFrogFat::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("TILT", false, -1, 1.0f / 30);
-
+			m_pCapsuleComp->AttachShape();
 		},
 		[this](float Delta)
 		{
@@ -412,6 +422,8 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this]
 		{
+			m_pCapsuleComp->DetachShape();
+
 		}
 	);
 	SetFSM(BossFrogFatState::SUCK, // tilt와 suck 3초에 세우고 4초에
@@ -419,21 +431,32 @@ void BossFrogFat::SetFSMFUNC()
 		{
 			LoopCnt = 0;
 			EnemyRenderer->ChangeAnimation("SUCK");
+			m_pCapsuleComp->AttachShape();
 
 		},
 		[this](float Delta)
 		{
+
 			if (true == CheckHit()) // 임시(폭탄에 맞았다면)
 			{
 				FieldRotationEnd();
+				m_pCapsuleComp->DetachShape();
 				SetNextState(BossFrogFatState::SUCK_BOMB);
 			}
-			if (false == GetStateChecker() && GetStateDuration() > 3.0f)
+			if (false == GetStateChecker())
 			{
-				FieldRotationEnd();
-				SetStateCheckerOn();
+				if(GetStateDuration() > 5.5f)
+				{
+					FieldRotationEnd();
+					m_pCapsuleComp->DetachShape();
+					SetStateCheckerOn();
+				}
+				else if(GetStateDuration() > 1.0f)
+				{
+					Player::MainPlayer->GetPhysXComponent()->SetMoveSpeed(-GetPlayerDir()* 500.0f);
+				}
 			}
-			else if (true == EnemyRenderer->IsAnimationEnd()/*true == GetStateChecker() && GetStateDuration() > 4.0f*/)
+			else if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(BossFrogFatState::JUMP_TO_GROUND);
 				return;
@@ -449,6 +472,8 @@ void BossFrogFat::SetFSMFUNC()
 		{
 			LoopCnt = 0;
 			EnemyRenderer->ChangeAnimation("SHOOT", false, -1, 3.0f / 30);
+			m_pCapsuleComp->AttachShape();
+
 		},
 		[this](float Delta)
 		{
@@ -459,6 +484,7 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this]
 		{
+			m_pCapsuleComp->DetachShape();
 		}
 	);
 
@@ -496,6 +522,18 @@ void BossFrogFat::SetFSMFUNC()
 			{
 				SetNextState(BossFrogFatState::JUMP_TO_GROUND);
 			}
+		},
+		[this]
+		{
+		}
+	);
+
+	SetFSM(BossFrogFatState::DEATH,
+		[this]
+		{
+		},
+		[this](float Delta)
+		{
 		},
 		[this]
 		{
@@ -546,4 +584,6 @@ void BossFrogFat::CreateShockEffect()
 
 		Angle += 20.0f;
 	}
+
+
 }

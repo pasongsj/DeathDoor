@@ -189,7 +189,7 @@ void BossFrogMain::Start()
 	{
 		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(float4{ 0.0f,500.0f,300.0f });//float4{ 0.0f,150.0f,90.0f }
+		m_pCapsuleComp->CreatePhysXActors(float4{ 0.0f,251.0f,250.0f });//float4{ 0.0f,150.0f,90.0f }
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 		m_pCapsuleComp->SetRotation(GetTransform()->GetWorldRotation() + float4{ 0.0f, 135.0f,0.0f });
 		if (nullptr != Player::MainPlayer)
@@ -344,6 +344,7 @@ void BossFrogMain::SetFSMFUNC()
 				EnemyRenderer->SetUnitColor(22, 0, float4::RED, 0.5f);
 				break;
 			default:
+				
 				break;
 			}
 		},
@@ -374,7 +375,15 @@ void BossFrogMain::SetFSMFUNC()
 			}
 			if (GetStateDuration() > 1.0f)
 			{
-				SetNextState(BossFrogMainState::SWIM);
+				if (Phase >= 3)
+				{
+					SetFrogDeath();
+					Off();
+				}
+				else
+				{
+					SetNextState(BossFrogMainState::SWIM);
+				}
 			}
 		},
 		[this]
