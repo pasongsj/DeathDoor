@@ -221,7 +221,11 @@ void EnemyGhoul::SetFSMFUNC()
 		{
 			float4 f4Result = float4::LerpClamp(float4(0.f, 0.f, 0.f), float4(-90.f, 0.f, 0.f), GetStateDuration());
 			EnemyRenderer->GetTransform()->SetLocalRotation(f4Result);
-			if (GetStateDuration() >= 1.f)
+			if (GetStateDuration() < 1.f)
+			{
+				EnemyRenderer->FadeOut(1.f, Delta);
+			}
+			else
 			{
 				Death();
 			}
