@@ -3,18 +3,18 @@
 
 
 // Ό³Έν :
-class FrogBossLevel : public ContentLevel
+class BossFrogLevel : public ContentLevel
 {
 public:
 	// constrcuter destructer
-	FrogBossLevel();
-	~FrogBossLevel();
+	BossFrogLevel();
+	~BossFrogLevel();
 
 	// delete Function
-	FrogBossLevel(const FrogBossLevel& _Other) = delete;
-	FrogBossLevel(FrogBossLevel&& _Other) noexcept = delete;
-	FrogBossLevel& operator=(const FrogBossLevel& _Other) = delete;
-	FrogBossLevel& operator=(FrogBossLevel&& _Other) noexcept = delete;
+	BossFrogLevel(const BossFrogLevel& _Other) = delete;
+	BossFrogLevel(BossFrogLevel&& _Other) noexcept = delete;
+	BossFrogLevel& operator=(const BossFrogLevel& _Other) = delete;
+	BossFrogLevel& operator=(BossFrogLevel&& _Other) noexcept = delete;
 
 	inline std::weak_ptr<class Map_Sanctuary> GetMap() const
 	{

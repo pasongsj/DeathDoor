@@ -1,5 +1,5 @@
 #include "PrecompileHeader.h"
-#include "FrogBossLevel.h"
+#include "BossFrogLevel.h"
 
 #include "PhysXCapsuleComponent.h"
 #include "PhysXControllerComponent.h"
@@ -14,21 +14,21 @@
 #include "WaterBox.h"
 #include "GlowEffect.h"
 
-FrogBossLevel::FrogBossLevel()
+BossFrogLevel::BossFrogLevel()
 {
 }
 
-FrogBossLevel::~FrogBossLevel()
+BossFrogLevel::~BossFrogLevel()
 {
 }
 
-void FrogBossLevel::Start()
+void BossFrogLevel::Start()
 {	
-	SetContentLevelType(ContentLevelType::FrogBossLevel);
+	SetContentLevelType(ContentLevelType::BossFrogLevel);
 	InitKey();
 }
 
-void FrogBossLevel::Update(float _DeltaTime)
+void BossFrogLevel::Update(float _DeltaTime)
 {
 	KeyUpdate(_DeltaTime);
 
@@ -54,7 +54,7 @@ void FrogBossLevel::Update(float _DeltaTime)
 	}
 }
 
-void FrogBossLevel::InitKey()
+void BossFrogLevel::InitKey()
 {
 	if (false == GameEngineInput::IsKey("NaviMesh_Switch_FrogBoss"))
 	{
@@ -65,7 +65,7 @@ void FrogBossLevel::InitKey()
 	}
 }
 
-void FrogBossLevel::KeyUpdate(float _DeltaTime)
+void BossFrogLevel::KeyUpdate(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsDown("NaviMesh_Swtich"))
 	{
@@ -89,7 +89,7 @@ void FrogBossLevel::KeyUpdate(float _DeltaTime)
 
 }
 
-void FrogBossLevel::LevelChangeStart()
+void BossFrogLevel::LevelChangeStart()
 {
 	LevelInit({ 3200, 1800, 800, 450 });
 	GetGlowEffect()->DoubleBlurOff();
@@ -111,10 +111,10 @@ void FrogBossLevel::LevelChangeStart()
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_PlayerStartPos();
 
-	//m_pBossFrog = CreateActor<BossFrogMain>();
-	//Set_BossStartPos();
+	m_pBossFrog = CreateActor<BossFrogMain>();
+	Set_BossStartPos();
 
-	m_pBossFrog = CreateActor<BossFrogFat>();
+	//m_pBossFrog = CreateActor<BossFrogFat>();
 	
 	BossFrogWindow::EditorGUI->On();
 
@@ -125,14 +125,14 @@ void FrogBossLevel::LevelChangeStart()
 	Box->GetTransform()->SetLocalRotation({ 0.0f, 45.0f , 0.0f});
 }
 
-void FrogBossLevel::LevelChangeEnd()
+void BossFrogLevel::LevelChangeEnd()
 {
 	AllActorDestroy();
 	BossFrogWindow::EditorGUI->Off();
 
 }
 
-void FrogBossLevel::Set_PlayerStartPos()
+void BossFrogLevel::Set_PlayerStartPos()
 {
 	if (nullptr == Player::MainPlayer)
 	{
@@ -151,7 +151,7 @@ void FrogBossLevel::Set_PlayerStartPos()
 	Comp->SetWorldPosWithParent(m_StartPos);
 }
 
-void FrogBossLevel::Set_BossStartPos()
+void BossFrogLevel::Set_BossStartPos()
 {
 	if (nullptr == m_pBossFrog)
 	{

@@ -324,7 +324,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="FrogBossLevel.cpp" />
+    <ClCompile Include="BossFrogLevel.cpp" />
     <ClCompile Include="BossFrogWindow.cpp">
       <SubType>
       </SubType>
@@ -758,7 +758,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="FrogBossLevel.h">
+    <ClInclude Include="BossFrogLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

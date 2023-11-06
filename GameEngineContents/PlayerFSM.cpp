@@ -310,16 +310,21 @@ void Player::SetFSMFunc()
 			}
 			if (true == Renderer->IsAnimationEnd())
 			{
-				float tmp = GetStateDuration();
-				//StateInputDelayTime = 0.1f;
 				SetNextState(PlayerState::IDLE);
-				AttackActor->Death();
+				if (nullptr != AttackActor)
+				{
+					AttackActor->Death();
+				}
 				AttackActor = nullptr;
 			}
 		},
 		[this]
 		{
-			//AttackRange->Off();
+			if (nullptr != AttackActor)
+			{
+				AttackActor->Death();
+			}
+			AttackActor = nullptr;
 			isChargeAttack = false;
 		}
 	); 
@@ -543,7 +548,11 @@ void Player::SetFSMFunc()
 		{
 			if (GetStateDuration() > 2.0f)
 			{
-				--PlayerHP;
+				if (false == PlayerTestMode)
+				{
+					--PlayerHP;
+				}
+
 				if (PlayerHP <= 0)
 				{
 					SetNextState(PlayerState::DEAD);
