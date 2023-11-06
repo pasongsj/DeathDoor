@@ -560,11 +560,11 @@ void Player::SetFSMFunc()
 				}
 				else
 				{
-					while(!responePos.empty())
+					while(!respawnPos.empty())
 					{ 
-						float4 TempPos = responePos.front();
+						float4 TempPos = respawnPos.front();
 						TempPos.y += 50.0f;
-						responePos.pop();
+						respawnPos.pop();
 						float4 CollPoint = float4::ZERO;
 						if (true == m_pCapsuleComp->RayCast(TempPos, float4::DOWN, CollPoint))
 						{
