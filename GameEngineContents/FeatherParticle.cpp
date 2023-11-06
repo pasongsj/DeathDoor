@@ -13,6 +13,7 @@ FeatherParticle::~FeatherParticle()
 void FeatherParticle::Start()
 {
 	ParticleBase::Start();
+	SetBillBoardingType(BillBoardingType::XYZBillBoarding);
 
 	GetUnit()->SetMesh("Rect");
 	GetUnit()->SetMaterial("ParticleBasic", RenderPath::Alpha);
