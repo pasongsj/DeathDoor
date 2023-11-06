@@ -170,7 +170,7 @@ private:
 	float4 CameraRot = float4::ZERO;
 
 	// respone pos
-	std::queue<float4> responePos;
+	std::queue<float4> respawnPos;
 	float PosInter = 0.0f;
 
 };

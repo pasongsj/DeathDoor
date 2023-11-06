@@ -57,16 +57,16 @@ void Player::Start()
 void Player::Update(float _DeltaTime)
 {
 	PosInter -= _DeltaTime;
-	if ((true == responePos.empty() || PosInter < 0.0f) && 
+	if ((true == respawnPos.empty() || PosInter < 0.0f) &&
 		GetTransform()->GetWorldPosition().Size() > 1 &&
 		GetCurState< PlayerState>() != PlayerState::CLIMB && 
 		GetCurState< PlayerState>() != PlayerState::FALLING)
 	{
-		if (responePos.size() >= 10)
+		if (respawnPos.size() >= 10)
 		{
-			responePos.pop();
+			respawnPos.pop();
 		}
-		responePos.push(GetTransform()->GetWorldPosition());
+		respawnPos.push(GetTransform()->GetWorldPosition());
 		PosInter = 20.0f;
 	}
 

@@ -30,7 +30,10 @@ void BossFrogBomb::SetTargetTile(const float4& _Start, const float4& _Target)
 void BossFrogBomb::Start()
 {
 	BombRender = CreateComponent<ContentFBXRenderer>();
-	BombRender->SetFBXMesh("SplashImpact_Big.fbx", "ContentMeshDeffered");
+	BombRender->SetFBXMesh("FrogBomb.fbx", "ContentMeshDeffered");
+	BombRender->SetColor(float4{ 201.0f / 256, 190.0f / 256, 146.0f / 256 }, 1.0f);
+	// ¶Ë..µ¢¾î¸®?.......
+	// ÀÇÇö´Ô ¿äÃ»ÇÏ±â
 	GetTransform()->SetLocalScale(float4::ONE * 100.0f);
 }
 
