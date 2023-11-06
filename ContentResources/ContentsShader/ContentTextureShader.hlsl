@@ -55,7 +55,7 @@ struct OutColor
     float4 Color0;
 };
 
-float4 ContentTexture_PS(OutPut _Value) : SV_Target0
+float4 ContentTexture_PS(OutPut _Value) : SV_Target6
 {
 
     float4 Color = DiffuseTex.Sample(SAMPLER, _Value.UV.xy);

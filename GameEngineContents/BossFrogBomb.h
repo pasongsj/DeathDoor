@@ -23,7 +23,7 @@ protected:
 private:
 
 	void SetTargetTile(const float4& _Start, const float4& _Target);
-
+	void CreateDustParticle();
 
 	std::shared_ptr<class ContentFBXRenderer> BombRender = nullptr;
 	float4 Startpoint = float4::ZERO;

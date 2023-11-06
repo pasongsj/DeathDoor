@@ -1,6 +1,9 @@
 #include "PreCompileHeader.h"
 #include "BossFrogFat.h"
 #include "BossFrogBomb.h"
+#include "DustParticle.h"
+#include "ContentLevel.h"
+#include "HitParticle.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
 BossFrogFat::BossFrogFat()
@@ -69,6 +72,7 @@ float4 BossFrogFat::GetRandomTilePos()
 	return GetTilePos(index.iy(), index.ix());
 }
 
+float Time = 0.0f;
 
 void BossFrogFat::Update(float _DeltaTime)
 {
@@ -120,6 +124,10 @@ void BossFrogFat::InitAnimation()
 		{
 			ResetStateDuration();
 			isJumpTime = true;
+		});
+	EnemyRenderer->SetAnimationStartFunc("TILT_JUMP", 37, [this]
+		{
+			CreateShockEffect();
 		});
 	EnemyRenderer->SetAnimationStartFunc("TILT_JUMP", 40, [this]
 		{
@@ -494,4 +502,48 @@ void BossFrogFat::SetFSMFUNC()
 		}
 	);
 
+}
+
+void BossFrogFat::CreateShockEffect()
+{
+	std::shared_ptr<GameEngineRenderer> ShockWave = CreateComponent<GameEngineRenderer>();
+	
+	ShockWave->SetMesh("Rect");
+	ShockWave->SetMaterial("Content2DTexture", RenderPath::Alpha);
+	ShockWave->GetUnit()->ShaderResHelper.SetTexture("Diffusetex", "ShockWave.png");
+	ShockWave->GetTransform()->SetWorldScale({ 1000.0f, 1000.0f });
+	ShockWave->GetTransform()->SetWorldPosition(EnemyRenderer->GetTransform()->GetWorldPosition() + float4{0.0f, -120.0f, 0.0f});
+	ShockWave->GetTransform()->SetWorldRotation({90.0f, 0.0f});
+	ShockWave->GetUnit()->Color.MulColor = { 1.0f, 1.0f, 1.0f, 0.5f };
+
+	std::weak_ptr<GameEngineRenderer> Weak = ShockWave;
+
+	GetLevel()->TimeEvent.AddEvent(0.1f, [this, Weak](GameEngineTimeEvent::TimeEvent&, GameEngineTimeEvent*)
+		{
+			Weak.lock()->Death();
+		}
+	);
+
+	float Angle = 0.0f;
+	
+	for (int i = 0; i < 18; i++)
+	{
+		std::shared_ptr<DustParticle> Dust = GetLevel()->DynamicThis<ContentLevel>()->GetPivotActor()->CreateComponent<DustParticle>();
+		Dust->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f, -110.0f, 0.0f });
+		Dust->GetTransform()->SetWorldScale({ 160.0f, 160.0f });
+		Dust->SetFadeInAndOut();
+
+		float4 Dir = { cos(Angle), 0.0f, sin(Angle) };
+		Dir.Normalize();
+
+		Dust->SetMoveInfo(Dir, 200.0f);
+		Dust->SetWorldMove();
+
+		float Distance = GameEngineRandom::MainRandom.RandomFloat(160, 200);
+
+		Dust->GetTransform()->AddWorldPosition({ Distance * cos(Angle), 1.0f + i , Distance * sin(Angle) });
+		Dust->GetTransform()->SetWorldRotation({ 90.0f, 0.0f , 0.0f });
+
+		Angle += 20.0f;
+	}
 }
