@@ -208,10 +208,8 @@ void Player::CheckFalling()
 	}
 	else
 	{
-		if (false == PlayerTestMode)
-		{
-			SetNextState(PlayerState::DROWN);
-		}
+		SetNextState(PlayerState::DROWN);
+
 	}
 }
 void Player::CheckState(float _DeltaTime)

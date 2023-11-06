@@ -1,7 +1,7 @@
 #include "PreCompileHeader.h"
 #include "BossFrog.h"
 
-#include "FrogBossLevel.h"
+#include "BossFrogLevel.h"
 #include "Map_Sanctuary.h"
 
 #include "TileManager.h"

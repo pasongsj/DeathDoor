@@ -8,7 +8,7 @@ class TileManager : public GameEngineActor
 public:
 	static TileManager* MainManager;
 	friend class BossFrog;
-	friend class FrogBossLevel;
+	friend class BossFrogLevel;
 	friend class BossFrogBomb;
 
 public:
@@ -26,7 +26,7 @@ public:
 	{
 		return m_pHingeRenderer;
 	}
-
+	
 	inline std::vector<std::vector<std::shared_ptr<class SecretTile>>> GetTiles() const
 	{
 		return m_vTiles;

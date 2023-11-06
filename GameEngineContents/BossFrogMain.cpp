@@ -1,5 +1,6 @@
 #include "PreCompileHeader.h"
 #include "BossFrogMain.h"
+#include "EnemyAttackBox.h"
 
 BossFrogMain::BossFrogMain()
 {
@@ -101,11 +102,22 @@ void BossFrogMain::InitAnimation()
 			MoveSpeed = float4::ZERO;
 			m_pCapsuleComp->RigidSwitch(true);
 			SetStateCheckerOn();
+
+			SmashAttack = GetLevel()->CreateActor<EnemyAttackBox>();
+			SmashAttack->SetScale(float4{ 300.0f,100.0f,300.0f });
+			float4 forward = GetTransform()->GetWorldForwardVector();
+			SmashAttack->SetTrans(forward, GetTransform()->GetWorldPosition() + forward * 300.0f);
+
 		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_END", 40, [this]
 		{
 			AllTileReset();
 			m_pCapsuleComp->TurnOnGravity();
+			if (nullptr != SmashAttack)
+			{
+				SmashAttack->Death();
+			}
+			SmashAttack = nullptr;
 		});
 	//
 	// 물 내부에서 수영
@@ -177,7 +189,7 @@ void BossFrogMain::Start()
 	{
 		m_pCapsuleComp = CreateComponent<PhysXControllerComponent>();
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
-		m_pCapsuleComp->CreatePhysXActors(float4{ 0.0f,150.0f,90.0f });//float4{ 0.0f,150.0f,90.0f }
+		m_pCapsuleComp->CreatePhysXActors(float4{ 0.0f,500.0f,300.0f });//float4{ 0.0f,150.0f,90.0f }
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 		m_pCapsuleComp->SetRotation(GetTransform()->GetWorldRotation() + float4{ 0.0f, 135.0f,0.0f });
 		if (nullptr != Player::MainPlayer)
@@ -463,6 +475,11 @@ void BossFrogMain::SetFSMFUNC()
 		},
 		[this]
 		{
+			if (nullptr != SmashAttack)
+			{
+				SmashAttack->Death();
+			}
+			SmashAttack = nullptr;
 			OnlySmash = false;
 		}
 	);

@@ -6,7 +6,7 @@ enum class ContentLevelType
 	NONE,
 	OfficeLevel,
 	FortressLevel,
-	FrogBossLevel,
+	BossFrogLevel,
 	OldCrowLevel,
 };
 

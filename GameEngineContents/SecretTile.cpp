@@ -4,7 +4,7 @@
 #include "PhysXBoxComponent.h"
 #include "ContentFBXRenderer.h"
 
-#include "FrogBossLevel.h"
+#include "BossFrogLevel.h"
 #include "DustParticle.h"
 
 #include <GameEngineBase/GameEngineRandom.h>

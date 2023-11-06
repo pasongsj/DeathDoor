@@ -221,6 +221,7 @@ void EnemyGhoulBig::SetFSMFUNC()
 		},
 		[this]
 		{
+			ArrowActor = nullptr;
 		}
 	);
 

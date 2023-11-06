@@ -11,7 +11,7 @@
 #include "MapTestLevel.h"
 #include "OfficeLevel.h"
 #include "FortressLevel.h"
-#include "FrogBossLevel.h"
+#include "BossFrogLevel.h"
 #include "UITestLevel.h"
 #include "OldCrowLevel.h"
 
@@ -108,10 +108,10 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 		GameEngineCore::ChangeLevel("FortressLevel");
 	}
 
-	if (ImGui::Button("FrogBossLevel") && Level->DynamicThis<FortressLevel>().get() != GetLevel())
+	if (ImGui::Button("BossFrogLevel") && Level->DynamicThis<FortressLevel>().get() != GetLevel())
 	{
-		m_CurLevelName = "FrogBossLevel";
-		GameEngineCore::ChangeLevel("FrogBossLevel");
+		m_CurLevelName = "BossFrogLevel";
+		GameEngineCore::ChangeLevel("BossFrogLevel");
 	}
 
 	if (ImGui::Button("OldCrowLevel") && Level->DynamicThis<FortressLevel>().get() != GetLevel())

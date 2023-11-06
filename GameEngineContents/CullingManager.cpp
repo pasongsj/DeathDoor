@@ -52,7 +52,7 @@ void CullingManager::Start()
 
 		break;
 	}
-	case ContentLevelType::FrogBossLevel:
+	case ContentLevelType::BossFrogLevel:
 		break;
 	default:
 		break;
@@ -201,7 +201,7 @@ void CullingManager::LinkTrigger(EnumType _LevelType)
 
 		break;
 	}
-	case ContentLevelType::FrogBossLevel:
+	case ContentLevelType::BossFrogLevel:
 		break;
 	}
 

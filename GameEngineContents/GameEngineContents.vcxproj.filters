@@ -259,7 +259,7 @@
     <ClCompile Include="Map_Sanctuary.cpp">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClCompile>
-    <ClCompile Include="FrogBossLevel.cpp">
+    <ClCompile Include="BossFrogLevel.cpp">
       <Filter>Contents\FortressLevel</Filter>
     </ClCompile>
     <ClCompile Include="AttackBase.cpp">
@@ -719,7 +719,7 @@
     <ClInclude Include="Map_Sanctuary.h">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
-    <ClInclude Include="FrogBossLevel.h">
+    <ClInclude Include="BossFrogLevel.h">
       <Filter>Contents\FortressLevel</Filter>
     </ClInclude>
     <ClInclude Include="AttackBase.h">
