@@ -56,45 +56,52 @@ void BossFrogBomb::Update(float _DeltaTime)
 		TileManager::MainManager->DestroyTile(index.iy(), index.ix());
 		// 타일 삭제하기
 
-		for (int i = 0; i < 20; i++)
-		{
-			std::shared_ptr<DustParticle> Dust = GetLevel()->DynamicThis<ContentLevel>()->GetPivotActor()->CreateComponent<DustParticle>();
-			Dust->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f, 100.0f, 0.0f });
-			Dust->GetTransform()->SetWorldScale({ 120.0f, 120.0f });
-			Dust->SetFadeInAndOut();
-
-			float PositionX = GameEngineRandom::MainRandom.RandomFloat(-80, 80);
-			float PositionY = GameEngineRandom::MainRandom.RandomFloat(-80, 80);
-
-			Dust->GetTransform()->AddWorldPosition({ PositionX, PositionY });
-			
-			float4 Dir = { 0.0f, 1.0f, 0.0f };
-			Dir.Normalize();
-
-			Dust->SetMoveInfo(Dir, 200.0f);
-			Dust->SetWorldMove();
-		}
-		
-		float Angle = 0.0f;
-
-		for (int i = 0; i < 12; i++)
-		{
-			std::shared_ptr<DustParticle> Dust = GetLevel()->DynamicThis<ContentLevel>()->GetPivotActor()->CreateComponent<DustParticle>();
-			Dust->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
-			Dust->GetTransform()->SetWorldScale({ 120.0f, 120.0f });
-			Dust->SetFadeInAndOut();
-
-			Angle += 30.0f;
-
-			float4 Dir = { cos(Angle), 0.0f, sin(Angle) };
-			Dir.Normalize();
-
-			Dust->SetMoveInfo(Dir, 200.0f);
-			Dust->SetWorldMove();
-
-			Dust->GetTransform()->AddWorldPosition({ 100 * cos(Angle), 1.0f + i , 100 * sin(Angle)});
-			Dust->GetTransform()->SetWorldRotation({ 90.0f, 0.0f , 0.0f});
-		}
+		CreateDustParticle();
 	}
+
 	GetTransform()->SetWorldPosition(float4::Bazier3LerpClamp(Startpoint, P2, Target, GetLiveTime() * 0.66666f));
+}
+
+
+void BossFrogBomb::CreateDustParticle()
+{
+	for (int i = 0; i < 20; i++)
+	{
+		std::shared_ptr<DustParticle> Dust = GetLevel()->DynamicThis<ContentLevel>()->GetPivotActor()->CreateComponent<DustParticle>();
+		Dust->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f, 100.0f, 0.0f });
+		Dust->GetTransform()->SetWorldScale({ 120.0f, 120.0f });
+		Dust->SetFadeInAndOut();
+
+		float PositionX = GameEngineRandom::MainRandom.RandomFloat(-80, 80);
+		float PositionY = GameEngineRandom::MainRandom.RandomFloat(-80, 80);
+
+		Dust->GetTransform()->AddWorldPosition({ PositionX, PositionY });
+
+		float4 Dir = { 0.0f, 1.0f, 0.0f };
+		Dir.Normalize();
+
+		Dust->SetMoveInfo(Dir, 200.0f);
+		Dust->SetWorldMove();
+	}
+
+	float Angle = 0.0f;
+
+	for (int i = 0; i < 12; i++)
+	{
+		std::shared_ptr<DustParticle> Dust = GetLevel()->DynamicThis<ContentLevel>()->GetPivotActor()->CreateComponent<DustParticle>();
+		Dust->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
+		Dust->GetTransform()->SetWorldScale({ 120.0f, 120.0f });
+		Dust->SetFadeInAndOut();
+
+		Angle += 30.0f;
+
+		float4 Dir = { cos(Angle), 0.0f, sin(Angle) };
+		Dir.Normalize();
+
+		Dust->SetMoveInfo(Dir, 200.0f);
+		Dust->SetWorldMove();
+
+		Dust->GetTransform()->AddWorldPosition({ 100 * cos(Angle), 1.0f + i , 100 * sin(Angle) });
+		Dust->GetTransform()->SetWorldRotation({ 90.0f, 0.0f , 0.0f });
+	}
 }

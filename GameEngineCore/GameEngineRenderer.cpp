@@ -377,7 +377,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateRenderUnitToInde
 }
 
 
-void GameEngineRenderer::SetMaterial(const std::string_view& _Name, int _index /*= 0*/)
+void GameEngineRenderer::SetMaterial(const std::string_view& _Name, RenderPath Path, int _index /*= 0*/)
 {
 	std::shared_ptr<GameEngineRenderUnit> Unit = GetUnit(_index);
 
@@ -386,7 +386,7 @@ void GameEngineRenderer::SetMaterial(const std::string_view& _Name, int _index /
 		Unit = CreateRenderUnitToIndex(_index);
 	}
 
-	Unit->SetMaterial(_Name);
+	Unit->SetMaterial(_Name, Path);
 }
 
 

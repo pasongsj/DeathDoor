@@ -60,4 +60,19 @@ private:
 	float4 GetRandomTileIndex();
 
 	void SuckTile();
+	void CreateShockEffect();
 };
+//DIE_LAND", "FROG_F
+//DIE_STANDING", "FR
+//IDLE", "FROG_FAT_I
+//FAT_JUMP", "FROG_F	¹Ù´Ú to ¹° Â«Çª
+//JUMP_SCREAM", "FRO	ÀÎÆ®·Î
+//SHOOT", "FROG_FAT_	¿ÞÂÊ¿¡¼­ 6¹ø ´øÁü
+//SUCK", "FROG_FAT_S	¿À¸¥ÂÊ¿¡¼­ ¹ßÆÇ 5°³ ¸ÔÀ½
+//SUCK_BOMB", "FROG_	ÈíÀÔ Áß ÆøÅº ¸ÔÀ½
+//SUCK_BOMB_GETUP",		´«¾Ë ºùºù ÈÄ ÀÏ¾î³²
+//SUCK_BOMB_LOOP", "	´«±ò ºùºù
+//TILT", "FROG_FAT_T	¶¥ Àâ±â
+//TILT_GRABBED", "FR	´©¸£±â
+//TILT_JUMP", "FROG_	¹° to ¹Ù´Ú Àâ°í Á¡ÇÁ ²Ê´ç
+//TURN", "FROG_FAT_T
