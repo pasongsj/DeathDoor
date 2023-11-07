@@ -116,7 +116,7 @@ void FortressLevel::LevelChangeStart()
 	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });
 
 
-	Create_FieldEnemy();
+	//Create_FieldEnemy();
 	Create_FieldObject();
 }
 
@@ -151,6 +151,7 @@ void FortressLevel::Create_Manager()
 
 void FortressLevel::Create_FieldEnemy()
 {
+	
 	{
 		std::shared_ptr<EnemyGhoul> Monster = CreateActor<EnemyGhoul>();
 		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1656, -6, 514 });
@@ -328,6 +329,11 @@ void FortressLevel::Create_FieldEnemy()
 void FortressLevel::Create_FieldObject()
 {
 	{
+		std::shared_ptr<ShortCutDoor> Obj = CreateActor<ShortCutDoor>();
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4(156, - 6, 486));
+	}
+	{
 		std::shared_ptr<Ladder> Obj = CreateActor<Ladder>();
 		Obj->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
 		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -2310, -160, 750 });
@@ -379,6 +385,12 @@ void FortressLevel::Create_FieldObject()
 		Obj2->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
 		Obj2->GetPhysXComponent()->SetWorldPosWithParent(float4{ 105, 46, 6140 });
 		Obj2->SetHidden(true);
+
+		Obj->SetTriggerFunction([=]
+			{
+				Obj2->SetHidden(false);
+			}
+		);
 	}
 	{
 		std::shared_ptr<Mushroom> Obj = CreateActor<Mushroom>();
@@ -457,6 +469,12 @@ void FortressLevel::Create_FieldObject()
 		Obj2->GetTransform()->SetLocalRotation(float4{ 0 , 45, 0 });
 		Obj2->GetPhysXComponent()->SetWorldPosWithParent(float4{ -13002, -250, 9380 });
 		Obj2->SetHidden(true);
+
+		Obj->SetTriggerFunction([=]
+			{
+				Obj2->SetHidden(false);
+			}
+		);
 	}
 	{
 		std::shared_ptr<Mushroom> Obj = CreateActor<Mushroom>();
