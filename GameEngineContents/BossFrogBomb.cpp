@@ -31,9 +31,9 @@ void BossFrogBomb::Start()
 {
 	BombRender = CreateComponent<ContentFBXRenderer>();
 	BombRender->SetFBXMesh("FrogBomb.fbx", "ContentMeshDeffered");
-	BombRender->SetColor(float4{ 201.0f / 256, 190.0f / 256, 146.0f / 256 }, 1.0f);
-	// ¶Ë..µ¢¾î¸®?.......
-	// ÀÇÇö´Ô ¿äÃ»ÇÏ±â
+	BombRender->SetColor(float4{ 201.0f / 256, 190.0f / 256, 146.0f / 256 }, -1);
+	BombRender->SetGlowToUnit(0, 0);
+	BombRender->SetColor(float4{ 1.0f, 1.0f, 0.1f }, 4.0f);
 	GetTransform()->SetLocalScale(float4::ONE * 100.0f);
 }
 
@@ -43,7 +43,7 @@ void BossFrogBomb::Update(float _DeltaTime)
 	{
 		return;
 	}
-	if (GetLiveTime() > 1.5f || Target == float4::ZERONULL)
+	if (GetLiveTime() > 1.0f || Target == float4::ZERONULL)
 	{
 		Death();
 
@@ -59,7 +59,7 @@ void BossFrogBomb::Update(float _DeltaTime)
 		CreateDustParticle();
 	}
 
-	GetTransform()->SetWorldPosition(float4::Bazier3LerpClamp(Startpoint, P2, Target, GetLiveTime() * 0.66666f));
+	GetTransform()->SetWorldPosition(float4::Bazier3LerpClamp(Startpoint, P2, Target, GetLiveTime()));
 }
 
 

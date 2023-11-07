@@ -16,6 +16,10 @@ public:
 	BossFrog& operator=(const BossFrog& _Other) = delete;
 	BossFrog& operator=(BossFrog&& _Other) noexcept = delete;
 
+	bool GetIsFrogDeath()
+	{
+		return isFrogDeath;
+	}
 protected:
 	void Start() override;
 
@@ -43,6 +47,13 @@ protected:
 	const float4 WPointNorth = float4{ -4790,-730,4800 };
 	const float4 WPointSouth = float4{ -2400,-730,2450 };
 
+	void SetFrogDeath()
+	{
+		isFrogDeath = true;
+	}
+
+
 private:
+	bool isFrogDeath = false;
 };
 

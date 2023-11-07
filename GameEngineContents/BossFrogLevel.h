@@ -35,7 +35,7 @@ private:
 	const float4 m_CameraPos = float4{ -450, 1700, -1500 };
 
 	// 37µµ 
-	const float4 m_CameraRot = float4{ 45 , 0 , 0 };
+	const float4 m_CameraRot = float4{ 55 , 0 , 0 };
 
 	void Set_PlayerStartPos();
 	const float4 m_StartPos = float4{ -3100 , -180 , 3100 } ;
@@ -43,7 +43,10 @@ private:
 	void Set_BossStartPos();
 	const float4 m_TestPos = float4{ -5200, 500, 5180 };
 	const float4 m_BossStartPos = float4{ -4100 , -180 , 4100 };
-	std::shared_ptr<class BossFrog> m_pBossFrog = nullptr;
+	bool isFatPhase = false;
+	float SecondPhaseStartTime = 0.0f;
 
+	std::shared_ptr<class BossFrog> m_pBossFrog = nullptr;
 	std::weak_ptr<class Map_Sanctuary> m_pMap;
+
 };

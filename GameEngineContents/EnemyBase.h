@@ -23,6 +23,12 @@ public:
 		return m_pCapsuleComp;
 	}
 
+	void SetSpawnPoint(const float4& _SpawnPoint)
+	{
+		SpawnPoint = _SpawnPoint;
+		MoveToSpawnPoint();
+	}
+
 protected:
 	std::shared_ptr<class ContentFBXRenderer> EnemyRenderer = nullptr;
 	std::shared_ptr<class PhysXControllerComponent> m_pCapsuleComp = nullptr;
@@ -59,10 +65,22 @@ protected:
 		return m_iEnemyHP;
 	}
 
+	void MoveToSpawnPoint()
+	{
+		if (nullptr == m_pCapsuleComp)
+		{
+			GetTransform()->SetLocalPosition(SpawnPoint);
+		}
+		else
+		{
+			m_pCapsuleComp->SetWorldPosWithParent(SpawnPoint);
+		}
+	}
 private:
 	int m_iEnemyHP = -1;// ÇöÀçHP
 	int m_TotalHP = -1; //ÃÑHP
 	
+	float4 SpawnPoint = float4::ZERONULL;
 
 };
 

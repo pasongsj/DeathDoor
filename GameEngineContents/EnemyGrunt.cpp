@@ -151,6 +151,12 @@ void EnemyGrunt::SetFSMFUNC()
 			}
 			AggroMove(Delta);
 
+			if (false == InRangePlayer(1000.0f))
+			{
+				SetNextState(EnemyGruntState::IDLE);
+				return;
+			}
+
 		},
 		[this]
 		{

@@ -56,5 +56,14 @@ void Boomerang::Update(float _DeltaTime)
 	{
 		Destroy = true;
 	}
-	AttackBase::Update(_DeltaTime);
+	
+
+	if (false == IsShoot() || nullptr == PhysXComp || nullptr == PhysXComp->GetDynamic())
+	{
+		return;
+	}
+
+	PhysXComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+	PhysXComp->SetMoveSpeed(GetDir() * GetShootSpeed());
+	isPhysXCollision = 0;
 }

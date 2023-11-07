@@ -88,6 +88,16 @@ protected:
 
 	virtual void CreateParticle(float _DeltaTime) {}
 
+	float4 GetDir() const
+	{
+		return Dir;
+	}
+
+	float GetShootSpeed() const
+	{
+		return ShootSpeed;
+	}
+
 private:
 	bool isShoot = false;
 
