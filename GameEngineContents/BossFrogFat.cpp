@@ -78,12 +78,18 @@ float Time = 0.0f;
 
 void BossFrogFat::Update(float _DeltaTime)
 {
+	if (true == GameEngineInput::IsDown("PressK"))
+	{
+		SetNextState(BossFrogFatState::DEATH);
+	}
+
 	AnimationBoneData BoneData = EnemyRenderer->GetBoneData("_FROG_SEPTRE_BONE");
 	WeaponRenderer->GetTransform()->SetLocalPosition(WeaponPivotPos + BoneData.Pos);
 	WeaponRenderer->GetTransform()->SetLocalRotation(WeaponPivotRot + BoneData.RotEuler);
 	
 	if (true == DeathCheck())
 	{
+		SetNextState(BossFrogFatState::DEATH);
 		SetFrogDeath();
 	}
 	
@@ -193,14 +199,15 @@ void BossFrogFat::InitAnimation()
 
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB", "FROG_FAT_SUCK_BOMB.fbx", { 1.0f / 30, false });					   //ÈíÀÔ Áß ÆøÅº ¸ÔÀ½
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB_GETUP", "FROG_FAT_SUCK_BOMB_GETUP.fbx", { 1.0f / 30, false });		   //´«¾Ë ºùºù ÈÄ ÀÏ¾î³²
-	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB_LOOP", "FROG_FAT_SUCK_BOMB_LOOP.fbx", { 1.0f / 30, true });		   //´«±ò ºùºù
-	
+	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB_LOOP", "FROG_FAT_SUCK_BOMB_LOOP.fbx", { 1.0f / 30, true });		   
+	EnemyRenderer->CreateFBXAnimation("DIE", "FROG_FAT_DIE_LAND.fbx", { 1.0f / 30, false });		   //Death
+	EnemyRenderer->CreateFBXAnimation("DIE_STAND", "FROG_FAT_DIE_STANDING.fbx", { 1.0f / 30, false });		   //
 
 	JumpStartPoint = FatPointNorth;
 	JumpEndPoint = OnGroundCenter;
 	CalJumpPoint();
 
-
+	
 	EnemyRenderer->ChangeAnimation("FAT_JUMP");
 	EnemyRenderer->GetTransform()->SetLocalScale(float4::ONE * 130.0f);
 
@@ -443,13 +450,14 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			bool Hit = CheckHit();
-			if (true == Hit) // ÀÓ½Ã(ÆøÅº¿¡ ¸Â¾Ò´Ù¸é)
+			if (true == CheckCollision(PhysXFilterGroup::PlayerBomb)) // ÀÓ½Ã(ÆøÅº¿¡ ¸Â¾Ò´Ù¸é)
 			{
 				FieldRotationEnd();
 				m_pCapsuleComp->DetachShape();
 				SetNextState(BossFrogFatState::SUCK_BOMB);
 			}
+
+			CheckHit();
 			if (false == GetStateChecker())
 			{
 				if(GetStateDuration() > 5.5f)
@@ -541,6 +549,17 @@ void BossFrogFat::SetFSMFUNC()
 	SetFSM(BossFrogFatState::DEATH,
 		[this]
 		{
+			float4 CollPoint = float4::ZERO; // Ãæµ¹Ã¼Å©ÇÒ º¯¼ö
+			float4 FrogPos = GetTransform()->GetWorldPosition();
+			FrogPos.y += 50.0f;
+			if (true == m_pCapsuleComp->RayCast(FrogPos, float4::DOWN, CollPoint, 2000.0f)) // ÇÃ·¹ÀÌ¾î À§Ä¡¿¡¼­ float4::DOWN ¹æÇâÀ¸·Î 2000.0f ±æÀÌ¸¸Å­ Ã¼Å©ÇÑ´Ù.
+			{
+				EnemyRenderer->ChangeAnimation("DIE");
+			}
+			else
+			{
+				EnemyRenderer->ChangeAnimation("DIE_STAND");
+			}
 		},
 		[this](float Delta)
 		{

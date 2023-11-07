@@ -44,17 +44,29 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("SWIM_TO_JUMP", "FROG_SMASH_START.fbx", { 1.0f / 30, false,17,49,0.0f,0.0f });// ¹°¿¡¼­ ¿Ã¶ó¿È + ÄáÄáÀÌ 1È¸
 	EnemyRenderer->SetAnimationStartFunc("SWIM_TO_JUMP", 18, [this]
 		{
-			float height = -183 - GetTransform()->GetWorldPosition().y;
-			float4 CurTile = GetTileIndex(GetTransform()->GetWorldPosition());
-			//DestroyTile(CurTile.iy(), CurTile.ix());
+			float height = -180.0f - (GetTransform()->GetWorldPosition().y);
 			CalMoveAmount(GetTransform()->GetWorldPosition(), 5.0f, height);
-			m_pCapsuleComp->RigidSwitch(false);;
+			m_pCapsuleComp->RigidSwitch(false);
 		});
 
 	EnemyRenderer->SetAnimationStartFunc("SWIM_TO_JUMP", 24, [this]
 		{
-			CalMoveAmount(GetNextPostition(), 1.2f);
-			m_pCapsuleComp->RigidSwitch(false);
+			if (GetTransform()->GetWorldPosition().y < -181.0f)
+			{
+				float4 FrogPos = GetTransform()->GetWorldPosition();
+				FrogPos.y = -180.0f;
+				m_pCapsuleComp->SetWorldPosWithParent(FrogPos);
+			}
+			float4 nextpos = GetNextPostition();
+			if (nextpos == float4::ZERONULL)
+			{
+				OnlySmash = true;
+				SetNextState(BossFrogMainState::JUMP_END);
+			}
+			else
+			{
+				CalMoveAmount(nextpos, 1.2f);
+			}
 		});
 	EnemyRenderer->SetAnimationStartFunc("SWIM_TO_JUMP", 49, [this]
 		{
@@ -65,8 +77,10 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("JUMP_LOOP", 2, [this]
 		{
 			float4 CurTileindex = GetTileIndex(GetTransform()->GetWorldPosition());
-			DestroyTile(CurTileindex.iy(), CurTileindex.ix());
-
+			if (true == IsTile(CurTileindex.iy(), CurTileindex.ix()))
+			{
+				DestroyTile(CurTileindex.iy(), CurTileindex.ix());
+			}
 			float4 NextPos = GetNextPostition();
 			if(NextPos == float4::ZERONULL)
 			{
@@ -137,14 +151,12 @@ float4 BossFrogMain::GetNextPostition()
 	float4 CurTileIndex = GetTileIndex(GetTransform()->GetWorldPosition());
 	float4 PlayerIndex = GetTileIndex(GetPlayerPosition());
 	float4 DiffTile = PlayerIndex - CurTileIndex;
+	DiffTile *= 2;
 
-	// y +1 float4{ 0.0f, 225.0f,0.0f }
-	// y -1 float4{ 0.0f, 45.0f,0.0f }
+	int _X = (DiffTile.ix() == 0) ? 1 : (DiffTile.ix() / abs(DiffTile.ix()));
+	int _Y = (DiffTile.iy() == 0) ? 1 : (DiffTile.iy() / abs(DiffTile.iy()));
 
-	// x +1 135
-	// x -1 315
-	int _X = DiffTile.ix() == 0 ? 1 : DiffTile.ix() / abs(DiffTile.ix());
-	int _Y = DiffTile.iy() == 0 ? 1 : DiffTile.iy() / abs(DiffTile.iy());
+
 	std::vector<std::pair<float4, int>> CheckRout;
 
 	if (abs(DiffTile.x) > abs(DiffTile.y))
@@ -371,13 +383,14 @@ void BossFrogMain::SetFSMFUNC()
 				default:
 					break;
 				}
-				SetStateCheckerOff();
+				SetStateCheckerOn();
 			}
 			if (GetStateDuration() > 1.0f)
 			{
 				if (Phase >= 3)
 				{
 					SetFrogDeath();
+					m_pCapsuleComp->SetWorldPosWithParent(WPointNorth);
 					Off();
 				}
 				else
