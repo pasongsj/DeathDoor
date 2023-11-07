@@ -93,7 +93,7 @@ void BossFrogFat::Update(float _DeltaTime)
 		SetNextState(BossFrogFatState::DEATH);
 		SetFrogDeath();
 	}
-	
+
 	FSMObjectBase::Update(_DeltaTime);
 }
 
@@ -458,6 +458,13 @@ void BossFrogFat::SetFSMFUNC()
 				SetNextState(BossFrogFatState::SUCK_BOMB);
 			}
 
+			SuckParticleCount += Delta;
+			if(SuckParticleCount >= 0.1f)
+			{
+				SuckParticleCount = 0.0f;
+				CreateSuckParticle();
+			}
+
 			CheckHit();
 			if (false == GetStateChecker())
 			{
@@ -647,8 +654,39 @@ void BossFrogFat::CreateShockEffect()
 
 		New->SetAutoMove(AngleVector, 1000.0f);
 
-		New->SetScaleDecrease(YScale, 15.0f);
+		New->SetScaleDecrease({ 1.0f, YScale, 1.0f }, 15.0f);
 
 		Angle += 45.0f;
 	}
+}
+
+void BossFrogFat::CreateSuckParticle()
+{
+	std::shared_ptr<Particle3D> New = CreateComponent<Particle3D>();
+
+	float YScale = GameEngineRandom::MainRandom.RandomFloat(30.0f, 45.0f);
+
+	New->GetTransform()->SetLocalScale({ 1.0f, YScale, 1.0f });
+
+	float X = GameEngineRandom::MainRandom.RandomFloat(75.0f, 90.0f);
+	float Y = GameEngineRandom::MainRandom.RandomFloat(270.0f, 360.0f);
+
+	float4x4 Mat1 = DirectX::XMMatrixRotationX(X * GameEngineMath::DegToRad);
+	float4x4 Mat2 = DirectX::XMMatrixRotationY(Y * GameEngineMath::DegToRad);
+
+	Mat1 *= Mat2;
+
+	float4 Quat = float4::ZERO;
+	Quat = Quat.MatrixToQuaternion(Mat1);
+	Quat = Quat.QuaternionToEulerDeg();
+
+	New->GetTransform()->SetWorldRotation(Quat);
+
+	float4 AngleVector = { X, Y };
+	AngleVector = AngleVector.EulerDegToQuaternion();
+	AngleVector = DirectX::XMVector3Rotate({ 0.0f, 1.0f, 0.0f }, AngleVector);
+	AngleVector.Normalize();
+
+	New->SetAutoMoveLerp(AngleVector * 1000.0f + GetTransform()->GetWorldPosition() + float4{ -600.0f, 900.0f, 200.0f }, GetTransform()->GetWorldPosition() + float4{ -600.0f, 900.0f, 200.0f }, 2.0f);
+	New->SetScaleDecreaseLerp({ 1.0f, YScale, 1.0f }, {1.0f, 0.0f, 1.0f}, 2.0f);
 }
