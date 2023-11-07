@@ -6,6 +6,7 @@
 #include "ContentLevel.h"
 #include "HitParticle.h"
 #include "PhysXBoxComponent.h"
+#include "Particle3D.h"
 
 BossFrogFat::BossFrogFat()
 {
@@ -614,5 +615,40 @@ void BossFrogFat::CreateShockEffect()
 		Angle += 20.0f;
 	}
 
+	Angle = 0.0f;
 
+	for(int i = 0; i < 8; i++)
+	{
+		std::shared_ptr<Particle3D> New = CreateComponent<Particle3D>();
+
+		float YScale = GameEngineRandom::MainRandom.RandomFloat(15.0f, 30.0f);
+
+		New->GetTransform()->SetLocalScale({ 1.0f, YScale, 1.0f });
+		New->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
+
+		float X = GameEngineRandom::MainRandom.RandomFloat(45.0f, 90.0f);
+		float Y = Angle;
+
+		float4x4 Mat1 = DirectX::XMMatrixRotationX(X * GameEngineMath::DegToRad);
+		float4x4 Mat2 = DirectX::XMMatrixRotationY(Y * GameEngineMath::DegToRad);
+
+		Mat1 *= Mat2;
+
+		float4 Quat = float4::ZERO;
+		Quat = Quat.MatrixToQuaternion(Mat1);
+		Quat = Quat.QuaternionToEulerDeg();
+
+		New->GetTransform()->SetWorldRotation(Quat);
+		
+		float4 AngleVector = { X, Y };
+		AngleVector = AngleVector.EulerDegToQuaternion();
+		AngleVector = DirectX::XMVector3Rotate({ 0.0f, 1.0f, 0.0f }, AngleVector);
+		AngleVector.Normalize();
+
+		New->SetAutoMove(AngleVector, 1000.0f);
+
+		New->SetScaleDecrease(YScale, 15.0f);
+
+		Angle += 45.0f;
+	}
 }

@@ -42,6 +42,7 @@ void DustParticle::Start()
 
 	Dir = { DirX, DirY };
 	Dir.Normalize();
+	SetBillBoardingType(BillBoardingType::XBillBoarding);
 
 	GetTransform()->SetLocalScale({ 5.0f, 5.0f, 1.0f });
 	

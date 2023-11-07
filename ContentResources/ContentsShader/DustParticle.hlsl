@@ -121,7 +121,7 @@ DefferedTarget ContentTexture_PS(OutPut _Value)
         }
         
         DustColor = ceil(DustColor * 5.0f) / 5.0f;
-        DustColor = ToneMaping_ACES(DustColor);
+        DustColor = ToneMapping_ACES(DustColor);
         DustColor.a = Alpha;
         
         

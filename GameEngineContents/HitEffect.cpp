@@ -16,7 +16,7 @@ HitEffect::~HitEffect()
 void HitEffect::Start()
 {
 	std::shared_ptr<HitCircle> Circle = CreateComponent<HitCircle>();
-	Circle->SetAngle({25.0f, 0.0f, 0.0f});
+	Circle->BillboardingOff();
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -25,15 +25,33 @@ void HitEffect::Start()
 		float4 XY = { cos(ZAngle / 180.0f * GameEngineMath::PIE), sin(ZAngle / 180.0f * GameEngineMath::PIE) };
 
 		New->GetTransform()->AddLocalPosition({ 0.5f * XY.x, 0.5f * XY.y });
-		New->SetAngle({ 0.0f, 0.0f, ZAngle });
+		New->GetTransform()->SetLocalRotation({ 0.0f, 0.0f, ZAngle });
+		New->SetScaleRange(0.5f, 1.0f);
 		New->SetDir(XY.NormalizeReturn());
+		New->BillboardingOff();
 	}
 }
 
 void HitEffect::Update(float _Delta)
 {
+	BillBoarding();
+
 	if (GetLiveTime() > 1.0f)
 	{
-		Death();
+		//Death();
 	}
+}
+
+void HitEffect::BillBoarding()
+{
+	std::shared_ptr<GameEngineCamera> Cam = GetLevel()->GetMainCamera();
+
+	float4 CamDir = Cam->GetTransform()->GetWorldPosition() - GetTransform()->GetWorldPosition();
+	CamDir.Normalize();
+
+	float Dot = CamDir.x * CamDir.x + CamDir.z * CamDir.z;
+	float AngleRad = acos(Dot);
+	float AngleDeg = AngleRad * GameEngineMath::RadToDeg;
+
+	GetTransform()->SetWorldRotation({ AngleDeg , 0.0f , 0.0f });
 }
