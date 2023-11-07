@@ -3,7 +3,7 @@
 #include "PlayerDefinition.h"
 #include "FSMObjectBase.h"
 #include "Ladder.h"
-#include <queue>
+//#include <queue>
 
 // Ό³Έν :
 class Player : public FSMObjectBase, public GameEngineNetObject
@@ -170,7 +170,7 @@ private:
 	float4 CameraRot = float4::ZERO;
 
 	// respone pos
-	std::queue<float4> respawnPos;
+	std::list<float4> respawnPos;
 	float PosInter = 0.0f;
 
 };

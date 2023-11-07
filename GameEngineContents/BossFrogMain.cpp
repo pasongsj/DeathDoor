@@ -356,17 +356,17 @@ void BossFrogMain::SetFSMFUNC()
 				switch (Phase)
 				{
 				case 1:
-					EnemyRenderer->SetRenderUnitControl(23, 0, false);
-					EnemyRenderer->SetRenderUnitControl(24, 0, false);
+					EnemyRenderer->UnitOff(23, 0);
+					EnemyRenderer->UnitOff(24, 0);
 					break;
 				case 2:
-					EnemyRenderer->SetRenderUnitControl(25, 0, false);
-					EnemyRenderer->SetRenderUnitControl(26, 0, false);
-					EnemyRenderer->SetRenderUnitControl(27, 0, false);
+					EnemyRenderer->UnitOff(25, 0);
+					EnemyRenderer->UnitOff(26, 0);
+					EnemyRenderer->UnitOff(27, 0);
 					break;
 				case 3:
-					EnemyRenderer->SetRenderUnitControl(21, 0, false);
-					EnemyRenderer->SetRenderUnitControl(22, 0, false);
+					EnemyRenderer->UnitOff(21, 0);
+					EnemyRenderer->UnitOff(22, 0);
 					break;
 				default:
 					break;

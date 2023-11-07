@@ -275,7 +275,8 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			if (false == isTurned && true == CheckHit())
+			bool Hit = CheckHit();
+			if (false == isTurned && Hit)
 			{
 				AllTileReset();
 			}
@@ -296,6 +297,7 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			CheckHit();
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				if (0 < LoopCnt)
@@ -340,6 +342,7 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			CheckHit();
 			if (true == isJumpTime)
 			{
 				m_pCapsuleComp->SetWorldPosWithParent(float4::Bazier4LerpClamp(JumpStartPoint, JumpP2, JumpP3, JumpEndPoint, GetStateDuration()));
@@ -367,6 +370,8 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+
+			CheckHit();
 			if (true == isJumpTime)
 			{
 				m_pCapsuleComp->SetWorldPosWithParent(float4::Bazier4LerpClamp(JumpStartPoint, JumpP2, JumpP3, JumpEndPoint, GetStateDuration()* 1.153846f));
@@ -390,6 +395,7 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			CheckHit();
 			if (false == GetStateChecker() && true == CheckHit())
 			{
 				AllTileReset();
@@ -415,6 +421,7 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			CheckHit();
 			if (GetStateDuration() > 1.0f)
 			{
 				SetNextState(BossFrogFatState::SUCK);
@@ -436,8 +443,8 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-
-			if (true == CheckHit()) // ÀÓ½Ã(ÆøÅº¿¡ ¸Â¾Ò´Ù¸é)
+			bool Hit = CheckHit();
+			if (true == Hit) // ÀÓ½Ã(ÆøÅº¿¡ ¸Â¾Ò´Ù¸é)
 			{
 				FieldRotationEnd();
 				m_pCapsuleComp->DetachShape();
@@ -477,6 +484,7 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			CheckHit();
 			if (LoopCnt >=6)
 			{
 				SetNextState(BossFrogFatState::GRABBED_IDLE);
@@ -496,6 +504,7 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			CheckHit(); 
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(BossFrogFatState::SUCK_BOMB_END);
@@ -513,6 +522,7 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			CheckHit();
 			if (false == GetStateChecker() && GetStateDuration() > 2.0f)
 			{
 				EnemyRenderer->ChangeAnimation("SUCK_BOMB_GETUP");

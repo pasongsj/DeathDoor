@@ -94,9 +94,11 @@
     <FxCompile Include="ParticleBasicShader.hlsl">
       <Filter>Effect\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="HitCircle.hlsl" />
     <FxCompile Include="AlphaColorMerge.hlsl">
       <Filter>Effect\Glow</Filter>
+    </FxCompile>
+    <FxCompile Include="HitCircle.hlsl">
+      <Filter>ObjectShader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

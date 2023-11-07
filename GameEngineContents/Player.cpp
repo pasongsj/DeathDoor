@@ -64,10 +64,10 @@ void Player::Update(float _DeltaTime)
 	{
 		if (respawnPos.size() >= 10)
 		{
-			respawnPos.pop();
+			respawnPos.pop_back();
 		}
-		respawnPos.push(GetTransform()->GetWorldPosition());
-		PosInter = 20.0f;
+		respawnPos.push_front(GetTransform()->GetWorldPosition());
+		PosInter = 10.0f;
 	}
 
 	DirectionUpdate(_DeltaTime); // 플레이어 방향 업데이트
