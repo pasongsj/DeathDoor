@@ -329,6 +329,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Particle3D.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="Frog_Lever.cpp" />
     <ClCompile Include="Frog_Septre.cpp">
@@ -763,6 +767,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BossFrogWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Particle3D.h">
       <SubType>
       </SubType>
     </ClInclude>

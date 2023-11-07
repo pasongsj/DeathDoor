@@ -461,6 +461,9 @@
     <ClCompile Include="AlphaGlowEffect.cpp">
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="Particle3D.cpp">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -916,6 +919,9 @@
     </ClInclude>
     <ClInclude Include="AlphaGlowEffect.h">
       <Filter>Component\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle3D.h">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
