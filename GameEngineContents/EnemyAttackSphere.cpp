@@ -1,6 +1,7 @@
 #include "PreCompileHeader.h"
 #include "EnemyAttackSphere.h"
 #include "PhysXSphereComponent.h"
+#include "DustParticle.h"
 
 EnemyAttackSphere::EnemyAttackSphere()
 {
@@ -30,6 +31,7 @@ void EnemyAttackSphere::SetRender(const float4& _RenderScale, const std::string_
 	}
 	AttackRenderer->GetTransform()->SetLocalScale(_RenderScale);
 }
+
 void EnemyAttackSphere::SetPhysXComp(const float4& _PhysXScale, const float4& _Pivot)
 {
 	// PhysX
@@ -42,7 +44,6 @@ void EnemyAttackSphere::SetPhysXComp(const float4& _PhysXScale, const float4& _P
 
 
 
-
 void EnemyAttackSphere::Update(float _DeltaTime)
 {
 	if (CheckCollision(PhysXFilterGroup::Ground)|| CheckCollision(PhysXFilterGroup::Obstacle) || GetLiveTime()>3.f)
@@ -50,4 +51,26 @@ void EnemyAttackSphere::Update(float _DeltaTime)
 		Death();
 	}
 	AttackBase::Update(_DeltaTime);
+	if (DustColor != float4::ZERONULL)
+	{
+		CreateParticle(_DeltaTime);
+	}
+}
+
+void EnemyAttackSphere::CreateParticle(float _DeltaTime)
+{
+	ParticleCount += _DeltaTime;
+
+	if (ParticleCount >= 0.01f)
+	{
+		ParticleCount = 0.0f;
+
+		std::shared_ptr<DustParticle> NewParticle = CreateComponent<DustParticle>();
+		NewParticle->SetColor(DustColor);
+		NewParticle->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
+		NewParticle->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
+		NewParticle->SetGlow();
+		NewParticle->SetWorldMove();
+		NewParticle->SetFadeOut(true);
+	}
 }

@@ -560,16 +560,18 @@ void Player::SetFSMFunc()
 				}
 				else
 				{
-					while(!respawnPos.empty())
-					{ 
-						float4 TempPos = respawnPos.front();
+					auto it = respawnPos.begin();
+					for (;it != respawnPos.end(); ++it)
+					{
+						float4 TempPos = (*it);
 						TempPos.y += 50.0f;
-						respawnPos.pop();
+				
 						float4 CollPoint = float4::ZERO;
 						if (true == m_pCapsuleComp->RayCast(TempPos, float4::DOWN, CollPoint))
 						{
 							m_pCapsuleComp->SetWorldPosWithParent(TempPos);
 							SetNextState(PlayerState::IDLE);
+							respawnPos.clear();
 							return;
 						}
 					}
