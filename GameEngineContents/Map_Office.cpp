@@ -1,12 +1,12 @@
 #include "PrecompileHeader.h"
 #include "Map_Office.h"
-
 #include "OfficeLevel.h"
 
 // physX
 #include "PhysXTriangleComponent.h"
 #include "PhysXBoxComponent.h"
 #include "PhysXCapsuleComponent.h"
+#include "PhysXControllerComponent.h"
 
 #include "ContentFBXRenderer.h"
 
@@ -25,6 +25,7 @@
 #include "Railing.h"
 #include "Bench.h"
 #include "MiniPost.h"
+#include "Player.h"
 
 Map_Office::Map_Office()
 {
@@ -59,6 +60,11 @@ void Map_Office::Start()
 
 void Map_Office::Update(float _DeltaTime)
 {
+	float4 point = float4::ZERO;
+	UINT INDEX = -1;
+	Player::MainPlayer->GetPhysXComponent()->TriRayCast(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4(0, 10, 0), float4::DOWN, point, 1000.f, INDEX);
+	const physx::PxVec3* VerPos = m_pTriangleComp->GetTriMesh()->getVertices();
+	int a = 0;
 }
 
 void Map_Office::InitComponent()

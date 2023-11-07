@@ -74,19 +74,17 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool
 		{
 			MsgAssert("매쉬를 불러와 피직스X 충돌체를 만드는데 실패했습니다 TriMesh");
 		}
-
+		
 		physx::PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
-		physx::PxTriangleMesh* TriangleMesh = m_pPhysics->createTriangleMesh(readBuffer);
+		TriMesh = m_pPhysics->createTriangleMesh(readBuffer);
+
+		physx::PxTriangleMeshGeometry TriGeo = physx::PxTriangleMeshGeometry(TriMesh);
+		
 		//createExclusiveShapefh RigidStatic에 Shape를 넣어준다.
-		m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidStatic, physx::PxTriangleMeshGeometry(TriangleMesh), *m_pMaterial);
+		m_pShape = physx::PxRigidActorExt::createExclusiveShape(*m_pRigidStatic, TriGeo, *m_pMaterial);
 		//피벗 설정
 		physx::PxVec3 Pivot(m_f4DynamicPivot.x, m_f4DynamicPivot.y, m_f4DynamicPivot.z);
 		m_pShape->setLocalPose(physx::PxTransform(Pivot));
-
-		physx::PxTriangleMeshGeometry test;
-		m_pShape->getTriangleMeshGeometry(test);
-		TriMesh = test.triangleMesh;
-
 		// invalid parameter : PxShape::setFlag(s): triangle mesh and heightfield triggers are not supported!
 		// Triangle에서는 Trigger를 사용할 수 없음
 		//shape_->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
