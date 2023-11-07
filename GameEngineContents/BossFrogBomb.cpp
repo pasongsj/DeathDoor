@@ -43,7 +43,7 @@ void BossFrogBomb::Update(float _DeltaTime)
 	{
 		return;
 	}
-	if (GetLiveTime() > 1.5f || Target == float4::ZERONULL)
+	if (GetLiveTime() > 1.0f || Target == float4::ZERONULL)
 	{
 		Death();
 
@@ -59,7 +59,7 @@ void BossFrogBomb::Update(float _DeltaTime)
 		CreateDustParticle();
 	}
 
-	GetTransform()->SetWorldPosition(float4::Bazier3LerpClamp(Startpoint, P2, Target, GetLiveTime() * 0.66666f));
+	GetTransform()->SetWorldPosition(float4::Bazier3LerpClamp(Startpoint, P2, Target, GetLiveTime()));
 }
 
 

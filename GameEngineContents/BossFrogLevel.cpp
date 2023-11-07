@@ -31,30 +31,33 @@ void BossFrogLevel::Start()
 void BossFrogLevel::Update(float _DeltaTime)
 {
 	KeyUpdate(_DeltaTime);
+
 	if (false == isFatPhase && true == m_pBossFrog->GetIsFrogDeath())
 	{
 		m_pBossFrog->Death();
-		m_pBossFrog = CreateActor<BossFrogFat>();
+		SecondPhaseStartTime = GetLiveTime() + 7.0f;
+		m_pBossFrog = nullptr;
 		isFatPhase = true;
 	}
-
-
-	// float4 Pos = Player::MainPlayer->GetTransform()->GetWorldPosition();
-
-		// test 
-	
-	//if (false == GetMainCamera()->IsFreeCamera() && nullptr != BossFrog::MainBoss)
-	//{
-	//	float4 nextPos = BossFrog::MainBoss->GetTransform()->GetWorldPosition();
-	//	nextPos.y += 1000.0f;
-	//	nextPos.z -= 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
-	//	GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
-	//}
-	if (false == GetMainCamera()->IsFreeCamera()) // 계산이 안되서 임시
+	if (nullptr == m_pBossFrog && GetLiveTime() > SecondPhaseStartTime)
 	{
-		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
-		nextPos.y += 1000.0f; // 카메라 높이
-		float4 xzPos = float4::FORWARD * 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad); //xz연산
+		m_pBossFrog = CreateActor<BossFrogFat>();
+	}
+
+	if (false == GetMainCamera()->IsFreeCamera()) 
+	{
+		float4 nextPos = float4::ZERO;	
+		if (nullptr == m_pBossFrog)
+		{
+			nextPos = float4{ -4790,-730,4800 };
+		}
+		else
+		{
+			nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		}
+		nextPos.y += 1500.0f; // 카메라 높이
+
+		float4 xzPos = float4::FORWARD * 1500.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad); //xz연산
 		xzPos.RotaitonYDeg(m_CameraRot.y);
 		nextPos -= xzPos;
 		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
@@ -120,8 +123,6 @@ void BossFrogLevel::LevelChangeStart()
 
 	m_pBossFrog = CreateActor<BossFrogMain>();
 	Set_BossStartPos();
-
-	//m_pBossFrog = CreateActor<BossFrogFat>();
 	
 	BossFrogWindow::EditorGUI->On();
 

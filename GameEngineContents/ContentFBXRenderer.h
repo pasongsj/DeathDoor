@@ -77,7 +77,10 @@ public:
 	void UnitOff(int _Y, int _X)
 	{
 		GetAllRenderUnit()[_Y][_X]->Off();
-		ReflectRenderer->GetAllRenderUnit()[_Y][_X]->Off();
+		if (nullptr != ReflectRenderer)
+		{
+			ReflectRenderer->GetAllRenderUnit()[_Y][_X]->Off();
+		}
 	}
 
 	void On()
