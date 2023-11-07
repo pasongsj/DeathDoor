@@ -50,5 +50,5 @@ void HitParticle::ScaleDecrease(float _Delta)
 		Death();
 	}
 
-	GetTransform()->SetLocalScale({ Scale, Scale / 10.0f });
+	GetTransform()->SetLocalScale({ Scale, FirstScale / 10.0f });
 }
