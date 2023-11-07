@@ -18,7 +18,10 @@ public:
 	PhysXTriangleComponent& operator=(PhysXTriangleComponent&& _Other) noexcept = delete;
 
 	void CreatePhysXActors(const std::string& _MeshName,bool _InverseIndex = true, float _Ratio = 1.f, float4 _GeoMetryRot = { 0.0f, 0.0f });
-
+	physx::PxTriangleMesh* GetTriMesh()
+	{
+		return TriMesh;
+	}
 
 protected:
 	void Start() override;
@@ -34,6 +37,7 @@ private:
 	std::vector<std::vector<physx::PxVec3>> VertexVec;
 	std::vector<std::vector<physx::PxU32>> IndexVec;
 	std::shared_ptr<class GameEngineFBXMesh> Mesh;
+	physx::PxTriangleMesh* TriMesh = nullptr;
 
 
 };

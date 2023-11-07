@@ -83,6 +83,10 @@ void PhysXTriangleComponent::CreatePhysXActors(const std::string& _MeshName,bool
 		physx::PxVec3 Pivot(m_f4DynamicPivot.x, m_f4DynamicPivot.y, m_f4DynamicPivot.z);
 		m_pShape->setLocalPose(physx::PxTransform(Pivot));
 
+		physx::PxTriangleMeshGeometry test;
+		m_pShape->getTriangleMeshGeometry(test);
+		TriMesh = test.triangleMesh;
+
 		// invalid parameter : PxShape::setFlag(s): triangle mesh and heightfield triggers are not supported!
 		// Triangle에서는 Trigger를 사용할 수 없음
 		//shape_->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);

@@ -83,5 +83,6 @@ private:
 	}
 
 	bool RayCast(const float4& _vOrigin, const float4& _vDir, OUT float4& _vPoint, float _fDistance = 1000.f);
+	bool TriRayCast(const float4& _vOrigin, const float4& _vDir, OUT float4& _vPoint, float _fDistance, OUT UINT& _FaceIndex);
 };
 
