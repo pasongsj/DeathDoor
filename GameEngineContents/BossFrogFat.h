@@ -63,6 +63,8 @@ private:
 
 	void SuckTile();
 	void CreateShockEffect();
+	void CreateSuckParticle();
+	float SuckParticleCount = 0.0f;
 };
 //DIE_LAND", "FROG_F
 //DIE_STANDING", "FR

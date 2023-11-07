@@ -19,7 +19,7 @@ public:
 
 	void SetLoop(bool UVInit = false)
 	{
-		if (UVInit = true)
+		if (UVInit == true)
 		{
 			MaskValue.x = 0.0f;
 		}
@@ -29,7 +29,7 @@ public:
 
 	void SetFadeInAndOut(bool UVInit = false)
 	{
-		if (UVInit = true)
+		if (UVInit == true)
 		{
 			MaskValue.x = 0.0f;
 		}
@@ -39,7 +39,7 @@ public:
 
 	void SetFadeOut(bool UVInit = false)
 	{
-		if (UVInit = true)
+		if (UVInit == true)
 		{
 			MaskValue.x = 1.0f;
 		}
@@ -49,7 +49,7 @@ public:
 
 	void SetFadeIn(bool UVInit = false)
 	{
-		if (UVInit = true)
+		if (UVInit == true)
 		{
 			MaskValue.x = 0.0f;
 		}

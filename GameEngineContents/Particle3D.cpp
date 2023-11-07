@@ -24,10 +24,18 @@ void Particle3D::Update(float _Delta)
 	{
 		AutoMove(_Delta);
 	}
+	else if (isAutoMoveLerp == true)
+	{
+		AutoMoveLerp(_Delta);
+	}
 
 	if (isScaleDecrease == true)
 	{
 		ScaleDecrease(_Delta);
+	}
+	else if (isScaleDecreaseLerp == true)
+	{
+		ScaleDecreaseLerp(_Delta);
 	}
 }
 
@@ -36,13 +44,38 @@ void Particle3D::AutoMove(float _Delta)
 	GetTransform()->AddWorldPosition(MoveDir * MoveSpeed * _Delta);
 }
 
-void Particle3D::ScaleDecrease(float _Delta)
+void Particle3D::AutoMoveLerp(float _Delta)
 {
-	if (StartYScale <= 0.0f)
+	if (PosLerpRatio >= 1.0f)
 	{
-		return;
+		Death();
 	}
 
-	GetTransform()->SetLocalScale({ 1.0f, StartYScale, 1.0f });
-	StartYScale -= DecreaseSpeed * _Delta;
+	float4 Pos = float4::Lerp(LerpStartPos, LerpEndPos, PosLerpRatio);
+	GetTransform()->SetWorldPosition(Pos);
+
+	PosLerpRatio += PosLerpSpeed * _Delta;
+}
+
+void Particle3D::ScaleDecrease(float _Delta)
+{
+	if (StartYScale.y <= 0.0f)
+	{
+		Death();
+	}
+
+	GetTransform()->SetLocalScale(StartYScale);
+	StartYScale.y -= DecreaseSpeed * _Delta;
+}
+
+void Particle3D::ScaleDecreaseLerp(float _Delta)
+{
+	if (ScaleLerpRatio >= 1.0f)
+	{
+		Death();
+	}
+
+	float4 Scale = float4::Lerp(LerpStartScale, LerpEndScale, ScaleLerpRatio);
+	GetTransform()->SetLocalScale(Scale);
+	ScaleLerpRatio += ScaleLerpSpeed * _Delta;
 }
