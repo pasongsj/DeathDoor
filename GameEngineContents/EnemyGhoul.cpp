@@ -192,6 +192,11 @@ void EnemyGhoul::SetFSMFUNC()
 		},
 		[this]
 		{
+			if (nullptr != ArrowActor)
+			{
+				ArrowActor->Death();
+				ArrowActor = nullptr;
+			}
 		}
 	);
 

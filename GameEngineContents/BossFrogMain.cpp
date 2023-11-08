@@ -324,9 +324,9 @@ void BossFrogMain::SetFSMFUNC()
 			}
 			if (false == GetStateChecker() && GetStateDuration() > 1.5f)
 			{
-				SelectedPos = GetPlayerPosition();
+				float4 Tile = GetTileIndex(GetPlayerPosition());
+				SelectedPos = GetTilePos(Tile.iy(), Tile.ix());
 				SelectedPos.y = -720.0f;
-				float4 Tile = GetTileIndex(SelectedPos);
 				ShakeTile(Tile.iy(), Tile.ix(), 1.0f);
 				SetStateCheckerOn();
 			}
