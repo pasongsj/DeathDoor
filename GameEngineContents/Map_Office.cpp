@@ -56,6 +56,7 @@ void Map_Office::Start()
 	InitComponent();
 	Create_StaticObject();
 	Create_ActiveObject();
+	m_pTriangleComp->SetNavigation();
 }
 
 void Map_Office::Update(float _DeltaTime)

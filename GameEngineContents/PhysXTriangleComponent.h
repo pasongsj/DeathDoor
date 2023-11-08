@@ -27,7 +27,22 @@ public:
 	{
 		return TriMesh;
 	}
-
+	void SetNavigation()
+	{
+		UINT iTriangleSize = TriMesh->getNbTriangles();
+		for (UINT i = 0; i < iTriangleSize; i++)
+		{
+			sTriangle Temp;
+			Temp.ID = i;
+			Temp.NearID;
+			physx::PxTriangle TriangleTemp;
+			physx::PxU32 VertexIndex[3];
+			physx::PxMeshQuery::getTriangle(TriMesh, m_pRigidStatic->getGlobalPose(), i, TriangleTemp, VertexIndex, Temp.NearID);
+			
+			vec_TriangleNav.push_back(Temp);
+		}
+		int a = 0;
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -44,7 +59,7 @@ private:
 	std::shared_ptr<class GameEngineFBXMesh> Mesh;
 	physx::PxTriangleMesh* TriMesh = nullptr;
 
-    std::vector<sTriangle> vec_Triangle;
+    std::vector<sTriangle> vec_TriangleNav;
 
 };
 //
