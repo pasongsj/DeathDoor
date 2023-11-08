@@ -13,6 +13,7 @@
 
 #include "WaterBox.h"
 #include "GlowEffect.h"
+#include "Ladder.h"
 
 BossFrogLevel::BossFrogLevel()
 {
@@ -135,6 +136,10 @@ void BossFrogLevel::LevelChangeStart()
 	Box->GetTransform()->SetLocalScale({ 6000, 1, 3800 });
 	Box->SetWaterPosition({-3800, -450, 3850 });
 	Box->GetTransform()->SetLocalRotation({ 0.0f, 45.0f , 0.0f});
+
+	std::shared_ptr<Ladder> NewLadder = GetLevel()->CreateActor<Ladder>();
+	NewLadder->GetTransform()->AddLocalRotation(float4{ 0, -45, 0 });
+	NewLadder->GetTransform()->SetLocalPosition(float4{ -4880,  -75 , 4947 });
 }
 
 void BossFrogLevel::LevelChangeEnd()

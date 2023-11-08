@@ -339,6 +339,10 @@ void FortressLevel::Create_FieldObject()
 		std::shared_ptr<ShortCutDoor> Obj = CreateActor<ShortCutDoor>();
 		Obj->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
 		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4(156, - 6, 486));
+		Obj->SetTriggerFunction([=]
+			{
+				GameEngineCore::ChangeLevel("OfficeLevel");
+			});
 	}
 	{
 		std::shared_ptr<Ladder> Obj = CreateActor<Ladder>();

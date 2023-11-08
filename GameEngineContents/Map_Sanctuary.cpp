@@ -75,16 +75,6 @@ void Map_Sanctuary::InitComponent()
 	m_pRenderer->UnitOff(3, 0);
 	m_pRenderer->UnitOff(4, 0);
 
-	// 이렇게 말고 위에걸로 오프하셔야함
-	auto AllUnit = m_pRenderer->GetAllRenderUnit();
-	AllUnit[0][0]->Off();
-	AllUnit[1][0]->Off();
-	AllUnit[2][0]->Off();
-	AllUnit[3][0]->Off();
-	AllUnit[4][0]->Off();
-
-	auto Unit = m_pRenderer->GetUnTexturedUnit();
-
 	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pNaviRenderer->SetFBXMesh("Map_Sanctuary_Navi.fbx", "ContentMeshDeffered");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(m_NavRot);
