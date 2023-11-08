@@ -427,7 +427,7 @@ void Map_Fortress::Set_CullingObject()
 		std::shared_ptr<CullingObject> CullingObj = CurLevel->CreateActor<CullingObject>();
 		CullingObj->InitComponent("Fortress_Part6_Blender.fbx");
 		CullingObj->GetTransform()->SetLocalRotation(m_MapRot);
-		CullingObj->GetTransform()->SetLocalPosition(float4{ -13380, 93, 10940 });
+		CullingObj->GetTransform()->SetLocalPosition(float4{ -13380, 93, 10890 });
 		m_vCullingObjects.push_back(CullingObj);
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
