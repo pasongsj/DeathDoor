@@ -104,6 +104,8 @@ void EnemyGhoulBig::Update(float _DeltaTime)
 	{
 		SetNextState(EnemyGhoulBigState::DEATH);
 	}
+
+	EnemyBase::Update(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
 }
 

@@ -68,8 +68,8 @@ void EnemyGrunt::Update(float _DeltaTime)
 		SetNextState(EnemyGruntState::DEATH);
 	}
 
+	EnemyBase::Update(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
-
 }
 
 

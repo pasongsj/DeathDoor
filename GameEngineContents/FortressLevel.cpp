@@ -499,6 +499,14 @@ void FortressLevel::Create_FieldObject()
 		// 몬스터웨이브트리거 
 		std::shared_ptr<Frog_Septre> Obj = CreateActor<Frog_Septre>();
 		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -12995, 292, 12860 });
+
+		std::shared_ptr<EnemyWave> Wave = CreateActor<EnemyWave>();
+		Wave->GetTransform()->SetWorldPosition(float4{ -12396, 300, 12288 });
+
+		Obj->SetTriggerFunction([=]
+			{
+				Wave->WaveStart();
+			});
 	}
 	{
 		float4 TilePos = float4{ -13448, 300, 14628 };

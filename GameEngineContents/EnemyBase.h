@@ -29,6 +29,10 @@ public:
 		MoveToSpawnPoint();
 	}
 
+	bool DeathCheck();
+
+	void CreateFadeEffect();
+
 protected:
 	std::shared_ptr<class ContentFBXRenderer> EnemyRenderer = nullptr;
 	std::shared_ptr<class PhysXControllerComponent> m_pCapsuleComp = nullptr;
@@ -50,8 +54,6 @@ protected:
 	float4 GetRotationDegree(const float4& _CurDir);
 
 	virtual bool CheckHit();
-
-	bool DeathCheck();
 
 	void AddPlayerSpellCost();
 
@@ -82,5 +84,6 @@ private:
 	
 	float4 SpawnPoint = float4::ZERONULL;
 
+	bool m_bEffect = false;
 };
 

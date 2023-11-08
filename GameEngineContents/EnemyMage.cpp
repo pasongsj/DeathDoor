@@ -77,7 +77,7 @@ void EnemyMage::Update(float _DeltaTime)
 	{
 		SetNextState(EnemyMageState::DEATH);
 	}
-
+	EnemyBase::Update(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
 }
 

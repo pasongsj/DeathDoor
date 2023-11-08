@@ -105,10 +105,9 @@ void EnemyBrute::Update(float _DeltaTime)
 		SetNextState(EnemyBruteState::DEATH);
 	}
 
+	EnemyBase::Update(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
-
 }
-
 
 
 void EnemyBrute::AggroMove(float _DeltaTime)
