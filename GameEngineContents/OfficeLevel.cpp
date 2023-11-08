@@ -142,8 +142,7 @@ void OfficeLevel::Create_TriggerObject()
 	{
 		// 포트리스 포탈 
 		std::shared_ptr<ShortCutDoor> Obj = CreateActor<ShortCutDoor>();
-		Obj->GetTransform()->AddLocalRotation(float4{ 0 , -45, 0 });
-		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1164,1256, 5221 });
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1164,1256, 5221 }, float4{ 0 , -45, 0 });
 		Obj->SetTriggerFunction([=]
 			{
 				// 맞나?ㅋㅋ 

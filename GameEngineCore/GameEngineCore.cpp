@@ -204,7 +204,7 @@ std::shared_ptr<GameEngineLevel> GameEngineCore::ChangeLevel(const std::string_v
 	if (LevelMap.end() == LevelMap.find(UpperName))
 	{
 		MsgAssert("존재하지 않는 레벨로 체인지 하려고 했습니다.");
-		return;
+		return nullptr;
 	}
 
 	NextLevel = LevelMap[UpperName];
