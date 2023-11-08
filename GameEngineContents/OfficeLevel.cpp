@@ -21,11 +21,10 @@ OfficeLevel::~OfficeLevel()
 
 void OfficeLevel::Start()
 {
-	SetLevelType(PacketLevelType::OfficeLevel);
+	// SetLevelType(PacketLevelType::OfficeLevel);
 	InitKey();
 
 	SetPointLight();
-
 	CreateNewCamera(-1);
 	GetCamera(-1)->SetProjectionType(CameraType::Orthogonal);
 }
@@ -55,16 +54,36 @@ void OfficeLevel::LevelChangeStart()
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
 	GetMainCamera()->SetZoomRatio(2.5f);
 
+	Create_Light();
+	Create_Map();
+	Create_Player();
+	Create_TriggerObject();
 
+	CreateActor<Dust>();
+}
+
+void OfficeLevel::LevelChangeEnd()
+{
+	AllActorDestroy();
+}
+
+void OfficeLevel::Create_Light()
+{
 	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
 	Light->GetTransform()->SetLocalRotation(float4{ 60, 0, 0 });
-	m_pMap = CreateActor<Map_Office>();
+}
 
+void OfficeLevel::Create_Map()
+{
+	m_pMap = CreateActor<Map_Office>();
+}
+
+void OfficeLevel::Create_Player()
+{
 	// 플레이어 생성후 Set_StartPos함수 호출하면 해당 위치에 세팅
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 
 	Set_PlayerStartPos();
-	Create_TriggerObject();
 
 	if (false == GetMainCamera()->IsFreeCamera())
 	{
@@ -73,13 +92,6 @@ void OfficeLevel::LevelChangeStart()
 		nextPos.z -= 3000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
 		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
 	}
-
-	CreateActor<Dust>();
-}
-
-void OfficeLevel::LevelChangeEnd()
-{
-	AllActorDestroy();
 }
 
 
@@ -166,11 +178,8 @@ void OfficeLevel::Create_TriggerObject()
 		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1164,1256, 5221 }, float4{ 0 , -45, 0 });
 		Obj->SetTriggerFunction([=]
 			{
-				// 맞나?ㅋㅋ 
 				std::shared_ptr<GameEngineLevel> NextLevel = GameEngineCore::ChangeLevel("FortressLevel");
 				std::shared_ptr<OfficeLevel> Level = NextLevel->DynamicThis<OfficeLevel>();
-
-				// Level->Set_StartPos(float4 { })
 			}
 		);
 
