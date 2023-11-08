@@ -30,7 +30,7 @@ void Player::InitInputKey()
 		GameEngineInput::CreateKey("E", 'E');
 	}
 
-	CameraRot = GetLevel()->GetMainCamera()->GetTransform()->GetWorldRotation();
+	//CameraRot = GetLevel()->GetMainCamera()->GetTransform()->GetWorldRotation();
 }
 
 

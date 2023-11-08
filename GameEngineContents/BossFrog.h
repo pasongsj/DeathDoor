@@ -20,6 +20,8 @@ public:
 	{
 		return isFrogDeath;
 	}
+
+	bool IntroDone = false;
 protected:
 	void Start() override;
 

@@ -54,12 +54,12 @@ void Player::Start()
 	BonePivot = CreateComponent<GameEngineComponent>();
 }
 
-void Player::Update(float _DeltaTime)
+void Player::SpawnPosUpdate(float _DeltaTime)
 {
 	PosInter -= _DeltaTime;
 	if ((true == respawnPos.empty() || PosInter < 0.0f) &&
 		GetTransform()->GetWorldPosition().Size() > 1 &&
-		GetCurState< PlayerState>() != PlayerState::CLIMB && 
+		GetCurState< PlayerState>() != PlayerState::CLIMB &&
 		GetCurState< PlayerState>() != PlayerState::FALLING)
 	{
 		if (respawnPos.size() >= 10)
@@ -69,7 +69,13 @@ void Player::Update(float _DeltaTime)
 		respawnPos.push_front(GetTransform()->GetWorldPosition());
 		PosInter = 10.0f;
 	}
+}
 
+
+void Player::Update(float _DeltaTime)
+{
+	
+	SpawnPosUpdate(_DeltaTime);
 	DirectionUpdate(_DeltaTime); // 플레이어 방향 업데이트
 	DefaultPhysX();
 	FSMObjectBase::Update(_DeltaTime);
@@ -100,13 +106,40 @@ void Player::Update(float _DeltaTime)
 		AttackStack = 0;
 	}
 
-
+	CameraUpdate(_DeltaTime);
 
 	PlayerState Checker = GetCurState<PlayerState>();
 	// test
 	float4 MyPos = GetTransform()->GetWorldPosition();
 	
 }
+
+void Player::CameraUpdate(float _DeltaTime)
+{
+	const float4 m_CameraRot = float4{ 55 , 0 , 0 };
+	float Camheight = 1500.0f;
+	std::shared_ptr<GameEngineCamera> MainCam = GetLevel()->GetMainCamera();
+	if (GetCurState<PlayerState>() == PlayerState::SKILL)
+	{
+		Camheight = 1800.0f;
+	}
+	if (CameraControl == true && false == MainCam->IsFreeCamera())
+	{
+		float4 CurCamPos = MainCam->GetTransform()->GetWorldPosition();
+		float4 CurCamRot = MainCam->GetTransform()->GetWorldRotation();
+
+
+		float4 NextCamPos = GetTransform()->GetWorldPosition();
+		NextCamPos.y += Camheight; // 카메라 높이
+
+		float4 xzPos = float4::FORWARD * Camheight * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad); //xz연산
+		xzPos.RotaitonYDeg(m_CameraRot.y);
+		NextCamPos -= xzPos;
+		MainCam->GetTransform()->SetWorldPosition(float4::LerpClamp(CurCamPos, NextCamPos, _DeltaTime * 2));
+		MainCam->GetTransform()->SetWorldRotation(float4::LerpClamp(CurCamRot, m_CameraRot, _DeltaTime *0.5f));
+	}
+}
+
 
 
 void Player::CheckDirInput(float _DeltaTime)
@@ -333,11 +366,11 @@ float4 Player::GetMousDirection()
 
 	float4 NDir = Mouse2DPos - Player2DPos;
 	NDir.z = 0;
-	NDir.RotationAllDeg(CameraRot);
+	NDir.RotationAllDeg(MainCam->GetTransform()->GetWorldRotation());
 	NDir.Normalize();
 
 	float4 Ydir = float4{ 0.0f,NDir.y,0.0f };
-	Ydir.RotaitonXDeg(90.0f - CameraRot.y);
+	Ydir.RotaitonXDeg(90.0f - MainCam->GetTransform()->GetWorldRotation().y);
 	NDir += Ydir;
 	NDir.y = 0;
 

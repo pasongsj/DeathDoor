@@ -32,36 +32,40 @@ void BossFrogLevel::Update(float _DeltaTime)
 {
 	KeyUpdate(_DeltaTime);
 
-	if (false == isFatPhase && true == m_pBossFrog->GetIsFrogDeath())
+	if (false == isFatPhase && nullptr != m_pBossFrog && true == m_pBossFrog->GetIsFrogDeath())
 	{
-		m_pBossFrog->Death();
 		SecondPhaseStartTime = GetLiveTime() + 7.0f;
-		m_pBossFrog = nullptr;
 		isFatPhase = true;
 	}
-	if (nullptr == m_pBossFrog && GetLiveTime() > SecondPhaseStartTime)
+
+
+	if (0.0f != SecondPhaseStartTime && true == m_pBossFrog->GetIsFrogDeath() && GetLiveTime() > SecondPhaseStartTime)
 	{
+		m_pBossFrog->Death();
 		m_pBossFrog = CreateActor<BossFrogFat>();
+		SecondPhaseStartTime = 0.0f;
+
 	}
 
-	if (false == GetMainCamera()->IsFreeCamera()) 
+	if (nullptr != m_pBossFrog && (true == m_pBossFrog->GetIsFrogDeath() || false == m_pBossFrog->IntroDone))
 	{
-		float4 nextPos = float4::ZERO;	
-		if (nullptr == m_pBossFrog)
+		Player::MainPlayer->CameraControl = false;
+		if(false == GetMainCamera()->IsFreeCamera() && true == m_pBossFrog->IntroDone)
 		{
-			nextPos = float4{ -4790,-730,4800 };
+			float4 nextPos = m_pBossFrog->GetTransform()->GetWorldPosition();
+			nextPos.y += 3000.0f; // 카메라 높이
+			float4 xzPos = float4::FORWARD * 3000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad); //xz연산
+			xzPos.RotaitonYDeg(m_CameraRot.y);
+			nextPos -= xzPos;
+			GetMainCamera()->GetTransform()->SetWorldPosition(float4::LerpClamp(GetMainCamera()->GetTransform()->GetWorldPosition(), nextPos, _DeltaTime));
+			GetMainCamera()->GetTransform()->SetWorldRotation(float4::LerpClamp(GetMainCamera()->GetTransform()->GetWorldRotation(), m_CameraRot, _DeltaTime));
 		}
-		else
-		{
-			nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
-		}
-		nextPos.y += 1500.0f; // 카메라 높이
-
-		float4 xzPos = float4::FORWARD * 1500.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad); //xz연산
-		xzPos.RotaitonYDeg(m_CameraRot.y);
-		nextPos -= xzPos;
-		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
 	}
+	else
+	{
+		Player::MainPlayer->CameraControl = true;
+	}
+
 }
 
 void BossFrogLevel::InitKey()
@@ -107,8 +111,8 @@ void BossFrogLevel::LevelChangeStart()
 	CreateScene();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
-	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
+	GetMainCamera()->GetTransform()->SetLocalRotation(float4{ 0.0f,-45.0f,0.0f });
+	GetMainCamera()->GetTransform()->SetLocalPosition(m_TestPos + float4{1000.0f,0.0f, -1000.0f});
 
 	CreateActor<TileManager>();
 
