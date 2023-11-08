@@ -30,6 +30,7 @@
 #include "Frog_Lever.h"
 #include "Frog_Septre.h"
 #include "PlayerAttackMagic.h"
+#include "EnemyWave.h"
 
 
 #include "PlayerAttackTrail.h"
@@ -131,11 +132,19 @@ void MapTestLevel::InitTestLevel()
 			Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1000.0f , 1000.0f , 0.0f });
 		}
 
-
 		std::shared_ptr<EnemyGhoulBig> Mage = CreateActor<EnemyGhoulBig>();
 		Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
 
-		CreateActor<Wires>();
+		// wave test
+		std::shared_ptr<EnemyWave> WaveObj = CreateActor<EnemyWave>();
+
+		std::shared_ptr<Frog_Septre> TriggerObj = CreateActor<Frog_Septre>();
+		TriggerObj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0.0f , 10.0f , -500.0f });
+		TriggerObj->SetTriggerFunction([=]
+			{
+				WaveObj->WaveStart();
+			}
+		);
 
 		//std::shared_ptr<EnemyMage> Ghoul = CreateActor<EnemyMage>();
 		//Ghoul->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });		

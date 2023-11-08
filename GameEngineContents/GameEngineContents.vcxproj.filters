@@ -461,6 +461,9 @@
     <ClCompile Include="AlphaGlowEffect.cpp">
       <Filter>Component\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyWave.cpp">
+      <Filter>Contents\EnemyWave</Filter>
+    </ClCompile>
     <ClCompile Include="Particle3D.cpp">
       <Filter>Contents\Effect\Object\HitEffect</Filter>
     </ClCompile>
@@ -920,6 +923,9 @@
     <ClInclude Include="AlphaGlowEffect.h">
       <Filter>Component\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyWave.h">
+      <Filter>Contents\EnemyWave</Filter>
+    </ClInclude>
     <ClInclude Include="Particle3D.h">
       <Filter>Contents\Effect\Object\HitEffect</Filter>
     </ClInclude>
@@ -1164,6 +1170,9 @@
     </Filter>
     <Filter Include="Contents\FortressLevel\Manager">
       <UniqueIdentifier>{b46931c1-b1cd-4710-9500-c9b905b540fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\EnemyWave">
+      <UniqueIdentifier>{d3b4cf91-f0c1-4613-b22e-b0f61a5adfa9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

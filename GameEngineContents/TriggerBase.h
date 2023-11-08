@@ -1,8 +1,6 @@
 #pragma once
 #include "FSMObjectBase.h"
 
-
-
 // Ό³Έν :
 class TriggerBase : public FSMObjectBase
 {

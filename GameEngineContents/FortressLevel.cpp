@@ -3,6 +3,7 @@
 
 #include "PhysXCapsuleComponent.h"
 #include "PhysXControllerComponent.h"
+#include "PhysXBoxComponent.h"
 
 #include "Player.h"
 #include "Map_Fortress.h"
@@ -21,12 +22,18 @@
 #include "EnemyJumper.h"
 #include "EnemyMage.h"
 
+// WAVE 
+#include "EnemyWave.h"
+
 // field obj
 #include "Ladder.h"
 #include "Frog_Lever.h"
 #include "Frog_Septre.h"
 #include "ShortCutDoor.h"
 #include "Mushroom.h"
+#include "Crate.h"
+#include "SecretTile.h"
+
 
 FortressLevel::FortressLevel()
 {
@@ -497,5 +504,33 @@ void FortressLevel::Create_FieldObject()
 		// 促府 积己 飘府芭 
 		std::shared_ptr<Frog_Septre> Obj = CreateActor<Frog_Septre>();
 		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -14396, 311, 14250 });
+		Obj->SetTriggerFunction([=]
+			{
+
+				float4 TilePos = float4{ -13448, 300, 14628 };
+				std::shared_ptr<SecretTile> Tile = CreateActor<SecretTile>();
+				Tile->GetPhysXComponent()->SetWorldPosWithParent(TilePos);
+
+				float4 MeshScale = Tile->GetRender()->GetMeshScale();
+
+				std::shared_ptr<SecretTile> Tile2 = CreateActor<SecretTile>();
+				Tile2->GetPhysXComponent()->SetWorldPosWithParent(TilePos + float4 { 0 , 0 , MeshScale.z});
+				Tile2->GetTransform()->SetParent(Tile->GetTransform());
+
+				std::shared_ptr<SecretTile> Tile3 = CreateActor<SecretTile>();
+				Tile3->GetPhysXComponent()->SetWorldPosWithParent(TilePos + float4{ 0 , 0 , MeshScale.z * 2.0f });
+				Tile3->GetTransform()->SetParent(Tile->GetTransform());
+
+				std::shared_ptr<SecretTile> Tile4 = CreateActor<SecretTile>();
+				Tile4->GetPhysXComponent()->SetWorldPosWithParent(TilePos + float4{ 0 , 0 , MeshScale.z * 3.0f });
+				Tile4->GetTransform()->SetParent(Tile->GetTransform());
+
+				std::shared_ptr<SecretTile> Tile5 = CreateActor<SecretTile>();
+				Tile5->GetPhysXComponent()->SetWorldPosWithParent(TilePos + float4{ 0 , 0 , MeshScale.z * 4.0f });
+				Tile5->GetTransform()->SetParent(Tile->GetTransform());
+
+				Tile->GetTransform()->AddLocalRotation(float4{ 0 , -45, 0 });
+
+			});
 	}
 }
