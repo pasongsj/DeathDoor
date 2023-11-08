@@ -30,11 +30,10 @@ void ShortCutDoor::InitComponent()
 
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
-	m_pPhysXComponent->CreatePhysXActors(MeshScale.PhysXVec3Return(), float4::ZERONULL, true);
+	m_pPhysXComponent->CreatePhysXActors(float4(140,200,30), float4::ZERONULL, true);
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
 
-	MeshScale.y = 10.f;
-	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, MeshScale * 3.f, float4(0, 50, 0));
+	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, float4(140,60,140), float4(0, 50, -70));
 	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
 	m_pPhysXComponent->AttachShape();
 }
