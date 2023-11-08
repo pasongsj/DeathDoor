@@ -117,7 +117,29 @@ void OfficeLevel::Set_PlayerStartPos()
 		return;
 	}
 	
+	switch (m_eType)
+	{
+	case PrevLevelType::OldCrowLevel:
+	{
+		Comp->SetWorldPosWithParent(m_f4OldCrowToOfficePos, float4::ZERO);
+		return;
+	}
+		break;
+	case PrevLevelType::FortressLevel:
+	{
+		Comp->SetWorldPosWithParent(m_f4FortressToOfficePos, float4::ZERO);
+		return;
+		break;
+	}
+	case PrevLevelType::BossFrogLevel:
+		break;
+	case PrevLevelType::None:
+		break;
+	}
+
 	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
+
+	// 이전레벨이 포트리스였을 경우 다른위치에 세팅한다. 
 }
 
 void OfficeLevel::SetPointLight()
@@ -146,7 +168,10 @@ void OfficeLevel::Create_TriggerObject()
 		Obj->SetTriggerFunction([=]
 			{
 				// 맞나?ㅋㅋ 
-				GameEngineCore::ChangeLevel("FortressLevel");
+				std::shared_ptr<GameEngineLevel> NextLevel = GameEngineCore::ChangeLevel("FortressLevel");
+				std::shared_ptr<OfficeLevel> Level = NextLevel->DynamicThis<OfficeLevel>();
+
+				// Level->Set_StartPos(float4 { })
 			}
 		);
 	}
