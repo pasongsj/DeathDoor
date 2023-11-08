@@ -32,7 +32,7 @@ protected:
 	void LevelChangeEnd() override;
 
 private:
-	const float4 m_CameraPos = float4{ -450, 1700, -1500 };
+	const float4 m_CameraPos = float4{ -5200, 500, 5180 };/*float4{ -450, 1700, -1500 };*/
 
 	// 37µµ 
 	const float4 m_CameraRot = float4{ 55 , 0 , 0 };

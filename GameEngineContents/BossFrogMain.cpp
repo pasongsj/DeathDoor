@@ -21,6 +21,7 @@ void BossFrogMain::InitAnimation()
 			CalMoveAmount(GetTilePos(2, 1), 1.2f);
 			m_pCapsuleComp->RigidSwitch(false);
 			SetStateCheckerOn();
+			IntroDone = true;
 		});
 	EnemyRenderer->SetAnimationStartFunc("INTRO_JUMP", 70, [this]
 		{
@@ -277,6 +278,18 @@ void BossFrogMain::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if(false == IntroDone)
+			{
+				std::shared_ptr<GameEngineCamera> MainCam = GetLevel()->GetMainCamera();
+				float4 NextCamPos = GetTransform()->GetWorldPosition() + float4{ 2000.0f,0.0f, -2000.0f };
+				//NextCamPos.z += 1000.0f;
+				MainCam->GetTransform()->SetWorldPosition(float4::LerpClamp(MainCam->GetTransform()->GetWorldPosition(), NextCamPos,Delta));
+				MainCam->GetTransform()->SetWorldRotation(float4::LerpClamp(MainCam->GetTransform()->GetWorldRotation(), float4{ 0.0f,-45.0f,0.0f }, Delta));
+
+			}
+
+
+
 			if (false == GetStateChecker() && true == CheckHit())
 			{
 				SetNextState(BossFrogMainState::DAMAGED);
@@ -290,6 +303,7 @@ void BossFrogMain::SetFSMFUNC()
 		},
 		[this]
 		{
+			
 		}
 	);
 	

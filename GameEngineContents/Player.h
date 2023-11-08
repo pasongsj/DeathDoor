@@ -74,6 +74,8 @@ public:
 		sLadder = _Data;
 	}
 
+	bool CameraControl = false;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -167,11 +169,13 @@ private:
 	int SpellCost = 4;
 
 	// Level
-	float4 CameraRot = float4::ZERO;
+	//float4 CameraRot = float4::ZERO;
 
 	// respone pos
 	std::list<float4> respawnPos;
 	float PosInter = 0.0f;
+	void SpawnPosUpdate(float _DeltaTime);
 
+	void CameraUpdate(float _DeltaTime);
 };
 

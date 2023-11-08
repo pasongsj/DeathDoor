@@ -174,28 +174,33 @@ void BossFrogFat::InitAnimation()
 	
 	EnemyRenderer->CreateFBXAnimation("SUCK", "FROG_FAT_SUCK.fbx", { 2.0f / 30, false });							   //¿À¸¥ÂÊ¿¡¼­ ¹ßÆÇ 5°³ ¸ÔÀ½
 
-	EnemyRenderer->SetAnimationStartFunc("SUCK", 40, [this]
-		{
-			SuckTile();
-		});
-	EnemyRenderer->SetAnimationStartFunc("SUCK", 55, [this]
-		{
-			SuckTile();
-		});
-	EnemyRenderer->SetAnimationStartFunc("SUCK", 65, [this]
-		{
-			SuckTile();
-		});
+	EnemyRenderer->SetAnimationStartFunc("SUCK", 40, std::bind(&BossFrogFat::SuckTile, this));
+	EnemyRenderer->SetAnimationStartFunc("SUCK", 50, std::bind(&BossFrogFat::SuckTile, this));
+	EnemyRenderer->SetAnimationStartFunc("SUCK", 60, std::bind(&BossFrogFat::SuckTile, this));
+	EnemyRenderer->SetAnimationStartFunc("SUCK", 65, std::bind(&BossFrogFat::SuckTile, this));
+	EnemyRenderer->SetAnimationStartFunc("SUCK", 70, std::bind(&BossFrogFat::SuckTile, this));
+	//EnemyRenderer->SetAnimationStartFunc("SUCK", 40, [this]
+	//	{
+	//		SuckTile();
+	//	});
+	//EnemyRenderer->SetAnimationStartFunc("SUCK", 50, [this]
+	//	{
+	//		SuckTile();
+	//	});
+	//EnemyRenderer->SetAnimationStartFunc("SUCK", 60, [this]
+	//	{
+	//		SuckTile();
+	//	});
 
-	EnemyRenderer->SetAnimationStartFunc("SUCK", 75, [this]
-		{
-			SuckTile();
-		});
+	//EnemyRenderer->SetAnimationStartFunc("SUCK", 65, [this]
+	//	{
+	//		SuckTile();
+	//	});
 
-	EnemyRenderer->SetAnimationStartFunc("SUCK", 85, [this]
-		{
-			SuckTile();
-		});
+	//EnemyRenderer->SetAnimationStartFunc("SUCK", 70, [this]
+	//	{
+	//		SuckTile();
+	//	});
 
 
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB", "FROG_FAT_SUCK_BOMB.fbx", { 1.0f / 30, false });					   //ÈíÀÔ Áß ÆøÅº ¸ÔÀ½
@@ -253,6 +258,21 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			const float4 m_CameraRot = { 55.0f, 0.0f , 0.0f };
+			if(IntroDone == false && false == GetLevel()->GetMainCamera()->IsFreeCamera())
+			{
+				Player::MainPlayer->CameraControl = false;
+
+				float4 nextPos = GetTransform()->GetWorldPosition();
+				nextPos.y += 2000.0f; // Ä«¸Þ¶ó ³ôÀÌ
+				float4 xzPos = float4::FORWARD * 2000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad); //xz¿¬»ê
+				xzPos.RotaitonYDeg(m_CameraRot.y);
+				nextPos -= xzPos;
+				GetLevel()->GetMainCamera()->GetTransform()->SetWorldPosition(float4::LerpClamp(GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition(), nextPos, Delta));
+				GetLevel()->GetMainCamera()->GetTransform()->SetWorldRotation(float4::LerpClamp(GetLevel()->GetMainCamera()->GetTransform()->GetWorldRotation(), m_CameraRot, Delta));
+
+			}
+
 			if (true == isJumpTime)
 			{
 				m_pCapsuleComp->SetWorldPosWithParent(float4::Bazier4LerpClamp(JumpStartPoint, JumpP2, JumpP3, JumpEndPoint, GetStateDuration()));
@@ -273,6 +293,7 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this]
 		{
+			IntroDone = true;
 		}
 	);
 
