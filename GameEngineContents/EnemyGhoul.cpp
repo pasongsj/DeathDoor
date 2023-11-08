@@ -71,6 +71,8 @@ void EnemyGhoul::Update(float _DeltaTime)
 	{
 		SetNextState(EnemyGhoulState::DEATH);
 	}
+
+	EnemyBase::Update(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
 }
 

@@ -473,6 +473,8 @@ void EnemyJumper::Update(float _DeltaTime)
 	{
 		SetNextState(EnemyJumperState::DEATH);
 	}
+
+	EnemyBase::Update(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
 }
 

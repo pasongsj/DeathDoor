@@ -102,8 +102,8 @@ void EnemyBruteGold::Update(float _DeltaTime)
 		SetNextState(EnemyBruteGoldState::DEATH);
 	}
 
+	EnemyBase::Update(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
-
 }
 
 

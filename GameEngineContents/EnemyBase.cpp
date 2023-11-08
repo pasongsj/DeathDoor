@@ -24,6 +24,10 @@ void EnemyBase::Start()
 
 void EnemyBase::Update(float _DetltaTime)
 {
+	if (true == m_bEffect)
+	{
+		EnemyRenderer->FadeIn(1.0f, _DetltaTime);
+	}
 }
 
 bool EnemyBase::InRangePlayer(float _Range)
@@ -102,4 +106,10 @@ bool EnemyBase::DeathCheck()
 		return true;
 	}
 	return false;
+}
+
+void EnemyBase::CreateFadeEffect()
+{
+	m_bEffect = true;
+	EnemyRenderer->FadeOut(0.01f, 0.01f);
 }
