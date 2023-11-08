@@ -1,0 +1,4 @@
+Frog 분홍색으로 빛나며 발판 재생되는 사운드 -> 0500_GimmickSound
+화살 적중 시 -> 0236_ArrowHit
+상대 마법 탄환 적중 시 -> 0291_MagicHit, 0205_MagicHit2
+피격음 -> DefaultHit1
