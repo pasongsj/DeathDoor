@@ -41,7 +41,24 @@ void PlayerAttackBomb::Death()
 
 void PlayerAttackBomb::Update(float _DeltaTime)
 {
-	AttackBase::Update(_DeltaTime);
+	if (false == IsShoot() || nullptr == PhysXComp || nullptr == PhysXComp->GetDynamic())
+	{
+		return;
+	}
+	if (PhysXFilterGroup::None != DestTarget && true == CheckCollision(DestTarget))
+	{
+		Death();
+		return;
+	}
+	if (GetLiveTime() > GetFireTime() + 20.0f)
+	{
+		GameEngineObjectBase::Death();
+		return;
+	}
+	PhysXComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+	PhysXComp->SetMoveSpeed(GetDir() * GetShootSpeed());
+	isPhysXCollision = 0;
+
 	CreateParticle(_DeltaTime);
 }
 
