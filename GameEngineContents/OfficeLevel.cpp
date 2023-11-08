@@ -23,7 +23,6 @@ void OfficeLevel::Start()
 {
 	SetLevelType(PacketLevelType::OfficeLevel);
 	InitKey();
-	Create_TriggerObject();
 
 	SetPointLight();
 
@@ -65,6 +64,8 @@ void OfficeLevel::LevelChangeStart()
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 
 	Set_PlayerStartPos();
+	Create_TriggerObject();
+
 	if (false == GetMainCamera()->IsFreeCamera())
 	{
 		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
@@ -117,6 +118,26 @@ void OfficeLevel::Set_PlayerStartPos()
 		return;
 	}
 	
+	switch (m_eType)
+	{
+	case PrevLevelType::OldCrowLevel:
+	{
+		Comp->SetWorldPosWithParent(m_f4OldCrowToOfficePos, float4::ZERO);
+		return;
+	}
+		break;
+	case PrevLevelType::FortressLevel:
+	{
+		Comp->SetWorldPosWithParent(m_f4FortressToOfficePos, float4::ZERO);
+		return;
+		break;
+	}
+	case PrevLevelType::BossFrogLevel:
+		break;
+	case PrevLevelType::None:
+		break;
+	}
+
 	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
 }
 
@@ -146,9 +167,18 @@ void OfficeLevel::Create_TriggerObject()
 		Obj->SetTriggerFunction([=]
 			{
 				// ¸Â³ª?¤»¤» 
-				GameEngineCore::ChangeLevel("FortressLevel");
+				std::shared_ptr<GameEngineLevel> NextLevel = GameEngineCore::ChangeLevel("FortressLevel");
+				std::shared_ptr<OfficeLevel> Level = NextLevel->DynamicThis<OfficeLevel>();
+
+				// Level->Set_StartPos(float4 { })
 			}
 		);
+
+
+		if (PrevLevelType::FortressLevel == m_eType)
+		{
+			Obj->SetState(StartState::OPEN);
+		}
 	}
 
 	{

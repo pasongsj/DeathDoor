@@ -34,6 +34,8 @@
 #include "Crate.h"
 #include "SecretTile.h"
 
+#include "OfficeLevel.h"
+
 
 FortressLevel::FortressLevel()
 {
@@ -119,8 +121,12 @@ void FortressLevel::LevelChangeStart()
 	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
 
 	Box->SetWaterPosition({ -5000, -120 ,4500 });
-	Box->GetTransform()->SetLocalScale({ 15000 , 1 , 15000 });
+	Box->GetTransform()->SetLocalScale({ 60000 , 1 , 20000 });
 	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });
+
+	/*Box->SetWaterPosition({ -5000, -120 ,4500 });
+	Box->GetTransform()->SetLocalScale({ 15000 , 1 , 15000 });
+	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });*/
 
 
 	//Create_FieldEnemy();
@@ -130,6 +136,9 @@ void FortressLevel::LevelChangeStart()
 void FortressLevel::LevelChangeEnd()
 {
 	AllActorDestroy();
+
+	// 다음레벨이 오피스레벨이면 
+	// 오피스레벨 변수 <-- 포인터 넣어줌 
 }
 
 void FortressLevel::Set_PlayerStartPos()
@@ -341,7 +350,15 @@ void FortressLevel::Create_FieldObject()
 		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4(156, - 6, 486));
 		Obj->SetTriggerFunction([=]
 			{
-				GameEngineCore::ChangeLevel("OfficeLevel");
+				std::shared_ptr<GameEngineLevel> NextLevel = GameEngineCore::ChangeLevel("OfficeLevel");
+				std::shared_ptr<OfficeLevel> Level = NextLevel->DynamicThis<OfficeLevel>();
+				if (nullptr == Level)
+				{
+					MsgAssert("다음 레벨의 다이나믹캐스트 결과가 nullptr 입니다.");
+					return;
+				}
+
+				Level->SetPrevLevelType(PrevLevelType::FortressLevel);
 			});
 	}
 	{
