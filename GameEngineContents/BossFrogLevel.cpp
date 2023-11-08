@@ -39,7 +39,6 @@ void BossFrogLevel::Update(float _DeltaTime)
 		isFatPhase = true;
 	}
 
-
 	if (0.0f != SecondPhaseStartTime && true == m_pBossFrog->GetIsFrogDeath() && GetLiveTime() > SecondPhaseStartTime)
 	{
 		m_pBossFrog->Death();
@@ -101,7 +100,6 @@ void BossFrogLevel::KeyUpdate(float _DeltaTime)
 	{
 		TileManager::MainManager->ResetTile();
 	}
-
 }
 
 void BossFrogLevel::LevelChangeStart()
@@ -115,31 +113,16 @@ void BossFrogLevel::LevelChangeStart()
 	GetMainCamera()->GetTransform()->SetLocalRotation(float4{ 0.0f,-45.0f,0.0f });
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_TestPos + float4{1000.0f,0.0f, -1000.0f});
 
-	CreateActor<TileManager>();
+	Create_TileManager();
 
-	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
-	Light->GetTransform()->SetLocalRotation(float4{ 50, 100, 0 });
-
-	m_pMap = CreateActor<Map_Sanctuary>();
-
-	std::shared_ptr<Player> Obj = CreateActor<Player>();
-	float4 Pos = Obj->GetTransform()->GetWorldPosition();
-	Set_PlayerStartPos();
-
-	m_pBossFrog = CreateActor<BossFrogMain>();
-	Set_BossStartPos();
+	Create_Light();
+	Create_Map();
+	Create_Player();
+	Create_WaterBox();
+	Create_BossFrog();
+	Create_TriggerObject();
 	
 	BossFrogWindow::EditorGUI->On();
-
-	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
-	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
-	Box->GetTransform()->SetLocalScale({ 6000, 1, 3800 });
-	Box->SetWaterPosition({-3800, -450, 3850 });
-	Box->GetTransform()->SetLocalRotation({ 0.0f, 45.0f , 0.0f});
-
-	std::shared_ptr<Ladder> NewLadder = GetLevel()->CreateActor<Ladder>();
-	NewLadder->GetTransform()->AddLocalRotation(float4{ 0, -45, 0 });
-	NewLadder->GetTransform()->SetLocalPosition(float4{ -4880,  -75 , 4947 });
 }
 
 void BossFrogLevel::LevelChangeEnd()
@@ -147,6 +130,53 @@ void BossFrogLevel::LevelChangeEnd()
 	AllActorDestroy();
 	BossFrogWindow::EditorGUI->Off();
 
+}
+
+void BossFrogLevel::Create_Light()
+{
+	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
+	Light->GetTransform()->SetLocalRotation(float4{ 50, 100, 0 });
+}
+
+void BossFrogLevel::Create_Map()
+{
+	m_pMap = CreateActor<Map_Sanctuary>();
+}
+
+void BossFrogLevel::Create_Player()
+{
+	std::shared_ptr<Player> Obj = CreateActor<Player>();
+	float4 Pos = Obj->GetTransform()->GetWorldPosition();
+	Set_PlayerStartPos();
+}
+
+void BossFrogLevel::Create_BossFrog()
+{
+	m_pBossFrog = CreateActor<BossFrogMain>();
+	Set_BossStartPos();
+}
+
+void BossFrogLevel::Create_WaterBox()
+{
+	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
+	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
+	Box->GetTransform()->SetLocalScale({ 6000, 1, 3800 });
+	Box->SetWaterPosition({ -3800, -450, 3850 });
+	Box->GetTransform()->SetLocalRotation({ 0.0f, 45.0f , 0.0f });
+}
+
+void BossFrogLevel::Create_TriggerObject()
+{
+	{
+		std::shared_ptr<Ladder> NewLadder = GetLevel()->CreateActor<Ladder>();
+		NewLadder->GetTransform()->AddLocalRotation(float4{ 0, -45, 0 });
+		NewLadder->GetTransform()->SetLocalPosition(float4{ -4880,  -75 , 4947 });
+	}
+}
+
+void BossFrogLevel::Create_TileManager()
+{
+	CreateActor<TileManager>();
 }
 
 void BossFrogLevel::Set_PlayerStartPos()

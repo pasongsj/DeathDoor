@@ -23,6 +23,13 @@ protected:
 	void LevelChangeEnd() override;
 
 private:
+	void Create_Light();
+	void Create_Map();
+	void Create_Player();
+	void Create_OldCrow();
+
+	void ClearCheck();
+
 	void InitKey();
 
 	const float4 m_CameraPos = float4{ 0, 2000, -1400 };
@@ -32,4 +39,7 @@ private:
 	const float4 m_StartPos = float4{ 0, 1, 0 };
 
 	std::shared_ptr<class Map_Emptyplain> m_pMap = nullptr;
+
+	bool m_bIsClear = false;
+	std::weak_ptr<class Boss_OldCrow> m_pBoss;
 };

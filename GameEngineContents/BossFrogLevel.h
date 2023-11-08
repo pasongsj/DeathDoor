@@ -1,7 +1,6 @@
 #pragma once
 #include "ContentLevel.h"
 
-
 // Ό³Έν :
 class BossFrogLevel : public ContentLevel
 {
@@ -32,9 +31,15 @@ protected:
 	void LevelChangeEnd() override;
 
 private:
-	const float4 m_CameraPos = float4{ -5200, 500, 5180 };/*float4{ -450, 1700, -1500 };*/
+	void Create_Light();
+	void Create_Map();
+	void Create_Player();
+	void Create_BossFrog();
+	void Create_WaterBox();
+	void Create_TriggerObject();
+	void Create_TileManager();
 
-	// 37µµ 
+	const float4 m_CameraPos = float4{ -5200, 500, 5180 };/*float4{ -450, 1700, -1500 };*/
 	const float4 m_CameraRot = float4{ 55 , 0 , 0 };
 
 	void Set_PlayerStartPos();
@@ -43,10 +48,10 @@ private:
 	void Set_BossStartPos();
 	const float4 m_TestPos = float4{ -5200, 500, 5180 };
 	const float4 m_BossStartPos = float4{ -4100 , -180 , 4100 };
+
 	bool isFatPhase = false;
 	float SecondPhaseStartTime = 0.0f;
 
 	std::shared_ptr<class BossFrog> m_pBossFrog = nullptr;
 	std::weak_ptr<class Map_Sanctuary> m_pMap;
-
 };
