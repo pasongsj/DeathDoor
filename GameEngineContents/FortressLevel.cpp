@@ -55,7 +55,6 @@ void FortressLevel::Update(float _DeltaTime)
 {
 	KeyUpdate(_DeltaTime);
 
-
 	float4 Pos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 
 	// test 
@@ -106,17 +105,45 @@ void FortressLevel::LevelChangeStart()
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
 
+	Create_Light();
+	Create_Map();
+	Create_Player();
+	Create_Manager();
+	Create_WaterBox();
+
+
+	Create_FieldEnemy();
+	Create_FieldObject();
+}
+
+void FortressLevel::LevelChangeEnd()
+{
+	AllActorDestroy();
+
+	// 다음레벨이 오피스레벨이면 
+	// 오피스레벨 변수 <-- 포인터 넣어줌 
+}
+
+void FortressLevel::Create_Light()
+{
 	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
 	Light->GetTransform()->SetLocalRotation(float4{ 45, 90 , 0 });
+}
 
+void FortressLevel::Create_Map()
+{
 	m_pMap = CreateActor<Map_Fortress>();
+}
 
+void FortressLevel::Create_Player()
+{
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_PlayerStartPos();
+}
 
-	Create_Manager();
-
+void FortressLevel::Create_WaterBox()
+{
 	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
 	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
 
@@ -128,17 +155,6 @@ void FortressLevel::LevelChangeStart()
 	Box->GetTransform()->SetLocalScale({ 15000 , 1 , 15000 });
 	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });*/
 
-
-	//Create_FieldEnemy();
-	Create_FieldObject();
-}
-
-void FortressLevel::LevelChangeEnd()
-{
-	AllActorDestroy();
-
-	// 다음레벨이 오피스레벨이면 
-	// 오피스레벨 변수 <-- 포인터 넣어줌 
 }
 
 void FortressLevel::Set_PlayerStartPos()
