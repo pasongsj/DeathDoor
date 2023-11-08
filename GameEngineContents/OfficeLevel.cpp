@@ -7,6 +7,7 @@
 #include "PhysXControllerComponent.h"
 
 #include "Dust.h"
+#include "ShortCutDoor.h"
 
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
@@ -22,6 +23,7 @@ void OfficeLevel::Start()
 {
 	SetLevelType(PacketLevelType::OfficeLevel);
 	InitKey();
+	Create_TriggerObject();
 
 	SetPointLight();
 
@@ -133,5 +135,32 @@ void OfficeLevel::SetPointLight()
 	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 3150 , 950 , 2350 },.MaxDist = 150.0f,.Intensity = 10.0f });
 
 	AddPointLight({ .Color = {1.0f, 1.0f, 1.0f},.Position = { 525 , 1450 , 4225 },.MaxDist = 100.0f,.Intensity = 5.0f });
+}
+
+void OfficeLevel::Create_TriggerObject()
+{
+	{
+		// Æ÷Æ®¸®½º Æ÷Å» 
+		std::shared_ptr<ShortCutDoor> Obj = CreateActor<ShortCutDoor>();
+		Obj->GetTransform()->AddLocalRotation(float4{ 0 , -45, 0 });
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1164,1256, 5221 });
+		Obj->SetTriggerFunction([=]
+			{
+				// ¸Â³ª?¤»¤» 
+				GameEngineCore::ChangeLevel("FortressLevel");
+			}
+		);
+	}
+
+	{
+		// ±î¸¶±Í Æ÷Å» 
+		std::shared_ptr<ShortCutDoor> Obj = CreateActor<ShortCutDoor>();
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1168, 1656, 6259 });
+		Obj->SetTriggerFunction([=]
+			{
+				GameEngineCore::ChangeLevel("OldCrowLevel");
+			}
+		);
+	}
 }
 
