@@ -1,0 +1,15 @@
+FootStep -> 0311_Step_Ground
+Attack 1 -> 0322_Attack
+Attack 2 -> 0259_Attack2
+Attack 3 -> 0143_Attack3
+Roll -> NewRoll1, NewRoll2
+RollAttack -> 0330_RollAttack
+ChargeAttack -> 0323_ChargeAttackReady, Charge, StrongAtk
+StepLadder -> 0494_Intro_StepLadder, 312_Step_Ladder
+
+Arrow -> ArrowCharge, ArrowFire3
+Fire -> Burn2, FireBallFire4, FireBallAbsorb1
+Bomb -> 0237_BombReady, 0614_BombThrow, 0133_BombExplosion
+
+GetDamage -> 0125_PlayerHit, 0386_PlayerHit2
+Death -> DEATH
