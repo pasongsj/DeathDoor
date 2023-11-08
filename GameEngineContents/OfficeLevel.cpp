@@ -23,7 +23,6 @@ void OfficeLevel::Start()
 {
 	SetLevelType(PacketLevelType::OfficeLevel);
 	InitKey();
-	Create_TriggerObject();
 
 	SetPointLight();
 
@@ -65,6 +64,8 @@ void OfficeLevel::LevelChangeStart()
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 
 	Set_PlayerStartPos();
+	Create_TriggerObject();
+
 	if (false == GetMainCamera()->IsFreeCamera())
 	{
 		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
@@ -138,8 +139,6 @@ void OfficeLevel::Set_PlayerStartPos()
 	}
 
 	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
-
-	// 이전레벨이 포트리스였을 경우 다른위치에 세팅한다. 
 }
 
 void OfficeLevel::SetPointLight()
@@ -174,6 +173,12 @@ void OfficeLevel::Create_TriggerObject()
 				// Level->Set_StartPos(float4 { })
 			}
 		);
+
+
+		if (PrevLevelType::FortressLevel == m_eType)
+		{
+			Obj->SetState(StartState::OPEN);
+		}
 	}
 
 	{

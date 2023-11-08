@@ -101,6 +101,11 @@ void ShortCutDoor::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if (StartState::OPEN == m_eStartState && GetStateDuration() >= 1.5f)
+			{
+				SetNextState(TriggerState::PROGRESS);
+			}
+
 			if (true == TriggerKeyCheck())
 			{
 				SetNextState(TriggerState::PROGRESS);
@@ -108,7 +113,7 @@ void ShortCutDoor::SetFSMFUNC()
 		},
 		[this]
 		{
-			m_pPhysXComponent->Death();
+			
 		}
 	);
 
@@ -155,19 +160,24 @@ void ShortCutDoor::SetFSMFUNC()
 			case StartState::CLOSE:
 			{
 				m_pRenderer->ChangeAnimation("OPEN_STILL");
+				if (nullptr != m_TriggerFunc)
+				{
+					m_TriggerFunc();
+				}
 			}
 			break;
-			}
-
-			if (nullptr != m_TriggerFunc)
-			{
-				m_TriggerFunc();
 			}
 
 		},
 		[this](float Delta)
 		{
 			//È­¸é Fade?
+			if (StartState::OPEN == m_eStartState)
+			{
+				SetState(StartState::CLOSE);
+				SetNextState(TriggerState::OFF);
+			}
+
 		},
 		[this]
 		{
