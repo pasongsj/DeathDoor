@@ -501,36 +501,50 @@ void FortressLevel::Create_FieldObject()
 		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -12995, 292, 12860 });
 	}
 	{
+		float4 TilePos = float4{ -13448, 300, 14628 };
+		std::shared_ptr<SecretTile> Tile = CreateActor<SecretTile>();
+		Tile->GetPhysXComponent()->SetWorldPosWithParent(TilePos);
+
+		float4 MeshScale = Tile->GetRender()->GetMeshScale();
+
+		std::shared_ptr<SecretTile> Tile2 = CreateActor<SecretTile>();
+		Tile2->GetPhysXComponent()->SetWorldPosWithParent(TilePos + float4{ 0 , 0 , MeshScale.z });
+		Tile2->GetTransform()->SetParent(Tile->GetTransform());
+
+		std::shared_ptr<SecretTile> Tile3 = CreateActor<SecretTile>();
+		Tile3->GetPhysXComponent()->SetWorldPosWithParent(TilePos + float4{ 0 , 0 , MeshScale.z * 2.0f });
+		Tile3->GetTransform()->SetParent(Tile->GetTransform());
+
+		std::shared_ptr<SecretTile> Tile4 = CreateActor<SecretTile>();
+		Tile4->GetPhysXComponent()->SetWorldPosWithParent(TilePos + float4{ 0 , 0 , MeshScale.z * 3.0f });
+		Tile4->GetTransform()->SetParent(Tile->GetTransform());
+
+		std::shared_ptr<SecretTile> Tile5 = CreateActor<SecretTile>();
+		Tile5->GetPhysXComponent()->SetWorldPosWithParent(TilePos + float4{ 0 , 0 , MeshScale.z * 4.0f });
+		Tile5->GetTransform()->SetParent(Tile->GetTransform());
+
+		Tile->InActive();
+		Tile2->InActive();
+		Tile3->InActive();
+		Tile4->InActive();
+		Tile5->InActive();
+		// 만들어놓고 꺼놔 
+
 		// 다리 생성 트리거 
 		std::shared_ptr<Frog_Septre> Obj = CreateActor<Frog_Septre>();
 		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -14396, 311, 14250 });
 		Obj->SetTriggerFunction([=]
 			{
-
-				float4 TilePos = float4{ -13448, 300, 14628 };
-				std::shared_ptr<SecretTile> Tile = CreateActor<SecretTile>();
-				Tile->GetPhysXComponent()->SetWorldPosWithParent(TilePos);
-
-				float4 MeshScale = Tile->GetRender()->GetMeshScale();
-
-				std::shared_ptr<SecretTile> Tile2 = CreateActor<SecretTile>();
-				Tile2->GetPhysXComponent()->SetWorldPosWithParent(TilePos + float4 { 0 , 0 , MeshScale.z});
-				Tile2->GetTransform()->SetParent(Tile->GetTransform());
-
-				std::shared_ptr<SecretTile> Tile3 = CreateActor<SecretTile>();
-				Tile3->GetPhysXComponent()->SetWorldPosWithParent(TilePos + float4{ 0 , 0 , MeshScale.z * 2.0f });
-				Tile3->GetTransform()->SetParent(Tile->GetTransform());
-
-				std::shared_ptr<SecretTile> Tile4 = CreateActor<SecretTile>();
-				Tile4->GetPhysXComponent()->SetWorldPosWithParent(TilePos + float4{ 0 , 0 , MeshScale.z * 3.0f });
-				Tile4->GetTransform()->SetParent(Tile->GetTransform());
-
-				std::shared_ptr<SecretTile> Tile5 = CreateActor<SecretTile>();
-				Tile5->GetPhysXComponent()->SetWorldPosWithParent(TilePos + float4{ 0 , 0 , MeshScale.z * 4.0f });
-				Tile5->GetTransform()->SetParent(Tile->GetTransform());
+				Tile->Active();
+				Tile2->Active();
+				Tile3->Active();
+				Tile4->Active();
+				Tile5->Active();
 
 				Tile->GetTransform()->AddLocalRotation(float4{ 0 , -45, 0 });
-
 			});
+	}
+	{
+
 	}
 }

@@ -22,7 +22,6 @@ void SecretTile::InActive()
 {
 	OffShake();
 	m_bIsActive = false;
-	m_pRenderer->Off();
 	
 	m_pPhysXComponent->Death();
 	m_pPhysXComponent = nullptr;
@@ -31,8 +30,7 @@ void SecretTile::InActive()
 void SecretTile::Active()
 {
 	m_bIsActive = true; 
-	m_pRenderer->On();
-	
+
 	InitComponent();
 	
 	//float4 MeshScale = m_pRenderer->GetMeshScale();
@@ -103,6 +101,17 @@ void SecretTile::Start()
 
 void SecretTile::Update(float _DeltaTime)
 {
+	if (true == IsActive())
+	{
+		m_pRenderer->FadeIn(1.0f, _DeltaTime);
+	}
+
+	else if (false == IsActive())
+	{
+		m_pRenderer->FadeOut(1.0f, _DeltaTime);
+	}
+
+
 	if (true == m_bShake)
 	{
 		TileShake(_DeltaTime);
