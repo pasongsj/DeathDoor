@@ -98,7 +98,6 @@ void ShortCutDoor::SetFSMFUNC()
 			}
 			break;
 			}
-			m_pPhysXComponent->Death();
 		},
 		[this](float Delta)
 		{
@@ -109,6 +108,7 @@ void ShortCutDoor::SetFSMFUNC()
 		},
 		[this]
 		{
+			m_pPhysXComponent->Death();
 		}
 	);
 
@@ -159,6 +159,11 @@ void ShortCutDoor::SetFSMFUNC()
 			break;
 			}
 
+			if (nullptr != m_TriggerFunc)
+			{
+				m_TriggerFunc();
+			}
+
 		},
 		[this](float Delta)
 		{
@@ -166,10 +171,6 @@ void ShortCutDoor::SetFSMFUNC()
 		},
 		[this]
 		{
-			if (nullptr != m_TriggerFunc)
-			{
-				m_TriggerFunc();
-			}
 		}
 	);
 }
