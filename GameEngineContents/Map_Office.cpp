@@ -61,14 +61,6 @@ void Map_Office::Start()
 
 void Map_Office::Update(float _DeltaTime)
 {
-	float4 point = float4::ZERO;
-	UINT INDEX = -1;
-	Player::MainPlayer->GetPhysXComponent()->TriRayCast(Player::MainPlayer->GetTransform()->GetWorldPosition() + float4(0, 10, 0), float4::DOWN, point, 1000.f, INDEX);
-	physx::PxTriangle Triangletest;
-	physx::PxU32 u423[3];
-	physx::PxU32 u424[3];
-	physx::PxMeshQuery::getTriangle(m_pTriangleComp->GetTriMesh(), m_pTriangleComp->GetStatic()->getGlobalPose(), INDEX, Triangletest, u423,u424);
-	int a = 0;
 }
 
 void Map_Office::InitComponent()

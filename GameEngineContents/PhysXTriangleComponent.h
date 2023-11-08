@@ -6,6 +6,7 @@ struct sTriangle
 {
     UINT ID = -1;
 	UINT NearID[3];
+	float4 CenterPos = float4::ZERONULL;
 };
 
 // Ό³Έν :
@@ -38,7 +39,14 @@ public:
 			physx::PxTriangle TriangleTemp;
 			physx::PxU32 VertexIndex[3];
 			physx::PxMeshQuery::getTriangle(TriMesh, m_pRigidStatic->getGlobalPose(), i, TriangleTemp, VertexIndex, Temp.NearID);
-			
+			float4 Vertex0 = float4(TriangleTemp.verts[0].x, TriangleTemp.verts[0].y, TriangleTemp.verts[0].z);
+			float4 Vertex1 = float4(TriangleTemp.verts[1].x, TriangleTemp.verts[1].y, TriangleTemp.verts[1].z);
+			float4 Vertex2 = float4(TriangleTemp.verts[2].x, TriangleTemp.verts[2].y, TriangleTemp.verts[2].z);
+			float4 Result = float4(
+				((Vertex0.x + Vertex1.x + Vertex2.x) / 3.f),
+				((Vertex0.y + Vertex1.y + Vertex2.y) / 3.f),
+				((Vertex0.z + Vertex1.z + Vertex2.z) / 3.f));
+			Temp.CenterPos = Result;
 			vec_TriangleNav.push_back(Temp);
 		}
 		int a = 0;
