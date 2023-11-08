@@ -197,7 +197,7 @@ void GameEngineCore::Start(HINSTANCE _instance,  std::function<void()> _Start, s
 	GameEngineWindow::WindowLoop(std::bind(GameEngineCore::EngineStart, _Start), GameEngineCore::EngineUpdate, std::bind(GameEngineCore::EngineEnd, _End));
 }
 
-void GameEngineCore::ChangeLevel(const std::string_view& _Name) 
+std::shared_ptr<GameEngineLevel> GameEngineCore::ChangeLevel(const std::string_view& _Name)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -208,6 +208,8 @@ void GameEngineCore::ChangeLevel(const std::string_view& _Name)
 	}
 
 	NextLevel = LevelMap[UpperName];
+	
+	return NextLevel;
 }
 
 void GameEngineCore::LevelInit(std::shared_ptr<GameEngineLevel> _Level) 
