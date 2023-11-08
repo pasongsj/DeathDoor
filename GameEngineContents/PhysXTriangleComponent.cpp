@@ -179,21 +179,8 @@ void PhysXTriangleComponent::CustomFBXLoad(const std::string& _MeshName, float _
 		for (size_t j = 0; j < VertexSize; j++)
 		{
 			InstVertVec.push_back(physx::PxVec3(MeshVertexs[j].POSITION.x, MeshVertexs[j].POSITION.y, MeshVertexs[j].POSITION.z) * _Ratio);
-		}
+		}	
 		
-		for (UINT i = 0; i < IndexSize/3; i++)
-		{
-			sTriangle Temp;
-			Temp.iIndex = i;
-			if (_InverseIndex == true)
-			{
-				for (size_t j = 0+(i*3); j < 3+(i * 3); j++)
-				{
-					Temp.vec_Index.push_back(physx::PxU32(Indexes[j]));
-				}
-			}
-			vec_Triangle.push_back(Temp);
-		}
 
 		if (_InverseIndex == true)
 		{

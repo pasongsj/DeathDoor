@@ -4,8 +4,8 @@
 #include "PhysXDefault.h"
 struct sTriangle
 {
-    UINT iIndex = -1;
-    std::vector<UINT> vec_Index;
+    UINT ID = -1;
+	UINT NearID[3];
 };
 
 // Ό³Έν :
@@ -27,19 +27,6 @@ public:
 	{
 		return TriMesh;
 	}
-
-	std::vector<float4> GetVertexPos(UINT _Index)
-	{
-		std::vector<float4> vec_Return;
-		UINT INDEX = -1;
-		for (size_t i = 0; i < 3; i++)
-		{
-			INDEX = vec_Triangle[vec_Triangle.size() - _Index].vec_Index[i];
-			vec_Return.push_back(float4(VertexVec[0][INDEX].x, VertexVec[0][INDEX].y, VertexVec[0][INDEX].z));
-		}
-		return vec_Return;
-	}
-
 
 protected:
 	void Start() override;
