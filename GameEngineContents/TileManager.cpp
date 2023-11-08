@@ -225,9 +225,7 @@ void TileManager::InitComponent()
 	
 	Create_WallObject();
 
-	std::shared_ptr<Ladder> Obj = GetLevel()->CreateActor<Ladder>();
-	Obj->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
-	Obj->GetTransform()->SetLocalPosition(float4{ -4880,  -40 , 4947 });
+	
 
 	for (size_t i = 0; i < m_vFireObjects.size(); i++)
 	{

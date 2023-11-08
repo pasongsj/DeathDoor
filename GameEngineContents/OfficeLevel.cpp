@@ -142,7 +142,6 @@ void OfficeLevel::Create_TriggerObject()
 	{
 		// Æ÷Æ®¸®½º Æ÷Å» 
 		std::shared_ptr<ShortCutDoor> Obj = CreateActor<ShortCutDoor>();
-		Obj->SetState(StartState::CLOSE);
 		Obj->GetTransform()->AddLocalRotation(float4{ 0 , -45, 0 });
 		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1164,1256, 5221 });
 		Obj->SetTriggerFunction([=]
@@ -156,7 +155,6 @@ void OfficeLevel::Create_TriggerObject()
 	{
 		// ±î¸¶±Í Æ÷Å» 
 		std::shared_ptr<ShortCutDoor> Obj = CreateActor<ShortCutDoor>();
-		Obj->SetState(StartState::CLOSE);
 		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1168, 1656, 6259 });
 		Obj->SetTriggerFunction([=]
 			{
