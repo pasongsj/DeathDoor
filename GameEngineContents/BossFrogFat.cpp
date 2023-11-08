@@ -179,29 +179,6 @@ void BossFrogFat::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 60, std::bind(&BossFrogFat::SuckTile, this));
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 65, std::bind(&BossFrogFat::SuckTile, this));
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 70, std::bind(&BossFrogFat::SuckTile, this));
-	//EnemyRenderer->SetAnimationStartFunc("SUCK", 40, [this]
-	//	{
-	//		SuckTile();
-	//	});
-	//EnemyRenderer->SetAnimationStartFunc("SUCK", 50, [this]
-	//	{
-	//		SuckTile();
-	//	});
-	//EnemyRenderer->SetAnimationStartFunc("SUCK", 60, [this]
-	//	{
-	//		SuckTile();
-	//	});
-
-	//EnemyRenderer->SetAnimationStartFunc("SUCK", 65, [this]
-	//	{
-	//		SuckTile();
-	//	});
-
-	//EnemyRenderer->SetAnimationStartFunc("SUCK", 70, [this]
-	//	{
-	//		SuckTile();
-	//	});
-
 
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB", "FROG_FAT_SUCK_BOMB.fbx", { 1.0f / 30, false });					   //ÈíÀÔ Áß ÆøÅº ¸ÔÀ½
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB_GETUP", "FROG_FAT_SUCK_BOMB_GETUP.fbx", { 1.0f / 30, false });		   //´«¾Ë ºùºù ÈÄ ÀÏ¾î³²
@@ -394,6 +371,7 @@ void BossFrogFat::SetFSMFUNC()
 			EnemyRenderer->ChangeAnimation("TILT_JUMP");
 			JumpStartPoint = GetTransform()->GetWorldPosition();
 			JumpEndPoint = GetPlayerPosition();
+			JumpEndPoint.y = -180.0f;
 			CalJumpPoint();
 			m_pCapsuleComp->RigidSwitch(false);
 		},
@@ -479,12 +457,7 @@ void BossFrogFat::SetFSMFUNC()
 				SetNextState(BossFrogFatState::SUCK_BOMB);
 			}
 
-			SuckParticleCount += Delta;
-			if(SuckParticleCount >= 0.1f)
-			{
-				SuckParticleCount = 0.0f;
-				CreateSuckParticle();
-			}
+			
 
 			CheckHit();
 			if (false == GetStateChecker())
@@ -498,6 +471,13 @@ void BossFrogFat::SetFSMFUNC()
 				else if(GetStateDuration() > 1.0f)
 				{
 					Player::MainPlayer->GetPhysXComponent()->SetMoveSpeed(-GetPlayerDir()* 500.0f);
+					
+					SuckParticleCount += Delta;
+					if (SuckParticleCount >= 0.1f)
+					{
+						SuckParticleCount = 0.0f;
+						CreateSuckParticle();
+					}
 				}
 			}
 			else if (true == EnemyRenderer->IsAnimationEnd())

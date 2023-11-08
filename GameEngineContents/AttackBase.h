@@ -88,16 +88,22 @@ protected:
 
 	virtual void CreateParticle(float _DeltaTime) {}
 
-	float4 GetDir() const
+
+	inline float4 GetDir() const
 	{
 		return Dir;
 	}
 
-	float GetShootSpeed() const
+	inline float GetFireTime() const
+	{
+		return FireTime;
+	}
+	inline float GetShootSpeed() const
 	{
 		return ShootSpeed;
 	}
 
+	PhysXFilterGroup DestTarget = PhysXFilterGroup::None;
 private:
 	bool isShoot = false;
 
@@ -106,6 +112,5 @@ private:
 
 	float ShootSpeed = 1500.0f;
 
-	PhysXFilterGroup DestTarget = PhysXFilterGroup::None;
 };
 
