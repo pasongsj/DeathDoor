@@ -204,7 +204,7 @@ void PhysXTriangleComponent::CustomFBXLoad(const std::string& _MeshName, float _
 
 bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 {
-	vec_ResultRoad.clear();
+	dq_ResultRoad.clear();
 	float4 f4Point = float4::ZERONULL;
 	UINT iStartIndex = -1;
 	TriRayCast(_Start+float4(0,10,0), float4::DOWN, f4Point, 100.f, iStartIndex);
@@ -229,11 +229,11 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 	sRootTriangle.Heuristic = fHeuristic;
 	sRootTriangle.Value = fHeuristic;
 	sRootTriangle.Visit = true;
-	vec_ResultRoad.push_back(sRootTriangle);
+	dq_ResultRoad.push_back(sRootTriangle);
 
-	while (vec_ResultRoad.back().ID != sTailTriangle.ID)
+	while (dq_ResultRoad.back().ID != sTailTriangle.ID)
 	{
-		sTriangle sLastTriangle = vec_ResultRoad.back();
+		sTriangle sLastTriangle = dq_ResultRoad.back();
 
 		std::priority_queue<sTriangle, std::vector<sTriangle>, sTriangle::compare> RoadQueue;
 
@@ -261,16 +261,26 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 
 		if (RoadQueue.size() == 0)
 		{
-			vec_TriangleNav[vec_ResultRoad.back().ID].Visit = true;
-			vec_ResultRoad.pop_back();
+			vec_TriangleNav[dq_ResultRoad.back().ID].Visit = true;
+			dq_ResultRoad.pop_back();
+			if (dq_ResultRoad.empty())
+			{
+				break;
+			}
 		}
 		else
 		{
-			vec_ResultRoad.push_back(RoadQueue.top());
+			dq_ResultRoad.push_back(RoadQueue.top());
 		}
-		int a = 0;
 	}
-
+	
+	for (size_t i = 0; i < vec_TriangleNav.size(); i++)
+	{
+		vec_TriangleNav[i].Cost = -1;
+		vec_TriangleNav[i].Heuristic = -1;
+		vec_TriangleNav[i].Value = -1;
+		vec_TriangleNav[i].Visit = false;
+	}
 	return true;
 }
 

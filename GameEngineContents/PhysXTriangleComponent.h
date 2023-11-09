@@ -66,7 +66,7 @@ public:
 
 	void GetRoad(std::deque<sTriangle>& _Deque)
 	{
-		_Deque.swap(vec_ResultRoad);
+		_Deque = dq_ResultRoad;
 	}
 protected:
 	void Start() override;
@@ -85,7 +85,7 @@ private:
 	physx::PxTriangleMesh* TriMesh = nullptr;
 
     std::vector<sTriangle> vec_TriangleNav;
-	std::deque<sTriangle> vec_ResultRoad;
+	std::deque<sTriangle> dq_ResultRoad;
 
 };
 //
