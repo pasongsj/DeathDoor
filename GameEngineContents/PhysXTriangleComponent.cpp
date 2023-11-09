@@ -276,5 +276,5 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 
 bool sTriangle::compare::operator()(sTriangle a, sTriangle b)
 {	
-	return a.Value < b.Value;
+	return a.Value > b.Value;
 }
