@@ -8,6 +8,8 @@ struct sTriangle
 	UINT NearID[3];
 	float4 CenterPos = float4::ZERONULL;
 	float Cost = -1;
+	float Heuristic = -1;
+	float Value = -1;
 
 	struct compare
 	{

@@ -61,6 +61,12 @@ void Map_Office::Start()
 
 void Map_Office::Update(float _DeltaTime)
 {
+	if (GameEngineInput::IsDown("E"))
+	{
+		m_pTriangleComp->FindRoad(Player::MainPlayer->GetTransform()->GetWorldPosition(), float4{ 1358 , -280, -3620 });
+
+	}
+
 }
 
 void Map_Office::InitComponent()

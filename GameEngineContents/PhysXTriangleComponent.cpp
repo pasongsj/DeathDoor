@@ -208,28 +208,33 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 	vec_ResultRoad.clear();
 	float4 f4Point = float4::ZERONULL;
 	UINT iStartIndex = -1;
-	TriRayCast(_Start,float4::DOWN, f4Point,100.f, iStartIndex);
+	TriRayCast(_Start+float4(0,10,0), float4::DOWN, f4Point, 100.f, iStartIndex);
 	if (iStartIndex == -1)
 	{
 		return false;
 	}
 
 	UINT iEndIndex = -1;
-	TriRayCast(_End, float4::DOWN, f4Point, 100.f, iEndIndex);
+	TriRayCast(_End + float4(0, 10, 0), float4::DOWN, f4Point, 100.f, iEndIndex);
 	if (iEndIndex == -1)
 	{
 		return false;
 	}
+
 	
 	sTriangle sRootTriangle = vec_TriangleNav[iStartIndex];
 	sTriangle sTailTriangle = vec_TriangleNav[iEndIndex];
 
+	float fHeuristic = sRootTriangle.CenterPos.XYZDistance(sTailTriangle.CenterPos);
+	vec_TriangleNav[iStartIndex].Cost = 0;
+	vec_TriangleNav[iStartIndex].Heuristic = fHeuristic;
+	vec_TriangleNav[iStartIndex].Value = fHeuristic;
 	vec_ResultRoad.push_back(sRootTriangle);
 
-	float4 f4NearPos[3];
-	while (vec_ResultRoad.back().ID == sTailTriangle.ID)
+	float4 f4NearPos = float4::ZERONULL;
+	while (vec_ResultRoad.back().ID != sTailTriangle.ID)
 	{
-		float4 f4LastPos = vec_ResultRoad.back().CenterPos;
+		sTriangle f4Last = vec_ResultRoad.back();
 
 		std::priority_queue<sTriangle, std::vector<sTriangle>, sTriangle::compare> RoadQueue;
 
@@ -240,11 +245,19 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 			{
 				continue;
 			}
-			f4NearPos[i] = vec_TriangleNav[iNearID].CenterPos;
-			vec_TriangleNav[iNearID].Cost = f4LastPos.XYZDistance(f4NearPos[i]);
-			RoadQueue.push(vec_TriangleNav[iNearID]);
+			f4NearPos = vec_TriangleNav[iNearID].CenterPos;
+			float fCost = f4Last.CenterPos.XYZDistance(f4NearPos);
+			if (vec_TriangleNav[iNearID].Cost > fCost || vec_TriangleNav[iNearID].Cost == -1)
+			{
+				vec_TriangleNav[iNearID].Cost = fCost;
+				vec_TriangleNav[iNearID].Heuristic = f4NearPos.XYZDistance(sTailTriangle.CenterPos);
+				vec_TriangleNav[iNearID].Value = fCost + vec_TriangleNav[iNearID].Heuristic;
+				RoadQueue.push(vec_TriangleNav[iNearID]);
+			}			
+			int a = 0;
 		}
 		vec_ResultRoad.push_back(RoadQueue.top());
+		int a = 0;
 	}
 
 	return true;
@@ -252,5 +265,5 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 
 bool sTriangle::compare::operator()(sTriangle a, sTriangle b)
 {	
-	return a.Cost < b.Cost;
+	return a.Value < b.Value;
 }
