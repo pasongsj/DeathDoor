@@ -612,8 +612,8 @@ void BossFrogMain::CreateShockParticle()
 		AngleVector = DirectX::XMVector3Rotate({ 0.0f, 1.0f, 0.0f }, AngleVector);
 		AngleVector.Normalize();
 
-		New->SetAutoMove(AngleVector, 300.0f);
-		New->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 150.0f * AngleVector.x, 0.0f, 150.0f * AngleVector.z });
+		New->SetAutoMove(AngleVector, 1000.0f);
+		New->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 250.0f * AngleVector.x, 0.0f, 250.0f * AngleVector.z });
 
 		New->SetScaleDecrease({ 1.0f, YScale, 1.0f }, 30.0f);
 
