@@ -10,6 +10,7 @@
 #include "GameEnginePixelShader.h"
 #include "GameEngineFBXRenderer.h"
 #include "GameEngineLight.h"
+#include "GameEngineLevel.h"
 
 GameEngineCamera::GameEngineCamera()
 {
