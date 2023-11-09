@@ -10,6 +10,7 @@
 #include "GameEngineDevice.h"
 #include "GameEngineVideo.h"
 #include "GameEngineGUI.h"
+#include "GameEngineLevel.h"
 
 #include <GameEngineContents/PhysXManager.h>
 #include <GameEngineBase/GameEngineNetObject.h>
@@ -212,8 +213,9 @@ std::shared_ptr<GameEngineLevel> GameEngineCore::ChangeLevel(const std::string_v
 	return NextLevel;
 }
 
-void GameEngineCore::LevelInit(std::shared_ptr<GameEngineLevel> _Level) 
+void GameEngineCore::LevelInit(std::shared_ptr<GameEngineLevel> _Level,const std::string_view& _Name) 
 {
+	_Level->SetName(_Name);
 	CurLoadLevel = _Level;
 	_Level->Level = _Level.get();
 	_Level->Start();

@@ -179,10 +179,7 @@ public:
 		m_pShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, _Value);
 	}
 
-	void CreateScene()
-	{
-		PhysXManager::GetInst()->CreateScene(GameEngineCore::GetCurLevel()->GetName());
-	}
+	void CreateScene();
 
 	void SetCameraPvd(float4 _CamPos, float4 _TargetPos)
 	{

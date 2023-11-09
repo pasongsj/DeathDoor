@@ -13,6 +13,7 @@
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 #include <GameEngineCore/GameEngineUIRenderer.h>
 #include <GameEngineCore/GameEngineFontRenderer.h>
+#include <GameEngineCore/GameEngineLevel.h>
 
 #include "ContentFBXRenderer.h"
 
