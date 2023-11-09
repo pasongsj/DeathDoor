@@ -228,7 +228,12 @@ physx::PxQueryHitType::Enum CustomQueryFilterCallback::preFilter(const physx::Px
 	}
 	float4 PlayerGroundPos = m_pOwnerComp.lock()->GetWorldPosition();
 	float4 CollPoint = float4::ZERO;
+	float4 Dir = m_pOwnerComp.lock()->GetActor()->GetTransform()->GetWorldForwardVector();
 	if (false == m_pOwnerComp.lock()->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 30.0f)&& shape->getGeometryType() == physx::PxBoxGeometry().getType())
+	{
+		return physx::PxQueryHitType::eNONE;
+	}
+	else if ( shape->getGeometryType() == physx::PxTriangleMeshGeometry().getType() && false == m_bReturnValue)
 	{
 		return physx::PxQueryHitType::eNONE;
 	}

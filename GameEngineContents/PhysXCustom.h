@@ -57,9 +57,14 @@ public:
 	{
 		m_pOwnerComp = _OwnerComp;
 	}
+	void SetRigid(bool _Value)
+	{
+		m_bReturnValue = _Value;
+	}
 
 private:
 	std::weak_ptr<class PhysXControllerComponent> m_pOwnerComp;
+	bool m_bReturnValue;
 
 };
 class CustomCctBehaviorCallback : public physx::PxControllerBehaviorCallback

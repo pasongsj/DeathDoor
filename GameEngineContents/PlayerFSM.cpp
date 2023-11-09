@@ -467,7 +467,8 @@ void Player::SetFSMFunc()
 			Renderer->PauseOn();
 			m_pCapsuleComp->TurnOffGravity(); 
 			m_pCapsuleComp->SetWorldPosWithParent(InteractData.Pos);
-			MoveDir = InteractData.Dir;
+			MoveDir = InteractData.Dir; 
+			m_pCapsuleComp->RigidSwitch(false);
 		},
 		[this](float Delta)
 		{
@@ -481,6 +482,7 @@ void Player::SetFSMFunc()
 				InteractData.Type = InteractionData::InteractionDataType::None;
 				InteractData.Pos = float4::ZERONULL;
 				InteractData.Dir = float4::ZERONULL;
+				m_pCapsuleComp->RigidSwitch(true);
 		}
 	); 
 
@@ -489,6 +491,7 @@ void Player::SetFSMFunc()
 		{
 			Renderer->ChangeAnimation("CLIMBING_OFF_LADDER_TOP");
 			m_pCapsuleComp->TurnOffGravity();
+
 		},
 		[this](float Delta)
 		{
@@ -666,11 +669,11 @@ void Player::CheckClimbInput(float _DeltaTime)
 	if (true == GameEngineInput::IsPress("PlayerUp"))
 	{
 		float4 PlayerGroundPos = GetTransform()->GetWorldPosition() + (MoveDir * 50.0f);
-		PlayerGroundPos.y += 50.0f;
+		PlayerGroundPos.y += 50.0f;	
 		float4 CollPoint = float4::ZERO;
-		if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::UP, CollPoint))
+		if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint))
 		{
-			if (CollPoint.y - PlayerGroundPos.y < 5.0f)
+			if (fabsf(CollPoint.y - PlayerGroundPos.y) < 5.0f)
 			{
 				SetNextState(PlayerState::CLIMB_TOP);
 				return;

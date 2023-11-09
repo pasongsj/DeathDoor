@@ -427,7 +427,8 @@ void FortressLevel::Create_FieldObject()
 
 		std::shared_ptr<Ladder> Obj2 = CreateActor<Ladder>();
 		Obj2->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
-		Obj2->GetPhysXComponent()->SetWorldPosWithParent(float4{ 105, 46, 6140 });
+		Obj2->GetPhysXComponent()->SetWorldPosWithParent(float4{ 105, 146, 6140 });
+		Obj2->SetHeight(9);
 		Obj2->SetHidden(true);
 
 		Obj->SetTriggerFunction([=]
@@ -511,7 +512,8 @@ void FortressLevel::Create_FieldObject()
 
 		std::shared_ptr<Ladder> Obj2 = CreateActor<Ladder>();
 		Obj2->GetTransform()->SetLocalRotation(float4{ 0 , 45, 0 });
-		Obj2->GetPhysXComponent()->SetWorldPosWithParent(float4{ -13002, -250, 9380 });
+		Obj2->GetPhysXComponent()->SetWorldPosWithParent(float4{ -12982, 46, 9400 });
+		Obj2->SetHeight(5);
 		Obj2->SetHidden(true);
 
 		Obj->SetTriggerFunction([=]
