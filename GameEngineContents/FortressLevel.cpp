@@ -380,7 +380,8 @@ void FortressLevel::Create_FieldObject()
 	{
 		std::shared_ptr<Ladder> Obj = CreateActor<Ladder>();
 		Obj->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
-		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -2310, -160, 750 });
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -2330, -6, 760 });
+		Obj->SetHeight(7);
 	}
 
 	{
