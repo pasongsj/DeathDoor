@@ -1,5 +1,6 @@
 #include "PrecompileHeader.h"
 #include "PhysXTriangleComponent.h"
+#include <queue>
 
 //#include "GameEngineLevel.h"
 #include <GameEngineCore/GameEngineFBXMesh.h>
@@ -200,4 +201,56 @@ void PhysXTriangleComponent::CustomFBXLoad(const std::string& _MeshName, float _
 		VertexVec.push_back(InstVertVec);
 		IndexVec.push_back(InstIndexVec);
 	}
+}
+
+bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
+{
+	vec_ResultRoad.clear();
+	float4 f4Point = float4::ZERONULL;
+	UINT iStartIndex = -1;
+	TriRayCast(_Start,float4::DOWN, f4Point,100.f, iStartIndex);
+	if (iStartIndex == -1)
+	{
+		return false;
+	}
+
+	UINT iEndIndex = -1;
+	TriRayCast(_End, float4::DOWN, f4Point, 100.f, iEndIndex);
+	if (iEndIndex == -1)
+	{
+		return false;
+	}
+	
+	sTriangle sRootTriangle = vec_TriangleNav[iStartIndex];
+	sTriangle sTailTriangle = vec_TriangleNav[iEndIndex];
+
+	vec_ResultRoad.push_back(sRootTriangle);
+
+	float4 f4NearPos[3];
+	while (vec_ResultRoad.back().ID == sTailTriangle.ID)
+	{
+		float4 f4LastPos = vec_ResultRoad.back().CenterPos;
+
+		std::priority_queue<sTriangle, std::vector<sTriangle>, sTriangle::compare> RoadQueue;
+
+		for (size_t i = 0; i < 3; i++)
+		{
+			UINT iNearID = vec_TriangleNav[vec_ResultRoad.back().ID].NearID[i];
+			if (iNearID == -1)
+			{
+				continue;
+			}
+			f4NearPos[i] = vec_TriangleNav[iNearID].CenterPos;
+			vec_TriangleNav[iNearID].Cost = f4LastPos.XYZDistance(f4NearPos[i]);
+			RoadQueue.push(vec_TriangleNav[iNearID]);
+		}
+		vec_ResultRoad.push_back(RoadQueue.top());
+	}
+
+	return true;
+}
+
+bool sTriangle::compare::operator()(sTriangle a, sTriangle b)
+{	
+	return a.Cost < b.Cost;
 }

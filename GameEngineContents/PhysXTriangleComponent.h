@@ -7,11 +7,20 @@ struct sTriangle
     UINT ID = -1;
 	UINT NearID[3];
 	float4 CenterPos = float4::ZERONULL;
+	float Cost = -1;
+
+	struct compare
+	{
+		bool operator()(sTriangle a, sTriangle b);
+	};
 };
+
 
 // Ό³Έν :
 class PhysXTriangleComponent : public GameEngineComponent, public PhysXDefault
 {
+	friend class compare;
+
 public:
 	// constrcuter destructer
 	PhysXTriangleComponent();
@@ -51,6 +60,8 @@ public:
 		}
 		int a = 0;
 	}
+	bool FindRoad(float4 _Start, float4 _End);
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -68,6 +79,7 @@ private:
 	physx::PxTriangleMesh* TriMesh = nullptr;
 
     std::vector<sTriangle> vec_TriangleNav;
+	std::vector<sTriangle> vec_ResultRoad;
 
 };
 //
