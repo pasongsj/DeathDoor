@@ -1,6 +1,5 @@
 #include "PrecompileHeader.h"
 #include "PhysXTriangleComponent.h"
-#include <queue>
 
 //#include "GameEngineLevel.h"
 #include <GameEngineCore/GameEngineFBXMesh.h>
@@ -226,53 +225,53 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 	sTriangle sTailTriangle = vec_TriangleNav[iEndIndex];
 
 	float fHeuristic = sRootTriangle.CenterPos.XYZDistance(sTailTriangle.CenterPos);
-	vec_TriangleNav[iStartIndex].Cost = 0;
-	vec_TriangleNav[iStartIndex].Heuristic = fHeuristic;
-	vec_TriangleNav[iStartIndex].Value = fHeuristic;
+	sRootTriangle.Cost = 0;
+	sRootTriangle.Heuristic = fHeuristic;
+	sRootTriangle.Value = fHeuristic;
+	sRootTriangle.Visit = true;
 	vec_ResultRoad.push_back(sRootTriangle);
 
-	float4 f4NearPos = float4::ZERONULL;
 	while (vec_ResultRoad.back().ID != sTailTriangle.ID)
 	{
-		sTriangle f4Last = vec_ResultRoad.back();
+		sTriangle sLastTriangle = vec_ResultRoad.back();
 
 		std::priority_queue<sTriangle, std::vector<sTriangle>, sTriangle::compare> RoadQueue;
 
 		for (size_t i = 0; i < 3; i++)
 		{
-			UINT iNearID = vec_TriangleNav[f4Last.ID].NearID[i];
+			UINT iNearID = vec_TriangleNav[sLastTriangle.ID].NearID[i];
 			if (iNearID == -1)
 			{
 				continue;
 			}
-			int Check = 0;
-			for (size_t j = 0; j < 3; j++)
-			{				
-				if (vec_TriangleNav[iNearID].NearID[j] == f4Last.ID ||
-					vec_TriangleNav[iNearID].NearID[j] == -1)
-				{
-					++Check;
-				}
-			}
-			if (3== Check)
-			{
-				continue;
-			}
-			f4NearPos = vec_TriangleNav[iNearID].CenterPos;
-			float fCost = f4Last.Cost+f4Last.CenterPos.XYZDistance(f4NearPos);
-			if (vec_TriangleNav[iNearID].Cost > fCost || vec_TriangleNav[iNearID].Cost < 0)
-			{
-				vec_TriangleNav[iNearID].Cost = fCost;
-				vec_TriangleNav[iNearID].Heuristic = f4NearPos.XYZDistance(sTailTriangle.CenterPos);
-				vec_TriangleNav[iNearID].Value = fCost + vec_TriangleNav[iNearID].Heuristic;
-				RoadQueue.push(vec_TriangleNav[iNearID]);
-			}
-			if (RoadQueue.size() == 0)
+			if (sLastTriangle.ID== 367)
 			{
 				int a = 0;
 			}
+			
+			if (vec_TriangleNav[iNearID].Visit == true)
+			{
+				continue;
+			}
+			float fCost = sLastTriangle.Cost+ sLastTriangle.CenterPos.XYZDistance(vec_TriangleNav[iNearID].CenterPos);
+			if (vec_TriangleNav[iNearID].Cost >= fCost || vec_TriangleNav[iNearID].Cost < 0)
+			{
+				vec_TriangleNav[iNearID].Cost = fCost;
+				vec_TriangleNav[iNearID].Heuristic = vec_TriangleNav[iNearID].CenterPos.XYZDistance(sTailTriangle.CenterPos);
+				vec_TriangleNav[iNearID].Value = fCost + vec_TriangleNav[iNearID].Heuristic;
+				RoadQueue.push(vec_TriangleNav[iNearID]);
+			}
 		}
-		vec_ResultRoad.push_back(RoadQueue.top());
+
+		if (RoadQueue.size() == 0)
+		{
+			vec_TriangleNav[vec_ResultRoad.back().ID].Visit = true;
+			vec_ResultRoad.pop_back();
+		}
+		else
+		{
+			vec_ResultRoad.push_back(RoadQueue.top());
+		}
 		int a = 0;
 	}
 

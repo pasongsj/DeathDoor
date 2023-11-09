@@ -59,14 +59,28 @@ void Map_Office::Start()
 	m_pTriangleComp->SetNavigation();
 }
 
+
+std::deque<sTriangle> Road;
+float fTime;
 void Map_Office::Update(float _DeltaTime)
 {
 	if (GameEngineInput::IsDown("E"))
 	{
+		Player::MainPlayer->GetPhysXComponent()->TurnOffGravity();
 		m_pTriangleComp->FindRoad(Player::MainPlayer->GetTransform()->GetWorldPosition(), float4{ 1358 , -280, -3620 });
-
+		m_pTriangleComp->GetRoad(Road);
 	}
-
+	if (Road.empty()!=true)
+	{
+		fTime += _DeltaTime;
+		if (fTime>=1.f)
+		{
+			sTriangle Test = Road.front(); 
+			Road.pop_front();
+			Player::MainPlayer->GetPhysXComponent()->SetWorldPosWithParent(Test.CenterPos);
+			fTime -= 1.f;
+		}
+	}
 }
 
 void Map_Office::InitComponent()

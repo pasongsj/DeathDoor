@@ -1,5 +1,4 @@
 #pragma once
-
 #include <GameEngineCore/GameEngineComponent.h>
 #include "PhysXDefault.h"
 struct sTriangle
@@ -10,6 +9,7 @@ struct sTriangle
 	float Cost = -1;
 	float Heuristic = -1;
 	float Value = -1;
+	bool Visit = false;
 
 	struct compare
 	{
@@ -64,6 +64,10 @@ public:
 	}
 	bool FindRoad(float4 _Start, float4 _End);
 
+	void GetRoad(std::deque<sTriangle>& _Deque)
+	{
+		_Deque.swap(vec_ResultRoad);
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -81,7 +85,7 @@ private:
 	physx::PxTriangleMesh* TriMesh = nullptr;
 
     std::vector<sTriangle> vec_TriangleNav;
-	std::vector<sTriangle> vec_ResultRoad;
+	std::deque<sTriangle> vec_ResultRoad;
 
 };
 //
