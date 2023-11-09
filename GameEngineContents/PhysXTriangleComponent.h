@@ -178,20 +178,20 @@ private:
 //        // 우선순위 큐가 빌 때까지 반복한다
 //        while (!pq.empty()) {
 //            // 우선순위 큐에서 가장 비용이 낮은 Cell을 꺼낸다
-//            int current = pq.top().second;
+//            int last = pq.top().second;
 //            pq.pop();
 //            // 도착 Cell에 도달했다면 반복을 종료한다
-//            if (current == goal) break;
+//            if (last == goal) break;
 //            // 현재 Cell의 모든 이웃 Cell에 대해 반복한다
-//            for (int next : cells[current].neighbors) {
+//            for (int near : cells[last].neighbors) {
 //                // 이웃 Cell의 새로운 비용을 계산한다
-//                double newCost = cells[current].cost + getDistance(current, next);
+//                double newCost = cells[last].cost + getDistance(last, next);
 //                // 이웃 Cell의 비용이 새로운 비용보다 크거나 초기값이라면 갱신한다
-//                if (cells[next].cost > newCost || cells[next].cost == -1) {
-//                    cells[next].cost = newCost;
-//                    cells[next].heuristic = getDistance(next, goal);
-//                    cells[next].f = cells[next].cost + cells[next].heuristic;
-//                    cells[next].parent = current;
+//                if (cells[near].cost > newCost || cells[near].cost == -1) {
+//                    cells[near].cost = newCost;
+//                    cells[near].heuristic = getDistance(near, goal);
+//                    cells[near].f = cells[next].cost + cells[near].heuristic;
+//                    cells[near].parent = current;
 //                    // 이웃 Cell을 우선순위 큐에 넣는다
 //                    pq.push({ cells[next].f, next });
 //                }

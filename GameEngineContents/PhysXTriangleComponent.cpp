@@ -245,16 +245,32 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 			{
 				continue;
 			}
+			int Check = 0;
+			for (size_t j = 0; j < 3; j++)
+			{				
+				if (vec_TriangleNav[iNearID].NearID[j] == vec_ResultRoad.back().ID ||
+					vec_TriangleNav[iNearID].NearID[j] == -1)
+				{
+					++Check;
+				}
+			}
+			if (3== Check)
+			{
+				continue;
+			}
 			f4NearPos = vec_TriangleNav[iNearID].CenterPos;
-			float fCost = f4Last.CenterPos.XYZDistance(f4NearPos);
+			float fCost = f4Last.Cost+f4Last.Heuristic;
 			if (vec_TriangleNav[iNearID].Cost > fCost || vec_TriangleNav[iNearID].Cost == -1)
 			{
 				vec_TriangleNav[iNearID].Cost = fCost;
 				vec_TriangleNav[iNearID].Heuristic = f4NearPos.XYZDistance(sTailTriangle.CenterPos);
 				vec_TriangleNav[iNearID].Value = fCost + vec_TriangleNav[iNearID].Heuristic;
 				RoadQueue.push(vec_TriangleNav[iNearID]);
-			}			
-			int a = 0;
+			}
+			if (RoadQueue.size() == 0)
+			{
+				int a = 0;
+			}
 		}
 		vec_ResultRoad.push_back(RoadQueue.top());
 		int a = 0;
