@@ -84,6 +84,11 @@ void Map_Office::Update(float _DeltaTime)
 			fTime -= 1.f;
 		}
 	}
+	else
+	{
+
+		Player::MainPlayer->GetPhysXComponent()->TurnOnGravity();
+	}
 }
 
 void Map_Office::InitComponent()
