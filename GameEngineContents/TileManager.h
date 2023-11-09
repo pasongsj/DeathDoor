@@ -59,9 +59,9 @@ private:
 
 	const float4 GetTilePos(const int _Y, const int _X);
 	const float4 GetTileIndex(const float4& _Pos);
-
-	void InActiveTile(const int _Y, const int _X);
-	void DestroyTile(const int _Y, const int _X);
+ 
+	void InActiveTileToDelay(const int _Y, const int _X);
+	void DestroyTile(const int _Y, const int _X, bool _Delay = false);
 	bool IsTile(const int _Y, const int _X);
 	void ResetTile();
 	void ShakeTile(const int _Y, const int _X, float _ShakeTime);
