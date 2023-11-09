@@ -259,7 +259,7 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 				continue;
 			}
 			f4NearPos = vec_TriangleNav[iNearID].CenterPos;
-			float fCost = f4Last.Cost+f4Last.Heuristic;
+			float fCost = f4Last.Cost+f4Last.CenterPos.XYZDistance(f4NearPos);
 			if (vec_TriangleNav[iNearID].Cost > fCost || vec_TriangleNav[iNearID].Cost == -1)
 			{
 				vec_TriangleNav[iNearID].Cost = fCost;

@@ -190,7 +190,7 @@ private:
 //                if (cells[near].cost > newCost || cells[near].cost == -1) {
 //                    cells[near].cost = newCost;
 //                    cells[near].heuristic = getDistance(near, goal);
-//                    cells[near].f = cells[next].cost + cells[near].heuristic;
+//                    cells[near].f = cells[near].cost + cells[near].heuristic;
 //                    cells[near].parent = current;
 //                    // 이웃 Cell을 우선순위 큐에 넣는다
 //                    pq.push({ cells[next].f, next });
