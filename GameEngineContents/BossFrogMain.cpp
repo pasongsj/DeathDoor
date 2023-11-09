@@ -1,6 +1,10 @@
 #include "PreCompileHeader.h"
 #include "BossFrogMain.h"
+#include "ShockWave.h"
 #include "EnemyAttackBox.h"
+#include "DustParticle.h"
+#include "Particle3D.h"
+#include <GameEngineBase/GameEngineRandom.h>
 
 BossFrogMain::BossFrogMain()
 {
@@ -81,6 +85,7 @@ void BossFrogMain::InitAnimation()
 			if (true == IsTile(CurTileindex.iy(), CurTileindex.ix()))
 			{
 				DestroyTile(CurTileindex.iy(), CurTileindex.ix());
+				CreateShockParticle();
 			}
 			float4 NextPos = GetNextPostition();
 			if(NextPos == float4::ZERONULL)
@@ -126,6 +131,11 @@ void BossFrogMain::InitAnimation()
 		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_END", 40, [this]
 		{
+			std::weak_ptr<ShockWave> Wave = CreateComponent<ShockWave>();
+			Wave.lock()->GetTransform()->SetLocalPosition(float4{0.0f, 0.0f, +500.0f});
+			Wave.lock()->GetTransform()->SetWorldRotation({90.0f, 0.0f, 0.0f});
+			Wave.lock()->GetTransform()->SetLocalScale({10.0f, 10.0f, 1.0f});
+
 			AllTileReset();
 			m_pCapsuleComp->TurnOnGravity();
 			if (nullptr != SmashAttack)
@@ -525,9 +535,88 @@ void BossFrogMain::MoveUpdate()
 {
 	m_pCapsuleComp->SetMoveSpeed(MoveSpeed);
 }
+
 void BossFrogMain::CalMoveAmount(const float4& Dest, float MoveTime, float Yaxis)
 {
 	float4 MoveAmount = Dest - GetTransform()->GetWorldPosition();
 	MoveAmount.y = Yaxis;
 	MoveSpeed = MoveAmount * MoveTime;
+}
+
+void BossFrogMain::CreateShockParticle()
+{
+	std::shared_ptr<GameEngineRenderer> ShockCircle = CreateComponent<GameEngineRenderer>();
+
+	ShockCircle->SetMesh("Rect");
+	ShockCircle->SetMaterial("ShockCircle", RenderPath::Alpha);
+	ShockCircle->GetUnit()->ShaderResHelper.SetTexture("Diffusetex", "ShockCircle.png");
+	ShockCircle->GetTransform()->SetWorldScale({ 400.0f, 400.0f });
+	ShockCircle->GetTransform()->SetWorldPosition(EnemyRenderer->GetTransform()->GetWorldPosition() + float4{ 0.0f, 0.0f, 0.0f });
+	ShockCircle->GetTransform()->SetWorldRotation({ 90.0f, 0.0f });
+	ShockCircle->GetUnit()->Color.MulColor = { 1.0f, 1.0f, 1.0f, 0.8f };
+
+	std::weak_ptr<GameEngineRenderer> Weak = ShockCircle;
+
+	GetLevel()->TimeEvent.AddEvent(0.1f, [this, Weak](GameEngineTimeEvent::TimeEvent&, GameEngineTimeEvent*)
+		{
+			Weak.lock()->Death();
+		}
+	);
+
+	float Angle = 0.0f;
+
+	for (int i = 0; i < 12; i++)
+	{
+		std::shared_ptr<DustParticle> Dust = CreateComponent<DustParticle>();
+		Dust->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{0.0f, 100.0f, 0.0f});
+		Dust->GetTransform()->SetWorldScale({ 150.0f, 150.0f });
+		Dust->SetFadeSpeed(2.0f);
+		Dust->SetFadeInAndOut();
+
+		Angle += 30.0f;
+
+		float4 Dir = { cos(Angle), 0.0f, sin(Angle) };
+		Dir.Normalize();
+
+		Dust->SetMoveInfo(Dir, 200.0f);
+		Dust->SetWorldMove();
+
+		Dust->GetTransform()->AddWorldPosition({ 100 * cos(Angle), 1.0f + i , 100 * sin(Angle) });
+		Dust->GetTransform()->SetWorldRotation({ 90.0f, 0.0f , 0.0f });
+	}
+
+	for (int i = 0; i < 8; i++)
+	{
+		std::shared_ptr<Particle3D> New = CreateComponent<Particle3D>();
+
+		float YScale = GameEngineRandom::MainRandom.RandomFloat(15.0f, 20.0f);
+
+		New->GetTransform()->SetLocalScale({ 1.0f, YScale, 1.0f });
+
+		float X = GameEngineRandom::MainRandom.RandomFloat(10.0f, 45.0f);
+		float Y = Angle;
+
+		float4x4 Mat1 = DirectX::XMMatrixRotationX(X * GameEngineMath::DegToRad);
+		float4x4 Mat2 = DirectX::XMMatrixRotationY(Y * GameEngineMath::DegToRad);
+
+		Mat1 *= Mat2;
+
+		float4 Quat = float4::ZERO;
+		Quat = Quat.MatrixToQuaternion(Mat1);
+		Quat = Quat.QuaternionToEulerDeg();
+
+		New->GetTransform()->SetWorldRotation(Quat);
+
+		float4 AngleVector = { X, Y };
+		AngleVector = AngleVector.EulerDegToQuaternion();
+		AngleVector = DirectX::XMVector3Rotate({ 0.0f, 1.0f, 0.0f }, AngleVector);
+		AngleVector.Normalize();
+
+		New->SetAutoMove(AngleVector, 300.0f);
+		New->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 150.0f * AngleVector.x, 0.0f, 150.0f * AngleVector.z });
+
+		New->SetScaleDecrease({ 1.0f, YScale, 1.0f }, 30.0f);
+
+		Angle += 45.0f;
+	}
 }
