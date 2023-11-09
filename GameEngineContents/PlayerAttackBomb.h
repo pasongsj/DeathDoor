@@ -25,5 +25,7 @@ protected:
 	void CreateParticle(float _DeltaTime) override;
 private:
 	float ParticleCount = 0.0f;
+
+	float DeathTime = 0.0f;
 };
 

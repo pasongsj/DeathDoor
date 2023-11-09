@@ -1,6 +1,24 @@
 #pragma once
 #include "FSMObjectBase.h"
 
+class InteractionData
+{
+	friend class Player;
+	friend class Ladder;
+	friend class Frog_Lever;
+
+	enum class InteractionDataType
+	{
+		None,
+		Ladder,
+		Lever,
+	};
+	InteractionDataType Type = InteractionDataType::None;
+	float4 Pos = float4::ZERONULL;
+	float4 Dir = float4::ZERONULL;
+
+};
+
 // Ό³Έν :
 class TriggerBase : public FSMObjectBase
 {
