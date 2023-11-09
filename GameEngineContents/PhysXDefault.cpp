@@ -14,6 +14,10 @@ PhysXDefault::~PhysXDefault()
 {
 }
 
+void PhysXDefault::CreateScene()
+{
+    PhysXManager::GetInst()->CreateScene(GameEngineCore::GetCurLevel()->GetName());
+}
 
 float4 PhysXDefault::ToEulerAngles(const physx::PxQuat& q) {
 	float4 angles;    //yaw pitch roll

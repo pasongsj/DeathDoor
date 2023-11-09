@@ -77,36 +77,56 @@ const float4 TileManager::GetTileIndex(const float4& _Pos)
 
 	return TileIndex;
 }
-void TileManager::InActiveTile(const int _Y, const int _X)
+void TileManager::InActiveTileToDelay(const int _Y, const int _X)
 {
 	if (_Y == -1 && _X == -1)
 	{
 		return;
 	}
 
-	m_vTiles[_Y][_X]->SetActiveType(false);
+	// 여기서 셋딜레이를 해줘 
+	m_vTiles[_Y][_X]->SetDelay();
 }
 
 
-void TileManager::DestroyTile(const int _Y, const int _X)
+void TileManager::DestroyTile(const int _Y, const int _X, bool _Delay/* = false*/)
 {
 	if (_Y == -1 && _X == -1)
 	{
 		return;
 	}
 
-
-	if (true == m_vTiles[_Y][_X]->GetRender()->IsUpdate())
+	if (false == _Delay)
 	{
-		m_vTiles[_Y][_X]->InActive();
-		return;
+		if (true == m_vTiles[_Y][_X]->GetRender()->IsUpdate())
+		{
+			m_vTiles[_Y][_X]->InActive();
+			return;
+		}
+
+		if (false == m_vTiles[_Y][_X]->GetRender()->IsUpdate())
+		{
+			MsgAssert("이미 사라져 있는 타일을 파괴하려고 했습니다.");
+			return;
+		}
 	}
 
-	if (false == m_vTiles[_Y][_X]->GetRender()->IsUpdate())
+	else if (true == _Delay)
 	{
-		MsgAssert("이미 사라져 있는 타일을 파괴하려고 했습니다.");
-		return;
+		if (true == m_vTiles[_Y][_X]->GetRender()->IsUpdate())
+		{
+			m_vTiles[_Y][_X]->InActive();
+			m_vTiles[_Y][_X]->SetDelay();
+			return;
+		}
+
+		if (false == m_vTiles[_Y][_X]->GetRender()->IsUpdate())
+		{
+			MsgAssert("이미 사라져 있는 타일을 파괴하려고 했습니다.");
+			return;
+		}
 	}
+	
 }
 
 bool TileManager::IsTile(const int _Y, const int _X)
