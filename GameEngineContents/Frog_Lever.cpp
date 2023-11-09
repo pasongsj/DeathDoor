@@ -4,7 +4,7 @@
 
 #include "PhysXBoxComponent.h"
 #include "ContentFBXRenderer.h"
-
+#include "Player.h"
 
 Frog_Lever::Frog_Lever()
 {
@@ -75,6 +75,10 @@ void Frog_Lever::SetFSMFUNC()
 		{
 			if (true == TriggerKeyCheck())
 			{
+				m_sData.Type = InteractionData::InteractionDataType::Lever;
+				m_sData.Pos = GetTransform()->GetWorldPosition() + (GetTransform()->GetWorldLeftVector()* 100.0f) + (GetTransform()->GetWorldBackVector() * 80.0f);
+				m_sData.Dir = GetTransform()->GetWorldRightVector();
+				Player::MainPlayer->GetInteractionData(m_sData);
 				SetNextState(TriggerState::PROGRESS);
 			};
 		},
@@ -87,6 +91,7 @@ void Frog_Lever::SetFSMFUNC()
 		[this]
 		{
 			m_pRenderer->PauseOff();
+			
 		},
 		[this](float Delta)
 		{

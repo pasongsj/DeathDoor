@@ -6,7 +6,7 @@
 //#include <queue>
 
 // 설명 :
-class Player : public FSMObjectBase, public GameEngineNetObject
+class Player : public FSMObjectBase
 {
 	friend class PlayerAttSkill;
 public:
@@ -69,9 +69,9 @@ public:
 		return static_cast<int>(CurSkill);
 	}
 
-	void GetLadderData(class LadderData _Data)
+	void GetInteractionData(class InteractionData _Data)
 	{
-		sLadder = _Data;
+		InteractData = _Data;
 	}
 
 	bool CameraControl = false;
@@ -79,9 +79,6 @@ public:
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-
-	void UserUpdate(float _DeltaTime);
-	void ServerUpdate(float _DeltaTime);
 
 private:
 
@@ -98,6 +95,7 @@ private:
 		CHARGE_ATT,		// 휠클릭 Charge_slash_L, Charge_slash_R
 		HIT,			// 공격당함 Hit_back, Hit_idle,Hit_Recover
 		CLIMB,			// 사다리 Climbing_ladder, Climbing_ladder_down, Climbing_off_ladder_top
+		CLIMB_TOP,
 		LEVER,			// 레버를 누름 Push_Lever
 		ITEM,			// 아이템을 얻음 GetItem
 		DEAD,			// 피격으로 인한 사망 Dead
@@ -137,7 +135,7 @@ private:
 	void DirectionUpdate(float _DeltaTime);
 	float4 GetMousDirection();
 
-	class LadderData sLadder = {};
+	class InteractionData InteractData = {};
 	
 	// State Controll
 	float StateInputDelayTime = 0.0f;

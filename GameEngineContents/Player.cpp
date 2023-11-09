@@ -222,6 +222,17 @@ void Player::CheckStateInput(float _DeltaTime)
 	{
 		SetNextState(PlayerState::CHARGE_ATT);
 	}
+	else if (true == GameEngineInput::IsPress("E"))
+	{
+		if (InteractData.Type == InteractionData::InteractionDataType::Ladder)
+		{
+			SetNextState(PlayerState::CLIMB);
+		}
+		else if (InteractData.Type == InteractionData::InteractionDataType::Lever)
+		{
+			SetNextState(PlayerState::LEVER);
+		}
+	}
 }
 
 
@@ -277,7 +288,6 @@ void Player::DirectionUpdate(float _DeltaTime)
 
 void Player::MoveUpdate(float _MoveVec, float4 _Dir)
 {
-	//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 	if (float4::ZERONULL == _Dir)
 	{
 		m_pCapsuleComp->SetMoveSpeed(MoveDir * _MoveVec);
@@ -286,15 +296,6 @@ void Player::MoveUpdate(float _MoveVec, float4 _Dir)
 	{
 		m_pCapsuleComp->SetMoveSpeed(_Dir * _MoveVec);
 	}
-}
-
-
-void Player::UserUpdate(float _DeltaTime)
-{
-}
-
-void Player::ServerUpdate(float _DeltaTime)
-{
 }
 
 
@@ -312,12 +313,6 @@ void Player::DefaultPhysX()
 				return;
 			}
 		}
-		//if (PlayerState::FALLING == GetCurState< PlayerState>() || PlayerState::BASIC_ATT == GetCurState<PlayerState>())
-		//{
-		//	return;
-		//}
-		//MoveUpdate(0.0f);
-		//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 		m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 	}
 }
