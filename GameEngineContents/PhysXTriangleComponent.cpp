@@ -244,10 +244,6 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 			{
 				continue;
 			}
-			if (sLastTriangle.ID== 367)
-			{
-				int a = 0;
-			}
 			
 			if (vec_TriangleNav[iNearID].Visit == true)
 			{
