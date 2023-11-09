@@ -20,7 +20,7 @@ void BossFrogBomb::SetTargetTile(const float4& _Start, const float4& _Target)
 		Death();
 		return;
 	}
-	TileManager::MainManager->InActiveTile(_Target.iy(), _Target.ix());
+	TileManager::MainManager->InActiveTileToDelay(_Target.iy(), _Target.ix());
 	Startpoint = _Start;
 	Target = TileManager::MainManager->GetTilePos(_Target.iy(), _Target.ix());
 	ResetLiveTime();
