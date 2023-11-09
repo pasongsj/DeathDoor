@@ -72,12 +72,15 @@ void Map_Office::Update(float _DeltaTime)
 	}
 	if (Road.empty()!=true)
 	{
-		fTime += _DeltaTime;
-		if (fTime>=1.f)
+		fTime += _DeltaTime*10.f;
+
+		sTriangle Test = Road.front();
+		float4 Lerp = float4::LerpClamp(Player::MainPlayer->GetPhysXComponent()->GetWorldPosition(), Test.CenterPos, fTime);
+		Player::MainPlayer->GetPhysXComponent()->SetWorldPosWithParent(Lerp);
+
+		if (fTime >= 1.f)
 		{
-			sTriangle Test = Road.front(); 
 			Road.pop_front();
-			Player::MainPlayer->GetPhysXComponent()->SetWorldPosWithParent(Test.CenterPos);
 			fTime -= 1.f;
 		}
 	}
