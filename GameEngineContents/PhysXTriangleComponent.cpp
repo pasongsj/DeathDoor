@@ -240,7 +240,7 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 
 		for (size_t i = 0; i < 3; i++)
 		{
-			UINT iNearID = vec_TriangleNav[vec_ResultRoad.back().ID].NearID[i];
+			UINT iNearID = vec_TriangleNav[f4Last.ID].NearID[i];
 			if (iNearID == -1)
 			{
 				continue;
@@ -248,7 +248,7 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 			int Check = 0;
 			for (size_t j = 0; j < 3; j++)
 			{				
-				if (vec_TriangleNav[iNearID].NearID[j] == vec_ResultRoad.back().ID ||
+				if (vec_TriangleNav[iNearID].NearID[j] == f4Last.ID ||
 					vec_TriangleNav[iNearID].NearID[j] == -1)
 				{
 					++Check;
@@ -260,7 +260,7 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 			}
 			f4NearPos = vec_TriangleNav[iNearID].CenterPos;
 			float fCost = f4Last.Cost+f4Last.CenterPos.XYZDistance(f4NearPos);
-			if (vec_TriangleNav[iNearID].Cost > fCost || vec_TriangleNav[iNearID].Cost == -1)
+			if (vec_TriangleNav[iNearID].Cost > fCost || vec_TriangleNav[iNearID].Cost < 0)
 			{
 				vec_TriangleNav[iNearID].Cost = fCost;
 				vec_TriangleNav[iNearID].Heuristic = f4NearPos.XYZDistance(sTailTriangle.CenterPos);
