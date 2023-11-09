@@ -112,7 +112,7 @@ void FortressLevel::LevelChangeStart()
 	Create_WaterBox();
 
 
-	Create_FieldEnemy();
+	// Create_FieldEnemy();
 	Create_FieldObject();
 }
 
