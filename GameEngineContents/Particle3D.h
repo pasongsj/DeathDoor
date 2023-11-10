@@ -48,6 +48,11 @@ public:
 
 		ScaleLerpSpeed = _Speed;
 	}
+
+	void SetLocalMove()
+	{
+		isLocalMove = true;
+	}
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -56,6 +61,8 @@ private:
 	void AutoMoveLerp(float _Delta);
 	void ScaleDecrease(float _Delta);
 	void ScaleDecreaseLerp(float _Delta);
+
+	bool isLocalMove = false;
 
 	bool isAutoMove = false;
 	float4 MoveDir = float4::ZERO;

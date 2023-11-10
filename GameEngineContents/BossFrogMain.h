@@ -53,6 +53,7 @@ private:
 	std::shared_ptr<class EnemyAttackBox> SmashAttack = nullptr;
 
 
-	void CreateShockParticle();
+	void CreateShockParticle(float4 _Pos = float4::ZERO);
+	void CreateSmaskParticle(float4 _Pos = float4::ZERO);
 };
 

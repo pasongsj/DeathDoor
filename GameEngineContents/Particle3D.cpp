@@ -41,7 +41,14 @@ void Particle3D::Update(float _Delta)
 
 void Particle3D::AutoMove(float _Delta)
 {
-	GetTransform()->AddWorldPosition(MoveDir * MoveSpeed * _Delta);
+	if(isLocalMove == false)
+	{
+		GetTransform()->AddWorldPosition(MoveDir * MoveSpeed * _Delta);
+	}
+	else
+	{
+		GetTransform()->AddLocalPosition(MoveDir * MoveSpeed * _Delta);
+	}
 }
 
 void Particle3D::AutoMoveLerp(float _Delta)
@@ -52,7 +59,15 @@ void Particle3D::AutoMoveLerp(float _Delta)
 	}
 
 	float4 Pos = float4::Lerp(LerpStartPos, LerpEndPos, PosLerpRatio);
-	GetTransform()->SetWorldPosition(Pos);
+	
+	if(isLocalMove == false)
+	{
+		GetTransform()->SetWorldPosition(Pos);
+	}
+	else
+	{
+		GetTransform()->SetLocalPosition(Pos);
+	}
 
 	PosLerpRatio += PosLerpSpeed * _Delta;
 }

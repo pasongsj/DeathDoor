@@ -136,6 +136,8 @@ void BossFrogMain::InitAnimation()
 			Wave.lock()->GetTransform()->SetWorldRotation({90.0f, 0.0f, 0.0f});
 			Wave.lock()->GetTransform()->SetLocalScale({10.0f, 10.0f, 1.0f});
 
+			CreateSmaskParticle();
+
 			AllTileReset();
 			m_pCapsuleComp->TurnOnGravity();
 			if (nullptr != SmashAttack)
@@ -543,7 +545,7 @@ void BossFrogMain::CalMoveAmount(const float4& Dest, float MoveTime, float Yaxis
 	MoveSpeed = MoveAmount * MoveTime;
 }
 
-void BossFrogMain::CreateShockParticle()
+void BossFrogMain::CreateShockParticle(float4 _Pos)
 {
 	std::shared_ptr<GameEngineRenderer> ShockCircle = CreateComponent<GameEngineRenderer>();
 
@@ -618,5 +620,31 @@ void BossFrogMain::CreateShockParticle()
 		New->SetScaleDecrease({ 1.0f, YScale, 1.0f }, 30.0f);
 
 		Angle += 45.0f;
+	}
+}
+
+void BossFrogMain::CreateSmaskParticle(float4 _Pos)
+{
+	float Angle = 0.0f;
+
+	for (int i = 0; i < 10; i++)
+	{
+		std::shared_ptr<DustParticle> Dust = CreateComponent<DustParticle>();
+		Dust->GetTransform()->SetLocalPosition(float4{ 0.0f, 100.0f, 625.0f });
+
+		float Scale = GameEngineRandom::MainRandom.RandomFloat(75.0f, 150.0f);
+		Dust->GetTransform()->SetWorldScale({ Scale, Scale });
+		Dust->SetFadeSpeed(2.0f);
+		Dust->SetFadeInAndOut();
+
+		Angle += 36.0f;
+
+		float4 Dir = { cos(Angle), 0.0f, sin(Angle) };
+		Dir.Normalize();
+
+		Dust->SetMoveInfo(Dir, 200.0f);
+
+		Dust->GetTransform()->AddLocalPosition({ 100 * cos(Angle), 1.0f + i , 100 * sin(Angle) });
+		Dust->GetTransform()->SetWorldRotation({ 90.0f, 0.0f , 0.0f });
 	}
 }
