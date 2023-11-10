@@ -14,6 +14,7 @@
 #include "WaterBox.h"
 #include "GlowEffect.h"
 #include "Ladder.h"
+#include "SecretTile.h"
 
 #include "ShortCutDoor.h"
 #include "TileManager.h"
@@ -28,20 +29,11 @@ BossFrogLevel::~BossFrogLevel()
 
 void BossFrogLevel::StageClearCheck()
 {
-	// 개구리가 죽었는지 체크해서
+	// 여기서 문이아니라 타일생성이다. 
+	// 문은 미리만들어 
 	if (true == m_pBossFrog->DeathCheck() && false == m_bExitDoor)
 	{
-		// 죽었다면 
 		m_bExitDoor = true;
-		// 정중앙 타일 바로 위에 숏컷도어 생성 
-		float4 Pos = TileManager::MainManager->GetTilePos(2, 2);
-		m_pDoor = CreateActor<ShortCutDoor>();
-		m_pDoor.lock()->GetPhysXComponent()->SetWorldPosWithParent(Pos + float4{0, 30, 0});
-		m_pDoor.lock()->GetRender()->FadeOut(0.01f, 0.01f);
-		m_pDoor.lock()->SetTriggerFunction([=]
-			{
-				GameEngineCore::ChangeLevel("OfficeLevel");
-			});
 	}
 }
 
@@ -56,7 +48,7 @@ void BossFrogLevel::Update(float _DeltaTime)
 	StageClearCheck();
 	if (true == m_bExitDoor)
 	{
-		DoorFadeEffectUpdate(_DeltaTime);
+		ObjectFadeEffectUpdate(_DeltaTime);
 	}
 	KeyUpdate(_DeltaTime);
 
@@ -192,12 +184,42 @@ void BossFrogLevel::Create_WaterBox()
 	Box->GetTransform()->SetLocalRotation({ 0.0f, 45.0f , 0.0f });
 }
 
+// 사다리까지 전부 생성되는걸로 하자 
 void BossFrogLevel::Create_TriggerObject()
 {
+	float4 Pos = TileManager::MainManager->GetTilePos(2, 0);
+	float4 Pos2 = TileManager::MainManager->GetTilePos(2, 1);
+	float4 Pos3 = TileManager::MainManager->GetTilePos(2, 2);
+
 	{
-		std::shared_ptr<Ladder> NewLadder = GetLevel()->CreateActor<Ladder>();
-		NewLadder->GetTransform()->AddLocalRotation(float4{ 0, -45, 0 });
-		NewLadder->GetTransform()->SetLocalPosition(float4{ -4880,  -75 , 4947 });
+		m_pLadder = CreateActor<Ladder>();
+		m_pLadder.lock()->SetHidden(true);
+		m_pLadder.lock()->GetTransform()->AddLocalRotation(float4{0, -45, 0});
+		m_pLadder.lock()->GetTransform()->SetLocalPosition(float4{-4880,  -75 , 4947});
+	}
+	{
+		// 문 위치만 지정 
+		m_pDoor = CreateActor<ShortCutDoor>();
+		m_pDoor.lock()->GetPhysXComponent()->SetWorldPosWithParent(Pos);
+		m_pDoor.lock()->GetRender()->FadeOut(0.01f, 0.01f);
+		m_pDoor.lock()->GetRender1()->FadeOut(0.01f, 0.01f);
+		
+		m_pDoor.lock()->SetTriggerFunction([=]
+			{
+				GameEngineCore::ChangeLevel("OfficeLevel");
+			});
+	}
+	{
+		// 타일 두개.. 3개?
+		m_pTile = CreateActor<SecretTile>();
+		m_pTile.lock()->InActive();
+		m_pTile.lock()->GetTransform()->SetLocalPosition(Pos2);
+
+
+		m_pTile2 = CreateActor<SecretTile>();
+		m_pTile2.lock()->InActive();
+		m_pTile2.lock()->GetRender()->FadeOut(0.01f, 0.01f);
+		m_pTile2.lock()->GetTransform()->SetLocalPosition(Pos3);
 	}
 }
 
@@ -206,9 +228,24 @@ void BossFrogLevel::Create_TileManager()
 	CreateActor<TileManager>();
 }
 
-void BossFrogLevel::DoorFadeEffectUpdate(float _DeltaTime)
+void BossFrogLevel::ObjectFadeEffectUpdate(float _DeltaTime)
 {
-	m_pDoor.lock()->GetRender()->FadeIn(1.0f, _DeltaTime);
+	if (m_FadeUpdateTime <= 0.0f)
+	{
+		return;
+	}
+
+	if (m_FadeUpdateTime >= 1.5f)
+	{
+		m_pLadder.lock()->SetHidden(false);
+		m_pTile.lock()->Active();
+		m_pTile2.lock()->Active();
+	}
+
+	m_pDoor.lock()->GetRender()->FadeIn(1.5f, _DeltaTime);
+	m_pDoor.lock()->GetRender1()->FadeIn(1.5f, _DeltaTime);
+
+	m_FadeUpdateTime -= _DeltaTime;
 }
 
 void BossFrogLevel::Set_PlayerStartPos()
