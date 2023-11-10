@@ -1,0 +1,37 @@
+Frog Phase2
+
+Intro
+Frog_Phase2_IntroBGM.mp3
+Frog_Phase2_IntroSplash.mp3
+
+Jump
+Frog_Phase2_JumpPrevScream.mp3
+->점프하기전 준비자세 때
+Frog_Phase2_JumpScream.mp3
+Frog_Phase2_JumpScream2.mp3
+Frog_Phase2_LandToGround.mp3
+Frog_Phase2_LandToWater.mp3
+
+Shoot
+Frog_Phase2_PrevShootScream.mp3
+Frog_Phase2_BreakTileWithShoot.mp3
+
+Suck
+Frog_Phase2_PrevSuckScream.mp3
+-> 타일 들면서
+Frog_Phase2_Suck_Scream.mp3
+Frog_Phase2_SuckTileBreak.mp3
+
+Frog_Phase2_EatBomb_Scream.mp3
+Frog_Phase2_EatBomb_Boom.mp3
+Frog_Phase2_EatBomb_Stun.mp3
+->Suck패턴 중 플레이어 폭탄 먹었을 때
+
+Frog_Phase2_SuckTileLand.mp3
+->타일 놓을 때
+
+Death
+Frog_Phase2_Death.mp3
+
+기믹으로 타일 돌아오는 소리
+GimmickSound.mp3
