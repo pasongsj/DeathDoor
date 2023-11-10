@@ -2,6 +2,7 @@
 #include "EnemyJumper.h"
 #include "Boomerang.h"
 #include "EnemyAttackBox.h"
+#include "Player.h"
 
 EnemyJumper::EnemyJumper()
 {
@@ -94,6 +95,10 @@ void EnemyJumper::Start()
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_JUMPER);
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+		if (nullptr != Player::MainPlayer)
+		{
+			m_pCapsuleComp->SetFilter(*Player::MainPlayer->GetPhysXComponent()->GetController());
+		}
 	}
 	SetEnemyHP(JumperFullHP);
 }
@@ -375,6 +380,7 @@ void EnemyJumper::SetFSMFUNC()
 		{
 			AggroDir(m_pCapsuleComp, DEFAULT_DIR_JUMPER);
 			EnemyRenderer->ChangeAnimation("JUMP");
+			m_pCapsuleComp->RigidSwitch(false);
 		},
 		[this](float Delta)
 		{
@@ -407,6 +413,8 @@ void EnemyJumper::SetFSMFUNC()
 				JumpAttack->Death();
 			}
 			JumpAttack = nullptr;
+			m_pCapsuleComp->RigidSwitch(true);
+
 		}
 	);
 	//INTERRUPT
@@ -418,11 +426,11 @@ void EnemyJumper::SetFSMFUNC()
 		[this](float Delta)
 		{
 			CheckBoomerang();
-			//if (true == CheckHit())
-			//{
-			//	SetNextState(EnemyJumperState::HIT,true);
-			//	return;
-			//}
+			if (true == CheckHit())
+			{
+				SetNextState(EnemyJumperState::HIT,true);
+				return;
+			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(EnemyJumperState::IDLE);
@@ -456,7 +464,6 @@ void EnemyJumper::SetFSMFUNC()
 		{
 		}
 	);
-
 
 }
 

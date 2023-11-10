@@ -50,8 +50,7 @@ void ContentUIFontRenderer::Render(float _Delta)
 void ContentUIFontRenderer::Start()
 {
 	PushCameraRender(100);
-	Unit = CreateRenderUnit("Rect","Content2dTexture");
-
+	Unit = CreateRenderUnit();
 
 	Unit->RenderFunction = std::bind(&ContentUIFontRenderer::Render, this, std::placeholders::_1);
 }

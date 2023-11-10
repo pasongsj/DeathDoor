@@ -7,6 +7,7 @@
 #include "HitParticle.h"
 #include "PhysXBoxComponent.h"
 #include "Particle3D.h"
+#include "BossFrogSoul.h"
 
 BossFrogFat::BossFrogFat()
 {
@@ -108,6 +109,7 @@ void BossFrogFat::InitAnimation()
 
 	EnemyRenderer->CreateFBXAnimation("JUMP_SCREAM", "FROG_FAT_JUMP_SCREAM.fbx", { 1.0f / 30, false });				   //인트로
 	EnemyRenderer->FadeOut(0.01f, 0.01f);
+
 	EnemyRenderer->SetAnimationStartFunc("JUMP_SCREAM", 47, [this]
 		{
 			JumpStartPoint = OnGroundCenter;
@@ -201,6 +203,7 @@ void BossFrogFat::InitAnimation()
 	WeaponRenderer->GetTransform()->SetLocalScale(float4::ONE * 1.4f);
 	WeaponRenderer->SetGlowToUnit(1, 0);
 	WeaponRenderer->SetUnitColor(1, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
+	WeaponRenderer->FadeOut(0.01f, 0.01f);
 
 }
 void BossFrogFat::SuckTile()
@@ -237,6 +240,7 @@ void BossFrogFat::SetFSMFUNC()
 		[this](float Delta)
 		{
 			EnemyRenderer->FadeIn(1.0f, Delta);
+			WeaponRenderer->FadeIn(1.0f, Delta);
 
 			const float4 m_CameraRot = { 55.0f, 0.0f , 0.0f };
 			if(IntroDone == false && false == GetLevel()->GetMainCamera()->IsFreeCamera())
@@ -564,13 +568,18 @@ void BossFrogFat::SetFSMFUNC()
 			float4 CollPoint = float4::ZERO; // 충돌체크할 변수
 			float4 FrogPos = GetTransform()->GetWorldPosition();
 			FrogPos.y += 50.0f;
+
+
+			std::shared_ptr<GameEngineActor> Soul= GetLevel()->CreateActor<BossFrogSoul>();
 			if (true == m_pCapsuleComp->RayCast(FrogPos, float4::DOWN, CollPoint, 2000.0f)) // 플레이어 위치에서 float4::DOWN 방향으로 2000.0f 길이만큼 체크한다.
 			{
 				EnemyRenderer->ChangeAnimation("DIE");
+				Soul->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f , 800.0f, 0.0f });
 			}
 			else
 			{
 				EnemyRenderer->ChangeAnimation("DIE_STAND");
+				Soul->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f , 1000.0f, 0.0f });
 			}
 		},
 		[this](float Delta)
