@@ -31,6 +31,11 @@ void WaterDrop::Update(float _Delta)
 	{
 		UpdateFunc(*this, _Delta);
 	}
+
+	if (GetTransform()->GetWorldPosition().y < -100.0f)
+	{
+		Death();
+	}
 }
 
 void WaterDrop::MoveToParabola(float _Delta)
