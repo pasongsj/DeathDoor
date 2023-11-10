@@ -99,4 +99,7 @@ private:
 	float4 m_f4FloorPos = float4{ -3871, -197, 3950 };
 
 	bool m_bRotation = false;
+
+	void CreateWaterDropToWall();
+	float WaterDropCount = 0.0f;
 };

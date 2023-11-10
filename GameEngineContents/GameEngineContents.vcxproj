@@ -586,6 +586,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WaterDrop.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Wires.cpp" />
     <ClCompile Include="WoodenBridge.cpp" />
   </ItemGroup>
@@ -1096,6 +1100,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="WaterBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WaterDrop.h">
       <SubType>
       </SubType>
     </ClInclude>
