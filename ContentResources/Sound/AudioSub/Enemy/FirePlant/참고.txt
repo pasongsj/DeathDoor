@@ -1,2 +1,16 @@
-바람차는것같은 소리가 없어..
-Charging 둘중 하나 자연스러운거 선택
+FirePlant
+
+Attack
+FirePlant_Charging.mp3
+FirePlant_Charging2.mp3
+-> 둘중 하나 자연스러운걸로 선택
+
+FirePlant_AttackScream.mp3
+FirePlant_Attack.mp3
+FirePlant_Attack2.mp3
+
+GetDamage
+FirePlant_Scream.mp3
+
+Death
+FirePlant_Death.mp3

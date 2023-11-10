@@ -1,0 +1,16 @@
+Grunt
+
+attack
+Grunt_AttackReady.mp3
+Grunt_Attack.mp3
+
+jump attack
+Grunt_JumpScream.mp3
+Grunt_JumpAttackLand.mp3
+
+get damage
+Grunt_GetDamage.mp3
+Grunt_GetDamage2.mp3
+
+death
+Grunt_Death.mp3

@@ -1,0 +1,17 @@
+Ghoul(big 포함)
+
+Arrow
+Ghoul_Reload.mp3
+Ghoul_Reload2.mp3
+Ghoul_ReadySFX.mp3
+Ghoul_FireArrow.mp3
+
+GetDamage
+Ghoul_GetDamage.mp3
+
+Death
+Ghoul_Death.mp3
+
+big은 원본에도 공속에 비해 사운드 밀리는 상태로 reload 사운드 재생하는데, 어색하면 활시위 올리는 소리 없이 두개로 처리
+Ghoul_ArrowReady.mp3
+Ghoul_FireArrow.mp3
