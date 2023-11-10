@@ -4,6 +4,7 @@
 
 #include "PhysXCapsuleComponent.h"
 #include "ContentFBXRenderer.h"
+#include "Player.h"
 
 Mushroom::Mushroom() 
 {
@@ -92,6 +93,7 @@ void Mushroom::SetFSMFUNC()
 		},
 		[this]
 		{
+			Player::MainPlayer->AddSpellCost();
 			//Player에게 마나 1칸 채워주기;
 		}
 	);
