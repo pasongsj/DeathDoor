@@ -231,6 +231,16 @@ void Player::SetFSMFunc()
 			default:
 				break;
 			}
+			if (AttackActor != nullptr)
+			{
+				AttackActor->Death();
+				AttackActor = nullptr;
+			}
+			if (nullptr != WeaponActor)
+			{
+				WeaponActor->Death();
+				WeaponActor = nullptr;
+			}
 		}
 	); 
 
