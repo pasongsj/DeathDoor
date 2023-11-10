@@ -56,7 +56,7 @@ void ContentFBXRenderer::SetCrackAmount(float _Amount)
 	}
 }
 
-void ContentFBXRenderer::SetCrackMask()
+void ContentFBXRenderer::SetCrackMask(const std::string_view& _MaskTextureName)
 {
 	auto AllUnits = GetAllRenderUnit();
 
@@ -64,7 +64,7 @@ void ContentFBXRenderer::SetCrackMask()
 	{
 		for (int j = 0; j < AllUnits[i].size(); j++)
 		{
-			AllUnits[i][j]->ShaderResHelper.SetTexture("CrackTexture", "CrackMask.png");
+			AllUnits[i][j]->ShaderResHelper.SetTexture("CrackTexture", _MaskTextureName);
 		}
 	}
 }
