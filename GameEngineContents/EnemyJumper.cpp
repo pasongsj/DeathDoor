@@ -446,6 +446,11 @@ void EnemyJumper::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("DROWN");
 			EnemyRenderer->GetTransform()->AddLocalPosition(float4(0, 1, 0));
+			if (nullptr != Boomer)
+			{
+				Boomer->Death();
+				Boomer = nullptr;
+			}
 		},
 		[this](float Delta)
 		{
