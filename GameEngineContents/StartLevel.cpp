@@ -39,9 +39,10 @@ void StartLevel::LevelChangeStart()
 	CreateActor<StartMenu>();
 
 	CreateIMGUIDebugRenderTarget();
-	GetLevel()->GetMainCamera()->SetNearAndFar(1.0f, 6000.0f);
+	GetMainCamera()->SetNearAndFar(1.0f, 6000.0f);
 }
 
 void StartLevel::LevelChangeEnd()
 {
+	AllActorDestroy();
 }

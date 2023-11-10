@@ -194,10 +194,11 @@ void Player::SetFSMFunc()
 				if (true == Renderer->IsAnimationEnd())
 				{
 					AttackActor->SetShoot();
+
 				}
 				else
 				{
-					AttackActor->Death();
+					AttackActor->GameEngineObjectBase::Death();
 				}
 				if (nullptr != WeaponActor)
 				{
@@ -231,16 +232,7 @@ void Player::SetFSMFunc()
 			default:
 				break;
 			}
-			if (AttackActor != nullptr)
-			{
-				AttackActor->Death();
-				AttackActor = nullptr;
-			}
-			if (nullptr != WeaponActor)
-			{
-				WeaponActor->Death();
-				WeaponActor = nullptr;
-			}
+
 		}
 	); 
 
