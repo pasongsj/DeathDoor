@@ -148,9 +148,9 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         clip(-1);
     }
     
-    if (FadeMask.r > Delta && FadeMask.r <= Delta * 1.1f)
+    if (FadeMask.r > Delta && FadeMask.r <= Delta * 1.4f)
     {
-        Color = float4(DiffuseBlurColor);
+        Color = float4(BlurColor);
     }
     
     NewOutPut.DifTarget = pow(Color, 2.2f);
