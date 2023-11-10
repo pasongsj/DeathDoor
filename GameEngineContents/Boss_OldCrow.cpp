@@ -56,6 +56,7 @@ void Boss_OldCrow::Start()
 	IsDeath = false;
 
 	ChainsInit();
+	EnemyRenderer->SetCrackMask("OldCrowCrackMask.png");
 }
 
 void Boss_OldCrow::Update(float _DeltaTime)

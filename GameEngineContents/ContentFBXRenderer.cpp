@@ -56,7 +56,7 @@ void ContentFBXRenderer::SetCrackAmount(float _Amount)
 	}
 }
 
-void ContentFBXRenderer::SetCrackMask()
+void ContentFBXRenderer::SetCrackMask(const std::string_view& _MaskTextureName)
 {
 	auto AllUnits = GetAllRenderUnit();
 
@@ -64,7 +64,7 @@ void ContentFBXRenderer::SetCrackMask()
 	{
 		for (int j = 0; j < AllUnits[i].size(); j++)
 		{
-			AllUnits[i][j]->ShaderResHelper.SetTexture("CrackTexture", "CrackMask.png");
+			AllUnits[i][j]->ShaderResHelper.SetTexture("CrackTexture", _MaskTextureName);
 		}
 	}
 }
@@ -281,9 +281,10 @@ void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::str
 	std::string UpperSettingName = GameEngineString::ToUpper(_SettingName);
 
 	if (UpperSettingName != "CONTENTANIMESHDEFFERED" &&
-		UpperSettingName != "CONTENTMESHDEFFERED")
+		UpperSettingName != "CONTENTMESHDEFFERED" &&
+		UpperSettingName != "CONTENTMESHALPHA")
 	{
-		MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentMeshDeffered 중 하나여야 합니다.");
+		MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentMeshDeffered, ContentMeshAlpha 중 하나여야 합니다.");
 		return;
 	}
 

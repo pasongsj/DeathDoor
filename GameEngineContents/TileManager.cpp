@@ -9,7 +9,9 @@
 #include "FireObject.h"
 #include "RuinsWall.h"
 #include "Ladder.h"
+#include "WaterDrop.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
 
 TileManager* TileManager::MainManager = nullptr;
 
@@ -187,6 +189,13 @@ void TileManager::RotationUpdate(float _DeltaTime)
 		if (Rot.z >= -15.0f)
 		{
 			m_pPivotTile.lock()->GetTransform()->AddLocalRotation(float4{ 0, 0, -0.35f });
+		}
+
+		WaterDropCount += _DeltaTime;
+		if(WaterDropCount >= 0.05f)
+		{
+			WaterDropCount = 0.0f;
+			CreateWaterDropToWall();
 		}
 	}
 
@@ -400,3 +409,23 @@ void TileManager::Create_WallObject()
 	}
 }
 
+void TileManager::CreateWaterDropToWall()
+{
+	std::shared_ptr<WaterDrop> Drop = CreateComponent<WaterDrop>();
+	Drop->GetTransform()->SetWorldScale({ 20, 20, 20 });
+
+	float Num = GameEngineRandom::MainRandom.RandomFloat(1, -2000);
+
+	float4 Dir = float4{ -550, 100, -1050 } - float4{ -1800, 500, 200 };
+	Dir.Normalize();
+
+	float X = -550.0f + Dir.x * Num;
+	float Y = 100.0f + Dir.y * Num;
+	float Z = -1050.0f + Dir.z * Num;
+
+	//Drop->GetTransform()->SetWorldPosition(m_pPivotTile.lock()->GetTransform()->GetWorldPosition() + float4{-550.0f, 100.0f, -1050.0f});
+	//Drop->GetTransform()->SetWorldPosition(m_pPivotTile.lock()->GetTransform()->GetWorldPosition() + float4{-1800.0f, 500.0f, 200.0f});
+	Drop->GetTransform()->SetWorldPosition(m_pPivotTile.lock()->GetTransform()->GetWorldPosition() + float4{X, Y, Z});
+
+	Drop->SetVerticalDrop(1000.0f);
+}

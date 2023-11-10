@@ -473,6 +473,9 @@
     <ClCompile Include="BossFrogSoul.cpp">
       <Filter>FSMObject\BossFrog</Filter>
     </ClCompile>
+    <ClCompile Include="WaterDrop.cpp">
+      <Filter>Contents\Effect\Object\Water</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -940,6 +943,9 @@
     </ClInclude>
     <ClInclude Include="BossFrogSoul.h">
       <Filter>FSMObject\BossFrog</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterDrop.h">
+      <Filter>Contents\Effect\Object\Water</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -106,6 +106,12 @@
     <FxCompile Include="ShockCircle.hlsl">
       <Filter>Effect\Shock</Filter>
     </FxCompile>
+    <FxCompile Include="ContentMeshAlpha.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="WaterDrop.hlsl">
+      <Filter>Effect\Particle</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

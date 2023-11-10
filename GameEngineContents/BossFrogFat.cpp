@@ -7,6 +7,7 @@
 #include "HitParticle.h"
 #include "PhysXBoxComponent.h"
 #include "Particle3D.h"
+#include "WaterDrop.h"
 #include "BossFrogSoul.h"
 
 BossFrogFat::BossFrogFat()
@@ -132,6 +133,7 @@ void BossFrogFat::InitAnimation()
 		});
 	EnemyRenderer->SetAnimationStartFunc("FAT_JUMP", 66, [this]
 		{
+			CreateWaterParticle();
 			isJumpTime = false;
 		});
 
@@ -703,3 +705,32 @@ void BossFrogFat::CreateSuckParticle()
 	New->SetAutoMoveLerp(AngleVector * 1000.0f + GetTransform()->GetWorldPosition() + float4{ -600.0f, 900.0f, 200.0f }, GetTransform()->GetWorldPosition() + float4{ -600.0f, 900.0f, 200.0f }, 2.0f);
 	New->SetScaleDecreaseLerp({ 1.0f, YScale, 1.0f }, {1.0f, 0.0f, 1.0f}, 2.0f);
 }
+
+void BossFrogFat::CreateWaterParticle()
+{
+	float Angle = 0.0f;
+
+	for (int i = 0; i < 18; i++)
+	{
+		std::shared_ptr<WaterDrop> Drop = CreateComponent<WaterDrop>();
+		float Scale = GameEngineRandom::MainRandom.RandomFloat(45, 75);
+		Drop->GetTransform()->SetWorldScale({ Scale, Scale, Scale });
+
+		Drop->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f, 150.0f, 0.0f });
+		float DirX = GameEngineRandom::MainRandom.RandomFloat(-1, 1);
+		float DirY = GameEngineRandom::MainRandom.RandomFloat(0.8f, 1.0f);
+		float DirZ = GameEngineRandom::MainRandom.RandomFloat(-1, 1);
+		Drop->SetParabola({ DirX, DirY, DirZ }, 500.0f, 1000.0f);
+
+		float4 Dir = { cos(Angle), 0.0f, sin(Angle) };
+		Dir.Normalize();
+
+		float Distance = GameEngineRandom::MainRandom.RandomFloat(300, 400);
+
+		Drop->GetTransform()->AddWorldPosition({ Distance * cos(Angle), 1.0f + i , Distance * sin(Angle) });
+		Drop->GetTransform()->SetWorldRotation({ 90.0f, 0.0f , 0.0f });
+
+		Angle += 20;
+	}
+}
+
