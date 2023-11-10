@@ -21,7 +21,7 @@ void ShockWave::Start()
 
 void ShockWave::Update(float _Delta)
 {
-	GetTransform()->AddLocalScale(float4::ONE * 10000.0f * _Delta);
+	GetTransform()->AddLocalScale(float4::ONE * 20000.0f * _Delta);
 
 	if (GetLiveTime() >= 2.0f)
 	{
