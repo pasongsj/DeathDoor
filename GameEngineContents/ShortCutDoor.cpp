@@ -2,6 +2,7 @@
 #include "ShortCutDoor.h"
 #include "PhysXBoxComponent.h"
 #include <GameEngineCore/GameEngineFBXRenderer.h>
+#include "FadeEffect.h"
 
 ShortCutDoor::ShortCutDoor() 
 {
@@ -17,6 +18,7 @@ void ShortCutDoor::Start()
 	InitAnimation();
 	InitComponent();
 	SetFSMFUNC();
+	m_pFade = GetLevel()->GetLastTarget()->CreateEffect<FadeEffect>();
 }
 
 void ShortCutDoor::Update(float _DeltaTime)
@@ -101,6 +103,10 @@ void ShortCutDoor::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if (StartState::OPEN == m_eStartState)
+			{
+				m_pFade->FadeIn();
+			}
 			if (StartState::OPEN == m_eStartState && GetStateDuration() >= 1.5f)
 			{
 				SetNextState(TriggerState::PROGRESS);
@@ -130,13 +136,14 @@ void ShortCutDoor::SetFSMFUNC()
 			case StartState::CLOSE:
 			{
 				m_pRenderer->ChangeAnimation("OPEN_Inward");
+				m_pFade->FadeOut();
 			}
 				break;
 			}
 		},
 		[this](float Delta)
 		{	
-			
+			GetLevel()->GetLastTarget()->Effect(Delta);
 			if (true == m_pRenderer->IsAnimationEnd())
 			{
 				SetNextState(TriggerState::ON);
@@ -171,6 +178,7 @@ void ShortCutDoor::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			GetLevel()->GetLastTarget()->Effect(Delta);
 			//È­¸é Fade?
 			if (StartState::OPEN == m_eStartState)
 			{

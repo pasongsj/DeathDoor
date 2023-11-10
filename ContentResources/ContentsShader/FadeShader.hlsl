@@ -40,7 +40,7 @@ float4 Fade_PS(OutPut _Value) : SV_Target0
 
     if (0==FadeValue.y)
     {
-        Color.xyz *= Value;
+        Color.xyz += Value;
     }
     else
     {

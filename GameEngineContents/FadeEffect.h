@@ -22,8 +22,8 @@ public:
 	FadeEffect& operator=(const FadeEffect& _Other) = delete;
 	FadeEffect& operator=(FadeEffect&& _Other) noexcept = delete;
 
-	void FadeIn() 
-	{
+	void FadeIn()
+	{		
 		State = FadeState::FadeIn;
 		FadeData.x = 1.0f;
 	}
@@ -39,7 +39,7 @@ protected:
 	void Effect(GameEngineRenderTarget* _Target, float _DeltaTime) override;
 
 private:
-	float4 FadeData = {1.0f, 1.0f, 1.0f, 1.0f};
+	float4 FadeData = {1.0f, 0.0f, 1.0f, 1.0f};
 
 	FadeState State = FadeState::None;
 
