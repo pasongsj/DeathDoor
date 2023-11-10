@@ -23,7 +23,7 @@ void Boss_OldCrowChain::Start()
 void Boss_OldCrowChain::CreateChainRenderer()
 {
 	std::shared_ptr<GameEngineSpriteRenderer> ChainRenderer = CreateComponent<GameEngineSpriteRenderer>();
-
+	ChainRenderer->GetUnit()->SetMaterial("Content2DTexture", RenderPath::Alpha);
 	ChainRenderer->SetScaleToTexture("CrowBossChain.png");
 
 	float4 Scale = ChainRenderer->GetTransform()->GetLocalScale();
@@ -32,7 +32,7 @@ void Boss_OldCrowChain::CreateChainRenderer()
 	ChainRenderer->GetTransform()->SetLocalRotation(float4(90, 90, 0));
 	ChainRenderer->GetTransform()->SetLocalPosition({ 0, 10, ChainRenderers.size() * - 105.0f });
 
-	ChainRenderer->ColorOptionValue.MulColor = float4::BLACK;
+	ChainRenderer->GetUnit()->Color.MulColor = float4::BLACK;
 
 	ChainRenderer->Off();
 

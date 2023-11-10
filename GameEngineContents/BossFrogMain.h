@@ -51,5 +51,8 @@ private:
 	void CalMoveAmount(const float4& Dest, float MoveTime, float Yaxis = 0.0f); // 도착지점, 움직이는 시간(의 역), y축 가중치
 
 	std::shared_ptr<class EnemyAttackBox> SmashAttack = nullptr;
+
+
+	void CreateShockParticle();
 };
 

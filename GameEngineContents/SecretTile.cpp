@@ -95,7 +95,6 @@ void SecretTile::Start()
 
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->SetFBXMesh("FrogTile.fbx", "ContentMeshDeffered");
-
 	InitComponent();
 }
 

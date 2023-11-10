@@ -582,17 +582,17 @@ void BossFrogFat::SetFSMFUNC()
 
 void BossFrogFat::CreateShockEffect()
 {
-	std::shared_ptr<GameEngineRenderer> ShockWave = CreateComponent<GameEngineRenderer>();
+	std::shared_ptr<GameEngineRenderer> ShockCircle = CreateComponent<GameEngineRenderer>();
 	
-	ShockWave->SetMesh("Rect");
-	ShockWave->SetMaterial("Content2DTexture", RenderPath::Alpha);
-	ShockWave->GetUnit()->ShaderResHelper.SetTexture("Diffusetex", "ShockWave.png");
-	ShockWave->GetTransform()->SetWorldScale({ 1000.0f, 1000.0f });
-	ShockWave->GetTransform()->SetWorldPosition(EnemyRenderer->GetTransform()->GetWorldPosition() + float4{0.0f, -120.0f, 0.0f});
-	ShockWave->GetTransform()->SetWorldRotation({90.0f, 0.0f});
-	ShockWave->GetUnit()->Color.MulColor = { 1.0f, 1.0f, 1.0f, 0.5f };
+	ShockCircle->SetMesh("Rect");
+	ShockCircle->SetMaterial("ShockCircle", RenderPath::Alpha);
+	ShockCircle->GetUnit()->ShaderResHelper.SetTexture("Diffusetex", "ShockCircle.png");
+	ShockCircle->GetTransform()->SetWorldScale({ 1000.0f, 1000.0f });
+	ShockCircle->GetTransform()->SetWorldPosition(EnemyRenderer->GetTransform()->GetWorldPosition() + float4{0.0f, -120.0f, 0.0f});
+	ShockCircle->GetTransform()->SetWorldRotation({90.0f, 0.0f});
+	ShockCircle->GetUnit()->Color.MulColor = { 1.0f, 1.0f, 1.0f, 0.5f };
 
-	std::weak_ptr<GameEngineRenderer> Weak = ShockWave;
+	std::weak_ptr<GameEngineRenderer> Weak = ShockCircle;
 
 	GetLevel()->TimeEvent.AddEvent(0.1f, [this, Weak](GameEngineTimeEvent::TimeEvent&, GameEngineTimeEvent*)
 		{
@@ -625,7 +625,7 @@ void BossFrogFat::CreateShockEffect()
 
 	Angle = 0.0f;
 
-	for(int i = 0; i < 8; i++)
+	for(int i = 0; i < 12; i++)
 	{
 		std::shared_ptr<Particle3D> New = CreateComponent<Particle3D>();
 
@@ -653,11 +653,11 @@ void BossFrogFat::CreateShockEffect()
 		AngleVector = DirectX::XMVector3Rotate({ 0.0f, 1.0f, 0.0f }, AngleVector);
 		AngleVector.Normalize();
 
-		New->SetAutoMove(AngleVector, 1000.0f);
+		New->SetAutoMove(AngleVector, 2500.0f);
 
-		New->SetScaleDecrease({ 1.0f, YScale, 1.0f }, 15.0f);
+		New->SetScaleDecrease({ 1.0f, YScale, 1.0f }, 30.0f);
 
-		Angle += 45.0f;
+		Angle += 30.0f;
 	}
 }
 

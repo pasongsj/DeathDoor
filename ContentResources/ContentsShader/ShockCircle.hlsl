@@ -33,7 +33,7 @@ OutPut ContentTexture_VS(Input _Value)
     OutPut OutPutValue = (OutPut) 0;
 	
     _Value.Pos.w = 1.0f;
-    OutPutValue.Pos = mul(_Value.Pos, WorldViewProjectionMatrix);   
+    OutPutValue.Pos = mul(_Value.Pos, WorldViewProjectionMatrix);
     
     OutPutValue.UV.x = _Value.UV.x * MaxUV_x + AddTimeToUV_x;
     OutPutValue.UV.y = _Value.UV.y * MAXUV_y + AddTimeToUV_y;
@@ -48,7 +48,7 @@ cbuffer ColorOption : register(b0)
 }
 
 Texture2D DiffuseTex : register(t0);
-SamplerState SAMPLER : register(s0);
+SamplerState ENGINEBASE : register(s0);
 
 struct OutColor
 {
@@ -57,16 +57,19 @@ struct OutColor
 
 float4 ContentTexture_PS(OutPut _Value) : SV_Target6
 {
-
-    float4 Color = DiffuseTex.Sample(SAMPLER, _Value.UV.xy);
+    float4 Color = DiffuseTex.Sample(ENGINEBASE, _Value.UV.xy);
     
     if(Color.a <= 0.0f)
     {
         clip(-1);
     }
     
-    Color *= MulColor;
-    Color += PlusColor;
+    if(Color.r <= 0.0f)
+    {
+        clip(-1);
+    }
+    
+    Color.a = Color.r;
     
     Color.rgb = pow(Color.rgb, 2.2f);
     Color.a = saturate(Color.a);

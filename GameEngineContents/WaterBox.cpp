@@ -19,7 +19,7 @@ void WaterBox::Start()
 	Unit->SetMaterial("Water", RenderPath::Deferred);
 	Unit->ShaderResHelper.SetTexture("NormalMap", "WaterNormal.png");
 	Unit->Color.MulColor = float4::ZERONULL;
-	Unit->Color.PlusColor = float4{ 0.0f, 1.0f, 0.4f, 0.8f };
+	Unit->Color.PlusColor = float4{ 0.0f, 0.9f, 0.5f, 1.0f };
 }
 
 void WaterBox::SetWaterPosition(float4 _Pos)
