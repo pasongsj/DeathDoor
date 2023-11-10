@@ -380,7 +380,7 @@ void EnemyJumper::SetFSMFUNC()
 		{
 			AggroDir(m_pCapsuleComp, DEFAULT_DIR_JUMPER);
 			EnemyRenderer->ChangeAnimation("JUMP");
-			m_pCapsuleComp->SetRigidCollide(true);
+			m_pCapsuleComp->RigidSwitch(false);
 		},
 		[this](float Delta)
 		{
@@ -413,7 +413,7 @@ void EnemyJumper::SetFSMFUNC()
 				JumpAttack->Death();
 			}
 			JumpAttack = nullptr;
-			m_pCapsuleComp->SetRigidCollide(false);
+			m_pCapsuleComp->RigidSwitch(true);
 
 		}
 	);
@@ -426,11 +426,11 @@ void EnemyJumper::SetFSMFUNC()
 		[this](float Delta)
 		{
 			CheckBoomerang();
-			//if (true == CheckHit())
-			//{
-			//	SetNextState(EnemyJumperState::HIT,true);
-			//	return;
-			//}
+			if (true == CheckHit())
+			{
+				SetNextState(EnemyJumperState::HIT,true);
+				return;
+			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(EnemyJumperState::IDLE);
