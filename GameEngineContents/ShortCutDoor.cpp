@@ -3,6 +3,7 @@
 #include "PhysXBoxComponent.h"
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 #include "FadeEffect.h"
+#include "Player.h"
 
 ShortCutDoor::ShortCutDoor() 
 {
@@ -75,7 +76,6 @@ void ShortCutDoor::InitAnimation()
 	m_pRenderer1->SetUnitDiffuseColorIntensity(0, 0, 4.0f);
 }
 
-float test = 0.f;
 void ShortCutDoor::SetFSMFUNC()
 {
 	SetChangeFSMCallBack([this]
@@ -119,7 +119,26 @@ void ShortCutDoor::SetFSMFUNC()
 		},
 		[this]
 		{
-			
+			switch (m_eStartState)
+			{
+			case StartState::OPEN:
+			{
+				m_sData.Type = InteractionData::InteractionDataType::Door;				
+				m_sData.Pos = m_pPhysXComponent->GetWorldPosition() + (GetTransform()->GetWorldBackVector() * 150.0f);
+				m_sData.Dir = GetTransform()->GetWorldBackVector();
+				Player::MainPlayer->GetInteractionData(m_sData);
+			}
+			break;
+			case StartState::CLOSE:
+			{
+				m_sData.Type = InteractionData::InteractionDataType::Door;
+				m_sData.Pos = m_pPhysXComponent->GetWorldPosition() + (GetTransform()->GetWorldBackVector() * 150.0f);
+				m_sData.Dir = GetTransform()->GetWorldForwardVector();
+				Player::MainPlayer->GetInteractionData(m_sData);
+			}
+			break;
+			}
+
 		}
 	);
 

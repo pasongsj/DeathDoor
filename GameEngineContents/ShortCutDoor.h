@@ -60,4 +60,5 @@ private:
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer1 = nullptr;
 	std::shared_ptr<class FadeEffect> m_pFade = nullptr;
 	StartState m_eStartState = StartState::CLOSE;
+	InteractionData m_sData;
 };

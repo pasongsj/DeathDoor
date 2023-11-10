@@ -6,12 +6,14 @@ class InteractionData
 	friend class Player;
 	friend class Ladder;
 	friend class Frog_Lever;
+	friend class ShortCutDoor;
 
 	enum class InteractionDataType
 	{
 		None,
 		Ladder,
 		Lever,
+		Door,
 	};
 	InteractionDataType Type = InteractionDataType::None;
 	float4 Pos = float4::ZERONULL;
