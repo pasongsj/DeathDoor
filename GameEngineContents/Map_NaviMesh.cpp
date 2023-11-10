@@ -1,6 +1,8 @@
 #include "PrecompileHeader.h"
 #include "Map_NaviMesh.h"
 
+#include "ContentFBXRenderer.h"
+
 #include "PhysXTriangleComponent.h"
 #include "PhysXControllerComponent.h"
 #include "Player.h"
@@ -15,10 +17,15 @@ Map_NaviMesh::~Map_NaviMesh()
 
 void Map_NaviMesh::Start()
 {
+	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pNaviRenderer->SetFBXMesh("Fortress_Navi_DC.fbx", "ContentMeshDeffered");
+	m_pNaviRenderer->GetTransform()->SetLocalRotation(float4{ 0 , -135, 0 });
+	m_pNaviRenderer->GetTransform()->SetParent(GetTransform());
+
 	m_pNaviComp = CreateComponent<PhysXTriangleComponent>();
 	m_pNaviComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	m_pNaviComp->CreatePhysXActors("Fortress_Navi_DC.fbx", true);
-	m_pNaviComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4{ 0 , -135, 0 }, float4::ZERO));
+	m_pNaviComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4{ 0 , -135, 0 },float4(0,1,0)));
 	m_pNaviComp->SetNavigation();
 }
 
@@ -29,7 +36,7 @@ void Map_NaviMesh::Update(float _DeltaTime)
 	if (GameEngineInput::IsDown("E"))
 	{
 		Player::MainPlayer->GetPhysXComponent()->TurnOffGravity();
-		m_pNaviComp->FindRoad(Player::MainPlayer->GetTransform()->GetWorldPosition(), float4{ -1084 , 146, 5294 });
+		m_pNaviComp->FindRoad(Player::MainPlayer->GetTransform()->GetWorldPosition(), float4{ -391 ,162, 5626 });
 		m_pNaviComp->GetRoad(Road);
 	}
 	if (Road.empty() != true)

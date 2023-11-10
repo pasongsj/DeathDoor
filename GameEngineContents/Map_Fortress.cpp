@@ -508,11 +508,12 @@ void Map_Fortress::Create_PhysXComponent()
 	// m_pNaviRenderer->Off();
 	// m_pNaviRenderer->Off();
 
-	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
-	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
-	m_pTriangleComp->CreatePhysXActors("Fortress_Navi_Blender.fbx", true);
-	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4 { 0 , -135, 0}, m_MapPos));
-	
+	//m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
+	//m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
+	//m_pTriangleComp->CreatePhysXActors("Fortress_Navi_Blender.fbx", true);
+	//m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4 { 0 , -135, 0}, m_MapPos));
+	//
+	//m_pTriangleComp->GetShape()->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 
 	
 }
