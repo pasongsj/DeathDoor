@@ -42,9 +42,9 @@ public:
 		}
 	}
 
-	std::shared_ptr<class ContentFBXRenderer> GetRender()
+	std::shared_ptr<class ContentFBXRenderer> GetRender1()
 	{
-		return m_pRenderer;
+		return m_pRenderer1;
 	}
 
 protected:

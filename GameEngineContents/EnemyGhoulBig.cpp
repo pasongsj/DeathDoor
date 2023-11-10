@@ -239,6 +239,11 @@ void EnemyGhoulBig::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if (true == CheckHit())
+			{
+				SetNextState(EnemyGhoulBigState::HIT);
+				return;
+			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(EnemyGhoulBigState::IDLE);
