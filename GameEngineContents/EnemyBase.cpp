@@ -28,6 +28,11 @@ void EnemyBase::Update(float _DetltaTime)
 	{
 		EnemyRenderer->FadeIn(1.0f, _DetltaTime);
 	}
+	if (GetTransform()->GetWorldPosition().y < -300.0f)
+	{
+		Death();
+		return;
+	}
 }
 
 bool EnemyBase::InRangePlayer(float _Range)
