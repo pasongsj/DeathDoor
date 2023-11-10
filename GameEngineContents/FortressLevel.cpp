@@ -362,8 +362,7 @@ void FortressLevel::Create_FieldObject()
 {
 	{
 		std::shared_ptr<ShortCutDoor> Obj = CreateActor<ShortCutDoor>();
-		Obj->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
-		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4(156, - 6, 486));
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4(156, - 6, 486), float4{ 0, 45, 0 });
 		Obj->SetTriggerFunction([=]
 			{
 				std::shared_ptr<GameEngineLevel> NextLevel = GameEngineCore::ChangeLevel("OfficeLevel");
@@ -595,8 +594,7 @@ void FortressLevel::Create_FieldObject()
 
 	{
 		std::shared_ptr<ShortCutDoor> Door = CreateActor<ShortCutDoor>();
-		Door->GetPhysXComponent()->SetWorldPosWithParent(float4{ -17500, 160, 17500 });
-		Door->GetTransform()->AddLocalRotation(float4{ 0, -45, 0 });
+		Door->GetPhysXComponent()->SetWorldPosWithParent(float4{ -17500, 160, 17500 }, float4{ 0, -45, 0 });
 		Door->SetTriggerFunction([=]
 			{
 				GameEngineCore::ChangeLevel("BossFrogLevel");
