@@ -592,7 +592,14 @@ void FortressLevel::Create_FieldObject()
 				Tile->GetTransform()->AddLocalRotation(float4{ 0 , -45, 0 });
 			});
 	}
-	{
 
+	{
+		std::shared_ptr<ShortCutDoor> Door = CreateActor<ShortCutDoor>();
+		Door->GetPhysXComponent()->SetWorldPosWithParent(float4{ -17500, 160, 17500 });
+		Door->GetTransform()->AddLocalRotation(float4{ 0, -45, 0 });
+		Door->SetTriggerFunction([=]
+			{
+				GameEngineCore::ChangeLevel("BossFrogLevel");
+			});
 	}
 }

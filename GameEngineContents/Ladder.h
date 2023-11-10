@@ -51,6 +51,8 @@ public:
 		m_pRenderer->GetTransform()->SetLocalPosition(float4(0, -(LadderHeight - m_fHeight), 0));
 	}
 
+	
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

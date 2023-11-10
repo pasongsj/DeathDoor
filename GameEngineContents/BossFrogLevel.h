@@ -41,7 +41,7 @@ private:
 	void Create_TriggerObject();
 	void Create_TileManager();
 
-	void DoorFadeEffectUpdate(float _DeltaTime);
+	void ObjectFadeEffectUpdate(float _DeltaTime);
 
 	const float4 m_CameraPos = float4{ -5200, 500, 5180 };/*float4{ -450, 1700, -1500 };*/
 	const float4 m_CameraRot = float4{ 55 , 0 , 0 };
@@ -59,8 +59,16 @@ private:
 	std::shared_ptr<class BossFrog> m_pBossFrog = nullptr;
 	std::weak_ptr<class Map_Sanctuary> m_pMap;
 
+	// 엔딩 관련 
 	std::weak_ptr<class ShortCutDoor> m_pDoor;
+	std::weak_ptr<class Ladder> m_pLadder;
+	std::weak_ptr<class SecretTile> m_pTile;
+	std::weak_ptr<class SecretTile> m_pTile2;
+
 
 	bool m_bIsClear = false;
 	bool m_bExitDoor = false;
+	
+	float m_FadeUpdateTime = 1.5f;
+	
 };

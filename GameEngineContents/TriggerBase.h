@@ -71,6 +71,11 @@ public:
 		return false;
 	}
 
+	std::shared_ptr<class ContentFBXRenderer> GetRender()
+	{
+		return m_pRenderer;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DetltaTime) override;

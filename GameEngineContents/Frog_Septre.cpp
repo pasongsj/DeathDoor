@@ -2,6 +2,7 @@
 #include "Frog_Septre.h"
 
 #include "PhysXCapsuleComponent.h"
+#include "ShockWave.h"
 
 Frog_Septre::Frog_Septre() 
 {
@@ -79,6 +80,10 @@ void Frog_Septre::SetFSMFUNC()
 			}
 			m_pRenderer->SetGlowToUnit(0, 0, "swampPillarMask.png");
 			m_pRenderer->SetUnitDiffuseColorIntensity(0, 0, 4.0f);
+
+			std::weak_ptr<ShockWave> Wave = CreateComponent<ShockWave>();
+			Wave.lock()->GetTransform()->SetWorldRotation({ 90.0f, 0.0f, 0.0f });
+			Wave.lock()->GetTransform()->SetLocalScale({ 10.0f, 10.0f, 1.0f });
 		},
 		[this](float Delta)
 		{
