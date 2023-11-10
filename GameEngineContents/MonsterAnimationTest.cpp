@@ -58,9 +58,10 @@ void MonsterAnimationTest::Start()
 	Unit = Renderer->GetAllRenderUnit();
 
 	Renderer->SetGlowToUnit(0, 0);
-	Renderer->SetUnitColor(0, 0, float4{ 0.553f,0.027f,0.227f, 1.0f }, 5);
-
-
+	//Renderer->SetUnitColor(0, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 0.2f }, 5);
+	//Unit[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "soulTexture.png");
+	/// GetAllRenderUnit()[_IndexY][_IndexX]->ShaderResHelper.SetTexture("CrackTexture", _MaskName);
+	Renderer->SetGlowToUnit(0, 0);
 	Renderer->SetUnitColor(1, 0, float4{ 0.553f,0.027f,0.227f });
 	//WeaponRenderer->SetGlowToUnit(1, 0);
 	//WeaponRenderer->SetUnitColor(1, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
