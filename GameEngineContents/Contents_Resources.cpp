@@ -510,7 +510,6 @@ void ContentsCore::ContentsResourcesCreate()
 
 	{
 		GameEngineFont::Load("¸¼Àº °íµñ");
-		GameEngineFont::Load("SUITE Variable");
 	}
 
 	ContentsCore::CreateCylinderMesh();
