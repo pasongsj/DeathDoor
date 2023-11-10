@@ -28,6 +28,7 @@ private:
 	float4 Test = float4::ZERO;
 
 	std::shared_ptr<class ContentFBXRenderer> TestRd = nullptr;
-
+	std::shared_ptr<ContentFBXRenderer> New;
+	std::shared_ptr<ContentFBXRenderer> New1;
 };
 

@@ -16,7 +16,7 @@ public:
 
 	void SetAllUnitTexture(const std::string_view& _SettingName, const std::string_view& _ImageName);
 	
-	void SetFadeMask(const std::string_view& _MaskTextureName = "MaskType2_0.png");
+	void SetFadeMask(const std::string_view& _MaskTextureName = "MaskType1_0.png");
 	void SetCrackMask(const std::string_view& _MaskTextureName = "CrackMask.png");
 
 	void FadeOut(float _MaxTime, float _DeltaTime);
