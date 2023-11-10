@@ -107,6 +107,7 @@ void BossFrogFat::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("DIE_STANDING", "FROG_FAT_DIE_STANDING.fbx", { 1.0f / 30, false });
 
 	EnemyRenderer->CreateFBXAnimation("JUMP_SCREAM", "FROG_FAT_JUMP_SCREAM.fbx", { 1.0f / 30, false });				   //ÀÎÆ®·Î
+	EnemyRenderer->FadeOut(0.01f, 0.01f);
 	EnemyRenderer->SetAnimationStartFunc("JUMP_SCREAM", 47, [this]
 		{
 			JumpStartPoint = OnGroundCenter;
@@ -190,7 +191,7 @@ void BossFrogFat::InitAnimation()
 	JumpEndPoint = OnGroundCenter;
 	CalJumpPoint();
 
-	
+	//EnemyRenderer->Off();
 	EnemyRenderer->ChangeAnimation("FAT_JUMP");
 	EnemyRenderer->GetTransform()->SetLocalScale(float4::ONE * 130.0f);
 
@@ -235,6 +236,8 @@ void BossFrogFat::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			EnemyRenderer->FadeIn(1.0f, Delta);
+
 			const float4 m_CameraRot = { 55.0f, 0.0f , 0.0f };
 			if(IntroDone == false && false == GetLevel()->GetMainCamera()->IsFreeCamera())
 			{

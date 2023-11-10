@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "MonsterAnimationTest.h"
 #include "EnemyFirePlant.h"
+#include "BossFrogSoul.h"
 
 PlayerTestLevel::PlayerTestLevel()
 {
@@ -37,7 +38,7 @@ void PlayerTestLevel::LevelChangeStart()
 	SetPostPrecessEffect({ 800, 450, 800, 450 });
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
+	GetMainCamera()->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -500.0f });
 
 	CreateActor<MonsterAnimationTest>();
 }

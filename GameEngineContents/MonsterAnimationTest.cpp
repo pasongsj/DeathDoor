@@ -14,35 +14,35 @@ MonsterAnimationTest::~MonsterAnimationTest()
 void MonsterAnimationTest::Start()
 {
 	Renderer = CreateComponent<ContentFBXRenderer>();
-	Renderer->SetFBXMesh("FROG_FAT_MESH.FBX", "ContentAniMeshDeffered");
-	Renderer->CreateFBXAnimation("0", "FROG_FAT_DIE_LAND.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("1", "FROG_FAT_DIE_STANDING.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("2", "FROG_FAT_IDLE.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("3", "FROG_FAT_JUMP.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("4", "FROG_FAT_JUMP_SCREAM.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("5", "FROG_FAT_SHOOT.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("6", "FROG_FAT_SUCK.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("7", "FROG_FAT_SUCK_BOMB.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("8", "FROG_FAT_SUCK_BOMB_GETUP.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("9", "FROG_FAT_SUCK_BOMB_LOOP.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("10", "FROG_FAT_TILT.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("11", "FROG_FAT_TILT_GRABBED.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("12", "FROG_FAT_TILT_JUMP.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("13", "FROG_FAT_TURN.fbx", {0.1f });
+	Renderer->SetFBXMesh("FrogSoul.FBX", "ContentMeshDeffered");
+	//Renderer->CreateFBXAnimation("0", "FROG_FAT_DIE_LAND.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("1", "FROG_FAT_DIE_STANDING.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("2", "FROG_FAT_IDLE.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("3", "FROG_FAT_JUMP.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("4", "FROG_FAT_JUMP_SCREAM.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("5", "FROG_FAT_SHOOT.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("6", "FROG_FAT_SUCK.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("7", "FROG_FAT_SUCK_BOMB.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("8", "FROG_FAT_SUCK_BOMB_GETUP.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("9", "FROG_FAT_SUCK_BOMB_LOOP.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("10", "FROG_FAT_TILT.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("11", "FROG_FAT_TILT_GRABBED.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("12", "FROG_FAT_TILT_JUMP.fbx", {0.1f });
+	//Renderer->CreateFBXAnimation("13", "FROG_FAT_TURN.fbx", {0.1f });
 
 
-	WeaponRenderer = CreateComponent<ContentFBXRenderer>();
-	WeaponRenderer->SetFBXMesh("FROG_WEAPONMESH.FBX", "ContentMeshDeffered");
-	//WeaponRenderer->GetTransform()->SetLocalScale(float4::ONE * 100.0f);
-	WeaponRenderer->GetTransform()->SetParent(Renderer->GetTransform());
-	WeaponRenderer->GetTransform()->SetLocalScale(float4::ONE * 1.4f);
+	//WeaponRenderer = CreateComponent<ContentFBXRenderer>();
+	//WeaponRenderer->SetFBXMesh("FROG_WEAPONMESH.FBX", "ContentMeshDeffered");
+	////WeaponRenderer->GetTransform()->SetLocalScale(float4::ONE * 100.0f);
+	//WeaponRenderer->GetTransform()->SetParent(Renderer->GetTransform());
+	//WeaponRenderer->GetTransform()->SetLocalScale(float4::ONE * 1.4f);
 	//WeaponRenderer->SetBone(Renderer.get(), "_FROG_SEPTRE_BONE", float4{0.0f,0.1f,0.0f}, float4{-85.03f,40.0f,0.0f});
 	//WeaponRenderer->GetTransform()->SetLocalRotation(float4{ 0.0f, 0.0f, 90.0f });
 // 
 	//WeaponRenderer->GetTransform()->SetLocalScale(float4::ONE * 0.5f);
 	//Renderer->CreateFBXAnimation("12", "_E_JUMPER_THROW_Anim.fbx");//
 	//Renderer->ChangeAnimation("12");
-	GetTransform()->SetLocalScale(float4::ONE * 50.0f);
+	GetTransform()->SetLocalScale(float4::ONE * 100.0f);
 	GetTransform()->SetLocalRotation(float4{0.0f,0.0f,0.0f});
 	//Renderer->GetTransform()->SetLocalRotation({ 0.0f,180.0f, 0.0f });
 
@@ -55,10 +55,16 @@ void MonsterAnimationTest::Start()
 		GameEngineInput::CreateKey("PressK", 'K');
 	}
 
-	Unit = WeaponRenderer->GetAllRenderUnit();
-	WeaponRenderer->SetGlowToUnit(1, 0);
-	WeaponRenderer->SetUnitColor(1, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
+	Unit = Renderer->GetAllRenderUnit();
 
+	Renderer->SetGlowToUnit(0, 0);
+	Renderer->SetUnitColor(0, 0, float4{ 0.553f,0.027f,0.227f, 1.0f }, 5);
+
+
+	Renderer->SetUnitColor(1, 0, float4{ 0.553f,0.027f,0.227f });
+	//WeaponRenderer->SetGlowToUnit(1, 0);
+	//WeaponRenderer->SetUnitColor(1, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
+	int a = 0;
 	//Renderer->Off();
 	//Unit[10][0]->SetMaterial();
 	//Unit[23][0]->Off();
@@ -82,10 +88,10 @@ float4 MonsterAnimationTest::GetBonePos(const std::string_view& _BoneName)
 
 void MonsterAnimationTest::Update(float _DeltaTime)
 {
-	float4 pos = Renderer->GetBoneData("_FROG_SEPTRE_BONE").Pos;
-	float4 Rot = Renderer->GetBoneData("_FROG_SEPTRE_BONE").RotEuler;
-	WeaponRenderer->GetTransform()->SetLocalPosition(float4{0.0f,0.1f,0.0f} + pos);
-	WeaponRenderer->GetTransform()->SetLocalRotation(float4{-85.03f,40.0f,0.0f}+ Rot);
+	//float4 pos = Renderer->GetBoneData("_FROG_SEPTRE_BONE").Pos;
+	//float4 Rot = Renderer->GetBoneData("_FROG_SEPTRE_BONE").RotEuler;
+	//WeaponRenderer->GetTransform()->SetLocalPosition(float4{0.0f,0.1f,0.0f} + pos);
+	//WeaponRenderer->GetTransform()->SetLocalRotation(float4{-85.03f,40.0f,0.0f}+ Rot);
 	//float4 wpos = WeaponRenderer->GetTransform()->GetWorldPosition();
 	//float4 wscale = WeaponRenderer->GetTransform()->GetWorldScale();
 	if (true == GameEngineInput::IsDown("PressN"))

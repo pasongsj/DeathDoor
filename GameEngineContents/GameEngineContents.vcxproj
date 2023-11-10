@@ -176,6 +176,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BossFrogSoul.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EnemyWave.cpp" />
     <ClCompile Include="HitCircle.cpp">
       <SubType>
@@ -591,6 +595,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BossFrogBomb.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BossFrogSoul.h">
       <SubType>
       </SubType>
     </ClInclude>
