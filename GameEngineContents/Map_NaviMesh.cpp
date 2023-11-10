@@ -17,6 +17,11 @@ Map_NaviMesh::~Map_NaviMesh()
 
 void Map_NaviMesh::Start()
 {
+	if (false == GameEngineInput::IsKey("G"))
+	{
+		GameEngineInput::CreateKey("G", 'G');	
+
+	}
 	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pNaviRenderer->SetFBXMesh("Fortress_Navi_DC.fbx", "ContentMeshDeffered");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(float4{ 0 , -135, 0 });
@@ -33,7 +38,7 @@ std::deque<sTriangle> Road;
 float fTime;
 void Map_NaviMesh::Update(float _DeltaTime)
 {
-	if (GameEngineInput::IsDown("E"))
+	if (GameEngineInput::IsDown("G"))
 	{
 		Player::MainPlayer->GetPhysXComponent()->TurnOffGravity();
 		m_pNaviComp->FindRoad(Player::MainPlayer->GetTransform()->GetWorldPosition(), float4{ -391 ,162, 5626 });
@@ -44,7 +49,9 @@ void Map_NaviMesh::Update(float _DeltaTime)
 		fTime += _DeltaTime * 10.f;
 
 		sTriangle Test = Road.front();
-		float4 Lerp = float4::LerpClamp(Player::MainPlayer->GetPhysXComponent()->GetWorldPosition(), Test.CenterPos, fTime);
+		//float4 Lerp = float4::LerpClamp(Player::MainPlayer->GetPhysXComponent()->GetWorldPosition(), Test.CenterPos, fTime);
+
+		float4 Lerp = float4::SLerpQuaternion(Player::MainPlayer->GetPhysXComponent()->GetWorldPosition(), Test.CenterPos, fTime);
 		Player::MainPlayer->GetPhysXComponent()->SetWorldPosWithParent(Lerp);
 
 		if (fTime >= 1.f)

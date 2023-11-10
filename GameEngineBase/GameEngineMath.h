@@ -72,7 +72,6 @@ public:
 		{
 			_Ratio = 1.0f;
 		}
-
 		return DirectX::XMQuaternionSlerp(_Left.DirectVector, _Right.DirectVector, _Ratio);
 	}
 
