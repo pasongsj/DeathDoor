@@ -88,6 +88,11 @@ public:
 		m_bIsActive = Type;
 	}
 
+	void SetDelay()
+	{
+		m_bDelay = true;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -112,4 +117,7 @@ private:
 	
 	bool m_bShake = false;
 	float m_fShakeTime = 2.0f;
+
+	bool m_bDelay = false;
+	float m_fDelayTime = 1.0f;
 };

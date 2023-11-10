@@ -86,6 +86,7 @@ void Ladder::SetFSMFUNC()
 		[this]
 		{
 			// m_pRenderer->On();
+			m_sData.Type = InteractionData::InteractionDataType::Ladder;
 			 m_sData.Pos = GetTransform()->GetWorldPosition();
 			 m_sData.Dir = GetTransform()->GetWorldForwardVector();
 
@@ -105,7 +106,7 @@ void Ladder::SetFSMFUNC()
 			if (true == TriggerKeyCheck())
 			{
 				//키눌렸으면 ON으로 전환하고 Player에게 포지션 전달
-				Player::MainPlayer->GetLadderData(m_sData);
+				Player::MainPlayer->GetInteractionData(m_sData);
 				SetNextState(TriggerState::ON);
 			};
 		},

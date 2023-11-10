@@ -25,8 +25,6 @@ void OfficeLevel::Start()
 	InitKey();
 
 	SetPointLight();
-	CreateNewCamera(-1);
-	GetCamera(-1)->SetProjectionType(CameraType::Orthogonal);
 }
 
 
@@ -53,6 +51,9 @@ void OfficeLevel::LevelChangeStart()
 	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
 	GetMainCamera()->SetZoomRatio(2.5f);
+
+	CreateNewCamera(-1);
+	GetCamera(-1)->SetProjectionType(CameraType::Orthogonal);
 
 	Create_Light();
 	Create_Map();

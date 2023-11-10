@@ -112,7 +112,7 @@ void FortressLevel::LevelChangeStart()
 	Create_WaterBox();
 
 
-	Create_FieldEnemy();
+	// Create_FieldEnemy();
 	Create_FieldObject();
 }
 
@@ -380,7 +380,8 @@ void FortressLevel::Create_FieldObject()
 	{
 		std::shared_ptr<Ladder> Obj = CreateActor<Ladder>();
 		Obj->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
-		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -2310, -160, 750 });
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -2330, -6, 760 });
+		Obj->SetHeight(7);
 	}
 
 	{
@@ -427,7 +428,8 @@ void FortressLevel::Create_FieldObject()
 
 		std::shared_ptr<Ladder> Obj2 = CreateActor<Ladder>();
 		Obj2->GetTransform()->SetLocalRotation(float4{ 0, 45, 0 });
-		Obj2->GetPhysXComponent()->SetWorldPosWithParent(float4{ 105, 46, 6140 });
+		Obj2->GetPhysXComponent()->SetWorldPosWithParent(float4{ 105, 146, 6140 });
+		Obj2->SetHeight(9);
 		Obj2->SetHidden(true);
 
 		Obj->SetTriggerFunction([=]
@@ -511,7 +513,8 @@ void FortressLevel::Create_FieldObject()
 
 		std::shared_ptr<Ladder> Obj2 = CreateActor<Ladder>();
 		Obj2->GetTransform()->SetLocalRotation(float4{ 0 , 45, 0 });
-		Obj2->GetPhysXComponent()->SetWorldPosWithParent(float4{ -13002, -250, 9380 });
+		Obj2->GetPhysXComponent()->SetWorldPosWithParent(float4{ -12982, 46, 9400 });
+		Obj2->SetHeight(5);
 		Obj2->SetHidden(true);
 
 		Obj->SetTriggerFunction([=]

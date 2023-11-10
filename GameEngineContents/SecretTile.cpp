@@ -107,6 +107,20 @@ void SecretTile::Update(float _DeltaTime)
 
 	else if (false == IsActive())
 	{
+		// 만약 딜레이가 적용되고 있다면 
+		if (true == m_bDelay)
+		{
+			if (0.0f >= m_fDelayTime)
+			{
+				m_pRenderer->FadeOut(1.0f, _DeltaTime);
+				m_fDelayTime = 1.0f;
+				m_bDelay = false;
+				return;
+			}
+
+			m_fDelayTime -= _DeltaTime;
+		}
+
 		m_pRenderer->FadeOut(1.0f, _DeltaTime);
 	}
 

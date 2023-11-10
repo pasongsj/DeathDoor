@@ -105,14 +105,14 @@ void MapTestLevel::InitTestLevel()
 	{
 		GetMainCamera()->GetTransform()->SetLocalPosition(float4{ 0, 700, -2500 });
 		std::shared_ptr<SecretTile> NewTile = CreateActor<SecretTile>();
-		NewTile->GetTransform()->SetLocalPosition(float4{ -400, 100 , 0 });
+		NewTile->GetTransform()->SetLocalPosition(float4{ 800, 250 , 0 });
 
 		std::shared_ptr<ShortCutDoor> NewCrate = GetLevel()->CreateActor<ShortCutDoor>();
 		NewCrate->SetState(StartState::CLOSE);
 		//NewCrate->GetPhysXComponent()->SetWorldPosWithParent(float4{ 400, 0 , 0 });
 
 		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
-		NewLadder->GetTransform()->SetWorldPosition(float4{ 800, 0 , 0 });
+		NewLadder->GetTransform()->SetWorldPosition(float4{ 800, 0 , -200 });
 		NewLadder->SetHidden(true);
 		NewLadder->SetHeight(4);
 		

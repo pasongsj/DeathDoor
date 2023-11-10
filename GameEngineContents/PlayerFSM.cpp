@@ -465,8 +465,10 @@ void Player::SetFSMFunc()
 		{
 			Renderer->ChangeAnimation("CLIMBING_LADDER");
 			Renderer->PauseOn();
-
 			m_pCapsuleComp->TurnOffGravity(); 
+			m_pCapsuleComp->SetWorldPosWithParent(InteractData.Pos);
+			MoveDir = InteractData.Dir; 
+			m_pCapsuleComp->RigidSwitch(false);
 		},
 		[this](float Delta)
 		{
@@ -477,14 +479,42 @@ void Player::SetFSMFunc()
 		{
 				m_pCapsuleComp->TurnOnGravity();
 				Renderer->PauseOff(); 
+				InteractData.Type = InteractionData::InteractionDataType::None;
+				InteractData.Pos = float4::ZERONULL;
+				InteractData.Dir = float4::ZERONULL;
+				m_pCapsuleComp->RigidSwitch(true);
 		}
 	); 
+
+	SetFSM(PlayerState::CLIMB_TOP,
+		[this]
+		{
+			Renderer->ChangeAnimation("CLIMBING_OFF_LADDER_TOP");
+			m_pCapsuleComp->TurnOffGravity();
+
+		},
+		[this](float Delta)
+		{
+			MoveUpdate(PLAYER_CLIMB_SPEED, float4::UP + MoveDir);
+			if (true == Renderer->IsAnimationEnd())
+			{
+				SetNextState(PlayerState::IDLE);
+			}
+		},
+		[this]
+		{
+			m_pCapsuleComp->TurnOnGravity();
+		}
+	);
+
 
 	
 	//LEVER // 레버를 누름 Push_Lever
 	SetFSM(PlayerState::LEVER,
 		[this]
 		{
+			m_pCapsuleComp->SetWorldPosWithParent(InteractData.Pos);
+			MoveDir = InteractData.Dir;
 			Renderer->ChangeAnimation("PUSH_LEVER");
 		},
 		[this](float Delta)
@@ -496,6 +526,9 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			InteractData.Type = InteractionData::InteractionDataType::None;
+			InteractData.Pos = float4::ZERONULL;
+			InteractData.Dir = float4::ZERONULL;
 		}
 	); 
 
@@ -635,6 +668,18 @@ void Player::CheckClimbInput(float _DeltaTime)
 	// 사다리 Climbing_ladder, Climbing_ladder_down, Climbing_off_ladder_top
 	if (true == GameEngineInput::IsPress("PlayerUp"))
 	{
+		float4 PlayerGroundPos = GetTransform()->GetWorldPosition() + (MoveDir * 50.0f);
+		PlayerGroundPos.y += 50.0f;	
+		float4 CollPoint = float4::ZERO;
+		if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint))
+		{
+			if (fabsf(CollPoint.y - PlayerGroundPos.y) < 5.0f)
+			{
+				SetNextState(PlayerState::CLIMB_TOP);
+				return;
+			}
+		}
+
 		Renderer->ChangeAnimation("Climbing_ladder");
 		Renderer->PauseOff();
 		MoveUpdate(PLAYER_CLIMB_SPEED, float4::UP);

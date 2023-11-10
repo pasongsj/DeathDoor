@@ -10,6 +10,7 @@
 #include "GameEngineDevice.h"
 #include "GameEngineVideo.h"
 #include "GameEngineGUI.h"
+#include "GameEngineLevel.h"
 
 #include <GameEngineContents/PhysXManager.h>
 #include <GameEngineBase/GameEngineNetObject.h>
@@ -88,9 +89,9 @@ void GameEngineCore::EngineUpdate()
 		if (nullptr != MainLevel)
 		{
 			CurLoadLevel = MainLevel;
-			MainLevel->InitLevelRenderTarget(); // 렌더타겟 실제로 생성
 			PhysXManager::GetInst()->ChangeScene(MainLevel->GetName()); // PhysX Scene변경 없으면 null로 만들어서 사용불가
 			MainLevel->LevelChangeStart();
+			MainLevel->InitLevelRenderTarget(); // 렌더타겟 실제로 생성
 			MainLevel->ActorLevelChangeStart(); 
 		}
 
@@ -212,8 +213,9 @@ std::shared_ptr<GameEngineLevel> GameEngineCore::ChangeLevel(const std::string_v
 	return NextLevel;
 }
 
-void GameEngineCore::LevelInit(std::shared_ptr<GameEngineLevel> _Level) 
+void GameEngineCore::LevelInit(std::shared_ptr<GameEngineLevel> _Level,const std::string_view& _Name) 
 {
+	_Level->SetName(_Name);
 	CurLoadLevel = _Level;
 	_Level->Level = _Level.get();
 	_Level->Start();

@@ -117,6 +117,7 @@ void PhysXTriangleComponent::Update(float _DeltaTime)
 	if (Player::MainPlayer!=nullptr && m_bInit == false)
 	{
 		Player::MainPlayer->GetPhysXComponent()->SetGroundFilter(DynamicThis<PhysXTriangleComponent>());
+		Player::MainPlayer->GetPhysXComponent()->SetPreFilter(DynamicThis<PhysXTriangleComponent>());
 		m_bInit = true;
 	}
 	if (true == PositionSetFromParentFlag)

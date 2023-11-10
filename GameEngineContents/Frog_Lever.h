@@ -28,5 +28,5 @@ protected:
 
 private:
 	void SetFSMFUNC();
-
+	InteractionData m_sData;
 };

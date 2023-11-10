@@ -27,6 +27,7 @@ void PlayerAttackBomb::Start()
 
 	AttackRenderer->SetGlowToUnit(0, 0);
 	AttackRenderer->SetColor(float4{1.0f, 0.1f, 0.2f}, 4.0f);
+	PhysXComp->CreateSubShape(SubShapeType::SPHERE, float4::ONE * 300.0f);
 
 }
 void PlayerAttackBomb::Death()
@@ -35,7 +36,7 @@ void PlayerAttackBomb::Death()
 	GameEngineLevel* Level = GetLevel();
 	Level->TimeEvent.AddEvent(0.2f, [Level, Effect](GameEngineTimeEvent::TimeEvent&, GameEngineTimeEvent*) {Level->GetLastTarget()->ReleaseEffect(Effect.lock()); });
 
-	GameEngineObjectBase::Death();
+	//GameEngineObjectBase::Death();
 }
 
 
@@ -47,19 +48,27 @@ void PlayerAttackBomb::Update(float _DeltaTime)
 	}
 	if (PhysXFilterGroup::None != DestTarget && true == CheckCollision(DestTarget))
 	{
+		SetShoot(0);
+		AttackRenderer->Off();
+		DeathTime = GetLiveTime() + 1.0f;
+		PhysXComp->AttachShape();
 		Death();
 		return;
 	}
-	if (GetLiveTime() > GetFireTime() + 20.0f)
+	if (GetLiveTime() > GetFireTime() + 20.0 || (DeathTime != 0.0f && GetLiveTime() > DeathTime))
 	{
 		GameEngineObjectBase::Death();
 		return;
 	}
+
 	PhysXComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 	PhysXComp->SetMoveSpeed(GetDir() * GetShootSpeed());
 	isPhysXCollision = 0;
 
-	CreateParticle(_DeltaTime);
+	if(true == AttackRenderer->IsUpdate())
+	{
+		CreateParticle(_DeltaTime);
+	}
 }
 
 
