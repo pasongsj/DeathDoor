@@ -271,6 +271,14 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 		else
 		{
 			dq_ResultRoad.push_back(RoadQueue.top());
+			RoadQueue.pop();
+;			while (RoadQueue.empty()!=true)
+			{
+				vec_TriangleNav[RoadQueue.top().ID].Cost = -1;
+				vec_TriangleNav[RoadQueue.top().ID].Heuristic = -1;
+				vec_TriangleNav[RoadQueue.top().ID].Value = -1;
+				RoadQueue.pop();
+			}
 		}
 	}
 	

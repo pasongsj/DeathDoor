@@ -6,6 +6,7 @@
 
 #include "Player.h"
 #include "Map_Fortress.h"
+#include "Map_NaviMesh.h"
 #include "CullingManager.h"
 #include "WaterBox.h"
 #include "BossFrog.h"
@@ -57,6 +58,7 @@ void FortressLevel::Update(float _DeltaTime)
 		nextPos.z -= 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
 		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
 	}
+
 }
 
 void FortressLevel::InitKey()
@@ -101,7 +103,7 @@ void FortressLevel::LevelChangeStart()
 	Light->GetTransform()->SetLocalRotation(float4{ 45, 90 , 0 });
 
 	m_pMap = CreateActor<Map_Fortress>();
-
+	CreateActor<Map_NaviMesh>();
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	float4 Pos = Obj->GetTransform()->GetWorldPosition();
 	Set_PlayerStartPos();

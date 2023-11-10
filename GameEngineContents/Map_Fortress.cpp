@@ -6,9 +6,9 @@
 #include "ContentFBXRenderer.h"
 
 // physX
+#include "PhysXCapsuleComponent.h"
 #include "PhysXTriangleComponent.h"
 #include "PhysXBoxComponent.h"
-#include "PhysXCapsuleComponent.h"
 
 #include "SecretTile.h"
 #include "Crate.h"
@@ -512,6 +512,8 @@ void Map_Fortress::Create_PhysXComponent()
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	m_pTriangleComp->CreatePhysXActors("Fortress_Navi_Blender.fbx", true);
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(float4 { 0 , -135, 0}, m_MapPos));
+	
 
+	
 }
 

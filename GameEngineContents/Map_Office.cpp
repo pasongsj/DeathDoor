@@ -60,35 +60,8 @@ void Map_Office::Start()
 }
 
 
-std::deque<sTriangle> Road;
-float fTime;
 void Map_Office::Update(float _DeltaTime)
 {
-	if (GameEngineInput::IsDown("E"))
-	{
-		Player::MainPlayer->GetPhysXComponent()->TurnOffGravity();
-		m_pTriangleComp->FindRoad(Player::MainPlayer->GetTransform()->GetWorldPosition(), float4{ 1358 , -280, -3620 });
-		m_pTriangleComp->GetRoad(Road);
-	}
-	if (Road.empty()!=true)
-	{
-		fTime += _DeltaTime*10.f;
-
-		sTriangle Test = Road.front();
-		float4 Lerp = float4::LerpClamp(Player::MainPlayer->GetPhysXComponent()->GetWorldPosition(), Test.CenterPos, fTime);
-		Player::MainPlayer->GetPhysXComponent()->SetWorldPosWithParent(Lerp);
-
-		if (fTime >= 1.f)
-		{
-			Road.pop_front();
-			fTime -= 1.f;
-		}
-	}
-	else
-	{
-
-		Player::MainPlayer->GetPhysXComponent()->TurnOnGravity();
-	}
 }
 
 void Map_Office::InitComponent()
