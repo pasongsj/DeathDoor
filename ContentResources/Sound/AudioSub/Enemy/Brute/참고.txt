@@ -1,0 +1,21 @@
+Brute
+
+Attack
+Brute_Attack1.mp3
+Brute_Attack2.mp3
+
+AttackReady (모든 공격 전 사운드)
+Brute_AttackReady.mp3
+
+Throw
+Brute_BombThrow.mp3
+Brute_BombBoom.mp3
+
+Walk
+Brute_Walk.mp3
+
+GetDamage
+Brute_GetDamage.mp3
+
+Death
+Brute_Death.mp3

@@ -20,6 +20,8 @@ public:
 		return m_pMap;
 	}
 
+	void StageClearCheck();
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -39,6 +41,8 @@ private:
 	void Create_TriggerObject();
 	void Create_TileManager();
 
+	void DoorFadeEffectUpdate(float _DeltaTime);
+
 	const float4 m_CameraPos = float4{ -5200, 500, 5180 };/*float4{ -450, 1700, -1500 };*/
 	const float4 m_CameraRot = float4{ 55 , 0 , 0 };
 
@@ -54,4 +58,9 @@ private:
 
 	std::shared_ptr<class BossFrog> m_pBossFrog = nullptr;
 	std::weak_ptr<class Map_Sanctuary> m_pMap;
+
+	std::weak_ptr<class ShortCutDoor> m_pDoor;
+
+	bool m_bIsClear = false;
+	bool m_bExitDoor = false;
 };

@@ -15,12 +15,34 @@
 #include "GlowEffect.h"
 #include "Ladder.h"
 
+#include "ShortCutDoor.h"
+#include "TileManager.h"
+
 BossFrogLevel::BossFrogLevel()
 {
 }
 
 BossFrogLevel::~BossFrogLevel()
 {
+}
+
+void BossFrogLevel::StageClearCheck()
+{
+	// 개구리가 죽었는지 체크해서
+	if (true == m_pBossFrog->DeathCheck() && false == m_bExitDoor)
+	{
+		// 죽었다면 
+		m_bExitDoor = true;
+		// 정중앙 타일 바로 위에 숏컷도어 생성 
+		float4 Pos = TileManager::MainManager->GetTilePos(2, 2);
+		m_pDoor = CreateActor<ShortCutDoor>();
+		m_pDoor.lock()->GetPhysXComponent()->SetWorldPosWithParent(Pos + float4{0, 30, 0});
+		m_pDoor.lock()->GetRender()->FadeOut(0.01f, 0.01f);
+		m_pDoor.lock()->SetTriggerFunction([=]
+			{
+				GameEngineCore::ChangeLevel("OfficeLevel");
+			});
+	}
 }
 
 void BossFrogLevel::Start()
@@ -31,6 +53,11 @@ void BossFrogLevel::Start()
 
 void BossFrogLevel::Update(float _DeltaTime)
 {
+	StageClearCheck();
+	if (true == m_bExitDoor)
+	{
+		DoorFadeEffectUpdate(_DeltaTime);
+	}
 	KeyUpdate(_DeltaTime);
 
 	if (false == isFatPhase && nullptr != m_pBossFrog && true == m_pBossFrog->GetIsFrogDeath())
@@ -177,6 +204,11 @@ void BossFrogLevel::Create_TriggerObject()
 void BossFrogLevel::Create_TileManager()
 {
 	CreateActor<TileManager>();
+}
+
+void BossFrogLevel::DoorFadeEffectUpdate(float _DeltaTime)
+{
+	m_pDoor.lock()->GetRender()->FadeIn(1.0f, _DeltaTime);
 }
 
 void BossFrogLevel::Set_PlayerStartPos()

@@ -1,4 +1,12 @@
-Frog 분홍색으로 빛나며 발판 재생되는 사운드 -> 0500_GimmickSound
-화살 적중 시 -> 0236_ArrowHit
-상대 마법 탄환 적중 시 -> 0291_MagicHit, 0205_MagicHit2
-피격음 -> DefaultHit1
+화살 벽 맞음
+ArrowHit.mp3
+
+기본 적 타격 사운드
+DefaultHit.mp3
+
+Frog보스, 맵 생성등 기믹에 사용되는 사운드
+GimmickSound.mp3
+
+적 또는 플레이어 마법 벽 맞는 사운드
+MagicHit.mp3
+MagicHit2.mp3

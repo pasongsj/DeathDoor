@@ -1,0 +1,21 @@
+Frog Phase1
+
+JumpAttack
+Frog_Phase1_PrevJumpScream.mp3
+Frog_Phase1_JumpSound.mp3
+-> 점프 바람소리
+Frog_Phase1_PrevSmashScream.mp3
+Frog_Phase1_Smash.mp3
+
+GetDamage
+Frog_Phase1_GetDamageScream.mp3
+Frog_Phase1_Splash.mp3
+
+Tile
+Frog_Phase1_TileShake.mp3
+
+Frog_Phase1_TileCrash.mp3
+
+
+기믹으로 타일 돌아오는 소리
+GimmickSound.mp3
