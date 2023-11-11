@@ -99,8 +99,9 @@ private:
 		LEVER,			// 레버를 누름 Push_Lever
 		ITEM,			// 아이템을 얻음 GetItem
 		DEAD,			// 피격으로 인한 사망 Dead
-		DROWN,			// 익사 Drown
+		DOOR,
 		FALLING,			// 높이가 차가 있을 때 falling, Land
+		DROWN,			// 익사 Drown
 		MAX,
 	};
 
