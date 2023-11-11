@@ -220,9 +220,10 @@ bool PhysXManager::TriRayCast(const float4& _vOrigin, const float4& _vDir, OUT f
 	memcpy_s(&vDir, sizeof(physx::PxVec3), &vNormalizedDir, sizeof(physx::PxVec3));
 
 	physx::PxRaycastBuffer tRayCastBuff = nullptr;
-	if (true == m_pScene->raycast(vOrigin, vDir, (physx::PxReal)_fDistance, tRayCastBuff))
+	physx::PxQueryFilterData tFilterDat;
+	if (true == m_pScene->raycast(vOrigin, vDir, (physx::PxReal)_fDistance, tRayCastBuff,physx::PxHitFlag::eDEFAULT, tFilterDat))
 	{
-		if (true == tRayCastBuff.hasBlock)
+		if (true == tRayCastBuff.hasBlock&&tFilterDat.data.word0 == static_cast<UINT>( PhysXFilterGroup::NaviMesh))
 		{
 			physx::PxRaycastHit tRayCastHit = tRayCastBuff.block;
 			UINT FaceIndex = static_cast<UINT>(tRayCastHit.faceIndex);
