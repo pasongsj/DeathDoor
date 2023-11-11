@@ -220,7 +220,7 @@ bool PhysXManager::TriRayCast(const float4& _vOrigin, const float4& _vDir, OUT f
 	memcpy_s(&vDir, sizeof(physx::PxVec3), &vNormalizedDir, sizeof(physx::PxVec3));
 
 	physx::PxRaycastBuffer tRayCastBuff = nullptr;
-	if (true == m_pScene->raycast(vOrigin, vDir, (physx::PxReal)_fDistance, tRayCastBuff/*,physx::PxHitFlag::eDEFAULT, qFilterDat*/))
+	if (true == m_pScene->raycast(vOrigin, vDir, (physx::PxReal)_fDistance, tRayCastBuff))
 	{
 		if (true == tRayCastBuff.hasBlock)
 		{
