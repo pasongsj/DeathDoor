@@ -41,6 +41,7 @@ public:
 	}
 	void SetNavigation()
 	{
+		SetFilterData(PhysXFilterGroup::NaviMesh);
 		UINT iTriangleSize = TriMesh->getNbTriangles();
 		for (UINT i = 0; i < iTriangleSize; i++)
 		{

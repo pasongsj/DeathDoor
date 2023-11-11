@@ -75,9 +75,11 @@ void EnemyGrunt::Update(float _DeltaTime)
 
 
 void EnemyGrunt::AggroMove(float _DeltaTime)
-{
+{	
 	if (false == GetStateChecker())
 	{
+		float4 NextPos = m_pCapsuleComp->GetWorldPosition() + (AggroDir(m_pCapsuleComp) * GRUNT_MOVE_SPEED);
+		//m_pCapsuleComp->RayCast(NextPos,float4::DOWN)
 		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp) * GRUNT_MOVE_SPEED);
 	}
 	else
@@ -149,7 +151,6 @@ void EnemyGrunt::SetFSMFUNC()
 				SetNextState(EnemyGruntState::JUMP_WAIT);
 				return;
 			}
-			AggroMove(Delta);
 
 			if (false == InRangePlayer(1000.0f))
 			{
@@ -157,6 +158,7 @@ void EnemyGrunt::SetFSMFUNC()
 				return;
 			}
 
+			AggroMove(Delta);
 		},
 		[this]
 		{

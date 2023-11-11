@@ -1,6 +1,7 @@
 #include "PrecompileHeader.h"
 #include "FortressLevel.h"
 
+#include "PhysXBoxComponent.h"
 #include "PhysXCapsuleComponent.h"
 #include "PhysXControllerComponent.h"
 
@@ -109,14 +110,22 @@ void FortressLevel::LevelChangeStart()
 	Set_PlayerStartPos();
 
 	Create_Manager();
+	{
+		std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
+		std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
 
-	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
-	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
-
-	Box->SetWaterPosition({ -5000, -120 ,4500 });
-	Box->GetTransform()->SetLocalScale({ 15000 , 1 , 15000 });
-	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });
-
+		Box->SetWaterPosition({ -5000, -120 ,4500 });
+		Box->GetTransform()->SetLocalScale({ 15000 , 1 , 15000 });
+		Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });
+	}
+	{
+		std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
+		std::shared_ptr<PhysXBoxComponent>pBoxComp = Actor->CreateComponent<PhysXBoxComponent>();
+		pBoxComp->CreatePhysXActors(float4{ 15000 , 1 , 15000 }, float4::ZERO, true);
+		pBoxComp->SetFilterData(PhysXFilterGroup::Water);
+		pBoxComp->SetTrigger();
+		pBoxComp->SetWorldPosWithParent({ -5000, -120 ,4500 }, { 0 , 45.0f , 0 });
+	}
 
 	//Create_FieldEnemy();
 	Create_FieldObject();

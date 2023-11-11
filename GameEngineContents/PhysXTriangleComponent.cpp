@@ -281,7 +281,7 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 			}
 		}
 	}
-	
+	 
 	for (size_t i = 0; i < vec_TriangleNav.size(); i++)
 	{
 		vec_TriangleNav[i].Cost = -1;
