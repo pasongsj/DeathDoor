@@ -42,6 +42,7 @@ private:
 	float4 m_f4ShootDir = float4::ZERO;
 	float4 m_f4TargetPos = float4::ZERO;
 	float4 m_f4WaitPos   = float4::ZERO;
+	float m_fTargetDistance = 0.f;
 	float m_fDistance = 0.f;
 	//float StateDuration = 0.0f;
 	//bool StateChecker = false;

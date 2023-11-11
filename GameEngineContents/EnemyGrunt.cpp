@@ -78,8 +78,6 @@ void EnemyGrunt::AggroMove(float _DeltaTime)
 {	
 	if (false == GetStateChecker())
 	{
-		float4 NextPos = m_pCapsuleComp->GetWorldPosition() + (AggroDir(m_pCapsuleComp) * GRUNT_MOVE_SPEED);
-		//m_pCapsuleComp->RayCast(NextPos,float4::DOWN)
 		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp) * GRUNT_MOVE_SPEED);
 	}
 	else
@@ -157,8 +155,32 @@ void EnemyGrunt::SetFSMFUNC()
 				SetNextState(EnemyGruntState::IDLE);
 				return;
 			}
+			float4 f4Point = float4::ZERONULL;
+			float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
+			float4 NextPos = m_pCapsuleComp->GetWorldPosition() + (m_f4ShootDir * GRUNT_MOVE_SPEED);
+			m_fTargetDistance = NextPos.XYZDistance(f4MyPos);
+			UINT Dummy = -1;
 
-			AggroMove(Delta);
+			//플레이어 방향으로 다음장소 거리만큼 레이캐스트 해서 장애물이 없고
+			if (false== m_pCapsuleComp->TriRayCast(f4MyPos, m_f4ShootDir, f4Point, m_fTargetDistance, Dummy))
+			{
+				//다음이동장소에 네비메쉬가 없다면
+				if (false == m_pCapsuleComp->TriRayCast(NextPos, float4::DOWN, f4Point, m_fTargetDistance, Dummy))
+				{
+					//길찾기를 해야함
+				}
+				else
+				{
+					//아니면 직선이동 ok
+					AggroMove(Delta);
+				}
+			}
+			//다음 이동장소 사이에 장애물이 있다면
+			else
+			{
+				//길찾기를 해야함
+			}
+
 		},
 		[this]
 		{
