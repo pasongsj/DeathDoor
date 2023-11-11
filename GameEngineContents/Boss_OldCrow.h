@@ -130,5 +130,9 @@ private:
 
 	void CreateDustParticle();
 	float DustCount = 0.0f;
+
+	float4 StartColor = { 0.956f, 0.286f, 0.372f };
+	float4 EndColor = { 0.0f, 0.0f, 0.0f };
+	float LerpRatio = 0.0f;
 };
 

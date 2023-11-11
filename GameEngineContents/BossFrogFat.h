@@ -65,6 +65,10 @@ private:
 	void CreateShockEffect();
 	void CreateSuckParticle();
 	void CreateWaterParticle();
+
+	float4 StartColor = { 0.956f, 0.286f, 0.372f };
+	float4 EndColor = { 0.0f, 0.0f, 0.0f };
+	float LerpRatio = 0.0f;
 	float SuckParticleCount = 0.0f;
 };
 //DIE_LAND", "FROG_F
