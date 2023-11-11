@@ -563,7 +563,7 @@ void Player::SetFSMFunc()
 		{
 			Renderer->ChangeAnimation("WALK");
 			MoveDir = InteractData.Dir;
-			Renderer->ChangeAnimation("PUSH_LEVER");
+			m_pCapsuleComp->SetWorldPosWithParent(InteractData.Pos);
 		},
 		[this](float Delta)
 		{

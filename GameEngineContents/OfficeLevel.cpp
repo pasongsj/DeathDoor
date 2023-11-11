@@ -57,8 +57,8 @@ void OfficeLevel::LevelChangeStart()
 
 	Create_Light();
 	Create_Map();
-	Create_Player();
 	Create_TriggerObject();
+	Create_Player();
 
 	CreateActor<Dust>();
 }
