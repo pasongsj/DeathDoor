@@ -558,6 +558,31 @@ void Player::SetFSMFunc()
 
 	//DEAD
 	// 피격으로 인한 사망 Dead
+	SetFSM(PlayerState::DOOR,
+		[this]
+		{
+			Renderer->ChangeAnimation("WALK");
+			MoveDir = InteractData.Dir;
+			Renderer->ChangeAnimation("PUSH_LEVER");
+		},
+		[this](float Delta)
+		{
+			MoveUpdate(PLAYER_WALK_SPEED);
+			if (GetStateDuration() > 1.5f)
+			{
+				SetNextState(PlayerState::IDLE);
+			}
+		},
+		[this]
+		{
+			InteractData.Type = InteractionData::InteractionDataType::None;
+			InteractData.Pos = float4::ZERONULL;
+			InteractData.Dir = float4::ZERONULL;
+		}
+	); 
+
+	//DEAD
+	// 피격으로 인한 사망 Dead
 	SetFSM(PlayerState::DEAD,
 		[this]
 		{
