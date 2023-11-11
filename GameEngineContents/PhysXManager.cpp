@@ -220,17 +220,20 @@ bool PhysXManager::TriRayCast(const float4& _vOrigin, const float4& _vDir, OUT f
 	memcpy_s(&vDir, sizeof(physx::PxVec3), &vNormalizedDir, sizeof(physx::PxVec3));
 
 	physx::PxRaycastBuffer tRayCastBuff = nullptr;
-	physx::PxQueryFilterData tFilterDat;
-	if (true == m_pScene->raycast(vOrigin, vDir, (physx::PxReal)_fDistance, tRayCastBuff,physx::PxHitFlag::eDEFAULT, tFilterDat))
+	if (true == m_pScene->raycast(vOrigin, vDir, (physx::PxReal)_fDistance, tRayCastBuff/*,physx::PxHitFlag::eDEFAULT, qFilterDat*/))
 	{
-		if (true == tRayCastBuff.hasBlock&&tFilterDat.data.word0 == static_cast<UINT>( PhysXFilterGroup::NaviMesh))
+		if (true == tRayCastBuff.hasBlock)
 		{
 			physx::PxRaycastHit tRayCastHit = tRayCastBuff.block;
-			UINT FaceIndex = static_cast<UINT>(tRayCastHit.faceIndex);
-			memcpy_s(&_vPoint, sizeof(float4), &tRayCastHit.position, sizeof(float4));
-			memcpy_s(&_FaceIndex, sizeof(UINT), &FaceIndex, sizeof(UINT));
+			physx::PxFilterData FilterData = tRayCastHit.shape->getSimulationFilterData();
+			if (FilterData.word0 & static_cast<UINT>(PhysXFilterGroup::NaviMesh))
+			{
+				UINT FaceIndex = static_cast<UINT>(tRayCastHit.faceIndex);
+				memcpy_s(&_vPoint, sizeof(float4), &tRayCastHit.position, sizeof(float4));
+				memcpy_s(&_FaceIndex, sizeof(UINT), &FaceIndex, sizeof(UINT));
 
-			return true;
+				return true;
+			}
 		}
 
 		return false;

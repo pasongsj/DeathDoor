@@ -25,12 +25,12 @@ void Map_NaviMesh::Start()
 	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pNaviRenderer->SetFBXMesh("Fortress_Navi_DC.fbx", "ContentMeshDeffered");
 	m_pNaviRenderer->GetTransform()->SetLocalRotation(float4{ 0 , -135, 0 });
-	m_pNaviRenderer->GetTransform()->SetParent(GetTransform());
+
 
 	m_pNaviComp = CreateComponent<PhysXTriangleComponent>();
 	m_pNaviComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	m_pNaviComp->CreatePhysXActors("Fortress_Navi_DC.fbx", true);
-	m_pNaviComp->SetWorldPosWithParent(float4(0, 1, 0), float4{ 0 , -135, 0 });
+	m_pNaviComp->SetWorldPosWithParent(float4(0, 3, 0), float4{ 0 , -135, 0 });
 	m_pNaviComp->SetNavigation();
 }
 
@@ -49,9 +49,9 @@ void Map_NaviMesh::Update(float _DeltaTime)
 		fTime += _DeltaTime * 10.f;
 
 		sTriangle Test = Road.front();
-		//float4 Lerp = float4::LerpClamp(Player::MainPlayer->GetPhysXComponent()->GetWorldPosition(), Test.CenterPos, fTime);
+		float4 Lerp = float4::LerpClamp(Player::MainPlayer->GetPhysXComponent()->GetWorldPosition(), Test.CenterPos, fTime);
 
-		float4 Lerp = float4::SLerpQuaternion(Player::MainPlayer->GetPhysXComponent()->GetWorldPosition(), Test.CenterPos, fTime);
+		//float4 Lerp = float4::SLerpQuaternion(Player::MainPlayer->GetPhysXComponent()->GetWorldPosition(), Test.CenterPos, fTime);
 		Player::MainPlayer->GetPhysXComponent()->SetWorldPosWithParent(Lerp);
 
 		if (fTime >= 1.f)
