@@ -65,10 +65,24 @@ public:
 	}
 	bool FindRoad(float4 _Start, float4 _End);
 
+	float4 FindRoadDir(float4 _Start, float4 _End)
+	{
+		bool bCheck = FindRoad(_Start, _End);
+		if (false == bCheck)
+		{
+			return float4::ZERONULL;
+		}
+
+		float4 Result = (_Start - dq_ResultRoad.front().CenterPos).NormalizeReturn();
+		return Result;
+	}
+
 	void GetRoad(std::deque<sTriangle>& _Deque)
 	{
 		_Deque = dq_ResultRoad;
 	}
+	
+	
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

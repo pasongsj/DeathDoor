@@ -289,6 +289,7 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 		vec_TriangleNav[i].Value = -1;
 		vec_TriangleNav[i].Visit = false;
 	}
+	dq_ResultRoad.pop_front();
 	return true;
 }
 

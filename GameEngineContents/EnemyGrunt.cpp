@@ -168,6 +168,7 @@ void EnemyGrunt::SetFSMFUNC()
 				if (false == m_pCapsuleComp->TriRayCast(NextPos, float4::DOWN, f4Point, m_fTargetDistance, Dummy))
 				{
 					//길찾기를 해야함
+
 				}
 				else
 				{
@@ -180,7 +181,6 @@ void EnemyGrunt::SetFSMFUNC()
 			{
 				//길찾기를 해야함
 			}
-
 		},
 		[this]
 		{
