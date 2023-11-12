@@ -127,6 +127,8 @@ void FortressLevel::LevelChangeStart()
 		pBoxComp->SetWorldPosWithParent({ -5000, -120 ,4500 }, { 0 , 45.0f , 0 });
 	}
 
+	std::shared_ptr<EnemyGrunt> Monster = CreateActor<EnemyGrunt>();
+	Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0, 0,0 });
 	//Create_FieldEnemy();
 	Create_FieldObject();
 }

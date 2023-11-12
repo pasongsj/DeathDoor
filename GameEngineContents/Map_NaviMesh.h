@@ -5,6 +5,11 @@
 class Map_NaviMesh : public GameEngineActor
 {
 public:
+	static Map_NaviMesh* GetInst()
+	{
+		static Map_NaviMesh Inst;
+		return &Inst;
+	}
 	// constrcuter destructer
 	Map_NaviMesh();
 	~Map_NaviMesh();
@@ -15,6 +20,10 @@ public:
 	Map_NaviMesh& operator=(const Map_NaviMesh& _Other) = delete;
 	Map_NaviMesh& operator=(Map_NaviMesh&& _Other) noexcept = delete;
 
+	std::shared_ptr<class PhysXTriangleComponent>GetPhysXComp()
+	{
+		return m_pNaviComp;
+	}
 protected:
 	virtual void Start();
 	virtual void Update(float _DeltaTime);

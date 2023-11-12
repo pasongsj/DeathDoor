@@ -2,6 +2,7 @@
 #include "EnemyGrunt.h"
 #include "EnemyAttackBox.h"
 #include "Player.h"
+#include "Map_NaviMesh.h"
 
 EnemyGrunt::EnemyGrunt() 
 {
@@ -78,11 +79,11 @@ void EnemyGrunt::AggroMove(float _DeltaTime)
 {	
 	if (false == GetStateChecker())
 	{
-		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp) * GRUNT_MOVE_SPEED);
+		m_pCapsuleComp->SetMoveSpeed(m_f4ShootDir * GRUNT_MOVE_SPEED);
 	}
 	else
 	{
-		m_pCapsuleComp->SetMoveSpeed(AggroDir(m_pCapsuleComp) * GRUNT_MOVE_SPEED * 2.0f);
+		m_pCapsuleComp->SetMoveSpeed(m_f4ShootDir * GRUNT_MOVE_SPEED * 2.0f);
 
 	}
 }
@@ -167,20 +168,26 @@ void EnemyGrunt::SetFSMFUNC()
 				//다음이동장소에 네비메쉬가 없다면
 				if (false == m_pCapsuleComp->TriRayCast(NextPos, float4::DOWN, f4Point, m_fTargetDistance, Dummy))
 				{
-					//길찾기를 해야함
-
-				}
-				else
-				{
-					//아니면 직선이동 ok
-					AggroMove(Delta);
+					float4 RoadDir = float4::ZERONULL;
+					RoadDir = Map_NaviMesh::GetInst()->GetPhysXComp()->FindRoadDir(f4MyPos, Player::MainPlayer->GetPhysXComponent()->GetWorldPosition());
+					if (RoadDir == float4::ZERONULL)
+					{
+						m_f4ShootDir = RoadDir;
+					}
 				}
 			}
 			//다음 이동장소 사이에 장애물이 있다면
 			else
 			{
-				//길찾기를 해야함
+				float4 RoadDir = float4::ZERONULL;
+				RoadDir = Map_NaviMesh::GetInst()->GetPhysXComp()->FindRoadDir(f4MyPos, Player::MainPlayer->GetPhysXComponent()->GetWorldPosition());
+				if (RoadDir == float4::ZERONULL)
+				{
+					m_f4ShootDir = RoadDir;
+				}
 			}
+
+			AggroMove(Delta);
 		},
 		[this]
 		{
