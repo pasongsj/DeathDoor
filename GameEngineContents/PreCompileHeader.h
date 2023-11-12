@@ -1,4 +1,6 @@
 #pragma once
+#include <queue>
+
 #include <GameEngineCore/PrecompileHeader.h>
 
 #include <GameEnginePlatform/GameEngineInput.h>

@@ -1,12 +1,14 @@
 #include "PrecompileHeader.h"
 #include "FortressLevel.h"
 
+#include "PhysXBoxComponent.h"
 #include "PhysXCapsuleComponent.h"
 #include "PhysXControllerComponent.h"
 #include "PhysXBoxComponent.h"
 
 #include "Player.h"
 #include "Map_Fortress.h"
+#include "Map_NaviMesh.h"
 #include "CullingManager.h"
 #include "WaterBox.h"
 #include "BossFrog.h"
@@ -133,6 +135,7 @@ void FortressLevel::Create_Light()
 void FortressLevel::Create_Map()
 {
 	m_pMap = CreateActor<Map_Fortress>();
+	CreateActor<Map_NaviMesh>();
 }
 
 void FortressLevel::Create_Player()
@@ -154,6 +157,16 @@ void FortressLevel::Create_WaterBox()
 	/*Box->SetWaterPosition({ -5000, -120 ,4500 });
 	Box->GetTransform()->SetLocalScale({ 15000 , 1 , 15000 });
 	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });*/
+	
+	{
+		//물 체크용 피직스 트리거
+		std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
+		std::shared_ptr<PhysXBoxComponent>pBoxComp = Actor->CreateComponent<PhysXBoxComponent>();
+		pBoxComp->CreatePhysXActors(float4{ 60000 , 1 , 20000 }, float4::ZERO, true);
+		pBoxComp->SetFilterData(PhysXFilterGroup::Water);
+		pBoxComp->SetTrigger();
+		pBoxComp->SetWorldPosWithParent({ -5000, -120 ,4500 }, { 0 , 45.0f , 0 });
+	}
 
 }
 

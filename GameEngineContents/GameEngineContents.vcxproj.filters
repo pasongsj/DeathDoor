@@ -476,6 +476,9 @@
     <ClCompile Include="WaterDrop.cpp">
       <Filter>Contents\Effect\Object\Water</Filter>
     </ClCompile>
+    <ClCompile Include="Map_NaviMesh.cpp">
+      <Filter>Contents\FortressLevel\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -946,6 +949,9 @@
     </ClInclude>
     <ClInclude Include="WaterDrop.h">
       <Filter>Contents\Effect\Object\Water</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_NaviMesh.h">
+      <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
