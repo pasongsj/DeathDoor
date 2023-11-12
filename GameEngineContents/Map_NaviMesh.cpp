@@ -7,8 +7,11 @@
 #include "PhysXControllerComponent.h"
 #include "Player.h"
 
+Map_NaviMesh* Map_NaviMesh::NaviMesh = nullptr;
+
 Map_NaviMesh::Map_NaviMesh() 
 {
+	NaviMesh = this;
 }
 
 Map_NaviMesh::~Map_NaviMesh() 
@@ -24,7 +27,7 @@ void Map_NaviMesh::Start()
 	}
 	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pNaviRenderer->SetFBXMesh("Fortress_Navi_DC.fbx", "ContentMeshDeffered");
-	m_pNaviRenderer->GetTransform()->SetLocalRotation(float4{ 0 , -135, 0 });
+	//m_pNaviRenderer->GetTransform()->SetLocalRotation(float4{ 0 , -135, 0 });
 
 
 	m_pNaviComp = CreateComponent<PhysXTriangleComponent>();

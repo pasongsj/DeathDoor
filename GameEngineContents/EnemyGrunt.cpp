@@ -145,11 +145,11 @@ void EnemyGrunt::SetFSMFUNC()
 				SetStateCheckerOn();
 				//StateChecker = true;
 			}
-			if (true == InRangePlayer(800.0f))
-			{
-				SetNextState(EnemyGruntState::JUMP_WAIT);
-				return;
-			}
+			//if (true == InRangePlayer(800.0f))
+			//{
+			//	SetNextState(EnemyGruntState::JUMP_WAIT);
+			//	return;
+			//}
 
 			if (false == InRangePlayer(1000.0f))
 			{
@@ -162,32 +162,27 @@ void EnemyGrunt::SetFSMFUNC()
 			m_fTargetDistance = NextPos.XYZDistance(f4MyPos);
 			UINT Dummy = -1;
 
-			//플레이어 방향으로 다음장소 거리만큼 레이캐스트 해서 장애물이 없고
-			if (false== m_pCapsuleComp->TriRayCast(f4MyPos, m_f4ShootDir, f4Point, m_fTargetDistance, Dummy))
+			if (false == InRangePlayer(800.f)&&false== m_pCapsuleComp->TriRayCast(f4MyPos, m_f4ShootDir, f4Point, m_fTargetDistance, Dummy))
 			{
-				//다음이동장소에 네비메쉬가 없다면
 				if (false == m_pCapsuleComp->TriRayCast(NextPos, float4::DOWN, f4Point, m_fTargetDistance, Dummy))
 				{
 					float4 RoadDir = float4::ZERONULL;
-					RoadDir = Map_NaviMesh::GetInst()->GetPhysXComp()->FindRoadDir(f4MyPos, Player::MainPlayer->GetPhysXComponent()->GetWorldPosition());
-					if (RoadDir == float4::ZERONULL)
+					RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, Player::MainPlayer->GetPhysXComponent()->GetWorldPosition());
+					if (RoadDir != float4::ZERONULL)
 					{
 						m_f4ShootDir = RoadDir;
 					}
 				}
 			}
-			//다음 이동장소 사이에 장애물이 있다면
 			else
 			{
-				float4 RoadDir = float4::ZERONULL;
-				RoadDir = Map_NaviMesh::GetInst()->GetPhysXComp()->FindRoadDir(f4MyPos, Player::MainPlayer->GetPhysXComponent()->GetWorldPosition());
-				if (RoadDir == float4::ZERONULL)
-				{
-					m_f4ShootDir = RoadDir;
-				}
+				SetNextState(EnemyGruntState::JUMP_WAIT);
+				return;
 			}
-
+			float4 Rot = float4::ZERO;
 			AggroMove(Delta);
+			Rot.y = float4::GetAngleVectorToVectorDeg360(m_f4ShootDir, float4::FORWARD);
+			m_pCapsuleComp->SetRotation(Rot);
 		},
 		[this]
 		{

@@ -5,11 +5,7 @@
 class Map_NaviMesh : public GameEngineActor
 {
 public:
-	static Map_NaviMesh* GetInst()
-	{
-		static Map_NaviMesh Inst;
-		return &Inst;
-	}
+	static Map_NaviMesh* NaviMesh;
 	// constrcuter destructer
 	Map_NaviMesh();
 	~Map_NaviMesh();

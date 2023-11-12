@@ -72,8 +72,12 @@ public:
 		{
 			return float4::ZERONULL;
 		}
+		if (dq_ResultRoad.empty())
+		{
+			return float4::ZERONULL;
+		}
 
-		float4 Result = (_Start - dq_ResultRoad.front().CenterPos).NormalizeReturn();
+		float4 Result = (dq_ResultRoad.front().CenterPos - _Start).NormalizeReturn();
 		return Result;
 	}
 

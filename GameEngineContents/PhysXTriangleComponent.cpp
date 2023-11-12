@@ -204,7 +204,10 @@ void PhysXTriangleComponent::CustomFBXLoad(const std::string& _MeshName, float _
 
 bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 {
-	dq_ResultRoad.clear();
+	if (dq_ResultRoad.empty()!=true)
+	{
+		dq_ResultRoad.clear();
+	}
 	float4 f4Point = float4::ZERONULL;
 	UINT iStartIndex = -1;
 	TriRayCast(_Start+float4(0,10,0), float4::DOWN, f4Point, 100.f, iStartIndex);
@@ -288,6 +291,10 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 		vec_TriangleNav[i].Heuristic = -1;
 		vec_TriangleNav[i].Value = -1;
 		vec_TriangleNav[i].Visit = false;
+	}
+	if (dq_ResultRoad.empty())
+	{
+		return false;
 	}
 	dq_ResultRoad.pop_front();
 	return true;
