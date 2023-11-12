@@ -22,11 +22,12 @@ void PlayerAttackBomb::Start()
 	AttackRenderer->SetFBXMesh("SphereDefault.fbx", "ContentMeshDeffered");
 	AttackRenderer->GetTransform()->SetLocalScale(PLAYER_ATT_BOMB_RENDER_SCALE);
 	// PhysX
-	CreatePhysXAttComp<PhysXSphereComponent>(PLAYER_ATT_BOMB_PHYSX_SCALE, PhysXFilterGroup::PlayerSkill);
+	CreatePhysXAttComp<PhysXSphereComponent>(PLAYER_ATT_BOMB_PHYSX_SCALE, PhysXFilterGroup::PlayerBomb);
 	SetDestTarget(PhysXFilterGroup::MonsterDynamic);
 
 	AttackRenderer->SetGlowToUnit(0, 0);
 	AttackRenderer->SetColor(float4{1.0f, 0.1f, 0.2f}, 4.0f);
+	PhysXComp->CreateSubShape(SubShapeType::SPHERE, float4::ONE * 300.0f);
 
 }
 void PlayerAttackBomb::Death()
@@ -35,14 +36,39 @@ void PlayerAttackBomb::Death()
 	GameEngineLevel* Level = GetLevel();
 	Level->TimeEvent.AddEvent(0.2f, [Level, Effect](GameEngineTimeEvent::TimeEvent&, GameEngineTimeEvent*) {Level->GetLastTarget()->ReleaseEffect(Effect.lock()); });
 
-	GameEngineObjectBase::Death();
+	//GameEngineObjectBase::Death();
 }
 
 
 void PlayerAttackBomb::Update(float _DeltaTime)
 {
-	AttackBase::Update(_DeltaTime);
-	CreateParticle(_DeltaTime);
+	if (false == IsShoot() || nullptr == PhysXComp || nullptr == PhysXComp->GetDynamic())
+	{
+		return;
+	}
+	if (PhysXFilterGroup::None != DestTarget && true == CheckCollision(DestTarget))
+	{
+		SetShoot(0);
+		AttackRenderer->Off();
+		DeathTime = GetLiveTime() + 1.0f;
+		PhysXComp->AttachShape();
+		Death();
+		return;
+	}
+	if (GetLiveTime() > GetFireTime() + 20.0 || (DeathTime != 0.0f && GetLiveTime() > DeathTime))
+	{
+		GameEngineObjectBase::Death();
+		return;
+	}
+
+	PhysXComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
+	PhysXComp->SetMoveSpeed(GetDir() * GetShootSpeed());
+	isPhysXCollision = 0;
+
+	if(true == AttackRenderer->IsUpdate())
+	{
+		CreateParticle(_DeltaTime);
+	}
 }
 
 
@@ -59,6 +85,7 @@ void PlayerAttackBomb::CreateParticle(float _DeltaTime)
 		NewParticle->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
 		NewParticle->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
 		NewParticle->SetGlow();
-
+		NewParticle->SetWorldMove();
+		NewParticle->SetFadeOut(true);
 	}
 }

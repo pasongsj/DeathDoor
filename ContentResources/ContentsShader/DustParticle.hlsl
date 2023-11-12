@@ -49,9 +49,7 @@ cbuffer MaskValue : register(b5)
 
 struct DefferedTarget
 {
-    float4 DiffuseColor : SV_Target1;
-    float4 Position : SV_Target2;
-    float4 Normal : SV_Target3;
+    float4 DiffuseColor : SV_Target6;
     float4 Blur : SV_Target7;
 };
 
@@ -78,8 +76,8 @@ DefferedTarget ContentTexture_PS(OutPut _Value)
 {
     DefferedTarget OutPutTarget = (DefferedTarget) 0.0f;
     
-    float4 Noise1 = NoiseTexture1.Sample(WRAPSAMPLER, _Value.UV.xy * 0.25f + DiffuseUV);
-    float4 Noise2 = NoiseTexture2.Sample(WRAPSAMPLER, _Value.UV.xy * 0.25f);
+    float4 Noise1 = NoiseTexture1.Sample(WRAPSAMPLER, _Value.UV.xy * 0.35f + DiffuseUV);
+    float4 Noise2 = NoiseTexture2.Sample(WRAPSAMPLER, _Value.UV.xy * 0.35f);
             
     Noise1 = (Noise1 - 0.5f) * 2.0f;
     Noise2 = (Noise2 - 0.5f) * 2.0f;
@@ -93,20 +91,53 @@ DefferedTarget ContentTexture_PS(OutPut _Value)
     float2 NoiseCoords = (FinalNoise.xy * Perturb) + _Value.UV.xy;
     
     float4 DustColor = AddColor;
-   
+    
     float4 AlphaColor = AlphaTexture.Sample(CLAMPSAMPLER, NoiseCoords.xy);
         
-    if (AlphaColor.a <= DeltaTime.x)
+    if (1 - AlphaColor.a >= DeltaTime.x)
     {
         clip(-1);
     }
     
-    DustColor.a = AlphaColor.a;
+    if (1 - AlphaColor.a >= DeltaTime.y)
+    {
+        clip(-1);
+    }
    
-    OutPutTarget.DiffuseColor = DustColor;
-    OutPutTarget.Position = _Value.ViewPos;
-    OutPutTarget.Normal = _Value.ViewNormal;
-    OutPutTarget.Blur = BlurColor;
+    if(BlurColor.a < 0.0f)
+    {
+        DustColor = pow(DustColor, 2.2f);
+        
+        float Alpha = 0.0f;
+        
+        if (AddColor.a >= 0.0f)
+        {
+            Alpha = DustColor.a;
+            DustColor.rgb += AlphaColor.a;
+        }
+        else
+        {
+            Alpha = 1.0f;
+        }
+        
+        DustColor = ceil(DustColor * 5.0f) / 5.0f;
+        DustColor = ToneMapping_ACES(DustColor);
+        DustColor.a = Alpha;
+        
+        
+        OutPutTarget.DiffuseColor = DustColor;
+        return OutPutTarget;
+    }
+    else
+    {
+        float4 ResultBlurColor = pow(BlurColor, 2.2f);
+        //ResultBlurColor.rgb += AlphaColor.a;
+        
+        OutPutTarget.DiffuseColor = ResultBlurColor;
+        OutPutTarget.Blur = ResultBlurColor;
+    }
+
+
     
     return OutPutTarget;
 }

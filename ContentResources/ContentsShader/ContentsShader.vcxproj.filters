@@ -94,7 +94,24 @@
     <FxCompile Include="ParticleBasicShader.hlsl">
       <Filter>Effect\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="HitCircle.hlsl" />
+    <FxCompile Include="AlphaColorMerge.hlsl">
+      <Filter>Effect\Glow</Filter>
+    </FxCompile>
+    <FxCompile Include="HitCircle.hlsl">
+      <Filter>ObjectShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Particle3D.hlsl">
+      <Filter>Effect\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="ShockCircle.hlsl">
+      <Filter>Effect\Shock</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentMeshAlpha.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="WaterDrop.hlsl">
+      <Filter>Effect\Particle</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -120,6 +137,9 @@
     </Filter>
     <Filter Include="Effect\Particle">
       <UniqueIdentifier>{afc3a8f6-db40-4479-8d70-ffb2d5f0fc9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Shock">
+      <UniqueIdentifier>{b29e97b6-5454-4c97-8517-465167e96c27}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

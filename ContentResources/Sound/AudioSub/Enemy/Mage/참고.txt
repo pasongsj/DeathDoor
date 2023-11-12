@@ -1,0 +1,16 @@
+Mage
+
+Teleport
+Mage_Disappear1.mp3
+Mage_Disappear2.mp3
+Mage_Appear.mp3
+
+Attack
+Mage_Attack1.mp3
+Mage_Attack2.mp3
+
+TakeDamage
+Mage_TakeDamage.mp3
+
+Death
+Mage_Death.mp3

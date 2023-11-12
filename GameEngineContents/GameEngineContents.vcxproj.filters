@@ -259,7 +259,7 @@
     <ClCompile Include="Map_Sanctuary.cpp">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClCompile>
-    <ClCompile Include="FrogBossLevel.cpp">
+    <ClCompile Include="BossFrogLevel.cpp">
       <Filter>Contents\FortressLevel</Filter>
     </ClCompile>
     <ClCompile Include="AttackBase.cpp">
@@ -276,9 +276,6 @@
     </ClCompile>
     <ClCompile Include="PlayerAttackBomb.cpp">
       <Filter>FSMObject\Player\Att\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="FrogFloor.cpp">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
     <ClCompile Include="GrayScaleEffect.cpp">
       <Filter>Component\PostEffect</Filter>
@@ -451,6 +448,36 @@
     </ClCompile>
     <ClCompile Include="HitEffect.cpp">
       <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="BossFrogBomb.cpp">
+      <Filter>FSMObject\BossFrog</Filter>
+    </ClCompile>
+    <ClCompile Include="TileManager.cpp">
+      <Filter>Contents\FortressLevel\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Wires.cpp">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="AlphaGlowEffect.cpp">
+      <Filter>Component\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyWave.cpp">
+      <Filter>Contents\EnemyWave</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle3D.cpp">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="ShockWave.cpp">
+      <Filter>Contents\Effect\Object\ShockWave</Filter>
+    </ClCompile>
+    <ClCompile Include="BossFrogSoul.cpp">
+      <Filter>FSMObject\BossFrog</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterDrop.cpp">
+      <Filter>Contents\Effect\Object\Water</Filter>
+    </ClCompile>
+    <ClCompile Include="Map_NaviMesh.cpp">
+      <Filter>Contents\FortressLevel\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -710,7 +737,7 @@
     <ClInclude Include="Map_Sanctuary.h">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
-    <ClInclude Include="FrogBossLevel.h">
+    <ClInclude Include="BossFrogLevel.h">
       <Filter>Contents\FortressLevel</Filter>
     </ClInclude>
     <ClInclude Include="AttackBase.h">
@@ -733,9 +760,6 @@
     </ClInclude>
     <ClInclude Include="FireObject.h">
       <Filter>Contents\Effect\Object\Fire</Filter>
-    </ClInclude>
-    <ClInclude Include="FrogFloor.h">
-      <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
     <ClInclude Include="PlayerBow.h">
       <Filter>FSMObject\Player</Filter>
@@ -898,6 +922,36 @@
     </ClInclude>
     <ClInclude Include="HitEffect.h">
       <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="BossFrogBomb.h">
+      <Filter>FSMObject\BossFrog</Filter>
+    </ClInclude>
+    <ClInclude Include="TileManager.h">
+      <Filter>Contents\FortressLevel\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Wires.h">
+      <Filter>Contents\FortressLevel\Map_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="AlphaGlowEffect.h">
+      <Filter>Component\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyWave.h">
+      <Filter>Contents\EnemyWave</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle3D.h">
+      <Filter>Contents\Effect\Object\HitEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="ShockWave.h">
+      <Filter>Contents\Effect\Object\ShockWave</Filter>
+    </ClInclude>
+    <ClInclude Include="BossFrogSoul.h">
+      <Filter>FSMObject\BossFrog</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterDrop.h">
+      <Filter>Contents\Effect\Object\Water</Filter>
+    </ClInclude>
+    <ClInclude Include="Map_NaviMesh.h">
+      <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1137,6 +1191,15 @@
     </Filter>
     <Filter Include="Contents\Effect\Object\HitEffect">
       <UniqueIdentifier>{c2022eee-f496-46e8-ac0d-b7d979687420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\FortressLevel\Manager">
+      <UniqueIdentifier>{b46931c1-b1cd-4710-9500-c9b905b540fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\EnemyWave">
+      <UniqueIdentifier>{d3b4cf91-f0c1-4613-b22e-b0f61a5adfa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Object\ShockWave">
+      <UniqueIdentifier>{6e8c6a1e-e576-4331-aeaa-a26094be2f35}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

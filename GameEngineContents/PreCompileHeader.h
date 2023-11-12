@@ -1,4 +1,6 @@
 #pragma once
+#include <queue>
+
 #include <GameEngineCore/PrecompileHeader.h>
 
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -13,6 +15,7 @@
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 #include <GameEngineCore/GameEngineUIRenderer.h>
 #include <GameEngineCore/GameEngineFontRenderer.h>
+#include <GameEngineCore/GameEngineLevel.h>
 
 #include "ContentFBXRenderer.h"
 

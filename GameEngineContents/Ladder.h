@@ -2,13 +2,23 @@
 #include "TriggerBase.h"
 #define LadderHeight 550.f
 
-class LadderData
-{
-	friend class Player;
-	friend class Ladder;
-	float4 Pos = float4::ZERONULL;
-	float4 Dir = float4::ZERONULL;
-};
+//class InteractionData
+//{
+//	friend class Player;
+//	friend class Ladder;
+//	friend class Frog_Lever;
+//
+//	enum class InteractionDataType
+//	{
+//		None,
+//		Ladder,
+//		Lever,
+//	};
+//	InteractionDataType Type = InteractionDataType::None;
+//	float4 Pos = float4::ZERONULL;
+//	float4 Dir = float4::ZERONULL;
+//
+//};
 
 // Ό³Έν :
 class Ladder : public TriggerBase
@@ -41,6 +51,8 @@ public:
 		m_pRenderer->GetTransform()->SetLocalPosition(float4(0, -(LadderHeight - m_fHeight), 0));
 	}
 
+	
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -54,6 +66,6 @@ private:
 	bool m_bHidden = false;
 
 	float m_fHeight = 0.f;
-
-	LadderData m_sData = {};
+	InteractionData m_sData;
+	//LadderData m_sData = {};
 };

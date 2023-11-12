@@ -53,12 +53,55 @@ public:
 		return m_TileSize;
 	}
 
+	// 여기서 내가 활성화 상태가 아니라면 
+	// 렌더러와 피직스컴포넌트를 off 시킬건데
+	// 일단 되게 만들고. 쉐이더는 나중에 생각.
+	
+	void InActive();
+	void Active();
+
+	bool IsActive()
+	{
+		if (true == m_bIsActive)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	void TileShake(float _DeltaTime);
+
+	void OnShake(const float _ShakeTime)
+	{
+		m_bIsActive = false;
+		m_bShake = true;
+		m_fShakeTime = _ShakeTime;
+		
+		CreateDustParticle();
+	}
+
+	void OffShake();
+
+	void SetActiveType(bool Type)
+	{
+		m_bIsActive = Type;
+	}
+
+	void SetDelay()
+	{
+		m_bDelay = true;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 private:
 	void InitComponent();
+	void CreateDustParticle();
+
+	std::vector<std::shared_ptr<class DustParticle>> DustParticleList;
 
 	std::shared_ptr<class ContentFBXRenderer> m_pRenderer = nullptr;
 	std::shared_ptr<class PhysXBoxComponent> m_pPhysXComponent = nullptr;
@@ -69,4 +112,12 @@ private:
 
 	// 타일사이즈 
 	float m_TileSize = 0.0f;
+
+	bool m_bIsActive = true;
+	
+	bool m_bShake = false;
+	float m_fShakeTime = 2.0f;
+
+	bool m_bDelay = false;
+	float m_fDelayTime = 1.0f;
 };

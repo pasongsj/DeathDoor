@@ -3,10 +3,10 @@
 #include "PlayerDefinition.h"
 #include "FSMObjectBase.h"
 #include "Ladder.h"
-
+//#include <queue>
 
 // 설명 :
-class Player : public FSMObjectBase, public GameEngineNetObject
+class Player : public FSMObjectBase
 {
 	friend class PlayerAttSkill;
 public:
@@ -69,17 +69,16 @@ public:
 		return static_cast<int>(CurSkill);
 	}
 
-	void GetLadderData(class LadderData _Data)
+	void GetInteractionData(class InteractionData _Data)
 	{
-		sLadder = _Data;
+		InteractData = _Data;
 	}
+
+	bool CameraControl = false;
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-
-	void UserUpdate(float _DeltaTime);
-	void ServerUpdate(float _DeltaTime);
 
 private:
 
@@ -96,11 +95,13 @@ private:
 		CHARGE_ATT,		// 휠클릭 Charge_slash_L, Charge_slash_R
 		HIT,			// 공격당함 Hit_back, Hit_idle,Hit_Recover
 		CLIMB,			// 사다리 Climbing_ladder, Climbing_ladder_down, Climbing_off_ladder_top
+		CLIMB_TOP,
 		LEVER,			// 레버를 누름 Push_Lever
 		ITEM,			// 아이템을 얻음 GetItem
 		DEAD,			// 피격으로 인한 사망 Dead
-		DROWN,			// 익사 Drown
+		DOOR,
 		FALLING,			// 높이가 차가 있을 때 falling, Land
+		DROWN,			// 익사 Drown
 		MAX,
 	};
 
@@ -116,10 +117,9 @@ private:
 	// Component
 		// Render
 	std::shared_ptr<ContentFBXRenderer> Renderer = nullptr;
+	std::shared_ptr<GameEngineComponent> BonePivot = nullptr;
 		//physx
 	std::shared_ptr<class PhysXControllerComponent> m_pCapsuleComp = nullptr;
-	//	//Range
-	//std::shared_ptr<GameEngineActor> AttackRange = nullptr;
 
 		// Attack
 	PlayerSkill CurSkill = PlayerSkill::ARROW;
@@ -131,13 +131,12 @@ private:
 	float StackDuration = 0.0f;
 	
 	// Direction
-	//float4 NextForwardDir = float4::BACK; // 플레이어가 변화 할 방향
 	float4 ForwardDir = float4::BACK; // 플레이어가 바라보는 방향
 	float4 MoveDir = float4::FORWARD; // 플레이어가 다음으로 움직일 방향
 	void DirectionUpdate(float _DeltaTime);
 	float4 GetMousDirection();
 
-	class LadderData sLadder = {};
+	class InteractionData InteractData = {};
 	
 	// State Controll
 	float StateInputDelayTime = 0.0f;
@@ -150,11 +149,13 @@ private:
 	void CheckClimbInput(float _DeltaTime);
 	void MoveUpdate(float _MoveVec, float4 _Dir = float4::ZERONULL);	//MoveDir에 해당하는 값만 처리하기 때문에
 
-	void ModifyHeight();
-
 	void DefaultPhysX();
 
 	void CheckPlayerHit();
+
+	//파티클
+	void CreateDustParticle(float _Delta);
+	float ParticleCount = 0.0f;
 
 	// Attack
 	std::shared_ptr< class AttackBase> AttackActor = nullptr;
@@ -167,7 +168,13 @@ private:
 	int SpellCost = 4;
 
 	// Level
-	float4 CameraRot = float4::ZERO;
+	//float4 CameraRot = float4::ZERO;
 
+	// respone pos
+	std::list<float4> respawnPos;
+	float PosInter = 0.0f;
+	void SpawnPosUpdate(float _DeltaTime);
+
+	void CameraUpdate(float _DeltaTime);
 };
 

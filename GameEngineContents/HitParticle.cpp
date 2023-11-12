@@ -17,15 +17,9 @@ void HitParticle::Start()
 
 	Unit = CreateRenderUnit();
 	Unit->SetMesh("Rect");
-	Unit->SetMaterial("ParticleBasic");
+	Unit->SetMaterial("ParticleBasic", RenderPath::Alpha);
 
 	Unit->ShaderResHelper.SetTexture("DiffuseTexture", "ParticleAlpha.png");
-	
-	float ScaleX = GameEngineRandom::MainRandom.RandomFloat(1.0f, 4.0f);
-	
-	GetTransform()->SetLocalScale({ ScaleX, 0.1f });
-	Scale = ScaleX;
-
 }
 
 void HitParticle::Update(float _Delta)
@@ -33,18 +27,28 @@ void HitParticle::Update(float _Delta)
 	BillBoarding();
 
 	Move(_Delta);
-
+	ScaleDecrease(_Delta);
 }
 
 void HitParticle::Move(float _Delta)
 {
-	GetTransform()->AddLocalPosition( Dir * 5.0f * _Delta);
+	Speed -= Accel * _Delta;
+	if (Speed <= 0.0f)
+	{
+		Speed = 0.0f;
+	}
 
-	Scale -= 5.0f * _Delta;
+	GetTransform()->AddLocalPosition( Dir * Speed * _Delta);
+}
+
+void HitParticle::ScaleDecrease(float _Delta)
+{
+	Scale -= FirstScale * _Delta;
+
 	if (Scale <= 0.0f)
 	{
 		Death();
 	}
 
-	GetTransform()->SetLocalScale({ Scale, 0.1f });
+	GetTransform()->SetLocalScale({ Scale, FirstScale / 10.0f });
 }

@@ -168,6 +168,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AlphaGlowEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BossFrogBomb.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BossFrogSoul.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyWave.cpp" />
     <ClCompile Include="HitCircle.cpp">
       <SubType>
       </SubType>
@@ -316,12 +329,24 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="FrogBossLevel.cpp" />
+    <ClCompile Include="BossFrogLevel.cpp" />
     <ClCompile Include="BossFrogWindow.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="FrogFloor.cpp" />
+    <ClCompile Include="Particle3D.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ShockWave.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Map_NaviMesh.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="Frog_Lever.cpp" />
     <ClCompile Include="Frog_Septre.cpp">
       <SubType>
@@ -565,9 +590,30 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WaterDrop.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Wires.cpp" />
     <ClCompile Include="WoodenBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlphaGlowEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BossFrogBomb.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BossFrogSoul.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyWave.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="HitCircle.h">
       <SubType>
       </SubType>
@@ -741,7 +787,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="FrogBossLevel.h">
+    <ClInclude Include="BossFrogLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -749,7 +795,19 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="FrogFloor.h">
+    <ClInclude Include="Particle3D.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ShockWave.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Map_NaviMesh.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TileManager.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1050,6 +1108,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="WaterBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WaterDrop.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Wires.h">
       <SubType>
       </SubType>
     </ClInclude>

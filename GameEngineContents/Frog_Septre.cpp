@@ -2,6 +2,7 @@
 #include "Frog_Septre.h"
 
 #include "PhysXCapsuleComponent.h"
+#include "ShockWave.h"
 
 Frog_Septre::Frog_Septre() 
 {
@@ -34,8 +35,8 @@ void Frog_Septre::InitComponent()
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::Obstacle);
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 
-	MeshScale.y = 1.f;
-	m_pPhysXComponent->CreateSubShape(SubShapeType::BOX, MeshScale * 10.f, float4(0, 10, 0));
+	//MeshScale.y = 1.f;
+	m_pPhysXComponent->CreateSubShape(SubShapeType::SPHERE, MeshScale * 30.f, float4(0, 10, 0));
 	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
 	m_pPhysXComponent->AttachShape();
 }
@@ -44,10 +45,6 @@ void Frog_Septre::InitAnimation()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->SetFBXMesh("FrogSeptre_Static.FBX", "ContentMeshDeffered");
-
-
-
-	int a = 0;
 }
 
 void Frog_Septre::SetFSMFUNC()
@@ -83,6 +80,10 @@ void Frog_Septre::SetFSMFUNC()
 			}
 			m_pRenderer->SetGlowToUnit(0, 0, "swampPillarMask.png");
 			m_pRenderer->SetUnitDiffuseColorIntensity(0, 0, 4.0f);
+
+			std::weak_ptr<ShockWave> Wave = CreateComponent<ShockWave>();
+			Wave.lock()->GetTransform()->SetWorldRotation({ 90.0f, 0.0f, 0.0f });
+			Wave.lock()->GetTransform()->SetLocalScale({ 10.0f, 10.0f, 1.0f });
 		},
 		[this](float Delta)
 		{

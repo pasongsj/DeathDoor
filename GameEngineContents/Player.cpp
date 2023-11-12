@@ -6,7 +6,8 @@
 #include "PhysXCapsuleComponent.h"
 #include "PhysXControllerComponent.h"
 
-
+#include "DustParticle.h"
+#include "ContentLevel.h"
 
 #define PlayerInitRotation float4{ 90,0,0 }
 
@@ -50,17 +51,34 @@ void Player::Start()
 	Renderer->ChangeAnimation("IDLE0");
 	Renderer->SetGlowToUnit(0, 1);
 	Renderer->SetUnitColor(0, 1, { 0.95f, 0.20f, 0.25f }, 2.0f);
+	BonePivot = CreateComponent<GameEngineComponent>();
 }
+
+void Player::SpawnPosUpdate(float _DeltaTime)
+{
+	PosInter -= _DeltaTime;
+	if ((true == respawnPos.empty() || PosInter < 0.0f) &&
+		GetTransform()->GetWorldPosition().Size() > 1 &&
+		GetCurState< PlayerState>() != PlayerState::CLIMB &&
+		GetCurState< PlayerState>() != PlayerState::FALLING)
+	{
+		if (respawnPos.size() >= 10)
+		{
+			respawnPos.pop_back();
+		}
+		respawnPos.push_front(GetTransform()->GetWorldPosition());
+		PosInter = 10.0f;
+	}
+}
+
 
 void Player::Update(float _DeltaTime)
 {
-	if (true == CheckCollision(PhysXFilterGroup::MonsterSkill))
-	{
-		int a = 0;
-	}
-	DirectionUpdate(_DeltaTime);
-	FSMObjectBase::Update(_DeltaTime);
+	
+	SpawnPosUpdate(_DeltaTime);
+	DirectionUpdate(_DeltaTime); // 플레이어 방향 업데이트
 	DefaultPhysX();
+	FSMObjectBase::Update(_DeltaTime);
 
 
 	// input 사다리타기 추후 trigger로 변경할 예정
@@ -87,15 +105,41 @@ void Player::Update(float _DeltaTime)
 	{
 		AttackStack = 0;
 	}
-	// 뭔지? 모름?
-	//m_pCapsuleComp->GetDynamic()->setMass(65);
 
+	CameraUpdate(_DeltaTime);
 
 	PlayerState Checker = GetCurState<PlayerState>();
 	// test
 	float4 MyPos = GetTransform()->GetWorldPosition();
 	
 }
+
+void Player::CameraUpdate(float _DeltaTime)
+{
+	const float4 m_CameraRot = float4{ 55 , 0 , 0 };
+	float Camheight = 1500.0f;
+	std::shared_ptr<GameEngineCamera> MainCam = GetLevel()->GetMainCamera();
+	if (GetCurState<PlayerState>() == PlayerState::SKILL)
+	{
+		Camheight = 1800.0f;
+	}
+	if (CameraControl == true && false == MainCam->IsFreeCamera())
+	{
+		float4 CurCamPos = MainCam->GetTransform()->GetWorldPosition();
+		float4 CurCamRot = MainCam->GetTransform()->GetWorldRotation();
+
+
+		float4 NextCamPos = GetTransform()->GetWorldPosition();
+		NextCamPos.y += Camheight; // 카메라 높이
+
+		float4 xzPos = float4::FORWARD * Camheight * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad); //xz연산
+		xzPos.RotaitonYDeg(m_CameraRot.y);
+		NextCamPos -= xzPos;
+		MainCam->GetTransform()->SetWorldPosition(float4::LerpClamp(CurCamPos, NextCamPos, _DeltaTime * 2));
+		MainCam->GetTransform()->SetWorldRotation(float4::LerpClamp(CurCamRot, m_CameraRot, _DeltaTime *0.5f));
+	}
+}
+
 
 
 void Player::CheckDirInput(float _DeltaTime)
@@ -178,30 +222,26 @@ void Player::CheckStateInput(float _DeltaTime)
 	{
 		SetNextState(PlayerState::CHARGE_ATT);
 	}
-}
-void Player::ModifyHeight()
-{
-	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // 플레이어의 위치
-	PlayerGroundPos.y += 50.0f;
-	float4 CollPoint = float4::ZERO; // 충돌체크할 변수
-	if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 2000.0f))
+	else if (true == GameEngineInput::IsPress("E"))
 	{
-		if (GetTransform()->GetWorldPosition().y > CollPoint.y + 30.0f) // 플레이어가 허공에 떠있다면 
+		if (InteractData.Type == InteractionData::InteractionDataType::Ladder)
 		{
-			//MoveUpdate(300.0f, float4::DOWN); // 아래로 눌러줌
-			return;
+			SetNextState(PlayerState::CLIMB);
 		}
-		else if (GetTransform()->GetWorldPosition().y < CollPoint.y)
+		else if (InteractData.Type == InteractionData::InteractionDataType::Lever)
 		{
-			//MoveUpdate(2.0f, float4::UP); // 아래로 눌러줌
-		
+			SetNextState(PlayerState::LEVER);
+		}
+		else if(InteractData.Type == InteractionData::InteractionDataType::Door)
+		{
+			SetNextState(PlayerState::DOOR);
 		}
 	}
 }
 
+
 void Player::CheckFalling()
 {
-	ModifyHeight();
 	// Falling Check
 	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // 플레이어의 위치
 	PlayerGroundPos.y += 50.0f;
@@ -216,10 +256,8 @@ void Player::CheckFalling()
 	}
 	else
 	{
-		if (false == PlayerTestMode)
-		{
-			SetNextState(PlayerState::DROWN);
-		}
+		SetNextState(PlayerState::DROWN);
+
 	}
 }
 void Player::CheckState(float _DeltaTime)
@@ -254,7 +292,6 @@ void Player::DirectionUpdate(float _DeltaTime)
 
 void Player::MoveUpdate(float _MoveVec, float4 _Dir)
 {
-	//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 	if (float4::ZERONULL == _Dir)
 	{
 		m_pCapsuleComp->SetMoveSpeed(MoveDir * _MoveVec);
@@ -263,15 +300,6 @@ void Player::MoveUpdate(float _MoveVec, float4 _Dir)
 	{
 		m_pCapsuleComp->SetMoveSpeed(_Dir * _MoveVec);
 	}
-}
-
-
-void Player::UserUpdate(float _DeltaTime)
-{
-}
-
-void Player::ServerUpdate(float _DeltaTime)
-{
 }
 
 
@@ -289,13 +317,7 @@ void Player::DefaultPhysX()
 				return;
 			}
 		}
-		if (PlayerState::FALLING == GetCurState< PlayerState>() || PlayerState::BASIC_ATT == GetCurState<PlayerState>())
-		{
-			return;
-		}
-		//MoveUpdate(0.0f);
-		//m_pCapsuleComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
-		//m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
+		m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 	}
 }
 
@@ -343,11 +365,11 @@ float4 Player::GetMousDirection()
 
 	float4 NDir = Mouse2DPos - Player2DPos;
 	NDir.z = 0;
-	NDir.RotationAllDeg(CameraRot);
+	NDir.RotationAllDeg(MainCam->GetTransform()->GetWorldRotation());
 	NDir.Normalize();
 
 	float4 Ydir = float4{ 0.0f,NDir.y,0.0f };
-	Ydir.RotaitonXDeg(90.0f - CameraRot.y);
+	Ydir.RotaitonXDeg(90.0f - MainCam->GetTransform()->GetWorldRotation().y);
 	NDir += Ydir;
 	NDir.y = 0;
 
@@ -358,10 +380,6 @@ float4 Player::GetMousDirection()
 float4 Player::GetBonePos(const std::string_view& _BoneName)
 {
 	AnimationBoneData Bone = Renderer->GetBoneData(_BoneName.data());
-	float4 PPos = Renderer->GetTransform()->GetWorldPosition(); // 피봇문제로 제대로 가져오질 않음
-
-	std::shared_ptr< GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
-	BonePivot->GetTransform()->SetParent(GetTransform());
 	BonePivot->GetTransform()->SetLocalPosition(Bone.Pos);
 
 	return BonePivot->GetTransform()->GetWorldPosition();
@@ -388,5 +406,22 @@ void Player::CheckPlayerHit()
 		{
 			SetNextState(PlayerState::HIT);
 		}
+	}
+}
+
+void Player::CreateDustParticle(float _Delta)
+{
+	ParticleCount += _Delta;
+
+	if (ParticleCount >= 0.3f)
+	{
+		ParticleCount = 0.0f;
+
+		std::shared_ptr<DustParticle> Particle = CreateComponent<DustParticle>();
+		Particle->GetTransform()->SetParent(GetLevel()->DynamicThis<ContentLevel>()->GetPivotActor()->GetTransform());
+		
+		Particle->SetFadeOut(true);
+		Particle->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{0.0f, 50.0f, -10.0f});
+		Particle->GetTransform()->SetWorldScale({ 40.0f, 40.0f });
 	}
 }

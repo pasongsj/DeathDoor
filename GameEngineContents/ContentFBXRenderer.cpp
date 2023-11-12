@@ -56,7 +56,7 @@ void ContentFBXRenderer::SetCrackAmount(float _Amount)
 	}
 }
 
-void ContentFBXRenderer::SetCrackMask()
+void ContentFBXRenderer::SetCrackMask(const std::string_view& _MaskTextureName)
 {
 	auto AllUnits = GetAllRenderUnit();
 
@@ -64,7 +64,7 @@ void ContentFBXRenderer::SetCrackMask()
 	{
 		for (int j = 0; j < AllUnits[i].size(); j++)
 		{
-			AllUnits[i][j]->ShaderResHelper.SetTexture("CrackTexture", "CrackMask.png");
+			AllUnits[i][j]->ShaderResHelper.SetTexture("CrackTexture", _MaskTextureName);
 		}
 	}
 }
@@ -82,6 +82,26 @@ void ContentFBXRenderer::SetFadeMask(const std::string_view& _MaskTextureName)
 	}
 }
 
+void ContentFBXRenderer::CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBXName, const AnimationCreateParams& _Params, int _Index)
+{
+	GameEngineFBXRenderer::CreateFBXAnimation(_AnimationName, _AnimationFBXName, _Params, _Index);
+	
+	if(ReflectRenderer != nullptr)
+	{
+		ReflectRenderer->GameEngineFBXRenderer::CreateFBXAnimation(_AnimationName, _AnimationFBXName, _Params, _Index);
+	}
+}
+
+void ContentFBXRenderer::ChangeAnimation(const std::string& _AnimationName, bool _Force, int _StartFrame, float _BlendTime)
+{
+	GameEngineFBXRenderer::ChangeAnimation(_AnimationName, _Force, _StartFrame, _BlendTime);
+
+	if (ReflectRenderer != nullptr)
+	{
+		ReflectRenderer->GameEngineFBXRenderer::ChangeAnimation(_AnimationName, _Force, _StartFrame, _BlendTime);
+	}
+}
+
 void ContentFBXRenderer::SetReflect()
 {
 	if (GetActor() == nullptr)
@@ -89,7 +109,7 @@ void ContentFBXRenderer::SetReflect()
 		return;
 	}
 
-	ReflectRenderer = GetActor()->CreateComponent<ContentFBXRenderer>();
+	ReflectRenderer = GetActor()->CreateComponent<GameEngineFBXRenderer>();
 	ReflectRenderer->GetTransform()->SetParent(GetTransform());
 
 	std::string_view Material = "";
@@ -102,8 +122,12 @@ void ContentFBXRenderer::SetReflect()
 	{
 		Material = "REFLECTMESH";
 	}
+	else
+	{
+		return;
+	}
 
-	ReflectRenderer->GameEngineFBXRenderer::SetFBXMesh(FBXName, Material.data());
+	ReflectRenderer->GameEngineFBXRenderer::SetFBXMesh(FBXName, Material.data(), Path);
 
 	auto Units = ReflectRenderer->GetAllRenderUnit();
 
@@ -132,14 +156,22 @@ void ContentFBXRenderer::SetReflect()
 			{
 				Units[i][j]->ShaderResHelper.SetConstantBufferLink("WaterHeight", WaterHeight);
 			}
+
+			if (Units[i][j]->ShaderResHelper.IsConstantBuffer("CamPos") == true)
+			{
+				Units[i][j]->ShaderResHelper.SetConstantBufferLink("CamPos", GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition());
+			}
 		}
 	}
-
-	ReflectOff();
 }
 
 void ContentFBXRenderer::ReflectOn()
 {
+	if (ReflectRenderer == nullptr)
+	{
+		return;
+	}
+
 	auto Units = ReflectRenderer->GetAllRenderUnit();
 
 	for (int i = 0; i < Units.size(); i++)
@@ -147,13 +179,17 @@ void ContentFBXRenderer::ReflectOn()
 		for (int j = 0; j < Units[i].size(); j++)
 		{
 			ReflectRenderer->On();
-			Units[i][j]->SetReflect();
 		}
 	}
 }
 
 void ContentFBXRenderer::ReflectOff()
 {
+	if (ReflectRenderer == nullptr)
+	{
+		return;
+	}
+
 	auto Units = ReflectRenderer->GetAllRenderUnit();
 
 	for (int i = 0; i < Units.size(); i++)
@@ -161,7 +197,6 @@ void ContentFBXRenderer::ReflectOff()
 		for (int j = 0; j < Units[i].size(); j++)
 		{
 			ReflectRenderer->Off();
-			Units[i][j]->SetReflectOff();
 		}
 	}
 }
@@ -183,6 +218,12 @@ void ContentFBXRenderer::LinkConstantBuffer()
 			{
 				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("ClipData", ClipData);
 			}
+
+			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("WaterHeight") == true)
+			{
+				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("WaterHeight", WaterHeight);
+			}
+
 		}
 	}
 }
@@ -235,18 +276,19 @@ void ContentFBXRenderer::FadeIn(float _MaxTime, float _DeltaTime)
 	}
 }
 
-void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::string _SettingName)
+void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::string _SettingName, RenderPath _Path)
 {
 	std::string UpperSettingName = GameEngineString::ToUpper(_SettingName);
 
 	if (UpperSettingName != "CONTENTANIMESHDEFFERED" &&
-		UpperSettingName != "CONTENTMESHDEFFERED")
+		UpperSettingName != "CONTENTMESHDEFFERED" &&
+		UpperSettingName != "CONTENTMESHALPHA")
 	{
-		MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentMeshDeffered 중 하나여야 합니다.");
+		MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentMeshDeffered, ContentMeshAlpha 중 하나여야 합니다.");
 		return;
 	}
 
-	GameEngineFBXRenderer::SetFBXMesh(_MeshName, _SettingName);
+	GameEngineFBXRenderer::SetFBXMesh(_MeshName, _SettingName, _Path);
 	
 	if (UpperSettingName == "CONTENTMESHDEFFERED")
 	{
@@ -262,7 +304,6 @@ void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::str
 
 	FBXName = _MeshName;
 	MaterialName = UpperSettingName;
-
-	SetReflect();
+	Path = _Path;
 }
 

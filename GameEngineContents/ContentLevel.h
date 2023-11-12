@@ -6,7 +6,7 @@ enum class ContentLevelType
 	NONE,
 	OfficeLevel,
 	FortressLevel,
-	FrogBossLevel,
+	BossFrogLevel,
 	OldCrowLevel,
 };
 
@@ -26,6 +26,10 @@ public:
 		return m_eLevelType;
 	}
 
+	//카메라와 플레이어의 거리
+	void SetGlowScale(float _Distance);
+
+
 	inline void SetContentLevelType(ContentLevelType _Type)
 	{
 		if (_Type == ContentLevelType::NONE)
@@ -37,14 +41,29 @@ public:
 		m_eLevelType = _Type;
 	}
 
+	std::shared_ptr<class GlowEffect> GetGlowEffect()
+	{
+		return Glow;
+	}
+
+	std::shared_ptr<GameEngineActor> GetPivotActor()
+	{
+		return PivotActor;
+	}
+	
 protected:
-	void LevelInit();
+	void LevelInit(float4 _BlurSize);
 	void CreateUI();
-	void SetPostPrecessEffect();
+	void SetPostPrecessEffect(float4 _BlurSize);
 	void CreateIMGUIDebugRenderTarget();
 private:
 
+	void CreatePivotActor();
 
+	std::shared_ptr<class GlowEffect> Glow = nullptr;
+	std::shared_ptr<class AlphaGlowEffect> AlphaGlow = nullptr;
 	ContentLevelType m_eLevelType = ContentLevelType::NONE;
+
+	std::shared_ptr<GameEngineActor> PivotActor = nullptr;
 };
 

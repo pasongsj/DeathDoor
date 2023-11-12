@@ -32,12 +32,32 @@ public:
 		Intensity.w = _Intensity.w;
 	}
 
-	void Init(std::weak_ptr<GameEngineLevel> _Level, float4 _Intensity)
+	void CreateTarget(float4 _BlurSize);
+
+	void Init(std::weak_ptr<GameEngineLevel> _Level, float4 _Intensity,float4 _BlurSize)
 	{
 		SetLevel(_Level);
 		SetIntensity(_Intensity);
+		CreateTarget(_BlurSize);
 	}
 
+
+	//x,y 는 기본블러 z,w 는 더블블러
+	void SetBlurScale(float4 _Scale)
+	{
+		BlurSize = { _Scale.x, _Scale.y };
+		DoubleBlurSize = { _Scale.z, _Scale.w };
+	}
+
+	void DoubleBlurOn()
+	{
+		isDoubleBlur = true;
+	}
+
+	void DoubleBlurOff()
+	{
+		isDoubleBlur = false;
+	} 
 protected:
 	void Start(GameEngineRenderTarget* _Target) override;
 	void Effect(GameEngineRenderTarget* _Target, float _DeltaTime) override;
@@ -54,5 +74,7 @@ private:
 	float4 Intensity = { 1.0f, 1.0f, 1.0f, 1.0f };
 	float4 BlurSize = { 1600.0f, 900.0f };
 	float4 DoubleBlurSize = { 1600.0f, 900.0f };
+
+	bool isDoubleBlur = true;
 };
 

@@ -30,11 +30,14 @@
 #include "Frog_Lever.h"
 #include "Frog_Septre.h"
 #include "PlayerAttackMagic.h"
+#include "EnemyWave.h"
 
 
 #include "PlayerAttackTrail.h"
 #include "BossFrogMain.h"
 #include "BossFrogFat.h"
+
+#include "Wires.h"
 
 
 
@@ -65,7 +68,7 @@ void MapTestLevel::LevelChangeStart()
 	std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
 	Light->GetTransform()->SetLocalRotation(float4{ 20, 180, 0 });
 
-	LevelInit();
+	LevelInit({ 800, 450, 800, 450 });
 }
 
 void MapTestLevel::LevelChangeEnd()
@@ -102,13 +105,14 @@ void MapTestLevel::InitTestLevel()
 	{
 		GetMainCamera()->GetTransform()->SetLocalPosition(float4{ 0, 700, -2500 });
 		std::shared_ptr<SecretTile> NewTile = CreateActor<SecretTile>();
-		NewTile->GetTransform()->SetLocalPosition(float4{ -400, 100 , 0 });
+		NewTile->GetTransform()->SetLocalPosition(float4{ 800, 250 , 0 });
 
-		std::shared_ptr<Crate> NewCrate = GetLevel()->CreateActor<Crate>();
+		std::shared_ptr<ShortCutDoor> NewCrate = GetLevel()->CreateActor<ShortCutDoor>();
+		NewCrate->SetState(StartState::CLOSE);
 		//NewCrate->GetPhysXComponent()->SetWorldPosWithParent(float4{ 400, 0 , 0 });
 
 		std::shared_ptr<Ladder> NewLadder = CreateActor<Ladder>();
-		NewLadder->GetTransform()->SetWorldPosition(float4{ 800, 0 , 0 });
+		NewLadder->GetTransform()->SetWorldPosition(float4{ 800, 0 , -200 });
 		NewLadder->SetHidden(true);
 		NewLadder->SetHeight(4);
 		
@@ -128,9 +132,19 @@ void MapTestLevel::InitTestLevel()
 			Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1000.0f , 1000.0f , 0.0f });
 		}
 
-
-		std::shared_ptr<BossFrogFat> Mage = CreateActor<BossFrogFat>();
+		std::shared_ptr<EnemyGhoulBig> Mage = CreateActor<EnemyGhoulBig>();
 		Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
+
+		// wave test
+		std::shared_ptr<EnemyWave> WaveObj = CreateActor<EnemyWave>();
+
+		std::shared_ptr<Frog_Septre> TriggerObj = CreateActor<Frog_Septre>();
+		TriggerObj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0.0f , 10.0f , -500.0f });
+		TriggerObj->SetTriggerFunction([=]
+			{
+				WaveObj->WaveStart();
+			}
+		);
 
 		//std::shared_ptr<EnemyMage> Ghoul = CreateActor<EnemyMage>();
 		//Ghoul->GetPhysXComponent()->SetWorldPosWithParent(float4{ 000.0f , 500.0f , -500.0f });		

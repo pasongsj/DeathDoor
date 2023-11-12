@@ -11,6 +11,9 @@
 
 #include "Boss_OldCrowCrowHead.h"
 #include "FeatherParticle.h"
+#include "DustParticle.h"
+#include "ContentLevel.h"
+
 
 Boss_OldCrow::Boss_OldCrow() 
 {
@@ -36,54 +39,40 @@ void Boss_OldCrow::Start()
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(float4{ 0.0f, 300.0f, 250.0f });
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+		
+		if (nullptr != Player::MainPlayer)
+		{
+			m_pCapsuleComp->SetFilter(*Player::MainPlayer->GetPhysXComponent()->GetController());
+		}
+
+		m_pCapsuleComp->CreateSubShape(SubShapeType::BOX, float4{ 250, 200, 200 }, float4{ 0, 0, 100 });
+		m_pCapsuleComp->SetSubShapeFilter(PhysXFilterGroup::MonsterSkill);
+		m_pCapsuleComp->AttachShape();
 	}
 
 	float4 Scale = EnemyRenderer->GetMeshScale();
 
-	SetEnemyHP(BOSS_OLDCROW_HP / 2);
+	SetEnemyHP(BOSS_OLDCROW_HP);
+	IsDeath = false;
 
 	ChainsInit();
-
-	SmallCrowTargetPivot = GetLevel()->CreateActor<GameEngineActor>();
-
-	SmallCrowTargetPivot2 = GetLevel()->CreateActor<GameEngineActor>();
-	SmallCrowTargetPivot2->GetTransform()->SetParent(SmallCrowTargetPivot->GetTransform());
-	SmallCrowTargetPivot2->GetTransform()->SetLocalPosition({ 0, 0, 500.0f });
+	EnemyRenderer->SetCrackMask("OldCrowCrackMask.png");
 }
-
-float Time = 0.0f;
 
 void Boss_OldCrow::Update(float _DeltaTime)
 {
-	FSMObjectBase::Update(_DeltaTime);
-
-	SmallCrowTargetPivot->GetTransform()->SetWorldPosition(Player::MainPlayer->GetTransform()->GetWorldPosition());
-	SmallCrowTargetPivot->GetTransform()->AddLocalRotation({ 0, _DeltaTime * 90.0f, 0 });
-
-	if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))
+	if (false == DeathCheck() && true == CheckHit())
 	{
 		GetDamaged();
 	}
 
-	Time += _DeltaTime;
-
-	if (Time >= 0.05f)
+	if (true == DeathCheck() && false == IsDeath)
 	{
-		if (GetTransform()->GetWorldPosition().y > 50.0f)
-		{
-			return;
-		}
-
-		Time = 0.0f;
-
-		//대충 이런 식으로 만들면 됨. 
-		std::shared_ptr<FeatherParticle> New = CreateComponent<FeatherParticle>();
-
-		float X = GameEngineRandom::MainRandom.RandomFloat(-100, 100);
-		float Z = GameEngineRandom::MainRandom.RandomFloat(-100, 100);
-		
-		New->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ X, 100.0f, Z});
+		IsDeath = true;
+		SetDeathState();
 	}
+
+	FSMObjectBase::Update(_DeltaTime);
 }
 
 void Boss_OldCrow::InitPattern()
@@ -98,7 +87,7 @@ void Boss_OldCrow::InitPattern()
 
 	//Pattern1
 	{
-		std::vector<short> Pattern1 = std::vector<short>{ static_cast<short>(Boss_OldCrowState::DASHSTART), static_cast<short>(Boss_OldCrowState::DASHSTART) };
+		std::vector<short> Pattern1 = std::vector<short>{ static_cast<short>(Boss_OldCrowState::DASHSTART)};
 
 		Patterns.insert(std::pair(static_cast<short>(Boss_OldCrowPattern::PATTERN1), Pattern1));
 	}
@@ -133,7 +122,7 @@ void Boss_OldCrow::InitPattern()
 
 	//Pattern6
 	{
-		std::vector<short> Pattern6 = std::vector<short>{static_cast<short>(Boss_OldCrowState::EGG) };
+		std::vector<short> Pattern6 = std::vector<short>{static_cast<short>(Boss_OldCrowState::EGG), static_cast<short>(Boss_OldCrowState::JUMP) };
 
 		Patterns.insert(std::pair(static_cast<short>(Boss_OldCrowPattern::PATTERN6), Pattern6));
 	}
@@ -155,26 +144,6 @@ void Boss_OldCrow::SetRandomPattern()
 	//RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
 
 	SetNextState(RandomState);
-
-
-	/*switch (RandomPattern)
-	{
-	case Boss_OldCrow::Boss_OldCrowPattern::PATTERN1:
-		break;
-	case Boss_OldCrow::Boss_OldCrowPattern::PATTERN2:
-		break;
-	case Boss_OldCrow::Boss_OldCrowPattern::PATTERN3:
-		break;
-	case Boss_OldCrow::Boss_OldCrowPattern::PATTERN4:
-		break;
-	case Boss_OldCrow::Boss_OldCrowPattern::PATTERN5:
-		break;
-	case Boss_OldCrow::Boss_OldCrowPattern::PATTERN6:
-		break;
-	default:
-		MsgAssert("불가능한 보스 패턴입니다.");
-		break;
-	}*/
 }
 
 void Boss_OldCrow::SetNextPatternState()
@@ -352,9 +321,76 @@ void Boss_OldCrow::GetDamaged()
 	//체력 닳는 이펙트
 
 	//체력 닳으면 까마귀 생성
-	std::shared_ptr<Boss_OldCrowCrowHead> CrowHead = GetLevel()->CreateActor<Boss_OldCrowCrowHead>();
-	CrowHead->SetCrowHead(GetTransform()->GetWorldPosition(), GetPlayerDir());
-	
-	//
+	CreateCrowHead();
 
+	//플레이어 스펠 코스트 추가
+	AddPlayerSpellCost();
+}
+
+void Boss_OldCrow::CreateCrowHead()
+{
+	std::shared_ptr<Boss_OldCrowCrowHead> CrowHead = GetLevel()->CreateActor<Boss_OldCrowCrowHead>();
+
+	float Angle = GameEngineRandom::MainRandom.RandomFloat(0, 359);
+	float4 Dir = float4::ZERO;
+
+	Dir.y = Angle;
+	Dir.x = -45.0f;
+
+	CrowHead->SetCrowHead(GetTransform()->GetWorldPosition(), Dir, m_pCapsuleComp);
+}
+
+void Boss_OldCrow::SetDeathState()
+{
+	Boss_OldCrowState CurState = GetCurState<Boss_OldCrowState>();
+
+	switch (CurState)
+	{
+	case Boss_OldCrowState::DASH:
+	case Boss_OldCrowState::TURN:
+	case Boss_OldCrowState::MEGADASH:
+	case Boss_OldCrowState::MEGADASH2:
+		SetNextState(Boss_OldCrowState::DEATHWHILERUNNING);
+		break;
+	default :
+		SetNextState(Boss_OldCrowState::DEATHWHILEUPRIGHT);
+		break;
+	}
+
+}
+
+void Boss_OldCrow::CreateFeatherParticle()
+{
+	std::shared_ptr<FeatherParticle> New = CreateComponent<FeatherParticle>();
+
+	float X = GameEngineRandom::MainRandom.RandomFloat(-100, 100);
+	float Z = GameEngineRandom::MainRandom.RandomFloat(-100, 100);
+
+	New->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ X, 100.0f, Z });
+}
+
+void Boss_OldCrow::CreateDustParticle()
+{
+	std::shared_ptr<DustParticle> Particle = CreateComponent<DustParticle>();
+	Particle->GetTransform()->SetParent(GetLevel()->DynamicThis<ContentLevel>()->GetPivotActor()->GetTransform());
+	Particle->SetFadeOut(true);
+	
+	float X =GameEngineRandom::MainRandom.RandomFloat(-300.0f, 300.0f);
+	float Z =GameEngineRandom::MainRandom.RandomFloat(-300.0f, 300.0f);
+	
+	float4 CrowPos = GetTransform()->GetWorldPosition();
+
+	while(CrowPos.XYZDistance({ X, 0.0f, Z }) <= 150.0f)
+	{
+		X = GameEngineRandom::MainRandom.RandomFloat(-300.0f, 300.0f);
+		Z = GameEngineRandom::MainRandom.RandomFloat(-300.0f, 300.0f);
+	}
+
+	Particle->GetTransform()->SetWorldPosition(float4{ GetTransform()->GetWorldPosition().x + X, 40.0f, GetTransform()->GetWorldPosition().z + Z });
+	Particle->GetTransform()->SetWorldScale({ 80.0f, 80.0f });
+	Particle->GetTransform()->SetWorldRotation({ 90.0f, 0.0f });
+
+	Particle->BillboardingOff();
+	Particle->SetColor({ 0.05f, 0.05f, 0.05f, -1.0f });
+	Particle->SetFadeSpeed(1.0f);
 }

@@ -30,6 +30,10 @@ void EnemyFirePlant::InitAnimation()
 			Attack->SetRender(FIREPLANT_ATT_RENDER_SCALE);
 			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE, float4::DOWN * 100.0f);
 			Attack->SetTrans(ShootDir, BonePivotPos);// 위치와 방향설정
+			std::shared_ptr<ContentFBXRenderer> Rend = Attack->GetRenderer();
+			Rend->SetGlowToUnit(0, 0);
+			Rend->SetUnitColor(0, 0, float4::RED, 5);
+			Attack->SetDustColor({ 255.0f / 255.0f, 198.0f / 255.0f , 198.0f / 255.0f});
 			Attack->SetShoot(1000.0f);
 			BonePivot->Death();
 			
@@ -62,8 +66,10 @@ void EnemyFirePlant::Update(float _DeltaTime)
 	{
 		SetNextState(EnemyFireFlowerState::DIE);
 	}
-	FSMObjectBase::Update(_DeltaTime);
-	
+
+	EnemyBase::Update(_DeltaTime);
+	FSMObjectBase::Update(_DeltaTime);	
+
 }
 
 
@@ -158,8 +164,15 @@ void EnemyFirePlant::SetFSMFUNC()
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				Death();
-				return;
+				ResetStateDuration();
+				if (GetStateDuration() < 1.f)
+				{
+					EnemyRenderer->FadeOut(1.f, Delta);
+				}
+				else
+				{
+					Death();
+				}
 			}
 		},
 		[this]

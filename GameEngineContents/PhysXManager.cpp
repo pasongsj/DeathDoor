@@ -205,3 +205,39 @@ bool PhysXManager::RayCast(const float4& _vOrigin, const float4& _vDir, OUT floa
 
 	return false;
 }
+
+bool PhysXManager::TriRayCast(const float4& _vOrigin, const float4& _vDir, OUT float4& _vPoint, float _fDistance, OUT UINT& _FaceIndex)
+{
+	physx::PxVec3 vOrigin(0.f, 0.f, 0.f);
+
+	memcpy_s(&vOrigin, sizeof(physx::PxVec3), &_vOrigin, sizeof(physx::PxVec3));
+
+	physx::PxVec3 vDir(0.f, 0.f, 0.f);
+
+	float4 vDir_ = _vDir;
+	float4 vNormalizedDir = vDir_.NormalizeReturn();
+
+	memcpy_s(&vDir, sizeof(physx::PxVec3), &vNormalizedDir, sizeof(physx::PxVec3));
+
+	physx::PxRaycastBuffer tRayCastBuff = nullptr;
+	if (true == m_pScene->raycast(vOrigin, vDir, (physx::PxReal)_fDistance, tRayCastBuff))
+	{
+		if (true == tRayCastBuff.hasBlock)
+		{
+			physx::PxRaycastHit tRayCastHit = tRayCastBuff.block;
+			physx::PxFilterData FilterData = tRayCastHit.shape->getSimulationFilterData();
+			if (FilterData.word0 & static_cast<UINT>(PhysXFilterGroup::NaviMesh))
+			{
+				UINT FaceIndex = static_cast<UINT>(tRayCastHit.faceIndex);
+				memcpy_s(&_vPoint, sizeof(float4), &tRayCastHit.position, sizeof(float4));
+				memcpy_s(&_FaceIndex, sizeof(UINT), &FaceIndex, sizeof(UINT));
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	return false;
+}

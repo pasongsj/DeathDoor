@@ -1,7 +1,25 @@
 #pragma once
 #include "FSMObjectBase.h"
 
+class InteractionData
+{
+	friend class Player;
+	friend class Ladder;
+	friend class Frog_Lever;
+	friend class ShortCutDoor;
 
+	enum class InteractionDataType
+	{
+		None,
+		Ladder,
+		Lever,
+		Door,
+	};
+	InteractionDataType Type = InteractionDataType::None;
+	float4 Pos = float4::ZERONULL;
+	float4 Dir = float4::ZERONULL;
+
+};
 
 // Ό³Έν :
 class TriggerBase : public FSMObjectBase
@@ -53,6 +71,11 @@ public:
 			return true;
 		}
 		return false;
+	}
+
+	std::shared_ptr<class ContentFBXRenderer> GetRender()
+	{
+		return m_pRenderer;
 	}
 
 protected:

@@ -1,6 +1,7 @@
 #include "PrecompileHeader.h"
 #include "ContentsCore.h"
 #include <GameEngineBase/GameEngineDirectory.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineVertexShader.h>
 #include <GameEngineCore/GameEnginePixelShader.h>
 #include <GameEngineCore/GameEngineMaterial.h>
@@ -11,6 +12,7 @@
 void ContentsCore::ContentsResourcesCreate()
 {
 	// 텍스처 로드만 각 레벨별로 하고 정리하는 습관을 들이세요.
+	
 
 	{
 		GameEngineDirectory NewDir;
@@ -227,6 +229,16 @@ void ContentsCore::ContentsResourcesCreate()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("AlphaColorMerge");
+
+		Pipe->SetVertexShader("AlphaColorMerge.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("AlphaColorMerge.hlsl");
+		Pipe->SetBlendState("MergeBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("GrayScale");
 
 		Pipe->SetVertexShader("GrayScale.hlsl");
@@ -346,6 +358,41 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetDepthState("EngineDepth");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("Particle3D");
+		Pipe->SetVertexShader("Particle3D.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("Particle3D.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ShockCircle");
+		Pipe->SetVertexShader("ShockCircle.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("ShockCircle.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshAlpha");
+		Pipe->SetVertexShader("ContentMeshAlpha.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("ContentMeshAlpha.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("waterDrop");
+		Pipe->SetVertexShader("waterDrop.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("waterDrop.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
 	//{
 	//	// 블랜드
 	//	D3D11_BLEND_DESC Desc = { 0, };

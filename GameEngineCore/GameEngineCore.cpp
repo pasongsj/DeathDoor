@@ -10,6 +10,7 @@
 #include "GameEngineDevice.h"
 #include "GameEngineVideo.h"
 #include "GameEngineGUI.h"
+#include "GameEngineLevel.h"
 
 #include <GameEngineContents/PhysXManager.h>
 #include <GameEngineBase/GameEngineNetObject.h>
@@ -88,9 +89,9 @@ void GameEngineCore::EngineUpdate()
 		if (nullptr != MainLevel)
 		{
 			CurLoadLevel = MainLevel;
-			MainLevel->InitLevelRenderTarget(); // 렌더타겟 실제로 생성
 			PhysXManager::GetInst()->ChangeScene(MainLevel->GetName()); // PhysX Scene변경 없으면 null로 만들어서 사용불가
 			MainLevel->LevelChangeStart();
+			MainLevel->InitLevelRenderTarget(); // 렌더타겟 실제로 생성
 			MainLevel->ActorLevelChangeStart(); 
 		}
 
@@ -197,21 +198,24 @@ void GameEngineCore::Start(HINSTANCE _instance,  std::function<void()> _Start, s
 	GameEngineWindow::WindowLoop(std::bind(GameEngineCore::EngineStart, _Start), GameEngineCore::EngineUpdate, std::bind(GameEngineCore::EngineEnd, _End));
 }
 
-void GameEngineCore::ChangeLevel(const std::string_view& _Name) 
+std::shared_ptr<GameEngineLevel> GameEngineCore::ChangeLevel(const std::string_view& _Name)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
 	if (LevelMap.end() == LevelMap.find(UpperName))
 	{
 		MsgAssert("존재하지 않는 레벨로 체인지 하려고 했습니다.");
-		return;
+		return nullptr;
 	}
 
 	NextLevel = LevelMap[UpperName];
+	
+	return NextLevel;
 }
 
-void GameEngineCore::LevelInit(std::shared_ptr<GameEngineLevel> _Level) 
+void GameEngineCore::LevelInit(std::shared_ptr<GameEngineLevel> _Level,const std::string_view& _Name) 
 {
+	_Level->SetName(_Name);
 	CurLoadLevel = _Level;
 	_Level->Level = _Level.get();
 	_Level->Start();

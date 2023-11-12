@@ -45,3 +45,12 @@
 
 #define RENDERSCALE_JUMPER			60.0f
 #define PHYSXSCALE_JUMPER			float4{0.0f, 201.0f, 200.0f}
+
+
+#define PHYSXSCALE_FROGMAIN			float4{0.0f, 210.0f, 200.0f}
+
+
+// BOSS
+
+#define FatPointNorth				float4{ -4740,-610,4750 };
+#define FatPointSouth				float4{ -2450,-610,2500 };

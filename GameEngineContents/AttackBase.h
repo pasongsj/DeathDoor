@@ -33,6 +33,7 @@ public:
 		return AttackRenderer;
 	}
 	
+
 protected:
 
 	void Start() override;
@@ -40,6 +41,7 @@ protected:
 
 	std::shared_ptr<class ContentFBXRenderer> AttackRenderer = nullptr;
 	std::shared_ptr<class PhysXComponent> PhysXComp = nullptr;
+
 
 	template<typename PhysXType>
 	void CreatePhysXAttComp(const float4& _Scale, PhysXFilterGroup _Group)
@@ -65,6 +67,7 @@ protected:
 	virtual void SetShoot(float _Speed = 1500.0f)
 	{
 		SetShootSpeed(_Speed);
+		ResetLiveTime();
 		isShoot = true;
 	}
 
@@ -85,6 +88,22 @@ protected:
 
 	virtual void CreateParticle(float _DeltaTime) {}
 
+
+	inline float4 GetDir() const
+	{
+		return Dir;
+	}
+
+	inline float GetFireTime() const
+	{
+		return FireTime;
+	}
+	inline float GetShootSpeed() const
+	{
+		return ShootSpeed;
+	}
+
+	PhysXFilterGroup DestTarget = PhysXFilterGroup::None;
 private:
 	bool isShoot = false;
 
@@ -93,6 +112,5 @@ private:
 
 	float ShootSpeed = 1500.0f;
 
-	PhysXFilterGroup DestTarget = PhysXFilterGroup::None;
 };
 

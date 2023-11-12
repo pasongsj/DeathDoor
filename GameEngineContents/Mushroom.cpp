@@ -4,6 +4,7 @@
 
 #include "PhysXCapsuleComponent.h"
 #include "ContentFBXRenderer.h"
+#include "Player.h"
 
 Mushroom::Mushroom() 
 {
@@ -55,7 +56,7 @@ void Mushroom::SetFSMFUNC()
 	SetFSM(TriggerState::OFF,
 		[this]
 		{
-			m_pPhysXComponent->PhysXRelease();
+			m_pPhysXComponent->Death();
 			isPhysXCollision = 0;
 			m_fRenderRatio = 1.f;
 		},
@@ -92,6 +93,7 @@ void Mushroom::SetFSMFUNC()
 		},
 		[this]
 		{
+			Player::MainPlayer->AddSpellCost();
 			//Player에게 마나 1칸 채워주기;
 		}
 	);

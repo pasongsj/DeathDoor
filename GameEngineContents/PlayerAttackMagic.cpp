@@ -49,5 +49,7 @@ void PlayerAttackMagic::CreateParticle(float _DeltaTime)
 		NewParticle->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
 		NewParticle->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
 		NewParticle->SetGlow();
+		NewParticle->SetWorldMove();
+		NewParticle->SetFadeOut(true);
 	}
 }

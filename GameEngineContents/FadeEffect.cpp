@@ -17,7 +17,7 @@ void FadeEffect::Start(GameEngineRenderTarget* _Target)
 
 	FadeUnit->ShaderResHelper.SetConstantBufferLink("FADEDATA", FadeData);
 	// 
-	ResultTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::ZERONULL);
+	ResultTarget = GameEngineRenderTarget::Create(DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, GameEngineWindow::GetScreenSize(), float4::WHITE);
 }
 
 void FadeIn() 
@@ -37,16 +37,23 @@ void FadeEffect::Effect(GameEngineRenderTarget* _Target, float _DeltaTime)
 		return;
 	}
 
-	if (State == FadeState::FadeOut && 1.0f <= FadeData.x)
-	{
-		return;
-	}
+	//if (State == FadeState::FadeOut && 1.0f <= FadeData.x)
+	//{
+	//	FadeData.x = 1.f;
+	//	return;
+	//}
+	//if (State == FadeState::FadeIn && 0.0f >= FadeData.x)
+	//{
+	//	FadeData.x = 0.f;
+	//	return;
+	//}
 
 	if (State == FadeState::FadeOut)
 	{
 		FadeData.x += _DeltaTime;
 	}
-	else {
+	else
+	{
 		FadeData.x -= _DeltaTime;
 	}
 

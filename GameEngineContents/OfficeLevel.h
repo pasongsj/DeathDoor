@@ -1,6 +1,15 @@
 #pragma once
 #include "ContentLevel.h"
 
+enum class PrevLevelType
+{
+	OldCrowLevel,
+	FortressLevel,
+	BossFrogLevel,
+	None,
+};
+
+
 // M : NaviRender OnOff 스위치 
 
 // 설명 :
@@ -16,6 +25,11 @@ public:
 	OfficeLevel(OfficeLevel&& _Other) noexcept = delete;
 	OfficeLevel& operator=(const OfficeLevel& _Other) = delete;
 	OfficeLevel& operator=(OfficeLevel&& _Other) noexcept = delete;
+	
+	void SetPrevLevelType(PrevLevelType _Type)
+	{
+		m_eType = _Type;
+	}
 
 protected:
 	void Start() override;
@@ -29,16 +43,24 @@ protected:
 
 
 private:
+	void Create_Light();
+	void Create_Map();
+	void Create_Player();
+	
+	void Set_PlayerStartPos();
 
-	// 2800, 230, -6300
 	const float4 m_CameraPos = float4{ 2800 , 2500 , -6500 };
 	const float4 m_CameraRot = float4{ 45.0f , 0 , 0 };
 
-	void Set_PlayerStartPos();
-	const float4 m_StartPos = float4 { 2610 , -740 , -5347 };
-	const float4 m_TestStartPos = float4{ 1869, 570, 4110 };
+	float4 m_StartPos = float4 { 2610 , -740 , -5347 };
+
+	const float4 m_f4FortressToOfficePos = float4{ 1201, 1256, 5077 };
+	const float4 m_f4OldCrowToOfficePos = float4{ -1156, 1652, 6140 };
 
 	std::shared_ptr<class Map_Office> m_pMap = nullptr;
 
 	void SetPointLight();
+	void Create_TriggerObject();
+
+	PrevLevelType m_eType = PrevLevelType::None;
 };

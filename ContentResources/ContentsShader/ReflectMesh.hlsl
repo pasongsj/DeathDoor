@@ -20,11 +20,23 @@ struct Output
     float4 POSITION : SV_POSITION;
     float4 VIEWPOSITION : POSITION;
     float4 WORLDPOSITION : POSITION1;
+    
     float4 WVPPOSITION : POSITION5;
     float4 TEXCOORD : TEXCOORD;
+
     float4 NORMAL : NORMAL;
+    float4 EYEVECTOR : TEXCOORD2;
 };
 
+cbuffer CamPos : register(b8)
+{
+    float4 CamPos;
+};
+
+cbuffer WaterHeight : register(b4)
+{
+    float4 WaterHeight;
+};
 
 Output ContentMeshDeferred_VS(Input _Input)
 {
@@ -33,12 +45,19 @@ Output ContentMeshDeferred_VS(Input _Input)
     float4 InputPos = _Input.POSITION;
     InputPos.w = 1.0f;
     
+    float Mul = InputPos.y * 0.7f;
+    InputPos.y = Mul;
+    InputPos.y += Mul * 0.5f;
+    
     float4 InputNormal = _Input.NORMAL;
     InputNormal.w = 0.0f;
     
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
     NewOutPut.WVPPOSITION = NewOutPut.POSITION;
+    
+    float4 EyeDir = InputPos - CamPos;
+    NewOutPut.EYEVECTOR = mul(EyeDir, WorldView);
     
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
     NewOutPut.NORMAL = mul(InputNormal, WorldView);
@@ -62,10 +81,6 @@ struct DeferredOutPut
     float4 BlurTarget : SV_Target7;
 };
 
-cbuffer WaterHeight : register(b4)
-{
-    float4 WaterHeight;
-};
 
 cbuffer BlurColor : register(b5)
 {
@@ -80,7 +95,7 @@ cbuffer ClipData : register(b6)
 
 DeferredOutPut ContentMeshDeferred_PS(Output _Input)
 {
-    if (_Input.WORLDPOSITION.y < WaterHeight.x + 20.0f)
+    if (_Input.WORLDPOSITION.y < WaterHeight.x)
     {
         clip(-1);
     }
@@ -137,10 +152,15 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
     }
     
-    NewOutPut.DifTarget = pow(Color, 2.2f);
-    NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;
     NewOutPut.NorTarget = _Input.NORMAL;
+    
+    float4 EyeDir = _Input.EYEVECTOR;
+    EyeDir = normalize(EyeDir);
+    
+    NewOutPut.DifTarget = pow(Color, 2.2f);
+    NewOutPut.PosTarget = _Input.VIEWPOSITION;
+
     
     return NewOutPut;
 }

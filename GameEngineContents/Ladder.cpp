@@ -49,9 +49,8 @@ void Ladder::InitComponent()
 void Ladder::InitAnimation()
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer->SetFBXMesh("Ladder.fbx", "ContentMeshDeffered");
+	m_pRenderer->SetFBXMesh("LadderUV.fbx", "ContentMeshDeffered");
 	m_pRenderer->GetTransform()->SetLocalRotation(float4(0, 90, 0));
-
 	auto Unit = m_pRenderer->GetAllRenderUnit();
 	Unit[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "BlackScreen.png");
 }
@@ -67,7 +66,8 @@ void Ladder::SetFSMFUNC()
 	SetFSM(TriggerState::OFF,
 		[this]
 		{
-			m_pRenderer->Off();
+			//m_pRenderer->Off();
+			m_pRenderer->FadeOut(1.f, 1.f);
 		},
 		[this](float Delta)
 		{
@@ -85,7 +85,8 @@ void Ladder::SetFSMFUNC()
 	SetFSM(TriggerState::PROGRESS,
 		[this]
 		{
-			 m_pRenderer->On();
+			// m_pRenderer->On();
+			m_sData.Type = InteractionData::InteractionDataType::Ladder;
 			 m_sData.Pos = GetTransform()->GetWorldPosition();
 			 m_sData.Dir = GetTransform()->GetWorldForwardVector();
 
@@ -97,6 +98,7 @@ void Ladder::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			m_pRenderer->FadeIn(2.f, Delta);
 			if (true == IsPlayerInRange())
 			{
 				// e키 누르라는 ui띄우기			
@@ -104,7 +106,7 @@ void Ladder::SetFSMFUNC()
 			if (true == TriggerKeyCheck())
 			{
 				//키눌렸으면 ON으로 전환하고 Player에게 포지션 전달
-				Player::MainPlayer->GetLadderData(m_sData);
+				Player::MainPlayer->GetInteractionData(m_sData);
 				SetNextState(TriggerState::ON);
 			};
 		},

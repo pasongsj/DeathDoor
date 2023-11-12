@@ -11,43 +11,6 @@
 
 void Boss_OldCrow::SetFSMFUNC()
 {
-	//enum class Boss_OldCrowState //스테이트 별
-	//{
-	//	EMPTY,
-
-	//	IDLE,
-
-	//	//대쉬
-	//	STARTDASH,
-	//	DASH,
-	//	TURN,
-
-	//	//사슬
-	//	MEGADASHPREP,
-	//	MEGADASH,
-
-	//	//연속 사슬
-	//	MEGADASH2PREP,
-	//	MEGADASH2,
-
-	//	//점프
-	//	JUMP,
-	//	SLAM,
-	//	SLAMIMPACT,
-
-	//	//Egg
-	//	EGG,
-
-	//	//SmallCrow
-	//	SCREAM,
-	//	SCREAMMINI,
-
-	//	//Death
-	//	DEATHWHILERUNNING,
-
-	//	DEATHWHILEUPRIGHT,
-	//};
-
 	InitFSM(Boss_OldCrowState::MAX);
 
 	SetFSM(Boss_OldCrowState::IDLE,
@@ -76,7 +39,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this](float Delta)
 		{
 			SetLerpDirection(Delta);
-
+			
 			if (EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(Boss_OldCrowState::DASH);
@@ -92,13 +55,21 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("Dash");
-			//m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_DASHSPEED);
+
+			m_pCapsuleComp->RigidSwitch(false);
 
 			CurrentSpeed = BOSS_OLDCROW_DASHSPEED;
+
+			for (int i = 0; i < 10; i++)
+			{
+				CreateFeatherParticle();
+			}
 		},
 		[this](float Delta)
 		{
 			m_pCapsuleComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * CurrentSpeed);
+
+			TurnCheck();
 
 			SetLerpDirection(Delta);
 		},
@@ -112,6 +83,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("TurnLeft");
+
 			IsTurn = false;
 		},
 		[this](float Delta)
@@ -129,9 +101,11 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
+
+			m_pCapsuleComp->RigidSwitch(true);
 		}
 	);
-
+	
 	SetFSM(Boss_OldCrowState::MEGADASHPREP,
 		[this]
 		{
@@ -150,6 +124,14 @@ void Boss_OldCrow::SetFSMFUNC()
 			//SetLerpDirection(Delta);
 
 			StateCalTime += Delta;
+			FeatherCount += Delta;
+			
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
+
+				CreateFeatherParticle();
+			}
 
 			Chains[0]->GetTransform()->AddLocalPosition(float4::FORWARD * BOSS_OLDCROW_CHAINSPEED * Delta);
 
@@ -173,6 +155,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		},
 		[this]
 		{
+			FeatherCount = 0.0f;
 		}
 	);
 
@@ -191,11 +174,18 @@ void Boss_OldCrow::SetFSMFUNC()
 			Chains[0]->OnChainEffect();
 
 			CurrentChainSpeed = BOSS_OLDCROW_CHAINSPEED;
-
 		},
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
+			FeatherCount += Delta;
+
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
+
+				CreateFeatherParticle();
+			}
 
 			Chains[0]->GetTransform()->AddLocalPosition(float4::FORWARD * CurrentChainSpeed * Delta);
 
@@ -219,6 +209,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		},
 		[this]
 		{
+			FeatherCount = 0.0f;
 		}
 	);
 
@@ -229,11 +220,21 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			ChainsPivots[0]->GetTransform()->SetParent(GetTransform());
 
+			m_pCapsuleComp->RigidSwitch(false);
+
 			StateCalTime = 0.0f;
 		},
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
+			FeatherCount += Delta;
+
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
+
+				CreateFeatherParticle();
+			}
 
 			m_pCapsuleComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_MEGADASHSPEED );
 
@@ -251,6 +252,9 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 
+			m_pCapsuleComp->RigidSwitch(true);
+
+			FeatherCount = 0.0f;
 		}
 	);
 
@@ -294,6 +298,15 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
+
+			FeatherCount += Delta;
+
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
+
+				CreateFeatherParticle();
+			}
 
 			Chains[MegaDash2PatternCount]->GetTransform()->AddLocalPosition(float4::FORWARD * CurrentChainSpeed * Delta);
 
@@ -344,7 +357,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		},
 		[this]
 		{
-
+			FeatherCount = 0.0f;
 		}
 	);
 
@@ -357,11 +370,21 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetParent(GetTransform());
 
+			m_pCapsuleComp->RigidSwitch(false);
+
 			StateCalTime = 0.0f;
 		},
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
+			
+			FeatherCount += Delta;
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
+
+				CreateFeatherParticle();
+			}
 
 			m_pCapsuleComp->SetMoveSpeed(m_pCapsuleComp->GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_MEGADASHSPEED);
 
@@ -399,6 +422,9 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 
+			m_pCapsuleComp->RigidSwitch(true);
+
+			FeatherCount = 0.0f;
 		}
 	);
 
@@ -422,15 +448,29 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			StateCalTime = 0.0f;
 
+			m_pCapsuleComp->DetachShape();
 			SetDirection();
+
+			m_pCapsuleComp->RigidSwitch(false);
+
+			for (int i = 0; i < 15; i++)
+			{
+				CreateFeatherParticle();
+			}
 		},
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
+			FeatherCount += Delta;
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
+
+				CreateFeatherParticle();
+			}
 
 			SetLerpDirection(Delta);
 
-			float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 			float4 BossPos = GetTransform()->GetWorldPosition();
 
 			float Value = BossPos.XYZDistance(TargetPos);
@@ -446,9 +486,16 @@ void Boss_OldCrow::SetFSMFUNC()
 				SetNextState(Boss_OldCrowState::SLAM);
 				return;
 			}
+
+			if (StateCalTime > 2.0f)
+			{
+				SetNextState(Boss_OldCrowState::SLAM);
+				return;
+			}
 		},
 		[this]
 		{
+			FeatherCount = 0.0f;
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
 			SetDirection();
 		}
@@ -468,7 +515,13 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this](float Delta)
 		{
 			m_pCapsuleComp->SetMoveSpeed(SlamDir * BOSS_OLDCROW_SLAMFORCE);
+			FeatherCount += Delta;
+			if (FeatherCount >= 0.02f)
+			{
+				FeatherCount = 0.0f;
 
+				CreateFeatherParticle();
+			}
 			//SetLerpDirection(Delta);
 
 			float4 CollPoint = float4::ZERO;
@@ -476,6 +529,8 @@ void Boss_OldCrow::SetFSMFUNC()
 			{
 				if (CollPoint.y + 100.0f > GetTransform()->GetWorldPosition().y)// 땅에 도달하였는지 체크
 				{
+					m_pCapsuleComp->AttachShape();
+
 					SetNextState(Boss_OldCrowState::SLAMIMPACT);
 					return;
 				}
@@ -485,6 +540,8 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			m_pCapsuleComp->TurnOnGravity();
 			m_pCapsuleComp->SetMoveSpeed(float4::ZERO);
+			m_pCapsuleComp->RigidSwitch(true);
+			FeatherCount = 0.0f;
 		}
 	);
 
@@ -493,6 +550,16 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("SlamImpact");
 
+			for (int i = 0; i < 15; i++)
+			{
+				CreateFeatherParticle();
+				GetLevel()->TimeEvent.AddEvent(0.05f, [this](GameEngineTimeEvent::TimeEvent&, GameEngineTimeEvent*)
+					{
+						CreateDustParticle();
+					}
+				);
+
+			}
 		},
 		[this](float Delta)
 		{
@@ -510,13 +577,18 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("Egg");
+
+			StateCalTime = 0.0f;
 		},
 		[this](float Delta)
 		{
-			if (EnemyRenderer->IsAnimationEnd())
+			StateCalTime += Delta;
+
+			if (StateCalTime >= 4.0f)
 			{
-				SetNextState(Boss_OldCrowState::IDLE);
+				SetNextPatternState();
 			}
+
 		},
 		[this]
 		{
@@ -531,14 +603,19 @@ void Boss_OldCrow::SetFSMFUNC()
 			StateCalBool = false; //애니메이션 상에서 True되어 true상태면 smallcrow까마귀 생성
 
 			StateCalTime = 0.0f; //까마귀 생성
-			StateCalTime2 = 0.0f;
+			StateCalTime2 = 0.0f;//다음패턴 체크
+
+			StateCalFloat = GameEngineRandom::MainRandom.RandomFloat(0, 35);
+			StateCalFloat *= 10.0f;
+
 		},
 		[this](float Delta)
 		{
 			StateCalTime += Delta;
 			StateCalTime2 += Delta;
+			StateCalFloat += BOSS_OLDCROW_OrbitSpeed * Delta;
 
-			if (StateCalTime2 > 2.5f)
+			if (StateCalTime2 >= 2.5f)
 			{
 				SetNextPatternState();
 			}
@@ -549,7 +626,7 @@ void Boss_OldCrow::SetFSMFUNC()
 				{
 					std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent<GameEngineComponent>();
 					BonePivot->GetTransform()->SetParent(GetTransform());
-					BonePivot->GetTransform()->SetLocalPosition(float4{ 0, 14, 5 });
+					BonePivot->GetTransform()->SetLocalPosition(float4{ 0, 10, 5 });
 
 					float Value = 5.0f;
 
@@ -561,15 +638,13 @@ void Boss_OldCrow::SetFSMFUNC()
 					BonePivot->GetTransform()->AddLocalRotation({ -20.0f, 0.0f, 0.0f });
 					BonePivot->GetTransform()->AddLocalRotation({ RandomXValue, RandomYValue, RandomZValue });
 
+					float RandomFloat = GameEngineRandom::MainRandom.RandomFloat(-30, 30);
+
 					std::shared_ptr<Boss_OldCrowSmallCrow> SmallCrow = GetLevel()->CreateActor<Boss_OldCrowSmallCrow>();
-					SmallCrow->SetSmallCrow(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation(), SmallCrowTargetPivot2);
+					SmallCrow->SetSmallCrow(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation(), StateCalFloat + RandomFloat, m_pCapsuleComp);
 
 					StateCalTime = 0.0f;
 				}
-			}
-			else
-			{
-
 			}
 		},
 		[this]
@@ -577,4 +652,72 @@ void Boss_OldCrow::SetFSMFUNC()
 		}
 	);
 
+	SetFSM(Boss_OldCrowState::DEATHWHILERUNNING,
+		[this]
+		{
+			EnemyRenderer->ChangeAnimation("DeathInRunning");
+
+			StateCalTime = 0.0f;
+			StateCalFloat = 500.0f;
+		},
+		[this](float Delta)
+		{
+			StateCalTime += Delta;
+			StateCalFloat -= Delta * 300.0f;
+
+			if (StateCalFloat <= 0.0f)
+			{
+				StateCalFloat = 0.0f;
+			}
+
+			if (StateCalTime <= 2.0f)
+			{
+				m_pCapsuleComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * StateCalFloat);
+			}
+
+			LerpRatio += 0.25f * Delta;
+
+			if (LerpRatio < 1.0f)
+			{
+				float4 LerpColor = float4::Lerp(StartColor, EndColor, LerpRatio);
+				EnemyRenderer->SetBlurColor(LerpColor, 3.0f - 3.0f * LerpRatio);
+			}
+			else
+			{
+				LerpRatio = 1.0f;
+				EnemyRenderer->SetBlurColor(EndColor, 3.0f - 3.0f * LerpRatio);
+			}
+		},
+		[this]
+		{
+
+		}
+	);
+
+	SetFSM(Boss_OldCrowState::DEATHWHILEUPRIGHT,
+		[this]
+		{
+			EnemyRenderer->ChangeAnimation("DeathInUpright");
+
+		},
+		[this](float Delta)
+		{
+			LerpRatio += 0.25f * Delta;
+			
+			if (LerpRatio < 1.0f)
+			{
+				float4 LerpColor = float4::Lerp(StartColor, EndColor, LerpRatio);
+				EnemyRenderer->SetBlurColor(LerpColor, 3.0f - 3.0f * LerpRatio);
+			}
+			else
+			{
+				LerpRatio = 1.0f;
+				EnemyRenderer->SetBlurColor(EndColor, 3.0f - 3.0f * LerpRatio);
+			}
+		},
+		[this]
+		{
+
+		}
+	);
 }

@@ -33,6 +33,7 @@ void EnemyMage::InitAnimation()
 			Attack->SetRender(FIREPLANT_ATT_RENDER_SCALE);
 			Attack->GetRenderer()->SetGlowToUnit(0, 0);
 			Attack->GetRenderer()->SetColor({ 10.f / 255.0f, 255.f / 255.0f, 50.f }, 3.0f);
+			Attack->SetDustColor({ 198.0f / 255.0f, 198.0f / 255.0f , 255.0f / 255.0f });
 			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE);
 			Attack->SetTrans(m_f4ShootDir, TmpPos);
 			Attack->SetShoot(1000.0f);
@@ -76,7 +77,7 @@ void EnemyMage::Update(float _DeltaTime)
 	{
 		SetNextState(EnemyMageState::DEATH);
 	}
-
+	EnemyBase::Update(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
 }
 
@@ -189,6 +190,11 @@ void EnemyMage::SetFSMFUNC()
 		[this](float Delta)
 		{
 			
+			if (true == CheckHit())
+			{
+				SetNextState(EnemyMageState::HIT);
+				return;
+			}
 
 			m_pCapsuleComp->SetMoveSpeed(-GetTransform()->GetLocalForwardVector() * 100);
 			if (true == EnemyRenderer->IsAnimationEnd())
@@ -198,11 +204,7 @@ void EnemyMage::SetFSMFUNC()
 				//	SetNextState(EnemyMageState::MOVE);
 				//	return;
 				//}
-				if (true == CheckHit())
-				{
-					SetNextState(EnemyMageState::HIT);
-					return;
-				}
+				
 				SetNextState(EnemyMageState::MOVE);
 			}
 		},
@@ -276,7 +278,11 @@ void EnemyMage::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			CheckHit();
+			if (true == CheckHit())
+			{
+				SetNextState(EnemyMageState::HIT,true);
+				return;
+			}
 			m_pCapsuleComp->SetMoveSpeed(-GetTransform()->GetLocalForwardVector() * 100);
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
@@ -353,7 +359,7 @@ void EnemyMage::SetFSMFUNC()
 		[this](float Delta)
 		{
 			//EnemyRenderer 죽는 쉐이더 추가해야함
-			if (GetStateDuration()<1.f)
+			if (GetStateDuration() < 1.f)
 			{
 				EnemyRenderer->FadeOut(1.f, Delta);
 			}

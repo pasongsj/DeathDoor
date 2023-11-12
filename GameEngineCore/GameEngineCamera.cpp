@@ -10,6 +10,7 @@
 #include "GameEnginePixelShader.h"
 #include "GameEngineFBXRenderer.h"
 #include "GameEngineLight.h"
+#include "GameEngineLevel.h"
 
 GameEngineCamera::GameEngineCamera()
 {
@@ -531,7 +532,7 @@ void GameEngineCamera::SetViewToReflectMatrix(float _WaterHeight)
 	ViewSave = View;
 	TransformSave = GetTransform()->GetTransDataRef();
 	
-	GetTransform()->SetWorldRotation({ -GetTransform()->GetWorldRotation().x, 0.0f, 0.0f});
+	GetTransform()->SetWorldRotation({ -GetTransform()->GetWorldRotation().x, GetTransform()->GetWorldRotation().y, GetTransform()->GetWorldRotation().z });
 	GetTransform()->SetWorldPosition({ GetTransform()->GetWorldPosition().x, -GetTransform()->GetWorldPosition().y + 2.0f * _WaterHeight, GetTransform()->GetWorldPosition().z });
 
 	float4 EyeDir = GetTransform()->GetLocalForwardVector();

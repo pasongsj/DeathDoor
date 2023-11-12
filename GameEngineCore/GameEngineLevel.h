@@ -180,7 +180,7 @@ protected:
 	}
 
 private:
-	float WaterHeight = 0.0f;
+	float WaterHeight = -9999.0f;
 
 	static bool IsDebugRender;
 	int LevelType = -1;

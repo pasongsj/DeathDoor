@@ -6,7 +6,11 @@
 #include "FireObject.h"
 #include "SkillSlot.h"
 
-#include "HitEffect.h"
+#include "DustParticle.h"
+#include "WaterBox.h"
+#include "WaterDrop.h"
+
+#include "SecretTile.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
 
@@ -22,13 +26,17 @@ void MyTest::Start()
 {
 	CreateKey();
 
+	std::shared_ptr<WaterDrop> Drop = CreateComponent<WaterDrop>();
+	Drop->GetTransform()->SetWorldScale({ 10.0f, 10.0f, 10.0f });
+	Drop->SetParabola({ 0.1f, 1.0f, 0.0f }, 1.0f, 50.0f);
 }
 
 void MyTest::Update(float _Delta)
 {
 	if (GameEngineInput::IsDown("MyTest") == true)
 	{
-		GetLevel()->CreateActor<HitEffect>();
+		std::shared_ptr<SecretTile> Eff4 = GetLevel()->CreateActor<SecretTile>();
+		Eff4->GetTransform()->SetWorldPosition({ 100.0f, 100.0f, 100.0f });
 	}
 }
 

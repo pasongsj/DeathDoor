@@ -30,7 +30,7 @@ void Player::InitInputKey()
 		GameEngineInput::CreateKey("E", 'E');
 	}
 
-	CameraRot = GetLevel()->GetMainCamera()->GetTransform()->GetWorldRotation();
+	//CameraRot = GetLevel()->GetMainCamera()->GetTransform()->GetWorldRotation();
 }
 
 
@@ -83,7 +83,7 @@ void Player::InitPlayerAnimation()
 	Renderer->CreateFBXAnimation("CHARGE_MAX_R", "PLAYER_CHARGE_MAX_R.FBX", { 0.01f,true });
 
 	//interaction
-	Renderer->CreateFBXAnimation("PUSH_LEVER", "PLAYER_PUSH_LEVER.FBX", { 0.01f,false });
+	Renderer->CreateFBXAnimation("PUSH_LEVER", "PLAYER_PUSH_LEVER.FBX", { 1.0f/30,false });
 	Renderer->CreateFBXAnimation("GETITEM", "PLAYER_GETITEM.FBX", { 0.01f,false }); // 체크필요
 
 	// Dead

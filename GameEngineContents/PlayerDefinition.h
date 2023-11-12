@@ -12,7 +12,7 @@
 
 #define PLAYER_DEFAULT_DIR		float4::BACK
 
-#define PLAYER_ATT_MOVE_SPEED	600.0f
+#define PLAYER_ATT_MOVE_SPEED	300.0f
 
 #define PLAYER_BOW_DEFAULT_DIR	float4{0.0f ,-90.0f, 0.0f}
 #define PLAYER_BOW_SCALE		float4{250.0f,500.0f,250.0f }

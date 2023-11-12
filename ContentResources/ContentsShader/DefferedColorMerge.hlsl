@@ -29,11 +29,6 @@ float4 Merge_PS(OutPut _Value) : SV_Target1
 {
     float4 Color = DiffuseTex.Sample(WRAPSAMPLER, _Value.UV.xy);
     float GrayScale = (Color.r + Color.g + Color.b) / 3.0f;
-    
-    if(GrayScale < 0.1f)
-    {
-        clip(-1);
-    }
-    
+
     return Color;
 }

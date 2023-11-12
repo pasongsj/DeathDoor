@@ -11,25 +11,22 @@ EnemyGhoulBig::~EnemyGhoulBig()
 }
 
 
-//ArrowScale = floa
-////ArrowRot = float4
-//ArrowPhysXScale =
 
-void EnemyGhoulBig::ShootArrow()
+
+void EnemyGhoulBig::CreateArrow()
 {
-	// 본 위치 가져오기
-	std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
-	BonePivot->GetTransform()->SetParent(GetTransform());
+	ArrowActor = GetLevel()->CreateActor<EnemyAttackCapsule>();
+	ArrowActor->SetRender(ArrowScale, ArrowRot);
+	ArrowActor->SetPhysXComp(ArrowPhysXScale, float4::DOWN * 100.0f, float4::LEFT);
+
 	BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("Bow").Pos);
 	float4 BonePivotPos = BonePivot->GetTransform()->GetWorldPosition();
 
 	ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_GHOUL);
-	std::shared_ptr<EnemyAttackCapsule> Attack = GetLevel()->CreateActor<EnemyAttackCapsule>();
-	Attack->SetRender(ArrowScale, ArrowRot);
-	Attack->SetPhysXComp(ArrowPhysXScale, float4::DOWN * 100.0f, float4::LEFT);
-	Attack->SetTrans(ShootDir, BonePivotPos);// 위치와 방향설정
-	Attack->SetShoot(1000.0f);
-	BonePivot->Death();
+	if (nullptr != ArrowActor)
+	{
+		ArrowActor->SetTrans(ShootDir, BonePivotPos);// 위치와 방향설정
+	}
 }
 
 void EnemyGhoulBig::InitAnimation()
@@ -38,9 +35,34 @@ void EnemyGhoulBig::InitAnimation()
 
 	EnemyRenderer->SetFBXMesh("_E_GHOUL_RAPID_MESH.FBX", "ContentAniMeshDeffered");
 	EnemyRenderer->CreateFBXAnimation("SHOOT_BOW", "_E_GHOUL_SHOOT_BOW_RAPID.fbx", { 1.f / 30.f,false });
-	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 36, std::bind(&EnemyGhoulBig::ShootArrow, this));
-	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 74, std::bind(&EnemyGhoulBig::ShootArrow, this));
-	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 112, std::bind(&EnemyGhoulBig::ShootArrow, this));
+			
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 37, std::bind(&EnemyGhoulBig::CreateArrow, this));
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 75, std::bind(&EnemyGhoulBig::CreateArrow, this));
+		
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 36, [this]
+		{
+			if (nullptr != ArrowActor)
+			{
+				ArrowActor->SetShoot(1000.0f);
+			}
+			ArrowActor = nullptr;
+		});
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 74, [this]
+		{
+			if (nullptr != ArrowActor)
+			{
+				ArrowActor->SetShoot(1000.0f);
+			}
+			ArrowActor = nullptr;
+		});
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 102, [this]
+		{
+			if (nullptr != ArrowActor)
+			{
+				ArrowActor->SetShoot(1000.0f);
+			}
+			ArrowActor = nullptr;
+		});
 
 	EnemyRenderer->CreateFBXAnimation("IDLE_BOW", "_E_GHOUL_IDLE_BOW.fbx", { 1.f / 30.f,true });
 
@@ -67,6 +89,7 @@ void EnemyGhoulBig::Start()
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
 
 	}
+	BonePivot = CreateComponent<GameEngineComponent>();
 	SetEnemyHP(GhoulFullHP);
 }
 
@@ -81,6 +104,8 @@ void EnemyGhoulBig::Update(float _DeltaTime)
 	{
 		SetNextState(EnemyGhoulBigState::DEATH);
 	}
+
+	EnemyBase::Update(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
 }
 
@@ -173,10 +198,18 @@ void EnemyGhoulBig::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("SHOOT_BOW");
+			CreateArrow();
 		},
 		[this](float Delta)
 		{
-			AggroDir(m_pCapsuleComp, DEFAULT_DIR_GHOUL);
+			BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("Bow").Pos);
+			float4 BonePivotPos = BonePivot->GetTransform()->GetWorldPosition();
+
+			ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_GHOUL);
+			if (nullptr != ArrowActor)
+			{
+				ArrowActor->SetTrans(ShootDir, BonePivotPos);// 위치와 방향설정
+			}
 			if (true == CheckHit())
 			{
 				SetNextState(EnemyGhoulBigState::HIT);
@@ -190,6 +223,11 @@ void EnemyGhoulBig::SetFSMFUNC()
 		},
 		[this]
 		{
+			if (nullptr != ArrowActor)
+			{
+				ArrowActor->Death();
+				ArrowActor = nullptr;
+			}
 		}
 	);
 
@@ -201,6 +239,11 @@ void EnemyGhoulBig::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if (true == CheckHit())
+			{
+				SetNextState(EnemyGhoulBigState::HIT);
+				return;
+			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(EnemyGhoulBigState::IDLE);
@@ -221,7 +264,11 @@ void EnemyGhoulBig::SetFSMFUNC()
 		{
 			float4 f4Result = float4::LerpClamp(float4(0.f, 0.f, 0.f), float4(-90.f, 0.f, 0.f), GetStateDuration());
 			EnemyRenderer->GetTransform()->SetLocalRotation(f4Result);
-			if (GetStateDuration() >= 1.f)
+			if (GetStateDuration() < 1.f)
+			{
+				EnemyRenderer->FadeOut(1.f, Delta);
+			}
+			else
 			{
 				Death();
 			}

@@ -24,6 +24,15 @@ void EnemyBase::Start()
 
 void EnemyBase::Update(float _DetltaTime)
 {
+	if (true == m_bEffect)
+	{
+		EnemyRenderer->FadeIn(1.0f, _DetltaTime);
+	}
+	if (GetTransform()->GetWorldPosition().y < -300.0f)
+	{
+		Death();
+		return;
+	}
 }
 
 bool EnemyBase::InRangePlayer(float _Range)
@@ -77,7 +86,7 @@ float4 EnemyBase::AggroDir(std::shared_ptr< PhysXControllerComponent> _Comp, flo
 
 bool EnemyBase::CheckHit()
 {
-	if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))// 플레이어로부터 공격을 받는다면 
+	if (true == CheckCollision(PhysXFilterGroup::PlayerSkill) || true == CheckCollision(PhysXFilterGroup::PlayerBomb))// 플레이어로부터 공격을 받는다면 
 	{
 		--m_iEnemyHP;
 		float Crack = static_cast<float>(m_TotalHP-m_iEnemyHP) / m_TotalHP; // 몬스터에 크랙쉐이더 적용 0~1값
@@ -102,4 +111,10 @@ bool EnemyBase::DeathCheck()
 		return true;
 	}
 	return false;
+}
+
+void EnemyBase::CreateFadeEffect()
+{
+	m_bEffect = true;
+	EnemyRenderer->FadeOut(0.01f, 0.01f);
 }

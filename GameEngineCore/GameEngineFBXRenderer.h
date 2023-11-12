@@ -110,9 +110,9 @@ public:
 	GameEngineFBXRenderer& operator=(const GameEngineFBXRenderer& _Other) = delete;
 	GameEngineFBXRenderer& operator=(GameEngineFBXRenderer&& _Other) noexcept = delete;
 
-	virtual void SetFBXMesh(const std::string& _Name, std::string _Material);
-	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex);
-	virtual std::shared_ptr<GameEngineRenderUnit> SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex);
+	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, RenderPath _Path = RenderPath::None);
+	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, RenderPath _Path = RenderPath::None);
+	virtual std::shared_ptr<GameEngineRenderUnit> SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex, RenderPath _Path = RenderPath::None);
 
 	void SetAnimationStartFunc(const std::string_view& _Name, UINT _Index, std::function<void()> _Func);
 
@@ -145,6 +145,11 @@ public:
 	{
 		return Unit;
 	}
+	
+	std::shared_ptr<GameEngineRenderUnit> GetIndexRenderUnit(int first, int second)
+	{
+		return Unit[first][second];
+	}
 
 	void Update(float _DeltaTime) override;
 
@@ -159,7 +164,7 @@ public:
 		Pause = false;
 	}
 
-	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false, float _BlendTime = -1.0f);
+	void ChangeAnimation(const std::string& _AnimationName, bool _Force = false,int _StartFrame = -1, float _BlendTime = -1.0f);
 
 	AnimationBoneData GetBoneData(std::string _Name);
 

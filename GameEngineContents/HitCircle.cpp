@@ -12,14 +12,14 @@ HitCircle::~HitCircle()
 void HitCircle::Start()
 {
 	ParticleBase::Start();
- 
+
 	Unit = CreateRenderUnit();
 	Unit->SetMesh("Rect");
-	Unit->SetMaterial("HitCircle");
+	Unit->SetMaterial("HitCircle", RenderPath::Alpha);
 
 	Unit->ShaderResHelper.SetTexture("DiffuseTexture", "HitCircle.png");
 
-	GetTransform()->SetLocalScale({2.0f, 2.0f });
+	GetTransform()->SetLocalScale({2.0f, 2.0f, 2.0f });
 }
 
 void HitCircle::Update(float _Delta)

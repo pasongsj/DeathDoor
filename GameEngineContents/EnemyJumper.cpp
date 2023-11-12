@@ -1,6 +1,8 @@
 #include "PreCompileHeader.h"
 #include "EnemyJumper.h"
 #include "Boomerang.h"
+#include "EnemyAttackBox.h"
+#include "Player.h"
 
 EnemyJumper::EnemyJumper()
 {
@@ -69,6 +71,9 @@ void EnemyJumper::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("JUMP", 50, [this]
 		{
 			JumpDir = float4::ZERO;
+			JumpAttack = GetLevel()->CreateActor<EnemyAttackBox>();
+			JumpAttack->SetScale(float4{ 120.0f,10.0f,120.0f });
+			JumpAttack->SetTrans(GetTransform()->GetWorldRotation(), GetTransform()->GetWorldPosition());
 		});
 
 	EnemyRenderer->CreateFBXAnimation("INTERRUPT", "JUMPER_INTERRUPT.fbx", { 1.0f / 30,false });
@@ -90,6 +95,10 @@ void EnemyJumper::Start()
 		m_pCapsuleComp->SetPhysxMaterial(1.f, 1.f, 0.f);
 		m_pCapsuleComp->CreatePhysXActors(PHYSXSCALE_JUMPER);
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+		if (nullptr != Player::MainPlayer)
+		{
+			m_pCapsuleComp->SetFilter(*Player::MainPlayer->GetPhysXComponent()->GetController());
+		}
 	}
 	SetEnemyHP(JumperFullHP);
 }
@@ -371,6 +380,7 @@ void EnemyJumper::SetFSMFUNC()
 		{
 			AggroDir(m_pCapsuleComp, DEFAULT_DIR_JUMPER);
 			EnemyRenderer->ChangeAnimation("JUMP");
+			m_pCapsuleComp->RigidSwitch(false);
 		},
 		[this](float Delta)
 		{
@@ -398,6 +408,13 @@ void EnemyJumper::SetFSMFUNC()
 			JumpDir = float4::ZERO;
 			throw_jump = true;
 			IdleDelayTime = 0.5f;
+			if (nullptr != JumpAttack)
+			{
+				JumpAttack->Death();
+			}
+			JumpAttack = nullptr;
+			m_pCapsuleComp->RigidSwitch(true);
+
 		}
 	);
 	//INTERRUPT
@@ -409,11 +426,11 @@ void EnemyJumper::SetFSMFUNC()
 		[this](float Delta)
 		{
 			CheckBoomerang();
-			//if (true == CheckHit())
-			//{
-			//	SetNextState(EnemyJumperState::HIT,true);
-			//	return;
-			//}
+			if (true == CheckHit())
+			{
+				SetNextState(EnemyJumperState::HIT,true);
+				return;
+			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
 				SetNextState(EnemyJumperState::IDLE);
@@ -428,12 +445,22 @@ void EnemyJumper::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("DROWN");
+			EnemyRenderer->GetTransform()->AddLocalPosition(float4(0, 1, 0));
+			if (nullptr != Boomer)
+			{
+				Boomer->Death();
+				Boomer = nullptr;
+			}
 		},
 		[this](float Delta)
 		{
-			float4 f4Result = float4::LerpClamp(float4(0.f, 0.f, 0.f), float4(-90.f, 0.f, 0.f), GetStateDuration());
+			float4 f4Result = float4::LerpClamp(float4(90.f, 0.f, 0.f), float4(0.f, 0.f, 0.f), GetStateDuration());
 			EnemyRenderer->GetTransform()->SetLocalRotation(f4Result);
-			if (GetStateDuration() >= 1.f)
+			if (GetStateDuration() < 1.f)
+			{
+				EnemyRenderer->FadeOut(1.f, Delta);
+			}
+			else
 			{
 				Death();
 			}
@@ -442,7 +469,6 @@ void EnemyJumper::SetFSMFUNC()
 		{
 		}
 	);
-
 
 }
 
@@ -459,6 +485,8 @@ void EnemyJumper::Update(float _DeltaTime)
 	{
 		SetNextState(EnemyJumperState::DEATH);
 	}
+
+	EnemyBase::Update(_DeltaTime);
 	FSMObjectBase::Update(_DeltaTime);
 }
 

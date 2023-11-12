@@ -32,15 +32,26 @@ protected:
 
 
 private:
+	void Create_Light();
+	void Create_Map();
+	void Create_Player();
+	void Create_WaterBox();
+
 	const float4 m_CameraPos = float4{ 0, 1500 , -1250 };
 	const float4 m_CameraRot = float4{ 55 , 0 , 0 };
 
 	void Set_PlayerStartPos();
-	const float4 m_StartPos = float4{ 0, 3, 0 };
+	const float4 m_StartPos = float4{ 0, 0, 0 };
+
+	// const float4 m_WavePos = float4 { -12000, 306, 10800 };
+	// const float4 m_StartPos = float4{ -3933, -6, 6601  };
 
 	std::shared_ptr<class Map_Fortress> m_pMap = nullptr;
 
 	void Create_Manager();
+	
+	void Create_FieldEnemy();
+	void Create_FieldObject();
 
 	std::shared_ptr<class CullingManager> m_pCullingManager = nullptr;
 };

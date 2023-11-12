@@ -15,11 +15,10 @@ void DustParticle::Start()
 	ParticleBase::Start();
 
 	GetUnit()->SetMesh("Rect");
-	GetUnit()->SetMaterial("DustParticle");
+	GetUnit()->SetMaterial("DustParticle", RenderPath::Alpha);
 
 	//GetUnit()->ShaderResHelper.SetTexture("DiffuseTexture", "DustParticleNoise.png");
-	GetUnit()->ShaderResHelper.SetTexture("NoiseTexture1", "ParticleNoise1.png");
-	GetUnit()->ShaderResHelper.SetTexture("NoiseTexture2", "ParticleNoise2.png");
+	GetUnit()->ShaderResHelper.SetTexture("NoiseTexture1", "ParticleNoise.png");
 	GetUnit()->ShaderResHelper.SetTexture("AlphaTexture", "ParticleAlpha.png");
 
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("MaskValue", MaskValue);
@@ -27,37 +26,42 @@ void DustParticle::Start()
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("DiffuseUV", DiffuseUV);
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("BlurColor", BlurColor);
 
-	float Distortion1 = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.5f);
-	float Distortion2 = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.5f);
+	float Distortion1 = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.4f);
+	float Distortion2 = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.4f);
 
-	float DistortionScale = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.5f);
-	float DistortionBias = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.5f);
+	float DistortionScale = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.4f);
+	float DistortionBias = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.4f);
 
 	Distortion.Distortion = float4{ Distortion1 ,Distortion1 ,Distortion2, Distortion2 };
 
 	Distortion.DistortionScale = DistortionScale;
 	Distortion.DistortionBias = DistortionBias;
 
-	GetTransform()->SetLocalScale({ 5.0f, 5.0f, 1.0f });
+	float DirX = GameEngineRandom::MainRandom.RandomFloat(0.1f, 1.0f);
+	float DirY = GameEngineRandom::MainRandom.RandomFloat(0.1f, 1.0f);
 
-	SetAngle({ 55.0f, 0.0f, 0.0f });
+	Dir = { DirX, DirY };
+	Dir.Normalize();
+	SetBillBoardingType(BillBoardingType::XBillBoarding);
+
+	GetTransform()->SetLocalScale({ 5.0f, 5.0f, 1.0f });
 	
 	SetColor();
-
-	//float DiffuseUVX = GameEngineRandom::MainRandom.RandomFloat(0.0f, 1.0f);
-	//float DiffuseUVY = GameEngineRandom::MainRandom.RandomFloat(0.0f, 1.0f);
-	//
-	//DiffuseUV.x += DiffuseUVX;
-	//DiffuseUV.y += DiffuseUVY;
-
 }
 
 void DustParticle::Update(float _Delta)
 {
+	DiffuseUV.x += Dir.x * _Delta;
+	DiffuseUV.y += Dir.y * _Delta;
+
 	BillBoarding();
+	
+	Move(_Delta);
 
-	FadeInAndOut(_Delta);
-
+	if (UpdateFunc != nullptr)
+	{
+		UpdateFunc(_Delta);
+	}
 }
 
 void DustParticle::Render(float _Delta)
@@ -80,12 +84,52 @@ void DustParticle::SetGlow(float4 _GlowColor)
 	BlurColor = _GlowColor;
 }
 
+void DustParticle::FadeLoop(float _Delta)
+{
+	LoopAngle += 540.0f * _Delta;
+	float LadLoopAngle = LoopAngle * GameEngineMath::DegToRad;
+
+	MaskValue.x = (sin(LadLoopAngle) / 4.0f) + 0.75f;
+	MaskValue.z = MaskValue.x;
+}
+
 
 void DustParticle::FadeInAndOut(float _Delta)
 {
 	if (MaskValue.x < 1.0f)
 	{
-		MaskValue.x += 1.5f * _Delta;
+		MaskValue.x += FadeSpeed * _Delta;
+		MaskValue.z = MaskValue.x;
+	}
+	else if(MaskValue.y > 0.0f)
+	{
+		MaskValue.y -= FadeSpeed * _Delta;
+		MaskValue.z = MaskValue.y;
+	}
+	else if (MaskValue.y <= 0.0f)
+	{
+		Death();
+	}
+}
+
+void DustParticle::FadeIn(float _Delta)
+{
+	if (MaskValue.x <= 1.0f)
+	{
+	MaskValue.x += FadeSpeed * _Delta;
+	MaskValue.z = MaskValue.y;
+	}
+	else
+	{
+		Death();
+	}
+}
+
+void DustParticle::FadeOut(float _Delta)
+{
+	if (MaskValue.x >= 0.0f)
+	{
+		MaskValue.x -= FadeSpeed * _Delta;
 		MaskValue.z = MaskValue.x;
 	}
 	else

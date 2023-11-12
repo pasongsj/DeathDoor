@@ -37,21 +37,14 @@ Output ContentMeshDeferred_VS(Input _Input)
     InputPos.w = 1.0f;
     
     float4 InputNormal = _Input.NORMAL;
-    InputNormal.w = 0.0f;
+    InputNormal.w = 0.0f;   
     
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
     NewOutPut.WVPPOSITION = NewOutPut.POSITION;
     
     NewOutPut.VIEWPOSITION = mul(InputPos, WorldView);
-    
-    float4 CameraPos = CamPos;
-    float4 WorldPos = mul(_Input.POSITION, WorldMatrix);
-    float4 CamDir = CameraPos - WorldPos;
-    CamDir = normalize(CamDir);
-    
-    NewOutPut.NORMAL = mul(CamDir, WorldView);
-    
+    NewOutPut.NORMAL = mul(InputNormal, WorldView);
     NewOutPut.BINORMAL = mul(float4(float3(0.0f, 0.0f, 1.0f), 0.0f), WorldView);
     NewOutPut.TANGENT = mul(float4(cross(NewOutPut.NORMAL.xyz, NewOutPut.BINORMAL.xyz), 0.0f), WorldView);
     
@@ -76,6 +69,14 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
     
     //UV°ª º¯°æ
+    float4 InputUV = _Input.TEXCOORD;
+    
+    float4 UV_1 = (float4) 0.0f;
+    float4 UV_2 = (float4) 0.0f;
+    
+    UV_1.xy = InputUV.xy * 2.0f + AddUV;
+    UV_2.xy = InputUV.xy - AddUV * 0.3f;
+    
     _Input.TEXCOORD.xy *= MulUV;
     _Input.TEXCOORD.xy += AddUV;
     
@@ -91,8 +92,8 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         clip(-1);
     }
     
-    float4 Normal = NormalTexCalculate(NormalMap, WRAPSAMPLER, _Input.TEXCOORD, normalize(_Input.TANGENT), normalize(_Input.BINORMAL), normalize(_Input.NORMAL));
-    float4 Normal2 = NormalTexCalculate(NormalMap, WRAPSAMPLER, _Input.TEXCOORD * 2.0f, normalize(_Input.TANGENT), normalize(_Input.BINORMAL), normalize(_Input.NORMAL));
+    float4 Normal = NormalTexCalculate(NormalMap, WRAPSAMPLER, UV_1, normalize(_Input.TANGENT), normalize(_Input.BINORMAL), normalize(_Input.NORMAL));
+    float4 Normal2 = NormalTexCalculate(NormalMap, WRAPSAMPLER, UV_2, normalize(_Input.TANGENT), normalize(_Input.BINORMAL), normalize(_Input.NORMAL));
     
     _Input.NORMAL = (Normal + Normal2) / 2.0f;
     

@@ -1,0 +1,33 @@
+Jumper
+
+Boomerang
+Jumper_GripBoomer.mp3
+->머리에서 쥐고
+
+Jumper_ThrowReady.mp3
+->던질준비 하고
+
+Jumper_Throw.mp3
+Jumper_Throw_Scream.mp3
+
+Jumper_Boomerang.mp3
+Jumper_Boomerang2.mp3
+Jumper_Boomerang3.mp3
+->랜덤 or 택1
+
+Jumper_BoomerangLoop.mp3
+
+
+Jump
+Jumper_Jump.mp3
+Jumper_Landing.mp3
+Jumper_LandingScream.mp3
+Jumper_GripBoomer.mp3
+
+
+TakeDamage
+Jumper_TakeDamage1.mp3
+Jumper_TakeDamage2.mp3
+
+Death
+Jumper_Death.mp3

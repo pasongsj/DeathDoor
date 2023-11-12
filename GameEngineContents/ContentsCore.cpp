@@ -18,7 +18,7 @@
 #include "StartLevel.h"
 #include "OfficeLevel.h"
 #include "FortressLevel.h"
-#include "FrogBossLevel.h"
+#include "BossFrogLevel.h"
 #include "UITestLevel.h"
 #include "BossTestLevel.h"
 #include "OldCrowLevel.h"
@@ -59,7 +59,7 @@ void ContentsCore::GameStart()
 	GameEngineCore::CreateLevel<MapTestLevel>();
 	GameEngineCore::CreateLevel<OfficeLevel>();
 	GameEngineCore::CreateLevel<FortressLevel>();
-	GameEngineCore::CreateLevel<FrogBossLevel>();
+	GameEngineCore::CreateLevel<BossFrogLevel>();
 	GameEngineCore::CreateLevel<OldCrowLevel>();
 	GameEngineCore::CreateLevel<PlayerTestLevel>();
 	GameEngineCore::CreateLevel<BossTestLevel>();
