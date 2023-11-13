@@ -139,6 +139,7 @@ public:
 	static void Load(const std::string_view& _Name, const std::string_view& _Path);
 
 	static GameEngineSoundPlayer Play(const std::string_view& _Name);
+	static GameEngineSoundPlayer Play(const std::vector<std::string>& PlayList);
 
 	static FMOD::ChannelGroup* ChannelGroup;
 

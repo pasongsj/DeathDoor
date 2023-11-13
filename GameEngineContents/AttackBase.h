@@ -104,6 +104,17 @@ protected:
 	}
 
 	PhysXFilterGroup DestTarget = PhysXFilterGroup::None;
+
+	void SetAttackAudio(const std::string_view& _Audio)
+	{
+		AttackAudio = _Audio.data();
+	}
+
+	std::string GetAttackAudio()
+	{
+		return AttackAudio;
+	}
+
 private:
 	bool isShoot = false;
 
@@ -111,6 +122,8 @@ private:
 	float FireTime = 0.0f;
 
 	float ShootSpeed = 1500.0f;
+
+	std::string AttackAudio = "";
 
 };
 
