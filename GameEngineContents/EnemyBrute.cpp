@@ -4,6 +4,8 @@
 #include "EnemyAttackBox.h"
 #include "PhysXControllerComponent.h"
 #include "PlayerAttackMagic.h"
+#include "Player.h"
+#include "Map_NaviMesh.h"
 
 EnemyBrute::EnemyBrute() 
 {
@@ -195,7 +197,7 @@ void EnemyBrute::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("WALK");
-			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
+			//m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 		},
 		[this](float Delta)
 		{
@@ -213,11 +215,6 @@ void EnemyBrute::SetFSMFUNC()
 				SetStateCheckerOn();
 				//StateChecker = true;
 			}
-			if (true == InRangePlayer(300.0f))
-			{
-				SetNextState(EnemyBruteState::SWING);
-				return;
-			}
 			if (GetStateDuration() > 5)
 			{
 				if (true == InRangePlayer(1500.0f))
@@ -228,13 +225,49 @@ void EnemyBrute::SetFSMFUNC()
 					return;
 				}
 			}
-			AggroMove(Delta);
 
 			if (false == InRangePlayer(2000.0f))
 			{
 				SetNextState(EnemyBruteState::IDLE);
 				return;
 			}
+
+			float4 f4Dir = GetPlayerDir();
+			if (Map_NaviMesh::NaviMesh != nullptr)
+			{
+
+				float4 f4Point = float4::ZERONULL;
+				float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
+				float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+				float PlayerDistance = PlayerPos.XYZDistance(f4MyPos);
+
+				UINT Dummy = -1;
+
+				//사이에 벽이 있음
+				if (true == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy))
+				{
+
+					float4 RoadDir = float4::ZERONULL;
+					RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, PlayerPos);
+					if (RoadDir != float4::ZERONULL)
+					{
+						f4Dir = RoadDir;
+					}
+					else
+					{
+						SetNextState(EnemyBruteState::IDLE);
+						return;
+					}
+				}
+				else if (false == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy)
+					&& true == InRangePlayer(300.0f))
+				{
+					SetNextState(EnemyBruteState::SWING);
+					return;
+				}
+			}
+
+			NaviMove(f4Dir, GRUNT_MOVE_SPEED, DEFAULT_DIR_BRUTE);
 		},
 		[this]
 		{
