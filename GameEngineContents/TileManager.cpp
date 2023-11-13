@@ -414,7 +414,7 @@ void TileManager::CreateWaterDropToWall()
 	std::shared_ptr<WaterDrop> Drop = CreateComponent<WaterDrop>();
 	Drop->GetTransform()->SetWorldScale({ 20, 20, 20 });
 
-	float Num = GameEngineRandom::MainRandom.RandomFloat(1, -2000);
+	float Num = GameEngineRandom::MainRandom.RandomFloat(-2000, 1);
 
 	float4 Dir = float4{ -550, 100, -1050 } - float4{ -1800, 500, 200 };
 	Dir.Normalize();
