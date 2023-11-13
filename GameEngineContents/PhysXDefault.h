@@ -170,12 +170,20 @@ public:
 	//대상 위치, 쏘는 방향, 차이를 받을 버퍼, 최대사거리
 	bool RayCast(const float4& _vOrigin, const float4& _vDir, OUT float4& _vPoint, float _fDistance = 1000.f)
 	{
+		if (_fDistance <= 0.f)
+		{
+			return false;
+		}
 		return PhysXManager::GetInst()->RayCast(_vOrigin, _vDir, _vPoint, _fDistance);
 	}
 
 	//대상 위치, 쏘는 방향, 차이를 받을 버퍼, 최대사거리,네비메쉬인덱스
 	bool TriRayCast(const float4& _vOrigin, const float4& _vDir, OUT float4& _vPoint, float _fDistance, OUT UINT& _FaceIndex)
 	{
+		if (_fDistance <= 0.f)
+		{
+			return false;
+		}
 		return PhysXManager::GetInst()->TriRayCast(_vOrigin, _vDir, _vPoint, _fDistance,_FaceIndex);
 	}
 

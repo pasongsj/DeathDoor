@@ -53,6 +53,7 @@ void CullingTrigger::InitComponent()
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::CullingTrigger);
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 	m_pPhysXComponent->SetTrigger();
+	m_pPhysXComponent->SetRayCastDetect(false);
 }
 
 
