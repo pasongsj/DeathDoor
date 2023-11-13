@@ -262,6 +262,11 @@ void Player::CheckFalling()
 }
 void Player::CheckState(float _DeltaTime)
 {
+	if (PlayerHP <= 0)
+	{
+		SetNextState(PlayerState::DEAD);
+		return;
+	}
 	StateInputDelayTime -= _DeltaTime;
 	if (StateInputDelayTime > 0.0f)
 	{

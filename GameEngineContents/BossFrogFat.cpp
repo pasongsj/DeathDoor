@@ -8,7 +8,7 @@
 #include "PhysXBoxComponent.h"
 #include "Particle3D.h"
 #include "WaterDrop.h"
-#include "BossFrogSoul.h"
+//#include "BossFrogSoul.h"
 
 BossFrogFat::BossFrogFat()
 {
@@ -572,16 +572,16 @@ void BossFrogFat::SetFSMFUNC()
 			FrogPos.y += 50.0f;
 
 
-			std::shared_ptr<GameEngineActor> Soul= GetLevel()->CreateActor<BossFrogSoul>();
+			//std::shared_ptr<GameEngineActor> Soul= GetLevel()->CreateActor<BossFrogSoul>();
 			if (true == m_pCapsuleComp->RayCast(FrogPos, float4::DOWN, CollPoint, 2000.0f)) // 플레이어 위치에서 float4::DOWN 방향으로 2000.0f 길이만큼 체크한다.
 			{
 				EnemyRenderer->ChangeAnimation("DIE");
-				Soul->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f , 800.0f, 0.0f });
+				//Soul->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f , 800.0f, 0.0f });
 			}
 			else
 			{
 				EnemyRenderer->ChangeAnimation("DIE_STAND");
-				Soul->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f , 1000.0f, 0.0f });
+				//Soul->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f , 1000.0f, 0.0f });
 			}
 		},
 		[this](float Delta)

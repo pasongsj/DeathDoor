@@ -176,5 +176,9 @@ private:
 	void SpawnPosUpdate(float _DeltaTime);
 
 	void CameraUpdate(float _DeltaTime);
+
+	// sound
+
+	GameEngineSoundPlayer StateSound = nullptr;
 };
 

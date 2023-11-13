@@ -26,12 +26,15 @@ void PlayerAttackArrow::Start()
 
 	AttackRenderer->SetGlowToUnit(0, 0);
 	AttackRenderer->SetColor({ 0.95f, 0.20f, 0.25f }, 2.0f);
+
+	SetAttackAudio("ArrowHit.mp3");
 }
 
 void PlayerAttackArrow::Update(float _DeltaTime)
 {
 	if (true == CheckCollision(PhysXFilterGroup::Obstacle))
 	{
+		GameEngineSound::Play("ArrowHit.mp3");
 		Death();
 		return;
 	}
