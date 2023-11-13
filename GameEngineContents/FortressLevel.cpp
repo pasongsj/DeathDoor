@@ -151,7 +151,7 @@ void FortressLevel::Create_WaterBox()
 	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
 
 	Box->SetWaterPosition({ -5000, -120 ,4500 });
-	Box->GetTransform()->SetLocalScale({ 60000 , 1 , 20000 });
+	Box->GetTransform()->SetLocalScale({ 50000 , 1 , 20000 });
 	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });
 
 	/*Box->SetWaterPosition({ -5000, -120 ,4500 });
