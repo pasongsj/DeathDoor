@@ -508,7 +508,17 @@ void ContentsCore::ContentsResourcesCreate()
 		}
 	}
 
-
+	// SOUND LOAD
+	{
+		GameEngineDirectory NewDir;
+		NewDir.MoveParentToDirectory("ContentResources");
+		NewDir.Move("ContentResources\\Sound\\AudioSub");
+		std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".mp3" });
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineSound::Load(Files[i].GetFullPath());
+		}
+	}
 
 	//{
 	//	GameEngineDirectory NewDir;

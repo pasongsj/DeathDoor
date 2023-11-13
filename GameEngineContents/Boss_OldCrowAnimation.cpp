@@ -16,6 +16,12 @@ void Boss_OldCrow::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("Dash", 3, [this]
 		{
 			CurrentSpeed = BOSS_OLDCROW_DASHSPEED;
+			GameEngineSound::Play("OldCrow_Walk.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("Dash", 5, [this]
+		{
+			CurrentSpeed = BOSS_OLDCROW_DASHSPEED;
+			GameEngineSound::Play("OldCrow_Walk2.mp3");
 		});
 	EnemyRenderer->SetAnimationStartFunc("Dash", 17, [this]
 		{
@@ -42,7 +48,7 @@ void Boss_OldCrow::InitAnimation()
 		{
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent<GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
-			BonePivot->GetTransform()->SetLocalPosition(float4{ 0, 10, 2 });
+			BonePivot->GetTransform()->SetLocalPosition(float4{ 0, 14, 0.5 });
 
 			float Value = 5.0f;
 
@@ -53,6 +59,7 @@ void Boss_OldCrow::InitAnimation()
 			std::shared_ptr<Boss_OldCrowEgg> CrowEgg = GetLevel()->CreateActor<Boss_OldCrowEgg>();
 			CrowEgg->SetCrowEgg(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation(), BonePivot->GetTransform()->GetWorldPosition() - GetTransform()->GetWorldPosition());
 
+			GameEngineSound::Play("OldCrow_Landing.mp3");
 		});
 
 	EnemyRenderer->CreateFBXAnimation("Scream", "OldCrow_Scream_Anim.FBX", { 0.033f, false });
