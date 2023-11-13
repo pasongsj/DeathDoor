@@ -35,6 +35,7 @@ void PlayerAttackBomb::Death()
 	std::weak_ptr<GrayScaleEffect> Effect = GetLevel()->GetLastTarget()->CreateEffect<GrayScaleEffect>();
 	GameEngineLevel* Level = GetLevel();
 	Level->TimeEvent.AddEvent(0.2f, [Level, Effect](GameEngineTimeEvent::TimeEvent&, GameEngineTimeEvent*) {Level->GetLastTarget()->ReleaseEffect(Effect.lock()); });
+	GameEngineSound::Play("BombExplosion.mp3");
 
 	//GameEngineObjectBase::Death();
 }

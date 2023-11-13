@@ -2,6 +2,7 @@
 #include "GameEngineSound.h"
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineString.h>
+#include <GameEngineBase/GameEngineRandom.h>
 
 // 다른 lib나 dll을 사용하기 위한 전처리문을 여기 넣을것입니다.
 // #pragma comment(lib, "GameEngineBase.lib");
@@ -162,6 +163,18 @@ GameEngineSoundPlayer GameEngineSound::Play(const std::string_view& _Name)
 	Channel->setLoopCount(0);
 	return Channel;
 }
+
+GameEngineSoundPlayer GameEngineSound::Play(const std::vector<std::string>& PlayList)
+{
+	if (true == PlayList.empty())
+	{
+		MsgAssert("플레이 리스트가 존재하지 않습니다.");
+		return nullptr;
+	}
+	int index = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(PlayList.size()-1));
+	return Play(PlayList[index]);
+}
+
 
 void GameEngineSound::SoundLoad(const std::string_view& _Path)
 {
