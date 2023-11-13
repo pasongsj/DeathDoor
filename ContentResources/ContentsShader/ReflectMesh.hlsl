@@ -45,10 +45,6 @@ Output ContentMeshDeferred_VS(Input _Input)
     float4 InputPos = _Input.POSITION;
     InputPos.w = 1.0f;
     
-    float Mul = InputPos.y * 0.7f;
-    InputPos.y = Mul;
-    InputPos.y += Mul * 0.5f;
-    
     float4 InputNormal = _Input.NORMAL;
     InputNormal.w = 0.0f;
     
