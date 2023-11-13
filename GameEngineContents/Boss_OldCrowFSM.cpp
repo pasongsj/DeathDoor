@@ -84,6 +84,8 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("TurnLeft");
 
+			PlayRandomTurnSound();
+
 			IsTurn = false;
 		},
 		[this](float Delta)
@@ -170,7 +172,7 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			ChainsPivots[0]->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
 			ChainsPivots[0]->GetTransform()->SetWorldRotation(GetTransform()->GetWorldRotation());
-			
+
 			Chains[0]->OnChainEffect();
 
 			CurrentChainSpeed = BOSS_OLDCROW_CHAINSPEED;
@@ -223,6 +225,8 @@ void Boss_OldCrow::SetFSMFUNC()
 			m_pCapsuleComp->RigidSwitch(false);
 
 			StateCalTime = 0.0f;
+
+			GameEngineSound::Play("OldCrow_SonicBoom2.mp3");
 		},
 		[this](float Delta)
 		{
@@ -271,6 +275,7 @@ void Boss_OldCrow::SetFSMFUNC()
 			MegaDash2PatternNumber = GameEngineRandom::MainRandom.RandomInt(0, 1);
 			//MegaDash2PatternNumber = 0;
 
+
 			switch (MegaDash2PatternNumber)
 			{
 			case 0:
@@ -290,7 +295,8 @@ void Boss_OldCrow::SetFSMFUNC()
 			}
 
 			Chains[MegaDash2PatternCount]->OnChainEffect();
-			
+
+
 			CurrentChainSpeed = BOSS_OLDCROW_CHAINSPEED;
 
 			StateCalTime = 0.0f; 
@@ -372,6 +378,8 @@ void Boss_OldCrow::SetFSMFUNC()
 
 			m_pCapsuleComp->RigidSwitch(false);
 
+			GameEngineSound::Play("OldCrow_SonicBoom2.mp3");
+
 			StateCalTime = 0.0f;
 		},
 		[this](float Delta)
@@ -414,6 +422,7 @@ void Boss_OldCrow::SetFSMFUNC()
 						break;
 					}
 
+					GameEngineSound::Play("OldCrow_SonicBoom2.mp3");
 					ChainsPivots[MegaDash2PatternCount]->GetTransform()->SetParent(GetTransform());
 				}
 			}
@@ -457,6 +466,8 @@ void Boss_OldCrow::SetFSMFUNC()
 			{
 				CreateFeatherParticle();
 			}
+
+			GameEngineSound::Play("OldCrow_SonicBoom1.mp3");
 		},
 		[this](float Delta)
 		{
@@ -549,6 +560,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("SlamImpact");
+			GameEngineSound::Play("OldCrow_Landing.mp3");
 
 			for (int i = 0; i < 15; i++)
 			{
@@ -577,7 +589,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("Egg");
-
+			GameEngineSound::Play("OldCrow_EggScream.mp3");
 			StateCalTime = 0.0f;
 		},
 		[this](float Delta)
@@ -608,6 +620,7 @@ void Boss_OldCrow::SetFSMFUNC()
 			StateCalFloat = GameEngineRandom::MainRandom.RandomFloat(0, 35);
 			StateCalFloat *= 10.0f;
 
+			GameEngineSound::Play("OldCrow_Scream.mp3");
 		},
 		[this](float Delta)
 		{
@@ -657,6 +670,8 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("DeathInRunning");
 
+			GameEngineSound::Play("OldCrow_Death.mp3");
+
 			StateCalTime = 0.0f;
 			StateCalFloat = 500.0f;
 		},
@@ -699,6 +714,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("DeathInUpright");
 
+			GameEngineSound::Play("OldCrow_Death.mp3");
 		},
 		[this](float Delta)
 		{

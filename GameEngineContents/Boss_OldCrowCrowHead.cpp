@@ -9,6 +9,7 @@
 #include "DustParticle.h"
 #include "ContentLevel.h"
 
+
 Boss_OldCrowCrowHead::Boss_OldCrowCrowHead() 
 {
 }
@@ -114,6 +115,7 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 
 		m_pSphereComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_CROWHEADPARRYINGSPEED);
 
+
 		ParryingTime += _DeltaTime;	
 	}
 
@@ -168,6 +170,9 @@ void Boss_OldCrowCrowHead::ParryingCheck() //패링 여부
 		Renderer->SetColor({ 0.99f, 0.1f, 0.2f, 1.0f });
 		Renderer->SetGlowToUnit(0, 0);
 		//m_pSphereComp->SetTrigger();
+
+		GameEngineSound::Play("OldCrow_CrowHeadParrying.mp3");
+
 	}
 }
 

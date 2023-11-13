@@ -1,6 +1,7 @@
 #include "PreCompileHeader.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 
 #include "PhysXCapsuleComponent.h"
 #include "PhysXControllerComponent.h"
@@ -22,7 +23,7 @@ Boss_OldCrow::Boss_OldCrow()
 
 Boss_OldCrow::~Boss_OldCrow() 
 {
-
+	MainBGM.Stop();
 }
 
 void Boss_OldCrow::Start()
@@ -52,11 +53,13 @@ void Boss_OldCrow::Start()
 
 	float4 Scale = EnemyRenderer->GetMeshScale();
 
-	SetEnemyHP(BOSS_OLDCROW_HP);
+	SetEnemyHP(BOSS_OLDCROW_HP / 2);
 	IsDeath = false;
 
 	ChainsInit();
 	EnemyRenderer->SetCrackMask("OldCrowCrackMask.png");
+
+	SetMainBGM();
 }
 
 void Boss_OldCrow::Update(float _DeltaTime)
@@ -64,12 +67,14 @@ void Boss_OldCrow::Update(float _DeltaTime)
 	if (false == DeathCheck() && true == CheckHit())
 	{
 		GetDamaged();
+		PlayRandomDamagedSound();
 	}
 
 	if (true == DeathCheck() && false == IsDeath)
 	{
 		IsDeath = true;
 		SetDeathState();
+		MainBGM.SoundFadeOut(1.0f, 0.0f, true);
 	}
 
 	FSMObjectBase::Update(_DeltaTime);
@@ -140,8 +145,8 @@ void Boss_OldCrow::SetRandomPattern()
 	CurrentPatternNum = 0;
 
 	//Test용 스테이트 세팅 
-	//PatternNum = 5;
-	//RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
+	PatternNum = 5;
+	RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
 
 	SetNextState(RandomState);
 }
@@ -393,4 +398,38 @@ void Boss_OldCrow::CreateDustParticle()
 	Particle->BillboardingOff();
 	Particle->SetColor({ 0.05f, 0.05f, 0.05f, -1.0f });
 	Particle->SetFadeSpeed(1.0f);
+}
+
+void Boss_OldCrow::PlayRandomTurnSound()
+{
+	int RandomInt = GameEngineRandom::MainRandom.RandomInt(0, 1);
+
+	if (0 == RandomInt)
+	{
+		GameEngineSound::Play("OldCrow_Turn.mp3");
+	}
+	else
+	{
+		GameEngineSound::Play("OldCrow_Turn2.mp3");
+	}
+}
+
+void Boss_OldCrow::PlayRandomDamagedSound()
+{
+	int RandomInt = GameEngineRandom::MainRandom.RandomInt(0, 1);
+
+	if (0 == RandomInt)
+	{
+		GameEngineSound::Play("OldCrow_GetDamage.mp3");
+	}
+	else
+	{
+		GameEngineSound::Play("OldCrow_GetDamage2.mp3");
+	}
+}
+
+void Boss_OldCrow::SetMainBGM()
+{
+	MainBGM = GameEngineSound::Play("Death'sDoor-OldCrow.mp3");
+	MainBGM.SetLoop();
 }
