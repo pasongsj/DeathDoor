@@ -16,15 +16,28 @@ void EnemyGhoul::InitAnimation()
 
 	EnemyRenderer->SetFBXMesh("_E_GHOUL_MESH.FBX", "ContentAniMeshDeffered");
 	EnemyRenderer->CreateFBXAnimation("SHOOT_BOW", "_E_GHOUL_SHOOT_BOW.fbx", { 1.f / 30.f,false });
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 0, [this]
+		{
+			GameEngineSound::Play("Ghoul_Reload.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 55, [this]
+		{
+			GameEngineSound::Play("Ghoul_ReadySFX.mp3");
+		});
+
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 74, [this]
 		{
 			if (nullptr != ArrowActor)
 			{
 				ArrowActor->SetShoot(1000.0f);
 				ArrowActor = nullptr;
+				GameEngineSound::Play("Ghoul_FireArrow.mp3");
 			}
 			SetStateCheckerOn();
 		});
+	
+
+
 
 	EnemyRenderer->CreateFBXAnimation("IDLE_BOW", "_E_GHOUL_IDLE_BOW.fbx", { 1.f / 30.f,true });
 
@@ -205,6 +218,8 @@ void EnemyGhoul::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("HIT_BOW");
 			AggroDir(m_pCapsuleComp);
+
+			GameEngineSound::Play("Ghoul_GetDamage.mp3");
 		},
 		[this](float Delta)
 		{
@@ -227,6 +242,8 @@ void EnemyGhoul::SetFSMFUNC()
 	SetFSM(EnemyGhoulState::DEATH,
 		[this]
 		{
+			GameEngineSound::Play("Ghoul_Death.mp3");
+
 			EnemyRenderer->ChangeAnimation("DROWN");
 		},
 		[this](float Delta)

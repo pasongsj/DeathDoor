@@ -25,10 +25,12 @@ void EnemyJumper::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("BOOMER_CATCH", "JUMPER_BOOMER_CATCH.fbx", { 1.0f / 30,false });
 	EnemyRenderer->SetAnimationStartFunc("BOOMER_CATCH", 0, [this]
 		{
+			GameEngineSound::Play("Jumper_BoomerCatch.mp3");
 			SetBoomerangState(BoomerangState::RIGHT);
 		});
 	EnemyRenderer->SetAnimationStartFunc("BOOMER_CATCH", 28, [this]
 		{
+			GameEngineSound::Play("Jumper_GripBoomer.mp3");
 			SetBoomerangState(BoomerangState::HEAD);
 		});
 
@@ -41,7 +43,17 @@ void EnemyJumper::InitAnimation()
 		});
 	EnemyRenderer->SetAnimationStartFunc("BOOMER_THROW", 22, [this]
 		{
+			GameEngineSound::Play("Jumper_GripBoomer.mp3");
 			SetBoomerangState(BoomerangState::LEFT);
+		});
+	EnemyRenderer->SetAnimationStartFunc("BOOMER_THROW", 40, [this]
+		{
+			GameEngineSound::Play("Jumper_ThrowReady.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("BOOMER_THROW", 50, [this]
+		{
+			GameEngineSound::Play("Jumper_Throw_Scream.mp3");
+			GameEngineSound::Play("Jumper_Throw.mp3");
 		});
 	EnemyRenderer->SetAnimationStartFunc("BOOMER_THROW", 53, [this]
 		{
@@ -52,6 +64,11 @@ void EnemyJumper::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("SKIP_THROW", 0, [this]
 		{
 			SetBoomerangState(BoomerangState::LEFT);
+		});
+	EnemyRenderer->SetAnimationStartFunc("SKIP_THROW", 13, [this]
+		{
+			GameEngineSound::Play("Jumper_ThrowReady.mp3");
+			GameEngineSound::Play("Jumper_Throw_Scream.mp3");
 		});
 	EnemyRenderer->SetAnimationStartFunc("SKIP_THROW", 22, [this]
 		{
@@ -67,6 +84,12 @@ void EnemyJumper::InitAnimation()
 			MoveAmount = MoveAmount.Size() < 200.0f ? float4::ZERO : MoveAmount;
 			JumpDir = (MoveAmount /1.5f);
 
+			GameEngineSound::Play("Jumper_Jump.mp3");
+
+		});
+	EnemyRenderer->SetAnimationStartFunc("JUMP", 35, [this]
+		{
+			GameEngineSound::Play("Jumper_LandingScream.mp3");
 		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP", 50, [this]
 		{
@@ -74,6 +97,8 @@ void EnemyJumper::InitAnimation()
 			JumpAttack = GetLevel()->CreateActor<EnemyAttackBox>();
 			JumpAttack->SetScale(float4{ 120.0f,10.0f,120.0f });
 			JumpAttack->SetTrans(GetTransform()->GetWorldRotation(), GetTransform()->GetWorldPosition());
+
+			GameEngineSound::Play("Jumper_Landing.mp3");
 		});
 
 	EnemyRenderer->CreateFBXAnimation("INTERRUPT", "JUMPER_INTERRUPT.fbx", { 1.0f / 30,false });
@@ -422,6 +447,7 @@ void EnemyJumper::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("INTERRUPT");
+			GameEngineSound::Play("Jumper_TakeDamage1.mp3");
 		},
 		[this](float Delta)
 		{
@@ -444,6 +470,8 @@ void EnemyJumper::SetFSMFUNC()
 	SetFSM(EnemyJumperState::DEATH,
 		[this]
 		{
+			GameEngineSound::Play("Jumper_Death.mp3");
+
 			EnemyRenderer->ChangeAnimation("DROWN");
 			EnemyRenderer->GetTransform()->AddLocalPosition(float4(0, 1, 0));
 			if (nullptr != Boomer)
