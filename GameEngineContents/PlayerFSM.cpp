@@ -317,6 +317,7 @@ void Player::SetFSMFunc()
 			if (++AttackStack >= 3)
 			{
 				StateInputDelayTime = 0.3f;
+				AttackStack = 0;
 			}
 
 
