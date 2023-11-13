@@ -190,17 +190,20 @@ void BossFrogLevel::Create_TriggerObject()
 	float4 Pos = TileManager::MainManager->GetTilePos(2, 0);
 	float4 Pos2 = TileManager::MainManager->GetTilePos(2, 1);
 	float4 Pos3 = TileManager::MainManager->GetTilePos(2, 2);
+	
+	float MovePos = TileManager::MainManager->GetTileMovePos();
 
 	{
 		m_pLadder = CreateActor<Ladder>();
 		m_pLadder.lock()->SetHidden(true);
 		m_pLadder.lock()->GetTransform()->AddLocalRotation(float4{0, -45, 0});
-		m_pLadder.lock()->GetTransform()->SetLocalPosition(float4{-4880,  -75 , 4947});
+		m_pLadder.lock()->GetTransform()->SetLocalPosition(float4{-4880,  -105 , 4947});
 	}
 	{
 		// 문 위치만 지정 
 		m_pDoor = CreateActor<ShortCutDoor>();
-		m_pDoor.lock()->GetPhysXComponent()->SetWorldPosWithParent(Pos);
+		m_pDoor.lock()->GetPhysXComponent()->SetWorldPosWithParent(float4 { -6273, 585, 6315 });
+		m_pDoor.lock()->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
 		m_pDoor.lock()->GetRender()->FadeOut(0.01f, 0.01f);
 		m_pDoor.lock()->GetRender1()->FadeOut(0.01f, 0.01f);
 		
@@ -213,13 +216,14 @@ void BossFrogLevel::Create_TriggerObject()
 		// 타일 두개.. 3개?
 		m_pTile = CreateActor<SecretTile>();
 		m_pTile.lock()->InActive();
-		m_pTile.lock()->GetTransform()->SetLocalPosition(Pos2);
-
+		m_pTile.lock()->GetTransform()->SetLocalRotation(float4 { 0 , -45, 0 });
+		m_pTile.lock()->GetTransform()->SetLocalPosition(Pos + float4 { -300 , 0, 300 });
 
 		m_pTile2 = CreateActor<SecretTile>();
 		m_pTile2.lock()->InActive();
 		m_pTile2.lock()->GetRender()->FadeOut(0.01f, 0.01f);
-		m_pTile2.lock()->GetTransform()->SetLocalPosition(Pos3);
+		m_pTile2.lock()->GetTransform()->SetLocalRotation(float4{ 0 , -45, 0 });
+		m_pTile2.lock()->GetTransform()->SetLocalPosition(Pos + float4{ -570, 0, 570 });
 	}
 }
 
@@ -239,7 +243,9 @@ void BossFrogLevel::ObjectFadeEffectUpdate(float _DeltaTime)
 	{
 		m_pLadder.lock()->SetHidden(false);
 		m_pTile.lock()->Active();
+		m_pTile.lock()->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
 		m_pTile2.lock()->Active();
+		m_pTile2.lock()->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
 	}
 
 	m_pDoor.lock()->GetRender()->FadeIn(1.5f, _DeltaTime);

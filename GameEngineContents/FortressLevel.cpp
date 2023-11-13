@@ -186,6 +186,7 @@ void FortressLevel::Set_PlayerStartPos()
 		return;
 	}
 
+
 	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
 }
 
