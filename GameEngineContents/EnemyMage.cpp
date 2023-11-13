@@ -24,6 +24,8 @@ void EnemyMage::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("DEATH", "_E_MAGE_DEATH.fbx", { 1.f / 30.f,false });
 	EnemyRenderer->SetAnimationStartFunc("SHOOT", 40, [this]
 		{
+			GameEngineSound::Play("Mage_Attack1.mp3");
+
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
 			BonePivot->GetTransform()->SetLocalPosition(float4(0.f,60.f,0.f));
@@ -162,6 +164,7 @@ void EnemyMage::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("IDLE");
+
 		},
 		[this](float Delta)
 		{
@@ -274,6 +277,8 @@ void EnemyMage::SetFSMFUNC()
 	SetFSM(EnemyMageState::HIT,
 		[this]
 		{
+			GameEngineSound::Play("Mage_TakeDamage.mp3");
+
 			EnemyRenderer->ChangeAnimation("TELEPORT");
 		},
 		[this](float Delta)
@@ -299,6 +304,9 @@ void EnemyMage::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("IDLE");
 			m_fScaleRatio = 0.f;
+			
+			GameEngineSound::Play("Mage_Disappear1.mp3");
+
 		},
 		[this](float Delta)
 		{
@@ -330,6 +338,8 @@ void EnemyMage::SetFSMFUNC()
 			EnemyRenderer->ChangeAnimation("TELEPORT_IN");
 			AggroDir(m_pCapsuleComp);
 			m_fScaleRatio = 0.f;
+
+			GameEngineSound::Play("Mage_Appear.mp3");
 		},
 		[this](float Delta)
 		{
@@ -355,6 +365,8 @@ void EnemyMage::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("DEATH");
+
+			GameEngineSound::Play("Mage_Death.mp3");
 		},
 		[this](float Delta)
 		{

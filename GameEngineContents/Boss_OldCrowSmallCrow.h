@@ -41,5 +41,7 @@ private:
 	float4 Dir = float4::ZERO;
 	float CurrentDistance = BOSS_OLDCROW_OrbitDistance;
 
+	class GameEngineSoundPlayer Idle;
+
 };
 

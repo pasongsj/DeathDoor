@@ -35,15 +35,43 @@ void EnemyGhoulBig::InitAnimation()
 
 	EnemyRenderer->SetFBXMesh("_E_GHOUL_RAPID_MESH.FBX", "ContentAniMeshDeffered");
 	EnemyRenderer->CreateFBXAnimation("SHOOT_BOW", "_E_GHOUL_SHOOT_BOW_RAPID.fbx", { 1.f / 30.f,false });
-			
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 20, [this]
+		{
+			GameEngineSound::Play("Ghoul_ArrowReady.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 30, [this]
+		{
+			GameEngineSound::Play("Ghoul_ReadySFX.mp3");
+		});
+
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 37, std::bind(&EnemyGhoulBig::CreateArrow, this));
+
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 58, [this]
+		{
+			GameEngineSound::Play("Ghoul_ArrowReady.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 68, [this]
+		{
+			GameEngineSound::Play("Ghoul_ReadySFX.mp3");
+		});
+
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 75, std::bind(&EnemyGhoulBig::CreateArrow, this));
 		
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 96, [this]
+		{
+			GameEngineSound::Play("Ghoul_ArrowReady.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 95, [this]
+		{
+			GameEngineSound::Play("Ghoul_ReadySFX.mp3");
+		});
+
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 36, [this]
 		{
 			if (nullptr != ArrowActor)
 			{
 				ArrowActor->SetShoot(1000.0f);
+				GameEngineSound::Play("Ghoul_FireArrow.mp3");
 			}
 			ArrowActor = nullptr;
 		});
@@ -52,6 +80,7 @@ void EnemyGhoulBig::InitAnimation()
 			if (nullptr != ArrowActor)
 			{
 				ArrowActor->SetShoot(1000.0f);
+				GameEngineSound::Play("Ghoul_FireArrow.mp3");
 			}
 			ArrowActor = nullptr;
 		});
@@ -60,6 +89,7 @@ void EnemyGhoulBig::InitAnimation()
 			if (nullptr != ArrowActor)
 			{
 				ArrowActor->SetShoot(1000.0f);
+				GameEngineSound::Play("Ghoul_FireArrow.mp3");
 			}
 			ArrowActor = nullptr;
 		});
@@ -236,6 +266,8 @@ void EnemyGhoulBig::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("HIT_BOW");
 			AggroDir(m_pCapsuleComp);
+
+			GameEngineSound::Play("Ghoul_GetDamage.mp3");
 		},
 		[this](float Delta)
 		{
@@ -258,6 +290,8 @@ void EnemyGhoulBig::SetFSMFUNC()
 	SetFSM(EnemyGhoulBigState::DEATH,
 		[this]
 		{
+			GameEngineSound::Play("Ghoul_Death.mp3");
+
 			EnemyRenderer->ChangeAnimation("DROWN");
 		},
 		[this](float Delta)

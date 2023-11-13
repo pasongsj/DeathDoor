@@ -30,8 +30,13 @@ void EnemyGrunt::InitAnimation()
 		{
 			SetStateCheckerOn();
 		});
+	EnemyRenderer->SetAnimationStartFunc("JUMP_MAIN", 8, [this]
+		{
+			GameEngineSound::Play("Grunt_JumpScream.mp3");
+		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_MAIN", 20, [this]
 		{
+			GameEngineSound::Play("Grunt_JumpAttackLand.mp3");
 			SetStateCheckerOff();
 		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_MAIN", 25, [this]
@@ -193,6 +198,8 @@ void EnemyGrunt::SetFSMFUNC()
 	SetFSM(EnemyGruntState::JUMP_WAIT,
 		[this]
 		{
+			GameEngineSound::Play("Grunt_AttackReady.mp3");
+
 		},
 		[this](float Delta)
 		{
@@ -258,6 +265,8 @@ void EnemyGrunt::SetFSMFUNC()
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp);
 			EnemyRenderer->ChangeAnimation("HIT");
+
+			GameEngineSound::Play("Grunt_GetDamage.mp3");
 		},
 		[this](float Delta)
 		{
@@ -281,6 +290,8 @@ void EnemyGrunt::SetFSMFUNC()
 	SetFSM(EnemyGruntState::DEATH,
 		[this]
 		{
+			GameEngineSound::Play("Grunt_Death.mp3");
+
 			EnemyRenderer->ChangeAnimation("DROWN");
 		},
 		[this](float Delta)

@@ -28,6 +28,8 @@ void EnemyBruteGold::InitAnimation()
 
 	EnemyRenderer->SetAnimationStartFunc("SLAM", 10, [this]
 		{
+			GameEngineSound::Play("Brute_Attack2.mp3");
+
 			m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
 			m_pAttackBox->SetScale(float4(200, 60, 70));
 			m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(-200, 0, -70));
@@ -41,6 +43,7 @@ void EnemyBruteGold::InitAnimation()
 		});
 	EnemyRenderer->SetAnimationStartFunc("SWING", 23, [this]
 		{
+			GameEngineSound::Play("Brute_Attack2.mp3");
 
 			m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
 			m_pAttackBox->SetScale(float4(200, 60, 70));
@@ -56,6 +59,8 @@ void EnemyBruteGold::InitAnimation()
 
 	EnemyRenderer->SetAnimationStartFunc("THROW", 15, [this]
 		{
+			GameEngineSound::Play("Brute_BombThrow.mp3");
+
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
 			BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("hand_l").Pos);
@@ -67,10 +72,31 @@ void EnemyBruteGold::InitAnimation()
 			Attack->GetRenderer()->SetColor({ 255.f / 255.0f, 10.f / 255.0f, 00.f }, 1.0f);
 			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE * 2.f);
 			Attack->SetTrans(m_f4ShootDir, TmpPos);
+			Attack->SetEndSound("Brute_BombBoom.mp3");
 			Attack->SetShoot(1000.0f);
 			BonePivot->Death();
 
 		});
+
+	//Sound
+	EnemyRenderer->SetAnimationStartFunc("WALK", 22, [this]
+		{
+			GameEngineSound::Play("Brute_Walk.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("WALK", 38, [this]
+		{
+			GameEngineSound::Play("Brute_Walk.mp3");
+		});
+
+	EnemyRenderer->SetAnimationStartFunc("RUN", 10, [this]
+		{
+			GameEngineSound::Play("Brute_Walk.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("RUN", 19, [this]
+		{
+			GameEngineSound::Play("Brute_Walk.mp3");
+		});
+
 	EnemyRenderer->ChangeAnimation("IDLE");
 }
 
@@ -215,6 +241,8 @@ void EnemyBruteGold::SetFSMFUNC()
 	SetFSM(EnemyBruteGoldState::SLAM,
 		[this]
 		{
+			GameEngineSound::Play("Brute_AttackReady.mp3");
+
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
 			EnemyRenderer->ChangeAnimation("SLAM", true);
@@ -249,6 +277,8 @@ void EnemyBruteGold::SetFSMFUNC()
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
+			GameEngineSound::Play("Brute_AttackReady.mp3");
+
 			EnemyRenderer->ChangeAnimation("SWING", true);
 		},
 		[this](float Delta)
@@ -280,6 +310,8 @@ void EnemyBruteGold::SetFSMFUNC()
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 			EnemyRenderer->ChangeAnimation("THROW");
+
+			GameEngineSound::Play("Brute_AttackReady.mp3");
 		},
 		[this](float Delta)
 		{
@@ -301,6 +333,7 @@ void EnemyBruteGold::SetFSMFUNC()
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 			EnemyRenderer->ChangeAnimation("BREAK", true);
 
+			GameEngineSound::Play("Brute_GetDamage.mp3");
 		},
 		[this](float Delta)
 		{
@@ -323,6 +356,7 @@ void EnemyBruteGold::SetFSMFUNC()
 			EnemyRenderer->ChangeAnimation("IDLE");
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
+			GameEngineSound::Play("Brute_Death.mp3");
 		},
 		[this](float Delta)
 		{
