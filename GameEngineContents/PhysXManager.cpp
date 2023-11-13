@@ -195,6 +195,13 @@ bool PhysXManager::RayCast(const float4& _vOrigin, const float4& _vDir, OUT floa
 		if (true == tRayCastBuff.hasBlock)
 		{
 			physx::PxRaycastHit tRayCastHit = tRayCastBuff.block;
+			physx::PxFilterData FilterData = tRayCastHit.shape->getSimulationFilterData();
+
+			if (FilterData.word0 & static_cast<UINT>(PhysXFilterGroup::Water))
+			{
+				return false;
+			}
+
 			memcpy_s(&_vPoint, sizeof(float4), &tRayCastHit.position, sizeof(float4));
 
 			return true;

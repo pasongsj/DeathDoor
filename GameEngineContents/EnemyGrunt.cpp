@@ -129,7 +129,7 @@ void EnemyGrunt::SetFSMFUNC()
 	SetFSM(EnemyGruntState::MOVE,
 		[this]
 		{
-			m_f4ShootDir = AggroDir(m_pCapsuleComp);
+			//m_f4ShootDir = AggroDir(m_pCapsuleComp);
 			EnemyRenderer->ChangeAnimation("WALK");
 		},
 		[this](float Delta)
@@ -150,39 +150,47 @@ void EnemyGrunt::SetFSMFUNC()
 			//	SetNextState(EnemyGruntState::JUMP_WAIT);
 			//	return;
 			//}
-
-			if (false == InRangePlayer(1000.0f))
+			
+			if (false == InRangePlayer(10000.0f))
 			{
 				SetNextState(EnemyGruntState::IDLE);
 				return;
 			}
+
 			float4 f4Point = float4::ZERONULL;
+			float4 f4Dir = GetPlayerDir();
 			float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
-			float4 NextPos = m_pCapsuleComp->GetWorldPosition() + (m_f4ShootDir * GRUNT_MOVE_SPEED);
-			m_fTargetDistance = NextPos.XYZDistance(f4MyPos);
+			float4 NextPos = m_pCapsuleComp->GetWorldPosition() + (f4Dir * GRUNT_MOVE_SPEED);
+			float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+			float PlayerDistance = PlayerPos.XYZDistance(f4MyPos);
+			float TargetDistance = NextPos.XYZDistance(f4MyPos);
+			
 			UINT Dummy = -1;
 
-			if (false == InRangePlayer(800.f)&&false== m_pCapsuleComp->TriRayCast(f4MyPos, m_f4ShootDir, f4Point, m_fTargetDistance, Dummy))
+			if (((true == m_pCapsuleComp->RayCast(f4MyPos, f4Dir, f4Point, PlayerDistance|| true == m_pCapsuleComp->RayCast(f4MyPos, f4Dir, f4Point, TargetDistance))
+					|| false == m_pCapsuleComp->TriRayCast(NextPos, float4::DOWN, f4Point, 1000.f, Dummy))))
 			{
-				if (false == m_pCapsuleComp->TriRayCast(NextPos, float4::DOWN, f4Point, m_fTargetDistance, Dummy))
+
+				float4 RoadDir = float4::ZERONULL;
+				RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, PlayerPos);
+				if (RoadDir != float4::ZERONULL)
 				{
-					float4 RoadDir = float4::ZERONULL;
-					RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, Player::MainPlayer->GetPhysXComponent()->GetWorldPosition());
-					if (RoadDir != float4::ZERONULL)
-					{
-						m_f4ShootDir = RoadDir;
-					}
+					f4Dir = RoadDir;
 				}
+				else
+				{
+					SetNextState(EnemyGruntState::IDLE);
+					return;
+				}
+
 			}
 			else
 			{
-				SetNextState(EnemyGruntState::JUMP_WAIT);
-				return;
+				int a = 0;
+				//SetNextState(EnemyGruntState::JUMP_WAIT);
 			}
-			float4 Rot = float4::ZERO;
-			AggroMove(Delta);
-			Rot.y = float4::GetAngleVectorToVectorDeg360(m_f4ShootDir, float4::FORWARD);
-			m_pCapsuleComp->SetRotation(Rot);
+
+			NaviMove(f4Dir, GRUNT_MOVE_SPEED);
 		},
 		[this]
 		{

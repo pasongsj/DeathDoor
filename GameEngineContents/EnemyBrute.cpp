@@ -4,6 +4,8 @@
 #include "EnemyAttackBox.h"
 #include "PhysXControllerComponent.h"
 #include "PlayerAttackMagic.h"
+#include "Map_NaviMesh.h"
+#include "Player.h"
 
 EnemyBrute::EnemyBrute() 
 {
@@ -167,7 +169,7 @@ void EnemyBrute::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("WALK");
-			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
+			//m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 		},
 		[this](float Delta)
 		{
@@ -200,13 +202,44 @@ void EnemyBrute::SetFSMFUNC()
 					return;
 				}
 			}
-			AggroMove(Delta);
 
 			if (false == InRangePlayer(2000.0f))
 			{
 				SetNextState(EnemyBruteState::IDLE);
 				return;
 			}
+			float4 f4Point = float4::ZERONULL;
+			float4 f4Dir = GetPlayerDir();
+			float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
+			float4 NextPos = m_pCapsuleComp->GetWorldPosition() + (f4Dir * GRUNT_MOVE_SPEED);
+			float TargetDistance = NextPos.XYZDistance(f4MyPos);
+			UINT Dummy = -1;
+
+			if (false == InRangePlayer(300.0f)
+				&& (true == m_pCapsuleComp->RayCast(f4MyPos, f4Dir, f4Point, TargetDistance)
+				||false == m_pCapsuleComp->TriRayCast(NextPos, float4::DOWN, f4Point, 1000.f, Dummy)))
+			{
+				
+				float4 RoadDir = float4::ZERONULL;
+				RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, Player::MainPlayer->GetPhysXComponent()->GetWorldPosition());
+				if (RoadDir != float4::ZERONULL)
+				{
+					f4Dir = RoadDir;
+				}
+				else
+				{
+					SetNextState(EnemyBruteState::IDLE);
+					return;
+				}
+				
+			}
+			else
+			{
+				int a = 0;
+			}
+
+			NaviMove(f4Dir, GRUNT_MOVE_SPEED, DEFAULT_DIR_BRUTE);
+
 		},
 		[this]
 		{

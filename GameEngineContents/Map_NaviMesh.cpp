@@ -35,6 +35,7 @@ void Map_NaviMesh::Start()
 	m_pNaviComp->CreatePhysXActors("Fortress_Navi_DC.fbx", true);
 	m_pNaviComp->SetWorldPosWithParent(float4(0, 3, 0), float4{ 0 , -135, 0 });
 	m_pNaviComp->SetNavigation();
+	m_pNaviComp->SetFilterData(PhysXFilterGroup::NaviMesh);
 }
 
 void Map_NaviMesh::Update(float _DeltaTime)
