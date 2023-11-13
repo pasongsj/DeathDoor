@@ -220,7 +220,7 @@ bool PhysXManager::TriRayCast(const float4& _vOrigin, const float4& _vDir, OUT f
 	memcpy_s(&vOrigin, sizeof(physx::PxVec3), &_vOrigin, sizeof(physx::PxVec3));
 
 	physx::PxVec3 vDir(0.f, 0.f, 0.f);
-	vOrigin.y -= 10000.f;
+	vOrigin.y -= 9990.f;
 	float4 vDir_ = _vDir;
 	float4 vNormalizedDir = vDir_.NormalizeReturn();
 

@@ -76,8 +76,18 @@ public:
 		{
 			return float4::ZERONULL;
 		}
+		float4 Front = dq_ResultRoad.front().CenterPos;
+		Front.y = 0;
+		float4 Start = _Start;
+		Start.y = 0;
 
-		float4 Result = (dq_ResultRoad.front().CenterPos - _Start).NormalizeReturn();
+		//while((Front).XYZDistance(Start) < 20.f)		
+		//{
+		//	dq_ResultRoad.pop_front();
+		//	Front = dq_ResultRoad.front().CenterPos;
+		//	Front.y = 0;
+		//}
+		float4 Result = (Front - Start).NormalizeReturn();
 		return Result;
 	}
 

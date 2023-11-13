@@ -151,43 +151,45 @@ void EnemyGrunt::SetFSMFUNC()
 			//	return;
 			//}
 			
-			if (false == InRangePlayer(10000.0f))
+			if (false == InRangePlayer(1000.0f))
 			{
 				SetNextState(EnemyGruntState::IDLE);
 				return;
 			}
 
-			float4 f4Point = float4::ZERONULL;
 			float4 f4Dir = GetPlayerDir();
-			float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
-			float4 NextPos = m_pCapsuleComp->GetWorldPosition() + (f4Dir * GRUNT_MOVE_SPEED);
-			float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
-			float PlayerDistance = PlayerPos.XYZDistance(f4MyPos);
-			float TargetDistance = NextPos.XYZDistance(f4MyPos);
-			
-			UINT Dummy = -1;
-
-			if (((true == m_pCapsuleComp->RayCast(f4MyPos, f4Dir, f4Point, PlayerDistance|| true == m_pCapsuleComp->RayCast(f4MyPos, f4Dir, f4Point, TargetDistance))
-					|| false == m_pCapsuleComp->TriRayCast(NextPos, float4::DOWN, f4Point, 1000.f, Dummy))))
+			if(Map_NaviMesh::NaviMesh != nullptr)
 			{
 
-				float4 RoadDir = float4::ZERONULL;
-				RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, PlayerPos);
-				if (RoadDir != float4::ZERONULL)
+				float4 f4Point = float4::ZERONULL;
+				float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
+				float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+				float PlayerDistance = PlayerPos.XYZDistance(f4MyPos);
+
+				UINT Dummy = -1;
+
+				//사이에 벽이 있음
+				if (true ==m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy))
 				{
-					f4Dir = RoadDir;
+
+					float4 RoadDir = float4::ZERONULL;
+					RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, PlayerPos);
+					if (RoadDir != float4::ZERONULL)
+					{
+						f4Dir = RoadDir;
+					}
+					else
+					{
+						SetNextState(EnemyGruntState::IDLE);
+						return;
+					}
 				}
-				else
+				else if(false == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy)
+					&& true == InRangePlayer(800.f))
 				{
-					SetNextState(EnemyGruntState::IDLE);
+					SetNextState(EnemyGruntState::JUMP_WAIT);
 					return;
 				}
-
-			}
-			else
-			{
-				int a = 0;
-				//SetNextState(EnemyGruntState::JUMP_WAIT);
 			}
 
 			NaviMove(f4Dir, GRUNT_MOVE_SPEED);
