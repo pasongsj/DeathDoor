@@ -85,6 +85,9 @@ void Boss_OldCrowEgg::Update(float _DeltaTime)
 
 			m_pSphereComp->AttachShape();
 
+			GameEngineSound::Play("OldCrow_Egg_Land.mp3");
+			GameEngineSound::Play("OldCrow_Egg_MagicSFX.mp3");
+
 			IsGround = true;
 			return;
 		}
@@ -95,6 +98,7 @@ void Boss_OldCrowEgg::Update(float _DeltaTime)
 	}
 	else
 	{
+
 		m_pSphereComp->SetMoveSpeed(float4::ZERO);
 		SetPentagramEffect(_DeltaTime);
 	}
