@@ -150,17 +150,17 @@ void EnemyGrunt::SetFSMFUNC()
 				SetStateCheckerOn();
 				//StateChecker = true;
 			}
-			//if (true == InRangePlayer(800.0f))
-			//{
-			//	SetNextState(EnemyGruntState::JUMP_WAIT);
-			//	return;
-			//}
+			if (true == InRangePlayer(800.0f))
+			{
+				SetNextState(EnemyGruntState::JUMP_WAIT);
+				return;
+			}
 
 			if (false == InRangePlayer(1000.0f))
 			{
 				SetNextState(EnemyGruntState::IDLE);
 				return;
-			}
+			}/*
 			float4 f4Point = float4::ZERONULL;
 			float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
 			float4 NextPos = m_pCapsuleComp->GetWorldPosition() + (m_f4ShootDir * GRUNT_MOVE_SPEED);
@@ -185,9 +185,9 @@ void EnemyGrunt::SetFSMFUNC()
 				return;
 			}
 			float4 Rot = float4::ZERO;
-			AggroMove(Delta);
 			Rot.y = float4::GetAngleVectorToVectorDeg360(m_f4ShootDir, float4::FORWARD);
-			m_pCapsuleComp->SetRotation(Rot);
+			m_pCapsuleComp->SetRotation(Rot);*/
+			AggroMove(Delta);
 		},
 		[this]
 		{
