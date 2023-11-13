@@ -37,6 +37,11 @@ public:
 		return m_vWalls;
 	}
 
+	float GetTileMovePos()
+	{
+		return m_fTileMovePos;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

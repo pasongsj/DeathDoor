@@ -77,4 +77,5 @@ void Boss_OldCrowChain::SetDefault()
 void Boss_OldCrowChain::OnChainEffect()
 {
 	IsOn = true;
+	GameEngineSound::Play("OldCrow_Chain.mp3");
 }
