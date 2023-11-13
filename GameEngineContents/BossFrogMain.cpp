@@ -22,6 +22,8 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("INTRO_JUMP", "FROG_JUMP.fbx", { 1.0f / 30, false }); // intro
 	EnemyRenderer->SetAnimationStartFunc("INTRO_JUMP", 45, [this]
 		{
+			GameEngineSound::Play("Frog_Phase1_JumpSound.mp3");
+
 			CalMoveAmount(GetTilePos(2, 1), 1.2f);
 			m_pCapsuleComp->RigidSwitch(false);
 			SetStateCheckerOn();
@@ -30,6 +32,11 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("INTRO_JUMP", 70, [this]
 		{
 			MoveSpeed = float4::ZERO;
+			GameEngineSound::Play("Frog_Phase1_Smash.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("INTRO_JUMP", 20, [this]
+		{
+			GameEngineSound::Play("Frog_Phase1_PrevJumpScream.mp3");
 		});
 	// 아이들
 	EnemyRenderer->CreateFBXAnimation("IDLE", "FROG_IDLE.fbx", { 1.0f / 30, true });
@@ -39,12 +46,18 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("IDLE_TO_JUMP", "FROG_POGO_START.fbx", { 1.0f / 30, false,-1,72,0.0f,0.0f }); // 땅에서 콩콩이 시작(1회)
 	EnemyRenderer->SetAnimationStartFunc("IDLE_TO_JUMP", 44, [this]
 		{
+			GameEngineSound::Play("Frog_Phase1_JumpSound.mp3");
+
 			CalMoveAmount(GetNextPostition(), 1.071428f);
 			m_pCapsuleComp->RigidSwitch(false);
 		});// 44~74
 	EnemyRenderer->SetAnimationStartFunc("IDLE_TO_JUMP", 72, [this]
 		{
 			MoveSpeed = float4::ZERO;
+		});
+	EnemyRenderer->SetAnimationStartFunc("IDLE_TO_JUMP", 20, [this]
+		{
+			GameEngineSound::Play("Frog_Phase1_PrevJumpScream.mp3");
 		});
 	EnemyRenderer->CreateFBXAnimation("SWIM_TO_JUMP", "FROG_SMASH_START.fbx", { 1.0f / 30, false,17,49,0.0f,0.0f });// 물에서 올라옴 + 콩콩이 1회
 	EnemyRenderer->SetAnimationStartFunc("SWIM_TO_JUMP", 18, [this]
@@ -84,6 +97,8 @@ void BossFrogMain::InitAnimation()
 			float4 CurTileindex = GetTileIndex(GetTransform()->GetWorldPosition());
 			if (true == IsTile(CurTileindex.iy(), CurTileindex.ix()))
 			{
+				GameEngineSound::Play("Frog_Phase1_Smash.mp3");
+
 				DestroyTile(CurTileindex.iy(), CurTileindex.ix());
 				CreateShockParticle();
 			}
@@ -97,6 +112,8 @@ void BossFrogMain::InitAnimation()
 			{
 				CalMoveAmount(NextPos, 1.5f);
 			}
+
+			GameEngineSound::Play("Frog_Phase1_JumpSound.mp3");
 		});// 44~74
 	EnemyRenderer->SetAnimationStartFunc("JUMP_LOOP", 22, [this]
 		{
@@ -109,6 +126,7 @@ void BossFrogMain::InitAnimation()
 		{
 			float4 CurTileindex = GetTileIndex(GetTransform()->GetWorldPosition());
 			DestroyTile(CurTileindex.iy(), CurTileindex.ix());
+			GameEngineSound::Play("Frog_Phase1_Smash.mp3");
 
 			float4 NextPos = GetNextPostition();
 			if(NextPos != float4::ZERONULL)
@@ -116,6 +134,10 @@ void BossFrogMain::InitAnimation()
 				CalMoveAmount(NextPos, 0.88f);
 				m_pCapsuleComp->RigidSwitch(false);
 			}
+		});
+	EnemyRenderer->SetAnimationStartFunc("JUMP_END", 10, [this]
+		{
+			GameEngineSound::Play("Frog_Phase1_PrevSmashScream.mp3");
 		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_END", 36, [this]
 		{
@@ -139,12 +161,17 @@ void BossFrogMain::InitAnimation()
 			CreateSmaskParticle();
 
 			AllTileReset();
+			GameEngineSound::Play("GimmickSound.mp3");
+
+
 			m_pCapsuleComp->TurnOnGravity();
 			if (nullptr != SmashAttack)
 			{
 				SmashAttack->Death();
 			}
 			SmashAttack = nullptr;
+
+			GameEngineSound::Play("Frog_Phase1_Smash.mp3");
 		});
 	//
 	// 물 내부에서 수영
@@ -322,6 +349,8 @@ void BossFrogMain::SetFSMFUNC()
 	SetFSM(BossFrogMainState::SWIM,
 		[this]
 		{
+			GameEngineSound::Play("Frog_Phase1_Splash.mp3");
+
 			EnemyRenderer->ChangeAnimation("SWIM_EDIT");
 			m_pCapsuleComp->SetRotation(GetTransform()->GetWorldRotation() + float4{ 0.0f, 180.0f,0.0f });
 			CalMoveAmount(UnderWaterCenter, 2.0f);
@@ -341,10 +370,14 @@ void BossFrogMain::SetFSMFUNC()
 				SelectedPos.y = -720.0f;
 				ShakeTile(Tile.iy(), Tile.ix(), 1.0f);
 				SetStateCheckerOn();
+
+				GameEngineSound::Play("Frog_Phase1_TileShake.mp3");
 			}
 			if (true == GetStateChecker() && GetStateDuration() > 2.5f) // 땅이 부글부글 거리는 타이밍
 			{
 				SetNextState(BossFrogMainState::SWIM_JUMP_START);
+
+				GameEngineSound::Play("Frog_Phase1_TileCrash.mp3");
 			}
 		},
 		[this]
@@ -359,6 +392,9 @@ void BossFrogMain::SetFSMFUNC()
 			m_pCapsuleComp->TurnOnGravity();
 			EnemyRenderer->ChangeAnimation("DAMEGED_LOOP");
 			CalMoveAmount(GetWaterPoint(), 1.1f, -300.0f);
+			
+			GameEngineSound::Play("Frog_Phase1_GetDamageScream.mp3");
+
 			switch (Phase)
 			{
 			case 1:

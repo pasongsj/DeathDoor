@@ -205,6 +205,14 @@ void TileManager::RotationUpdate(float _DeltaTime)
 		{
 			m_pPivotTile.lock()->GetTransform()->AddLocalRotation(float4{ 0, 0, 0.2f });
 		}
+		else
+		{
+			if (true == IsLandSoundPlay)
+			{
+				GameEngineSound::Play("Frog_Phase2_SuckTileLand.mp3");
+				IsLandSoundPlay = false;
+			}
+		}
 	}
 }
 

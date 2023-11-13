@@ -111,6 +111,10 @@ void BossFrogFat::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("JUMP_SCREAM", "FROG_FAT_JUMP_SCREAM.fbx", { 1.0f / 30, false });				   //인트로
 	EnemyRenderer->FadeOut(0.01f, 0.01f);
 
+	EnemyRenderer->SetAnimationStartFunc("JUMP_SCREAM", 10, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_JumpPrevScream.mp3");
+		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_SCREAM", 47, [this]
 		{
 			JumpStartPoint = OnGroundCenter;
@@ -119,6 +123,10 @@ void BossFrogFat::InitAnimation()
 			ResetStateDuration();
 			isJumpTime = true;
 		});
+	EnemyRenderer->SetAnimationStartFunc("JUMP_SCREAM", 61, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_LandToGround.mp3");
+		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_SCREAM", 77, [this]
 		{
 			isJumpTime = false;
@@ -126,10 +134,18 @@ void BossFrogFat::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("IDLE", "FROG_FAT_IDLE.fbx", { 1.0f / 30, true });
 	
 	EnemyRenderer->CreateFBXAnimation("FAT_JUMP", "FROG_FAT_JUMP.fbx", { 1.0f / 30, false });						   //바닥 to 물 짬푸
+	EnemyRenderer->SetAnimationStartFunc("FAT_JUMP", 33, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_JumpScream.mp3");
+		});
 	EnemyRenderer->SetAnimationStartFunc("FAT_JUMP", 36, [this]// 40~70 프레임 점프 // 1초간 점프
 		{
 			ResetStateDuration();
 			isJumpTime = true;
+		});
+	EnemyRenderer->SetAnimationStartFunc("FAT_JUMP", 56, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_LandToGround.mp3");
 		});
 	EnemyRenderer->SetAnimationStartFunc("FAT_JUMP", 66, [this]
 		{
@@ -138,10 +154,18 @@ void BossFrogFat::InitAnimation()
 		});
 
 	EnemyRenderer->CreateFBXAnimation("TILT_JUMP", "FROG_FAT_TILT_JUMP.fbx", { 1.0f / 30, false });					   //물 to 바닥 잡고 점프 꽈당
+	EnemyRenderer->SetAnimationStartFunc("TILT_JUMP", 1, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_JumpScream2.mp3");
+		});
 	EnemyRenderer->SetAnimationStartFunc("TILT_JUMP", 14, [this]
 		{
 			ResetStateDuration();
 			isJumpTime = true;
+		});
+	EnemyRenderer->SetAnimationStartFunc("TILT_JUMP", 32, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_LandToGround.mp3");
 		});
 	EnemyRenderer->SetAnimationStartFunc("TILT_JUMP", 37, [this]
 		{
@@ -155,6 +179,7 @@ void BossFrogFat::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("SHOOT", 0, [this]
 		{
 			++LoopCnt;
+			GameEngineSound::Play("Frog_Phase2_PrevShootScream.mp3");
 		});
 	EnemyRenderer->SetAnimationStartFunc("SHOOT", 8 , [this]
 		{
@@ -179,13 +204,34 @@ void BossFrogFat::InitAnimation()
 	
 	EnemyRenderer->CreateFBXAnimation("SUCK", "FROG_FAT_SUCK.fbx", { 2.0f / 30, false });							   //오른쪽에서 발판 5개 먹음
 
+	EnemyRenderer->SetAnimationStartFunc("SUCK", 10, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_Suck_Scream.mp3");
+
+		});
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 40, std::bind(&BossFrogFat::SuckTile, this));
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 50, std::bind(&BossFrogFat::SuckTile, this));
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 60, std::bind(&BossFrogFat::SuckTile, this));
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 65, std::bind(&BossFrogFat::SuckTile, this));
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 70, std::bind(&BossFrogFat::SuckTile, this));
 
+
+
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB", "FROG_FAT_SUCK_BOMB.fbx", { 1.0f / 30, false });					   //흡입 중 폭탄 먹음
+
+	EnemyRenderer->SetAnimationStartFunc("SUCK_BOMB", 3, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_EatBomb_Scream.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("SUCK_BOMB", 40, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_EatBomb_Boom.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("SUCK_BOMB", 61, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_EatBomb_Stun.mp3");
+		});
+
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB_GETUP", "FROG_FAT_SUCK_BOMB_GETUP.fbx", { 1.0f / 30, false });		   //눈알 빙빙 후 일어남
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB_LOOP", "FROG_FAT_SUCK_BOMB_LOOP.fbx", { 1.0f / 30, true });		   
 	EnemyRenderer->CreateFBXAnimation("DIE", "FROG_FAT_DIE_LAND.fbx", { 1.0f / 30, false });		   //Death
@@ -216,6 +262,8 @@ void BossFrogFat::SuckTile()
 		return;
 	}
 	ShakeTile(index.iy(), index.ix(), 1.0f);
+
+	GameEngineSound::Play("Frog_Phase2_SuckTileBreak.mp3");
 }
 
 void BossFrogFat::CalJumpPoint()
@@ -294,6 +342,7 @@ void BossFrogFat::SetFSMFUNC()
 			if (false == isTurned && Hit)
 			{
 				AllTileReset();
+				GameEngineSound::Play("GimmickSound.mp3");
 			}
 			if (GetStateDuration() > 1.0f && false == isTurned)
 			{
@@ -415,6 +464,7 @@ void BossFrogFat::SetFSMFUNC()
 			if (false == GetStateChecker() && true == CheckHit())
 			{
 				AllTileReset();
+				GameEngineSound::Play("GimmickSound.mp3");
 			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
@@ -434,6 +484,7 @@ void BossFrogFat::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("TILT", false, -1, 1.0f / 30);
 			m_pCapsuleComp->AttachShape();
+			GameEngineSound::Play("Frog_Phase2_PrevSuckScream.mp3");
 		},
 		[this](float Delta)
 		{
@@ -455,7 +506,6 @@ void BossFrogFat::SetFSMFUNC()
 			LoopCnt = 0;
 			EnemyRenderer->ChangeAnimation("SUCK");
 			m_pCapsuleComp->AttachShape();
-
 		},
 		[this](float Delta)
 		{
@@ -571,6 +621,7 @@ void BossFrogFat::SetFSMFUNC()
 			float4 FrogPos = GetTransform()->GetWorldPosition();
 			FrogPos.y += 50.0f;
 
+			GameEngineSound::Play("Frog_Phase2_Death.mp3");
 
 			//std::shared_ptr<GameEngineActor> Soul= GetLevel()->CreateActor<BossFrogSoul>();
 			if (true == m_pCapsuleComp->RayCast(FrogPos, float4::DOWN, CollPoint, 2000.0f)) // 플레이어 위치에서 float4::DOWN 방향으로 2000.0f 길이만큼 체크한다.
