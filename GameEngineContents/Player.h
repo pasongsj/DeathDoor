@@ -141,7 +141,7 @@ private:
 	// State Controll
 	float StateInputDelayTime = 0.0f;
 
-	void CheckFalling();
+	void CheckFalling(float _DeltaTime);
 	void CheckDirInput(float _DeltaTime);
 	void CheckStateInput(float _DeltaTime);
 	void CheckState(float _DeltaTime);
