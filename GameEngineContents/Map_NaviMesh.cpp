@@ -33,7 +33,7 @@ void Map_NaviMesh::Start()
 	m_pNaviComp = CreateComponent<PhysXTriangleComponent>();
 	m_pNaviComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	m_pNaviComp->CreatePhysXActors("Fortress_Navi_DC.fbx", true);
-	m_pNaviComp->SetWorldPosWithParent(float4(0, 1000, 0), float4{ 0 , -135, 0 });
+	m_pNaviComp->SetWorldPosWithParent(float4(0, 10000, 0), float4{ 0 , -135, 0 });
 	m_pNaviComp->SetNavigation();
 }
 
