@@ -26,6 +26,7 @@ protected:
 
 private:
 	std::shared_ptr<class ContentFBXRenderer> m_pNaviRenderer = nullptr;
+	std::shared_ptr<class ContentFBXRenderer> m_pWallRenderer = nullptr;
 	std::shared_ptr<class PhysXTriangleComponent> m_pNaviComp = nullptr;
 
 

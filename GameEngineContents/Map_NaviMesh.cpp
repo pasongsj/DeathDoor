@@ -27,13 +27,15 @@ void Map_NaviMesh::Start()
 	}
 	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pNaviRenderer->SetFBXMesh("Fortress_Navi_DC.fbx", "ContentMeshDeffered");
-	m_pNaviRenderer->Off();
+	//m_pNaviRenderer->On();
 
+	m_pWallRenderer = CreateComponent<ContentFBXRenderer>();
+	m_pWallRenderer->SetFBXMesh("Fortress_Navi_DC_Wall.fbx", "ContentMeshDeffered");
 
 	m_pNaviComp = CreateComponent<PhysXTriangleComponent>();
 	m_pNaviComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	m_pNaviComp->CreatePhysXActors("Fortress_Navi_DC.fbx", true);
-	m_pNaviComp->SetWorldPosWithParent(float4(0, 10000, 0), float4{ 0 , -135, 0 });
+	m_pNaviComp->SetWorldPosWithParent(float4(0, -10000, 0), float4{ 0 , -135, 0 });
 	m_pNaviComp->SetNavigation();
 	m_pNaviComp->SetFilterData(PhysXFilterGroup::NaviMesh);
 }
