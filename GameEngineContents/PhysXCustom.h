@@ -64,7 +64,7 @@ public:
 
 private:
 	std::weak_ptr<class PhysXControllerComponent> m_pOwnerComp;
-	bool m_bReturnValue;
+	bool m_bReturnValue = true;
 
 };
 class CustomCctBehaviorCallback : public physx::PxControllerBehaviorCallback
@@ -106,5 +106,5 @@ public:
 		m_bReturnValue = _Value;
 	}
 private:
-	bool m_bReturnValue;
+	bool m_bReturnValue = true;
 };
