@@ -64,6 +64,7 @@ float4 DeferredCalLight_PS(Output _Input) : SV_Target0
     }
     
     float4 Normal = NormalTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
+    Normal = normalize(Normal);
     
     float4 DiffuseRatio = (float4) 0.0f;
     float4 SpacularRatio = (float4) 0.0f;
