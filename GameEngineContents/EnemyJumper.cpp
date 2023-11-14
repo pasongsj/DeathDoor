@@ -466,46 +466,7 @@ void EnemyJumper::SetFSMFUNC()
 				{
 					SetNextState(EnemyJumperState::IDLE);
 				}
-			}
-
-			//float4 f4Dir = GetPlayerDir();
-			//float JumperSpeed = 0.f;
-			//if (Map_NaviMesh::NaviMesh != nullptr)
-			//{
-
-			//	float4 f4Point = float4::ZERONULL;
-			//	float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
-			//	float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
-			//	float PlayerDistance = PlayerPos.XYZDistance(f4MyPos);
-
-			//	UINT Dummy = -1;
-
-			//	//사이에 벽이 있음
-			//	if (true == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy))
-			//	{
-
-			//		float4 RoadDir = float4::ZERONULL;
-			//		RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, PlayerPos);
-			//		if (RoadDir != float4::ZERONULL)
-			//		{
-			//			f4Dir = RoadDir;
-			//			f4Dir.y = 0;
-			//			float4 FrontPos = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadPos();
-			//			FrontPos.y = 0;
-			//			float4 MoveAmount = (FrontPos - f4MyPos);
-			//			JumperSpeed = MoveAmount.Size() < 200.0f ? 0 : MoveAmount.Size();
-			//			//JumperSpeed = JumperSpeed / 1.5f;
-
-			//			NaviMove(f4Dir, JumperSpeed, DEFAULT_DIR_JUMPER);
-			//			return;
-			//		}
-			//		else
-			//		{
-			//			SetNextState(EnemyJumperState::IDLE);
-			//			return;
-			//		}
-			//	}
-			//}		
+			}	
 
 
 			JumpMove(Delta);
