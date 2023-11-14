@@ -227,7 +227,7 @@ physx::PxQueryHitType::Enum CustomQueryFilterCallback::preFilter(const physx::Px
 		return physx::PxQueryHitType::eBLOCK;
 	}
 	float4 PlayerGroundPos = m_pOwnerComp.lock()->GetWorldPosition();
-	PlayerGroundPos.y + 5.f;
+	PlayerGroundPos.y += 5.f;
 	float4 CollPoint = float4::ZERO;
 	if (false == m_pOwnerComp.lock()->RayCast(PlayerGroundPos, float4::DOWN, CollPoint, 100.0f)&& shape->getGeometryType() == physx::PxBoxGeometry().getType())
 	{
