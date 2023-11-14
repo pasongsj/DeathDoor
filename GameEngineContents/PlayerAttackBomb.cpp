@@ -35,7 +35,6 @@ void PlayerAttackBomb::Death()
 	std::weak_ptr<GrayScaleEffect> Effect = GetLevel()->GetLastTarget()->CreateEffect<GrayScaleEffect>();
 	GameEngineLevel* Level = GetLevel();
 	Level->TimeEvent.AddEvent(0.2f, [Level, Effect](GameEngineTimeEvent::TimeEvent&, GameEngineTimeEvent*) {Level->GetLastTarget()->ReleaseEffect(Effect.lock()); });
-	GameEngineSound::Play("Player_BombExplosion.mp3");
 
 	//GameEngineObjectBase::Death();
 }
@@ -49,6 +48,11 @@ void PlayerAttackBomb::Update(float _DeltaTime)
 	}
 	if (PhysXFilterGroup::None != DestTarget && true == CheckCollision(DestTarget))
 	{
+		if (true == AttackRenderer->IsUpdate())
+		{
+			GameEngineSound::Play("Player_BombExplosion.mp3");
+
+		}
 		SetShoot(0);
 		AttackRenderer->Off();
 		DeathTime = GetLiveTime() + 1.0f;
@@ -59,6 +63,7 @@ void PlayerAttackBomb::Update(float _DeltaTime)
 	if (GetLiveTime() > GetFireTime() + 20.0 || (DeathTime != 0.0f && GetLiveTime() > DeathTime))
 	{
 		GameEngineObjectBase::Death();
+		GameEngineSound::Play("Splash.mp3");
 		return;
 	}
 
