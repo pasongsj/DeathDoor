@@ -20,6 +20,10 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->SetFBXMesh("FROG_MESH.FBX", "ContentAniMeshDeffered");
 	// 인트로 애니메이션
 	EnemyRenderer->CreateFBXAnimation("INTRO_JUMP", "FROG_JUMP.fbx", { 1.0f / 30, false }); // intro
+	EnemyRenderer->SetAnimationStartFunc("INTRO_JUMP", 1, [this]
+		{
+			EnemyRenderer->PauseOn();
+		});
 	EnemyRenderer->SetAnimationStartFunc("INTRO_JUMP", 45, [this]
 		{
 			GameEngineSound::Play("Frog_Phase1_JumpSound.mp3");
@@ -255,6 +259,7 @@ void BossFrogMain::Start()
 	{
 		GameEngineInput::CreateKey("PressK", 'K');
 	}
+	BGMSound = GameEngineSound::Play("SwampKingIntroMusic.mp3");
 }
 
 void BossFrogMain::Update(float _DeltaTime)
@@ -326,7 +331,11 @@ void BossFrogMain::SetFSMFUNC()
 				MainCam->GetTransform()->SetWorldRotation(float4::LerpClamp(MainCam->GetTransform()->GetWorldRotation(), float4{ 0.0f,-45.0f,0.0f }, Delta));
 
 			}
-
+			
+			if (GetStateDuration() > 3.0f)
+			{
+				EnemyRenderer->PauseOff();
+			}
 
 
 			if (false == GetStateChecker() && true == CheckHit())
@@ -342,7 +351,10 @@ void BossFrogMain::SetFSMFUNC()
 		},
 		[this]
 		{
-			
+			BGMSound.SoundFadeOut(5.0f);
+			BGMSound = GameEngineSound::Play("SwampKingSection2Segment1.mp3");
+			BGMSound.SetLoopPoint(0.0f, 5.0f);
+			BGMSound.SetLoop();
 		}
 	);
 	
@@ -437,6 +449,11 @@ void BossFrogMain::SetFSMFUNC()
 					EnemyRenderer->UnitOff(25, 0);
 					EnemyRenderer->UnitOff(26, 0);
 					EnemyRenderer->UnitOff(27, 0);
+					BGMSound.SoundFadeOut(5.0f);
+					BGMSound = GameEngineSound::Play("SwampKingSection2Segment3.mp3");
+					//BGMSound0.SoundFadeIn(1.0f);
+					BGMSound.SetLoopPoint(0.0f,5.0f);
+					BGMSound.SetLoop();
 					break;
 				case 3:
 					EnemyRenderer->UnitOff(21, 0);
