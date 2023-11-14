@@ -64,6 +64,7 @@ private:
 	std::weak_ptr<class Ladder> m_pLadder;
 	std::weak_ptr<class SecretTile> m_pTile;
 	std::weak_ptr<class SecretTile> m_pTile2;
+	std::weak_ptr<class SecretTile> m_pTile3;
 
 
 	bool m_bIsClear = false;
