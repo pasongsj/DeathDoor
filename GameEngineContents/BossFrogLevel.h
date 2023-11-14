@@ -70,5 +70,7 @@ private:
 	bool m_bExitDoor = false;
 	
 	float m_FadeUpdateTime = 1.5f;
+
+	GameEngineSoundPlayer BGM = nullptr;
 	
 };

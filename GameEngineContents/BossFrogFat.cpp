@@ -46,6 +46,9 @@ void BossFrogFat::Start()
 	{
 		GameEngineInput::CreateKey("PressK", 'K');
 	}
+	BGMSound = GameEngineSound::Play("SwampKingPhase2MainLoop.mp3");
+	BGMSound.SetLoopPoint(0.0f, 48.0f);
+	BGMSound.SetLoop();
 	SetEnemyHP(50);
 }
 float4 BossFrogFat::GetRandomTileIndex()
@@ -84,6 +87,7 @@ void BossFrogFat::Update(float _DeltaTime)
 	if (true == GameEngineInput::IsDown("PressK"))
 	{
 		SetNextState(BossFrogFatState::DEATH);
+		SetFrogDeath();
 	}
 
 	AnimationBoneData BoneData = EnemyRenderer->GetBoneData("_FROG_SEPTRE_BONE");
@@ -648,6 +652,14 @@ void BossFrogFat::SetFSMFUNC()
 			{
 				LerpRatio = 1.0f;
 				EnemyRenderer->SetBlurColor(EndColor, -1.0f);
+			}
+			if (GetStateDuration() > 3.0f)
+			{
+				IntroDone = false;
+			}
+			if (GetStateDuration() > 6.0f)
+			{
+				Death();
 			}
 		},
 		[this]

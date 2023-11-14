@@ -31,8 +31,10 @@ void BossFrogLevel::StageClearCheck()
 {
 	// 여기서 문이아니라 타일생성이다. 
 	// 문은 미리만들어 
-	if (true == m_pBossFrog->DeathCheck() && false == m_bExitDoor)
+	if (0.0f == SecondPhaseStartTime && true == isFatPhase && true == m_pBossFrog->GetIsFrogDeath() && false == m_bExitDoor)
 	{
+		TileManager::MainManager->ResetTile();
+		BGM = m_pBossFrog->BGMSound;
 		m_bExitDoor = true;
 	}
 }
@@ -54,12 +56,19 @@ void BossFrogLevel::Update(float _DeltaTime)
 
 	if (false == isFatPhase && nullptr != m_pBossFrog && true == m_pBossFrog->GetIsFrogDeath())
 	{
-		SecondPhaseStartTime = GetLiveTime() + 7.0f;
+		SecondPhaseStartTime = GetLiveTime() + 5.0f;
+		if (nullptr != m_pBossFrog && true == m_pBossFrog->BGMSound.IsValid())
+		{
+			m_pBossFrog->BGMSound.SoundFadeOut(3.0f);
+		}
+		GameEngineSound::Play("SwampKingPhase2Intro.mp3");
+
 		isFatPhase = true;
 	}
 
 	if (0.0f != SecondPhaseStartTime && true == m_pBossFrog->GetIsFrogDeath() && GetLiveTime() > SecondPhaseStartTime)
 	{
+		
 		m_pBossFrog->Death();
 		m_pBossFrog = CreateActor<BossFrogFat>();
 		SecondPhaseStartTime = 0.0f;
@@ -78,6 +87,10 @@ void BossFrogLevel::Update(float _DeltaTime)
 			nextPos -= xzPos;
 			GetMainCamera()->GetTransform()->SetWorldPosition(float4::LerpClamp(GetMainCamera()->GetTransform()->GetWorldPosition(), nextPos, _DeltaTime));
 			GetMainCamera()->GetTransform()->SetWorldRotation(float4::LerpClamp(GetMainCamera()->GetTransform()->GetWorldRotation(), m_CameraRot, _DeltaTime));
+		}
+		else
+		{
+			Player::MainPlayer->CameraControl = true;
 		}
 	}
 	else
@@ -148,7 +161,11 @@ void BossFrogLevel::LevelChangeEnd()
 {
 	AllActorDestroy();
 	BossFrogWindow::EditorGUI->Off();
-
+	if (nullptr != m_pBossFrog)
+	{
+		BGM = m_pBossFrog->BGMSound;
+	}
+	BGM.SoundFadeOut(1.0f);
 }
 
 void BossFrogLevel::Create_Light()
