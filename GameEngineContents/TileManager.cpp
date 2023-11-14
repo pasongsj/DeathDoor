@@ -249,7 +249,8 @@ void TileManager::InitComponent()
 	// 테두리 렌더러 생성
 	m_pHingeRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pHingeRenderer->SetFBXMesh("Hinge.fbx", "ContentMeshDeffered");
-	m_pHingeRenderer->GetTransform()->AddLocalPosition(float4{ -20 ,0 , 15 });
+	//m_pHingeRenderer->GetTransform()->AddLocalPosition(float4{ 0 ,0 , -25 });
+	m_pHingeRenderer->GetTransform()->SetLocalScale(float4{ 0.98f, 0.98f, 0.98f });
 
 	m_pWiresRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pWiresRenderer->SetFBXMesh("Wires.fbx", "ContentMeshDeffered");
