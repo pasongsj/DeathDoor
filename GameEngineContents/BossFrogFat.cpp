@@ -39,7 +39,8 @@ void BossFrogFat::Start()
 			m_pCapsuleComp->RigidSwitch(false);
 		}
 		m_pCapsuleComp->SetWorldPosWithParent(BossFrog::WPointNorth);
-		m_pCapsuleComp->CreateSubShape(SubShapeType::BOX, float4{ 800.0f,200.0f,200.0f }, float4{ 0.0f, 100.0f, 400.0f });
+		m_pCapsuleComp->CreateSubShape(SubShapeType::BOX, float4{ 800.0f,200.0f,200.0f }, float4{ 0.0f, 100.0f, 400.0f },true);
+		m_pCapsuleComp->SetSubShapeFilter(PhysXFilterGroup::MonsterDynamic);
 	}
 
 	if (false == GameEngineInput::IsKey("PressK"))
