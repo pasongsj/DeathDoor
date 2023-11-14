@@ -1,6 +1,8 @@
 #include "PreCompileHeader.h"
 #include "EnemyGhoul.h"
 #include "EnemyAttackCapsule.h"
+#include "Player.h"
+#include "Map_NaviMesh.h"
 
 EnemyGhoul::EnemyGhoul() 
 {
@@ -162,12 +164,42 @@ void EnemyGhoul::SetFSMFUNC()
 				EnemyRenderer->ChangeAnimation("RUN_BOW");
 				SetStateCheckerOn();
 			}
-			AggroMove(Delta);
-			if (true == InRangePlayer(900.0f))
+			float4 f4Dir = GetPlayerDir();
+			if (Map_NaviMesh::NaviMesh != nullptr)
 			{
-				SetNextState(EnemyGhoulState::IDLE);
-				return;
+
+				float4 f4Point = float4::ZERONULL;
+				float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
+				float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+				float PlayerDistance = PlayerPos.XYZDistance(f4MyPos);
+
+				UINT Dummy = -1;
+
+				//사이에 벽이 있음
+				if (true == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy))
+				{
+
+					float4 RoadDir = float4::ZERONULL;
+					RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, PlayerPos);
+					if (RoadDir != float4::ZERONULL)
+					{
+						f4Dir = RoadDir;
+					}
+					else
+					{
+						SetNextState(EnemyGhoulState::IDLE);
+						return;
+					}
+				}
+				else if (false == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy)
+					&& true == InRangePlayer(900.f))
+				{
+					SetNextState(EnemyGhoulState::SHOOT);
+					return;
+				}
 			}
+
+			NaviMove(f4Dir, GHOUL_MOVE_SPEED, DEFAULT_DIR_GHOUL);
 		},
 		[this]
 		{
