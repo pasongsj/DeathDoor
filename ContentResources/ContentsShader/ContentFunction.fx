@@ -52,5 +52,8 @@ float4 NormalTexCalculate(Texture2D NormalTex, SamplerState Smp, float4 UV, floa
 
 float4 ToneMapping_ACES(float4 _Color)
 {
-    return saturate((_Color * (2.51f * _Color + 0.03f)) / (_Color * (2.43f * _Color + 0.59f) + 0.14f));
+    float Alpha = _Color.a;
+    float4 Return = saturate((_Color * (2.51f * _Color + 0.03f)) / (_Color * (2.43f * _Color + 0.59f) + 0.14f));
+    Return.a = Alpha;
+    return Return;
 }

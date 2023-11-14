@@ -24,7 +24,7 @@ void CullingObject::Update(float _DeltaTime)
 void CullingObject::InitComponent(const std::string& _MeshName)
 {
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer->SetFBXMesh(_MeshName, "ContentMeshDeffered");
+	m_pRenderer->SetFBXMesh(_MeshName, "ContentMeshForward");
 	m_pRenderer->Off();
 
 	float4 MeshScale = m_pRenderer->GetMeshScale();
