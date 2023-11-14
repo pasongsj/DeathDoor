@@ -113,7 +113,7 @@ void FortressLevel::LevelChangeStart()
 	Create_Manager();
 	Create_WaterBox();
 
-
+	CreateActor<EnemyBruteGold>();
 	// Create_FieldEnemy();
 	Create_FieldObject();
 }
