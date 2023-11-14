@@ -179,8 +179,8 @@ void BossFrogLevel::Create_WaterBox()
 {
 	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
 	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
-	Box->GetTransform()->SetLocalScale({ 6000, 1, 3800 });
-	Box->SetWaterPosition({ -3800, -450, 3850 });
+	Box->GetTransform()->SetLocalScale({ 6000, 3000, 10800 });
+	Box->SetWaterPosition({ -3800, -1850, 3850 });
 	Box->GetTransform()->SetLocalRotation({ 0.0f, 45.0f , 0.0f });
 }
 
