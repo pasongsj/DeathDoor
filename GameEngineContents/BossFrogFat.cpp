@@ -780,9 +780,9 @@ void BossFrogFat::CreateWaterParticle()
 		Drop->GetTransform()->SetWorldScale({ Scale, Scale, Scale });
 
 		Drop->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f, 150.0f, 0.0f });
-		float DirX = GameEngineRandom::MainRandom.RandomFloat(-1, 1);
+		float DirX = GameEngineRandom::MainRandom.RandomFloat(-0.5, 0.5);
 		float DirY = GameEngineRandom::MainRandom.RandomFloat(0.8f, 1.0f);
-		float DirZ = GameEngineRandom::MainRandom.RandomFloat(-1, 1);
+		float DirZ = GameEngineRandom::MainRandom.RandomFloat(-0.5, 0.5);
 		Drop->SetParabola({ DirX, DirY, DirZ }, 500.0f, 1000.0f);
 
 		float4 Dir = { cos(Angle), 0.0f, sin(Angle) };
@@ -791,7 +791,6 @@ void BossFrogFat::CreateWaterParticle()
 		float Distance = GameEngineRandom::MainRandom.RandomFloat(300, 400);
 
 		Drop->GetTransform()->AddWorldPosition({ Distance * cos(Angle), 1.0f + i , Distance * sin(Angle) });
-		Drop->GetTransform()->SetWorldRotation({ 90.0f, 0.0f , 0.0f });
 
 		Angle += 20;
 	}
