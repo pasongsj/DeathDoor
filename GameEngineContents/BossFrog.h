@@ -22,6 +22,9 @@ public:
 	}
 
 	bool IntroDone = false;
+
+	GameEngineSoundPlayer BGMSound = nullptr;
+
 protected:
 	void Start() override;
 
