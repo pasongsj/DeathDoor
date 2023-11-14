@@ -151,22 +151,22 @@ void FortressLevel::Create_WaterBox()
 	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
 
 	Box->SetWaterPosition({ -5000, -120 ,4500 });
-	Box->GetTransform()->SetLocalScale({ 60000 , 1 , 20000 });
+	Box->GetTransform()->SetLocalScale({ 50000 , 1 , 20000 });
 	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });
 
 	/*Box->SetWaterPosition({ -5000, -120 ,4500 });
 	Box->GetTransform()->SetLocalScale({ 15000 , 1 , 15000 });
 	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });*/
 	
-	{
-		//물 체크용 피직스 트리거
-		std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
-		std::shared_ptr<PhysXBoxComponent>pBoxComp = Actor->CreateComponent<PhysXBoxComponent>();
-		pBoxComp->CreatePhysXActors(float4{ 60000 , 1 , 20000 }, float4::ZERO, true);
-		pBoxComp->SetFilterData(PhysXFilterGroup::Water);
-		pBoxComp->SetTrigger();
-		pBoxComp->SetWorldPosWithParent({ -5000, -120 ,4500 }, { 0 , 45.0f , 0 });
-	}
+	//{
+	//	//물 체크용 피직스 트리거
+	//	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
+	//	std::shared_ptr<PhysXBoxComponent>pBoxComp = Actor->CreateComponent<PhysXBoxComponent>();
+	//	pBoxComp->CreatePhysXActors(float4{ 60000 , 1 , 20000 }, float4::ZERO, true);
+	//	pBoxComp->SetFilterData(PhysXFilterGroup::Water);
+	//	pBoxComp->SetTrigger();
+	//	pBoxComp->SetWorldPosWithParent({ -5000, -120 ,4500 }, { 0 , 45.0f , 0 });
+	//}
 
 }
 
@@ -185,6 +185,7 @@ void FortressLevel::Set_PlayerStartPos()
 		MsgAssert("Player 의 PhysXComponent가 nullptr 입니다.");
 		return;
 	}
+
 
 	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
 }

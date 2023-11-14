@@ -205,6 +205,14 @@ void TileManager::RotationUpdate(float _DeltaTime)
 		{
 			m_pPivotTile.lock()->GetTransform()->AddLocalRotation(float4{ 0, 0, 0.2f });
 		}
+		else
+		{
+			if (true == IsLandSoundPlay)
+			{
+				GameEngineSound::Play("Frog_Phase2_SuckTileLand.mp3");
+				IsLandSoundPlay = false;
+			}
+		}
 	}
 }
 
@@ -241,6 +249,7 @@ void TileManager::InitComponent()
 	// 테두리 렌더러 생성
 	m_pHingeRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pHingeRenderer->SetFBXMesh("Hinge.fbx", "ContentMeshDeffered");
+	m_pHingeRenderer->GetTransform()->AddLocalPosition(float4{ -20 ,0 , 15 });
 
 	m_pWiresRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pWiresRenderer->SetFBXMesh("Wires.fbx", "ContentMeshDeffered");

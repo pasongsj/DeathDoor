@@ -30,8 +30,13 @@ void EnemyGrunt::InitAnimation()
 		{
 			SetStateCheckerOn();
 		});
+	EnemyRenderer->SetAnimationStartFunc("JUMP_MAIN", 8, [this]
+		{
+			GameEngineSound::Play("Grunt_JumpScream.mp3");
+		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_MAIN", 20, [this]
 		{
+			GameEngineSound::Play("Grunt_JumpAttackLand.mp3");
 			SetStateCheckerOff();
 		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_MAIN", 25, [this]
@@ -129,7 +134,7 @@ void EnemyGrunt::SetFSMFUNC()
 	SetFSM(EnemyGruntState::MOVE,
 		[this]
 		{
-			m_f4ShootDir = AggroDir(m_pCapsuleComp);
+			//m_f4ShootDir = AggroDir(m_pCapsuleComp);
 			EnemyRenderer->ChangeAnimation("WALK");
 		},
 		[this](float Delta)
@@ -150,39 +155,49 @@ void EnemyGrunt::SetFSMFUNC()
 			//	SetNextState(EnemyGruntState::JUMP_WAIT);
 			//	return;
 			//}
-
+			
 			if (false == InRangePlayer(1000.0f))
 			{
 				SetNextState(EnemyGruntState::IDLE);
 				return;
 			}
-			float4 f4Point = float4::ZERONULL;
-			float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
-			float4 NextPos = m_pCapsuleComp->GetWorldPosition() + (m_f4ShootDir * GRUNT_MOVE_SPEED);
-			m_fTargetDistance = NextPos.XYZDistance(f4MyPos);
-			UINT Dummy = -1;
 
-			if (false == InRangePlayer(800.f)&&false== m_pCapsuleComp->TriRayCast(f4MyPos, m_f4ShootDir, f4Point, m_fTargetDistance, Dummy))
+			float4 f4Dir = GetPlayerDir();
+			if(Map_NaviMesh::NaviMesh != nullptr)
 			{
-				if (false == m_pCapsuleComp->TriRayCast(NextPos, float4::DOWN, f4Point, m_fTargetDistance, Dummy))
+
+				float4 f4Point = float4::ZERONULL;
+				float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
+				float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+				float PlayerDistance = PlayerPos.XYZDistance(f4MyPos);
+
+				UINT Dummy = -1;
+
+				//사이에 벽이 있음
+				if (true ==m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy))
 				{
+
 					float4 RoadDir = float4::ZERONULL;
-					RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, Player::MainPlayer->GetPhysXComponent()->GetWorldPosition());
+					RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, PlayerPos);
 					if (RoadDir != float4::ZERONULL)
 					{
-						m_f4ShootDir = RoadDir;
+						f4Dir = RoadDir;
+					}
+					else
+					{
+						SetNextState(EnemyGruntState::IDLE);
+						return;
 					}
 				}
+				else if(false == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy)
+					&& true == InRangePlayer(800.f))
+				{
+					SetNextState(EnemyGruntState::JUMP_WAIT);
+					return;
+				}
 			}
-			else
-			{
-				SetNextState(EnemyGruntState::JUMP_WAIT);
-				return;
-			}
-			float4 Rot = float4::ZERO;
-			AggroMove(Delta);
-			Rot.y = float4::GetAngleVectorToVectorDeg360(m_f4ShootDir, float4::FORWARD);
-			m_pCapsuleComp->SetRotation(Rot);
+
+			NaviMove(f4Dir, GRUNT_MOVE_SPEED);
 		},
 		[this]
 		{
@@ -193,6 +208,8 @@ void EnemyGrunt::SetFSMFUNC()
 	SetFSM(EnemyGruntState::JUMP_WAIT,
 		[this]
 		{
+			GameEngineSound::Play("Grunt_AttackReady.mp3");
+
 		},
 		[this](float Delta)
 		{
@@ -258,6 +275,8 @@ void EnemyGrunt::SetFSMFUNC()
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp);
 			EnemyRenderer->ChangeAnimation("HIT");
+
+			GameEngineSound::Play("Grunt_GetDamage.mp3");
 		},
 		[this](float Delta)
 		{
@@ -281,6 +300,8 @@ void EnemyGrunt::SetFSMFUNC()
 	SetFSM(EnemyGruntState::DEATH,
 		[this]
 		{
+			GameEngineSound::Play("Grunt_Death.mp3");
+
 			EnemyRenderer->ChangeAnimation("DROWN");
 		},
 		[this](float Delta)

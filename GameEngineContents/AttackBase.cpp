@@ -27,9 +27,17 @@ void AttackBase::Update(float _DeltaTime)
 	{
 		return;
 	}
-	if (PhysXFilterGroup::None != DestTarget &&  true == CheckCollision(DestTarget) || GetLiveTime() > FireTime + 20.0f)
+	if (FireTime != 0.0f && GetLiveTime() > FireTime + 20.0)
 	{
-
+		Death();
+		return;
+	}
+	if (PhysXFilterGroup::None != DestTarget &&  true == CheckCollision(DestTarget))
+	{
+		if (AttackAudio.size() != 0)
+		{
+			GameEngineSound::Play(AttackAudio);
+		}
 		Death();
 		return;
 	}
@@ -50,7 +58,7 @@ void AttackBase::SetTrans(const float4& _Dir, const float4& _Pos)
 
 	if (nullptr == PhysXComp->GetDynamic() || nullptr == PhysXComp)
 	{
-		MsgAssert("PhysX Component가 생성되지 않았습니다.");
+		//MsgAssert("PhysX Component가 생성되지 않았습니다.");
 		return;
 	}
 	if(float4::ZERONULL != _Pos)

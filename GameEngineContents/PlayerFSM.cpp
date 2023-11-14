@@ -1,4 +1,5 @@
 #include "PreCompileHeader.h"
+#include <GameEnginePlatform/GameEngineSound.h>
 #include "Player.h"
 #include "PhysXCapsuleComponent.h"
 #include "PhysXControllerComponent.h"
@@ -16,6 +17,9 @@
 #include "PlayerBow.h"
 #include "PlayerAttackTrail.h"
 #include "PhysXBoxComponent.h"
+
+#include "OfficeLevel.h"
+
 
 
 void Player::SetFSMFunc()
@@ -69,8 +73,12 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			Renderer->ChangeAnimation("RUN");
-
-
+			if (true ==  StateSound.IsValid())
+			{
+				StateSound.Stop();
+			}
+			StateSound = GameEngineSound::Play("Player_StepGround.mp3");
+			StateSound.SetLoop();
 		},
 		[this](float Delta)
 		{
@@ -78,6 +86,7 @@ void Player::SetFSMFunc()
 			if (true == GetStateChecker())
 			{
 				Renderer->ChangeAnimation("WALK");
+				StateSound.Stop();
 				MoveUpdate(PLAYER_WALK_SPEED);
 
 				if (true == Renderer->IsAnimationEnd())
@@ -95,6 +104,11 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			if (true == StateSound.IsValid())
+			{
+				StateSound.Stop();
+			}
+			StateSound = nullptr;
 			//MoveUpdate(0.0f);
 
 		}
@@ -121,6 +135,7 @@ void Player::SetFSMFunc()
 				// arrow
 				AttackActor = GetLevel()->CreateActor<PlayerAttackArrow>();
 				AttackActor->SetTrans(MoveDir, ArrowPos);
+				StateSound = GameEngineSound::Play("Player_ArrowCharge.mp3");
 				break;
 			}
 			case Player::PlayerSkill::MAGIC:
@@ -131,6 +146,7 @@ void Player::SetFSMFunc()
 				float4 MagicPos = GetBonePos("Weapon_R");
 				AttackActor = GetLevel()->CreateActor<PlayerAttackMagic>();
 				AttackActor->SetTrans(MoveDir, MagicPos);
+				StateSound = GameEngineSound::Play("Player_MagicReady.mp3");
 				break;
 			}
 			case Player::PlayerSkill::BOMB:
@@ -141,6 +157,7 @@ void Player::SetFSMFunc()
 				float4 BombPos = (GetBonePos("Weapon_R") + GetBonePos("Weapon_L")) * 0.5f;
 				AttackActor = GetLevel()->CreateActor<PlayerAttackBomb>();
 				AttackActor->SetTrans(MoveDir, BombPos);
+				StateSound = GameEngineSound::Play("Player_BombReady.mp3");
 				break;
 			}
 			case Player::PlayerSkill::HOOK:
@@ -193,7 +210,22 @@ void Player::SetFSMFunc()
 			{
 				if (true == Renderer->IsAnimationEnd())
 				{
+					StateSound.Stop();
 					AttackActor->SetShoot();
+					switch (CurSkill)
+					{
+					case Player::PlayerSkill::ARROW:
+						GameEngineSound::Play("Player_ArrowFire.mp3");
+						break;
+					case Player::PlayerSkill::MAGIC:
+						GameEngineSound::Play("Player_MagicFire.mp3");
+						break;
+					case Player::PlayerSkill::BOMB:
+						GameEngineSound::Play("Player_BombThrow.mp3");
+						break;
+					default:
+						break;
+					}
 
 				}
 				else
@@ -212,6 +244,10 @@ void Player::SetFSMFunc()
 		},
 		[this]
 		{
+			if (true == StateSound.IsValid())
+			{
+				StateSound.Stop();
+			}
 			if (true == PlayerTestMode)
 			{
 				return;
@@ -267,11 +303,23 @@ void Player::SetFSMFunc()
 
 			// 마우스 방향을 바라보도록 함
 			MoveDir = GetMousDirection();
-			StackDuration = 0.35f;
+			StackDuration = 0.8f;
+			if (false == isChargeAttack)
+			{
+				std::vector<std::string> BasicAttackSound = { "Player_Attack.mp3","Player_Attack3.mp3","Player_Attack2.mp3" };
+				GameEngineSound::Play(BasicAttackSound[AttackStack]);
+			}
+			else
+			{
+				GameEngineSound::Play("Player_StrongAtk.mp3");
+
+			}
 			if (++AttackStack >= 3)
 			{
-				StateInputDelayTime = 0.15f;
+				StateInputDelayTime = 0.3f;
+				AttackStack = 0;
 			}
+
 
 			{// base attack range
 				AttackActor = GetLevel()->CreateActor<AttackBase>();
@@ -338,6 +386,9 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			Renderer->ChangeAnimation("ROLL");
+			std::vector<std::string> Rollsound = { "Player_Roll.mp3","Player_Roll1.mp3","Player_Roll2.mp3" };
+			GameEngineSound::Play(Rollsound);
+
 		},
 		[this](float Delta)
 		{
@@ -370,6 +421,7 @@ void Player::SetFSMFunc()
 	SetFSM(PlayerState::ROLL_ATT,
 		[this]
 		{
+			GameEngineSound::Play("Player_RollAttack.mp3");
 			Renderer->ChangeAnimation("ROLL_SLASH_END");
 			AttackActor = GetLevel()->CreateActor<AttackBase>();
 			AttackActor->CreatePhysXAttComp<PhysXBoxComponent>(float4{300.0f, 100.0f, 100.0f }, PhysXFilterGroup::PlayerSkill);
@@ -395,6 +447,7 @@ void Player::SetFSMFunc()
 	SetFSM(PlayerState::CHARGE_ATT,
 		[this]
 		{
+			GameEngineSound::Play("Player_Charge.mp3");
 			if (true == isRightAttack)
 			{
 				Renderer->ChangeAnimation("CHARGE_SLASH_R");
@@ -407,7 +460,7 @@ void Player::SetFSMFunc()
 		},
 		[this](float Delta)
 		{
-			if (true == Renderer->IsAnimationEnd())
+			if (true == Renderer->IsAnimationEnd()&& false == GetStateChecker())
 			{
 				if (true == isRightAttack)
 				{
@@ -417,6 +470,8 @@ void Player::SetFSMFunc()
 				{
 					Renderer->ChangeAnimation("CHARGE_MAX_L");
 				}
+				GameEngineSound::Play("Player_ChargeAttackReady.mp3");
+				SetStateCheckerOn();
 			}
 
 			if (false == GameEngineInput::IsPress("PlayerMBUTTON"))
@@ -437,6 +492,7 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			Renderer->ChangeAnimation("HIT_BACK");
+			GameEngineSound::Play("Player_GetDamage.mp3");
 		},
 		[this](float Delta)
 		{
@@ -471,20 +527,34 @@ void Player::SetFSMFunc()
 			m_pCapsuleComp->SetWorldPosWithParent(InteractData.Pos);
 			MoveDir = InteractData.Dir; 
 			m_pCapsuleComp->RigidSwitch(false);
+			StateSound = GameEngineSound::Play("Player_StepLadderPrev.mp3");
 		},
 		[this](float Delta)
 		{
+			if (false == GetStateChecker() && GetStateDuration() > 1.0f)
+			{
+				StateSound = GameEngineSound::Play("Player_StepLadder.mp3");
+				StateSound.SetLoop();
+				StateSound.SetPause(true);
+				SetStateCheckerOn();
+			}
 			// 땅에 or 사다리 끝에 도달해였는지 체크하는 함수
 			CheckClimbInput(Delta);
 		},
 		[this]
 		{
-				m_pCapsuleComp->TurnOnGravity();
-				Renderer->PauseOff(); 
-				InteractData.Type = InteractionData::InteractionDataType::None;
-				InteractData.Pos = float4::ZERONULL;
-				InteractData.Dir = float4::ZERONULL;
-				m_pCapsuleComp->RigidSwitch(true);
+			
+			m_pCapsuleComp->TurnOnGravity();
+			Renderer->PauseOff(); 
+			InteractData.Type = InteractionData::InteractionDataType::None;
+			InteractData.Pos = float4::ZERONULL;
+			InteractData.Dir = float4::ZERONULL;
+			m_pCapsuleComp->RigidSwitch(true);
+			if (true == StateSound.IsValid())
+			{
+				StateSound.Stop();
+			}
+			StateSound = nullptr;
 		}
 	); 
 
@@ -556,8 +626,6 @@ void Player::SetFSMFunc()
 
 
 
-	//DEAD
-	// 피격으로 인한 사망 Dead
 	SetFSM(PlayerState::DOOR,
 		[this]
 		{
@@ -587,9 +655,19 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			Renderer->ChangeAnimation("DEAD");
+			GameEngineSound::Play("Player_Death.mp3");
 		},
 		[this](float Delta)
 		{
+			std::shared_ptr<GameEngineLevel> NextLevel = GameEngineCore::ChangeLevel("OfficeLevel");
+			std::shared_ptr<OfficeLevel> Level = NextLevel->DynamicThis<OfficeLevel>();
+			if (nullptr == Level)
+			{
+				MsgAssert("다음 레벨의 다이나믹캐스트 결과가 nullptr 입니다.");
+				return;
+			}
+
+			//Level->SetPrevLevelType(PrevLevelType::FortressLevel);
 		},
 		[this]
 		{
@@ -674,6 +752,10 @@ void Player::SetFSMFunc()
 						return;
 					}
 				}
+				else
+				{
+					SetNextState(PlayerState::DROWN);
+				}
 			}
 			else if (true == Renderer->IsAnimationEnd())
 			{
@@ -693,6 +775,10 @@ void Player::SetFSMFunc()
 void Player::CheckClimbInput(float _DeltaTime)
 {
 	// 사다리 Climbing_ladder, Climbing_ladder_down, Climbing_off_ladder_top
+	if (true == GetStateChecker())
+	{
+		StateSound.SetPause(false);
+	}
 	if (true == GameEngineInput::IsPress("PlayerUp"))
 	{
 		float4 PlayerGroundPos = GetTransform()->GetWorldPosition() + (MoveDir * 50.0f);
@@ -714,6 +800,7 @@ void Player::CheckClimbInput(float _DeltaTime)
 	else if (true == GameEngineInput::IsPress("PlayerDown"))
 	{
 		float4 PlayerGroundPos = GetTransform()->GetWorldPosition();
+		PlayerGroundPos.y += 50;
 		float4 CollPoint = float4::ZERO;
 		if (true == m_pCapsuleComp->RayCast(PlayerGroundPos, float4::DOWN, CollPoint))
 		{
@@ -730,6 +817,10 @@ void Player::CheckClimbInput(float _DeltaTime)
 	}
 	else
 	{
+		if(true == GetStateChecker())
+		{
+			StateSound.SetPause(true);
+		}
 		Renderer->PauseOn();
 	}
 }

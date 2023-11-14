@@ -4,6 +4,8 @@
 #include <GameEngineCore/PrecompileHeader.h>
 
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineSound.h>
+
 
 #include <GameEngineCore/GameEngineGUI.h>
 #include <GameEngineCore/GameEngineCore.h>

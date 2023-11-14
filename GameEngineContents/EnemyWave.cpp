@@ -70,20 +70,22 @@ void EnemyWave::SetFSMFUNC()
 		{
 			std::shared_ptr<EnemyGrunt> Enemy = GetLevel()->CreateActor<EnemyGrunt>();
 			Enemy->GetPhysXComponent()->SetWorldPosWithParent(m_f4EnemyPos);
-			Enemy->CreateFadeEffect();
 
 			std::shared_ptr<EnemyJumper> Enemy2 = GetLevel()->CreateActor<EnemyJumper>();
 			Enemy2->GetPhysXComponent()->SetWorldPosWithParent(m_f4EnemyPos2);
-			Enemy2->CreateFadeEffect();
 
 			std::shared_ptr<EnemyGhoul> Enemy3 = GetLevel()->CreateActor<EnemyGhoul>();
 			Enemy3->GetPhysXComponent()->SetWorldPosWithParent(m_f4EnemyPos3);
-			Enemy3->CreateFadeEffect();
 
 			m_vEnemys.resize(3);
 			m_vEnemys[0].m_pEnemy = Enemy;
 			m_vEnemys[1].m_pEnemy = Enemy2;
 			m_vEnemys[2].m_pEnemy = Enemy3;
+
+			for (size_t i = 0; i < m_vEnemys.size(); i++)
+			{
+				m_vEnemys[i].m_pEnemy->CreateFadeEffect();
+			}
 		},
 		[this](float Delta)
 		{
@@ -129,6 +131,7 @@ void EnemyWave::SetFSMFUNC()
 			std::shared_ptr<EnemyGrunt> Enemy2 = GetLevel()->CreateActor<EnemyGrunt>();
 			Enemy2->GetPhysXComponent()->SetWorldPosWithParent(m_f4EnemyPos2);
 
+
 			std::shared_ptr<EnemyGhoul> Enemy3 = GetLevel()->CreateActor<EnemyGhoul>();
 			Enemy3->GetPhysXComponent()->SetWorldPosWithParent(m_f4EnemyPos3);
 
@@ -137,6 +140,11 @@ void EnemyWave::SetFSMFUNC()
 			m_vEnemys[0].m_pEnemy = Enemy;
 			m_vEnemys[1].m_pEnemy = Enemy2;
 			m_vEnemys[2].m_pEnemy = Enemy3;
+
+			for (size_t i = 0; i < m_vEnemys.size(); i++)
+			{
+				m_vEnemys[i].m_pEnemy->CreateFadeEffect();
+			}
 		},
 		[this](float Delta)
 		{
@@ -189,6 +197,11 @@ void EnemyWave::SetFSMFUNC()
 			m_vEnemys[0].m_pEnemy = Enemy;
 			m_vEnemys[1].m_pEnemy = Enemy2;
 			m_vEnemys[2].m_pEnemy = Enemy3;
+
+			for (size_t i = 0; i < m_vEnemys.size(); i++)
+			{
+				m_vEnemys[i].m_pEnemy->CreateFadeEffect();
+			}
 		},
 		[this](float Delta)
 		{

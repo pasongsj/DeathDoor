@@ -34,8 +34,8 @@ void Ladder::InitComponent()
 
 	m_pPhysXComponent = CreateComponent<PhysXBoxComponent>();
 	m_pPhysXComponent->SetPhysxMaterial(0.0f, 0.0f, 0.0f);
-	m_pPhysXComponent->CreatePhysXActors(float4(100, 10, 100), float4::ZERONULL, true);
-	m_pPhysXComponent->SetDynamicPivot(float4(0, 10, -50));
+	m_pPhysXComponent->CreatePhysXActors(float4(150, 50, 150), float4::ZERONULL, true);
+	m_pPhysXComponent->SetDynamicPivot(float4(0, 10, -100));
 	m_pPhysXComponent->SetFilterData(PhysXFilterGroup::LeverTrigger);
 	m_pPhysXComponent->SetTrigger();
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);

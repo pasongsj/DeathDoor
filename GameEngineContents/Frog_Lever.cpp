@@ -48,7 +48,7 @@ void Frog_Lever::InitAnimation()
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pRenderer->GetTransform()->SetLocalScale(float4{ 100, 100, 100 });
 	m_pRenderer->SetFBXMesh("LEVER_MESH.FBX", "ContentAniMeshDeffered");
-	m_pRenderer->CreateFBXAnimation("LEVER_OPEN", "LEVER_OPEN (1).FBX", { 1.f / 30.f, false });
+	m_pRenderer->CreateFBXAnimation("LEVER_OPEN", "LEVER_OPEN.FBX", { 1.f / 30.f, false });
 	m_pRenderer->ChangeAnimation("LEVER_OPEN"); // 처음엔 0으로 고정으로 쓰기로 한듯?
 
 

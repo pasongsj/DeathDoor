@@ -4,6 +4,8 @@
 #include "EnemyAttackBox.h"
 #include "PhysXControllerComponent.h"
 #include "PlayerAttackMagic.h"
+#include "Player.h"
+#include "Map_NaviMesh.h"
 
 EnemyBrute::EnemyBrute() 
 {
@@ -21,6 +23,7 @@ void EnemyBrute::InitAnimation()
 
 	EnemyRenderer->CreateFBXAnimation("IDLE", "_E_BRUTE_IDLE.fbx", { 1.f / 30.f,true });
 	EnemyRenderer->CreateFBXAnimation("WALK", "_E_BRUTE_WALK.fbx", { 1.f / 30.f,false });
+
 	EnemyRenderer->CreateFBXAnimation("RUN", "_E_BRUTE_RUN.fbx", { 1.f / 30.f,true });
 	EnemyRenderer->CreateFBXAnimation("SLAM", "_E_BRUTE_SLAM.fbx", { 1.f / 30.f,false });
 	EnemyRenderer->CreateFBXAnimation("SWING", "_E_BRUTE_SWING.fbx", { 1.f/30.f,false });
@@ -31,6 +34,8 @@ void EnemyBrute::InitAnimation()
 	//weapon weapon_end slampoint
 	EnemyRenderer->SetAnimationStartFunc("SLAM", 10, [this]
 		{
+			GameEngineSound::Play("Brute_Attack2.mp3");
+
 			m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
 			m_pAttackBox->SetScale(float4(200, 60, 70));
 			m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(-200, 0, -70));
@@ -44,6 +49,7 @@ void EnemyBrute::InitAnimation()
 		});
 	EnemyRenderer->SetAnimationStartFunc("SWING", 23, [this]
 		{
+			GameEngineSound::Play("Brute_Attack2.mp3");
 
 			m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
 			m_pAttackBox->SetScale(float4(200, 60, 70));
@@ -59,6 +65,8 @@ void EnemyBrute::InitAnimation()
 
 	EnemyRenderer->SetAnimationStartFunc("THROW", 15, [this]
 		{
+			GameEngineSound::Play("Brute_BombThrow.mp3");
+
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
 			BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("hand_l").Pos);
@@ -71,9 +79,30 @@ void EnemyBrute::InitAnimation()
 			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE*2.f);
 			Attack->SetTrans(m_f4ShootDir, TmpPos);
 			Attack->SetShoot(1000.0f);
+			Attack->SetEndSound("Brute_BombBoom.mp3");
 			BonePivot->Death();
 
 		});
+
+	//Sound
+	EnemyRenderer->SetAnimationStartFunc("WALK", 22, [this]
+		{
+			GameEngineSound::Play("Brute_Walk.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("WALK", 38, [this]
+		{
+			GameEngineSound::Play("Brute_Walk.mp3");
+		});
+
+	EnemyRenderer->SetAnimationStartFunc("RUN", 10, [this]
+		{
+			GameEngineSound::Play("Brute_Walk.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("RUN", 19, [this]
+		{
+			GameEngineSound::Play("Brute_Walk.mp3");
+		});
+
 	EnemyRenderer->ChangeAnimation("IDLE");
 }
 
@@ -146,6 +175,7 @@ void EnemyBrute::SetFSMFUNC()
 			bool bHit = CheckHit();
 			if (true == bHit && (GetEnemyHP() % 3 == 1 && m_iFullHP == GetEnemyHP()))
 			{
+
 				m_ePrevState = EnemyBruteState::IDLE;
 				SetNextState(EnemyBruteState::BREAK,true);
 				return;
@@ -167,7 +197,7 @@ void EnemyBrute::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("WALK");
-			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
+			//m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 		},
 		[this](float Delta)
 		{
@@ -185,11 +215,6 @@ void EnemyBrute::SetFSMFUNC()
 				SetStateCheckerOn();
 				//StateChecker = true;
 			}
-			if (true == InRangePlayer(300.0f))
-			{
-				SetNextState(EnemyBruteState::SWING);
-				return;
-			}
 			if (GetStateDuration() > 5)
 			{
 				if (true == InRangePlayer(1500.0f))
@@ -200,13 +225,49 @@ void EnemyBrute::SetFSMFUNC()
 					return;
 				}
 			}
-			AggroMove(Delta);
 
 			if (false == InRangePlayer(2000.0f))
 			{
 				SetNextState(EnemyBruteState::IDLE);
 				return;
 			}
+
+			float4 f4Dir = GetPlayerDir();
+			if (Map_NaviMesh::NaviMesh != nullptr)
+			{
+
+				float4 f4Point = float4::ZERONULL;
+				float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
+				float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+				float PlayerDistance = PlayerPos.XYZDistance(f4MyPos);
+
+				UINT Dummy = -1;
+
+				//사이에 벽이 있음
+				if (true == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy))
+				{
+
+					float4 RoadDir = float4::ZERONULL;
+					RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, PlayerPos);
+					if (RoadDir != float4::ZERONULL)
+					{
+						f4Dir = RoadDir;
+					}
+					else
+					{
+						SetNextState(EnemyBruteState::IDLE);
+						return;
+					}
+				}
+				else if (false == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy)
+					&& true == InRangePlayer(300.0f))
+				{
+					SetNextState(EnemyBruteState::SWING);
+					return;
+				}
+			}
+
+			NaviMove(f4Dir, GRUNT_MOVE_SPEED, DEFAULT_DIR_BRUTE);
 		},
 		[this]
 		{
@@ -218,6 +279,8 @@ void EnemyBrute::SetFSMFUNC()
 		[this]
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
+
+			GameEngineSound::Play("Brute_AttackReady.mp3");
 
 			EnemyRenderer->ChangeAnimation("SLAM",true);
 		},
@@ -251,6 +314,8 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
+			GameEngineSound::Play("Brute_AttackReady.mp3");
+
 			EnemyRenderer->ChangeAnimation("SWING",true);
 		},
 		[this](float Delta)
@@ -282,6 +347,8 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 			EnemyRenderer->ChangeAnimation("THROW");
+
+			GameEngineSound::Play("Brute_AttackReady.mp3");
 		},
 		[this](float Delta)
 		{
@@ -301,6 +368,7 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 			EnemyRenderer->ChangeAnimation("BREAK",true);
+			GameEngineSound::Play("Brute_GetDamage.mp3");
 
 		},
 		[this](float Delta)
@@ -323,6 +391,8 @@ void EnemyBrute::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("IDLE");
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
+
+			GameEngineSound::Play("Brute_Death.mp3");
 
 		},
 		[this](float Delta)

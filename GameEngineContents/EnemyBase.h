@@ -78,6 +78,22 @@ protected:
 			m_pCapsuleComp->SetWorldPosWithParent(SpawnPoint);
 		}
 	}
+
+	void NaviMove(float4 _Dir, float _Speed, float4 DefaultDir = float4::ZERO)
+	{
+		float4 Rot = float4::ZERO;
+		Rot.y = float4::GetAngleVectorToVectorDeg360(_Dir, float4::FORWARD);
+		m_pCapsuleComp->SetRotation(Rot -DefaultDir);
+		if (false == GetStateChecker())
+		{
+			m_pCapsuleComp->SetMoveSpeed(_Dir * _Speed);
+		}
+		else
+		{
+			m_pCapsuleComp->SetMoveSpeed(_Dir * _Speed * 2.0f);
+
+		}
+	}
 private:
 	int m_iEnemyHP = -1;// ÇöÀçHP
 	int m_TotalHP = -1; //ÃÑHP

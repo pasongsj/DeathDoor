@@ -20,6 +20,10 @@ public:
 	AttackBase& operator=(const AttackBase& _Other) = delete;
 	AttackBase& operator=(AttackBase&& _Other) noexcept = delete;
 
+	void SetEndSound(const std::string_view& _Name)
+	{
+		AttackEndSound = _Name;
+	}
 
 	void SetTrans(const float4& _Dir, const float4& _Pos = float4::ZERONULL);
 
@@ -41,8 +45,7 @@ protected:
 
 	std::shared_ptr<class ContentFBXRenderer> AttackRenderer = nullptr;
 	std::shared_ptr<class PhysXComponent> PhysXComp = nullptr;
-
-
+	
 	template<typename PhysXType>
 	void CreatePhysXAttComp(const float4& _Scale, PhysXFilterGroup _Group)
 	{
@@ -104,6 +107,19 @@ protected:
 	}
 
 	PhysXFilterGroup DestTarget = PhysXFilterGroup::None;
+
+	void SetAttackAudio(const std::string_view& _Audio)
+	{
+		AttackAudio = _Audio.data();
+	}
+
+	std::string GetAttackAudio()
+	{
+		return AttackAudio;
+	}
+
+	std::string_view AttackEndSound = "";
+
 private:
 	bool isShoot = false;
 
@@ -111,6 +127,8 @@ private:
 	float FireTime = 0.0f;
 
 	float ShootSpeed = 1500.0f;
+
+	std::string AttackAudio = "";
 
 };
 

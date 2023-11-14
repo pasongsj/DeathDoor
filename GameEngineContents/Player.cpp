@@ -56,26 +56,25 @@ void Player::Start()
 
 void Player::SpawnPosUpdate(float _DeltaTime)
 {
-	PosInter -= _DeltaTime;
-	if ((true == respawnPos.empty() || PosInter < 0.0f) &&
-		GetTransform()->GetWorldPosition().Size() > 1 &&
-		GetCurState< PlayerState>() != PlayerState::CLIMB &&
-		GetCurState< PlayerState>() != PlayerState::FALLING)
-	{
-		if (respawnPos.size() >= 10)
-		{
-			respawnPos.pop_back();
-		}
-		respawnPos.push_front(GetTransform()->GetWorldPosition());
-		PosInter = 10.0f;
-	}
+	//PosInter -= _DeltaTime;
+	//if ((true == respawnPos.empty() || PosInter < 0.0f) &&
+	//	GetTransform()->GetWorldPosition().Size() > 1 &&
+	//	GetCurState< PlayerState>() != PlayerState::CLIMB &&
+	//	GetCurState< PlayerState>() != PlayerState::FALLING)
+	//{
+	//	if (respawnPos.size() >= 10)
+	//	{
+	//		respawnPos.pop_back();
+	//	}
+	//	respawnPos.push_front(GetTransform()->GetWorldPosition());
+	//	PosInter = 2.0f;
+	//}
 }
 
 
 void Player::Update(float _DeltaTime)
 {
-	
-	SpawnPosUpdate(_DeltaTime);
+	//SpawnPosUpdate(_DeltaTime);
 	DirectionUpdate(_DeltaTime); // 플레이어 방향 업데이트
 	DefaultPhysX();
 	FSMObjectBase::Update(_DeltaTime);
@@ -240,8 +239,10 @@ void Player::CheckStateInput(float _DeltaTime)
 }
 
 
-void Player::CheckFalling()
+void Player::CheckFalling(float _DeltaTime)
 {
+
+	PosInter -= _DeltaTime;
 	// Falling Check
 	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // 플레이어의 위치
 	PlayerGroundPos.y += 50.0f;
@@ -253,6 +254,15 @@ void Player::CheckFalling()
 			SetNextState(PlayerState::FALLING);
 			return;
 		}
+		if ((true == respawnPos.empty() || PosInter < 0.0f))
+		{
+			if (respawnPos.size() >= 10)
+			{
+				respawnPos.pop_back();
+			}
+			respawnPos.push_front(GetTransform()->GetWorldPosition());
+			PosInter = 1.0f;
+		}
 	}
 	else
 	{
@@ -262,6 +272,11 @@ void Player::CheckFalling()
 }
 void Player::CheckState(float _DeltaTime)
 {
+	if (PlayerHP <= 0)
+	{
+		SetNextState(PlayerState::DEAD);
+		return;
+	}
 	StateInputDelayTime -= _DeltaTime;
 	if (StateInputDelayTime > 0.0f)
 	{
@@ -269,7 +284,7 @@ void Player::CheckState(float _DeltaTime)
 	}
 	CheckDirInput(_DeltaTime);
 	CheckStateInput(_DeltaTime);
-	CheckFalling();
+	CheckFalling(_DeltaTime);
 	CheckPlayerHit();
 }
 
