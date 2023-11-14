@@ -101,13 +101,13 @@ void Map_Fortress::InitComponent()
 void Map_Fortress::Create_Ground()
 {
 	m_pRenderer_Cube = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Cube->SetFBXMesh("Fortress_Cube.fbx", "ContentMeshDeffered");
+	m_pRenderer_Cube->SetFBXMesh("Fortress_Cube.fbx", "ContentMeshForward");
 	m_pRenderer_Cube->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Cube->GetTransform()->SetLocalPosition(float4{ -3910, -900, -250 });
 	m_pRenderer_Cube->GetTransform()->SetParent(GetTransform());
 
 	m_pRenderer_Cube2 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Cube2->SetFBXMesh("Fortress_Cube_2.fbx", "ContentMeshDeffered");
+	m_pRenderer_Cube2->SetFBXMesh("Fortress_Cube_2.fbx", "ContentMeshForward");
 	m_pRenderer_Cube2->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Cube2->GetTransform()->SetLocalPosition(float4{ -11735, -120, 18625 });
 	m_pRenderer_Cube2->GetTransform()->SetParent(GetTransform());
