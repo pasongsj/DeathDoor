@@ -284,13 +284,13 @@ void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::str
 		UpperSettingName != "CONTENTMESHDEFFERED" &&
 		UpperSettingName != "CONTENTMESHALPHA")
 	{
-		MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentMeshDeffered, ContentMeshAlpha 중 하나여야 합니다.");
-		return;
+		//MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentMeshDeffered, ContentMeshAlpha 중 하나여야 합니다.");
+		//return;
 	}
 
 	GameEngineFBXRenderer::SetFBXMesh(_MeshName, _SettingName, _Path);
 	
-	if (UpperSettingName == "CONTENTMESHDEFFERED")
+	if (UpperSettingName == "CONTENTMESHDEFFERED" || UpperSettingName == "CONTENTMESHFORWARD" )
 	{
 		SetFadeMask();
 	}
