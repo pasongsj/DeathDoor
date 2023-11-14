@@ -8,6 +8,7 @@
 
 #include "Dust.h"
 #include "ShortCutDoor.h"
+#include "FadeEffect.h"
 
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
@@ -23,8 +24,10 @@ void OfficeLevel::Start()
 {
 	// SetLevelType(PacketLevelType::OfficeLevel);
 	InitKey();
-
 	SetPointLight();
+
+	m_pFadeEffect = GetLastTarget()->CreateEffect<FadeEffect>();
+	m_pFadeEffect.lock()->FadeIn();
 }
 
 
