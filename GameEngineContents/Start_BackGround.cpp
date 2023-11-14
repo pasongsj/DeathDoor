@@ -86,7 +86,7 @@ void Start_BackGround::MoveCamera(float _DeltaTime)
         Angle -= 180.0f;
     }
 
-    float4 CamRot = { 28.0f, -27.0f + 7.5f * sin(Angle), 0.0f};
+    float4 CamRot = { 35.0f, -27.0f + 7.5f * sin(Angle), 0.0f};
     
     GetLevel()->GetMainCamera()->GetTransform()->SetLocalRotation(CamRot);
 }

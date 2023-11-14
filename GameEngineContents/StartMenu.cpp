@@ -30,9 +30,16 @@ void StartMenu::Update(float _DeltaTime)
 		SelectMenu();
 	}
 
-	if (GameEngineInput::IsDown("MyTest") == true)
+	if (GameEngineInput::IsDown("MyTest") == true && isReady == false)
 	{
 		MenuButtonList[0]->ClickEvent();
+		isReady = true;
+	}
+
+	if (isReady == true && GameEngineInput::IsDown("MyTest"))
+	{
+		//레벨체인지
+		//페이드아웃
 	}
 
 	if (UpdateFunc != nullptr)
@@ -53,7 +60,7 @@ void StartMenu::CreateKey()
 {
 	if (GameEngineInput::IsKey("MyTest") == false)
 	{
-		GameEngineInput::CreateKey("MyTest", 'A');
+		GameEngineInput::CreateKey("MyTest", VK_RETURN);
 	}
 
 	if (GameEngineInput::IsKey("MenuDown") == false)
