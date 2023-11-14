@@ -30,7 +30,7 @@ void EnemyBase::Update(float _DetltaTime)
 	}
 	if (GetTransform()->GetWorldPosition().y < -300.0f)
 	{
-		Death();
+		m_iEnemyHP =0;
 		return;
 	}
 }
