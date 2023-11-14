@@ -84,6 +84,10 @@ public:
 		float4 Result = (Front - Start).NormalizeReturn();
 		return Result;
 	}
+	float4 FindRoadPos()
+	{
+		return dq_ResultRoad.front().CenterPos;
+	}
 
 	void GetRoad(std::deque<sTriangle>& _Deque)
 	{
