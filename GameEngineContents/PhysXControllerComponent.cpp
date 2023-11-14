@@ -90,7 +90,7 @@ bool PhysXControllerComponent::SetMoveSpeed(float4 _MoveSpeed)
 }
 
 
-void PhysXControllerComponent::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos)
+void PhysXControllerComponent::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos, bool _Rigid /*= false*/)
 {
 	physx::PxTransform Transform
 	(
@@ -104,7 +104,7 @@ void PhysXControllerComponent::CreateSubShape(SubShapeType _Type, float4 _Scale,
 	);
 	m_pRigidDynamic = m_pPhysics->createRigidDynamic(Transform);
 	GetScene()->addActor(*m_pRigidDynamic);
-	PhysXDefault::CreateSubShape(_Type, _Scale, _LocalPos);
+	PhysXDefault::CreateSubShape(_Type, _Scale, _LocalPos, _Rigid);
 }
 
 void PhysXControllerComponent::Start()
