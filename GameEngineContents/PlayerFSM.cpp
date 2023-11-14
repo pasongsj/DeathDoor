@@ -326,13 +326,13 @@ void Player::SetFSMFunc()
 				float4 AttackPos = float4::ZERO;
 				if (false == isChargeAttack)
 				{
-					AttackActor->CreatePhysXAttComp<PhysXBoxComponent>(float4{ 300.0f, 1.0f, 300.0f }, PhysXFilterGroup::PlayerSkill);
-					AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 200.0f + float4{ 0.0f,50.0f,0.0f };
+					AttackActor->CreatePhysXAttComp<PhysXBoxComponent>(float4{ 300.0f, 300.0f, 300.0f }, PhysXFilterGroup::PlayerSkill);
+					AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 200.0f;
 				}
 				else
 				{
-					AttackActor->CreatePhysXAttComp<PhysXBoxComponent>(float4{ 500.0f, 1.0f, 500.0f }, PhysXFilterGroup::PlayerSkill);
-					AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 300.0f + float4{ 0.0f,50.0f,0.0f };
+					AttackActor->CreatePhysXAttComp<PhysXBoxComponent>(float4{ 500.0f, 300.0f, 500.0f }, PhysXFilterGroup::PlayerSkill);
+					AttackPos = GetTransform()->GetWorldPosition() + MoveDir * 300.0f;
 				}
 				AttackActor->SetTrans(MoveDir, AttackPos);
 

@@ -256,12 +256,16 @@ void Player::CheckFalling(float _DeltaTime)
 		}
 		if ((true == respawnPos.empty() || PosInter < 0.0f))
 		{
-			if (respawnPos.size() >= 10)
+			if (false == respawnPos.empty() && respawnPos.front().XYZDistance(CollPoint) < 400.0f)
+			{
+				return;
+			}
+			if (respawnPos.size() >= 30)
 			{
 				respawnPos.pop_back();
 			}
-			respawnPos.push_front(GetTransform()->GetWorldPosition());
-			PosInter = 1.0f;
+			respawnPos.push_front(CollPoint);
+			PosInter = 0.5f;
 		}
 	}
 	else

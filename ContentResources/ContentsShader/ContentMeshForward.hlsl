@@ -74,6 +74,7 @@ float4 ContentMeshTexture_PS(Output _Input) : SV_Target0
     DiffuseColor *= MulColor;
     DiffuseColor += AddColor;
     
+    DiffuseColor = pow(DiffuseColor, 2.2f);
     //if (DiffuseColor.a <= 0.0f)
     //{
     //    clip(-1);
@@ -99,6 +100,7 @@ float4 ContentMeshTexture_PS(Output _Input) : SV_Target0
     
     //Å÷½¦ÀÌ´õ  
     //ResultColor = ceil(ResultColor * 5.0f) / 5.0f;
+    DiffuseResultColor = ToneMapping_ACES(DiffuseResultColor);
     
     return DiffuseResultColor;
 }
