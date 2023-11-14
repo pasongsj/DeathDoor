@@ -28,6 +28,7 @@ void PlayerAttackMagic::Start()
 
 	AttackRenderer->SetGlowToUnit(0, 0);
 	AttackRenderer->SetColor({ 233.0f / 255.0f, 77.0f / 255.0f, 0.1f }, 4.0f);
+	SetAttackAudio("MagicHit.mp3");
 }
 
 void PlayerAttackMagic::Update(float _DeltaTime)
