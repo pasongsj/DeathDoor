@@ -53,9 +53,12 @@ void Boss_OldCrowChain::Update(float _DeltaTime)
 			{
 				CreateChainRenderer();
 			}
-
-			ChainRenderers[OnRendererNumber]->On();
-			++OnRendererNumber;
+			float Size = Value1 - Value2;
+			for (size_t i = 0; i < Size/105.f; i++)
+			{
+				ChainRenderers[OnRendererNumber]->On();
+				++OnRendererNumber;
+			}
 		}
 	}
 }
