@@ -59,6 +59,7 @@ private:
 
 	float LerpRatio = 0.0f;
 	bool isSelectUpdate = true;
+	bool isReady = false;
 
 	std::shared_ptr<class GameEngineUIRenderer> LogoRender = nullptr;
 
