@@ -3,6 +3,7 @@
 
 #include "ContentUIFontRenderer.h"
 #include "ContentUIRenderer.h"
+#include "FadeEffect.h"
 
 StartMenu::StartMenu()
 {
@@ -20,10 +21,20 @@ void StartMenu::Start()
 	Set_RealStartButton();
 
 	CreateKey();
+	
+	m_pFadeEffect = GetLevel()->GetLastTarget()->CreateEffect<FadeEffect>();
 }
 
 void StartMenu::Update(float _DeltaTime)
 {
+	if (isReady == true && GameEngineInput::IsDown("MyTest"))
+	{
+		//레벨체인지
+		//페이드아웃
+		m_pFadeEffect->FadeOut();
+		m_bIsFadeEffect = true;
+	}
+
 	if(isSelectUpdate == true)
 	{
 		Move_SelectedTexture(_DeltaTime);
@@ -36,10 +47,15 @@ void StartMenu::Update(float _DeltaTime)
 		isReady = true;
 	}
 
-	if (isReady == true && GameEngineInput::IsDown("MyTest"))
+	if (true == m_bIsFadeEffect)
 	{
-		//레벨체인지
-		//페이드아웃
+		if (0.0f >= m_fFadeTime)
+		{
+			GameEngineCore::ChangeLevel("OfficeLevel");
+			return;
+		}
+
+		m_fFadeTime -= _DeltaTime;
 	}
 
 	if (UpdateFunc != nullptr)

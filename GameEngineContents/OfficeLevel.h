@@ -30,6 +30,7 @@ public:
 		m_eType = _Type;
 	}
 
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -62,4 +63,5 @@ private:
 	void Create_TriggerObject();
 
 	PrevLevelType m_eType = PrevLevelType::None;
+	std::weak_ptr<class FadeEffect> m_pFadeEffect;
 };
