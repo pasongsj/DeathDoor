@@ -16,7 +16,7 @@ void Boss_OldCrowEgg::Start()
 {
 	Renderer = CreateComponent<ContentFBXRenderer>();
 
-	Renderer->SetFBXMesh("Boss_OldCrow_Egg.FBX", "ContentAniMeshDeffered");
+	Renderer->SetFBXMesh("Boss_OldCrow_Egg.FBX", "ContentAniMeshDeffered", RenderPath::Deferred);
 
 	Renderer->SetColor(float4::BLACK, 0.9f);
 
