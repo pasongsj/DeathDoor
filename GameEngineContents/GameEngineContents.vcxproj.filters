@@ -479,6 +479,9 @@
     <ClCompile Include="Map_NaviMesh.cpp">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClCompile>
+    <ClCompile Include="Content2DRenderer.cpp">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -952,6 +955,9 @@
     </ClInclude>
     <ClInclude Include="Map_NaviMesh.h">
       <Filter>Contents\FortressLevel\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Content2DRenderer.h">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

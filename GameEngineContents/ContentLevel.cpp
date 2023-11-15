@@ -50,8 +50,8 @@ void ContentLevel::SetPostPrecessEffect(float4 _BlurSize)
 
 	AlphaGlow = GetLevel()->GetMainCamera()->GetCamAllRenderTarget()->CreateEffect<AlphaGlowEffect>();
 	AlphaGlow->Init(DynamicThis<GameEngineLevel>(), { 1.0f, 0.0f, 0.0f, 0.0f }, _BlurSize);
-
-	GameEngineCoreWindow::AddDebugRenderTarget(4, "Detect", AlphaGlow->DetectMaskTarget);
+	
+	GameEngineCoreWindow::AddDebugRenderTarget(4, "aaa", AlphaGlow->BlurTarget);
 
 	std::shared_ptr<GammaCorrection> Effect2 = GetLevel()->GetLastTarget()->CreateEffect<GammaCorrection>();
 	std::shared_ptr<FXAA> Effect3 = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();
