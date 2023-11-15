@@ -3,6 +3,7 @@
 #include "Boss_OldCrowEgg.h"
 
 #include "PhysXSphereComponent.h"
+#include "Content2DRenderer.h"
 
 Boss_OldCrowEgg::Boss_OldCrowEgg() 
 {
@@ -24,15 +25,15 @@ void Boss_OldCrowEgg::Start()
 
 	PentagramPivot->GetTransform()->SetWorldScale(float4::ZERO);
 
-	PentagramRenderer1 = PentagramPivot->CreateComponent<GameEngineSpriteRenderer>();
-	PentagramRenderer1->GetUnit()->SetMaterial("Content2DTexture", RenderPath::Alpha);
+	PentagramRenderer1 = PentagramPivot->CreateComponent<Content2DRenderer>();
+ 	PentagramRenderer1->SetMaterial("Content2DTexture", RenderPath::Alpha);
 
 	PentagramRenderer1->SetScaleToTexture("pentagram.png");
 	PentagramRenderer1->GetTransform()->AddLocalPosition(float4{ 0, 5, 0 });
 	PentagramRenderer1->GetTransform()->SetLocalScale(PentagramRenderer1->GetTransform()->GetLocalScale() * 0.4f);
 
-	PentagramRenderer2 = PentagramPivot->CreateComponent<GameEngineSpriteRenderer>();
-	PentagramRenderer2->GetUnit()->SetMaterial("Content2DTexture", RenderPath::Alpha);
+	PentagramRenderer2 = PentagramPivot->CreateComponent<Content2DRenderer>();
+	PentagramRenderer2->SetMaterial("Content2DTexture", RenderPath::Alpha);
 
 	PentagramRenderer2->SetScaleToTexture("pentagram.png");
 	PentagramRenderer2->GetTransform()->SetLocalScale(PentagramRenderer1->GetTransform()->GetLocalScale() * 2.0f );

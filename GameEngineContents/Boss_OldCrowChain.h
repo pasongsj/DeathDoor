@@ -25,7 +25,7 @@ protected:
 private:
 	bool IsOn = false;
 
-	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> ChainRenderers;
+	std::vector<std::shared_ptr<class Content2DRenderer>> ChainRenderers;
 
 	void CreateChainRenderer();
 
