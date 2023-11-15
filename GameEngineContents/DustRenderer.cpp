@@ -17,7 +17,7 @@ void DustRenderer::Start()
 	Unit->SetMesh("Rect");
 	Unit->SetMaterial("Dust");
 
-	Unit->ShaderResHelper.SetTexture("DustNoise", "DustNoise.png");
+	Unit->ShaderResHelper.SetTexture("DustNoise", "DustBGNoise.png");
 	Unit->ShaderResHelper.SetConstantBufferLink("ScaleBuffer", ScaleBuffer);
 	Unit->ShaderResHelper.SetConstantBufferLink("Delta", Delta);
 }
