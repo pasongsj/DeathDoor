@@ -479,6 +479,9 @@
     <ClCompile Include="Map_NaviMesh.cpp">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClCompile>
+    <ClCompile Include="FadeWhite.cpp">
+      <Filter>Contents\Effect\Screen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -953,6 +956,9 @@
     <ClInclude Include="Map_NaviMesh.h">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
+    <ClInclude Include="FadeWhite.h">
+      <Filter>Contents\Effect\Screen</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -1200,6 +1206,9 @@
     </Filter>
     <Filter Include="Contents\Effect\Object\ShockWave">
       <UniqueIdentifier>{6e8c6a1e-e576-4331-aeaa-a26094be2f35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Screen">
+      <UniqueIdentifier>{938b236d-f40c-4131-bb49-5d01604db413}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

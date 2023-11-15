@@ -26,8 +26,8 @@ void OfficeLevel::Start()
 	InitKey();
 	SetPointLight();
 
-	m_pFadeEffect = GetLastTarget()->CreateEffect<FadeEffect>();
-	m_pFadeEffect.lock()->FadeIn();
+	//m_pFadeEffect = GetLastTarget()->CreateEffect<FadeEffect>();
+	//m_pFadeEffect.lock()->FadeIn();
 }
 
 

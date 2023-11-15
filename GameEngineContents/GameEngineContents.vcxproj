@@ -181,6 +181,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="EnemyWave.cpp" />
+    <ClCompile Include="FadeWhite.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="HitCircle.cpp">
       <SubType>
       </SubType>
@@ -611,6 +615,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EnemyWave.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FadeWhite.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -177,7 +177,6 @@ void EnemyFirePlant::SetFSMFUNC()
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				ResetStateDuration();
 				if (GetStateDuration() < 1.f)
 				{
 					EnemyRenderer->FadeOut(1.f, Delta);
