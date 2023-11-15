@@ -388,6 +388,10 @@ void FortressLevel::Create_FieldObject()
 
 				Level->SetPrevLevelType(PrevLevelType::FortressLevel);
 			});
+		if (GameEngineCore::GetPrevLevel().get()->GetNameToString() == "OFFICELEVEL")
+		{
+			Obj->SetState(StartState::OPEN);
+		}
 	}
 	{
 		std::shared_ptr<Ladder> Obj = CreateActor<Ladder>();
