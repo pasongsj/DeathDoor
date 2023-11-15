@@ -74,12 +74,16 @@ void EnemyBrute::InitAnimation()
 
 			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
 			Attack->SetRender(FIREPLANT_ATT_RENDER_SCALE*2.f);
-			//Attack->GetRenderer()->SetGlowToUnit(0, 0);
-			Attack->GetRenderer()->SetColor({ 255.f / 255.0f, 10.f / 255.0f, 00.f }, 1.0f);
 			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE*2.f);
 			Attack->SetTrans(m_f4ShootDir, TmpPos);
-			Attack->SetShoot(1000.0f);
 			Attack->SetEndSound("Brute_BombBoom.mp3");
+
+			std::shared_ptr<ContentFBXRenderer> Rend = Attack->GetRenderer();
+			Rend->SetGlowToUnit(0, 0);
+			Rend->SetUnitColor(0, 0, float4::RED, 5);
+			Attack->SetDustColor({ 255.0f / 255.0f, 198.0f / 255.0f , 198.0f / 255.0f });
+			Attack->SetShoot(1000.0f);
+
 			BonePivot->Death();
 
 		});

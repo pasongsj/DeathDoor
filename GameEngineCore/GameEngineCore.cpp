@@ -20,6 +20,7 @@ GameEngineThreadJobQueue GameEngineCore::JobQueue;
 std::map<std::string, std::shared_ptr<GameEngineLevel>> GameEngineCore::LevelMap;
 std::shared_ptr<GameEngineLevel> GameEngineCore::MainLevel = nullptr;
 std::shared_ptr<GameEngineLevel> GameEngineCore::NextLevel = nullptr;
+std::shared_ptr<GameEngineLevel> GameEngineCore::PrevLevel = nullptr;
 
 std::shared_ptr<class GameEngineLevel> GameEngineCore::CurLoadLevel = nullptr;
 std::function<void()> GameEngineCore::RcvPacket = nullptr;
@@ -207,7 +208,7 @@ std::shared_ptr<GameEngineLevel> GameEngineCore::ChangeLevel(const std::string_v
 		MsgAssert("존재하지 않는 레벨로 체인지 하려고 했습니다.");
 		return nullptr;
 	}
-
+	PrevLevel = MainLevel;
 	NextLevel = LevelMap[UpperName];
 	
 	return NextLevel;

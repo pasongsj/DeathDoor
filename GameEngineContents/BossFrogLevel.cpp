@@ -214,7 +214,7 @@ void BossFrogLevel::Create_TriggerObject()
 		m_pLadder = CreateActor<Ladder>();
 		m_pLadder.lock()->SetHidden(true);
 		m_pLadder.lock()->GetTransform()->AddLocalRotation(float4{0, -45, 0});
-		m_pLadder.lock()->GetTransform()->SetLocalPosition(float4{-4880,  -105 , 4947});
+		m_pLadder.lock()->GetTransform()->SetLocalPosition(float4{-4930,  -105 , 5010});
 	}
 	{
 		// 문 위치만 지정 
@@ -241,6 +241,13 @@ void BossFrogLevel::Create_TriggerObject()
 		m_pTile2.lock()->GetRender()->FadeOut(0.01f, 0.01f);
 		m_pTile2.lock()->GetTransform()->SetLocalRotation(float4{ 0 , -45, 0 });
 		m_pTile2.lock()->GetTransform()->SetLocalPosition(Pos + float4{ -570, 0, 570 });
+
+		m_pTile3 = CreateActor<SecretTile>();
+		m_pTile3.lock()->InActive();
+		m_pTile3.lock()->GetRender()->FadeOut(0.01f, 0.01f);
+		m_pTile3.lock()->GetTransform()->SetLocalRotation(float4{ 0 , -45, 0 });
+		m_pTile3.lock()->GetTransform()->SetLocalPosition(Pos + float4{ -840, 0, 840 });
+
 	}
 }
 
@@ -263,6 +270,8 @@ void BossFrogLevel::ObjectFadeEffectUpdate(float _DeltaTime)
 		m_pTile.lock()->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
 		m_pTile2.lock()->Active();
 		m_pTile2.lock()->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
+		m_pTile3.lock()->Active();
+		m_pTile3.lock()->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
 	}
 
 	m_pDoor.lock()->GetRender()->FadeIn(1.5f, _DeltaTime);

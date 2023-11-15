@@ -9,6 +9,7 @@
 #include "Dust.h"
 #include "ShortCutDoor.h"
 #include "FadeEffect.h"
+#include "FadeWhite.h"
 
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
@@ -26,8 +27,11 @@ void OfficeLevel::Start()
 	InitKey();
 	SetPointLight();
 
-	m_pFadeEffect = GetLastTarget()->CreateEffect<FadeEffect>();
-	m_pFadeEffect.lock()->FadeIn();
+	std::shared_ptr<FadeWhite>pWhite = CreateActor<FadeWhite>();
+	pWhite->FadeIn();
+	pWhite->FadeUpdate();
+	//m_pFadeEffect = GetLastTarget()->CreateEffect<FadeEffect>();
+	//m_pFadeEffect.lock()->FadeIn();
 }
 
 

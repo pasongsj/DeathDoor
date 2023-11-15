@@ -32,6 +32,7 @@ void EnemyFirePlant::InitAnimation()
 			Attack->SetRender(FIREPLANT_ATT_RENDER_SCALE);
 			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE, float4::DOWN * 100.0f);
 			Attack->SetTrans(ShootDir, BonePivotPos);// 위치와 방향설정
+
 			std::shared_ptr<ContentFBXRenderer> Rend = Attack->GetRenderer();
 			Rend->SetGlowToUnit(0, 0);
 			Rend->SetUnitColor(0, 0, float4::RED, 5);
@@ -176,7 +177,6 @@ void EnemyFirePlant::SetFSMFUNC()
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				ResetStateDuration();
 				if (GetStateDuration() < 1.f)
 				{
 					EnemyRenderer->FadeOut(1.f, Delta);

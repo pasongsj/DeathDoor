@@ -63,6 +63,7 @@ void PlayerAttackBomb::Update(float _DeltaTime)
 	if (GetLiveTime() > GetFireTime() + 20.0 || (DeathTime != 0.0f && GetLiveTime() > DeathTime))
 	{
 		GameEngineObjectBase::Death();
+		GameEngineSound::Play("Splash.mp3");
 		return;
 	}
 

@@ -145,8 +145,8 @@ void Boss_OldCrow::SetRandomPattern()
 	CurrentPatternNum = 0;
 
 	//Test용 스테이트 세팅 
-	PatternNum = 5;
-	RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
+	//PatternNum = 5;
+	//RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
 
 	SetNextState(RandomState);
 }
