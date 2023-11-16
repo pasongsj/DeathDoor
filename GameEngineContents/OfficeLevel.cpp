@@ -68,6 +68,8 @@ void OfficeLevel::LevelChangeStart()
 	Create_Player();
 
 	CreateActor<Dust>();
+
+	
 }
 
 void OfficeLevel::LevelChangeEnd()
@@ -158,7 +160,7 @@ void OfficeLevel::Set_PlayerStartPos()
 		break;
 	}
 
-	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
+	Comp->SetWorldPosWithParent(m_StartPos, float4::ZERO);
 }
 
 void OfficeLevel::SetPointLight()

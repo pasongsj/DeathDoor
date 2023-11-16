@@ -122,6 +122,49 @@ void Map_Office::InitComponent()
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);
 	m_pTriangleComp->CreatePhysXActors("Map_Office_NaviMesh_Fix.fbx", true);
 	m_pTriangleComp->GetStatic()->setGlobalPose(float4::PhysXTransformReturn(m_MapRot, m_MapPos));
+
+
+	m_pBankerRender = CreateComponent<ContentFBXRenderer>();
+	m_pBankerRender->SetFBXMesh("BANKER_MESH.fbx", "ContentAniMeshDeffered");
+	m_pBankerRender->GetTransform()->SetLocalRotation({ 0.0f, 180.0f, 0.0f });
+	m_pBankerRender->GetTransform()->SetLocalPosition(m_f4BankerPos);
+	m_pBankerRender->GetTransform()->SetLocalScale(float4::ONE * 150.0f);
+
+	m_pBankerRender->CreateFBXAnimation("BANKER_WRITELOOP", "BANKER_WRITELOOP.fbx");
+	m_pBankerRender->ChangeAnimation("BANKER_WRITELOOP");
+
+	m_pHall_Crow_1 = CreateComponent<ContentFBXRenderer>();
+	m_pHall_Crow_1->SetFBXMesh("Hall_Crow_1_MESH.fbx", "ContentAniMeshDeffered");
+	m_pHall_Crow_1->GetTransform()->SetLocalPosition(m_f4HollCrow1Pos);
+	m_pHall_Crow_1->GetTransform()->SetLocalRotation({ 0.0f, 45.0f, 0.0f });
+	m_pHall_Crow_1->GetTransform()->SetLocalScale(float4::ONE * 150.0f);
+
+	m_pHall_Crow_1->CreateFBXAnimation("Armature|Idle_sat_typing", "Hall_Crow_1_Typing_Anim.fbx");
+	m_pHall_Crow_1->ChangeAnimation("Armature|Idle_sat_typing");
+
+	m_pHall_Crow_2 = CreateComponent<ContentFBXRenderer>();
+	m_pHall_Crow_2->SetFBXMesh("Hall_Crow_1_MESH.fbx", "ContentAniMeshDeffered");
+	m_pHall_Crow_2->GetTransform()->SetLocalPosition(m_f4HollCrow2Pos);
+	m_pHall_Crow_2->GetTransform()->SetLocalRotation({ 0.0f, -90.0f, 0.0f });
+	m_pHall_Crow_2->GetTransform()->SetLocalScale(float4::ONE * 150.0f);
+
+	m_pHall_Crow_2->CreateFBXAnimation("Armature|Idle_sat_typing", "Hall_Crow_1_Typing_Anim.fbx");
+	m_pHall_Crow_2->ChangeAnimation("Armature|Idle_sat_typing");
+
+
+
+	m_pHall_Crow_3 = CreateComponent<ContentFBXRenderer>();
+	m_pHall_Crow_3->SetFBXMesh("Hall_Crow_3_MESH.fbx", "ContentAniMeshDeffered");
+	m_pHall_Crow_3->GetTransform()->SetLocalScale(float4::ONE * 2.0f);
+	m_pHall_Crow_3->GetTransform()->SetLocalPosition(m_f4HollCrow3Pos);
+	m_pHall_Crow_3->GetTransform()->SetLocalRotation({ 0.0f, 45.0f, 0.0f });
+
+	auto Units = m_pHall_Crow_3->GetAllRenderUnit();
+	Units[0][1]->ShaderResHelper.SetTexture("DiffuseTexture", "Crow_DIFF_Mask.png");
+
+	m_pHall_Crow_3->CreateFBXAnimation("Hall_Crow_3_Bored", "Hall_Crow_3_Bored.fbx");
+	m_pHall_Crow_3->ChangeAnimation("Hall_Crow_3_Bored");
+
 }
 
 
