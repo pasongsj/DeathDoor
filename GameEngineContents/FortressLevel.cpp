@@ -113,7 +113,7 @@ void FortressLevel::LevelChangeStart()
 	Create_Manager();
 	Create_WaterBox();
 
-	//Create_FieldEnemy();
+	Create_FieldEnemy();
 	Create_FieldObject();
 }
 
@@ -196,9 +196,12 @@ void FortressLevel::Create_Manager()
 
 void FortressLevel::Create_FieldEnemy()
 {
-	
 	{
-		std::shared_ptr<EnemyGhoul> Monster = CreateActor<EnemyGhoul>();
+		std::shared_ptr<EnemyGhoulBig> Monster = CreateActor<EnemyGhoulBig>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1850, -6, 1755 });
+	}
+	{
+		std::shared_ptr<EnemyGhoulBig> Monster = CreateActor<EnemyGhoulBig>();
 		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1656, -6, 514 });
 	}
 	{
@@ -278,7 +281,7 @@ void FortressLevel::Create_FieldEnemy()
 		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -4515, -53, 7123 });
 	}
 	{
-		std::shared_ptr<EnemyJumper> Monster = CreateActor<EnemyJumper>();
+		std::shared_ptr<EnemyBruteGold> Monster = CreateActor<EnemyBruteGold>();
 		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -3006, -6, 5802 });
 	}
 	{
