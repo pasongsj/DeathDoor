@@ -115,10 +115,18 @@ void FortressLevel::LevelChangeStart()
 
 	Create_FieldEnemy();
 	Create_FieldObject();
+
+
+	MainBGM = GameEngineSound::Play("FortressLevel_BGM.mp3");
+	MainBGM.SetLoop();
+
+	MainBGM.SoundFadeIn(2.0f);
 }
 
 void FortressLevel::LevelChangeEnd()
 {
+	MainBGM.SoundFadeOut(1.0f);
+
 	AllActorDestroy();
 
 	// 다음레벨이 오피스레벨이면 

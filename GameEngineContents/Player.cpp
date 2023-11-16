@@ -345,18 +345,26 @@ void Player::SetSkill()
 {
 	if (true == GameEngineInput::IsDown("PlayerSkillArrow"))
 	{
+		GameEngineSound::Play("Letter2.mp3");
+
 		CurSkill = PlayerSkill::ARROW;
 	}
 	else if (true == GameEngineInput::IsDown("PlayerSkillMagic"))
 	{
+		GameEngineSound::Play("Letter2.mp3");
+
 		CurSkill = PlayerSkill::MAGIC;
 	}
 	else if (true == GameEngineInput::IsDown("PlayerSkillBomb"))
 	{
+		GameEngineSound::Play("Letter2.mp3");
+
 		CurSkill = PlayerSkill::BOMB;
 	}
 	else if (true == GameEngineInput::IsDown("PlayerSkillHook"))
 	{
+		GameEngineSound::Play("Letter2.mp3");
+
 		CurSkill = PlayerSkill::HOOK;
 	}
 }

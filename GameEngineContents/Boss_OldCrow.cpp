@@ -30,7 +30,7 @@ void Boss_OldCrow::Start()
 {
 	EnemyBase::Start();
 	InitPattern();
-	SetNextState(Boss_OldCrowState::IDLE);
+	SetNextState(Boss_OldCrowState::INTROANIMATION);
 
 	//InitAniamtion();
 
@@ -53,13 +53,16 @@ void Boss_OldCrow::Start()
 
 	float4 Scale = EnemyRenderer->GetMeshScale();
 
-	SetEnemyHP(BOSS_OLDCROW_HP / 2);
+	SetEnemyHP(BOSS_OLDCROW_HP);
 	IsDeath = false;
 
 	ChainsInit();
 	EnemyRenderer->SetCrackMask("OldCrowCrackMask.png");
 
 	SetMainBGM();
+
+	IntroDone = false;
+
 }
 
 void Boss_OldCrow::Update(float _DeltaTime)
@@ -75,6 +78,25 @@ void Boss_OldCrow::Update(float _DeltaTime)
 		IsDeath = true;
 		SetDeathState();
 		MainBGM.SoundFadeOut(1.0f, 0.0f, true);
+	}
+
+	if (true == IntroDone)
+	{
+		if (false == GetLevel()->GetMainCamera()->IsFreeCamera())
+		{
+			float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+			nextPos.y += 2000.0f;
+			nextPos.z -= 2000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
+			GetLevel()->GetMainCamera()->GetTransform()->SetWorldPosition(float4::LerpClamp(GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition(), nextPos, _DeltaTime * 3.0f));
+			GetLevel()->GetMainCamera()->GetTransform()->SetWorldRotation(float4::LerpClamp(GetLevel()->GetMainCamera()->GetTransform()->GetWorldRotation(), m_CameraRot, _DeltaTime * 3.0f));
+		}
+	}
+	else
+	{
+		float4 CamPos = float4{ 0.0f , 250.0f, 300.0f };
+		float4 CamRot = float4{ 0.0f, 0.0f, 0.0f };
+		GetLevel()->GetMainCamera()->GetTransform()->SetWorldPosition(CamPos);
+		GetLevel()->GetMainCamera()->GetTransform()->SetWorldRotation(CamRot);
 	}
 
 	FSMObjectBase::Update(_DeltaTime);
@@ -147,6 +169,12 @@ void Boss_OldCrow::SetRandomPattern()
 	//Test용 스테이트 세팅 
 	//PatternNum = 5;
 	//RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
+
+	if (4 == PatternNum && Boss_OldCrowState::INTROANIMATION == GetCurState<Boss_OldCrowState>())
+	{
+		SetRandomPattern();
+		return;
+	}
 
 	SetNextState(RandomState);
 }
@@ -432,4 +460,11 @@ void Boss_OldCrow::SetMainBGM()
 {
 	MainBGM = GameEngineSound::Play("Death'sDoor-OldCrow.mp3");
 	MainBGM.SetLoop();
+	MainBGM.SetPause(true);
+}
+
+void Boss_OldCrow::LevelChangeStart()
+{
+	GetLevel()->GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
+	GetLevel()->GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
 }
