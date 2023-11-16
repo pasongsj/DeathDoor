@@ -45,6 +45,7 @@ void StartMenu::Update(float _DeltaTime)
 	{
 		MenuButtonList[0]->ClickEvent();
 		isReady = true;
+
 	}
 
 	if (true == m_bIsFadeEffect)
@@ -159,6 +160,8 @@ void StartMenu::Set_MenuButton()
 
 	StartButton->ClickEvent = [=]
 	{
+		GameEngineSound::Play("ButtonSelectedSFX.mp3");
+
 		isSelectUpdate = false;
 		UpdateFunc = std::bind(&StartMenu::LerpArrowScale, this, std::placeholders::_1);
 	};
@@ -207,6 +210,8 @@ void StartMenu::Set_MenuButton()
 
 	ExitButton->ClickEvent = [=]
 	{
+		GameEngineSound::Play("ButtonSelectedSFX.mp3");
+
 		exit(0);
 	};
 
@@ -250,6 +255,8 @@ void StartMenu::SelectMenu()
 	{
 		if (ButtonIndex < MenuButtonList.size() - 1)
 		{
+			GameEngineSound::Play("MenuNavigation2021.mp3");
+
 			ButtonIndex++;
 			MenuButtonList[ButtonIndex]->isSelected = true;
 			MenuButtonList[ButtonIndex - 1]->isSelected = false;
@@ -260,6 +267,8 @@ void StartMenu::SelectMenu()
 	{
 		if (ButtonIndex >= 1)
 		{
+			GameEngineSound::Play("MenuNavigation2021.mp3");
+
 			ButtonIndex--;
 			MenuButtonList[ButtonIndex]->isSelected = true;
 			MenuButtonList[ButtonIndex + 1]->isSelected = false;

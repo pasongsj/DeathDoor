@@ -21,6 +21,9 @@ protected:
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
 private:
+	class GameEngineSoundPlayer MainBGM;
+
+
 
 };
 

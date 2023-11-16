@@ -45,6 +45,7 @@ private:
 	const float4 m_MapRot = float4{ 0 , -135 , 0 };
 	const float4 m_MapPos = float4{ -20, -8 , -30 };
 
+
 	float4 m_f4BankerPos = float4{ 2115, 656, 5069 };
 	std::shared_ptr<class ContentFBXRenderer> m_pBankerRender = nullptr;
 	

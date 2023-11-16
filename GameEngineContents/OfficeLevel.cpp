@@ -32,6 +32,8 @@ void OfficeLevel::Start()
 	pWhite->FadeUpdate();
 	//m_pFadeEffect = GetLastTarget()->CreateEffect<FadeEffect>();
 	//m_pFadeEffect.lock()->FadeIn();
+
+
 }
 
 
@@ -69,11 +71,18 @@ void OfficeLevel::LevelChangeStart()
 
 	CreateActor<Dust>();
 
+	MainBGM = GameEngineSound::Play("OfficeLevel_BGM.mp3");
+	MainBGM.SetLoop();
+
+	MainBGM.SoundFadeIn(2.0f);
+
 	
 }
 
 void OfficeLevel::LevelChangeEnd()
 {
+	MainBGM.SoundFadeOut(1.0f);
+
 	AllActorDestroy();
 }
 

@@ -63,6 +63,21 @@ void Boss_OldCrow::InitAnimation()
 		});
 
 	EnemyRenderer->CreateFBXAnimation("Scream", "OldCrow_Scream_Anim.FBX", { 0.033f, false });
+
+	EnemyRenderer->SetAnimationStartFunc("Scream", 0, [this]
+		{
+			StateCalTime = 0.0f;
+			GameEngineSound::Play("OldCrow_IntroBGM.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("Scream", 55, [this]
+		{
+			GameEngineSound::Play("OldCrow_Scream.mp3");
+		});
+	//EnemyRenderer->SetAnimationStartFunc("Scream", 99, [this]
+	//	{
+	//		IntroDone = true;
+	//	});
+
 	EnemyRenderer->CreateFBXAnimation("ScreamMini", "OldCrow_ScreamMini_Anim.FBX", { 0.033f, false });
 	EnemyRenderer->SetAnimationStartFunc("ScreamMini", 18, [this]
 		{
@@ -75,6 +90,6 @@ void Boss_OldCrow::InitAnimation()
 	GetTransform()->SetLocalScale(float4::ONE * 50.0f);
 	EnemyRenderer->GetTransform()->SetLocalRotation({ 0, -90, 0 });
 
-	EnemyRenderer->ChangeAnimation("Idle");
+	EnemyRenderer->ChangeAnimation("Scream");
 
 }

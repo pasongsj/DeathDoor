@@ -55,4 +55,6 @@ private:
 	void Create_FieldObject();
 
 	std::shared_ptr<class CullingManager> m_pCullingManager = nullptr;
+
+	class GameEngineSoundPlayer MainBGM;
 };
