@@ -44,4 +44,18 @@ private:
 
 	const float4 m_MapRot = float4{ 0 , -135 , 0 };
 	const float4 m_MapPos = float4{ -20, -8 , -30 };
+
+	float4 m_f4BankerPos = float4{ 2115, 656, 5069 };
+	std::shared_ptr<class ContentFBXRenderer> m_pBankerRender = nullptr;
+	
+	float4 m_f4HollCrow1Pos = float4{ 3100, 556, 4050 };
+
+	std::shared_ptr<class ContentFBXRenderer> m_pHall_Crow_1 = nullptr;
+
+	float4 m_f4HollCrow2Pos = float4{ 1277, 556, 4155 };
+	std::shared_ptr<class ContentFBXRenderer> m_pHall_Crow_2 = nullptr;
+
+	std::shared_ptr<class ContentFBXRenderer> m_pHall_Crow_3 = nullptr;
+	float4 m_f4HollCrow3Pos = float4{ 2158, 565, 4175 };
+
 };
