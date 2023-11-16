@@ -206,6 +206,10 @@ public:
 
 	}
 
+	UINT GetAnimationCurFrame()
+	{
+		return CurAnimation->CurFrame;
+	}
 
 protected:
 	// void Render(float _DeltaTime) override;
