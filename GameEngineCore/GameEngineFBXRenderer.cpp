@@ -182,6 +182,41 @@ GameEngineFBXRenderer::~GameEngineFBXRenderer()
 {
 }
 
+void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, const std::string_view& BeforeTex, const std::string_view& TextureName)
+{
+	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
+
+	if (nullptr == FindFBXMesh)
+	{
+		MsgAssert("로드하지 않은 FBX 매쉬를 사용하려고 했습니다.");
+	}
+	FindFBXMesh->Initialize();
+
+	FindFBXMesh->Initialize();
+
+	const std::vector<Bone>& Bones = FindFBXMesh->GetAllBone();
+
+	if (Bones.size() != AnimationBoneDatas.size())
+	{
+		AnimationBoneDatas.resize(Bones.size());
+
+		for (size_t i = 0; i < Bones.size(); i++)
+		{
+			float4x4 Offset = Bones[i].BonePos.Offset;
+
+			Offset.Decompose(AnimationBoneDatas[i].Scale, AnimationBoneDatas[i].RotQuaternion, AnimationBoneDatas[i].Pos);
+
+			AnimationBoneDatas[i].RotEuler = AnimationBoneDatas[i].RotQuaternion.QuaternionToEulerDeg();
+		}
+	}
+
+	// 너 몇개 가지고 있어.
+	for (size_t UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
+	{
+		SetFBXMesh(_Name, _Material, UnitCount, RenderPath::None, BeforeTex, TextureName);
+	}
+
+}
 
 void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, RenderPath _Path)
 {
@@ -217,7 +252,8 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 	}
 }
 
-void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, RenderPath _Path)
+void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, RenderPath _Path,
+	const std::string_view& BeforeTex,  const std::string_view& _TextureName)
 {
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
@@ -225,7 +261,7 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 	{
 		size_t SubSet = FindFBXMesh->GetSubSetCount(MeshIndex);
 
-		SetFBXMesh(_Name, _Material, MeshIndex, SubSetCount, _Path);
+		SetFBXMesh(_Name, _Material, MeshIndex, SubSetCount, _Path, BeforeTex, _TextureName);
 	}
 }
 
@@ -234,7 +270,9 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 	std::string _Material,
 	size_t _MeshIndex,
 	size_t _SubSetIndex,
-	RenderPath _Path/*= 0*/)
+	RenderPath _Path/*= 0*/,
+	const std::string_view& BeforeTex ,
+	const std::string_view& _TextureName)
 {
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
@@ -332,10 +370,16 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 			int a = 0;
 		}
 		
-
-		if (nullptr != GameEngineTexture::Find(MatData.DifTextureName))
+		
+		std::string TextureName = MatData.DifTextureName;
+		if (TextureName == BeforeTex)
 		{
-			RenderUnit->ShaderResHelper.SetTexture("DiffuseTexture", MatData.DifTextureName);
+			TextureName = _TextureName;
+		}
+
+		if (nullptr != GameEngineTexture::Find(TextureName))
+		{
+			RenderUnit->ShaderResHelper.SetTexture("DiffuseTexture", TextureName);
 		}
 		else
 		{

@@ -22,6 +22,7 @@ public:
 	void FadeOut(float _MaxTime, float _DeltaTime);
 	void FadeIn(float _MaxTime, float _DeltaTime);
 
+	void SetFBXMesh(const std::string& _Name, std::string _Material, const std::string_view& beforeTex, const std::string_view& TextureName) override;
 	void SetFBXMesh(const std::string& _MeshName, const std::string _SettingName, RenderPath _Path = RenderPath::None) override;
 	void SetCrackAmount(float _Amount);
 

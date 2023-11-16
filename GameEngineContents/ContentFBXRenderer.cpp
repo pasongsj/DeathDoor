@@ -276,6 +276,36 @@ void ContentFBXRenderer::FadeIn(float _MaxTime, float _DeltaTime)
 	}
 }
 
+void ContentFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, const std::string_view& beforeTex, const std::string_view& TextureName)
+{
+	std::string UpperSettingName = GameEngineString::ToUpper(_Material);
+
+	if (UpperSettingName != "CONTENTANIMESHDEFFERED" &&
+		UpperSettingName != "CONTENTMESHDEFFERED" &&
+		UpperSettingName != "CONTENTMESHALPHA")
+	{
+		//MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentMeshDeffered, ContentMeshAlpha 중 하나여야 합니다.");
+		//return;
+	}
+
+	GameEngineFBXRenderer::SetFBXMesh(_Name, _Material, beforeTex, TextureName);
+	if (UpperSettingName == "CONTENTMESHDEFFERED" || UpperSettingName == "CONTENTMESHFORWARD")
+	{
+		SetFadeMask();
+	}
+	else
+	{
+		SetFadeMask();
+		SetCrackMask();
+	}
+
+	LinkConstantBuffer();
+
+	FBXName = _Name;
+	MaterialName = UpperSettingName;
+}
+
+
 void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::string _SettingName, RenderPath _Path)
 {
 	std::string UpperSettingName = GameEngineString::ToUpper(_SettingName);
