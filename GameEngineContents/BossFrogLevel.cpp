@@ -18,6 +18,9 @@
 
 #include "ShortCutDoor.h"
 #include "TileManager.h"
+#include "WaterDrop.h"
+
+#include <GameEngineBase/GameEngineRandom.h>
 
 BossFrogLevel::BossFrogLevel()
 {
@@ -72,7 +75,34 @@ void BossFrogLevel::Update(float _DeltaTime)
 		m_pBossFrog->Death();
 		m_pBossFrog = CreateActor<BossFrogFat>();
 		SecondPhaseStartTime = 0.0f;
+	}
+	else if (0.0f != SecondPhaseStartTime && true == m_pBossFrog->GetIsFrogDeath() && GetLiveTime() < SecondPhaseStartTime)
+	{
+		WaterDropCount += _DeltaTime;
 
+		if(WaterDropCount >= 0.1f)
+		{
+			for(int i = 0; i < 4; i++)
+			{
+				std::shared_ptr<WaterDrop> New = GetPivotActor()->CreateComponent<WaterDrop>();
+				New->GetTransform()->SetWorldPosition(m_pBossFrog->GetTransform()->GetWorldPosition() + float4{ 0.0f, 100.0f, 0.0f });
+				
+				float Scale = GameEngineRandom::MainRandom.RandomFloat(50.0f, 100.0f);
+				New->GetTransform()->SetWorldScale({ Scale, Scale, Scale });
+				
+				float4 Dir = float4::ZERO;
+				Dir.x = GameEngineRandom::MainRandom.RandomFloat(-0.2f, 0.2f);
+				Dir.y = GameEngineRandom::MainRandom.RandomFloat(0.0f, 1.5f);
+				Dir.z = GameEngineRandom::MainRandom.RandomFloat(-0.2f, 0.2f);
+				Dir.Normalize();
+
+				float Gravity = GameEngineRandom::MainRandom.RandomFloat(350, 450);
+				float Speed = GameEngineRandom::MainRandom.RandomFloat(900, 1100);
+				New->SetParabola(Dir, Gravity, Speed);
+			}
+
+			WaterDropCount = 0.0f;
+		}
 	}
 
 	if (nullptr != m_pBossFrog && (true == m_pBossFrog->GetIsFrogDeath() || false == m_pBossFrog->IntroDone))
@@ -91,6 +121,7 @@ void BossFrogLevel::Update(float _DeltaTime)
 		else
 		{
 			Player::MainPlayer->CameraControl = true;
+			int a = 0;
 		}
 	}
 	else

@@ -7,6 +7,7 @@
 #include "HitParticle.h"
 #include "PhysXBoxComponent.h"
 #include "Particle3D.h"
+#include "ShockWave.h"
 #include "WaterDrop.h"
 //#include "BossFrogSoul.h"
 
@@ -346,6 +347,11 @@ void BossFrogFat::SetFSMFUNC()
 			bool Hit = CheckHit();
 			if (false == isTurned && Hit)
 			{
+				std::weak_ptr<ShockWave> Wave = CreateComponent<ShockWave>();
+				Wave.lock()->GetTransform()->SetLocalPosition(float4{ 0.0f, 500.0f, 0.0f });
+				Wave.lock()->GetTransform()->SetWorldRotation({ 90.0f, 0.0f, 0.0f });
+				Wave.lock()->GetTransform()->SetLocalScale({ 10.0f, 10.0f, 1.0f });
+
 				AllTileReset();
 				GameEngineSound::Play("GimmickSound.mp3");
 			}
@@ -468,6 +474,11 @@ void BossFrogFat::SetFSMFUNC()
 			CheckHit();
 			if (false == GetStateChecker() && true == CheckHit())
 			{
+				std::weak_ptr<ShockWave> Wave = CreateComponent<ShockWave>();
+				Wave.lock()->GetTransform()->SetLocalPosition(float4{ 0.0f, 500.0f, 0.0f });
+				Wave.lock()->GetTransform()->SetWorldRotation({ 90.0f, 0.0f, 0.0f });
+				Wave.lock()->GetTransform()->SetLocalScale({ 10.0f, 10.0f, 1.0f });
+
 				AllTileReset();
 				GameEngineSound::Play("GimmickSound.mp3");
 			}
