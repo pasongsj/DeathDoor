@@ -42,5 +42,5 @@ private:
 	float4 m_f4ShootDir = float4::ZERO;
 	EnemyBruteState m_ePrevState = EnemyBruteState::MAX;
 
-	int m_iFullHP = 15;
+	int m_iFullHP = 12;
 };
