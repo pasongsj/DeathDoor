@@ -482,6 +482,9 @@
     <ClCompile Include="FadeWhite.cpp">
       <Filter>Contents\Effect\Screen</Filter>
     </ClCompile>
+    <ClCompile Include="Content2DRenderer.cpp">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -958,6 +961,9 @@
     </ClInclude>
     <ClInclude Include="FadeWhite.h">
       <Filter>Contents\Effect\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Content2DRenderer.h">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

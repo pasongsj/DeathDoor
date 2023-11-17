@@ -79,14 +79,14 @@ void Start_BackGround::Update(float _DeltaTime)
 
 void Start_BackGround::MoveCamera(float _DeltaTime)
 {
-    Angle += 0.2f * _DeltaTime;
+    Angle += 10.0f * _DeltaTime;
 
-    if (Angle >= 180.0f)
+    if (Angle >= 360.0f)
     {
-        Angle -= 180.0f;
+        Angle -= 360.0f;
     }
 
-    float4 CamRot = { 35.0f, -27.0f + 7.5f * sin(Angle), 0.0f};
+    float4 CamRot = { 35.0f, -40.0f + 10.0f * sin(Angle * GameEngineMath::DegToRad), 0.0f};
     
     GetLevel()->GetMainCamera()->GetTransform()->SetLocalRotation(CamRot);
 }

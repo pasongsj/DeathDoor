@@ -234,7 +234,7 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetVertexShader("AlphaColorMerge.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("AlphaColorMerge.hlsl");
-		Pipe->SetBlendState("MergeBlend");
+		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
 

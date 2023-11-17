@@ -401,7 +401,7 @@ void GameEngineSpriteRenderer::SpriteRenderInit()
 	std::shared_ptr<GameEngineRenderUnit> Unit =  CreateRenderUnit();
 
 	Unit->SetMesh("Rect");
-	Unit->SetMaterial("Content2DTexture", RenderPath::Alpha);
+	Unit->SetMaterial("2DTexture");
 
 	AtlasData.x = 0.0f;
 	AtlasData.y = 0.0f;
@@ -411,10 +411,10 @@ void GameEngineSpriteRenderer::SpriteRenderInit()
 	ColorOptionValue.MulColor = float4::ONE;
 	ColorOptionValue.PlusColor = float4::ZERONULL;
 
-	//GetShaderResHelper().SetConstantBufferLink("AtlasData", AtlasData);
+	GetShaderResHelper().SetConstantBufferLink("AtlasData", AtlasData);
 	GetShaderResHelper().SetConstantBufferLink("ColorOption", ColorOptionValue);
-	//GetShaderResHelper().SetConstantBufferLink("ClipData", Clip);
-	//GetShaderResHelper().SetConstantBufferLink("FlipData", Flip);
+	GetShaderResHelper().SetConstantBufferLink("ClipData", Clip);
+	GetShaderResHelper().SetConstantBufferLink("FlipData", Flip);
 }
 
 

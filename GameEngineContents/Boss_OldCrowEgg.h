@@ -27,8 +27,8 @@ private:
 
 	std::shared_ptr<class GameEngineActor> PentagramPivot = nullptr;
 
-	std::shared_ptr<GameEngineSpriteRenderer> PentagramRenderer1;
-	std::shared_ptr<GameEngineSpriteRenderer> PentagramRenderer2;
+	std::shared_ptr<class Content2DRenderer> PentagramRenderer1;
+	std::shared_ptr<class Content2DRenderer> PentagramRenderer2;
 
 	float4 Dir = float4::ZERO;
 
