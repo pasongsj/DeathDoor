@@ -138,10 +138,12 @@ public:
 
 	static void Load(const std::string_view& _Name, const std::string_view& _Path);
 
-	static GameEngineSoundPlayer Play(const std::string_view& _Name);
-	static GameEngineSoundPlayer Play(const std::vector<std::string>& PlayList);
+	static GameEngineSoundPlayer Play(const std::string_view& _Name, bool _Group = true);
+	static GameEngineSoundPlayer Play(const std::vector<std::string>& PlayList, bool _Group = true);
 
 	static FMOD::ChannelGroup* ChannelGroup;
+
+	static void SoundFadeInGroup(double _Time, float _Volume = 1.0f);
 
 protected:
 
