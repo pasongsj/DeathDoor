@@ -28,7 +28,7 @@ void Mouse::Start()
 	Ray->SetOrder(2);
 
 	MouseCursor = CreateComponent<ContentFBXUIRenderer>();
-	MouseCursor->SetFBXMesh("Mouse.FBX", "ContentMeshForward");
+	MouseCursor->SetFBXMesh("Mouse.FBX", "ContentMeshUI");
 	MouseCursor->GetTransform()->SetLocalScale({ 30, 30, 30 });
 	MouseCursor->GetTransform()->SetParent(MousePivot->GetTransform());
 

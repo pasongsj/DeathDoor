@@ -22,11 +22,6 @@ struct Output
     float4 AMBIENTLIGHT : TEXCOORD4;
 };
 
-cbuffer WaterHeight : register(b4)
-{
-    float4 WaterHeightInfo;
-};
-
 Output ContentMeshForward_VS(Input _Input)
 {
     
@@ -71,11 +66,6 @@ SamplerState ENGINEBASE : register(s0);
 
 float4 ContentMeshForward_PS(Output _Input) : SV_Target0
 {
-    if (_Input.WORLDPOSITION.y < WaterHeightInfo.x)
-    {
-        clip(-1);
-    }
-    
     //UV°ª º¯°æ
     _Input.TEXCOORD.xy *= MulUV;
     _Input.TEXCOORD.xy += AddUV;
@@ -87,18 +77,7 @@ float4 ContentMeshForward_PS(Output _Input) : SV_Target0
     DiffuseColor += AddColor;
     
     DiffuseColor = pow(DiffuseColor, 2.2f);
-    //if (DiffuseColor.a <= 0.0f)
-    //{
-    //    clip(-1);
-    //}
     
-    //Fade
-    if(Delta > 0.0f)
-    {
-        DiffuseColor *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
-    }
-    
-    /**/
     float4 DiffuseResultColor = (float4) 0.0f;
     
     float4 ResultPointLight = _Input.POINTLIGHT;
@@ -110,8 +89,6 @@ float4 ContentMeshForward_PS(Output _Input) : SV_Target0
     DiffuseResultColor = DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
     DiffuseResultColor.a = DiffuseAlpha;
     
-    //Å÷½¦ÀÌ´õ  
-    //ResultColor = ceil(ResultColor * 5.0f) / 5.0f;
     DiffuseResultColor = ToneMapping_ACES(DiffuseResultColor);
     
     return DiffuseResultColor;

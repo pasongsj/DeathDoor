@@ -80,7 +80,6 @@ cbuffer WaterHeight : register(b4)
 
 DeferredOutPut ContentMeshDeferred_PS(Output _Input)
 {
-     
     if (_Input.WORLDPOSITION.y < WaterHeight.x)
     {
         clip(-1);
