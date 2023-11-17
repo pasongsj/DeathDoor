@@ -2,8 +2,8 @@
 #include "MapTestLevel.h"
 
 #include "Player.h"
-#include "Map_Office.h"
 #include "Map_Emptyplain.h"
+#include "Map_Office.h"
 #include "PhysXCapsuleComponent.h"
 #include "PhysXBoxComponent.h"
 #include "PhysXControllerComponent.h"
@@ -56,6 +56,13 @@ void MapTestLevel::Start()
 
 void MapTestLevel::Update(float _DeltaTime)
 {
+	if (false == GetMainCamera()->IsFreeCamera())
+	{
+		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		nextPos.y += 1000.0f;
+		nextPos.z -= 1000.0f * tanf((90.0f - m_f4CameraRot.x) * GameEngineMath::DegToRad);
+		GetMainCamera()->GetTransform()->SetWorldPosition(float4::LerpClamp(GetMainCamera()->GetTransform()->GetWorldPosition(), nextPos, _DeltaTime * 3.0f));
+	}
 }
 
 void MapTestLevel::LevelChangeStart()
@@ -85,6 +92,9 @@ void MapTestLevel::InitTestLevel()
 	}
 	
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
+	GetMainCamera()->GetTransform()->SetLocalRotation(m_f4CameraRot);
+	GetMainCamera()->GetTransform()->SetLocalPosition(m_f4CameraPos);
+
 
 	switch (m_Type)
 	{
