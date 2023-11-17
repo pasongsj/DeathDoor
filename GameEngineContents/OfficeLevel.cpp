@@ -169,6 +169,15 @@ void OfficeLevel::Set_PlayerStartPos()
 		break;
 	}
 
+	if (GameEngineCore::GetPrevLevel().get()->GetNameToString() == ("EXPLAINLEVEL"))
+	{
+		Comp->SetWorldPosWithParent(m_f4ExplainToOfficePos, float4::ZERO);
+		std::shared_ptr<FadeWhite>pWhite = CreateActor<FadeWhite>();
+		pWhite->FadeIn();
+		pWhite->FadeUpdate();
+		return;
+	}
+
 	Comp->SetWorldPosWithParent(m_StartPos, float4::ZERO);
 }
 
@@ -199,6 +208,7 @@ void OfficeLevel::Create_TriggerObject()
 			{
 				std::shared_ptr<GameEngineLevel> NextLevel = GameEngineCore::ChangeLevel("FortressLevel");
 				std::shared_ptr<OfficeLevel> Level = NextLevel->DynamicThis<OfficeLevel>();
+				Level->SetPrevLevelType(PrevLevelType::FortressLevel);
 			}
 		);
 
@@ -216,6 +226,16 @@ void OfficeLevel::Create_TriggerObject()
 		Obj->SetTriggerFunction([=]
 			{
 				GameEngineCore::ChangeLevel("OldCrowLevel");
+			}
+		);
+	}
+	{
+		// 소개레벨 포탈 
+		std::shared_ptr<ShortCutDoor> Obj = CreateActor<ShortCutDoor>();
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1065, -750, -5131 });
+		Obj->SetTriggerFunction([=]
+			{
+				GameEngineCore::ChangeLevel("ExplainLevel");
 			}
 		);
 	}

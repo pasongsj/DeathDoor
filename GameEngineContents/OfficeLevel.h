@@ -6,6 +6,7 @@ enum class PrevLevelType
 	OldCrowLevel,
 	FortressLevel,
 	BossFrogLevel,
+	ExplainLevel,
 	None,
 };
 
@@ -56,6 +57,7 @@ private:
 
 	const float4 m_f4FortressToOfficePos = float4{ 1201, 1256, 5077 };
 	const float4 m_f4OldCrowToOfficePos = float4{ -1156, 1652, 6140 };
+	const float4 m_f4ExplainToOfficePos = float4{ 1065, -750, -5131 };
 
 	std::shared_ptr<class Map_Office> m_pMap = nullptr;
 

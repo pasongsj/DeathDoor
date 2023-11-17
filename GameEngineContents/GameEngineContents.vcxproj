@@ -185,6 +185,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="EnemyWave.cpp" />
+    <ClCompile Include="ExplainLevel.cpp" />
     <ClCompile Include="FadeWhite.cpp">
       <SubType>
       </SubType>
@@ -623,6 +624,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EnemyWave.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ExplainLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

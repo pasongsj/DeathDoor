@@ -32,10 +32,6 @@ void OldCrowLevel::Update(float _DeltaTime)
 	{
 		ClearCheck();
 	}
-
-
-
-	// 보스 죽었는지 체크해서 true 로 바뀌는 순간 숏컷도어 생성 
 }
 
 void OldCrowLevel::LevelChangeStart()
