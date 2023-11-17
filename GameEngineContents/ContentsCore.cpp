@@ -7,6 +7,7 @@
 #include "LevelWindow.h"
 #include "MapEditorWindow.h"
 #include "BossFrogWindow.h"
+#include "PlayerInfoWindow.h"
 
 #include "CenterLevel.h"
 #include "TestLevel.h"
@@ -46,6 +47,7 @@ void ContentsCore::GameStart()
 	GameEngineGUI::GUIWindowCreate<ServerWindow>("ServerWindow");
 	GameEngineGUI::GUIWindowCreate<MapEditorWindow>("MapEditorWindow");
 	GameEngineGUI::GUIWindowCreate<BossFrogWindow>("BossFrogWindow");
+	GameEngineGUI::GUIWindowCreate<PlayerInfoWindow>("PlayerInfoWindow");
 	
 
 	//InstallFont();

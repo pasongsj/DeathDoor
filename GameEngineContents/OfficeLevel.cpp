@@ -12,6 +12,7 @@
 #include "FadeWhite.h"
 
 #include <GameEngineCore/GameEngineCoreWindow.h>
+#include "PlayerInfoWindow.h"
 
 OfficeLevel::OfficeLevel()
 {
@@ -76,11 +77,13 @@ void OfficeLevel::LevelChangeStart()
 
 	MainBGM.SoundFadeIn(2.0f);
 
-	
+	PlayerInfoWindow::PlayerGUI->On();
 }
 
 void OfficeLevel::LevelChangeEnd()
 {
+	PlayerInfoWindow::PlayerGUI->Off();
+
 	MainBGM.SoundFadeOut(1.0f);
 
 	AllActorDestroy();

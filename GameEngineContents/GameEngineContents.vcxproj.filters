@@ -488,6 +488,9 @@
     <ClCompile Include="ExplainLevel.cpp">
       <Filter>Contents\ExplainLevel</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerInfoWindow.cpp">
+      <Filter>Contents\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -970,6 +973,9 @@
     </ClInclude>
     <ClInclude Include="ExplainLevel.h">
       <Filter>Contents\ExplainLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInfoWindow.h">
+      <Filter>Contents\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

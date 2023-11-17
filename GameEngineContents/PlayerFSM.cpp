@@ -211,7 +211,10 @@ void Player::SetFSMFunc()
 				if (true == Renderer->IsAnimationEnd())
 				{
 					StateSound.Stop();
-					AttackActor->SetShoot();
+					if (nullptr != AttackActor)
+					{
+						AttackActor->SetShoot();
+					}
 					switch (CurSkill)
 					{
 					case Player::PlayerSkill::ARROW:
@@ -509,7 +512,7 @@ void Player::SetFSMFunc()
 			if (false == GetStateChecker() && true == Renderer->IsAnimationEnd())
 			{
 				Renderer->ChangeAnimation("HIT_IDLE");
-				GameEngineSound::SoundFadeInGroup(3.f);
+				
 				SetStateCheckerOn();
 			}
 			if (true == GetStateChecker() && GetStateDuration() > PLAYER_HIT_IDLE_TIME)
@@ -517,6 +520,7 @@ void Player::SetFSMFunc()
 				Renderer->ChangeAnimation("HIT_RECOVER");
 				if (true == Renderer->IsAnimationEnd())
 				{
+					GameEngineSound::SoundFadeInGroup(2.0f);
 					SetNextState(PlayerState::IDLE);
 				}
 			}

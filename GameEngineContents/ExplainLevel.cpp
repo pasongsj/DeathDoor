@@ -8,6 +8,8 @@
 #include "EnemyJumper.h"
 #include "MonsterAnimationTest.h"
 
+#include "PlayerInfoWindow.h"
+
 //test 
 #include "Crate.h"
 #include "Mushroom.h"
@@ -72,10 +74,13 @@ void ExplainLevel::LevelChangeStart()
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_f4CameraPos);
 
 	Create_Object();
+	PlayerInfoWindow::PlayerGUI->On();
 }
 
 void ExplainLevel::LevelChangeEnd()
 {
+	PlayerInfoWindow::PlayerGUI->Off();
+
 	AllActorDestroy();
 }
 

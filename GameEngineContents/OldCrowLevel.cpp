@@ -12,6 +12,8 @@
 #include "ShortCutDoor.h"
 #include "OfficeLevel.h"
 
+#include "PlayerInfoWindow.h"
+
 OldCrowLevel::OldCrowLevel()
 {
 }
@@ -47,10 +49,12 @@ void OldCrowLevel::LevelChangeStart()
 	Create_Map();
 	Create_Player();
 	Create_OldCrow();
+	PlayerInfoWindow::PlayerGUI->On();
 }
 
 void OldCrowLevel::LevelChangeEnd()
 {
+	PlayerInfoWindow::PlayerGUI->Off();
 	AllActorDestroy();
 }
 

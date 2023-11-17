@@ -38,6 +38,8 @@
 
 #include "OfficeLevel.h"
 
+//GUI
+#include "PlayerInfoWindow.h"
 
 FortressLevel::FortressLevel()
 {
@@ -121,10 +123,14 @@ void FortressLevel::LevelChangeStart()
 	MainBGM.SetLoop();
 
 	MainBGM.SoundFadeIn(2.0f);
+
+	PlayerInfoWindow::PlayerGUI->On();
 }
 
 void FortressLevel::LevelChangeEnd()
 {
+	PlayerInfoWindow::PlayerGUI->Off();
+
 	MainBGM.SoundFadeOut(1.0f);
 
 	AllActorDestroy();
