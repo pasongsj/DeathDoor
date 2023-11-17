@@ -528,8 +528,12 @@ void BossFrogFat::SetFSMFUNC()
 			if (true == CheckCollision(PhysXFilterGroup::PlayerBomb)) // ÀÓ½Ã(ÆøÅº¿¡ ¸Â¾Ò´Ù¸é)
 			{
 				FieldRotationEnd();
-				m_pCapsuleComp->DetachShape();
+				if (false == GetStateChecker())
+				{
+					m_pCapsuleComp->DetachShape();
+				}
 				SetNextState(BossFrogFatState::SUCK_BOMB);
+				return;
 			}
 
 			

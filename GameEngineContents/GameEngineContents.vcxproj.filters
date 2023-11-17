@@ -485,6 +485,9 @@
     <ClCompile Include="Content2DRenderer.cpp">
       <Filter>Component\ContentsRenderer\2DSprite</Filter>
     </ClCompile>
+    <ClCompile Include="ExplainLevel.cpp">
+      <Filter>Contents\ExplainLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -965,6 +968,9 @@
     <ClInclude Include="Content2DRenderer.h">
       <Filter>Component\ContentsRenderer\2DSprite</Filter>
     </ClInclude>
+    <ClInclude Include="ExplainLevel.h">
+      <Filter>Contents\ExplainLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -1215,6 +1221,9 @@
     </Filter>
     <Filter Include="Contents\Effect\Screen">
       <UniqueIdentifier>{938b236d-f40c-4131-bb49-5d01604db413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\ExplainLevel">
+      <UniqueIdentifier>{c45a6194-e0c3-4c9c-b4e3-fa07db37b972}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

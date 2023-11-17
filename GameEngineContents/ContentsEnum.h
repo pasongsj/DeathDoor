@@ -21,5 +21,4 @@ enum class PhysXFilterGroup //PhysX 충돌 용 그룹
 	JumperBoomer = (1 << 9),		//							0000 0010 0000 0000
 	CrowDebuff = (1 << 10),		    // SmallCrow 패턴			0000 0100 0000 0000
 	PlayerBomb =  (1 << 11),		//							0000 1000 0000 0000
-	Water = (1 << 12),				// 물체크용 				0001 0000 0000 0000
 };
