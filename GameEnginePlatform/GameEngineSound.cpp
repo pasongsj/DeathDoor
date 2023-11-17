@@ -20,7 +20,6 @@
 GameEngineSoundPlayer::GameEngineSoundPlayer(FMOD::Channel* _Channel)
 	: Channel(_Channel)
 {
-	Channel->setChannelGroup(GameEngineSound::ChannelGroup);
 }
 
 void GameEngineSoundPlayer::SoundFadeIn(double _Time, float _Volume)
@@ -46,6 +45,32 @@ void GameEngineSoundPlayer::SoundFadeIn(double _Time, float _Volume)
 	Channel->addFadePoint(EndClock, _Volume);
 	Channel->setDelay(0, 0, false);
 	Channel->setPaused(false);
+}
+
+
+void GameEngineSound::SoundFadeInGroup(double _Time, float _Volume)
+{
+	//if (false == IsValid())
+	//{
+	//	MsgAssert("유효하지 않은 사운드를 페이드-인 하려 했습니다.");
+	//	return;
+	//}
+
+	int Rate = 0;
+	unsigned long long ParentClock = 0u;
+
+	FMOD::System* SoundSys = nullptr;
+	ChannelGroup->getSystemObject(&SoundSys);
+	SoundSys->getSoftwareFormat(&Rate, 0, 0);
+	ChannelGroup->getDSPClock(nullptr, &ParentClock);
+
+	unsigned long long EndClock = static_cast<unsigned long long>(ParentClock + (Rate * _Time));
+
+	ChannelGroup->removeFadePoints(0, INT64_MAX);
+	ChannelGroup->addFadePoint(ParentClock, 0.0f);
+	ChannelGroup->addFadePoint(EndClock, _Volume);
+	ChannelGroup->setDelay(0, 0, false);
+	ChannelGroup->setPaused(false);
 }
 
 void GameEngineSoundPlayer::SoundFadeOut(double _Time, float _Volume, bool _IsStop /*= false*/)
@@ -148,7 +173,7 @@ void GameEngineSound::Load(const std::string_view& _Name, const std::string_view
 	AllSound.insert(std::pair<std::string, std::shared_ptr<GameEngineSound>>(UpperName, NewSound));
 }
 
-GameEngineSoundPlayer GameEngineSound::Play(const std::string_view& _Name)
+GameEngineSoundPlayer GameEngineSound::Play(const std::string_view& _Name, bool _Group/* = true)*/)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -161,10 +186,14 @@ GameEngineSoundPlayer GameEngineSound::Play(const std::string_view& _Name)
 	}
 	FMOD::Channel* Channel = Finditer->second->SoundPlay();
 	Channel->setLoopCount(0);
+	if (_Group == true)
+	{
+		Channel->setChannelGroup(GameEngineSound::ChannelGroup);
+	}
 	return Channel;
 }
 
-GameEngineSoundPlayer GameEngineSound::Play(const std::vector<std::string>& PlayList)
+GameEngineSoundPlayer GameEngineSound::Play(const std::vector<std::string>& PlayList, bool _Group/* = true*/)
 {
 	if (true == PlayList.empty())
 	{
@@ -172,7 +201,7 @@ GameEngineSoundPlayer GameEngineSound::Play(const std::vector<std::string>& Play
 		return nullptr;
 	}
 	int index = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(PlayList.size()-1));
-	return Play(PlayList[index]);
+	return Play(PlayList[index], _Group);
 }
 
 

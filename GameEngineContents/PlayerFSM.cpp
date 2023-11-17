@@ -492,13 +492,15 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			Renderer->ChangeAnimation("HIT_BACK");
-			GameEngineSound::Play("Player_GetDamage.mp3");
+			GameEngineSound::ChannelGroup->setPaused(true);
+			GameEngineSound::Play("Player_GetDamage.mp3",false);
 		},
 		[this](float Delta)
 		{
 			if (false == GetStateChecker() && true == Renderer->IsAnimationEnd())
 			{
 				Renderer->ChangeAnimation("HIT_IDLE");
+				GameEngineSound::SoundFadeInGroup(3.f);
 				SetStateCheckerOn();
 			}
 			if (true == GetStateChecker() && GetStateDuration() > PLAYER_HIT_IDLE_TIME)
