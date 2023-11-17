@@ -208,7 +208,6 @@ void OfficeLevel::Create_TriggerObject()
 			{
 				std::shared_ptr<GameEngineLevel> NextLevel = GameEngineCore::ChangeLevel("FortressLevel");
 				std::shared_ptr<OfficeLevel> Level = NextLevel->DynamicThis<OfficeLevel>();
-				Level->SetPrevLevelType(PrevLevelType::FortressLevel);
 			}
 		);
 

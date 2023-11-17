@@ -85,7 +85,7 @@ void ExplainLevel::Create_Object()
 	std::shared_ptr<Player> Obj = CreateActor<Player>();
 	if (nullptr != Obj)
 	{
-		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1000.0f , 1000.0f , 0.0f });
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0.0f , 0.0f , -500.0f });
 	}
 
 	{
