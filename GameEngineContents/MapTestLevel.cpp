@@ -132,7 +132,12 @@ void MapTestLevel::InitTestLevel()
 			Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1000.0f , 1000.0f , 0.0f });
 		}
 
-		std::shared_ptr<EnemyGrunt> Mage = CreateActor<EnemyGrunt>();
+		//std::shared_ptr<EnemyGhoul> Mage0 = CreateActor<EnemyGhoul>();
+		//Mage0->GetPhysXComponent()->SetWorldPosWithParent(float4{ -500.0f , 10.0f , 0.0f });
+		std::shared_ptr<EnemyGhoul> Mage1 = CreateActor<EnemyGhoul>();
+		Mage1->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0.0f , 10.0f , 0.0f });
+
+		std::shared_ptr<EnemyGhoulBig> Mage = CreateActor<EnemyGhoulBig>();
 		Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });
 
 		// wave test

@@ -18,7 +18,7 @@ EnemyBruteGold::~EnemyBruteGold()
 void EnemyBruteGold::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
-	EnemyRenderer->SetFBXMesh("_E_BRUTE_GOLD_MESH.FBX", "ContentAniMeshDeffered");
+	EnemyRenderer->SetFBXMesh("_E_BRUTE_GOLD_MESH.FBX", "ContentAniMeshDeffered", "bruteGruntTexture_Multi.png", "bruteGruntTexture_Gold.png");
 
 	EnemyRenderer->CreateFBXAnimation("IDLE",  "_E_BRUTE_GOLD_IDLE.fbx", { 1.f / 30.f,true });
 	EnemyRenderer->CreateFBXAnimation("WALK",  "_E_BRUTE_GOLD_WALK.fbx", { 1.f / 30.f,false });

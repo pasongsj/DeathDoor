@@ -36,7 +36,7 @@ void EnemyGhoulBig::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 
-	EnemyRenderer->SetFBXMesh("_E_GHOUL_RAPID_MESH.FBX", "ContentAniMeshDeffered");
+	EnemyRenderer->SetFBXMesh("_E_GHOUL_RAPID_MESH.FBX", "ContentAniMeshDeffered","GoolTexture.png", "GoolTextureBig.png");
 	EnemyRenderer->CreateFBXAnimation("SHOOT_BOW", "_E_GHOUL_SHOOT_BOW_RAPID.fbx", { 1.f / 30.f,false });
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 20, [this]
 		{
@@ -46,9 +46,9 @@ void EnemyGhoulBig::InitAnimation()
 		{
 			GameEngineSound::Play("Ghoul_ReadySFX.mp3");
 		});
-
+	
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 37, std::bind(&EnemyGhoulBig::CreateArrow, this));
-
+	
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 58, [this]
 		{
 			GameEngineSound::Play("Ghoul_ArrowReady.mp3");
@@ -57,7 +57,7 @@ void EnemyGhoulBig::InitAnimation()
 		{
 			GameEngineSound::Play("Ghoul_ReadySFX.mp3");
 		});
-
+	
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 75, std::bind(&EnemyGhoulBig::CreateArrow, this));
 		
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 96, [this]
@@ -68,7 +68,7 @@ void EnemyGhoulBig::InitAnimation()
 		{
 			GameEngineSound::Play("Ghoul_ReadySFX.mp3");
 		});
-
+	
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 36, [this]
 		{
 			if (nullptr != ArrowActor)

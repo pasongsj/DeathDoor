@@ -451,6 +451,11 @@ void EnemyJumper::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
+			if (EnemyRenderer->GetAnimationCurFrame() < 12 || EnemyRenderer->GetAnimationCurFrame() > 50)
+			{
+				CheckHit();
+			}
+
 			if (true == CheckBoomerang())// 확인 필요함
 			{
 				return;

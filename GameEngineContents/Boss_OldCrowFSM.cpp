@@ -13,6 +13,50 @@ void Boss_OldCrow::SetFSMFUNC()
 {
 	InitFSM(Boss_OldCrowState::MAX);
 
+	SetFSM(Boss_OldCrowState::INTROANIMATION,
+		[this]
+		{
+			EnemyRenderer->ChangeAnimation("SCREAM");
+		},
+		[this](float Delta)
+		{
+			StateCalTime += Delta;
+
+			if (StateCalTime >= 3.0f && false == IntroDone)
+			{
+				IntroDone = true;
+				EnemyRenderer->ChangeAnimation("IDLE");
+			}
+			
+			if (StateCalTime > 5.0f)
+			{
+				SetRandomPattern();
+			}
+		},
+		[this]
+		{
+			MainBGM.SoundFadeIn(1.0f);
+		}
+	);
+
+	SetFSM(Boss_OldCrowState::IDLE,
+		[this]
+		{
+			EnemyRenderer->ChangeAnimation("IDLE");
+		},
+		[this](float Delta)
+		{
+			if (true)
+			{
+				SetRandomPattern();
+				return;
+			}
+		},
+		[this]
+		{
+		}
+	);
+
 	SetFSM(Boss_OldCrowState::IDLE,
 		[this]
 		{

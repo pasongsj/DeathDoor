@@ -23,10 +23,12 @@ protected:
 	void InitAnimation() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void LevelChangeStart() override;
 
 private:
 	enum class Boss_OldCrowState //스테이트 별
 	{
+		INTROANIMATION,
 		IDLE,
 
 		//대쉬
@@ -94,6 +96,7 @@ private:
 
 	bool IsTurn = false; //회전 여부
 	bool IsDeath = false;
+	bool IntroDone = false;
 
 	float CurrentChainSpeed = 10.0f;
 	float StateCalTime = 0.0f;
@@ -107,6 +110,7 @@ private:
 	int MegaDash2PatternNumber = 0;  
 	float CurrentSpeed = 0.0f;
 	bool StateCalBool = false;
+	
 
 	//FSM에서 사용되는 함수
 	void TurnCheck(); //대쉬 중 회전 스테이트로 변경할 것인지 체크
@@ -141,5 +145,8 @@ private:
 	class GameEngineSoundPlayer MainBGM;
 
 	void SetMainBGM();
+
+	const float4 m_CameraPos = float4{ 0, 2000, -1400 };
+	const float4 m_CameraRot = float4{ 55, 0, 0 };
 };
 

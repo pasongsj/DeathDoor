@@ -19,7 +19,7 @@ EnemyBrute::~EnemyBrute()
 void EnemyBrute::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
-	EnemyRenderer->SetFBXMesh("_E_BRUTE_MESH.FBX", "ContentAniMeshDeffered");
+	EnemyRenderer->SetFBXMesh("_E_BRUTE_MESH.FBX", "ContentAniMeshDeffered", "bruteGruntTexture_Multi.png", "bruteGruntTexture_Ori.png");
 
 	EnemyRenderer->CreateFBXAnimation("IDLE", "_E_BRUTE_IDLE.fbx", { 1.f / 30.f,true });
 	EnemyRenderer->CreateFBXAnimation("WALK", "_E_BRUTE_WALK.fbx", { 1.f / 30.f,false });

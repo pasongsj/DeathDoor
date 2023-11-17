@@ -153,12 +153,16 @@ void ShortCutDoor::SetFSMFUNC()
 			{
 			case StartState::OPEN:
 			{
+				GameEngineSound::Play("ShortCutDoorClose.mp3");
+
 				m_pRenderer->ChangeAnimation("CLOSE_FROM_INWARD"); 
 				m_pWhiteEffect->FadeUpdate();
 			}
 				break;
 			case StartState::CLOSE:
 			{
+				GameEngineSound::Play("ShortCutDoorOpen.mp3");
+
 				m_pWhiteEffect->FadeOut();
 				m_pRenderer->ChangeAnimation("OPEN_Inward");
 				m_pWhiteEffect->FadeUpdate();

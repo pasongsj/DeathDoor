@@ -64,4 +64,8 @@ private:
 
 	PrevLevelType m_eType = PrevLevelType::None;
 	std::weak_ptr<class FadeEffect> m_pFadeEffect;
+
+	class GameEngineSoundPlayer MainBGM;
+
+	
 };

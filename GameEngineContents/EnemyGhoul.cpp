@@ -16,7 +16,7 @@ void EnemyGhoul::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 
-	EnemyRenderer->SetFBXMesh("_E_GHOUL_MESH.FBX", "ContentAniMeshDeffered");
+	EnemyRenderer->SetFBXMesh("_E_GHOUL_MESH.FBX", "ContentAniMeshDeffered", "GoolTexture.png", "GoolTextureOri.png");
 	EnemyRenderer->CreateFBXAnimation("SHOOT_BOW", "_E_GHOUL_SHOOT_BOW.fbx", { 1.f / 30.f,false });
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 0, [this]
 		{

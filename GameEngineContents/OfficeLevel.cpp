@@ -32,6 +32,8 @@ void OfficeLevel::Start()
 	pWhite->FadeUpdate();
 	//m_pFadeEffect = GetLastTarget()->CreateEffect<FadeEffect>();
 	//m_pFadeEffect.lock()->FadeIn();
+
+
 }
 
 
@@ -68,10 +70,19 @@ void OfficeLevel::LevelChangeStart()
 	Create_Player();
 
 	CreateActor<Dust>();
+
+	MainBGM = GameEngineSound::Play("OfficeLevel_BGM.mp3");
+	MainBGM.SetLoop();
+
+	MainBGM.SoundFadeIn(2.0f);
+
+	
 }
 
 void OfficeLevel::LevelChangeEnd()
 {
+	MainBGM.SoundFadeOut(1.0f);
+
 	AllActorDestroy();
 }
 
@@ -158,7 +169,7 @@ void OfficeLevel::Set_PlayerStartPos()
 		break;
 	}
 
-	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
+	Comp->SetWorldPosWithParent(m_StartPos, float4::ZERO);
 }
 
 void OfficeLevel::SetPointLight()

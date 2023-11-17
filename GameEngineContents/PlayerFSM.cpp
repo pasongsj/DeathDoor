@@ -585,6 +585,8 @@ void Player::SetFSMFunc()
 	SetFSM(PlayerState::LEVER,
 		[this]
 		{
+			GameEngineSound::Play("Player_UseLever.mp3");
+
 			m_pCapsuleComp->SetWorldPosWithParent(InteractData.Pos);
 			MoveDir = InteractData.Dir;
 			Renderer->ChangeAnimation("PUSH_LEVER");
@@ -680,6 +682,7 @@ void Player::SetFSMFunc()
 	SetFSM(PlayerState::DROWN,
 		[this]
 		{
+			GameEngineSound::Play("Splash.mp3");
 			Renderer->ChangeAnimation("DROWN");
 		},
 		[this](float Delta)
