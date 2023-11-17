@@ -114,11 +114,11 @@ void ContentFBXRenderer::SetReflect()
 
 	std::string_view Material = "";
 
-	if (MaterialName == "CONTENTANIMESHDEFFERED")
+	if (MaterialName == "CONTENTANIMESHDEFFERED" || MaterialName == "CONTENTANIMESHFORWARD")
 	{
 		Material = "REFLECTANIMESH";
 	}
-	else if (MaterialName == "CONTENTMESHDEFFERED")
+	else if (MaterialName == "CONTENTMESHDEFFERED" || MaterialName == "CONTENTMESHFORWARD")
 	{
 		Material = "REFLECTMESH";
 	}
@@ -127,7 +127,7 @@ void ContentFBXRenderer::SetReflect()
 		return;
 	}
 
-	ReflectRenderer->GameEngineFBXRenderer::SetFBXMesh(FBXName, Material.data(), Path);
+	ReflectRenderer->GameEngineFBXRenderer::SetFBXMesh(FBXName, Material.data(), RenderPath::Deferred);
 
 	auto Units = ReflectRenderer->GetAllRenderUnit();
 
@@ -223,7 +223,6 @@ void ContentFBXRenderer::LinkConstantBuffer()
 			{
 				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("WaterHeight", WaterHeight);
 			}
-
 		}
 	}
 }
@@ -331,7 +330,6 @@ void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::str
 	}
 
 	LinkConstantBuffer();
-
 	FBXName = _MeshName;
 	MaterialName = UpperSettingName;
 	Path = _Path;
