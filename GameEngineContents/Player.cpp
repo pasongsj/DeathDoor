@@ -107,9 +107,15 @@ void Player::Update(float _DeltaTime)
 
 	CameraUpdate(_DeltaTime);
 
-	PlayerState Checker = GetCurState<PlayerState>();
-	// test
-	float4 MyPos = GetTransform()->GetWorldPosition();
+	if (true == GameEngineInput::IsDown("ChangePlayerMode"))
+	{
+		PlayerTestMode = !PlayerTestMode;
+	}
+
+
+	//// test
+	//PlayerState Checker = GetCurState<PlayerState>();
+	//float4 MyPos = GetTransform()->GetWorldPosition();
 	
 }
 

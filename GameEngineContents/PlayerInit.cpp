@@ -29,7 +29,10 @@ void Player::InitInputKey()
 	{
 		GameEngineInput::CreateKey("E", 'E');
 	}
-
+	if (false == GameEngineInput::IsKey("ChangePlayerMode"))
+	{
+		GameEngineInput::CreateKey("ChangePlayerMode", 'P');
+	}
 	//CameraRot = GetLevel()->GetMainCamera()->GetTransform()->GetWorldRotation();
 }
 
