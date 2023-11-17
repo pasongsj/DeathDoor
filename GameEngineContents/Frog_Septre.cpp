@@ -2,7 +2,9 @@
 #include "Frog_Septre.h"
 
 #include "PhysXCapsuleComponent.h"
+#include "PhysXControllerComponent.h"
 #include "ShockWave.h"
+#include "Player.h"
 
 Frog_Septre::Frog_Septre() 
 {
@@ -61,7 +63,7 @@ void Frog_Septre::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			if (true == TriggerHitCheck())
+			if (true == IsHit() && (Player::MainPlayer->GetPhysXComponent()->GetWorldPosition() - m_pPhysXComponent->GetWorldPosition()).Size()<3500.f)
 			{
 				SetNextState(TriggerState::PROGRESS);
 			};
