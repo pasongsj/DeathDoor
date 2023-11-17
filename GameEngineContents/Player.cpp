@@ -274,6 +274,7 @@ void Player::CheckFalling(float _DeltaTime)
 
 	}
 }
+
 void Player::CheckState(float _DeltaTime)
 {
 	if (PlayerHP <= 0)
@@ -433,7 +434,25 @@ void Player::CheckPlayerHit()
 		{
 			SetNextState(PlayerState::HIT);
 		}
+		return;
 	}
+
+	//if (true == CheckCollision(PhysXFilterGroup::PlayerBomb))
+	//{
+	//	if (false == PlayerTestMode)
+	//	{
+	//		--PlayerHP;
+	//	}
+	//	if (0 >= PlayerHP)
+	//	{
+	//		SetNextState(PlayerState::DEAD);
+	//	}
+	//	else
+	//	{
+	//		SetNextState(PlayerState::HIT);
+	//	}
+	//	return;
+	//}
 }
 
 void Player::CreateDustParticle(float _Delta)

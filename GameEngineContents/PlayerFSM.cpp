@@ -169,7 +169,7 @@ void Player::SetFSMFunc()
 			default:
 				break;
 			}
-	
+			
 		},
 		[this](float Delta) // update
 		{
@@ -226,21 +226,16 @@ void Player::SetFSMFunc()
 					default:
 						break;
 					}
-
+					AttackActor = nullptr;
 				}
 				else
 				{
 					AttackActor->GameEngineObjectBase::Death();
+					AttackActor = nullptr;
 				}
-				if (nullptr != WeaponActor)
-				{
-					WeaponActor->Death();
-					WeaponActor = nullptr;
-				}
-				AttackActor = nullptr;
+				
 				SetNextState(PlayerState::IDLE);
 			}
-			
 		},
 		[this]
 		{
@@ -248,10 +243,24 @@ void Player::SetFSMFunc()
 			{
 				StateSound.Stop();
 			}
+			if (nullptr != WeaponActor)
+			{
+				WeaponActor->Death();
+				WeaponActor = nullptr;
+			}
+			if (nullptr != AttackActor)
+			{
+				AttackActor->Death();
+				AttackActor = nullptr;
+			}
+
+
+
 			if (true == PlayerTestMode)
 			{
 				return;
 			}
+
 			switch (CurSkill)
 			{
 			case Player::PlayerSkill::ARROW:

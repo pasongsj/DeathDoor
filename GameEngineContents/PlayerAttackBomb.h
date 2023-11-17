@@ -15,7 +15,7 @@ public:
 	PlayerAttackBomb& operator=(const PlayerAttackBomb& _Other) = delete;
 	PlayerAttackBomb& operator=(PlayerAttackBomb&& _Other) noexcept = delete;
 
-	void Death() override;
+	//void Death() override;
 
 protected:
 
@@ -26,6 +26,10 @@ protected:
 private:
 	float ParticleCount = 0.0f;
 
-	float DeathTime = 0.0f;
+	float BombTime = 0.0f;
+
+	//bool isCollisionBomb = false;
+
+	void Bomb();
 };
 

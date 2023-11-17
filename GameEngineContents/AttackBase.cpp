@@ -27,7 +27,7 @@ void AttackBase::Update(float _DeltaTime)
 	{
 		return;
 	}
-	if (FireTime != 0.0f && GetLiveTime() > FireTime + 20.0)
+	if (FireTime != 0.0f && GetLiveTime() > FireTime + 5.0f)
 	{
 		Death();
 		return;
