@@ -47,7 +47,7 @@ private:
 
 	const float4 ArrowScale = float4{ 2.0f,1.0f,2.0f };
 	const float4 ArrowRot = float4{ 0.0f,-0.0f,-90.0f };
-	const float4 ArrowPhysXScale = float4{ 0.0f, 100.0f, 10.0f };
+	const float4 ArrowPhysXScale = float4{ 0.0f, 150.0f, 50.0f };
 
 };
 

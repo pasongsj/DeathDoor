@@ -52,11 +52,13 @@ void EnemyAttackSphere::Update(float _DeltaTime)
 
 		}
 		Death();
+		return;
 	}
 
-	if (GetLiveTime() > 3.f)
+	if (GetLiveTime() > GetFireTime() + 3.f)
 	{
 		Death();
+		return;
 	}
 
 	AttackBase::Update(_DeltaTime);
