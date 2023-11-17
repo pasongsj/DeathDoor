@@ -74,4 +74,5 @@ private:
 
 	GameEngineSoundPlayer BGM = nullptr;
 	
+	float WaterDropCount = 0.0f;
 };

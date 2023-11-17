@@ -14,6 +14,7 @@
 #include "BossFrogLevel.h"
 #include "UITestLevel.h"
 #include "OldCrowLevel.h"
+#include "ExplainLevel.h"
 
 #include "Player.h"
 
@@ -32,7 +33,7 @@ void LevelWindow::Start()
 void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _DeltaTime)
 {
 	m_fFrameTime += _DeltaTime;
-	if (m_fFrameTime>=1.f)
+	if (m_fFrameTime >= 1.f)
 	{
 		m_fDeltaTime = _DeltaTime;
 		m_fFrameRate = 1.f / _DeltaTime;
@@ -66,7 +67,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	//	m_CurLevelName = "ServerTestLevel";
 	//	GameEngineCore::ChangeLevel("ServerTestLevel");
 	//}
-	
+
 	if (ImGui::Button("PhysXTestLevel") && Level->DynamicThis<PhysXTestLevel>().get() != GetLevel())
 	{
 		m_CurLevelName = "PhysXTestLevel";
@@ -131,6 +132,12 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	{
 		m_CurLevelName = "BossTestLevel";
 		GameEngineCore::ChangeLevel("BossTestLevel");
+	}
+	
+	if (ImGui::Button("ExplainLevel") && Level->DynamicThis<ExplainLevel>().get() != GetLevel())
+	{
+		m_CurLevelName = "ExplainLevel";
+		GameEngineCore::ChangeLevel("ExplainLevel");
 	}
 
 	ImGui::Text("CurCameraMode :");

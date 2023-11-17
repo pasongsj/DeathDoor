@@ -494,6 +494,11 @@ void Map_Fortress::Set_CullingObject()
 		m_vCullingObjects.push_back(CullingObj);
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
+
+	for (size_t i = 3; i < m_vCullingObjects.size(); i++)
+	{
+		m_vCullingObjects[i]->GetTransform()->AddLocalPosition(float4{ 0.0f, 6.0f, 0.0f });
+	}
 }
 
 void Map_Fortress::Create_PhysXComponent()

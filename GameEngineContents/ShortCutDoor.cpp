@@ -64,6 +64,11 @@ void ShortCutDoor::InitAnimation()
 	m_pRenderer1->GetTransform()->SetLocalScale(float4{ 100, 100, 100 });
 	m_pRenderer1->SetFBXMesh("SHORTCUTDOOR_path.FBX", "ContentMeshDeffered");
 	auto Unit = m_pRenderer->GetAllRenderUnit();
+
+	Unit[0][1]->Off();
+	Unit[0][2]->Off();
+
+
 	Unit[0][4]->Off();
 	Unit[0][5]->Off();
 	Unit[0][6]->Off();

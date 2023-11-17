@@ -22,6 +22,7 @@
 #include "UITestLevel.h"
 #include "BossTestLevel.h"
 #include "OldCrowLevel.h"
+#include "ExplainLevel.h"
 
 #include "PlayerTestLevel.h"
 
@@ -63,6 +64,7 @@ void ContentsCore::GameStart()
 	GameEngineCore::CreateLevel<OldCrowLevel>();
 	GameEngineCore::CreateLevel<PlayerTestLevel>();
 	GameEngineCore::CreateLevel<BossTestLevel>();
+	GameEngineCore::CreateLevel<ExplainLevel>();
 
 	GameEngineCore::ChangeLevel("CenterLevel");
 }
