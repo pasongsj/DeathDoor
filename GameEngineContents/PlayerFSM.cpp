@@ -712,7 +712,6 @@ void Player::SetFSMFunc()
 						{
 							m_pCapsuleComp->SetWorldPosWithParent(TempPos);
 							SetNextState(PlayerState::IDLE);
-							respawnPos.clear();
 							return;
 						}
 					}
