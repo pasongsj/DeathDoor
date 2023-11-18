@@ -5,28 +5,14 @@
 #include "Map_Emptyplain.h"
 
 #include "EnemyBruteGold.h"
-#include "EnemyJumper.h"
 #include "MonsterAnimationTest.h"
 
 #include "PlayerInfoWindow.h"
 
-//test 
-#include "Crate.h"
-#include "Mushroom.h"
-#include "SecretTile.h"
-#include "Ladder.h"
 #include "ShortCutDoor.h"
-#include "Frog_Lever.h"
-#include "Frog_Septre.h"
 #include "PlayerAttackMagic.h"
-#include "EnemyWave.h"
-
-
 #include "PlayerAttackTrail.h"
-#include "BossFrogMain.h"
-#include "BossFrogFat.h"
-
-#include "Wires.h"
+#include "FadeWhite.h"
 
 ExplainLevel::ExplainLevel()
 {
@@ -74,6 +60,10 @@ void ExplainLevel::LevelChangeStart()
 	GetMainCamera()->GetTransform()->SetLocalPosition(m_f4CameraPos);
 
 	Create_Object();
+	std::shared_ptr<FadeWhite>pWhite = CreateActor<FadeWhite>();
+	pWhite->FadeIn();
+	pWhite->FadeUpdate();
+
 	PlayerInfoWindow::PlayerGUI->On();
 
 
@@ -102,7 +92,6 @@ void ExplainLevel::Create_Object()
 	}
 
 	{
-		// 소개레벨 포탈 
 		std::shared_ptr<ShortCutDoor> Obj = CreateActor<ShortCutDoor>();
 		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0, 0, 0 });
 		Obj->SetTriggerFunction([=]
