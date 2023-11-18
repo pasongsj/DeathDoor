@@ -75,11 +75,19 @@ void ExplainLevel::LevelChangeStart()
 
 	Create_Object();
 	PlayerInfoWindow::PlayerGUI->On();
+
+
+	MainBGM = GameEngineSound::Play("ExPlainLevel_BGM.mp3");
+	MainBGM.SetLoop();
+
+	MainBGM.SoundFadeIn(2.0f);
 }
 
 void ExplainLevel::LevelChangeEnd()
 {
 	PlayerInfoWindow::PlayerGUI->Off();
+
+	MainBGM.SoundFadeOut(1.0f);
 
 	AllActorDestroy();
 }
