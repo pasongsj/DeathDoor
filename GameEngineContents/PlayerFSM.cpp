@@ -528,6 +528,7 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			StateInputDelayTime = 0.2f;
+			PlayerHitDelay = 0.5f;
 		}
 	); 
 

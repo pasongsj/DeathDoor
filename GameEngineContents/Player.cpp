@@ -289,6 +289,7 @@ void Player::CheckState(float _DeltaTime)
 		return;
 	}
 	StateInputDelayTime -= _DeltaTime;
+	PlayerHitDelay -= _DeltaTime;
 	if (StateInputDelayTime > 0.0f)
 	{
 		return;
@@ -422,7 +423,7 @@ float4 Player::GetBonePos(const std::string_view& _BoneName)
 
 void Player::CheckPlayerHit()
 {
-	if (true == PlayerTestMode)
+	if (true == PlayerTestMode || PlayerHitDelay > 0.0f)
 	{
 		return;
 	}
