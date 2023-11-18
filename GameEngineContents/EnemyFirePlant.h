@@ -14,7 +14,7 @@ public:
 	EnemyFirePlant(EnemyFirePlant&& _Other) noexcept = delete;
 	EnemyFirePlant& operator=(const EnemyFirePlant& _Other) = delete;
 	EnemyFirePlant& operator=(EnemyFirePlant&& _Other) noexcept = delete;
-	const int FirePlantFullHP = 4;
+	const int FirePlantFullHP = 3;
 
 	
 protected:

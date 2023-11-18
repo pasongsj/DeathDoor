@@ -137,7 +137,7 @@ void EnemyJumper::InitAnimation()
 		{
 			JumpDir = float4::ZERO;
 			JumpAttack = GetLevel()->CreateActor<EnemyAttackBox>();
-			JumpAttack->SetScale(float4{ 120.0f,10.0f,120.0f });
+			JumpAttack->SetScale(float4{ 200.0f,10.0f,200.0f });
 			JumpAttack->SetTrans(GetTransform()->GetWorldRotation(), GetTransform()->GetWorldPosition());
 
 			GameEngineSound::Play("Jumper_Landing.mp3");

@@ -15,7 +15,7 @@ public:
 	EnemyMage& operator=(const EnemyMage& _Other) = delete;
 	EnemyMage& operator=(EnemyMage&& _Other) noexcept = delete;
 
-	const int MageFullHP = 5;
+	const int MageFullHP = 4;
 
 protected:
 	void InitAnimation() override;
