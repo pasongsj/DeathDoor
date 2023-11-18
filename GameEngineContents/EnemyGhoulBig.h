@@ -15,7 +15,7 @@ public:
 	EnemyGhoulBig& operator=(const EnemyGhoulBig& _Other) = delete;
 	EnemyGhoulBig& operator=(EnemyGhoulBig&& _Other) noexcept = delete;
 
-	const int GhoulFullHP = 8;
+	const int GhoulFullHP = 6;
 
 protected:
 	void Start() override;

@@ -80,18 +80,18 @@ void Player::Update(float _DeltaTime)
 	FSMObjectBase::Update(_DeltaTime);
 
 
-	// input 사다리타기 추후 trigger로 변경할 예정
-	if (true == GameEngineInput::IsDown("PressN"))
-	{
-		if (PlayerState::IDLE == GetCurState<PlayerState>())
-		{
-			SetNextState(PlayerState::CLIMB);
-		}
-		else
-		{
-			SetNextState(PlayerState::IDLE);
-		}
-	}
+	//// input 사다리타기 추후 trigger로 변경할 예정
+	//if (true == GameEngineInput::IsDown("PressN"))
+	//{
+	//	if (PlayerState::IDLE == GetCurState<PlayerState>())
+	//	{
+	//		SetNextState(PlayerState::CLIMB);
+	//	}
+	//	else
+	//	{
+	//		SetNextState(PlayerState::IDLE);
+	//	}
+	//}
 	// state와 상관없이 스킬 변경 가능
 	if (PlayerState::SKILL != GetCurState<PlayerState>())
 	{
