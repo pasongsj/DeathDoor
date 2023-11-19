@@ -49,9 +49,11 @@ void Boss_OldCrowEgg::Start()
 
 		m_pSphereComp->SetPhysxMaterial(1.0f, 1.0f, 0.0f);
 		m_pSphereComp->CreatePhysXActors(float4{ 0.0f, 30.0f, 30.0f });
+		m_pSphereComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+
 		m_pSphereComp->TurnOffGravity();
 
-		m_pSphereComp->CreateSubShape(SubShapeType::SPHERE, float4{ 0, 500, 500 }, float4{ 0, 0, 0 });
+		m_pSphereComp->CreateSubShape(SubShapeType::SPHERE, float4{ 500, 500, 500 }, float4{ 0, 0, 0 });
 		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::CrowDebuff);
 	}
 }

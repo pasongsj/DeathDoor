@@ -69,7 +69,8 @@ private:
 
 	bool m_bIsClear = false;
 	bool m_bExitDoor = false;
-	
+	bool IsWaterDropSoundPlayed = false;
+
 	float m_FadeUpdateTime = 1.5f;
 
 	GameEngineSoundPlayer BGM = nullptr;

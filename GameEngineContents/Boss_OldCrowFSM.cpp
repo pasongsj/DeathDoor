@@ -30,7 +30,7 @@ void Boss_OldCrow::SetFSMFUNC()
 			
 			if (StateCalTime > 5.0f)
 			{
-				SetRandomPattern();
+				SetNextState(Boss_OldCrowState::IDLE);
 			}
 		},
 		[this]
@@ -46,11 +46,9 @@ void Boss_OldCrow::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			if (true)
-			{
-				SetRandomPattern();
-				return;
-			}
+			SetRandomPattern();
+
+
 		},
 		[this]
 		{
@@ -635,6 +633,7 @@ void Boss_OldCrow::SetFSMFUNC()
 			EnemyRenderer->ChangeAnimation("Egg");
 			GameEngineSound::Play("OldCrow_EggScream.mp3");
 			StateCalTime = 0.0f;
+			m_pCapsuleComp->DetachShape();
 		},
 		[this](float Delta)
 		{
@@ -648,6 +647,7 @@ void Boss_OldCrow::SetFSMFUNC()
 		},
 		[this]
 		{
+			m_pCapsuleComp->AttachShape();
 		}
 	);
 
@@ -664,6 +664,8 @@ void Boss_OldCrow::SetFSMFUNC()
 			StateCalFloat = GameEngineRandom::MainRandom.RandomFloat(0, 35);
 			StateCalFloat *= 10.0f;
 
+			m_pCapsuleComp->DetachShape();
+
 			GameEngineSound::Play("OldCrow_Scream.mp3");
 		},
 		[this](float Delta)
@@ -677,35 +679,33 @@ void Boss_OldCrow::SetFSMFUNC()
 				SetNextPatternState();
 			}
 
-			if (GetEnemyHP() <= BOSS_OLDCROW_HP / 2)  //체력이 특정 수치보다 적으면 작은 까마귀 생성
-			{ 
-				if (StateCalTime > 0.1f && true == StateCalBool)
-				{
-					std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent<GameEngineComponent>();
-					BonePivot->GetTransform()->SetParent(GetTransform());
-					BonePivot->GetTransform()->SetLocalPosition(float4{ 0, 10, 5 });
+			if (StateCalTime > 0.1f && true == StateCalBool)
+			{
+				std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent<GameEngineComponent>();
+				BonePivot->GetTransform()->SetParent(GetTransform());
+				BonePivot->GetTransform()->SetLocalPosition(float4{ 0, 10, 5 });
 
-					float Value = 5.0f;
+				float Value = 5.0f;
 
-					float RandomXValue = GameEngineRandom::MainRandom.RandomFloat(-Value, Value);
-					float RandomYValue = GameEngineRandom::MainRandom.RandomFloat(-Value, Value);
-					float RandomZValue = GameEngineRandom::MainRandom.RandomFloat(-Value, Value);
+				float RandomXValue = GameEngineRandom::MainRandom.RandomFloat(-Value, Value);
+				float RandomYValue = GameEngineRandom::MainRandom.RandomFloat(-Value, Value);
+				float RandomZValue = GameEngineRandom::MainRandom.RandomFloat(-Value, Value);
 
 
-					BonePivot->GetTransform()->AddLocalRotation({ -20.0f, 0.0f, 0.0f });
-					BonePivot->GetTransform()->AddLocalRotation({ RandomXValue, RandomYValue, RandomZValue });
+				BonePivot->GetTransform()->AddLocalRotation({ -20.0f, 0.0f, 0.0f });
+				BonePivot->GetTransform()->AddLocalRotation({ RandomXValue, RandomYValue, RandomZValue });
 
-					float RandomFloat = GameEngineRandom::MainRandom.RandomFloat(-30, 30);
+				float RandomFloat = GameEngineRandom::MainRandom.RandomFloat(-30, 30);
 
-					std::shared_ptr<Boss_OldCrowSmallCrow> SmallCrow = GetLevel()->CreateActor<Boss_OldCrowSmallCrow>();
-					SmallCrow->SetSmallCrow(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation(), StateCalFloat + RandomFloat, m_pCapsuleComp);
+				std::shared_ptr<Boss_OldCrowSmallCrow> SmallCrow = GetLevel()->CreateActor<Boss_OldCrowSmallCrow>();
+				SmallCrow->SetSmallCrow(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation(), StateCalFloat + RandomFloat, m_pCapsuleComp);
 
-					StateCalTime = 0.0f;
-				}
+				StateCalTime = 0.0f;
 			}
 		},
 		[this]
 		{
+			m_pCapsuleComp->AttachShape();
 		}
 	);
 

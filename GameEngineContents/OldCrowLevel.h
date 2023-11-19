@@ -41,4 +41,5 @@ private:
 
 	bool m_bIsClear = false;
 	std::weak_ptr<class Boss_OldCrow> m_pBoss;
+
 };

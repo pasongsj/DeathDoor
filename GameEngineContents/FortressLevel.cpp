@@ -123,7 +123,7 @@ void FortressLevel::LevelChangeStart()
 
 	MainBGM = GameEngineSound::Play("FortressLevel_BGM.mp3");
 	MainBGM.SetLoop();
-
+	MainBGM.SetLoopPoint(0, 88);
 	MainBGM.SoundFadeIn(2.0f);
 
 	PlayerInfoWindow::PlayerGUI->On();

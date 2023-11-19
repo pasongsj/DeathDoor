@@ -48,8 +48,12 @@ void Boss_OldCrowCrowHead::SetCrowHead(float4 _Pos, float4 _Rot, std::shared_ptr
 void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 {
 	//생성되기 전 연출을 위한 (바닥에 닿으면 Create = true)
+	
+
 	if (false == IsCreated)
 	{
+		CreateDustParticle(_DeltaTime);
+
 		if (GetTransform()->GetWorldPosition().y <= 5.0f)
 		{
 			if (m_pSphereComp == nullptr)
@@ -64,6 +68,7 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 				m_pSphereComp->CreateSubShape(SubShapeType::BOX, float4{ 100, 50, 100 }, float4 {0, 0, 40});
 				m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::MonsterSkill);
 				m_pSphereComp->AttachShape();
+
 			}
 
 			if (nullptr != Player::MainPlayer)
@@ -77,6 +82,7 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 			}
 
 			m_pSphereComp->RigidSwitch(false);
+
 
 
 			IsCreated = true;
