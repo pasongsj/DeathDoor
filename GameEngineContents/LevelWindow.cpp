@@ -280,30 +280,66 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	{
 		Level->DynamicThis<ContentLevel>()->isGamma = true;
 	}
+	ImGui::SameLine();
 
 	if (ImGui::Button("GammaOff"))
 	{
 		Level->DynamicThis<ContentLevel>()->isGamma = false;
 	}
+	
+	std::string GammaOnOff = (Level->DynamicThis<ContentLevel>()->isGamma == true) ? "On" : "Off";
+	GammaOnOff = "GammaCorrection : " + GammaOnOff;
+	ImGui::Text(GammaOnOff.c_str());
 
 	if (ImGui::Button("HDROn"))
 	{
 		Level->DynamicThis<ContentLevel>()->isHDR = true;
 	}
+	ImGui::SameLine();
 
 	if (ImGui::Button("HDROff"))
 	{
 		Level->DynamicThis<ContentLevel>()->isHDR = false;
 	}
+	std::string HDROnOff = (Level->DynamicThis<ContentLevel>()->isHDR == true) ? "On" : "Off";
+	HDROnOff = "HDR_ToneMapping : " + HDROnOff;
+	ImGui::Text(HDROnOff.c_str());
 
 	if (ImGui::Button("FXAAOn"))
 	{
 		Level->DynamicThis<ContentLevel>()->isFXAA = true;
 	}
+	ImGui::SameLine();
 
 	if (ImGui::Button("FXAAOff"))
 	{
 		Level->DynamicThis<ContentLevel>()->isFXAA = false;
 	}
+	std::string FXAAOnOff = (Level->DynamicThis<ContentLevel>()->isFXAA == true) ? "On" : "Off";
+	FXAAOnOff = "Anti_Ailiasing(FXAA) : " + FXAAOnOff;
+	ImGui::Text(FXAAOnOff.c_str());
+
+
+	if (ImGui::Button("HDR+Gamma On"))
+	{
+		Level->DynamicThis<ContentLevel>()->isGamma = true;
+		Level->DynamicThis<ContentLevel>()->isHDR = true;
+	}
+
+	if (ImGui::Button("AllOn"))
+	{
+		Level->DynamicThis<ContentLevel>()->isGamma = true;
+		Level->DynamicThis<ContentLevel>()->isHDR = true;
+		Level->DynamicThis<ContentLevel>()->isFXAA = true;
+	}
+
+	if (ImGui::Button("AllOff"))
+	{
+		Level->DynamicThis<ContentLevel>()->isGamma = false;
+		Level->DynamicThis<ContentLevel>()->isHDR = false;
+		Level->DynamicThis<ContentLevel>()->isFXAA = false;
+	}
+
+
 }
 
