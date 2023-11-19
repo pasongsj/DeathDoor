@@ -295,5 +295,15 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	{
 		Level->DynamicThis<ContentLevel>()->isHDR = false;
 	}
+
+	if (ImGui::Button("FXAAOn"))
+	{
+		Level->DynamicThis<ContentLevel>()->isFXAA = true;
+	}
+
+	if (ImGui::Button("FXAAOff"))
+	{
+		Level->DynamicThis<ContentLevel>()->isFXAA = false;
+	}
 }
 
