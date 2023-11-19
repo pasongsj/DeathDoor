@@ -675,6 +675,10 @@ void BossFrogFat::SetFSMFUNC()
 			}
 			if (GetStateDuration() > 6.0f)
 			{
+				EnemyRenderer->FadeOut(1, Delta);
+			}
+			if (GetStateDuration() > 7.0f)
+			{
 				Death();
 			}
 		},
