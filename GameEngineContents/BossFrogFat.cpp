@@ -675,7 +675,7 @@ void BossFrogFat::SetFSMFUNC()
 			}
 			if (GetStateDuration() > 6.0f)
 			{
-				EnemyRenderer->FadeOut(1, Delta);
+				EnemyRenderer->FadeOut(1.f, Delta);
 			}
 			if (GetStateDuration() > 7.0f)
 			{
