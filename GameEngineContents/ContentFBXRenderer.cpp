@@ -1,5 +1,6 @@
 #include "PrecompileHeader.h"
 #include "ContentFBXRenderer.h"
+#include "ContentLevel.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
 
@@ -23,6 +24,9 @@ void ContentFBXRenderer::Update(float _DeltaTime)
 
 	CamPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
 	WaterHeight.x = GetLevel()->GetWaterHeight();
+
+	isOnBuffer.isGamma = GetLevel()->DynamicThis<ContentLevel>()->isGamma;
+	isOnBuffer.isHdr = GetLevel()->DynamicThis<ContentLevel>()->isHDR;
 }
 
 void ContentFBXRenderer::Render(float _DeltaTime)
@@ -222,6 +226,11 @@ void ContentFBXRenderer::LinkConstantBuffer()
 			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("WaterHeight") == true)
 			{
 				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("WaterHeight", WaterHeight);
+			}
+
+			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("isOn") == true)
+			{
+				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("isOn", isOnBuffer);
 			}
 		}
 	}

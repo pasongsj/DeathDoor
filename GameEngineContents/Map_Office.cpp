@@ -65,7 +65,7 @@ void Map_Office::InitComponent()
 {
 	// ¸Ê ·»´õ·¯ 
 	m_pRenderer = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer->SetFBXMesh("Map_Office.fbx", "ContentMeshForward");
+	m_pRenderer->SetFBXMesh("Map_Office.fbx", "ContentMeshDeffered");
 	m_pRenderer->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer->CalculateUnitPos();
 

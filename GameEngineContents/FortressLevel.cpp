@@ -67,6 +67,8 @@ void FortressLevel::Update(float _DeltaTime)
 		nextPos.z -= 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
 		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
 	}
+
+	GraphicUpdate();
 }
 
 void FortressLevel::InitKey()

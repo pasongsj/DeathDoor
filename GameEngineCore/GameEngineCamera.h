@@ -140,6 +140,16 @@ public:
 		Far = _Far;
 	}
 
+	inline void OnHdr()
+	{
+		isEffectBuffer.isHdr = true;
+	}
+
+	inline void OffHdr()
+	{
+		isEffectBuffer.isHdr = false;
+	}
+
 protected:
 	void Start() override;
 
@@ -200,5 +210,15 @@ private:
 	bool bInit = false;
 	void InitCameraRenderTarget();
 	void ReleaseCameraRenderTarget();
+
+	struct isEffect
+	{
+		int isHdr = true;
+		int Padding1 = false;
+		int Padding2 = false;
+		int Padding3 = false;
+	};
+
+	isEffect isEffectBuffer;
 };
 

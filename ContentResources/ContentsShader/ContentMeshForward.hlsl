@@ -27,6 +27,13 @@ cbuffer WaterHeight : register(b4)
     float4 WaterHeightInfo;
 };
 
+cbuffer IsOn : register(b5)
+{
+    bool isGamma;
+    bool isHDR;
+    bool2 padding;
+};
+
 Output ContentMeshForward_VS(Input _Input)
 {
     
@@ -86,14 +93,13 @@ float4 ContentMeshForward_PS(Output _Input) : SV_Target0
     DiffuseColor *= MulColor;
     DiffuseColor += AddColor;
     
-    DiffuseColor = pow(DiffuseColor, 2.2f);
-    //if (DiffuseColor.a <= 0.0f)
-    //{
-    //    clip(-1);
-    //}
+    if(isGamma == true)
+    {
+        DiffuseColor = pow(DiffuseColor, 2.2f);
+    }
     
     //Fade
-    if(Delta > 0.0f)
+    if (Delta > 0.0f)
     {
         DiffuseColor *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
     }
@@ -112,7 +118,10 @@ float4 ContentMeshForward_PS(Output _Input) : SV_Target0
     
     //Å÷½¦ÀÌ´õ  
     //ResultColor = ceil(ResultColor * 5.0f) / 5.0f;
-    DiffuseResultColor = ToneMapping_ACES(DiffuseResultColor);
+    if(isHDR == true)
+    {
+        DiffuseResultColor = ToneMapping_ACES(DiffuseResultColor);
+    }
     
     return DiffuseResultColor;
 }

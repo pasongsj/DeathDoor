@@ -15,6 +15,7 @@
 #include "UITestLevel.h"
 #include "OldCrowLevel.h"
 #include "ExplainLevel.h"
+#include "ContentLevel.h"
 
 #include "Player.h"
 
@@ -269,5 +270,30 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	std::string PositionText = "X : " + std::to_string(PlayerPos.x) + " Y : " + std::to_string(PlayerPos.y) + " Z : " + std::to_string(PlayerPos.z);
 	ImGui::Text(PositionText.c_str());
 	
+	//Gamma
+	if (m_CurLevelName == "CenterLevel")
+	{
+		return;
+	}
+
+	if (ImGui::Button("GammaOn"))
+	{
+		Level->DynamicThis<ContentLevel>()->isGamma = true;
+	}
+
+	if (ImGui::Button("GammaOff"))
+	{
+		Level->DynamicThis<ContentLevel>()->isGamma = false;
+	}
+
+	if (ImGui::Button("HDROn"))
+	{
+		Level->DynamicThis<ContentLevel>()->isHDR = true;
+	}
+
+	if (ImGui::Button("HDROff"))
+	{
+		Level->DynamicThis<ContentLevel>()->isHDR = false;
+	}
 }
 

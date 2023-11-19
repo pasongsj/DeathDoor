@@ -50,7 +50,12 @@ public:
 	{
 		return PivotActor;
 	}
-	
+
+	void GraphicUpdate();
+
+	bool isGamma = true;
+	bool isHDR = true;
+
 protected:
 	void LevelInit(float4 _BlurSize);
 	void CreateUI();
@@ -58,12 +63,19 @@ protected:
 	void CreateIMGUIDebugRenderTarget();
 private:
 
+	void GammaUpdate();
+	void HDRUpdate();
+
 	void CreatePivotActor();
 
 	std::shared_ptr<class GlowEffect> Glow = nullptr;
 	std::shared_ptr<class AlphaGlowEffect> AlphaGlow = nullptr;
+	std::shared_ptr<class GammaCorrection> Gamma = nullptr;
 	ContentLevelType m_eLevelType = ContentLevelType::NONE;
 
 	std::shared_ptr<GameEngineActor> PivotActor = nullptr;
+
+	bool PrevisGamma = true;
+	bool PrevisHDR = true;
 };
 

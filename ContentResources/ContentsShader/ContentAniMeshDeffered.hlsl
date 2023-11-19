@@ -66,6 +66,13 @@ struct DeferredOutPut
     float4 BlurTarget : SV_Target7;
 };
 
+cbuffer IsOn : register(b6)
+{
+    bool isGamma;
+    bool isHDR;
+    bool2 padding;
+};
+
 cbuffer BlurColor : register(b7)
 {
     float4 BlurColor;
@@ -103,7 +110,10 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
             NewOutPut.BlurTarget = float4(DiffuseBlurColor.rgb, Color.a);
             Color = NewOutPut.BlurTarget;
             
-            NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);
+            if (isGamma == true)
+            {
+                NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);
+            }
         }
     }
     
@@ -126,8 +136,12 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
         Color = float4(DiffuseBlurColor * 3.0f);
     }
 
-    
-    NewOutPut.DifTarget = pow(Color, 2.2f);
+    if(isGamma == true)
+    {
+        Color = pow(Color, 2.2f);
+    }
+        
+    NewOutPut.DifTarget = Color;
     NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;
     NewOutPut.NorTarget = _Input.NORMAL;
