@@ -76,6 +76,7 @@ void OfficeLevel::LevelChangeStart()
 
 	MainBGM = GameEngineSound::Play("OfficeLevel_BGM.mp3");
 	MainBGM.SetLoop();
+	MainBGM.SetLoopPoint(0, 152);
 
 	MainBGM.SoundFadeIn(2.0f);
 

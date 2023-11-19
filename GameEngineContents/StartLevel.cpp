@@ -47,6 +47,7 @@ void StartLevel::LevelChangeStart()
 
 	MainBGM = GameEngineSound::Play("StartLevel_BGM.mp3");
 	MainBGM.SetLoop();
+	MainBGM.SetLoopPoint(0, 46);
 
 	MainBGM.SoundFadeIn(2.0f);
 	

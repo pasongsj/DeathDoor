@@ -31,6 +31,7 @@ void StartMenu::Update(float _DeltaTime)
 	{
 		//레벨체인지
 		//페이드아웃
+		GameEngineSound::Play("ButtonSelectedSFX.mp3");
 		m_pFadeEffect->FadeOut();
 		m_bIsFadeEffect = true;
 	}

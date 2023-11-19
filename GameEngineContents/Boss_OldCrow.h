@@ -148,5 +148,11 @@ private:
 
 	const float4 m_CameraPos = float4{ 0, 2000, -1400 };
 	const float4 m_CameraRot = float4{ 55, 0, 0 };
+
+	//시연회용 테스트
+	int TestModeNumber = 0;
+	bool TestMode = true;
+
+	//처음 FadeEffect
 };
 

@@ -8,6 +8,7 @@
 #include "PhysXBoxComponent.h"
 #include "PhysXControllerComponent.h"
 #include "GlowEffect.h"
+#include "FadeEffect.h"
 
 #include "ShortCutDoor.h"
 #include "OfficeLevel.h"
@@ -26,6 +27,7 @@ void OldCrowLevel::Start()
 {
 	SetContentLevelType(ContentLevelType::OldCrowLevel);
 	InitKey();
+
 }
 
 void OldCrowLevel::Update(float _DeltaTime)

@@ -14,6 +14,7 @@
 #include "FeatherParticle.h"
 #include "DustParticle.h"
 #include "ContentLevel.h"
+#include "FadeWhite.h"
 
 
 Boss_OldCrow::Boss_OldCrow() 
@@ -51,6 +52,15 @@ void Boss_OldCrow::Start()
 		m_pCapsuleComp->AttachShape();
 	}
 
+	if (false == GameEngineInput::IsKey("PressK"))
+	{
+		GameEngineInput::CreateKey("PressK", 'K');
+	}
+	if (false == GameEngineInput::IsKey("PressL"))
+	{
+		GameEngineInput::CreateKey("PressL", 'L');
+	}
+
 	float4 Scale = EnemyRenderer->GetMeshScale();
 
 	SetEnemyHP(BOSS_OLDCROW_HP);
@@ -63,6 +73,9 @@ void Boss_OldCrow::Start()
 
 	IntroDone = false;
 
+	std::shared_ptr<FadeWhite>pWhite = GetLevel()->CreateActor<FadeWhite>();
+	pWhite->FadeIn();
+	pWhite->FadeUpdate();
 }
 
 void Boss_OldCrow::Update(float _DeltaTime)
@@ -71,6 +84,11 @@ void Boss_OldCrow::Update(float _DeltaTime)
 	{
 		GetDamaged();
 		PlayRandomDamagedSound();
+
+		if (true == TestMode)
+		{
+			SetEnemyHP(BOSS_OLDCROW_HP);
+		}
 	}
 
 	if (true == DeathCheck() && false == IsDeath)
@@ -97,6 +115,13 @@ void Boss_OldCrow::Update(float _DeltaTime)
 		float4 CamRot = float4{ 0.0f, 0.0f, 0.0f };
 		GetLevel()->GetMainCamera()->GetTransform()->SetWorldPosition(CamPos);
 		GetLevel()->GetMainCamera()->GetTransform()->SetWorldRotation(CamRot);
+	}
+
+	if (GameEngineInput::IsDown("PressL"))
+	{
+		TestMode = !TestMode;
+		TestModeNumber = 0;
+
 	}
 
 	FSMObjectBase::Update(_DeltaTime);
@@ -158,30 +183,93 @@ void Boss_OldCrow::InitPattern()
 
 void Boss_OldCrow::SetRandomPattern()
 {
-	int RandomPatternInt = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(Boss_OldCrowPattern::PATTERNCOUNT) - 1); //랜덤 패턴 int
-
-	Boss_OldCrowPattern RandomPattern = Boss_OldCrowPattern(RandomPatternInt);
-	Boss_OldCrowState RandomState = Boss_OldCrowState(Patterns[static_cast<short>(RandomPattern)][0]);
-
-	PatternNum = static_cast<short>(RandomPatternInt);
-	CurrentPatternNum = 0;
-
-	//Test용 스테이트 세팅 
-	//PatternNum = 5;
-	//RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
-
-	if (4 == PatternNum && Boss_OldCrowState::INTROANIMATION == GetCurState<Boss_OldCrowState>())
+	if (true == TestMode)
 	{
-		SetRandomPattern();
-		return;
-	}
+		if (GameEngineInput::IsDown("PressK"))
+		{
+			switch (TestModeNumber)
+			{
+			case 0:
+				SetNextState(Boss_OldCrowState::DASHSTART);
+				break;
+			case 1:
+				SetNextState(Boss_OldCrowState::MEGADASHPREP);
+				break;
+			case 2:
+				SetNextState(Boss_OldCrowState::MEGADASH2PREP);
+				break;
+			case 3:
+				SetNextState(Boss_OldCrowState::JUMP);
+				break;
+			case 4:
+				SetNextState(Boss_OldCrowState::SCREAMMINI);
+				break;
+			case 5:
+				SetNextState(Boss_OldCrowState::EGG);
+				break;
+			default:
+				break;
+			}
 
-	SetNextState(RandomState);
+			++TestModeNumber;
+
+			if (TestModeNumber > 5)
+			{
+				TestModeNumber = 0;
+			}
+		}
+	}
+	else
+	{
+		int RandomPatternInt = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(Boss_OldCrowPattern::PATTERNCOUNT) - 1); //랜덤 패턴 int
+
+		Boss_OldCrowPattern RandomPattern = Boss_OldCrowPattern(RandomPatternInt);
+		Boss_OldCrowState RandomState = Boss_OldCrowState(Patterns[static_cast<short>(RandomPattern)][0]);
+
+		PatternNum = static_cast<short>(RandomPatternInt);
+		CurrentPatternNum = 0;
+
+		//Test용 스테이트 세팅 
+		//PatternNum = 5;
+		//RandomState = Boss_OldCrowState(Patterns[PatternNum][0]);
+
+		//if (4 == PatternNum && Boss_OldCrowState::INTROANIMATION == GetCurState<Boss_OldCrowState>())
+		//{
+		//	SetRandomPattern();
+		//	return;
+		//}
+
+		SetNextState(RandomState);
+	}
+	
 }
 
 void Boss_OldCrow::SetNextPatternState()
 {
 	++CurrentPatternNum;
+
+	//시연회용 
+	if (true == TestMode)
+	{
+		m_pCapsuleComp->SetWorldPosWithParent(float4{ 0, 0, 1500 });
+		
+		//임의로 회전값 초기화
+		{
+			Dir = float4::BACK;
+
+			float4 CalRot = float4::ZERO;
+			CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, Dir);
+
+			m_pCapsuleComp->SetRotation(-CalRot);
+
+			CurrentDir = Dir;
+		}
+
+		SetNextState(Boss_OldCrowState::IDLE);
+		CurrentPatternNum = Patterns[PatternNum].size();
+
+		return;
+	}
 
 	if (CurrentPatternNum >= Patterns[PatternNum].size())
 	{
@@ -223,7 +311,7 @@ void Boss_OldCrow::SetLerpDirection(float _DeltaTime)
 	float4 CalRot = float4::ZERO;
 	CalRot.y = float4::GetAngleVectorToVectorDeg360(float4::FORWARD, LerpDir);
 
-	m_pCapsuleComp->SetRotation( -CalRot);
+	m_pCapsuleComp->SetRotation(-CalRot);
 	CurrentDir = LerpDir;
 }
 
@@ -460,6 +548,7 @@ void Boss_OldCrow::SetMainBGM()
 {
 	MainBGM = GameEngineSound::Play("Death'sDoor-OldCrow.mp3");
 	MainBGM.SetLoop();
+	MainBGM.SetLoopPoint(0, 93);
 	MainBGM.SetPause(true);
 }
 
@@ -467,4 +556,7 @@ void Boss_OldCrow::LevelChangeStart()
 {
 	GetLevel()->GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
 	GetLevel()->GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
+
+	TestModeNumber = 0;
+	TestMode = true;
 }
