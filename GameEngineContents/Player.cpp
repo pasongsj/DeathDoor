@@ -80,18 +80,18 @@ void Player::Update(float _DeltaTime)
 	FSMObjectBase::Update(_DeltaTime);
 
 
-	// input 사다리타기 추후 trigger로 변경할 예정
-	if (true == GameEngineInput::IsDown("PressN"))
-	{
-		if (PlayerState::IDLE == GetCurState<PlayerState>())
-		{
-			SetNextState(PlayerState::CLIMB);
-		}
-		else
-		{
-			SetNextState(PlayerState::IDLE);
-		}
-	}
+	//// input 사다리타기 추후 trigger로 변경할 예정
+	//if (true == GameEngineInput::IsDown("PressN"))
+	//{
+	//	if (PlayerState::IDLE == GetCurState<PlayerState>())
+	//	{
+	//		SetNextState(PlayerState::CLIMB);
+	//	}
+	//	else
+	//	{
+	//		SetNextState(PlayerState::IDLE);
+	//	}
+	//}
 	// state와 상관없이 스킬 변경 가능
 	if (PlayerState::SKILL != GetCurState<PlayerState>())
 	{
@@ -107,9 +107,15 @@ void Player::Update(float _DeltaTime)
 
 	CameraUpdate(_DeltaTime);
 
-	PlayerState Checker = GetCurState<PlayerState>();
-	// test
-	float4 MyPos = GetTransform()->GetWorldPosition();
+	if (true == GameEngineInput::IsDown("ChangePlayerMode"))
+	{
+		PlayerTestMode = !PlayerTestMode;
+	}
+
+
+	//// test
+	//PlayerState Checker = GetCurState<PlayerState>();
+	//float4 MyPos = GetTransform()->GetWorldPosition();
 	
 }
 
@@ -274,6 +280,7 @@ void Player::CheckFalling(float _DeltaTime)
 
 	}
 }
+
 void Player::CheckState(float _DeltaTime)
 {
 	if (PlayerHP <= 0)
@@ -282,6 +289,7 @@ void Player::CheckState(float _DeltaTime)
 		return;
 	}
 	StateInputDelayTime -= _DeltaTime;
+	PlayerHitDelay -= _DeltaTime;
 	if (StateInputDelayTime > 0.0f)
 	{
 		return;
@@ -415,7 +423,7 @@ float4 Player::GetBonePos(const std::string_view& _BoneName)
 
 void Player::CheckPlayerHit()
 {
-	if (true == PlayerTestMode)
+	if (true == PlayerTestMode || PlayerHitDelay > 0.0f)
 	{
 		return;
 	}
@@ -433,7 +441,25 @@ void Player::CheckPlayerHit()
 		{
 			SetNextState(PlayerState::HIT);
 		}
+		return;
 	}
+
+	//if (true == CheckCollision(PhysXFilterGroup::PlayerBomb))
+	//{
+	//	if (false == PlayerTestMode)
+	//	{
+	//		--PlayerHP;
+	//	}
+	//	if (0 >= PlayerHP)
+	//	{
+	//		SetNextState(PlayerState::DEAD);
+	//	}
+	//	else
+	//	{
+	//		SetNextState(PlayerState::HIT);
+	//	}
+	//	return;
+	//}
 }
 
 void Player::CreateDustParticle(float _Delta)

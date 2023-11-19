@@ -33,6 +33,15 @@ void PlayerAttackMagic::Start()
 
 void PlayerAttackMagic::Update(float _DeltaTime)
 {
+	if (true == CheckCollision(PhysXFilterGroup::Obstacle))
+	{
+		if (GetAttackAudio().size() != 0)
+		{
+			GameEngineSound::Play(GetAttackAudio());
+		}
+		Death();
+		return;
+	}
 	AttackBase::Update(_DeltaTime);
 	CreateParticle(_DeltaTime);
 }

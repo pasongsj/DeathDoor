@@ -8,8 +8,9 @@
 #include "BossFrog.h"
 #include "BossFrogMain.h"
 #include "BossFrogFat.h"
-#include "BossFrogWindow.h"
+//#include "BossFrogWindow.h"
 #include "TileManager.h"
+#include "PlayerInfoWindow.h"
 
 #include "WaterBox.h"
 #include "GlowEffect.h"
@@ -187,13 +188,16 @@ void BossFrogLevel::LevelChangeStart()
 	Create_BossFrog();
 	Create_TriggerObject();
 	
-	BossFrogWindow::EditorGUI->On();
+	//BossFrogWindow::EditorGUI->On();
+	PlayerInfoWindow::PlayerGUI->On();
+
 }
 
 void BossFrogLevel::LevelChangeEnd()
 {
+	PlayerInfoWindow::PlayerGUI->Off();
 	AllActorDestroy();
-	BossFrogWindow::EditorGUI->Off();
+	//BossFrogWindow::EditorGUI->Off();
 	if (nullptr != m_pBossFrog)
 	{
 		BGM = m_pBossFrog->BGMSound;

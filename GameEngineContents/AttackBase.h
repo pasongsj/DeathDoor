@@ -70,7 +70,7 @@ protected:
 	virtual void SetShoot(float _Speed = 1500.0f)
 	{
 		SetShootSpeed(_Speed);
-		ResetLiveTime();
+		//ResetLiveTime();
 		isShoot = true;
 	}
 
@@ -111,6 +111,10 @@ protected:
 	void SetAttackAudio(const std::string_view& _Audio)
 	{
 		AttackAudio = _Audio.data();
+	}
+	std::string GetAttackAudio() const
+	{
+		return AttackAudio;
 	}
 
 	std::string GetAttackAudio()

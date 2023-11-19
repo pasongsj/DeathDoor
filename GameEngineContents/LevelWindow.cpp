@@ -241,7 +241,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	}
 
 	// PlayerController
-
+	ImGui::Separator();
 	if (nullptr == Player::MainPlayer)
 	{
 		return;

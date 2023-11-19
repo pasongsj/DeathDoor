@@ -16,10 +16,11 @@ public:
 	EnemyAttackBox& operator=(const EnemyAttackBox& _Other) = delete;
 	EnemyAttackBox& operator=(EnemyAttackBox&& _Other) noexcept = delete;
 
-	void SetScale(float4 _Scale)
+	void SetScale(const float4& _Scale)
 	{
 		PhysXBoxComponent* pBoxComp = reinterpret_cast<PhysXBoxComponent*>(PhysXComp.get());
 		pBoxComp->SetScale(_Scale);
+		pBoxComp->GetTransform()->SetWorldScale(_Scale);
 	}
 
 protected:

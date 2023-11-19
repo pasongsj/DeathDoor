@@ -51,7 +51,7 @@ void BossFrogFat::Start()
 	BGMSound = GameEngineSound::Play("SwampKingPhase2MainLoop.mp3");
 	BGMSound.SetLoopPoint(0.0f, 48.0f);
 	BGMSound.SetLoop();
-	SetEnemyHP(50);
+	SetEnemyHP(30);
 }
 float4 BossFrogFat::GetRandomTileIndex()
 {

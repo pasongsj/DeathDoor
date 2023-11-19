@@ -22,6 +22,7 @@ void PlayerAttackArrow::Start()
 	// PhysX
 	CreatePhysXAttComp<PhysXCapsuleComponent>(PLAYER_ATT_ARROW_PHYSX_SCALE, PhysXFilterGroup::PlayerSkill);
 	PhysXComp->SetShapeAxis(0,float4::LEFT);
+	PhysXComp->SetDynamicPivot(float4::DOWN * 100.0f);
 	SetDestTarget(PhysXFilterGroup::MonsterDynamic);
 
 	AttackRenderer->SetGlowToUnit(0, 0);

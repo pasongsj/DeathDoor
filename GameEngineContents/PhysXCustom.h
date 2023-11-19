@@ -36,11 +36,16 @@ private:
 			+ "\nMsg : " + message
 			+ "\nFile : " + file
 			+ "\nLine : " + std::to_string(line);
+#ifdef _DEBUG
+
 		if (code == 2)
 		{
 			return;
 		}
 		MsgAssert(Code);
+
+#endif // DEBUG
+		return;
 	}
 };
 

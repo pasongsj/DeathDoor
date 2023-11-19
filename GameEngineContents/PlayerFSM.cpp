@@ -169,7 +169,7 @@ void Player::SetFSMFunc()
 			default:
 				break;
 			}
-	
+			
 		},
 		[this](float Delta) // update
 		{
@@ -211,7 +211,10 @@ void Player::SetFSMFunc()
 				if (true == Renderer->IsAnimationEnd())
 				{
 					StateSound.Stop();
-					AttackActor->SetShoot();
+					if (nullptr != AttackActor)
+					{
+						AttackActor->SetShoot();
+					}
 					switch (CurSkill)
 					{
 					case Player::PlayerSkill::ARROW:
@@ -226,21 +229,16 @@ void Player::SetFSMFunc()
 					default:
 						break;
 					}
-
+					AttackActor = nullptr;
 				}
 				else
 				{
 					AttackActor->GameEngineObjectBase::Death();
+					AttackActor = nullptr;
 				}
-				if (nullptr != WeaponActor)
-				{
-					WeaponActor->Death();
-					WeaponActor = nullptr;
-				}
-				AttackActor = nullptr;
+				
 				SetNextState(PlayerState::IDLE);
 			}
-			
 		},
 		[this]
 		{
@@ -248,10 +246,24 @@ void Player::SetFSMFunc()
 			{
 				StateSound.Stop();
 			}
+			if (nullptr != WeaponActor)
+			{
+				WeaponActor->Death();
+				WeaponActor = nullptr;
+			}
+			if (nullptr != AttackActor)
+			{
+				AttackActor->Death();
+				AttackActor = nullptr;
+			}
+
+
+
 			if (true == PlayerTestMode)
 			{
 				return;
 			}
+
 			switch (CurSkill)
 			{
 			case Player::PlayerSkill::ARROW:
@@ -492,13 +504,15 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			Renderer->ChangeAnimation("HIT_BACK");
-			GameEngineSound::Play("Player_GetDamage.mp3");
+			GameEngineSound::ChannelGroup->setPaused(true);
+			GameEngineSound::Play("Player_GetDamage.mp3",false);
 		},
 		[this](float Delta)
 		{
 			if (false == GetStateChecker() && true == Renderer->IsAnimationEnd())
 			{
 				Renderer->ChangeAnimation("HIT_IDLE");
+				
 				SetStateCheckerOn();
 			}
 			if (true == GetStateChecker() && GetStateDuration() > PLAYER_HIT_IDLE_TIME)
@@ -506,6 +520,7 @@ void Player::SetFSMFunc()
 				Renderer->ChangeAnimation("HIT_RECOVER");
 				if (true == Renderer->IsAnimationEnd())
 				{
+					GameEngineSound::SoundFadeInGroup(2.0f);
 					SetNextState(PlayerState::IDLE);
 				}
 			}
@@ -513,6 +528,7 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			StateInputDelayTime = 0.2f;
+			PlayerHitDelay = 0.5f;
 		}
 	); 
 

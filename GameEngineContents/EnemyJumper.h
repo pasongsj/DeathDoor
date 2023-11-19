@@ -15,7 +15,7 @@ public:
 	EnemyJumper& operator=(const EnemyJumper& _Other) = delete;
 	EnemyJumper& operator=(EnemyJumper&& _Other) noexcept = delete;
 
-	const int JumperFullHP = 10;
+	const int JumperFullHP = 7;
 
 
 protected:

@@ -20,7 +20,7 @@ void EnemyGhoulBig::CreateArrow()
 {
 	ArrowActor = GetLevel()->CreateActor<EnemyAttackCapsule>();
 	ArrowActor->SetRender(ArrowScale, ArrowRot);
-	ArrowActor->SetPhysXComp(ArrowPhysXScale, float4::DOWN * 100.0f, float4::LEFT);
+	ArrowActor->SetPhysXComp(ArrowPhysXScale, float4::DOWN * 150.0f, float4::LEFT);
 
 	BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("Bow").Pos);
 	float4 BonePivotPos = BonePivot->GetTransform()->GetWorldPosition();

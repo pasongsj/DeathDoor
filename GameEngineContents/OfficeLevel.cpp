@@ -12,6 +12,7 @@
 #include "FadeWhite.h"
 
 #include <GameEngineCore/GameEngineCoreWindow.h>
+#include "PlayerInfoWindow.h"
 
 OfficeLevel::OfficeLevel()
 {
@@ -78,11 +79,13 @@ void OfficeLevel::LevelChangeStart()
 
 	MainBGM.SoundFadeIn(2.0f);
 
-	
+	PlayerInfoWindow::PlayerGUI->On();
 }
 
 void OfficeLevel::LevelChangeEnd()
 {
+	PlayerInfoWindow::PlayerGUI->Off();
+
 	MainBGM.SoundFadeOut(1.0f);
 
 	AllActorDestroy();
@@ -233,7 +236,7 @@ void OfficeLevel::Create_TriggerObject()
 	{
 		// 소개레벨 포탈 
 		std::shared_ptr<ShortCutDoor> Obj = CreateActor<ShortCutDoor>();
-		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1065, -750, -5131 });
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1065, -720, -5131 });
 		Obj->SetTriggerFunction([=]
 			{
 				GameEngineCore::ChangeLevel("ExplainLevel");

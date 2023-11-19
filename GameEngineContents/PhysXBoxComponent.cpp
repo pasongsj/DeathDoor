@@ -30,7 +30,7 @@ void PhysXBoxComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, float4 _
 		CreateDynamic(_GeoMetryScale, _GeoMetryRot);
 	}
 
-	GetTransform()->SetWorldScale(float4(_GeoMetryScale.z, _GeoMetryScale.y, _GeoMetryScale.z));
+	GetTransform()->SetWorldScale(float4(_GeoMetryScale.x, _GeoMetryScale.y, _GeoMetryScale.z));
 }
 
 void PhysXBoxComponent::CreateStatic(physx::PxVec3 _GeoMetryScale, float4 _GeoMetryRot)
