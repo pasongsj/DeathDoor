@@ -129,6 +129,8 @@ void BossFrogLevel::Update(float _DeltaTime)
 		Player::MainPlayer->CameraControl = true;
 	}
 
+	GraphicUpdate();
+
 }
 
 void BossFrogLevel::InitKey()

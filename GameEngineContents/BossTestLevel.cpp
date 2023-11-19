@@ -41,6 +41,8 @@ void BossTestLevel::Update(float _DeltaTime)
 	{
 		GetMainCamera()->GetTransform()->SetWorldPosition(Pos);
 	}
+
+	GraphicUpdate();
 }
 
 

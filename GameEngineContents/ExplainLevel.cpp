@@ -57,6 +57,9 @@ void ExplainLevel::Update(float _DeltaTime)
 		nextPos.z -= 1000.0f * tanf((90.0f - m_f4CameraRot.x) * GameEngineMath::DegToRad);
 		GetMainCamera()->GetTransform()->SetWorldPosition(float4::LerpClamp(GetMainCamera()->GetTransform()->GetWorldPosition(), nextPos, _DeltaTime * 3.0f));
 	}
+
+	GraphicUpdate();
+
 }
 
 void ExplainLevel::LevelChangeStart()

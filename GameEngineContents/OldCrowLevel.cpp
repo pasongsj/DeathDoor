@@ -32,6 +32,9 @@ void OldCrowLevel::Update(float _DeltaTime)
 	{
 		ClearCheck();
 	}
+
+	GraphicUpdate();
+
 }
 
 void OldCrowLevel::LevelChangeStart()

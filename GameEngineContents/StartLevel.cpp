@@ -18,6 +18,7 @@ void StartLevel::Start()
 
 void StartLevel::Update(float _DeltaTime)
 {
+	GraphicUpdate();
 }
 
 void StartLevel::LevelChangeStart()
