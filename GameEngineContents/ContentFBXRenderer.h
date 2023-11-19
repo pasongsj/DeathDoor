@@ -161,6 +161,15 @@ private:
 	void SetReflect();
 	void LinkConstantBuffer();
 
+	struct isOn
+	{
+		int isGamma = true;
+		int isHdr = true;
+		
+		int Padding1;
+		int Padding2;
+	};
+
 	float4 BlurColor = {0.85f, 0.26f, 0.33f, -1.0f};
 	float4 ClipData = { 0.0f, 0.0f, 1.0f, 1.0f };
 
@@ -174,5 +183,7 @@ private:
 	float4 CamPos = float4::ZERO;
 
 	float Intensity = 1.0f;
+
+	isOn isOnBuffer;
 };
 

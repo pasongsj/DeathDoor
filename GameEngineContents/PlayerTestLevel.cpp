@@ -21,6 +21,7 @@ void PlayerTestLevel::Start()
 
 void PlayerTestLevel::Update(float _DeltaTime)
 {
+	GraphicUpdate();
 	int  a = 0;
 }
 

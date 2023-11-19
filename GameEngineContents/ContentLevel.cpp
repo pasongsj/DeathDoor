@@ -53,8 +53,8 @@ void ContentLevel::SetPostPrecessEffect(float4 _BlurSize)
 	
 	GameEngineCoreWindow::AddDebugRenderTarget(4, "aaa", AlphaGlow->BlurTarget);
 
-	std::shared_ptr<GammaCorrection> Effect2 = GetLevel()->GetLastTarget()->CreateEffect<GammaCorrection>();
-	std::shared_ptr<FXAA> Effect3 = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();
+	Gamma = GetLevel()->GetLastTarget()->CreateEffect<GammaCorrection>();
+	AntiAliasing = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();
 }
 
 void ContentLevel::SetGlowScale(float _Distance)
@@ -75,3 +75,95 @@ void ContentLevel::CreatePivotActor()
 {
 	PivotActor = CreateActor<GameEngineActor>();
 }
+
+void ContentLevel::GraphicUpdate()
+{
+	GammaUpdate();
+	HDRUpdate();
+	FXAAUpdate();
+}
+
+void ContentLevel::GammaUpdate()
+{
+	if (PrevisGamma == isGamma)
+	{
+		return;
+	}
+
+	if (isGamma == true)
+	{
+		if (Gamma != nullptr)
+		{
+			MsgAssert("감마보정 효과가 제거되지 않은 상태에서 다시 생성하려고 했습니다.");
+			return;
+		}
+
+		Gamma = GetLevel()->GetLastTarget()->CreateEffect<GammaCorrection>();
+	}
+	else
+	{
+		if (Gamma == nullptr)
+		{
+			MsgAssert("감마보정 효과가 적용되지 않은 상태에서, 제거하려고 했습니다.");
+			return;
+		}
+
+		GetLevel()->GetLastTarget()->ReleaseEffect(Gamma);
+		Gamma = nullptr;
+	}
+
+	PrevisGamma = isGamma;
+
+}
+
+void ContentLevel::HDRUpdate()
+{
+	if (PrevisHDR == isHDR)
+	{
+		return;
+	}
+
+	if (isHDR == true)
+	{
+		GetMainCamera()->OnHdr();
+	}
+	else
+	{
+		GetMainCamera()->OffHdr();
+	}
+
+	PrevisHDR = isHDR;
+}
+
+void ContentLevel::FXAAUpdate()
+{
+	if (PrevisFXAA == isFXAA)
+	{
+		return;
+	}
+
+	if (isFXAA == true)
+	{
+		if (AntiAliasing != nullptr)
+		{
+			MsgAssert("FXAA 효과가 제거되지 않은 상태에서 다시 생성하려고 했습니다.");
+			return;
+		}
+
+		AntiAliasing = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();
+	}
+	else
+	{
+		if (AntiAliasing == nullptr)
+		{
+			MsgAssert("FXAA 효과가 적용되지 않은 상태에서, 제거하려고 했습니다.");
+			return;
+		}
+
+		GetLevel()->GetLastTarget()->ReleaseEffect(AntiAliasing);
+		AntiAliasing = nullptr;
+	}
+
+	PrevisFXAA = isFXAA;
+}
+
