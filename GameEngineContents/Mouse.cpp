@@ -41,8 +41,10 @@ void Mouse::Start()
 			Units[i][j]->ShaderResHelper.SetTexture("DiffuseTexture", "WhiteTexture.png");
 		}
 	}
-	
-	GameEngineInput::CreateKey("CursorOnOff", VK_F2);
+	if (false == GameEngineInput::IsKey("CursorOnOff"))
+	{
+		GameEngineInput::CreateKey("CursorOnOff", VK_F2);
+	}
 }
 
 void Mouse::Update(float _DeltaTime)
