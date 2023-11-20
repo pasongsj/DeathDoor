@@ -59,7 +59,7 @@ Output ContentMeshForward_VS(Input _Input)
     
     for (int Index = 0; Index < PointLightNum; Index++)
     {
-        ResultPointLight += CalPointLight_WorldSpace(WorldPos, WorldNormal, PointLights[Index]);
+        ResultPointLight += CalPointLight_ViewSpace(ViewPos, ViewNormal, PointLights[Index]);
     }
     
     NewOutPut.DIFFUSELIGHT = CalDiffuseLight(ViewPos, ViewNormal, AllLight[0]);
