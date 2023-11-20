@@ -111,6 +111,11 @@ void Player::Update(float _DeltaTime)
 	{
 		PlayerTestMode = !PlayerTestMode;
 	}
+	if (true == GameEngineInput::IsDown("H"))
+	{
+		PlayerHP = 4;
+		SpellCost = 4;
+	}
 
 
 	//// test
