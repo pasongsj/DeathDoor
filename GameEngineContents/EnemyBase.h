@@ -32,6 +32,11 @@ public:
 	bool DeathCheck();
 
 	void CreateFadeEffect();
+	void FadeInEffect(float _DeltaTime);
+	bool IsFadeEffet()
+	{
+		return m_bEffect;
+	}
 
 protected:
 	std::shared_ptr<class ContentFBXRenderer> EnemyRenderer = nullptr;
