@@ -24,6 +24,7 @@ protected:
 		AttackBase::SetShoot(_Speed);
 		AttackRenderer->GetTransform()->SetLocalRotation(float4{ 90.0f,-0.0f,-90.0f });
 		AttackRenderer->GetTransform()->SetLocalScale(float4{ 2.5f,0.8f,2.5f });
+		PhysXComp->SetDynamicPivot(float4::DOWN * 100.0f);
 	}
 
 private:
