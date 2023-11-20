@@ -81,6 +81,12 @@ void BossFrogLevel::Update(float _DeltaTime)
 	{
 		WaterDropCount += _DeltaTime;
 
+		if (false == IsWaterDropSoundPlayed)
+		{
+			IsWaterDropSoundPlayed = true;
+			GameEngineSound::Play("Frog_Phase2_IntroSplash.mp3");
+		}
+
 		if(WaterDropCount >= 0.1f)
 		{
 			for(int i = 0; i < 4; i++)
@@ -191,6 +197,7 @@ void BossFrogLevel::LevelChangeStart()
 	//BossFrogWindow::EditorGUI->On();
 	PlayerInfoWindow::PlayerGUI->On();
 
+	IsWaterDropSoundPlayed = false;
 }
 
 void BossFrogLevel::LevelChangeEnd()

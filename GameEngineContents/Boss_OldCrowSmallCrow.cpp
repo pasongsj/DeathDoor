@@ -39,8 +39,9 @@ void Boss_OldCrowSmallCrow::Start()
 		//m_pSphereComp->SetTrigger();
 
 		m_pSphereComp->CreateSubShape(SubShapeType::BOX, float4{ 100, 100, 100 }, float4 {0, 0, 0});
-		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::MonsterSkill);
+		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::CrowDebuff);
 		m_pSphereComp->AttachShape();
+
 	}
 
 	Idle = GameEngineSound::Play("OldCrow_SmallCrowIdle.mp3");

@@ -172,7 +172,15 @@ void Player::CheckDirInput(float _DeltaTime)
 		SetNextState(PlayerState::WALK);
 		//DirectionUpdate(_DeltaTime);
 		MoveDir = Dir.NormalizeReturn();
-		MoveUpdate(PLAYER_MOVE_SPEED);
+
+		if (true == CheckCollision(PhysXFilterGroup::CrowDebuff))
+		{
+			MoveUpdate(PLAYER_MOVE_SPEED / 6);
+		}
+		else
+		{
+			MoveUpdate(PLAYER_MOVE_SPEED);
+		}
 	}
 	else // 방향 입력이 없다면 IDLE
 	{

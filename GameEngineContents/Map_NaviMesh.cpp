@@ -27,10 +27,12 @@ void Map_NaviMesh::Start()
 	}
 	m_pNaviRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pNaviRenderer->SetFBXMesh("Fortress_Navi_DC.fbx", "ContentMeshDeffered");
+	m_pNaviRenderer->GetTransform()->SetWorldPosition(float4(0,10000,0));
 	m_pNaviRenderer->Off();
 
 	m_pWallRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pWallRenderer->SetFBXMesh("Fortress_Navi_DC_Wall_Test.fbx", "ContentMeshDeffered");
+	m_pWallRenderer->GetTransform()->SetWorldPosition(float4(0, 10000, 0));
 	m_pWallRenderer->Off();
 
 	m_pNaviComp = CreateComponent<PhysXTriangleComponent>();
@@ -51,5 +53,18 @@ void Map_NaviMesh::Start()
 
 void Map_NaviMesh::Update(float _DeltaTime)
 {
+	if (nullptr != m_pNaviRenderer && nullptr != m_pWallRenderer && true == GameEngineInput::IsDown("NaviMesh_Swtich"))
+	{
+		if (true == m_pNaviRenderer->IsUpdate() && true == m_pWallRenderer->IsUpdate())
+		{
+			m_pWallRenderer->Off();
+			m_pNaviRenderer->Off();
+		}
+		else
+		{
+			m_pWallRenderer->On();
+			m_pNaviRenderer->On();
+		}
+	}
 }
 

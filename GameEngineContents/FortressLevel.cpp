@@ -123,7 +123,7 @@ void FortressLevel::LevelChangeStart()
 
 	MainBGM = GameEngineSound::Play("FortressLevel_BGM.mp3");
 	MainBGM.SetLoop();
-
+	MainBGM.SetLoopPoint(0, 88);
 	MainBGM.SoundFadeIn(2.0f);
 
 	PlayerInfoWindow::PlayerGUI->On();
@@ -584,7 +584,7 @@ void FortressLevel::Create_FieldObject()
 			});
 	}
 	{
-		float4 TilePos = float4{ -13448, 300, 14628 };
+		float4 TilePos = float4{ -13468, 300, 14568 };
 		std::shared_ptr<SecretTile> Tile = CreateActor<SecretTile>();
 		Tile->GetPhysXComponent()->SetWorldPosWithParent(TilePos);
 

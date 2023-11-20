@@ -315,7 +315,6 @@ void Player::SetFSMFunc()
 
 			// 마우스 방향을 바라보도록 함
 			MoveDir = GetMousDirection();
-			StackDuration = 0.8f;
 			if (false == isChargeAttack)
 			{
 				std::vector<std::string> BasicAttackSound = { "Player_Attack.mp3","Player_Attack3.mp3","Player_Attack2.mp3" };
@@ -326,6 +325,8 @@ void Player::SetFSMFunc()
 				GameEngineSound::Play("Player_StrongAtk.mp3");
 
 			}
+
+			StackDuration = 0.8f;
 			if (++AttackStack >= 3)
 			{
 				StateInputDelayTime = 0.3f;
@@ -425,6 +426,7 @@ void Player::SetFSMFunc()
 		[this]
 		{
 			//MoveUpdate(0.0f);
+			PlayerHitDelay = 0.2f;
 		}
 	); 
 
