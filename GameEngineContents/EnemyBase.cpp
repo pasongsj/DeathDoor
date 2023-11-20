@@ -28,6 +28,7 @@ void EnemyBase::Update(float _DetltaTime)
 	{
 		EnemyRenderer->FadeIn(1.0f, _DetltaTime);
 	}
+
 	if (GetTransform()->GetWorldPosition().y < -300.0f)
 	{
 		m_iEnemyHP =0;
@@ -118,4 +119,9 @@ void EnemyBase::CreateFadeEffect()
 {
 	m_bEffect = true;
 	EnemyRenderer->FadeOut(0.01f, 0.01f);
+}
+
+void EnemyBase::FadeInEffect(float _DeltaTime)
+{
+	EnemyRenderer->FadeIn(1.0f, _DeltaTime);
 }
