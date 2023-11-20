@@ -16,7 +16,7 @@ void Mouse::Start()
 {
 #ifdef _DEBUG
 #else
-	ShowCursor(false);
+	ShowCursor(isCursorOn);
 #endif
 	MousePivot = CreateComponent<GameEngineComponent>();
 	MousePivot->GetTransform()->SetLocalRotation({ 90.0f, 0.0f, 0.0f });
@@ -42,12 +42,17 @@ void Mouse::Start()
 		}
 	}
 	
+	GameEngineInput::CreateKey("CursorOnOff", VK_F2);
 }
 
 void Mouse::Update(float _DeltaTime)
 {
-	//RayCasting();
 	MouseRotationUpdate();
+
+	if (GameEngineInput::IsDown("CursorOnOff") == true)
+	{
+		MouseOnOff();
+	}
 }
 
 void Mouse::Render(float _DeltaTime)
@@ -112,6 +117,13 @@ void Mouse::RayCasting()
 
 		count++;
 	}
+}
+
+void Mouse::MouseOnOff()
+{
+	isCursorOn = !isCursorOn;
+
+	ShowCursor(isCursorOn);
 }
 
 void Mouse::MouseRotationUpdate()
