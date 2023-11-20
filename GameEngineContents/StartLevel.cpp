@@ -26,7 +26,6 @@ void StartLevel::LevelChangeStart()
 	CreateActor<Start_BackGround>();
 	CreateActor<StartMenu>();
 
-	CreateIMGUIDebugRenderTarget();
 	GetMainCamera()->SetNearAndFar(1.0f, 6000.0f);
 
 	SetLevelType(PacketLevelType::StartLevel);

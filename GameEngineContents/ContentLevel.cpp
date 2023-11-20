@@ -23,8 +23,11 @@ void ContentLevel::LevelInit(float4 _BlurSize)
 {
 	CreateUI();
 	SetPostPrecessEffect(_BlurSize);
-	CreateIMGUIDebugRenderTarget();
 	CreatePivotActor();
+
+#ifdef _DEBUG
+	CreateIMGUIDebugRenderTarget();
+#endif
 }
 
 void ContentLevel::CreateIMGUIDebugRenderTarget()
@@ -50,8 +53,6 @@ void ContentLevel::SetPostPrecessEffect(float4 _BlurSize)
 
 	AlphaGlow = GetLevel()->GetMainCamera()->GetCamAllRenderTarget()->CreateEffect<AlphaGlowEffect>();
 	AlphaGlow->Init(DynamicThis<GameEngineLevel>(), { 1.0f, 0.0f, 0.0f, 0.0f }, _BlurSize);
-	
-	GameEngineCoreWindow::AddDebugRenderTarget(4, "aaa", AlphaGlow->BlurTarget);
 
 	Gamma = GetLevel()->GetLastTarget()->CreateEffect<GammaCorrection>();
 	AntiAliasing = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();

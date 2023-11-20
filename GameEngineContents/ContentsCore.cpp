@@ -41,7 +41,9 @@ void ContentsCore::GameStart()
 {
 	ContentsResourcesCreate();
 
+#ifdef _DEBUG
 	GameEngineGUI::GUIWindowCreate<GameEngineCoreWindow>("CoreWindow");	
+#endif
 
 	GameEngineGUI::GUIWindowCreate<LevelWindow>("LevelWindow");
 	GameEngineGUI::GUIWindowCreate<ServerWindow>("ServerWindow");
