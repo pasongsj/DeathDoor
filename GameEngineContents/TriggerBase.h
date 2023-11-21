@@ -7,6 +7,7 @@ class InteractionData
 	friend class Ladder;
 	friend class Frog_Lever;
 	friend class ShortCutDoor;
+	friend class HealthPlant;
 
 	enum class InteractionDataType
 	{
@@ -14,6 +15,7 @@ class InteractionData
 		Ladder,
 		Lever,
 		Door,
+		Plant,
 	};
 	InteractionDataType Type = InteractionDataType::None;
 	float4 Pos = float4::ZERONULL;

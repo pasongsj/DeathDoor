@@ -35,6 +35,7 @@
 #include "Mushroom.h"
 #include "Crate.h"
 #include "SecretTile.h"
+#include "HealthPlant.h"
 
 #include "OfficeLevel.h"
 
@@ -411,6 +412,11 @@ void FortressLevel::Create_FieldObject()
 		{
 			Obj->SetState(StartState::OPEN);
 		}
+	}
+	{
+		std::shared_ptr<HealthPlant> Obj = CreateActor<HealthPlant>();
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -720, 146, 6720 });
 	}
 	{
 		std::shared_ptr<Ladder> Obj = CreateActor<Ladder>();
