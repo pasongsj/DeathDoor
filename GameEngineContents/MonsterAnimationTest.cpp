@@ -14,11 +14,11 @@ MonsterAnimationTest::~MonsterAnimationTest()
 void MonsterAnimationTest::Start()
 {
 	Renderer = CreateComponent<ContentFBXRenderer>();
-	Renderer->SetFBXMesh("FrogSoul.FBX", "ContentMeshDeffered");
-	//Renderer->CreateFBXAnimation("0", "FROG_FAT_DIE_LAND.fbx", {0.1f });
-	//Renderer->CreateFBXAnimation("1", "FROG_FAT_DIE_STANDING.fbx", {0.1f });
-	//Renderer->CreateFBXAnimation("2", "FROG_FAT_IDLE.fbx", {0.1f });
-	//Renderer->CreateFBXAnimation("3", "FROG_FAT_JUMP.fbx", {0.1f });
+	Renderer->SetFBXMesh("Health_Plant_MESH.FBX", "ContentAniMeshDeffered");
+	Renderer->CreateFBXAnimation("0", "Health_Plant_Growing.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("1", "Health_Plant_Idle.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("2", "Health_Plant_Release.fbx", {0.1f });
+	Renderer->CreateFBXAnimation("3", "Health_Plant_UnGrown.fbx", {0.1f });
 	//Renderer->CreateFBXAnimation("4", "FROG_FAT_JUMP_SCREAM.fbx", {0.1f });
 	//Renderer->CreateFBXAnimation("5", "FROG_FAT_SHOOT.fbx", {0.1f });
 	//Renderer->CreateFBXAnimation("6", "FROG_FAT_SUCK.fbx", {0.1f });
@@ -55,18 +55,18 @@ void MonsterAnimationTest::Start()
 		GameEngineInput::CreateKey("PressK", 'K');
 	}
 
-	Unit = Renderer->GetAllRenderUnit();
-
-	Renderer->SetGlowToUnit(0, 0);
-	//Renderer->SetUnitColor(0, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 0.2f }, 5);
-	//Unit[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "soulTexture.png");
-	/// GetAllRenderUnit()[_IndexY][_IndexX]->ShaderResHelper.SetTexture("CrackTexture", _MaskName);
-	Renderer->SetGlowToUnit(0, 0);
-	Renderer->SetUnitColor(1, 0, float4{ 0.553f,0.027f,0.227f });
-	//WeaponRenderer->SetGlowToUnit(1, 0);
-	//WeaponRenderer->SetUnitColor(1, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
-	int a = 0;
-	//Renderer->Off();
+	//Unit = Renderer->GetAllRenderUnit();
+	//
+	//Renderer->SetGlowToUnit(0, 0);
+	////Renderer->SetUnitColor(0, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 0.2f }, 5);
+	////Unit[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "soulTexture.png");
+	///// GetAllRenderUnit()[_IndexY][_IndexX]->ShaderResHelper.SetTexture("CrackTexture", _MaskName);
+	//Renderer->SetGlowToUnit(0, 0);
+	//Renderer->SetUnitColor(1, 0, float4{ 0.553f,0.027f,0.227f });
+	////WeaponRenderer->SetGlowToUnit(1, 0);
+	////WeaponRenderer->SetUnitColor(1, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
+	//int a = 0;
+	////Renderer->Off();
 	//Unit[10][0]->SetMaterial();
 	//Unit[23][0]->Off();
 	//Renderer->ChangeAnimation("0");
@@ -99,7 +99,7 @@ void MonsterAnimationTest::Update(float _DeltaTime)
 	{
 		//Renderer->ChangeAnimation("5",true);
 		Renderer->ChangeAnimation(std::to_string(index++));
-		if (index >= 14)
+		if (index >= 4)
 		{
 			index = 0;
 		}

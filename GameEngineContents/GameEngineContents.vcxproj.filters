@@ -491,6 +491,9 @@
     <ClCompile Include="PlayerInfoWindow.cpp">
       <Filter>Contents\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="HealthPlant.cpp">
+      <Filter>FSMObject\Trigger\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -976,6 +979,9 @@
     </ClInclude>
     <ClInclude Include="PlayerInfoWindow.h">
       <Filter>Contents\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthPlant.h">
+      <Filter>FSMObject\Trigger\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

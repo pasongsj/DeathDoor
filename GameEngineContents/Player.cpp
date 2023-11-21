@@ -249,6 +249,11 @@ void Player::CheckStateInput(float _DeltaTime)
 		{
 			SetNextState(PlayerState::DOOR);
 		}
+		else if (InteractData.Type == InteractionData::InteractionDataType::Plant)
+		{
+			InteractData.Type = InteractionData::InteractionDataType::None;
+			PlayerHP = 4;
+		}
 	}
 }
 
