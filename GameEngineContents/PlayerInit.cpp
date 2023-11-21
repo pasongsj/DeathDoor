@@ -33,6 +33,10 @@ void Player::InitInputKey()
 	{
 		GameEngineInput::CreateKey("ChangePlayerMode", 'P');
 	}
+	if (false == GameEngineInput::IsKey("H"))
+	{
+		GameEngineInput::CreateKey("H", 'H');
+	}
 	//CameraRot = GetLevel()->GetMainCamera()->GetTransform()->GetWorldRotation();
 }
 
