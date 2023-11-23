@@ -748,14 +748,13 @@ void BossFrogFat::CreateShockEffect()
 
 		float4x4 Mat1 = DirectX::XMMatrixRotationX(X * GameEngineMath::DegToRad);
 		float4x4 Mat2 = DirectX::XMMatrixRotationY(Y * GameEngineMath::DegToRad);
-
 		Mat1 *= Mat2;
 
 		float4 Quat = float4::ZERO;
 		Quat = Quat.MatrixToQuaternion(Mat1);
-		Quat = Quat.QuaternionToEulerDeg();
+		float4 Euler = Quat.QuaternionToEulerDeg();
 
-		New->GetTransform()->SetWorldRotation(Quat);
+		New->GetTransform()->SetWorldRotation(Euler);
 		
 		float4 AngleVector = { X, Y };
 		AngleVector = AngleVector.EulerDegToQuaternion();
@@ -763,7 +762,6 @@ void BossFrogFat::CreateShockEffect()
 		AngleVector.Normalize();
 
 		New->SetAutoMove(AngleVector, 2500.0f);
-
 		New->SetScaleDecrease({ 1.0f, YScale, 1.0f }, 30.0f);
 
 		Angle += 30.0f;
