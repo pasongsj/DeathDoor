@@ -97,7 +97,7 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
     
     _Input.NORMAL = (Normal + Normal2) / 2.0f;
     
-    NewOutPut.DifTarget = pow(Color, 2.2f);
+    NewOutPut.DifTarget = Color;
     //NewOutPut.BlurTarget = Color;
     NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;
