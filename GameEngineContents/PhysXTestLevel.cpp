@@ -39,15 +39,6 @@ void PhysXTestLevel::LevelChangeStart()
 
 	m_pBloom = GetMainCamera()->GetDeferredLightTarget()->CreateEffect<BloomEffect>();
 
-	GameEngineCoreWindow::AddDebugRenderTarget(0, "AllRenderTarget", GetMainCamera()->GetCamAllRenderTarget());
-	GameEngineCoreWindow::AddDebugRenderTarget(1, "LightRenderTarget", GetMainCamera()->GetDeferredLightTarget());
-	GameEngineCoreWindow::AddDebugRenderTarget(2, "MainCameraForwardTarget", GetMainCamera()->GetCamForwardTarget());
-	GameEngineCoreWindow::AddDebugRenderTarget(3, "DeferredTarget", GetMainCamera()->GetCamDeferrdTarget());
-	GameEngineCoreWindow::AddDebugRenderTarget(4, "BloomEffect", m_pBloom->ResultTarget);
-	GameEngineCoreWindow::AddDebugRenderTarget(5, "BloomBlurEffect0", m_pBloom->BlurTarget0);
-	GameEngineCoreWindow::AddDebugRenderTarget(6, "BloomBlurEffect1", m_pBloom->BlurTarget1);
-
-
 	{
 		std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
 	}

@@ -479,6 +479,21 @@
     <ClCompile Include="Map_NaviMesh.cpp">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClCompile>
+    <ClCompile Include="FadeWhite.cpp">
+      <Filter>Contents\Effect\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="Content2DRenderer.cpp">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplainLevel.cpp">
+      <Filter>Contents\ExplainLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInfoWindow.cpp">
+      <Filter>Contents\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthPlant.cpp">
+      <Filter>FSMObject\Trigger\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterLevel.h">
@@ -953,6 +968,21 @@
     <ClInclude Include="Map_NaviMesh.h">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
+    <ClInclude Include="FadeWhite.h">
+      <Filter>Contents\Effect\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Content2DRenderer.h">
+      <Filter>Component\ContentsRenderer\2DSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplainLevel.h">
+      <Filter>Contents\ExplainLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInfoWindow.h">
+      <Filter>Contents\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthPlant.h">
+      <Filter>FSMObject\Trigger\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -1200,6 +1230,12 @@
     </Filter>
     <Filter Include="Contents\Effect\Object\ShockWave">
       <UniqueIdentifier>{6e8c6a1e-e576-4331-aeaa-a26094be2f35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect\Screen">
+      <UniqueIdentifier>{938b236d-f40c-4131-bb49-5d01604db413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\ExplainLevel">
+      <UniqueIdentifier>{c45a6194-e0c3-4c9c-b4e3-fa07db37b972}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

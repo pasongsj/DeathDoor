@@ -56,10 +56,12 @@ void BossFrogBomb::Update(float _DeltaTime)
 		TileManager::MainManager->DestroyTile(index.iy(), index.ix());
 		// 타일 삭제하기
 
+		GameEngineSound::Play("Frog_Phase2_BreakTileWithShoot.mp3");
+
 		CreateDustParticle();
 	}
 
-	GetTransform()->SetWorldPosition(float4::Bazier3LerpClamp(Startpoint, P2, Target, GetLiveTime()));
+	GetTransform()->SetWorldPosition(float4::Bezier3LerpClamp(Startpoint, P2, Target, GetLiveTime()));
 }
 
 

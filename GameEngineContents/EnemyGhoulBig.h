@@ -15,7 +15,7 @@ public:
 	EnemyGhoulBig& operator=(const EnemyGhoulBig& _Other) = delete;
 	EnemyGhoulBig& operator=(EnemyGhoulBig&& _Other) noexcept = delete;
 
-	const int GhoulFullHP = 8;
+	const int GhoulFullHP = 6;
 
 protected:
 	void Start() override;
@@ -47,7 +47,7 @@ private:
 
 	const float4 ArrowScale = float4{ 2.0f,1.0f,2.0f };
 	const float4 ArrowRot = float4{ 0.0f,-0.0f,-90.0f };
-	const float4 ArrowPhysXScale = float4{ 0.0f, 100.0f, 10.0f };
+	const float4 ArrowPhysXScale = float4{ 0.0f, 150.0f, 50.0f };
 
 };
 

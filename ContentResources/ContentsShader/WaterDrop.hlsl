@@ -60,6 +60,7 @@ SamplerState ENGINEBASE : register(s0);
 float4 ContentMeshTexture_PS(Output _Input) : SV_Target6
 {
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+    //Color = pow(Color, 2.2f);
     
     Color *= MulColor;
     Color += AddColor;

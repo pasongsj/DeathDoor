@@ -78,9 +78,15 @@ cbuffer WaterHeight : register(b4)
     float4 WaterHeight;
 };
 
+cbuffer IsOn : register(b7)
+{
+    bool isGamma;
+    bool isHDR;
+    bool2 padding;
+};
+
 DeferredOutPut ContentMeshDeferred_PS(Output _Input)
 {
-     
     if (_Input.WORLDPOSITION.y < WaterHeight.x)
     {
         clip(-1);
@@ -131,7 +137,10 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
             NewOutPut.BlurTarget = float4(DiffuseBlurColor);
             Color = NewOutPut.BlurTarget;
             
-            NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);
+            if (isGamma == true)
+            {
+                NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);
+            }
         }
     }
     
@@ -153,7 +162,12 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         Color = float4(BlurColor);
     }
     
-    NewOutPut.DifTarget = pow(Color, 2.2f);
+    if(isGamma == true)
+    {
+        Color = pow(Color, 2.2f);
+    }
+    
+    NewOutPut.DifTarget = Color;
     NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;
     NewOutPut.NorTarget = _Input.NORMAL;

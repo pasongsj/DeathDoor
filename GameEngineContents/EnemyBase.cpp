@@ -28,9 +28,10 @@ void EnemyBase::Update(float _DetltaTime)
 	{
 		EnemyRenderer->FadeIn(1.0f, _DetltaTime);
 	}
+
 	if (GetTransform()->GetWorldPosition().y < -300.0f)
 	{
-		Death();
+		m_iEnemyHP =0;
 		return;
 	}
 }
@@ -88,10 +89,11 @@ bool EnemyBase::CheckHit()
 {
 	if (true == CheckCollision(PhysXFilterGroup::PlayerSkill) || true == CheckCollision(PhysXFilterGroup::PlayerBomb))// 플레이어로부터 공격을 받는다면 
 	{
+		GameEngineSound::Play("DefaultHit.mp3");
 		--m_iEnemyHP;
 		float Crack = static_cast<float>(m_TotalHP-m_iEnemyHP) / m_TotalHP; // 몬스터에 크랙쉐이더 적용 0~1값
 		EnemyRenderer->SetCrackAmount(Crack);		
-
+		EnemyRenderer->SetBlurColor({ 0.952f, 0.286f, 0.372f, 1.0f }, Crack * 3.0f);
 		return true;
 	}
 	return false;
@@ -117,4 +119,9 @@ void EnemyBase::CreateFadeEffect()
 {
 	m_bEffect = true;
 	EnemyRenderer->FadeOut(0.01f, 0.01f);
+}
+
+void EnemyBase::FadeInEffect(float _DeltaTime)
+{
+	EnemyRenderer->FadeIn(1.0f, _DeltaTime);
 }

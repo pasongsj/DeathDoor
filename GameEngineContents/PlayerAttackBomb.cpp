@@ -7,11 +7,11 @@
 #include "GrayScaleEffect.h"
 #include "DustParticle.h"
 
-PlayerAttackBomb::PlayerAttackBomb() 
+PlayerAttackBomb::PlayerAttackBomb()
 {
 }
 
-PlayerAttackBomb::~PlayerAttackBomb() 
+PlayerAttackBomb::~PlayerAttackBomb()
 {
 }
 
@@ -26,17 +26,34 @@ void PlayerAttackBomb::Start()
 	SetDestTarget(PhysXFilterGroup::MonsterDynamic);
 
 	AttackRenderer->SetGlowToUnit(0, 0);
-	AttackRenderer->SetColor(float4{1.0f, 0.1f, 0.2f}, 4.0f);
-	PhysXComp->CreateSubShape(SubShapeType::SPHERE, float4::ONE * 300.0f);
+	AttackRenderer->SetColor(float4{ 1.0f, 0.1f, 0.2f }, 4.0f);
+	PhysXComp->SetDynamicPivot(float4::DOWN * 100.0f);
+	PhysXComp->CreateSubShape(SubShapeType::SPHERE, float4::ONE * 500.0f);
+
 
 }
-void PlayerAttackBomb::Death()
+//void PlayerAttackBomb::Death()
+//{
+//	
+//
+//	//GameEngineObjectBase::Death();
+//}
+void PlayerAttackBomb::Bomb()
 {
+
+	GameEngineSound::Play("Player_BombExplosion.mp3");
+	SetShoot(0);
+	AttackRenderer->Off();
+
+	BombTime = GetLiveTime() + 1.0f;
+	PhysXComp->AttachShape();
+
 	std::weak_ptr<GrayScaleEffect> Effect = GetLevel()->GetLastTarget()->CreateEffect<GrayScaleEffect>();
 	GameEngineLevel* Level = GetLevel();
 	Level->TimeEvent.AddEvent(0.2f, [Level, Effect](GameEngineTimeEvent::TimeEvent&, GameEngineTimeEvent*) {Level->GetLastTarget()->ReleaseEffect(Effect.lock()); });
-
-	//GameEngineObjectBase::Death();
+	
+	//isCollisionBomb = true;
+	return;
 }
 
 
@@ -46,21 +63,53 @@ void PlayerAttackBomb::Update(float _DeltaTime)
 	{
 		return;
 	}
-	if (PhysXFilterGroup::None != DestTarget && true == CheckCollision(DestTarget))
+	if(true == AttackRenderer->IsUpdate())
 	{
-		SetShoot(0);
-		AttackRenderer->Off();
-		DeathTime = GetLiveTime() + 1.0f;
-		PhysXComp->AttachShape();
+		if (true == CheckCollision(PhysXFilterGroup::Obstacle) || (PhysXFilterGroup::None != DestTarget && true == CheckCollision(DestTarget)))
+		{
+			Bomb();
+			return;
+		}
+	}
+	else 
+	{
+		if (GetLiveTime() > BombTime)
+		{
+			Death();
+			GameEngineSound::Play("Splash.mp3");
+			return;
+		}
+	}
+
+	//if (false == isCollisionBomb && PhysXFilterGroup::None != DestTarget && 
+	//	(true == CheckCollision(DestTarget) || true == CheckCollision(PhysXFilterGroup::Obstacle)))
+	//{
+	//	if (true == AttackRenderer->IsUpdate())
+	//	{
+	//		GameEngineSound::Play("Player_BombExplosion.mp3");
+	//	}
+	//	SetShoot(0);
+	//	AttackRenderer->Off();
+	//	BombTime = GetLiveTime() + 1.0f;
+	//	PhysXComp->AttachShape();
+	//	std::weak_ptr<GrayScaleEffect> Effect = GetLevel()->GetLastTarget()->CreateEffect<GrayScaleEffect>();
+	//	GameEngineLevel* Level = GetLevel();
+	//	Level->TimeEvent.AddEvent(0.2f, [Level, Effect](GameEngineTimeEvent::TimeEvent&, GameEngineTimeEvent*) {Level->GetLastTarget()->ReleaseEffect(Effect.lock()); });
+	//	isCollisionBomb = true;
+	//	return;
+	//}
+	//if (BombTime != 0.0f && GetLiveTime() > BombTime)
+	//{
+	//	Death();
+	//	GameEngineSound::Play("Splash.mp3");
+	//	return;
+	//}
+	if (GetLiveTime() > GetFireTime() + 5.0f)
+	{
 		Death();
 		return;
 	}
-	if (GetLiveTime() > GetFireTime() + 20.0 || (DeathTime != 0.0f && GetLiveTime() > DeathTime))
-	{
-		GameEngineObjectBase::Death();
-		return;
-	}
-
+	
 	PhysXComp->GetDynamic()->setLinearVelocity({ 0,0,0 });
 	PhysXComp->SetMoveSpeed(GetDir() * GetShootSpeed());
 	isPhysXCollision = 0;

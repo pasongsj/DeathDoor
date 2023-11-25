@@ -21,6 +21,7 @@ void PlayerTestLevel::Start()
 
 void PlayerTestLevel::Update(float _DeltaTime)
 {
+	GraphicUpdate();
 	int  a = 0;
 }
 
@@ -34,7 +35,6 @@ void PlayerTestLevel::LevelChangeStart()
 	//LevelInit(); 
 	//CreateUI();
 
-	CreateIMGUIDebugRenderTarget();
 	SetPostPrecessEffect({ 800, 450, 800, 450 });
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);

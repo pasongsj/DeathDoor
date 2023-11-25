@@ -22,6 +22,7 @@ public:
 	void FadeOut(float _MaxTime, float _DeltaTime);
 	void FadeIn(float _MaxTime, float _DeltaTime);
 
+	void SetFBXMesh(const std::string& _Name, std::string _Material, const std::string_view& beforeTex, const std::string_view& TextureName) override;
 	void SetFBXMesh(const std::string& _MeshName, const std::string _SettingName, RenderPath _Path = RenderPath::None) override;
 	void SetCrackAmount(float _Amount);
 
@@ -160,6 +161,15 @@ private:
 	void SetReflect();
 	void LinkConstantBuffer();
 
+	struct isOn
+	{
+		int isGamma = true;
+		int isHdr = true;
+		
+		int Padding1;
+		int Padding2;
+	};
+
 	float4 BlurColor = {0.85f, 0.26f, 0.33f, -1.0f};
 	float4 ClipData = { 0.0f, 0.0f, 1.0f, 1.0f };
 
@@ -173,5 +183,7 @@ private:
 	float4 CamPos = float4::ZERO;
 
 	float Intensity = 1.0f;
+
+	isOn isOnBuffer;
 };
 

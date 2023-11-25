@@ -56,43 +56,42 @@ void Player::Start()
 
 void Player::SpawnPosUpdate(float _DeltaTime)
 {
-	PosInter -= _DeltaTime;
-	if ((true == respawnPos.empty() || PosInter < 0.0f) &&
-		GetTransform()->GetWorldPosition().Size() > 1 &&
-		GetCurState< PlayerState>() != PlayerState::CLIMB &&
-		GetCurState< PlayerState>() != PlayerState::FALLING)
-	{
-		if (respawnPos.size() >= 10)
-		{
-			respawnPos.pop_back();
-		}
-		respawnPos.push_front(GetTransform()->GetWorldPosition());
-		PosInter = 10.0f;
-	}
+	//PosInter -= _DeltaTime;
+	//if ((true == respawnPos.empty() || PosInter < 0.0f) &&
+	//	GetTransform()->GetWorldPosition().Size() > 1 &&
+	//	GetCurState< PlayerState>() != PlayerState::CLIMB &&
+	//	GetCurState< PlayerState>() != PlayerState::FALLING)
+	//{
+	//	if (respawnPos.size() >= 10)
+	//	{
+	//		respawnPos.pop_back();
+	//	}
+	//	respawnPos.push_front(GetTransform()->GetWorldPosition());
+	//	PosInter = 2.0f;
+	//}
 }
 
 
 void Player::Update(float _DeltaTime)
 {
-	
-	SpawnPosUpdate(_DeltaTime);
+	//SpawnPosUpdate(_DeltaTime);
 	DirectionUpdate(_DeltaTime); // 플레이어 방향 업데이트
 	DefaultPhysX();
 	FSMObjectBase::Update(_DeltaTime);
 
 
-	// input 사다리타기 추후 trigger로 변경할 예정
-	if (true == GameEngineInput::IsDown("PressN"))
-	{
-		if (PlayerState::IDLE == GetCurState<PlayerState>())
-		{
-			SetNextState(PlayerState::CLIMB);
-		}
-		else
-		{
-			SetNextState(PlayerState::IDLE);
-		}
-	}
+	//// input 사다리타기 추후 trigger로 변경할 예정
+	//if (true == GameEngineInput::IsDown("PressN"))
+	//{
+	//	if (PlayerState::IDLE == GetCurState<PlayerState>())
+	//	{
+	//		SetNextState(PlayerState::CLIMB);
+	//	}
+	//	else
+	//	{
+	//		SetNextState(PlayerState::IDLE);
+	//	}
+	//}
 	// state와 상관없이 스킬 변경 가능
 	if (PlayerState::SKILL != GetCurState<PlayerState>())
 	{
@@ -108,9 +107,20 @@ void Player::Update(float _DeltaTime)
 
 	CameraUpdate(_DeltaTime);
 
-	PlayerState Checker = GetCurState<PlayerState>();
-	// test
-	float4 MyPos = GetTransform()->GetWorldPosition();
+	if (true == GameEngineInput::IsDown("ChangePlayerMode"))
+	{
+		PlayerTestMode = !PlayerTestMode;
+	}
+	if (true == GameEngineInput::IsDown("H"))
+	{
+		PlayerHP = 4;
+		SpellCost = 4;
+	}
+
+
+	//// test
+	//PlayerState Checker = GetCurState<PlayerState>();
+	//float4 MyPos = GetTransform()->GetWorldPosition();
 	
 }
 
@@ -167,7 +177,15 @@ void Player::CheckDirInput(float _DeltaTime)
 		SetNextState(PlayerState::WALK);
 		//DirectionUpdate(_DeltaTime);
 		MoveDir = Dir.NormalizeReturn();
-		MoveUpdate(PLAYER_MOVE_SPEED);
+
+		if (true == CheckCollision(PhysXFilterGroup::CrowDebuff))
+		{
+			MoveUpdate(PLAYER_MOVE_SPEED / 6);
+		}
+		else
+		{
+			MoveUpdate(PLAYER_MOVE_SPEED);
+		}
 	}
 	else // 방향 입력이 없다면 IDLE
 	{
@@ -236,12 +254,19 @@ void Player::CheckStateInput(float _DeltaTime)
 		{
 			SetNextState(PlayerState::DOOR);
 		}
+		else if (InteractData.Type == InteractionData::InteractionDataType::Plant)
+		{
+			InteractData.Type = InteractionData::InteractionDataType::None;
+			PlayerHP = 4;
+		}
 	}
 }
 
 
-void Player::CheckFalling()
+void Player::CheckFalling(float _DeltaTime)
 {
+
+	PosInter -= _DeltaTime;
 	// Falling Check
 	float4 PlayerGroundPos = GetTransform()->GetWorldPosition(); // 플레이어의 위치
 	PlayerGroundPos.y += 50.0f;
@@ -253,6 +278,19 @@ void Player::CheckFalling()
 			SetNextState(PlayerState::FALLING);
 			return;
 		}
+		if ((true == respawnPos.empty() || PosInter < 0.0f))
+		{
+			if (false == respawnPos.empty() && respawnPos.front().XYZDistance(CollPoint) < 400.0f)
+			{
+				return;
+			}
+			if (respawnPos.size() >= 30)
+			{
+				respawnPos.pop_back();
+			}
+			respawnPos.push_front(CollPoint);
+			PosInter = 0.5f;
+		}
 	}
 	else
 	{
@@ -260,16 +298,23 @@ void Player::CheckFalling()
 
 	}
 }
+
 void Player::CheckState(float _DeltaTime)
 {
+	if (PlayerHP <= 0)
+	{
+		SetNextState(PlayerState::DEAD);
+		return;
+	}
 	StateInputDelayTime -= _DeltaTime;
+	PlayerHitDelay -= _DeltaTime;
 	if (StateInputDelayTime > 0.0f)
 	{
 		return;
 	}
 	CheckDirInput(_DeltaTime);
 	CheckStateInput(_DeltaTime);
-	CheckFalling();
+	CheckFalling(_DeltaTime);
 	CheckPlayerHit();
 }
 
@@ -326,18 +371,26 @@ void Player::SetSkill()
 {
 	if (true == GameEngineInput::IsDown("PlayerSkillArrow"))
 	{
+		GameEngineSound::Play("Letter2.mp3");
+
 		CurSkill = PlayerSkill::ARROW;
 	}
 	else if (true == GameEngineInput::IsDown("PlayerSkillMagic"))
 	{
+		GameEngineSound::Play("Letter2.mp3");
+
 		CurSkill = PlayerSkill::MAGIC;
 	}
 	else if (true == GameEngineInput::IsDown("PlayerSkillBomb"))
 	{
+		GameEngineSound::Play("Letter2.mp3");
+
 		CurSkill = PlayerSkill::BOMB;
 	}
 	else if (true == GameEngineInput::IsDown("PlayerSkillHook"))
 	{
+		GameEngineSound::Play("Letter2.mp3");
+
 		CurSkill = PlayerSkill::HOOK;
 	}
 }
@@ -388,7 +441,7 @@ float4 Player::GetBonePos(const std::string_view& _BoneName)
 
 void Player::CheckPlayerHit()
 {
-	if (true == PlayerTestMode)
+	if (true == PlayerTestMode || PlayerHitDelay > 0.0f)
 	{
 		return;
 	}
@@ -406,7 +459,25 @@ void Player::CheckPlayerHit()
 		{
 			SetNextState(PlayerState::HIT);
 		}
+		return;
 	}
+
+	//if (true == CheckCollision(PhysXFilterGroup::PlayerBomb))
+	//{
+	//	if (false == PlayerTestMode)
+	//	{
+	//		--PlayerHP;
+	//	}
+	//	if (0 >= PlayerHP)
+	//	{
+	//		SetNextState(PlayerState::DEAD);
+	//	}
+	//	else
+	//	{
+	//		SetNextState(PlayerState::HIT);
+	//	}
+	//	return;
+	//}
 }
 
 void Player::CreateDustParticle(float _Delta)

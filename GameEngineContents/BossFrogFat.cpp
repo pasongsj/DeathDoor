@@ -7,8 +7,9 @@
 #include "HitParticle.h"
 #include "PhysXBoxComponent.h"
 #include "Particle3D.h"
+#include "ShockWave.h"
 #include "WaterDrop.h"
-#include "BossFrogSoul.h"
+//#include "BossFrogSoul.h"
 
 BossFrogFat::BossFrogFat()
 {
@@ -39,14 +40,18 @@ void BossFrogFat::Start()
 			m_pCapsuleComp->RigidSwitch(false);
 		}
 		m_pCapsuleComp->SetWorldPosWithParent(BossFrog::WPointNorth);
-		m_pCapsuleComp->CreateSubShape(SubShapeType::BOX, float4{ 800.0f,200.0f,200.0f }, float4{ 0.0f, 100.0f, 400.0f });
+		m_pCapsuleComp->CreateSubShape(SubShapeType::BOX, float4{ 800.0f,200.0f,200.0f }, float4{ 0.0f, 100.0f, 400.0f },true);
+		m_pCapsuleComp->SetSubShapeFilter(PhysXFilterGroup::MonsterDynamic);
 	}
 
 	if (false == GameEngineInput::IsKey("PressK"))
 	{
 		GameEngineInput::CreateKey("PressK", 'K');
 	}
-	SetEnemyHP(50);
+	BGMSound = GameEngineSound::Play("SwampKingPhase2MainLoop.mp3");
+	BGMSound.SetLoopPoint(0.0f, 48.0f);
+	BGMSound.SetLoop();
+	SetEnemyHP(30);
 }
 float4 BossFrogFat::GetRandomTileIndex()
 {
@@ -84,6 +89,7 @@ void BossFrogFat::Update(float _DeltaTime)
 	if (true == GameEngineInput::IsDown("PressK"))
 	{
 		SetNextState(BossFrogFatState::DEATH);
+		SetFrogDeath();
 	}
 
 	AnimationBoneData BoneData = EnemyRenderer->GetBoneData("_FROG_SEPTRE_BONE");
@@ -111,6 +117,10 @@ void BossFrogFat::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("JUMP_SCREAM", "FROG_FAT_JUMP_SCREAM.fbx", { 1.0f / 30, false });				   //ÀÎÆ®·Î
 	EnemyRenderer->FadeOut(0.01f, 0.01f);
 
+	EnemyRenderer->SetAnimationStartFunc("JUMP_SCREAM", 10, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_JumpPrevScream.mp3");
+		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_SCREAM", 47, [this]
 		{
 			JumpStartPoint = OnGroundCenter;
@@ -119,6 +129,10 @@ void BossFrogFat::InitAnimation()
 			ResetStateDuration();
 			isJumpTime = true;
 		});
+	EnemyRenderer->SetAnimationStartFunc("JUMP_SCREAM", 61, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_LandToGround.mp3");
+		});
 	EnemyRenderer->SetAnimationStartFunc("JUMP_SCREAM", 77, [this]
 		{
 			isJumpTime = false;
@@ -126,10 +140,18 @@ void BossFrogFat::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("IDLE", "FROG_FAT_IDLE.fbx", { 1.0f / 30, true });
 	
 	EnemyRenderer->CreateFBXAnimation("FAT_JUMP", "FROG_FAT_JUMP.fbx", { 1.0f / 30, false });						   //¹Ù´Ú to ¹° Â«Çª
+	EnemyRenderer->SetAnimationStartFunc("FAT_JUMP", 33, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_JumpScream.mp3");
+		});
 	EnemyRenderer->SetAnimationStartFunc("FAT_JUMP", 36, [this]// 40~70 ÇÁ·¹ÀÓ Á¡ÇÁ // 1ÃÊ°£ Á¡ÇÁ
 		{
 			ResetStateDuration();
 			isJumpTime = true;
+		});
+	EnemyRenderer->SetAnimationStartFunc("FAT_JUMP", 56, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_LandToGround.mp3");
 		});
 	EnemyRenderer->SetAnimationStartFunc("FAT_JUMP", 66, [this]
 		{
@@ -138,10 +160,18 @@ void BossFrogFat::InitAnimation()
 		});
 
 	EnemyRenderer->CreateFBXAnimation("TILT_JUMP", "FROG_FAT_TILT_JUMP.fbx", { 1.0f / 30, false });					   //¹° to ¹Ù´Ú Àâ°í Á¡ÇÁ ²Ê´ç
+	EnemyRenderer->SetAnimationStartFunc("TILT_JUMP", 1, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_JumpScream2.mp3");
+		});
 	EnemyRenderer->SetAnimationStartFunc("TILT_JUMP", 14, [this]
 		{
 			ResetStateDuration();
 			isJumpTime = true;
+		});
+	EnemyRenderer->SetAnimationStartFunc("TILT_JUMP", 32, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_LandToGround.mp3");
 		});
 	EnemyRenderer->SetAnimationStartFunc("TILT_JUMP", 37, [this]
 		{
@@ -155,6 +185,7 @@ void BossFrogFat::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("SHOOT", 0, [this]
 		{
 			++LoopCnt;
+			GameEngineSound::Play("Frog_Phase2_PrevShootScream.mp3");
 		});
 	EnemyRenderer->SetAnimationStartFunc("SHOOT", 8 , [this]
 		{
@@ -179,13 +210,34 @@ void BossFrogFat::InitAnimation()
 	
 	EnemyRenderer->CreateFBXAnimation("SUCK", "FROG_FAT_SUCK.fbx", { 2.0f / 30, false });							   //¿À¸¥ÂÊ¿¡¼­ ¹ßÆÇ 5°³ ¸ÔÀ½
 
+	EnemyRenderer->SetAnimationStartFunc("SUCK", 10, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_Suck_Scream.mp3");
+
+		});
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 40, std::bind(&BossFrogFat::SuckTile, this));
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 50, std::bind(&BossFrogFat::SuckTile, this));
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 60, std::bind(&BossFrogFat::SuckTile, this));
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 65, std::bind(&BossFrogFat::SuckTile, this));
 	EnemyRenderer->SetAnimationStartFunc("SUCK", 70, std::bind(&BossFrogFat::SuckTile, this));
 
+
+
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB", "FROG_FAT_SUCK_BOMB.fbx", { 1.0f / 30, false });					   //ÈíÀÔ Áß ÆøÅº ¸ÔÀ½
+
+	EnemyRenderer->SetAnimationStartFunc("SUCK_BOMB", 3, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_EatBomb_Scream.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("SUCK_BOMB", 40, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_EatBomb_Boom.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("SUCK_BOMB", 61, [this]
+		{
+			GameEngineSound::Play("Frog_Phase2_EatBomb_Stun.mp3");
+		});
+
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB_GETUP", "FROG_FAT_SUCK_BOMB_GETUP.fbx", { 1.0f / 30, false });		   //´«¾Ë ºùºù ÈÄ ÀÏ¾î³²
 	EnemyRenderer->CreateFBXAnimation("SUCK_BOMB_LOOP", "FROG_FAT_SUCK_BOMB_LOOP.fbx", { 1.0f / 30, true });		   
 	EnemyRenderer->CreateFBXAnimation("DIE", "FROG_FAT_DIE_LAND.fbx", { 1.0f / 30, false });		   //Death
@@ -216,6 +268,8 @@ void BossFrogFat::SuckTile()
 		return;
 	}
 	ShakeTile(index.iy(), index.ix(), 1.0f);
+
+	GameEngineSound::Play("Frog_Phase2_SuckTileBreak.mp3");
 }
 
 void BossFrogFat::CalJumpPoint()
@@ -261,7 +315,7 @@ void BossFrogFat::SetFSMFUNC()
 
 			if (true == isJumpTime)
 			{
-				m_pCapsuleComp->SetWorldPosWithParent(float4::Bazier4LerpClamp(JumpStartPoint, JumpP2, JumpP3, JumpEndPoint, GetStateDuration()));
+				m_pCapsuleComp->SetWorldPosWithParent(float4::Bezier4LerpClamp(JumpStartPoint, JumpP2, JumpP3, JumpEndPoint, GetStateDuration()));
 			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
@@ -293,7 +347,13 @@ void BossFrogFat::SetFSMFUNC()
 			bool Hit = CheckHit();
 			if (false == isTurned && Hit)
 			{
+				std::weak_ptr<ShockWave> Wave = CreateComponent<ShockWave>();
+				Wave.lock()->GetTransform()->SetLocalPosition(float4{ 0.0f, 500.0f, 0.0f });
+				Wave.lock()->GetTransform()->SetWorldRotation({ 90.0f, 0.0f, 0.0f });
+				Wave.lock()->GetTransform()->SetLocalScale({ 10.0f, 10.0f, 1.0f });
+
 				AllTileReset();
+				GameEngineSound::Play("GimmickSound.mp3");
 			}
 			if (GetStateDuration() > 1.0f && false == isTurned)
 			{
@@ -360,7 +420,7 @@ void BossFrogFat::SetFSMFUNC()
 			CheckHit();
 			if (true == isJumpTime)
 			{
-				m_pCapsuleComp->SetWorldPosWithParent(float4::Bazier4LerpClamp(JumpStartPoint, JumpP2, JumpP3, JumpEndPoint, GetStateDuration()));
+				m_pCapsuleComp->SetWorldPosWithParent(float4::Bezier4LerpClamp(JumpStartPoint, JumpP2, JumpP3, JumpEndPoint, GetStateDuration()));
 			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
@@ -390,7 +450,7 @@ void BossFrogFat::SetFSMFUNC()
 			CheckHit();
 			if (true == isJumpTime)
 			{
-				m_pCapsuleComp->SetWorldPosWithParent(float4::Bazier4LerpClamp(JumpStartPoint, JumpP2, JumpP3, JumpEndPoint, GetStateDuration()* 1.153846f));
+				m_pCapsuleComp->SetWorldPosWithParent(float4::Bezier4LerpClamp(JumpStartPoint, JumpP2, JumpP3, JumpEndPoint, GetStateDuration()* 1.153846f));
 			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
@@ -414,7 +474,13 @@ void BossFrogFat::SetFSMFUNC()
 			CheckHit();
 			if (false == GetStateChecker() && true == CheckHit())
 			{
+				std::weak_ptr<ShockWave> Wave = CreateComponent<ShockWave>();
+				Wave.lock()->GetTransform()->SetLocalPosition(float4{ 0.0f, 500.0f, 0.0f });
+				Wave.lock()->GetTransform()->SetWorldRotation({ 90.0f, 0.0f, 0.0f });
+				Wave.lock()->GetTransform()->SetLocalScale({ 10.0f, 10.0f, 1.0f });
+
 				AllTileReset();
+				GameEngineSound::Play("GimmickSound.mp3");
 			}
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
@@ -434,6 +500,7 @@ void BossFrogFat::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("TILT", false, -1, 1.0f / 30);
 			m_pCapsuleComp->AttachShape();
+			GameEngineSound::Play("Frog_Phase2_PrevSuckScream.mp3");
 		},
 		[this](float Delta)
 		{
@@ -455,15 +522,18 @@ void BossFrogFat::SetFSMFUNC()
 			LoopCnt = 0;
 			EnemyRenderer->ChangeAnimation("SUCK");
 			m_pCapsuleComp->AttachShape();
-
 		},
 		[this](float Delta)
 		{
 			if (true == CheckCollision(PhysXFilterGroup::PlayerBomb)) // ÀÓ½Ã(ÆøÅº¿¡ ¸Â¾Ò´Ù¸é)
 			{
 				FieldRotationEnd();
-				m_pCapsuleComp->DetachShape();
+				if (false == GetStateChecker())
+				{
+					m_pCapsuleComp->DetachShape();
+				}
 				SetNextState(BossFrogFatState::SUCK_BOMB);
+				return;
 			}
 
 			
@@ -571,17 +641,18 @@ void BossFrogFat::SetFSMFUNC()
 			float4 FrogPos = GetTransform()->GetWorldPosition();
 			FrogPos.y += 50.0f;
 
+			GameEngineSound::Play("Frog_Phase2_Death.mp3");
 
-			std::shared_ptr<GameEngineActor> Soul= GetLevel()->CreateActor<BossFrogSoul>();
+			//std::shared_ptr<GameEngineActor> Soul= GetLevel()->CreateActor<BossFrogSoul>();
 			if (true == m_pCapsuleComp->RayCast(FrogPos, float4::DOWN, CollPoint, 2000.0f)) // ÇÃ·¹ÀÌ¾î À§Ä¡¿¡¼­ float4::DOWN ¹æÇâÀ¸·Î 2000.0f ±æÀÌ¸¸Å­ Ã¼Å©ÇÑ´Ù.
 			{
 				EnemyRenderer->ChangeAnimation("DIE");
-				Soul->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f , 800.0f, 0.0f });
+				//Soul->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f , 800.0f, 0.0f });
 			}
 			else
 			{
 				EnemyRenderer->ChangeAnimation("DIE_STAND");
-				Soul->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f , 1000.0f, 0.0f });
+				//Soul->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f , 1000.0f, 0.0f });
 			}
 		},
 		[this](float Delta)
@@ -597,6 +668,18 @@ void BossFrogFat::SetFSMFUNC()
 			{
 				LerpRatio = 1.0f;
 				EnemyRenderer->SetBlurColor(EndColor, -1.0f);
+			}
+			if (GetStateDuration() > 3.0f)
+			{
+				IntroDone = false;
+			}
+			if (GetStateDuration() > 6.0f)
+			{
+				EnemyRenderer->FadeOut(1.f, Delta);
+			}
+			if (GetStateDuration() > 7.0f)
+			{
+				Death();
 			}
 		},
 		[this]
@@ -665,14 +748,13 @@ void BossFrogFat::CreateShockEffect()
 
 		float4x4 Mat1 = DirectX::XMMatrixRotationX(X * GameEngineMath::DegToRad);
 		float4x4 Mat2 = DirectX::XMMatrixRotationY(Y * GameEngineMath::DegToRad);
-
 		Mat1 *= Mat2;
 
 		float4 Quat = float4::ZERO;
 		Quat = Quat.MatrixToQuaternion(Mat1);
-		Quat = Quat.QuaternionToEulerDeg();
+		float4 Euler = Quat.QuaternionToEulerDeg();
 
-		New->GetTransform()->SetWorldRotation(Quat);
+		New->GetTransform()->SetWorldRotation(Euler);
 		
 		float4 AngleVector = { X, Y };
 		AngleVector = AngleVector.EulerDegToQuaternion();
@@ -680,7 +762,6 @@ void BossFrogFat::CreateShockEffect()
 		AngleVector.Normalize();
 
 		New->SetAutoMove(AngleVector, 2500.0f);
-
 		New->SetScaleDecrease({ 1.0f, YScale, 1.0f }, 30.0f);
 
 		Angle += 30.0f;
@@ -729,9 +810,9 @@ void BossFrogFat::CreateWaterParticle()
 		Drop->GetTransform()->SetWorldScale({ Scale, Scale, Scale });
 
 		Drop->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() + float4{ 0.0f, 150.0f, 0.0f });
-		float DirX = GameEngineRandom::MainRandom.RandomFloat(-1, 1);
+		float DirX = GameEngineRandom::MainRandom.RandomFloat(-0.5, 0.5);
 		float DirY = GameEngineRandom::MainRandom.RandomFloat(0.8f, 1.0f);
-		float DirZ = GameEngineRandom::MainRandom.RandomFloat(-1, 1);
+		float DirZ = GameEngineRandom::MainRandom.RandomFloat(-0.5, 0.5);
 		Drop->SetParabola({ DirX, DirY, DirZ }, 500.0f, 1000.0f);
 
 		float4 Dir = { cos(Angle), 0.0f, sin(Angle) };
@@ -740,7 +821,6 @@ void BossFrogFat::CreateWaterParticle()
 		float Distance = GameEngineRandom::MainRandom.RandomFloat(300, 400);
 
 		Drop->GetTransform()->AddWorldPosition({ Distance * cos(Angle), 1.0f + i , Distance * sin(Angle) });
-		Drop->GetTransform()->SetWorldRotation({ 90.0f, 0.0f , 0.0f });
 
 		Angle += 20;
 	}

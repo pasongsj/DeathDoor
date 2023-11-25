@@ -7,6 +7,7 @@
 #include "LevelWindow.h"
 #include "MapEditorWindow.h"
 #include "BossFrogWindow.h"
+#include "PlayerInfoWindow.h"
 
 #include "CenterLevel.h"
 #include "TestLevel.h"
@@ -22,6 +23,7 @@
 #include "UITestLevel.h"
 #include "BossTestLevel.h"
 #include "OldCrowLevel.h"
+#include "ExplainLevel.h"
 
 #include "PlayerTestLevel.h"
 
@@ -39,12 +41,15 @@ void ContentsCore::GameStart()
 {
 	ContentsResourcesCreate();
 
+#ifdef _DEBUG
 	GameEngineGUI::GUIWindowCreate<GameEngineCoreWindow>("CoreWindow");	
+#endif
 
 	GameEngineGUI::GUIWindowCreate<LevelWindow>("LevelWindow");
 	GameEngineGUI::GUIWindowCreate<ServerWindow>("ServerWindow");
 	GameEngineGUI::GUIWindowCreate<MapEditorWindow>("MapEditorWindow");
 	GameEngineGUI::GUIWindowCreate<BossFrogWindow>("BossFrogWindow");
+	GameEngineGUI::GUIWindowCreate<PlayerInfoWindow>("PlayerInfoWindow");
 	
 
 	//InstallFont();
@@ -63,6 +68,7 @@ void ContentsCore::GameStart()
 	GameEngineCore::CreateLevel<OldCrowLevel>();
 	GameEngineCore::CreateLevel<PlayerTestLevel>();
 	GameEngineCore::CreateLevel<BossTestLevel>();
+	GameEngineCore::CreateLevel<ExplainLevel>();
 
 	GameEngineCore::ChangeLevel("CenterLevel");
 }

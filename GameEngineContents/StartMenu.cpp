@@ -3,6 +3,7 @@
 
 #include "ContentUIFontRenderer.h"
 #include "ContentUIRenderer.h"
+#include "FadeEffect.h"
 
 StartMenu::StartMenu()
 {
@@ -20,19 +21,43 @@ void StartMenu::Start()
 	Set_RealStartButton();
 
 	CreateKey();
+	
+	m_pFadeEffect = GetLevel()->GetLastTarget()->CreateEffect<FadeEffect>();
 }
 
 void StartMenu::Update(float _DeltaTime)
 {
+	if (isReady == true && GameEngineInput::IsDown("MyTest"))
+	{
+		//레벨체인지
+		//페이드아웃
+		GameEngineSound::Play("ButtonSelectedSFX.mp3");
+		m_pFadeEffect->FadeOut();
+		m_bIsFadeEffect = true;
+	}
+
 	if(isSelectUpdate == true)
 	{
 		Move_SelectedTexture(_DeltaTime);
 		SelectMenu();
 	}
 
-	if (GameEngineInput::IsDown("MyTest") == true)
+	if (GameEngineInput::IsDown("MyTest") == true && isReady == false)
 	{
 		MenuButtonList[0]->ClickEvent();
+		isReady = true;
+
+	}
+
+	if (true == m_bIsFadeEffect)
+	{
+		if (0.0f >= m_fFadeTime)
+		{
+			GameEngineCore::ChangeLevel("OfficeLevel");
+			return;
+		}
+
+		m_fFadeTime -= _DeltaTime;
 	}
 
 	if (UpdateFunc != nullptr)
@@ -53,7 +78,7 @@ void StartMenu::CreateKey()
 {
 	if (GameEngineInput::IsKey("MyTest") == false)
 	{
-		GameEngineInput::CreateKey("MyTest", 'A');
+		GameEngineInput::CreateKey("MyTest", VK_RETURN);
 	}
 
 	if (GameEngineInput::IsKey("MenuDown") == false)
@@ -136,6 +161,8 @@ void StartMenu::Set_MenuButton()
 
 	StartButton->ClickEvent = [=]
 	{
+		GameEngineSound::Play("ButtonSelectedSFX.mp3");
+
 		isSelectUpdate = false;
 		UpdateFunc = std::bind(&StartMenu::LerpArrowScale, this, std::placeholders::_1);
 	};
@@ -184,6 +211,8 @@ void StartMenu::Set_MenuButton()
 
 	ExitButton->ClickEvent = [=]
 	{
+		GameEngineSound::Play("ButtonSelectedSFX.mp3");
+
 		exit(0);
 	};
 
@@ -227,6 +256,8 @@ void StartMenu::SelectMenu()
 	{
 		if (ButtonIndex < MenuButtonList.size() - 1)
 		{
+			GameEngineSound::Play("MenuNavigation2021.mp3");
+
 			ButtonIndex++;
 			MenuButtonList[ButtonIndex]->isSelected = true;
 			MenuButtonList[ButtonIndex - 1]->isSelected = false;
@@ -237,6 +268,8 @@ void StartMenu::SelectMenu()
 	{
 		if (ButtonIndex >= 1)
 		{
+			GameEngineSound::Play("MenuNavigation2021.mp3");
+
 			ButtonIndex--;
 			MenuButtonList[ButtonIndex]->isSelected = true;
 			MenuButtonList[ButtonIndex + 1]->isSelected = false;

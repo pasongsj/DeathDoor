@@ -2,8 +2,8 @@
 #include "MapTestLevel.h"
 
 #include "Player.h"
-#include "Map_Office.h"
 #include "Map_Emptyplain.h"
+#include "Map_Office.h"
 #include "PhysXCapsuleComponent.h"
 #include "PhysXBoxComponent.h"
 #include "PhysXControllerComponent.h"
@@ -56,6 +56,16 @@ void MapTestLevel::Start()
 
 void MapTestLevel::Update(float _DeltaTime)
 {
+	if (false == GetMainCamera()->IsFreeCamera())
+	{
+		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		nextPos.y += 1000.0f;
+		nextPos.z -= 1000.0f * tanf((90.0f - m_f4CameraRot.x) * GameEngineMath::DegToRad);
+		GetMainCamera()->GetTransform()->SetWorldPosition(float4::LerpClamp(GetMainCamera()->GetTransform()->GetWorldPosition(), nextPos, _DeltaTime * 3.0f));
+	}
+
+	GraphicUpdate();
+
 }
 
 void MapTestLevel::LevelChangeStart()
@@ -85,6 +95,9 @@ void MapTestLevel::InitTestLevel()
 	}
 	
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
+	GetMainCamera()->GetTransform()->SetLocalRotation(m_f4CameraRot);
+	GetMainCamera()->GetTransform()->SetLocalPosition(m_f4CameraPos);
+
 
 	switch (m_Type)
 	{
@@ -131,6 +144,11 @@ void MapTestLevel::InitTestLevel()
 		{
 			Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1000.0f , 1000.0f , 0.0f });
 		}
+
+		//std::shared_ptr<EnemyGhoul> Mage0 = CreateActor<EnemyGhoul>();
+		//Mage0->GetPhysXComponent()->SetWorldPosWithParent(float4{ -500.0f , 10.0f , 0.0f });
+		std::shared_ptr<EnemyGhoul> Mage1 = CreateActor<EnemyGhoul>();
+		Mage1->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0.0f , 10.0f , 0.0f });
 
 		std::shared_ptr<EnemyGhoulBig> Mage = CreateActor<EnemyGhoulBig>();
 		Mage->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1000.0f , 10.0f , 0.0f });

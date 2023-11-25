@@ -141,7 +141,7 @@ private:
 	// State Controll
 	float StateInputDelayTime = 0.0f;
 
-	void CheckFalling();
+	void CheckFalling(float _DeltaTime);
 	void CheckDirInput(float _DeltaTime);
 	void CheckStateInput(float _DeltaTime);
 	void CheckState(float _DeltaTime);
@@ -157,7 +157,7 @@ private:
 	void CreateDustParticle(float _Delta);
 	float ParticleCount = 0.0f;
 
-	// Attack
+	// AttackRender
 	std::shared_ptr< class AttackBase> AttackActor = nullptr;
 
 	// WeaponRender
@@ -167,14 +167,17 @@ private:
 	int PlayerHP = 4;
 	int SpellCost = 4;
 
-	// Level
-	//float4 CameraRot = float4::ZERO;
-
+	// hit
+	float PlayerHitDelay = 0.0f;
 	// respone pos
 	std::list<float4> respawnPos;
 	float PosInter = 0.0f;
 	void SpawnPosUpdate(float _DeltaTime);
 
 	void CameraUpdate(float _DeltaTime);
+
+	// sound
+
+	GameEngineSoundPlayer StateSound = nullptr;
 };
 

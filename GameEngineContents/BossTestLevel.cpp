@@ -5,6 +5,15 @@
 #include "Player.h"
 #include "Map_Emptyplain.h"
 
+#include "EnemyBrute.h"
+#include "EnemyBruteGold.h"
+#include "EnemyFirePlant.h"
+#include "EnemyGhoul.h"
+#include "EnemyGhoulBig.h"
+#include "EnemyGrunt.h"
+#include "EnemyJumper.h"
+#include "EnemyMage.h"
+
 #include "PhysXTestPlane.h"
 #include "BossTestLevel.h"
 #include "PhysXControllerComponent.h"
@@ -32,6 +41,8 @@ void BossTestLevel::Update(float _DeltaTime)
 	{
 		GetMainCamera()->GetTransform()->SetWorldPosition(Pos);
 	}
+
+	GraphicUpdate();
 }
 
 
@@ -60,12 +71,13 @@ void BossTestLevel::LevelChangeStart()
 		TestPlayer->GetPhysXComponent()->SetWorldPosWithParent(float4::ZERO, float4::ZERO);
 	}
 
-	std::shared_ptr<Boss_OldCrow> BossTestObject = CreateActor<Boss_OldCrow>();
+	std::shared_ptr<EnemyMage> BossTestObject = CreateActor<EnemyMage>();
 
 	if (nullptr != BossTestObject)
 	{
-		BossTestObject->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0, 0, -1000 },float4{0, 90, 0});
+		BossTestObject->GetPhysXComponent()->SetWorldPosWithParent(float4{ 0, 0, -2000 },float4{0, 90, 0});
 	}
+
 	//BossTestObject->GetTransform()->SetWorldPosition({-1000, 0, -1000});
 	//BossTestObject->GetTransform()->SetWorldRotation({ 0, 180, 0 });
 	//BossTestObject->Init();

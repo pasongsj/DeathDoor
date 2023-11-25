@@ -36,11 +36,16 @@ private:
 			+ "\nMsg : " + message
 			+ "\nFile : " + file
 			+ "\nLine : " + std::to_string(line);
+#ifdef _DEBUG
+
 		if (code == 2)
 		{
 			return;
 		}
 		MsgAssert(Code);
+
+#endif // DEBUG
+		return;
 	}
 };
 
@@ -64,7 +69,7 @@ public:
 
 private:
 	std::weak_ptr<class PhysXControllerComponent> m_pOwnerComp;
-	bool m_bReturnValue;
+	bool m_bReturnValue = true;
 
 };
 class CustomCctBehaviorCallback : public physx::PxControllerBehaviorCallback
@@ -106,5 +111,5 @@ public:
 		m_bReturnValue = _Value;
 	}
 private:
-	bool m_bReturnValue;
+	bool m_bReturnValue = true;
 };

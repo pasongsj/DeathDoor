@@ -205,6 +205,14 @@ void TileManager::RotationUpdate(float _DeltaTime)
 		{
 			m_pPivotTile.lock()->GetTransform()->AddLocalRotation(float4{ 0, 0, 0.2f });
 		}
+		else
+		{
+			if (true == IsLandSoundPlay)
+			{
+				GameEngineSound::Play("Frog_Phase2_SuckTileLand.mp3");
+				IsLandSoundPlay = false;
+			}
+		}
 	}
 }
 
@@ -241,6 +249,8 @@ void TileManager::InitComponent()
 	// 테두리 렌더러 생성
 	m_pHingeRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pHingeRenderer->SetFBXMesh("Hinge.fbx", "ContentMeshDeffered");
+	//m_pHingeRenderer->GetTransform()->AddLocalPosition(float4{ 0 ,0 , -25 });
+	m_pHingeRenderer->GetTransform()->SetLocalScale(float4{ 0.98f, 0.98f, 0.98f });
 
 	m_pWiresRenderer = CreateComponent<ContentFBXRenderer>();
 	m_pWiresRenderer->SetFBXMesh("Wires.fbx", "ContentMeshDeffered");
@@ -294,7 +304,7 @@ void TileManager::Create_FireObject()
 		// 3
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -2140, 197, 3635 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -2170, 197, 3640 });
 		FireObj->GetTransform()->SetLocalRotation({ 0.0f, -135.0f, 0.0f });
 		m_vFireObjects.push_back(FireObj);
 	}
@@ -302,7 +312,7 @@ void TileManager::Create_FireObject()
 		// 6
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -3630, 197, 2151 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -3635, 197, 2170 });
 		FireObj->GetTransform()->SetLocalRotation({ 0.0f, -135.0f, 0.0f });
 		m_vFireObjects.push_back(FireObj);
 	}
@@ -414,7 +424,7 @@ void TileManager::CreateWaterDropToWall()
 	std::shared_ptr<WaterDrop> Drop = CreateComponent<WaterDrop>();
 	Drop->GetTransform()->SetWorldScale({ 20, 20, 20 });
 
-	float Num = GameEngineRandom::MainRandom.RandomFloat(1, -2000);
+	float Num = GameEngineRandom::MainRandom.RandomFloat(-2000, 1);
 
 	float4 Dir = float4{ -550, 100, -1050 } - float4{ -1800, 500, 200 };
 	Dir.Normalize();

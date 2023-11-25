@@ -1,6 +1,7 @@
 #include "PreCompileHeader.h"
 
 #include "Boss_OldCrowChain.h"
+#include "Content2DRenderer.h"
 
 Boss_OldCrowChain::Boss_OldCrowChain() 
 {
@@ -22,8 +23,8 @@ void Boss_OldCrowChain::Start()
 
 void Boss_OldCrowChain::CreateChainRenderer()
 {
-	std::shared_ptr<GameEngineSpriteRenderer> ChainRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	ChainRenderer->GetUnit()->SetMaterial("Content2DTexture", RenderPath::Alpha);
+	std::shared_ptr<Content2DRenderer> ChainRenderer = CreateComponent<Content2DRenderer>();
+	ChainRenderer->SetMaterial("Content2DTexture", RenderPath::Alpha);
 	ChainRenderer->SetScaleToTexture("CrowBossChain.png");
 
 	float4 Scale = ChainRenderer->GetTransform()->GetLocalScale();
@@ -53,9 +54,12 @@ void Boss_OldCrowChain::Update(float _DeltaTime)
 			{
 				CreateChainRenderer();
 			}
-
-			ChainRenderers[OnRendererNumber]->On();
-			++OnRendererNumber;
+			float Size = Value1 - Value2;
+			for (size_t i = 0; i < Size/105.f; i++)
+			{
+				ChainRenderers[OnRendererNumber]->On();
+				++OnRendererNumber;
+			}
 		}
 	}
 }
@@ -77,4 +81,5 @@ void Boss_OldCrowChain::SetDefault()
 void Boss_OldCrowChain::OnChainEffect()
 {
 	IsOn = true;
+	GameEngineSound::Play("OldCrow_Chain.mp3");
 }

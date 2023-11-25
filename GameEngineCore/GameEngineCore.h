@@ -68,6 +68,11 @@ public:
 		return MainLevel;
 	}
 
+	static std::shared_ptr<GameEngineLevel> GetPrevLevel()
+	{
+		return PrevLevel;
+	}
+
 	static GameEngineThreadJobQueue JobQueue;
 
 	static void SetRcvPacket(std::function<void()> _Fun)
@@ -92,6 +97,7 @@ private:
 	static std::map<std::string, std::shared_ptr<GameEngineLevel>> LevelMap;
 	static std::shared_ptr<GameEngineLevel> MainLevel;
 	static std::shared_ptr<GameEngineLevel> NextLevel;
+	static std::shared_ptr<GameEngineLevel> PrevLevel;
 
 	static void Release();
 

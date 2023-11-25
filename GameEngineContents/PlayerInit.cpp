@@ -29,7 +29,14 @@ void Player::InitInputKey()
 	{
 		GameEngineInput::CreateKey("E", 'E');
 	}
-
+	if (false == GameEngineInput::IsKey("ChangePlayerMode"))
+	{
+		GameEngineInput::CreateKey("ChangePlayerMode", 'P');
+	}
+	if (false == GameEngineInput::IsKey("H"))
+	{
+		GameEngineInput::CreateKey("H", 'H');
+	}
 	//CameraRot = GetLevel()->GetMainCamera()->GetTransform()->GetWorldRotation();
 }
 
@@ -39,7 +46,7 @@ void Player::InitInputKey()
 void Player::InitPlayerAnimation()
 {
 	Renderer = CreateComponent<ContentFBXRenderer>();
-	Renderer->SetFBXMesh("PLAYER_MESH.FBX", "ContentAniMeshDeffered");
+	Renderer->SetFBXMesh("PLAYER_MESH.FBX", "ContentAniMeshDeffered", RenderPath::Deferred);
 	//idle
 	Renderer->CreateFBXAnimation("IDLE0", "PLAYER_IDLE_0.FBX", { 0.02f,false });
 	Renderer->CreateFBXAnimation("IDLE1", "PLAYER_IDLE_1.FBX", { 0.01f,false });

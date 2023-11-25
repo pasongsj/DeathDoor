@@ -35,9 +35,12 @@
 #include "Mushroom.h"
 #include "Crate.h"
 #include "SecretTile.h"
+#include "HealthPlant.h"
 
 #include "OfficeLevel.h"
 
+//GUI
+#include "PlayerInfoWindow.h"
 
 FortressLevel::FortressLevel()
 {
@@ -67,6 +70,8 @@ void FortressLevel::Update(float _DeltaTime)
 		nextPos.z -= 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
 		GetMainCamera()->GetTransform()->SetWorldPosition(nextPos);
 	}
+
+	GraphicUpdate();
 }
 
 void FortressLevel::InitKey()
@@ -113,13 +118,24 @@ void FortressLevel::LevelChangeStart()
 	Create_Manager();
 	Create_WaterBox();
 
-
-	// Create_FieldEnemy();
+	Create_FieldEnemy();
 	Create_FieldObject();
+
+
+	MainBGM = GameEngineSound::Play("FortressLevel_BGM.mp3");
+	MainBGM.SetLoop();
+	MainBGM.SetLoopPoint(0, 88);
+	MainBGM.SoundFadeIn(2.0f);
+
+	PlayerInfoWindow::PlayerGUI->On();
 }
 
 void FortressLevel::LevelChangeEnd()
 {
+	PlayerInfoWindow::PlayerGUI->Off();
+
+	MainBGM.SoundFadeOut(1.0f);
+
 	AllActorDestroy();
 
 	// 다음레벨이 오피스레벨이면 
@@ -151,22 +167,22 @@ void FortressLevel::Create_WaterBox()
 	std::shared_ptr<WaterBox> Box = Actor->CreateComponent<WaterBox>();
 
 	Box->SetWaterPosition({ -5000, -120 ,4500 });
-	Box->GetTransform()->SetLocalScale({ 60000 , 1 , 20000 });
+	Box->GetTransform()->SetLocalScale({ 50000 , 1 , 20000 });
 	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });
 
 	/*Box->SetWaterPosition({ -5000, -120 ,4500 });
 	Box->GetTransform()->SetLocalScale({ 15000 , 1 , 15000 });
 	Box->GetTransform()->SetLocalRotation({ 0 , 45.0f , 0 });*/
 	
-	{
-		//물 체크용 피직스 트리거
-		std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
-		std::shared_ptr<PhysXBoxComponent>pBoxComp = Actor->CreateComponent<PhysXBoxComponent>();
-		pBoxComp->CreatePhysXActors(float4{ 60000 , 1 , 20000 }, float4::ZERO, true);
-		pBoxComp->SetFilterData(PhysXFilterGroup::Water);
-		pBoxComp->SetTrigger();
-		pBoxComp->SetWorldPosWithParent({ -5000, -120 ,4500 }, { 0 , 45.0f , 0 });
-	}
+	//{
+	//	//물 체크용 피직스 트리거
+	//	std::shared_ptr<GameEngineActor> Actor = CreateActor<GameEngineActor>();
+	//	std::shared_ptr<PhysXBoxComponent>pBoxComp = Actor->CreateComponent<PhysXBoxComponent>();
+	//	pBoxComp->CreatePhysXActors(float4{ 60000 , 1 , 20000 }, float4::ZERO, true);
+	//	pBoxComp->SetFilterData(PhysXFilterGroup::Water);
+	//	pBoxComp->SetTrigger();
+	//	pBoxComp->SetWorldPosWithParent({ -5000, -120 ,4500 }, { 0 , 45.0f , 0 });
+	//}
 
 }
 
@@ -186,6 +202,7 @@ void FortressLevel::Set_PlayerStartPos()
 		return;
 	}
 
+
 	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
 }
 
@@ -196,9 +213,12 @@ void FortressLevel::Create_Manager()
 
 void FortressLevel::Create_FieldEnemy()
 {
-	
 	{
-		std::shared_ptr<EnemyGhoul> Monster = CreateActor<EnemyGhoul>();
+		std::shared_ptr<EnemyGhoulBig> Monster = CreateActor<EnemyGhoulBig>();
+		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1850, -6, 1755 });
+	}
+	{
+		std::shared_ptr<EnemyGhoulBig> Monster = CreateActor<EnemyGhoulBig>();
 		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -1656, -6, 514 });
 	}
 	{
@@ -278,7 +298,7 @@ void FortressLevel::Create_FieldEnemy()
 		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -4515, -53, 7123 });
 	}
 	{
-		std::shared_ptr<EnemyJumper> Monster = CreateActor<EnemyJumper>();
+		std::shared_ptr<EnemyBruteGold> Monster = CreateActor<EnemyBruteGold>();
 		Monster->GetPhysXComponent()->SetWorldPosWithParent(float4{ -3006, -6, 5802 });
 	}
 	{
@@ -388,6 +408,15 @@ void FortressLevel::Create_FieldObject()
 
 				Level->SetPrevLevelType(PrevLevelType::FortressLevel);
 			});
+		if (GameEngineCore::GetPrevLevel().get()->GetNameToString() == "OFFICELEVEL")
+		{
+			Obj->SetState(StartState::OPEN);
+		}
+	}
+	{
+		std::shared_ptr<HealthPlant> Obj = CreateActor<HealthPlant>();
+		Obj->GetTransform()->SetLocalRotation(float4{ 0, -45, 0 });
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ -720, 146, 6720 });
 	}
 	{
 		std::shared_ptr<Ladder> Obj = CreateActor<Ladder>();
@@ -561,7 +590,7 @@ void FortressLevel::Create_FieldObject()
 			});
 	}
 	{
-		float4 TilePos = float4{ -13448, 300, 14628 };
+		float4 TilePos = float4{ -13468, 300, 14568 };
 		std::shared_ptr<SecretTile> Tile = CreateActor<SecretTile>();
 		Tile->GetPhysXComponent()->SetWorldPosWithParent(TilePos);
 

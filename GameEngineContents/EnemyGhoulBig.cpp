@@ -2,6 +2,9 @@
 #include "EnemyGhoulBig.h"
 #include "EnemyAttackCapsule.h"
 
+#include "Player.h"
+#include "Map_NaviMesh.h"
+
 EnemyGhoulBig::EnemyGhoulBig()
 {
 }
@@ -17,7 +20,7 @@ void EnemyGhoulBig::CreateArrow()
 {
 	ArrowActor = GetLevel()->CreateActor<EnemyAttackCapsule>();
 	ArrowActor->SetRender(ArrowScale, ArrowRot);
-	ArrowActor->SetPhysXComp(ArrowPhysXScale, float4::DOWN * 100.0f, float4::LEFT);
+	ArrowActor->SetPhysXComp(ArrowPhysXScale, float4::DOWN * 150.0f, float4::LEFT);
 
 	BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("Bow").Pos);
 	float4 BonePivotPos = BonePivot->GetTransform()->GetWorldPosition();
@@ -33,17 +36,45 @@ void EnemyGhoulBig::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
 
-	EnemyRenderer->SetFBXMesh("_E_GHOUL_RAPID_MESH.FBX", "ContentAniMeshDeffered");
+	EnemyRenderer->SetFBXMesh("_E_GHOUL_RAPID_MESH.FBX", "ContentAniMeshDeffered","GoolTexture.png", "GoolTextureBig.png");
 	EnemyRenderer->CreateFBXAnimation("SHOOT_BOW", "_E_GHOUL_SHOOT_BOW_RAPID.fbx", { 1.f / 30.f,false });
-			
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 20, [this]
+		{
+			GameEngineSound::Play("Ghoul_ArrowReady.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 30, [this]
+		{
+			GameEngineSound::Play("Ghoul_ReadySFX.mp3");
+		});
+	
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 37, std::bind(&EnemyGhoulBig::CreateArrow, this));
+	
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 58, [this]
+		{
+			GameEngineSound::Play("Ghoul_ArrowReady.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 68, [this]
+		{
+			GameEngineSound::Play("Ghoul_ReadySFX.mp3");
+		});
+	
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 75, std::bind(&EnemyGhoulBig::CreateArrow, this));
 		
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 96, [this]
+		{
+			GameEngineSound::Play("Ghoul_ArrowReady.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 95, [this]
+		{
+			GameEngineSound::Play("Ghoul_ReadySFX.mp3");
+		});
+	
 	EnemyRenderer->SetAnimationStartFunc("SHOOT_BOW", 36, [this]
 		{
 			if (nullptr != ArrowActor)
 			{
 				ArrowActor->SetShoot(1000.0f);
+				GameEngineSound::Play("Ghoul_FireArrow.mp3");
 			}
 			ArrowActor = nullptr;
 		});
@@ -52,6 +83,7 @@ void EnemyGhoulBig::InitAnimation()
 			if (nullptr != ArrowActor)
 			{
 				ArrowActor->SetShoot(1000.0f);
+				GameEngineSound::Play("Ghoul_FireArrow.mp3");
 			}
 			ArrowActor = nullptr;
 		});
@@ -60,6 +92,7 @@ void EnemyGhoulBig::InitAnimation()
 			if (nullptr != ArrowActor)
 			{
 				ArrowActor->SetShoot(1000.0f);
+				GameEngineSound::Play("Ghoul_FireArrow.mp3");
 			}
 			ArrowActor = nullptr;
 		});
@@ -182,12 +215,42 @@ void EnemyGhoulBig::SetFSMFUNC()
 				EnemyRenderer->ChangeAnimation("RUN_BOW");
 				SetStateCheckerOn();
 			}
-			AggroMove(Delta);
-			if (true == InRangePlayer(900.0f))
+			float4 f4Dir = GetPlayerDir();
+			if (Map_NaviMesh::NaviMesh != nullptr)
 			{
-				SetNextState(EnemyGhoulBigState::IDLE);
-				return;
+
+				float4 f4Point = float4::ZERONULL;
+				float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
+				float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+				float PlayerDistance = PlayerPos.XYZDistance(f4MyPos);
+
+				UINT Dummy = -1;
+
+				//사이에 벽이 있음
+				if (true == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy))
+				{
+
+					float4 RoadDir = float4::ZERONULL;
+					RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, PlayerPos);
+					if (RoadDir != float4::ZERONULL)
+					{
+						f4Dir = RoadDir;
+					}
+					else
+					{
+						SetNextState(EnemyGhoulBigState::IDLE);
+						return;
+					}
+				}
+				else if (false == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy)
+					&& true == InRangePlayer(900.f))
+				{
+					SetNextState(EnemyGhoulBigState::SHOOT);
+					return;
+				}
 			}
+
+			NaviMove(f4Dir, GHOUL_MOVE_SPEED, DEFAULT_DIR_GHOUL);
 		},
 		[this]
 		{
@@ -236,6 +299,8 @@ void EnemyGhoulBig::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("HIT_BOW");
 			AggroDir(m_pCapsuleComp);
+
+			GameEngineSound::Play("Ghoul_GetDamage.mp3");
 		},
 		[this](float Delta)
 		{
@@ -258,6 +323,8 @@ void EnemyGhoulBig::SetFSMFUNC()
 	SetFSM(EnemyGhoulBigState::DEATH,
 		[this]
 		{
+			GameEngineSound::Play("Ghoul_Death.mp3");
+
 			EnemyRenderer->ChangeAnimation("DROWN");
 		},
 		[this](float Delta)

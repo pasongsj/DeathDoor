@@ -112,6 +112,9 @@
     <FxCompile Include="WaterDrop.hlsl">
       <Filter>Effect\Particle</Filter>
     </FxCompile>
+    <FxCompile Include="ContentMeshUI.hlsl">
+      <Filter>BasicShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

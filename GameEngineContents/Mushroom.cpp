@@ -56,6 +56,7 @@ void Mushroom::SetFSMFUNC()
 	SetFSM(TriggerState::OFF,
 		[this]
 		{
+			GameEngineSound::Play("MushOff.mp3");
 			m_pPhysXComponent->Death();
 			isPhysXCollision = 0;
 			m_fRenderRatio = 1.f;
@@ -101,6 +102,7 @@ void Mushroom::SetFSMFUNC()
 	SetFSM(TriggerState::ON,
 		[this]
 		{
+			GameEngineSound::Play("MushOn.mp3");
 			InitComponent();
 			m_pRenderer->On();
 			m_fRenderRatio = 0.f;

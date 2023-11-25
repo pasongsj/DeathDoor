@@ -64,11 +64,16 @@ private:
 	std::weak_ptr<class Ladder> m_pLadder;
 	std::weak_ptr<class SecretTile> m_pTile;
 	std::weak_ptr<class SecretTile> m_pTile2;
+	std::weak_ptr<class SecretTile> m_pTile3;
 
 
 	bool m_bIsClear = false;
 	bool m_bExitDoor = false;
-	
+	bool IsWaterDropSoundPlayed = false;
+
 	float m_FadeUpdateTime = 1.5f;
+
+	GameEngineSoundPlayer BGM = nullptr;
 	
+	float WaterDropCount = 0.0f;
 };

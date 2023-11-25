@@ -234,7 +234,7 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetVertexShader("AlphaColorMerge.hlsl");
 		Pipe->SetRasterizer("Engine2DBase");
 		Pipe->SetPixelShader("AlphaColorMerge.hlsl");
-		Pipe->SetBlendState("MergeBlend");
+		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
 
@@ -393,6 +393,15 @@ void ContentsCore::ContentsResourcesCreate()
 		Pipe->SetBlendState("AlphaBlend");
 		Pipe->SetDepthState("EngineDepth");
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Pipe = GameEngineMaterial::Create("ContentMeshUI");
+		Pipe->SetVertexShader("ContentMeshUI.hlsl");
+		Pipe->SetRasterizer("Engine2DBase");
+		Pipe->SetPixelShader("ContentMeshUI.hlsl");
+		Pipe->SetBlendState("AlphaBlend");
+		Pipe->SetDepthState("EngineDepth");
+	}
 	//{
 	//	// ºí·£µå
 	//	D3D11_BLEND_DESC Desc = { 0, };
@@ -508,7 +517,17 @@ void ContentsCore::ContentsResourcesCreate()
 		}
 	}
 
-
+	// SOUND LOAD
+	{
+		GameEngineDirectory NewDir;
+		NewDir.MoveParentToDirectory("ContentResources");
+		NewDir.Move("ContentResources\\Sound\\AudioSub");
+		std::vector<GameEngineFile> Files = NewDir.GetAllFile({ ".mp3" });
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineSound::Load(Files[i].GetFullPath());
+		}
+	}
 
 	//{
 	//	GameEngineDirectory NewDir;

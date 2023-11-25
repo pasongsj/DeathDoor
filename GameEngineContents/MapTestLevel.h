@@ -8,7 +8,6 @@ enum class TestMapType
 	None,
 };
 
-
 // Ό³Έν :
 class MapTestLevel : public ContentLevel
 {
@@ -39,4 +38,8 @@ private:
 	}
 
 	TestMapType m_Type = TestMapType::None;
+
+	float4 m_f4CameraRot = float4{ 45.0f , 0 , 0 };
+	float4 m_f4CameraPos = float4{ 2800 , 2500 , -6500 };
+
 };

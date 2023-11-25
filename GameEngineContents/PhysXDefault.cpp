@@ -274,7 +274,7 @@ void PhysXDefault::SetRigidCollide(bool _Value)
     m_pShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, _Value);
 }
 
-void PhysXDefault::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos)
+void PhysXDefault::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos ,bool _Rigid /*= false*/)
 {
 	switch (_Type)
 	{
@@ -286,9 +286,16 @@ void PhysXDefault::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _Loc
 		//m_pController->getActor()->attachShape(*m_pSubShape);
 
 		m_pSubShape->setLocalPose(physx::PxTransform(_LocalPos.PhysXVec3Return()/*, physx::PxQuat(physx::PxHalfPi, float4(0, 0, 1).PhysXVec3Return())*/));
-
-		m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
-		m_pSubShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+        if (false == _Rigid)
+        {
+            m_pSubShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+            m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+            m_pSubShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+        }
+        else
+        {
+            m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
+        }
         m_pSubShape->userData = ParentActor.lock().get();
 		m_pSubShape->setSimulationFilterData
 		(
@@ -310,9 +317,16 @@ void PhysXDefault::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _Loc
 
 		m_pSubShape->setLocalPose(physx::PxTransform(_LocalPos.PhysXVec3Return(), physx::PxQuat(physx::PxHalfPi, float4(0, 0, 1).PhysXVec3Return())));
 
-		m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
-		m_pSubShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
-        m_pSubShape->userData = ParentActor.lock().get();
+        if (false == _Rigid)
+        {
+            m_pSubShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+            m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, false);
+            m_pSubShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+        }
+        else
+        {
+            m_pSubShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, true);
+        }
         m_pSubShape->setSimulationFilterData
 		(
 			physx::PxFilterData

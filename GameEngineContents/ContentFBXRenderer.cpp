@@ -1,5 +1,6 @@
 #include "PrecompileHeader.h"
 #include "ContentFBXRenderer.h"
+#include "ContentLevel.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
 
@@ -23,6 +24,9 @@ void ContentFBXRenderer::Update(float _DeltaTime)
 
 	CamPos = GetLevel()->GetMainCamera()->GetTransform()->GetWorldPosition();
 	WaterHeight.x = GetLevel()->GetWaterHeight();
+
+	isOnBuffer.isGamma = GetLevel()->DynamicThis<ContentLevel>()->isGamma;
+	isOnBuffer.isHdr = GetLevel()->DynamicThis<ContentLevel>()->isHDR;
 }
 
 void ContentFBXRenderer::Render(float _DeltaTime)
@@ -114,11 +118,11 @@ void ContentFBXRenderer::SetReflect()
 
 	std::string_view Material = "";
 
-	if (MaterialName == "CONTENTANIMESHDEFFERED")
+	if (MaterialName == "CONTENTANIMESHDEFFERED" || MaterialName == "CONTENTANIMESHFORWARD")
 	{
 		Material = "REFLECTANIMESH";
 	}
-	else if (MaterialName == "CONTENTMESHDEFFERED")
+	else if (MaterialName == "CONTENTMESHDEFFERED" || MaterialName == "CONTENTMESHFORWARD")
 	{
 		Material = "REFLECTMESH";
 	}
@@ -127,7 +131,7 @@ void ContentFBXRenderer::SetReflect()
 		return;
 	}
 
-	ReflectRenderer->GameEngineFBXRenderer::SetFBXMesh(FBXName, Material.data(), Path);
+	ReflectRenderer->GameEngineFBXRenderer::SetFBXMesh(FBXName, Material.data(), RenderPath::Deferred);
 
 	auto Units = ReflectRenderer->GetAllRenderUnit();
 
@@ -224,6 +228,10 @@ void ContentFBXRenderer::LinkConstantBuffer()
 				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("WaterHeight", WaterHeight);
 			}
 
+			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("isOn") == true)
+			{
+				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("isOn", isOnBuffer);
+			}
 		}
 	}
 }
@@ -276,21 +284,20 @@ void ContentFBXRenderer::FadeIn(float _MaxTime, float _DeltaTime)
 	}
 }
 
-void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::string _SettingName, RenderPath _Path)
+void ContentFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, const std::string_view& beforeTex, const std::string_view& TextureName)
 {
-	std::string UpperSettingName = GameEngineString::ToUpper(_SettingName);
+	std::string UpperSettingName = GameEngineString::ToUpper(_Material);
 
 	if (UpperSettingName != "CONTENTANIMESHDEFFERED" &&
 		UpperSettingName != "CONTENTMESHDEFFERED" &&
 		UpperSettingName != "CONTENTMESHALPHA")
 	{
-		MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentMeshDeffered, ContentMeshAlpha 중 하나여야 합니다.");
-		return;
+		//MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentMeshDeffered, ContentMeshAlpha 중 하나여야 합니다.");
+		//return;
 	}
 
-	GameEngineFBXRenderer::SetFBXMesh(_MeshName, _SettingName, _Path);
-	
-	if (UpperSettingName == "CONTENTMESHDEFFERED")
+	GameEngineFBXRenderer::SetFBXMesh(_Name, _Material, beforeTex, TextureName);
+	if (UpperSettingName == "CONTENTMESHDEFFERED" || UpperSettingName == "CONTENTMESHFORWARD")
 	{
 		SetFadeMask();
 	}
@@ -302,6 +309,36 @@ void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::str
 
 	LinkConstantBuffer();
 
+	FBXName = _Name;
+	MaterialName = UpperSettingName;
+}
+
+
+void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::string _SettingName, RenderPath _Path)
+{
+	std::string UpperSettingName = GameEngineString::ToUpper(_SettingName);
+
+	if (UpperSettingName != "CONTENTANIMESHDEFFERED" &&
+		UpperSettingName != "CONTENTMESHDEFFERED" &&
+		UpperSettingName != "CONTENTMESHALPHA")
+	{
+		//MsgAssert("기본 머티리얼 세팅은 ContentAniMeshDeffered, ContentMeshDeffered, ContentMeshAlpha 중 하나여야 합니다.");
+		//return;
+	}
+
+	GameEngineFBXRenderer::SetFBXMesh(_MeshName, _SettingName, _Path);
+	
+	if (UpperSettingName == "CONTENTMESHDEFFERED" || UpperSettingName == "CONTENTMESHFORWARD" )
+	{
+		SetFadeMask();
+	}
+	else
+	{
+		SetFadeMask();
+		SetCrackMask();
+	}
+
+	LinkConstantBuffer();
 	FBXName = _MeshName;
 	MaterialName = UpperSettingName;
 	Path = _Path;

@@ -9,6 +9,7 @@
 #include "DustParticle.h"
 #include "ContentLevel.h"
 
+
 Boss_OldCrowCrowHead::Boss_OldCrowCrowHead() 
 {
 }
@@ -47,8 +48,12 @@ void Boss_OldCrowCrowHead::SetCrowHead(float4 _Pos, float4 _Rot, std::shared_ptr
 void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 {
 	//생성되기 전 연출을 위한 (바닥에 닿으면 Create = true)
+	
+
 	if (false == IsCreated)
 	{
+		CreateDustParticle(_DeltaTime);
+
 		if (GetTransform()->GetWorldPosition().y <= 5.0f)
 		{
 			if (m_pSphereComp == nullptr)
@@ -63,6 +68,7 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 				m_pSphereComp->CreateSubShape(SubShapeType::BOX, float4{ 100, 50, 100 }, float4 {0, 0, 40});
 				m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::MonsterSkill);
 				m_pSphereComp->AttachShape();
+
 			}
 
 			if (nullptr != Player::MainPlayer)
@@ -76,6 +82,7 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 			}
 
 			m_pSphereComp->RigidSwitch(false);
+
 
 
 			IsCreated = true;
@@ -113,6 +120,7 @@ void Boss_OldCrowCrowHead::Update(float _DeltaTime)
 		CreateDustParticle(_DeltaTime, { 0.99f, 0.2f, 0.4f, 1.0f}, true);
 
 		m_pSphereComp->SetMoveSpeed(GetTransform()->GetWorldForwardVector() * BOSS_OLDCROW_CROWHEADPARRYINGSPEED);
+
 
 		ParryingTime += _DeltaTime;	
 	}
@@ -168,6 +176,9 @@ void Boss_OldCrowCrowHead::ParryingCheck() //패링 여부
 		Renderer->SetColor({ 0.99f, 0.1f, 0.2f, 1.0f });
 		Renderer->SetGlowToUnit(0, 0);
 		//m_pSphereComp->SetTrigger();
+
+		GameEngineSound::Play("OldCrow_CrowHeadParrying.mp3");
+
 	}
 }
 

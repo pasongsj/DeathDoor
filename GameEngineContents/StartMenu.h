@@ -59,6 +59,7 @@ private:
 
 	float LerpRatio = 0.0f;
 	bool isSelectUpdate = true;
+	bool isReady = false;
 
 	std::shared_ptr<class GameEngineUIRenderer> LogoRender = nullptr;
 
@@ -72,5 +73,9 @@ private:
 	std::shared_ptr<RealStartButton> RealStart;
 
 	size_t ButtonIndex = 0;
+
+	std::shared_ptr<class FadeEffect> m_pFadeEffect = nullptr;
+	float m_fFadeTime = 1.5f;
+	bool m_bIsFadeEffect = false;
 };
 

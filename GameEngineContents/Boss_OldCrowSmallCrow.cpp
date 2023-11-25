@@ -15,6 +15,7 @@ Boss_OldCrowSmallCrow::Boss_OldCrowSmallCrow()
 
 Boss_OldCrowSmallCrow::~Boss_OldCrowSmallCrow() 
 {
+	Idle.Stop();
 }
 
 void Boss_OldCrowSmallCrow::Start()
@@ -38,9 +39,13 @@ void Boss_OldCrowSmallCrow::Start()
 		//m_pSphereComp->SetTrigger();
 
 		m_pSphereComp->CreateSubShape(SubShapeType::BOX, float4{ 100, 100, 100 }, float4 {0, 0, 0});
-		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::MonsterSkill);
+		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::CrowDebuff);
 		m_pSphereComp->AttachShape();
+
 	}
+
+	Idle = GameEngineSound::Play("OldCrow_SmallCrowIdle.mp3");
+	Idle.SetLoop();
 
 	GetTransform()->SetLocalScale(float4::ONE * 100.0f);
 }
@@ -89,6 +94,9 @@ void Boss_OldCrowSmallCrow::Update(float _DeltaTime)
 {
 	if (true == CheckCollision(PhysXFilterGroup::PlayerSkill))
 	{
+		GameEngineSoundPlayer DeathSound = GameEngineSound::Play("OldCrow_SmallCrowDeath.mp3");
+		DeathSound.SetVolume(0.5f);
+
 		Death();
 		return;
 	}

@@ -20,9 +20,13 @@ protected:
 	void Render(float _DeltaTime) override;
 private:
 
+	void MouseOnOff();
+
 	void MouseRotationUpdate();
 	void RayCasting();
 	int Count = 0;
+
+	bool isCursorOn = false;
 
 	std::shared_ptr<class GameEngineComponent> MousePivot = nullptr;
 	std::shared_ptr<class ContentFBXUIRenderer> MouseCursor = nullptr;

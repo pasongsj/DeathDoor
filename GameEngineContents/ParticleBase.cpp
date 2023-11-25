@@ -57,6 +57,8 @@ void ParticleBase::BillBoarding()
 
 		float4 Rotation = float4::ZERO;
 		Rotation = Rotation.MatrixToQuaternion(CamRotMatrix.InverseReturn());
+		
+		Rotation = Rotation.QuaternionToEulerDeg();
 		Rotation += RotAngle;
 
 		GetTransform()->SetWorldRotation(Rotation);

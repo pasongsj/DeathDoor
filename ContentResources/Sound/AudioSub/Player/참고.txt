@@ -2,20 +2,20 @@ FootStep
 Player_StepGround.mp3
 
 Attack
-Player_Attack.mp3
-Player_Attack2.mp3
-Player_Attack3.mp3
+Player_Attack.mp3	0
+Player_Attack2.mp3	0
+Player_Attack3.mp3	0
 
 Roll
-Player_Roll1.mp3
-Player_Roll2.mp3
+Player_Roll1.mp3	0
+Player_Roll2.mp3	0
 
 RollAttack
 Player_RollAttack.mp3
 
 ChargeAttack
-Player_Charge.mp3
-Player_ChargeAttackReady.mp3
+Player_Charge.mp3	0
+Player_ChargeAttackReady.mp3	0
 Player_StrongAtk.mp3
 
 StepLadder
@@ -23,14 +23,14 @@ Player_StepLadderPrev.mp3
 Player_StepLadder.mp3
 
 Arrow 
-Player_ArrowCharge.mp3
-Player_ArrowFire.mp3
-ArrowHit.mp3
+Player_ArrowCharge.mp3	0
+Player_ArrowFire.mp3	0
+ArrowHit.mp3		0
 ->벽에 맞고 사라짐
 
 Fire
-Player_MagicReady.mp3
-Player_MagicFire.mp3
+Player_MagicReady.mp3	0
+Player_MagicFire.mp3	0
 -> 발사
 
 Player_FireBallAbsorb
@@ -42,8 +42,8 @@ MagicHit2.mp3
 
 
 Bomb
-Player_BombReady.mp3
-Player_BombThrow.mp3
+Player_BombReady.mp3	0
+Player_BombThrow.mp3	0
 Player_BombExplosion.mp3
 
 GetDamage

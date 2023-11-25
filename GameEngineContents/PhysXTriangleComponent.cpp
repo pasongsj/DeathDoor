@@ -297,7 +297,35 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 	{
 		return false;
 	}
-	dq_ResultRoad.pop_front();
+	else
+	{
+		dq_ResultRoad.pop_front();
+		while (dq_ResultRoad.size()>1)
+		{
+			float4 First = dq_ResultRoad[1].CenterPos;
+			First.y = 0;
+			float4 Start = _Start;
+			Start.y = 0;
+			UINT Dummy = -1;
+			float4 Dir = First - Start;
+			if (false == TriRayCast(_Start, Dir, f4Point, First.XYZDistance(Start), Dummy))
+			{
+				dq_ResultRoad.pop_front();
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		if (dq_ResultRoad.empty())
+		{
+			return false;
+		}
+		
+	}
+
+	//dq_ResultRoad.pop_front();
 	return true;
 }
 

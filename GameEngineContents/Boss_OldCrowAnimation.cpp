@@ -16,6 +16,12 @@ void Boss_OldCrow::InitAnimation()
 	EnemyRenderer->SetAnimationStartFunc("Dash", 3, [this]
 		{
 			CurrentSpeed = BOSS_OLDCROW_DASHSPEED;
+			GameEngineSound::Play("OldCrow_Walk.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("Dash", 5, [this]
+		{
+			CurrentSpeed = BOSS_OLDCROW_DASHSPEED;
+			GameEngineSound::Play("OldCrow_Walk2.mp3");
 		});
 	EnemyRenderer->SetAnimationStartFunc("Dash", 17, [this]
 		{
@@ -42,7 +48,7 @@ void Boss_OldCrow::InitAnimation()
 		{
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent<GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
-			BonePivot->GetTransform()->SetLocalPosition(float4{ 0, 10, 2 });
+			BonePivot->GetTransform()->SetLocalPosition(float4{ 0, 14, 0.5 });
 
 			float Value = 5.0f;
 
@@ -53,9 +59,25 @@ void Boss_OldCrow::InitAnimation()
 			std::shared_ptr<Boss_OldCrowEgg> CrowEgg = GetLevel()->CreateActor<Boss_OldCrowEgg>();
 			CrowEgg->SetCrowEgg(BonePivot->GetTransform()->GetWorldPosition(), BonePivot->GetTransform()->GetWorldRotation(), BonePivot->GetTransform()->GetWorldPosition() - GetTransform()->GetWorldPosition());
 
+			GameEngineSound::Play("OldCrow_Landing.mp3");
 		});
 
 	EnemyRenderer->CreateFBXAnimation("Scream", "OldCrow_Scream_Anim.FBX", { 0.033f, false });
+
+	EnemyRenderer->SetAnimationStartFunc("Scream", 0, [this]
+		{
+			StateCalTime = 0.0f;
+			GameEngineSound::Play("OldCrow_IntroBGM.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("Scream", 55, [this]
+		{
+			GameEngineSound::Play("OldCrow_Scream.mp3");
+		});
+	//EnemyRenderer->SetAnimationStartFunc("Scream", 99, [this]
+	//	{
+	//		IntroDone = true;
+	//	});
+
 	EnemyRenderer->CreateFBXAnimation("ScreamMini", "OldCrow_ScreamMini_Anim.FBX", { 0.033f, false });
 	EnemyRenderer->SetAnimationStartFunc("ScreamMini", 18, [this]
 		{
@@ -68,6 +90,6 @@ void Boss_OldCrow::InitAnimation()
 	GetTransform()->SetLocalScale(float4::ONE * 50.0f);
 	EnemyRenderer->GetTransform()->SetLocalRotation({ 0, -90, 0 });
 
-	EnemyRenderer->ChangeAnimation("Idle");
+	EnemyRenderer->ChangeAnimation("Scream");
 
 }

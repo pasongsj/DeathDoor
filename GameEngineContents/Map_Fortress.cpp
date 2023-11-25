@@ -101,13 +101,13 @@ void Map_Fortress::InitComponent()
 void Map_Fortress::Create_Ground()
 {
 	m_pRenderer_Cube = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Cube->SetFBXMesh("Fortress_Cube.fbx", "ContentMeshDeffered");
+	m_pRenderer_Cube->SetFBXMesh("Fortress_Cube.fbx", "ContentMeshForward", RenderPath::Forward);
 	m_pRenderer_Cube->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Cube->GetTransform()->SetLocalPosition(float4{ -3910, -900, -250 });
 	m_pRenderer_Cube->GetTransform()->SetParent(GetTransform());
 
 	m_pRenderer_Cube2 = CreateComponent<ContentFBXRenderer>();
-	m_pRenderer_Cube2->SetFBXMesh("Fortress_Cube_2.fbx", "ContentMeshDeffered");
+	m_pRenderer_Cube2->SetFBXMesh("Fortress_Cube_2.fbx", "ContentMeshForward", RenderPath::Forward);
 	m_pRenderer_Cube2->GetTransform()->SetLocalRotation(m_MapRot);
 	m_pRenderer_Cube2->GetTransform()->SetLocalPosition(float4{ -11735, -120, 18625 });
 	m_pRenderer_Cube2->GetTransform()->SetParent(GetTransform());
@@ -292,11 +292,11 @@ void Map_Fortress::Set_CullingTrigger()
 		Trigger->GetTransform()->SetParent(GetTransform());
 	}
 
-	/*size_t Size = m_vCullingTriggers.size();
+	size_t Size = m_vCullingTriggers.size();
 	for (size_t i = 0; i < Size; i++)
 	{
 		m_vCullingTriggers[i]->GetRenderer()->Off();
-	}*/
+	}
 }
 
 void Map_Fortress::Set_CullingTrigger_WorldPos()
@@ -494,6 +494,11 @@ void Map_Fortress::Set_CullingObject()
 		m_vCullingObjects.push_back(CullingObj);
 		CullingObj->GetTransform()->SetParent(GetTransform());
 	}
+
+	for (size_t i = 3; i < m_vCullingObjects.size(); i++)
+	{
+		m_vCullingObjects[i]->GetTransform()->AddLocalPosition(float4{ 0.0f, 6.0f, 0.0f });
+	}
 }
 
 void Map_Fortress::Create_PhysXComponent()
@@ -505,8 +510,7 @@ void Map_Fortress::Create_PhysXComponent()
 	m_pNaviRenderer->GetTransform()->SetLocalPosition(m_MapPos);
 	m_pNaviRenderer->GetTransform()->SetParent(GetTransform());
 
-	// m_pNaviRenderer->Off();
-	// m_pNaviRenderer->Off();
+	m_pNaviRenderer->Off();
 
 	m_pTriangleComp = CreateComponent<PhysXTriangleComponent>();
 	m_pTriangleComp->SetPhysxMaterial(0.f, 0.f, 0.f);

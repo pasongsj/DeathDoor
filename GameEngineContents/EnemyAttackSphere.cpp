@@ -41,15 +41,26 @@ void EnemyAttackSphere::SetPhysXComp(const float4& _PhysXScale, const float4& _P
 
 }
 
-
-
-
 void EnemyAttackSphere::Update(float _DeltaTime)
 {
-	if (CheckCollision(PhysXFilterGroup::Ground)|| CheckCollision(PhysXFilterGroup::Obstacle) || GetLiveTime()>3.f)
+	if (CheckCollision(PhysXFilterGroup::Ground)|| CheckCollision(PhysXFilterGroup::Obstacle))
+	{
+		if ("" != AttackEndSound)
+		{
+			GameEngineSoundPlayer EndSound = GameEngineSound::Play(AttackEndSound);
+			EndSound.SetVolume(0.5f);
+
+		}
+		Death();
+		return;
+	}
+
+	if (GetLiveTime() > GetFireTime() + 3.f)
 	{
 		Death();
+		return;
 	}
+
 	AttackBase::Update(_DeltaTime);
 	if (DustColor != float4::ZERONULL)
 	{

@@ -37,6 +37,7 @@ float4 Fading(Texture2D _MaskTexture, SamplerState _Sampler, float2 _UV)
 float4 NormalTexCalculate(Texture2D NormalTex, SamplerState Smp, float4 UV, float4 _Tangent, float4 _BiNormal, float4 _Normal)
 {
     float4 TexNormal = NormalTex.Sample(Smp, UV.xy);
+    TexNormal.rgb = pow(TexNormal.rgb, 2.2f);
     
     TexNormal = TexNormal * 2.0f - 1.0f;
     TexNormal.w = 0.0f;
@@ -52,5 +53,8 @@ float4 NormalTexCalculate(Texture2D NormalTex, SamplerState Smp, float4 UV, floa
 
 float4 ToneMapping_ACES(float4 _Color)
 {
-    return saturate((_Color * (2.51f * _Color + 0.03f)) / (_Color * (2.43f * _Color + 0.59f) + 0.14f));
+    float Alpha = _Color.a;
+    float4 Return = saturate((_Color * (2.51f * _Color + 0.03f)) / (_Color * (2.43f * _Color + 0.59f) + 0.14f));
+    Return.a = Alpha;
+    return Return;
 }

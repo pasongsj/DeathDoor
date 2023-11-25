@@ -1,9 +1,11 @@
 #include "PrecompileHeader.h"
 #include "ShortCutDoor.h"
-#include "PhysXBoxComponent.h"
 #include <GameEngineCore/GameEngineFBXRenderer.h>
+
+#include "PhysXBoxComponent.h"
 #include "FadeEffect.h"
 #include "Player.h"
+#include "FadeWhite.h"
 
 ShortCutDoor::ShortCutDoor() 
 {
@@ -19,7 +21,9 @@ void ShortCutDoor::Start()
 	InitAnimation();
 	InitComponent();
 	SetFSMFUNC();
-	m_pFade = GetLevel()->GetLastTarget()->CreateEffect<FadeEffect>();
+	m_pWhiteEffect = GetLevel()->CreateActor<FadeWhite>();
+	//m_pFade = GetLevel()->GetLastTarget()->CreateEffect<FadeEffect>();
+	
 }
 
 void ShortCutDoor::Update(float _DeltaTime)
@@ -60,6 +64,11 @@ void ShortCutDoor::InitAnimation()
 	m_pRenderer1->GetTransform()->SetLocalScale(float4{ 100, 100, 100 });
 	m_pRenderer1->SetFBXMesh("SHORTCUTDOOR_path.FBX", "ContentMeshDeffered");
 	auto Unit = m_pRenderer->GetAllRenderUnit();
+
+	Unit[0][1]->Off();
+	Unit[0][2]->Off();
+
+
 	Unit[0][4]->Off();
 	Unit[0][5]->Off();
 	Unit[0][6]->Off();
@@ -83,7 +92,7 @@ void ShortCutDoor::SetFSMFUNC()
 			//StateDuration = 0.0f;
 			//StateChecker = false;
 		});
-
+	
 	SetFSM(TriggerState::OFF,
 		[this]
 		{
@@ -105,7 +114,7 @@ void ShortCutDoor::SetFSMFUNC()
 		{
 			if (StartState::OPEN == m_eStartState)
 			{
-				m_pFade->FadeIn();
+				m_pWhiteEffect->FadeIn();
 			}
 			if (StartState::OPEN == m_eStartState && GetStateDuration() >= 1.5f)
 			{
@@ -149,20 +158,26 @@ void ShortCutDoor::SetFSMFUNC()
 			{
 			case StartState::OPEN:
 			{
-				m_pRenderer->ChangeAnimation("CLOSE_FROM_INWARD");
+				GameEngineSound::Play("ShortCutDoorClose.mp3");
+
+				m_pRenderer->ChangeAnimation("CLOSE_FROM_INWARD"); 
+				m_pWhiteEffect->FadeUpdate();
 			}
 				break;
 			case StartState::CLOSE:
 			{
+				GameEngineSound::Play("ShortCutDoorOpen.mp3");
+
+				m_pWhiteEffect->FadeOut();
 				m_pRenderer->ChangeAnimation("OPEN_Inward");
-				m_pFade->FadeOut();
+				m_pWhiteEffect->FadeUpdate();
+				//m_pFade->FadeOut();
 			}
 				break;
 			}
 		},
 		[this](float Delta)
-		{	
-			GetLevel()->GetLastTarget()->Effect(Delta);
+		{			
 			if (true == m_pRenderer->IsAnimationEnd())
 			{
 				SetNextState(TriggerState::ON);
@@ -197,7 +212,7 @@ void ShortCutDoor::SetFSMFUNC()
 		},
 		[this](float Delta)
 		{
-			GetLevel()->GetLastTarget()->Effect(Delta);
+			//GetLevel()->GetLastTarget()->Effect(Delta);
 			//È­¸é Fade?
 			if (StartState::OPEN == m_eStartState)
 			{

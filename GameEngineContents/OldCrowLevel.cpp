@@ -8,9 +8,12 @@
 #include "PhysXBoxComponent.h"
 #include "PhysXControllerComponent.h"
 #include "GlowEffect.h"
+#include "FadeEffect.h"
 
 #include "ShortCutDoor.h"
 #include "OfficeLevel.h"
+
+#include "PlayerInfoWindow.h"
 
 OldCrowLevel::OldCrowLevel()
 {
@@ -24,6 +27,7 @@ void OldCrowLevel::Start()
 {
 	SetContentLevelType(ContentLevelType::OldCrowLevel);
 	InitKey();
+
 }
 
 void OldCrowLevel::Update(float _DeltaTime)
@@ -33,15 +37,8 @@ void OldCrowLevel::Update(float _DeltaTime)
 		ClearCheck();
 	}
 
-	if (false == GetMainCamera()->IsFreeCamera())
-	{
-		float4 nextPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
-		nextPos.y += 2000.0f;
-		nextPos.z -= 2000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
-		GetMainCamera()->GetTransform()->SetWorldPosition(float4::LerpClamp(GetMainCamera()->GetTransform()->GetWorldPosition(), nextPos, _DeltaTime * 3.0f));
-	}
+	GraphicUpdate();
 
-	// 보스 죽었는지 체크해서 true 로 바뀌는 순간 숏컷도어 생성 
 }
 
 void OldCrowLevel::LevelChangeStart()
@@ -51,17 +48,18 @@ void OldCrowLevel::LevelChangeStart()
 	CreateScene();
 
 	GetMainCamera()->SetProjectionType(CameraType::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalRotation(m_CameraRot);
-	GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
+
 	
 	Create_Light();
 	Create_Map();
 	Create_Player();
 	Create_OldCrow();
+	PlayerInfoWindow::PlayerGUI->On();
 }
 
 void OldCrowLevel::LevelChangeEnd()
 {
+	PlayerInfoWindow::PlayerGUI->Off();
 	AllActorDestroy();
 }
 
@@ -88,7 +86,7 @@ void OldCrowLevel::Create_Player()
 void OldCrowLevel::Create_OldCrow()
 {
 	m_pBoss = CreateActor<Boss_OldCrow>();
-	m_pBoss.lock()->GetPhysXComponent()->SetWorldPosWithParent(float4{0, 0, -1500}, float4{0, 0, 0});
+	m_pBoss.lock()->GetPhysXComponent()->SetWorldPosWithParent(float4{0, 0, 1500}, float4{0, 180, 0});
 }
 
 void OldCrowLevel::ClearCheck()

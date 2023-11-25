@@ -1,7 +1,9 @@
 #include "PreCompileHeader.h"
 
 #include "Boss_OldCrowEgg.h"
+
 #include "PhysXSphereComponent.h"
+#include "Content2DRenderer.h"
 
 Boss_OldCrowEgg::Boss_OldCrowEgg() 
 {
@@ -15,7 +17,7 @@ void Boss_OldCrowEgg::Start()
 {
 	Renderer = CreateComponent<ContentFBXRenderer>();
 
-	Renderer->SetFBXMesh("Boss_OldCrow_Egg.FBX", "ContentAniMeshDeffered");
+	Renderer->SetFBXMesh("Boss_OldCrow_Egg.FBX", "ContentAniMeshDeffered", RenderPath::Deferred);
 
 	Renderer->SetColor(float4::BLACK, 0.9f);
 
@@ -23,12 +25,16 @@ void Boss_OldCrowEgg::Start()
 
 	PentagramPivot->GetTransform()->SetWorldScale(float4::ZERO);
 
-	PentagramRenderer1 = PentagramPivot->CreateComponent<GameEngineSpriteRenderer>();
+	PentagramRenderer1 = PentagramPivot->CreateComponent<Content2DRenderer>();
+ 	PentagramRenderer1->SetMaterial("Content2DTexture", RenderPath::Alpha);
+
 	PentagramRenderer1->SetScaleToTexture("pentagram.png");
 	PentagramRenderer1->GetTransform()->AddLocalPosition(float4{ 0, 5, 0 });
 	PentagramRenderer1->GetTransform()->SetLocalScale(PentagramRenderer1->GetTransform()->GetLocalScale() * 0.4f);
 
-	PentagramRenderer2 = PentagramPivot->CreateComponent<GameEngineSpriteRenderer>();
+	PentagramRenderer2 = PentagramPivot->CreateComponent<Content2DRenderer>();
+	PentagramRenderer2->SetMaterial("Content2DTexture", RenderPath::Alpha);
+
 	PentagramRenderer2->SetScaleToTexture("pentagram.png");
 	PentagramRenderer2->GetTransform()->SetLocalScale(PentagramRenderer1->GetTransform()->GetLocalScale() * 2.0f );
 
@@ -43,9 +49,11 @@ void Boss_OldCrowEgg::Start()
 
 		m_pSphereComp->SetPhysxMaterial(1.0f, 1.0f, 0.0f);
 		m_pSphereComp->CreatePhysXActors(float4{ 0.0f, 30.0f, 30.0f });
+		m_pSphereComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+
 		m_pSphereComp->TurnOffGravity();
 
-		m_pSphereComp->CreateSubShape(SubShapeType::SPHERE, float4{ 0, 500, 500 }, float4{ 0, 0, 0 });
+		m_pSphereComp->CreateSubShape(SubShapeType::SPHERE, float4{ 500, 500, 500 }, float4{ 0, 0, 0 });
 		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::CrowDebuff);
 	}
 }
@@ -85,6 +93,9 @@ void Boss_OldCrowEgg::Update(float _DeltaTime)
 
 			m_pSphereComp->AttachShape();
 
+			GameEngineSound::Play("OldCrow_Egg_Land.mp3");
+			GameEngineSound::Play("OldCrow_Egg_MagicSFX.mp3");
+
 			IsGround = true;
 			return;
 		}
@@ -95,6 +106,7 @@ void Boss_OldCrowEgg::Update(float _DeltaTime)
 	}
 	else
 	{
+
 		m_pSphereComp->SetMoveSpeed(float4::ZERO);
 		SetPentagramEffect(_DeltaTime);
 	}

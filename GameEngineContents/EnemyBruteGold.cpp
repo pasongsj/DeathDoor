@@ -3,6 +3,8 @@
 
 #include "EnemyAttackBox.h"
 #include "EnemyAttackSphere.h"
+#include "Player.h"
+#include "Map_NaviMesh.h"
 
 EnemyBruteGold::EnemyBruteGold() 
 {
@@ -16,7 +18,7 @@ EnemyBruteGold::~EnemyBruteGold()
 void EnemyBruteGold::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
-	EnemyRenderer->SetFBXMesh("_E_BRUTE_GOLD_MESH.FBX", "ContentAniMeshDeffered");
+	EnemyRenderer->SetFBXMesh("_E_BRUTE_GOLD_MESH.FBX", "ContentAniMeshDeffered", "bruteGruntTexture_Multi.png", "bruteGruntTexture_Gold.png");
 
 	EnemyRenderer->CreateFBXAnimation("IDLE",  "_E_BRUTE_GOLD_IDLE.fbx", { 1.f / 30.f,true });
 	EnemyRenderer->CreateFBXAnimation("WALK",  "_E_BRUTE_GOLD_WALK.fbx", { 1.f / 30.f,false });
@@ -28,6 +30,8 @@ void EnemyBruteGold::InitAnimation()
 
 	EnemyRenderer->SetAnimationStartFunc("SLAM", 10, [this]
 		{
+			GameEngineSound::Play("Brute_Attack2.mp3");
+
 			m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
 			m_pAttackBox->SetScale(float4(200, 60, 70));
 			m_pAttackBox->GetPhysXComponent()->SetDynamicPivot(float4(-200, 0, -70));
@@ -41,6 +45,7 @@ void EnemyBruteGold::InitAnimation()
 		});
 	EnemyRenderer->SetAnimationStartFunc("SWING", 23, [this]
 		{
+			GameEngineSound::Play("Brute_Attack2.mp3");
 
 			m_pAttackBox = GetLevel()->CreateActor<EnemyAttackBox>();
 			m_pAttackBox->SetScale(float4(200, 60, 70));
@@ -56,6 +61,8 @@ void EnemyBruteGold::InitAnimation()
 
 	EnemyRenderer->SetAnimationStartFunc("THROW", 15, [this]
 		{
+			GameEngineSound::Play("Brute_BombThrow.mp3");
+
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
 			BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("hand_l").Pos);
@@ -63,14 +70,39 @@ void EnemyBruteGold::InitAnimation()
 
 			std::shared_ptr<EnemyAttackSphere> Attack = GetLevel()->CreateActor<EnemyAttackSphere>();
 			Attack->SetRender(FIREPLANT_ATT_RENDER_SCALE * 2.f);
-			//Attack->GetRenderer()->SetGlowToUnit(0, 0);
-			Attack->GetRenderer()->SetColor({ 255.f / 255.0f, 10.f / 255.0f, 00.f }, 1.0f);
 			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE * 2.f);
 			Attack->SetTrans(m_f4ShootDir, TmpPos);
+			Attack->SetEndSound("Brute_BombBoom.mp3");
+
+			std::shared_ptr<ContentFBXRenderer> Rend = Attack->GetRenderer();
+			Rend->SetGlowToUnit(0, 0);
+			Rend->SetUnitColor(0, 0, float4::RED, 5);
+			Attack->SetDustColor({ 255.0f / 255.0f, 198.0f / 255.0f , 198.0f / 255.0f });
 			Attack->SetShoot(1000.0f);
+
 			BonePivot->Death();
 
 		});
+
+	//Sound
+	EnemyRenderer->SetAnimationStartFunc("WALK", 22, [this]
+		{
+			GameEngineSound::Play("Brute_Walk.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("WALK", 38, [this]
+		{
+			GameEngineSound::Play("Brute_Walk.mp3");
+		});
+
+	EnemyRenderer->SetAnimationStartFunc("RUN", 10, [this]
+		{
+			GameEngineSound::Play("Brute_Walk.mp3");
+		});
+	EnemyRenderer->SetAnimationStartFunc("RUN", 19, [this]
+		{
+			GameEngineSound::Play("Brute_Walk.mp3");
+		});
+
 	EnemyRenderer->ChangeAnimation("IDLE");
 }
 
@@ -183,11 +215,6 @@ void EnemyBruteGold::SetFSMFUNC()
 				SetStateCheckerOn();
 				//StateChecker = true;
 			}
-			if (true == InRangePlayer(300.0f))
-			{
-				SetNextState(EnemyBruteGoldState::SWING);
-				return;
-			}
 			if (GetStateDuration() > 5)
 			{
 				if (true == InRangePlayer(1500.0f))
@@ -198,13 +225,42 @@ void EnemyBruteGold::SetFSMFUNC()
 					return;
 				}
 			}
-			AggroMove(Delta);
-
-			if (false == InRangePlayer(2000.0f))
+			float4 f4Dir = GetPlayerDir();
+			if (Map_NaviMesh::NaviMesh != nullptr)
 			{
-				SetNextState(EnemyBruteGoldState::IDLE);
-				return;
+
+				float4 f4Point = float4::ZERONULL;
+				float4 f4MyPos = m_pCapsuleComp->GetWorldPosition();
+				float4 PlayerPos = Player::MainPlayer->GetPhysXComponent()->GetWorldPosition();
+				float PlayerDistance = PlayerPos.XYZDistance(f4MyPos);
+
+				UINT Dummy = -1;
+
+				//사이에 벽이 있음
+				if (true == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy))
+				{
+
+					float4 RoadDir = float4::ZERONULL;
+					RoadDir = Map_NaviMesh::NaviMesh->GetPhysXComp()->FindRoadDir(f4MyPos, PlayerPos);
+					if (RoadDir != float4::ZERONULL)
+					{
+						f4Dir = RoadDir;
+					}
+					else
+					{
+						SetNextState(EnemyBruteGoldState::IDLE);
+						return;
+					}
+				}
+				else if (false == m_pCapsuleComp->TriRayCast(f4MyPos, f4Dir, f4Point, PlayerDistance, Dummy)
+					&& true == InRangePlayer(300.0f))
+				{
+					SetNextState(EnemyBruteGoldState::SWING);
+					return;
+				}
 			}
+
+			NaviMove(f4Dir, GRUNT_MOVE_SPEED, DEFAULT_DIR_BRUTEGOLD);
 		},
 		[this]
 		{
@@ -215,6 +271,8 @@ void EnemyBruteGold::SetFSMFUNC()
 	SetFSM(EnemyBruteGoldState::SLAM,
 		[this]
 		{
+			GameEngineSound::Play("Brute_AttackReady.mp3");
+
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
 			EnemyRenderer->ChangeAnimation("SLAM", true);
@@ -249,6 +307,8 @@ void EnemyBruteGold::SetFSMFUNC()
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
+			GameEngineSound::Play("Brute_AttackReady.mp3");
+
 			EnemyRenderer->ChangeAnimation("SWING", true);
 		},
 		[this](float Delta)
@@ -280,6 +340,8 @@ void EnemyBruteGold::SetFSMFUNC()
 		{
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 			EnemyRenderer->ChangeAnimation("THROW");
+
+			GameEngineSound::Play("Brute_AttackReady.mp3");
 		},
 		[this](float Delta)
 		{
@@ -301,6 +363,7 @@ void EnemyBruteGold::SetFSMFUNC()
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 			EnemyRenderer->ChangeAnimation("BREAK", true);
 
+			GameEngineSound::Play("Brute_GetDamage.mp3");
 		},
 		[this](float Delta)
 		{
@@ -323,6 +386,7 @@ void EnemyBruteGold::SetFSMFUNC()
 			EnemyRenderer->ChangeAnimation("IDLE");
 			m_f4ShootDir = AggroDir(m_pCapsuleComp, DEFAULT_DIR_BRUTE);
 
+			GameEngineSound::Play("Brute_Death.mp3");
 		},
 		[this](float Delta)
 		{

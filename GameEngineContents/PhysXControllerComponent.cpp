@@ -62,8 +62,7 @@ void PhysXControllerComponent::CreatePhysXActors(physx::PxVec3 _GeoMetryScale, f
 	m_pShape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, false);
 	m_pShape->userData = GetActor();
 
-	//GetTransform()->SetWorldScale(float4(_GeoMetryScale.x, _GeoMetryScale.y, _GeoMetryScale.z ));
-	//GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
+	GetTransform()->SetWorldScale(float4(_GeoMetryScale.z, m_fHeight*2.f, _GeoMetryScale.z ));
 }
 
 bool PhysXControllerComponent::SetMoveSpeed(float4 _MoveSpeed)
@@ -90,7 +89,7 @@ bool PhysXControllerComponent::SetMoveSpeed(float4 _MoveSpeed)
 }
 
 
-void PhysXControllerComponent::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos)
+void PhysXControllerComponent::CreateSubShape(SubShapeType _Type, float4 _Scale, float4 _LocalPos, bool _Rigid /*= false*/)
 {
 	physx::PxTransform Transform
 	(
@@ -104,7 +103,7 @@ void PhysXControllerComponent::CreateSubShape(SubShapeType _Type, float4 _Scale,
 	);
 	m_pRigidDynamic = m_pPhysics->createRigidDynamic(Transform);
 	GetScene()->addActor(*m_pRigidDynamic);
-	PhysXDefault::CreateSubShape(_Type, _Scale, _LocalPos);
+	PhysXDefault::CreateSubShape(_Type, _Scale, _LocalPos, _Rigid);
 }
 
 void PhysXControllerComponent::Start()
@@ -132,9 +131,11 @@ void PhysXControllerComponent::Update(float _DeltaTime)
 
 		m_pRigidDynamic->setGlobalPose(Transform);
 	}
-	//if (true == GetLevel()->GetDebugRender())
-	//{
-	//	GetTransform()->SetWorldRotation(ParentActor.lock()->GetTransform()->GetWorldRotation());
-	//	GetTransform()->SetWorldPosition(ParentActor.lock()->GetTransform()->GetWorldPosition());
-	//}
+	if (true == GetLevel()->GetDebugRender())
+	{
+		GetTransform()->SetWorldRotation(ParentActor.lock()->GetTransform()->GetWorldRotation());
+		GetTransform()->SetWorldPosition(float4(static_cast<float>(m_pController->getPosition().x), static_cast<float>(m_pController->getPosition().y), static_cast<float>(m_pController->getPosition().z)));
+
+		GameEngineDebug::DrawCapsule(GetLevel()->GetMainCamera().get(), GetTransform());
+	}
 }

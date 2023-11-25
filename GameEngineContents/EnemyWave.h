@@ -44,11 +44,15 @@ private:
 	// 몬스터를 소환할 위치
 	// 어떤몬스터를 소환할지 정도만 정해줄수 있게 하면 좋을거 같은데. 
 
-	float4 m_f4EnemyPos = float4{ -13448, 300, 12444 };
-	float4 m_f4EnemyPos2 = float4{ -12962, 332, 11548 };
-	float4 m_f4EnemyPos3 = float4{ -12363, 300, 12317 };
+	float4 m_f4EnemyPos = float4{ -11800, 350, 12910 };
+	float4 m_f4EnemyPos2 = float4{ -12300, 350, 13452 };
+	float4 m_f4EnemyPos3 = float4{ -12379, 350, 12266 };
 
-	std::vector<EnemySturct> m_vEnemys = std::vector<EnemySturct>();
+	std::vector<EnemySturct> m_vEnemys_1 = std::vector<EnemySturct>();
+	std::vector<EnemySturct> m_vEnemys_2 = std::vector<EnemySturct>();
+	std::vector<EnemySturct> m_vEnemys_3 = std::vector<EnemySturct>();
+
+	std::vector<float4> m_vEnemysPos = { float4{ -11800, 350, 12910 } ,  float4{ -12300, 350, 13452 },float4{ -12379, 350, 12266 } };
 
 	void SetFSMFUNC();
 };

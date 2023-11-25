@@ -20,6 +20,8 @@ void EnemyFirePlant::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("BITE", "_E_FIREPLANT_BITE.fbx", { 0.02f,false });
 	EnemyRenderer->SetAnimationStartFunc("BITE", 30, [this]
 		{
+			GameEngineSound::Play("FirePlant_Attack.mp3");
+
 			// 본 위치 가져오기
 			std::shared_ptr<GameEngineComponent> BonePivot = CreateComponent< GameEngineComponent>();
 			BonePivot->GetTransform()->SetParent(GetTransform());
@@ -30,14 +32,21 @@ void EnemyFirePlant::InitAnimation()
 			Attack->SetRender(FIREPLANT_ATT_RENDER_SCALE);
 			Attack->SetPhysXComp(FIREPLANT_ATT_PHYSX_SCALE, float4::DOWN * 100.0f);
 			Attack->SetTrans(ShootDir, BonePivotPos);// 위치와 방향설정
+
 			std::shared_ptr<ContentFBXRenderer> Rend = Attack->GetRenderer();
 			Rend->SetGlowToUnit(0, 0);
 			Rend->SetUnitColor(0, 0, float4::RED, 5);
 			Attack->SetDustColor({ 255.0f / 255.0f, 198.0f / 255.0f , 198.0f / 255.0f});
 			Attack->SetShoot(1000.0f);
+			Attack->SetEndSound("MagicHit2.mp3");
 			BonePivot->Death();
 			
 		});
+	//EnemyRenderer->SetAnimationStartFunc("BITE", 40, [this]
+	//	{
+	//		GameEngineSound::Play("FirePlant_Charging.mp3");
+	//	});
+
 	EnemyRenderer->CreateFBXAnimation("HIT", "_E_FIREPLANT_HIT.fbx", { 0.04f,false });
 	EnemyRenderer->CreateFBXAnimation("DIE", "_E_FIREPLANT_DIE.fbx", { 0.02f,false });
 	EnemyRenderer->ChangeAnimation("IDLE");
@@ -136,6 +145,8 @@ void EnemyFirePlant::SetFSMFUNC()
 		{
 			EnemyRenderer->ChangeAnimation("HIT");
 			AddPlayerSpellCost();
+
+			GameEngineSound::Play("FirePlant_GetDamage.mp3");
 		},
 		[this](float Delta)
 		{
@@ -159,12 +170,13 @@ void EnemyFirePlant::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("DIE");
+
+			GameEngineSound::Play("FirePlant_Death.mp3");
 		},
 		[this](float Delta)
 		{
 			if (true == EnemyRenderer->IsAnimationEnd())
 			{
-				ResetStateDuration();
 				if (GetStateDuration() < 1.f)
 				{
 					EnemyRenderer->FadeOut(1.f, Delta);

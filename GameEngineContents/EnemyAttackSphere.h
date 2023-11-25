@@ -27,11 +27,16 @@ public:
 	{
 		DustColor = _Color;
 	}
+
+
+
 protected:
 	void Update(float _DeltaTime) override;
 	void CreateParticle(float _DeltaTime);
+
 private:
 	float ParticleCount = 0.0f;
 	float4 DustColor = float4::ZERONULL;
+
 };
 

@@ -32,7 +32,7 @@ void WaterDrop::Update(float _Delta)
 		UpdateFunc(*this, _Delta);
 	}
 
-	if (GetTransform()->GetWorldPosition().y < -100.0f)
+	if (GetTransform()->GetWorldPosition().y < -1000.0f)
 	{
 		Death();
 	}
@@ -41,7 +41,7 @@ void WaterDrop::Update(float _Delta)
 void WaterDrop::MoveToParabola(float _Delta)
 {
 	GetTransform()->AddWorldPosition(Dir * Speed * _Delta + float4{0.0f, -Gravity * _Delta, 0.0f});
-	Gravity += 600.0f * _Delta;
+	Gravity += 500.0f * _Delta;
 }
 
 void WaterDrop::VerticalDrop(float _Delta)

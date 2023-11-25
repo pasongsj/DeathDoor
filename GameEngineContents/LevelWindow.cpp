@@ -14,6 +14,8 @@
 #include "BossFrogLevel.h"
 #include "UITestLevel.h"
 #include "OldCrowLevel.h"
+#include "ExplainLevel.h"
+#include "ContentLevel.h"
 
 #include "Player.h"
 
@@ -32,7 +34,7 @@ void LevelWindow::Start()
 void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _DeltaTime)
 {
 	m_fFrameTime += _DeltaTime;
-	if (m_fFrameTime>=1.f)
+	if (m_fFrameTime >= 1.f)
 	{
 		m_fDeltaTime = _DeltaTime;
 		m_fFrameRate = 1.f / _DeltaTime;
@@ -66,7 +68,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	//	m_CurLevelName = "ServerTestLevel";
 	//	GameEngineCore::ChangeLevel("ServerTestLevel");
 	//}
-	
+
 	if (ImGui::Button("PhysXTestLevel") && Level->DynamicThis<PhysXTestLevel>().get() != GetLevel())
 	{
 		m_CurLevelName = "PhysXTestLevel";
@@ -131,6 +133,12 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	{
 		m_CurLevelName = "BossTestLevel";
 		GameEngineCore::ChangeLevel("BossTestLevel");
+	}
+	
+	if (ImGui::Button("ExplainLevel") && Level->DynamicThis<ExplainLevel>().get() != GetLevel())
+	{
+		m_CurLevelName = "ExplainLevel";
+		GameEngineCore::ChangeLevel("ExplainLevel");
 	}
 
 	ImGui::Text("CurCameraMode :");
@@ -233,7 +241,7 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	}
 
 	// PlayerController
-
+	ImGui::Separator();
 	if (nullptr == Player::MainPlayer)
 	{
 		return;
@@ -262,5 +270,76 @@ void LevelWindow::OnGUI(std::shared_ptr<class GameEngineLevel> Level, float _Del
 	std::string PositionText = "X : " + std::to_string(PlayerPos.x) + " Y : " + std::to_string(PlayerPos.y) + " Z : " + std::to_string(PlayerPos.z);
 	ImGui::Text(PositionText.c_str());
 	
+	//Gamma
+	if (m_CurLevelName == "CenterLevel")
+	{
+		return;
+	}
+
+	if (ImGui::Button("GammaOn"))
+	{
+		Level->DynamicThis<ContentLevel>()->isGamma = true;
+	}
+	ImGui::SameLine();
+
+	if (ImGui::Button("GammaOff"))
+	{
+		Level->DynamicThis<ContentLevel>()->isGamma = false;
+	}
+	
+	std::string GammaOnOff = (Level->DynamicThis<ContentLevel>()->isGamma == true) ? "On" : "Off";
+	GammaOnOff = "GammaCorrection : " + GammaOnOff;
+	ImGui::Text(GammaOnOff.c_str());
+
+	if (ImGui::Button("HDROn"))
+	{
+		Level->DynamicThis<ContentLevel>()->isHDR = true;
+	}
+	ImGui::SameLine();
+
+	if (ImGui::Button("HDROff"))
+	{
+		Level->DynamicThis<ContentLevel>()->isHDR = false;
+	}
+	std::string HDROnOff = (Level->DynamicThis<ContentLevel>()->isHDR == true) ? "On" : "Off";
+	HDROnOff = "HDR_ToneMapping : " + HDROnOff;
+	ImGui::Text(HDROnOff.c_str());
+
+	if (ImGui::Button("FXAAOn"))
+	{
+		Level->DynamicThis<ContentLevel>()->isFXAA = true;
+	}
+	ImGui::SameLine();
+
+	if (ImGui::Button("FXAAOff"))
+	{
+		Level->DynamicThis<ContentLevel>()->isFXAA = false;
+	}
+	std::string FXAAOnOff = (Level->DynamicThis<ContentLevel>()->isFXAA == true) ? "On" : "Off";
+	FXAAOnOff = "Anti_Ailiasing(FXAA) : " + FXAAOnOff;
+	ImGui::Text(FXAAOnOff.c_str());
+
+
+	if (ImGui::Button("HDR+Gamma On"))
+	{
+		Level->DynamicThis<ContentLevel>()->isGamma = true;
+		Level->DynamicThis<ContentLevel>()->isHDR = true;
+	}
+
+	if (ImGui::Button("AllOn"))
+	{
+		Level->DynamicThis<ContentLevel>()->isGamma = true;
+		Level->DynamicThis<ContentLevel>()->isHDR = true;
+		Level->DynamicThis<ContentLevel>()->isFXAA = true;
+	}
+
+	if (ImGui::Button("AllOff"))
+	{
+		Level->DynamicThis<ContentLevel>()->isGamma = false;
+		Level->DynamicThis<ContentLevel>()->isHDR = false;
+		Level->DynamicThis<ContentLevel>()->isFXAA = false;
+	}
+
+
 }
 

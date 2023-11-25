@@ -45,6 +45,12 @@ Texture2D ShadowTex : register(t2);
 Texture2D DiffuseColor : register(t3);
 SamplerState POINTWRAP : register(s0);
 
+cbuffer isEffect : register(b5)
+{
+    bool isHdr;
+    bool3 Padding;
+};
+
 float4 ToneMapping_ACES(float4 _Color)
 {
     return saturate((_Color * (2.51f * _Color + 0.03f)) / (_Color * (2.43f * _Color + 0.59f) + 0.14f));
@@ -64,6 +70,7 @@ float4 DeferredCalLight_PS(Output _Input) : SV_Target0
     }
     
     float4 Normal = NormalTex.Sample(POINTWRAP, _Input.TEXCOORD.xy);
+    Normal = normalize(Normal);
     
     float4 DiffuseRatio = (float4) 0.0f;
     float4 SpacularRatio = (float4) 0.0f;
@@ -140,9 +147,12 @@ float4 DeferredCalLight_PS(Output _Input) : SV_Target0
         ResultColor.a = saturate(ResultColor.x);
     }
     
-    float Alpha = ResultColor.a;
-    ResultColor = ToneMapping_ACES(ResultColor);
-    ResultColor.a = Alpha;
+    if (isHdr == true)
+    {
+        float Alpha = ResultColor.a;
+        ResultColor = ToneMapping_ACES(ResultColor);
+        ResultColor.a = Alpha;
+    }
     
     return ResultColor;
 }

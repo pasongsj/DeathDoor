@@ -46,11 +46,11 @@ void MpBar::MpUpdate()
 
 	if (CurMp != PrevMP)
 	{
-		if (CurMp <= 0)
-		{
-			MpBlocks[0]->SetScaleToTexture("Mp_Empty.png");
-			return;
-		}
+		//if (CurMp <= 0)
+		//{
+		//	MpBlocks[0]->SetScaleToTexture("Mp_Empty.png");
+		//	return;
+		//}
 
 		if (CurMp > MaxMp)
 		{
@@ -67,6 +67,11 @@ void MpBar::MpUpdate()
 			MpBlocks[i]->SetScaleToTexture("Mp_Empty.png");
 		}
 
+		if (CurMp <= 0)
+		{
+			PrevMP = CurMp;
+			return;
+		}
 		MpBlocks[CurMp - 1]->SetScaleToTexture("Mp_Usable.png");
 
 		PrevMP = CurMp;

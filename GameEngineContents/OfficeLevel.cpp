@@ -8,8 +8,11 @@
 
 #include "Dust.h"
 #include "ShortCutDoor.h"
+#include "FadeEffect.h"
+#include "FadeWhite.h"
 
 #include <GameEngineCore/GameEngineCoreWindow.h>
+#include "PlayerInfoWindow.h"
 
 OfficeLevel::OfficeLevel()
 {
@@ -23,8 +26,15 @@ void OfficeLevel::Start()
 {
 	// SetLevelType(PacketLevelType::OfficeLevel);
 	InitKey();
-
 	SetPointLight();
+
+	std::shared_ptr<FadeWhite>pWhite = CreateActor<FadeWhite>();
+	pWhite->FadeIn();
+	pWhite->FadeUpdate();
+	//m_pFadeEffect = GetLastTarget()->CreateEffect<FadeEffect>();
+	//m_pFadeEffect.lock()->FadeIn();
+
+
 }
 
 
@@ -40,6 +50,8 @@ void OfficeLevel::Update(float _DeltaTime)
 		nextPos.z -= 1000.0f * tanf((90.0f - m_CameraRot.x) * GameEngineMath::DegToRad);
 		GetMainCamera()->GetTransform()->SetWorldPosition(float4::LerpClamp(GetMainCamera()->GetTransform()->GetWorldPosition(),nextPos, _DeltaTime * 3.0f));
 	}
+
+	GraphicUpdate();
 }
 
 void OfficeLevel::LevelChangeStart()
@@ -61,10 +73,22 @@ void OfficeLevel::LevelChangeStart()
 	Create_Player();
 
 	CreateActor<Dust>();
+
+	MainBGM = GameEngineSound::Play("OfficeLevel_BGM.mp3");
+	MainBGM.SetLoop();
+	MainBGM.SetLoopPoint(0, 152);
+
+	MainBGM.SoundFadeIn(2.0f);
+
+	PlayerInfoWindow::PlayerGUI->On();
 }
 
 void OfficeLevel::LevelChangeEnd()
 {
+	PlayerInfoWindow::PlayerGUI->Off();
+
+	MainBGM.SoundFadeOut(1.0f);
+
 	AllActorDestroy();
 }
 
@@ -151,7 +175,16 @@ void OfficeLevel::Set_PlayerStartPos()
 		break;
 	}
 
-	Comp->SetWorldPosWithParent(m_StartPos,float4::ZERO);
+	if (GameEngineCore::GetPrevLevel().get()->GetNameToString() == ("EXPLAINLEVEL"))
+	{
+		Comp->SetWorldPosWithParent(m_f4ExplainToOfficePos, float4::ZERO);
+		std::shared_ptr<FadeWhite>pWhite = CreateActor<FadeWhite>();
+		pWhite->FadeIn();
+		pWhite->FadeUpdate();
+		return;
+	}
+
+	Comp->SetWorldPosWithParent(m_StartPos, float4::ZERO);
 }
 
 void OfficeLevel::SetPointLight()
@@ -198,6 +231,16 @@ void OfficeLevel::Create_TriggerObject()
 		Obj->SetTriggerFunction([=]
 			{
 				GameEngineCore::ChangeLevel("OldCrowLevel");
+			}
+		);
+	}
+	{
+		// 소개레벨 포탈 
+		std::shared_ptr<ShortCutDoor> Obj = CreateActor<ShortCutDoor>();
+		Obj->GetPhysXComponent()->SetWorldPosWithParent(float4{ 1065, -720, -5131 });
+		Obj->SetTriggerFunction([=]
+			{
+				GameEngineCore::ChangeLevel("ExplainLevel");
 			}
 		);
 	}
