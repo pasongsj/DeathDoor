@@ -795,7 +795,7 @@ void BossFrogFat::CreateSuckParticle()
 	AngleVector = DirectX::XMVector3Rotate({ 0.0f, 1.0f, 0.0f }, AngleVector);
 	AngleVector.Normalize();
 
-	New->SetAutoMoveLerp(AngleVector * 1000.0f + GetTransform()->GetWorldPosition() + float4{ -600.0f, 900.0f, 200.0f }, GetTransform()->GetWorldPosition() + float4{ -600.0f, 900.0f, 200.0f }, 2.0f);
+	New->SetAutoMoveLerp(AngleVector * 1000.0f + GetTransform()->GetWorldPosition() + float4{ -500.0f, 800.0f, 300.0f }, GetTransform()->GetWorldPosition() + float4{ -500.0f, 800.0f, 300.0f }, 2.0f);
 	New->SetScaleDecreaseLerp({ 1.0f, YScale, 1.0f }, {1.0f, 0.0f, 1.0f}, 2.0f);
 }
 
