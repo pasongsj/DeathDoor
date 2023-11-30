@@ -53,10 +53,6 @@ Output ContentAniMeshForward_VS(Input _Input)
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
     
-    float4 WorldPos = mul(_Input.POSITION, WorldMatrix);
-    float4 WorldNormal = mul(_Input.NORMAL, WorldMatrix);
-    WorldNormal = normalize(WorldNormal);
-    
     float4 ViewPos = mul(InputPos, WorldView);
     float4 ViewNormal = mul(InputNormal, WorldView);
     
@@ -66,7 +62,7 @@ Output ContentAniMeshForward_VS(Input _Input)
     {
         for (int Index = 0; Index < PointLightNum; Index++)
         {
-            ResultPointLight += CalPointLight_WorldSpace(WorldPos, WorldNormal, PointLights[Index]);
+            ResultPointLight += CalPointLight_ViewSpace(ViewPos, ViewNormal, PointLights[Index]);
         }
         
         NewOutPut.DIFFUSELIGHT = CalDiffuseLight(ViewPos, ViewNormal, AllLight[0]);
@@ -77,11 +73,6 @@ Output ContentAniMeshForward_VS(Input _Input)
 
     return NewOutPut;
 }
-
-struct OutputTarget
-{
-    float4 CamForwardTarget : SV_Target0;
-};
 
 Texture2D DiffuseTexture : register(t0);
 Texture2D MaskTexture : register(t1);
@@ -101,10 +92,8 @@ cbuffer CrackColor : register(b7)
     float4 CrackColor;
 };
 
-OutputTarget ContentAniMeshForward_PS(Output _Input)
+float4 ContentAniMeshForward_PS(Output _Input) : SV_Target0
 {
-    OutputTarget PS_OutPut = (OutputTarget) 0.0f;
-    
     float4 ResultPointLight = _Input.POINTLIGHT;
     float4 DiffuseRatio = _Input.DIFFUSELIGHT;
     float4 SpacularRatio = _Input.SPECULALIGHT;
@@ -130,15 +119,14 @@ OutputTarget ContentAniMeshForward_PS(Output _Input)
         if (MaskColor.a > 0.0f)
         {
             Color = CrackColor;
+            
+            if (Delta > 0.0f)
+            {
+                Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
+            }
+            
+            return Color;
         }
-        
-        if (Delta > 0.0f)
-        {
-            Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
-        }
-        
-        PS_OutPut.CamForwardTarget = Color;
-        return PS_OutPut;
     }
     
     if (Color.a <= 0.0f)
@@ -159,7 +147,5 @@ OutputTarget ContentAniMeshForward_PS(Output _Input)
         Color.a = DiffuseAlpha;
     }
     
-    PS_OutPut.CamForwardTarget = Color;
-    
-    return PS_OutPut;
+    return Color;
 }
