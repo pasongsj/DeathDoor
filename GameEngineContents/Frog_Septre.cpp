@@ -80,7 +80,8 @@ void Frog_Septre::SetFSMFUNC()
 			{
 				m_TriggerFunc();
 			}
-			m_pRenderer->SetTextureColorIntensity(5.0f);
+
+			m_pRenderer->SetUnitTextureColorIntensity(0, 0, 7.0f);
 
 			std::weak_ptr<ShockWave> Wave = CreateComponent<ShockWave>();
 			Wave.lock()->GetTransform()->SetWorldRotation({ 90.0f, 0.0f, 0.0f });
