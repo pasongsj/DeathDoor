@@ -62,7 +62,7 @@ void ShortCutDoor::InitAnimation()
 
 	m_pRenderer1= CreateComponent<ContentFBXRenderer>();
 	m_pRenderer1->GetTransform()->SetLocalScale(float4{ 100, 100, 100 });
-	m_pRenderer1->SetFBXMesh("SHORTCUTDOOR_path.FBX", "ContentMeshDeffered");
+	m_pRenderer1->SetFBXMesh("SHORTCUTDOOR_path.FBX", "ContentMeshForward");
 	auto Unit = m_pRenderer->GetAllRenderUnit();
 
 	Unit[0][1]->Off();
@@ -81,8 +81,8 @@ void ShortCutDoor::InitAnimation()
 	
 	auto Unit1 = m_pRenderer1->GetAllRenderUnit();
 	Unit1[0][0]->ShaderResHelper.SetTexture("DiffuseTexture", "OldCrowFloor.png");
-	m_pRenderer1->SetGlowToUnit(0, 0);
-	m_pRenderer1->SetUnitDiffuseColorIntensity(0, 0, 4.0f);
+	Unit1[0][0]->isLight.X = 0;
+	m_pRenderer1->SetUnitTextureColorIntensity(0, 0, 4.0f);
 }
 
 void ShortCutDoor::SetFSMFUNC()

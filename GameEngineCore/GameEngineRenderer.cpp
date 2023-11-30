@@ -142,6 +142,12 @@ void GameEngineRenderUnit::SetMaterial(const std::string_view& _Name, RenderPath
 		ShaderResHelper.SetConstantBufferLink("MaskInfo", Mask);
 	}
 
+
+	if (true == ShaderResHelper.IsConstantBuffer("isLight"))
+	{
+		ShaderResHelper.SetConstantBufferLink("isLight", isLight);
+	}
+
 	if (true == ShaderResHelper.IsConstantBuffer("AllPointLight") && nullptr != ParentRenderer)
 	{
 		AllPointLight& PointLights = GetRenderer()->GetLevel()->PointLights;

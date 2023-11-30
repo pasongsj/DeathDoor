@@ -49,8 +49,9 @@ void Player::Start()
 
 	SetFSMFunc();
 	Renderer->ChangeAnimation("IDLE0");
-	Renderer->SetGlowToUnit(0, 1);
-	Renderer->SetUnitColor(0, 1, { 0.95f, 0.20f, 0.25f }, 2.0f);
+	Renderer->SetUnitColor(0, 1, { 0.99f, 0.1f, 0.2f }, 5.0f);
+	Renderer->GetAllRenderUnit()[0][1]->isLight.X = 0;
+
 	BonePivot = CreateComponent<GameEngineComponent>();
 }
 

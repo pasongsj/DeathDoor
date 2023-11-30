@@ -253,9 +253,6 @@
     <ClCompile Include="ContentUIFontRenderer.cpp">
       <Filter>Component\ContentsRenderer\Font</Filter>
     </ClCompile>
-    <ClCompile Include="GlowEffect.cpp">
-      <Filter>Component\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="Map_Sanctuary.cpp">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClCompile>
@@ -458,9 +455,6 @@
     <ClCompile Include="Wires.cpp">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClCompile>
-    <ClCompile Include="AlphaGlowEffect.cpp">
-      <Filter>Component\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyWave.cpp">
       <Filter>Contents\EnemyWave</Filter>
     </ClCompile>
@@ -493,6 +487,9 @@
     </ClCompile>
     <ClCompile Include="HealthPlant.cpp">
       <Filter>FSMObject\Trigger\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ToneMapping.cpp">
+      <Filter>Component\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -746,9 +743,6 @@
     <ClInclude Include="ContentUIFontRenderer.h">
       <Filter>Component\ContentsRenderer\Font</Filter>
     </ClInclude>
-    <ClInclude Include="GlowEffect.h">
-      <Filter>Component\PostEffect</Filter>
-    </ClInclude>
     <ClInclude Include="Map_Sanctuary.h">
       <Filter>Contents\FortressLevel\Map</Filter>
     </ClInclude>
@@ -947,9 +941,6 @@
     <ClInclude Include="Wires.h">
       <Filter>Contents\FortressLevel\Map_Object</Filter>
     </ClInclude>
-    <ClInclude Include="AlphaGlowEffect.h">
-      <Filter>Component\PostEffect</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyWave.h">
       <Filter>Contents\EnemyWave</Filter>
     </ClInclude>
@@ -982,6 +973,9 @@
     </ClInclude>
     <ClInclude Include="HealthPlant.h">
       <Filter>FSMObject\Trigger\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ToneMapping.h">
+      <Filter>Component\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

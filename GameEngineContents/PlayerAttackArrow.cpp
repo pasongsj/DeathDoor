@@ -16,7 +16,7 @@ void PlayerAttackArrow::Start()
 {
 	// Render
 	AttackRenderer = CreateComponent< ContentFBXRenderer>();
-	AttackRenderer->SetFBXMesh("ARROW_MESH.fbx", "ContentMeshDeffered");
+	AttackRenderer->SetFBXMesh("ARROW_MESH.fbx", "ContentMeshForward");
 	AttackRenderer->GetTransform()->SetLocalScale(PLAYER_ATT_ARROW_RENDER_SCALE);
 	AttackRenderer->GetTransform()->SetLocalRotation(PLAYER_ATT_ARROW_RENDER_ROT);
 	// PhysX
@@ -24,9 +24,8 @@ void PlayerAttackArrow::Start()
 	PhysXComp->SetShapeAxis(0,float4::LEFT);
 	SetDestTarget(PhysXFilterGroup::MonsterDynamic);
 
-	AttackRenderer->SetGlowToUnit(0, 0);
-	AttackRenderer->SetColor({ 0.95f, 0.20f, 0.25f }, 2.0f);
-
+	AttackRenderer->SetColor({ 0.95f, 0.20f, 0.25f }, 5.0f);
+	AttackRenderer->GetAllRenderUnit()[0][0]->isLight.X = 0;
 	SetAttackAudio("ArrowHit.mp3");
 }
 

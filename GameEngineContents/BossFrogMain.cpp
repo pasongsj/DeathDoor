@@ -182,7 +182,6 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("SWIM", "FROG_SWIM.fbx", { 1.0f / 30, false });
 	EnemyRenderer->CreateFBXAnimation("SWIM_EDIT", "FROG_SWIM_EDIT.fbx", { 1.0f / 30, true, -1, -1, 1.0f / 30 , 0.0f});
 
-	EnemyRenderer->SetGlowToUnit(12, 0);
 	EnemyRenderer->SetUnitColor(12, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
 
 	EnemyRenderer->GetTransform()->SetLocalScale(float4::ONE * 50.0f);
@@ -410,24 +409,17 @@ void BossFrogMain::SetFSMFUNC()
 			switch (Phase)
 			{
 			case 1:
-				EnemyRenderer->SetGlowToUnit(23, 0);
-				EnemyRenderer->SetUnitColor(23, 0, float4::RED, 0.5f);				
-				EnemyRenderer->SetGlowToUnit(24, 0);
-				EnemyRenderer->SetUnitColor(24, 0, float4::RED, 0.5f);
-				break;		   
-			case 2:
-				EnemyRenderer->SetGlowToUnit(25, 0);
-				EnemyRenderer->SetUnitColor(25, 0, float4::RED, 0.5f);
-				EnemyRenderer->SetGlowToUnit(26, 0);
-				EnemyRenderer->SetUnitColor(26, 0, float4::RED, 0.5f);
-				EnemyRenderer->SetGlowToUnit(27, 0);
-				EnemyRenderer->SetUnitColor(27, 0, float4::RED, 0.5f);
-				break;
-			case 3:
-				EnemyRenderer->SetGlowToUnit(21, 0);
-				EnemyRenderer->SetUnitColor(21, 0, float4::RED, 0.5f);
-				EnemyRenderer->SetGlowToUnit(22, 0);
-				EnemyRenderer->SetUnitColor(22, 0, float4::RED, 0.5f);
+				EnemyRenderer->SetUnitColor(23, 0, float4::RED, 5.0f);				
+				EnemyRenderer->SetUnitColor(24, 0, float4::RED, 5.0f);
+				break;		   									
+			case 2:												
+				EnemyRenderer->SetUnitColor(25, 0, float4::RED, 5.0f);
+				EnemyRenderer->SetUnitColor(26, 0, float4::RED, 5.0f);
+				EnemyRenderer->SetUnitColor(27, 0, float4::RED, 5.0f);
+				break;											
+			case 3:												
+				EnemyRenderer->SetUnitColor(21, 0, float4::RED, 5.0f);
+				EnemyRenderer->SetUnitColor(22, 0, float4::RED, 5.0f);
 				break;
 			default:
 				

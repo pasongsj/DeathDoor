@@ -26,47 +26,15 @@ public:
 	void SetFBXMesh(const std::string& _MeshName, const std::string _SettingName, RenderPath _Path = RenderPath::None) override;
 	void SetCrackAmount(float _Amount);
 
-	void SetBlurColor(float4 _Color = {0.956f, 0.286f, 0.372f, 1.0f}, float _Intensity = 3.0f)
-	{
-		BlurColor = _Color * _Intensity;
-		BlurColor.a = _Color.a;
-	}
-
 	void SetClipData(float4 _ClipData)
 	{
 		ClipData = _ClipData;
 	}
 
-	void SetGlowToUnit(int _IndexY, int _IndexX, const std::string_view& _MaskName = "WholeMask.png")
-	{
-		std::shared_ptr<GameEngineRenderUnit> CurUnit = GetIndexRenderUnit(_IndexY, _IndexX);
-		CurUnit->ShaderResHelper.SetTexture("CrackTexture", _MaskName);
-		CurUnit->Mask.UV_MaskingValue = 1.0f;
-		//GetAllRenderUnit()[_IndexY][_IndexX]->ShaderResHelper.SetTexture("CrackTexture", _MaskName);
-		//GetAllRenderUnit()[_IndexY][_IndexX]->Mask.UV_MaskingValue = 1.0f;
-	}
-
 	void UnitSetTexture(const std::string_view& _SettingName, const std::string_view& _TextureName, int _IndexY, int _IndexX)
 	{
-		//auto Units = GetAllRenderUnit();
 		std::shared_ptr<GameEngineRenderUnit> CurUnit = GetIndexRenderUnit(_IndexY, _IndexX);
 		CurUnit->ShaderResHelper.SetTexture(_SettingName, _TextureName);
-		//Units[_IndexY][_IndexX]->ShaderResHelper.SetTexture(_SettingName, _TextureName);
-	}
-
-	void SetIntensity(float _Intensity)
-	{
-		auto Units = GetAllRenderUnit();
-
-		for (int i = 0; i < Units.size(); i++)
-		{
-			for (int j = 0; j < Units[i].size(); j++)
-			{
-				Units[i][j]->Color.MulColor = { _Intensity, _Intensity, _Intensity };
-			}
-		}
-
-		Intensity = _Intensity;
 	}
 
 	void Off()
@@ -104,13 +72,8 @@ public:
 		}
 	}
 
-	void SetColor(float4 _RGBA, float _Intensity = -1.0f)
+	void SetColor(float4 _RGBA = { 0.85f, 0.26f, 0.33f, 1.0f }, float _Intensity = 1.0f)
 	{
-		if (_Intensity < 0.0f)
-		{
-			_Intensity = Intensity;
-		}
-
 		auto Units = GetAllRenderUnit();
 
 		for (int i = 0; i < Units.size(); i++)
@@ -118,34 +81,68 @@ public:
 			for (int j = 0; j < Units[i].size(); j++)
 			{
 				Units[i][j]->Color.MulColor = float4::ZERONULL;
-				Units[i][j]->Color.PlusColor = { _RGBA.x * _Intensity, _RGBA.y * _Intensity, _RGBA.z * _Intensity, _RGBA.a };
+				Units[i][j]->Color.PlusColor = _RGBA * _Intensity;
+				Units[i][j]->Color.PlusColor.a = _RGBA.a;
 			}
 		}
 	}
 
-	void SetUnitColor(int _Y, int _X, float4 _RGBA, float _Intensity = -1.0f)
+	void SetTextureColorIntensity(float _Intensity)
 	{
-		if (_Intensity < 0.0f)
+		auto Units = GetAllRenderUnit();
+
+		for (int i = 0; i < Units.size(); i++)
 		{
-			_Intensity = Intensity;
+			for (int j = 0; j < Units[i].size(); j++)
+			{
+				Units[i][j]->Color.MulColor = float4{ _Intensity, _Intensity, _Intensity, 1.0f};
+			}
 		}
+	}
+
+	void SetUnitTextureColorIntensity(int _Y, int _X, float _Intensity)
+	{
 		std::shared_ptr<GameEngineRenderUnit> CurUnit = GetIndexRenderUnit(_Y, _X);
-		//auto Units = GetAllRenderUnit();
+
+		CurUnit->Color.MulColor = float4{ _Intensity, _Intensity, _Intensity};
+	}
+
+	void SetUnitColor(int _Y, int _X, float4 _RGBA, float _Intensity = 1.0f)
+	{
+		std::shared_ptr<GameEngineRenderUnit> CurUnit = GetIndexRenderUnit(_Y, _X);
 
 		CurUnit->Color.MulColor = float4::ZERONULL;
 		CurUnit->Color.PlusColor = { _RGBA.x * _Intensity, _RGBA.y * _Intensity, _RGBA.z * _Intensity, _RGBA.a };
-		//Units[_Y][_X]->Color.MulColor = float4::ZERONULL;
-		//Units[_Y][_X]->Color.PlusColor = { _RGBA.x * _Intensity, _RGBA.y * _Intensity, _RGBA.z * _Intensity, _RGBA.a };
 	}
 
-	void SetUnitDiffuseColorIntensity(int _Y, int _X, float _Intensity)
+	void SetFadeColor(float4 _RGBA = { 0.85f, 0.26f, 0.33f, 1.0f }, float _Intensity = 1.0f)
+	{
+		auto Units = GetAllRenderUnit();
+
+		for (int i = 0; i < Units.size(); i++)
+		{
+			for (int j = 0; j < Units[i].size(); j++)
+			{
+				Units[i][j]->Fade.R = _RGBA.x * _Intensity;
+				Units[i][j]->Fade.G = _RGBA.y * _Intensity;
+				Units[i][j]->Fade.B = _RGBA.z * _Intensity;
+			}
+		}
+	}
+
+	void SetUnitFadeColor(int _Y, int _X, float4 _RGBA, float _Intensity = 1.0f)
 	{
 		std::shared_ptr<GameEngineRenderUnit> CurUnit = GetIndexRenderUnit(_Y, _X);
-		CurUnit->Color.MulColor = { _Intensity , _Intensity , _Intensity, 1.0f };
 
-		//auto Units = GetAllRenderUnit();
-		//
-		//Units[_Y][_X]->Color.MulColor = { _Intensity , _Intensity , _Intensity, 1.0f };
+		CurUnit->Fade.R = _RGBA.x * _Intensity;
+		CurUnit->Fade.G = _RGBA.y * _Intensity;
+		CurUnit->Fade.B = _RGBA.z * _Intensity;
+	}
+
+	void SetCrackColor(float4 _RGBA = { 0.85f, 0.26f, 0.33f, 1.0f }, float _Intensity = 5.0f)
+	{
+		CrackColor = _RGBA * _Intensity;
+		CrackColor.a = 1.0f;
 	}
 
 	void CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBXName, const AnimationCreateParams& _Params = { 0.05f,true }, int _Index = 0);
@@ -170,8 +167,9 @@ private:
 		int Padding2;
 	};
 
-	float4 BlurColor = {0.85f, 0.26f, 0.33f, -1.0f};
+	float4 DefaultColor = {0.85f, 0.26f, 0.33f, 1.0f};
 	float4 ClipData = { 0.0f, 0.0f, 1.0f, 1.0f };
+	float4 CrackColor = { 0.85f * 5.0f , 0.26f * 5.0f, 0.33f * 5.0f, 1.0f };
 
 	std::string FBXName;
 	std::string MaterialName;

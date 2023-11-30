@@ -13,7 +13,6 @@
 #include "PlayerInfoWindow.h"
 
 #include "WaterBox.h"
-#include "GlowEffect.h"
 #include "Ladder.h"
 #include "SecretTile.h"
 
@@ -177,7 +176,6 @@ void BossFrogLevel::KeyUpdate(float _DeltaTime)
 void BossFrogLevel::LevelChangeStart()
 {
 	LevelInit({ 3200, 1800, 800, 450 });
-	GetGlowEffect()->DoubleBlurOff();
 
 	CreateScene();
 

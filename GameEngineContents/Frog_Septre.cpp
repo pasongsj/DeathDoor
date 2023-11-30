@@ -80,8 +80,7 @@ void Frog_Septre::SetFSMFUNC()
 			{
 				m_TriggerFunc();
 			}
-			m_pRenderer->SetGlowToUnit(0, 0, "swampPillarMask.png");
-			m_pRenderer->SetUnitDiffuseColorIntensity(0, 0, 4.0f);
+			m_pRenderer->SetTextureColorIntensity(5.0f);
 
 			std::weak_ptr<ShockWave> Wave = CreateComponent<ShockWave>();
 			Wave.lock()->GetTransform()->SetWorldRotation({ 90.0f, 0.0f, 0.0f });

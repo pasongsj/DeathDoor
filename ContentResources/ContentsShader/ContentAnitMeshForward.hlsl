@@ -25,6 +25,13 @@ struct Output
     float4 AMBIENTLIGHT : TEXCOORD4;
 };
 
+cbuffer isLight : register(b5)
+{
+    int isLight;
+    int padding1;
+    int padding2;
+    int padding3;
+}
 
 Output ContentAniMeshForward_VS(Input _Input)
 {
@@ -55,23 +62,25 @@ Output ContentAniMeshForward_VS(Input _Input)
     
     float4 ResultPointLight = (float4) 0.0f;
     
-    for (int Index = 0; Index < PointLightNum; Index++)
+    if (isLight == 1)
     {
-        ResultPointLight += CalPointLight_WorldSpace(WorldPos, WorldNormal, PointLights[Index]);
+        for (int Index = 0; Index < PointLightNum; Index++)
+        {
+            ResultPointLight += CalPointLight_WorldSpace(WorldPos, WorldNormal, PointLights[Index]);
+        }
+        
+        NewOutPut.DIFFUSELIGHT = CalDiffuseLight(ViewPos, ViewNormal, AllLight[0]);
+        NewOutPut.SPECULALIGHT = CalSpacularLight(ViewPos, ViewNormal, AllLight[0]);
+        NewOutPut.AMBIENTLIGHT = CalAmbientLight(AllLight[0]);
+        NewOutPut.POINTLIGHT = ResultPointLight;
     }
-    
-    NewOutPut.DIFFUSELIGHT = CalDiffuseLight(ViewPos, ViewNormal, AllLight[0]);
-    NewOutPut.SPECULALIGHT = CalSpacularLight(ViewPos, ViewNormal, AllLight[0]);
-    NewOutPut.AMBIENTLIGHT = CalAmbientLight(AllLight[0]);
-    NewOutPut.POINTLIGHT = ResultPointLight;
-    
+
     return NewOutPut;
 }
 
 struct OutputTarget
 {
     float4 CamForwardTarget : SV_Target0;
-    float4 BlurTarget : SV_Target7;
 };
 
 Texture2D DiffuseTexture : register(t0);
@@ -80,51 +89,69 @@ Texture2D CrackTexture : register(t2);
 
 SamplerState ENGINEBASE : register(s0);
 
+cbuffer IsOn : register(b6)
+{
+    bool isGamma;
+    bool isHDR;
+    bool2 padding;
+};
+
+cbuffer CrackColor : register(b7)
+{
+    float4 CrackColor;
+};
+
 OutputTarget ContentAniMeshForward_PS(Output _Input)
 {
     OutputTarget PS_OutPut = (OutputTarget) 0.0f;
-    
-    float4 MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
-    float MaskAlpha = MaskColor.a;
     
     float4 ResultPointLight = _Input.POINTLIGHT;
     float4 DiffuseRatio = _Input.DIFFUSELIGHT;
     float4 SpacularRatio = _Input.SPECULALIGHT;
     float4 AmbientRatio = _Input.AMBIENTLIGHT;
     
-    float4 DiffuseResultColor = (float4) 0.0f;
-    float4 DiffuseColor = (float4) 0.0f;
+    float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
-    float Intensity = 1.0f;
-    
-    if (MaskAlpha > 0.0f)
+    if (isGamma == true)
     {
-        DiffuseColor = MaskColor * float4(1.0f, 0.2f, 1.0f, 0.0f);
-        DiffuseColor.a = 1.0f;
-        
-        Intensity = 6.0f;
+        Color = pow(Color, 2.2f);
     }
-    else
+
+    float4 MaskColor = (float4) 0.0f;
+    
+    Color *= MulColor;
+    Color += AddColor;
+    
+    //Crack
+    if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
     {
-        DiffuseColor = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+        MaskColor = CrackTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+        
+        if (MaskColor.a > 0.0f)
+        {
+            Color = CrackColor;
+        }
+    }
+    
+    if (Color.a <= 0.0f)
+    {
+        clip(-1);
     }
     
     //Fade
     if (Delta > 0.0f)
     {
-        DiffuseColor *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
+        Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
     }
     
-    float DiffuseAlpha = DiffuseColor.w;
-    DiffuseResultColor = Intensity * DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
-    DiffuseResultColor.a = DiffuseAlpha;
-    
-    PS_OutPut.CamForwardTarget = DiffuseResultColor;
-    
-    if (MaskAlpha > 0.0f)
+    if (isLight == 1)
     {
-        PS_OutPut.BlurTarget = DiffuseResultColor;
+        float DiffuseAlpha = Color.w;
+        Color = Color * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
+        Color.a = DiffuseAlpha;
     }
+    
+    PS_OutPut.CamForwardTarget = Color;
     
     return PS_OutPut;
 }

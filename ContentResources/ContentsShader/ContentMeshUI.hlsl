@@ -71,12 +71,13 @@ float4 ContentMeshForward_PS(Output _Input) : SV_Target0
     _Input.TEXCOORD.xy += AddUV;
     
     float4 DiffuseColor = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
-      
+    
+    DiffuseColor = pow(DiffuseColor, 2.2f);
+    
     //텍스쳐 색상 변경
     DiffuseColor *= MulColor;
     DiffuseColor += AddColor;
     
-    DiffuseColor = pow(DiffuseColor, 2.2f);
     
     float4 DiffuseResultColor = (float4) 0.0f;
     
@@ -88,8 +89,6 @@ float4 ContentMeshForward_PS(Output _Input) : SV_Target0
     float DiffuseAlpha = DiffuseColor.w;
     DiffuseResultColor = DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
     DiffuseResultColor.a = DiffuseAlpha;
-    
-    DiffuseResultColor = ToneMapping_ACES(DiffuseResultColor);
     
     return DiffuseResultColor;
 }

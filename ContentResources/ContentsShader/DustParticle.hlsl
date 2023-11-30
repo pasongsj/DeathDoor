@@ -50,7 +50,6 @@ cbuffer MaskValue : register(b5)
 struct DefferedTarget
 {
     float4 DiffuseColor : SV_Target6;
-    float4 Blur : SV_Target7;
 };
 
 cbuffer DiffuseUV : register(b6)
@@ -65,11 +64,6 @@ cbuffer DistortionData : register(b7)
     float2 Distortion2;
     float DistortionScale;
     float DistortionBias;
-}
-
-cbuffer BlurColor : register(b8)
-{
-    float4 BlurColor;
 }
 
 DefferedTarget ContentTexture_PS(OutPut _Value)
@@ -103,43 +97,26 @@ DefferedTarget ContentTexture_PS(OutPut _Value)
     {
         clip(-1);
     }
-   
-    if(BlurColor.a < 0.0f)
+        
+    float Alpha = 0.0f;
+        
+    if (AddColor.a >= 0.0f)
     {
-        DustColor = pow(DustColor, 2.2f);
-        
-        float Alpha = 0.0f;
-        
-        if (AddColor.a >= 0.0f)
-        {
-            Alpha = DustColor.a;
-            DustColor.rgb += AlphaColor.a;
-        }
-        else
-        {
-            Alpha = 1.0f;
-        }
-        
-        DustColor = ceil(DustColor * 5.0f) / 5.0f;
-        DustColor = ToneMapping_ACES(DustColor);
-        DustColor.a = Alpha;
-        
-        
-        OutPutTarget.DiffuseColor = DustColor;
-        return OutPutTarget;
+        Alpha = DustColor.a;
+        DustColor.rgb += AlphaColor.a;
     }
     else
     {
-        float4 ResultBlurColor = pow(BlurColor, 2.2f);
-        //ResultBlurColor.rgb += AlphaColor.a;
-        
-        OutPutTarget.DiffuseColor = ResultBlurColor;
-        OutPutTarget.Blur = ResultBlurColor;
+        Alpha = 1.0f;
     }
-
+        
+    DustColor = ceil(DustColor * 5.0f) / 5.0f;
+    DustColor.a = Alpha;
+        
+    OutPutTarget.DiffuseColor = DustColor;
+    return OutPutTarget;
 
     
-    return OutPutTarget;
 }
 
 

@@ -63,7 +63,6 @@ struct DeferredOutPut
     float4 DifTarget : SV_Target1;
     float4 PosTarget : SV_Target2;
     float4 NorTarget : SV_Target3;
-    float4 BlurTarget : SV_Target7;
 };
 
 cbuffer IsOn : register(b6)
@@ -73,32 +72,26 @@ cbuffer IsOn : register(b6)
     bool2 padding;
 };
 
-cbuffer BlurColor : register(b7)
+cbuffer CrackColor : register(b7)
 {
-    float4 BlurColor;
-}
-
+    float4 CrackColor;
+};
+   
 DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
 {
     DeferredOutPut NewOutPut = (DeferredOutPut) 0;
     
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
+    if (isGamma == true)
+    {
+        Color = pow(Color, 2.2f);
+    }
+
     float4 MaskColor = (float4) 0.0f;
     
     Color *= MulColor;
     Color += AddColor;
-    
-    float4 DiffuseBlurColor = (float4) 0.0f;
-    
-    if(BlurColor.a < 0.0f)
-    {
-        DiffuseBlurColor = Color;
-    }
-    else
-    {
-        DiffuseBlurColor = BlurColor;
-    }
     
     //Crack
     if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
@@ -107,13 +100,7 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
         
         if (MaskColor.a > 0.0f)
         {
-            NewOutPut.BlurTarget = float4(DiffuseBlurColor.rgb, Color.a);
-            Color = NewOutPut.BlurTarget;
-            
-            if (isGamma == true)
-            {
-                NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);
-            }
+            Color = CrackColor;
         }
     }
     
@@ -133,14 +120,9 @@ DeferredOutPut ContentAniMeshDeferred_PS(Output _Input)
     
     if (FadeMask.r > Delta && FadeMask.r <= Delta * 1.1f)
     {
-        Color = float4(DiffuseBlurColor * 3.0f);
+        Color = float4(FadeColor.r, FadeColor.g, FadeColor.b , 1.0f);
     }
 
-    if(isGamma == true)
-    {
-        Color = pow(Color, 2.2f);
-    }
-        
     NewOutPut.DifTarget = Color;
     NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;

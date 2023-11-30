@@ -34,9 +34,16 @@ cbuffer IsOn : register(b5)
     bool2 padding;
 };
 
+cbuffer IsLight : register(b6)
+{
+    int isLight;
+    int padding1;
+    int padding2;
+    int padding3;
+};
+
 Output ContentMeshForward_VS(Input _Input)
 {
-    
     Output NewOutPut = (Output) 0;
     
     float4 InputPos = _Input.POSITION;
@@ -56,17 +63,21 @@ Output ContentMeshForward_VS(Input _Input)
     float4 ViewNormal = mul(InputNormal, WorldView);
     
     float4 ResultPointLight = (float4) 0.0f;
-    
-    for (int Index = 0; Index < PointLightNum; Index++)
-    {
-        ResultPointLight += CalPointLight_ViewSpace(ViewPos, ViewNormal, PointLights[Index]);
-    }
-    
-    NewOutPut.DIFFUSELIGHT = CalDiffuseLight(ViewPos, ViewNormal, AllLight[0]);
-    NewOutPut.SPECULALIGHT = CalSpacularLight(ViewPos, ViewNormal, AllLight[0]);
-    NewOutPut.AMBIENTLIGHT = CalAmbientLight(AllLight[0]);
-    NewOutPut.POINTLIGHT = ResultPointLight;
+
     NewOutPut.WORLDPOSITION = mul(InputPos, WorldMatrix);
+    
+    if (isLight == 1)
+    {
+        for (int Index = 0; Index < PointLightNum; Index++)
+        {
+            ResultPointLight += CalPointLight_ViewSpace(ViewPos, ViewNormal, PointLights[Index]);
+        }
+    
+        NewOutPut.DIFFUSELIGHT = CalDiffuseLight(ViewPos, ViewNormal, AllLight[0]);
+        NewOutPut.SPECULALIGHT = CalSpacularLight(ViewPos, ViewNormal, AllLight[0]);
+        NewOutPut.AMBIENTLIGHT = CalAmbientLight(AllLight[0]);
+        NewOutPut.POINTLIGHT = ResultPointLight;
+    }
     
     return NewOutPut;
 }
@@ -89,40 +100,33 @@ float4 ContentMeshForward_PS(Output _Input) : SV_Target0
     
     float4 DiffuseColor = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
       
-    //텍스쳐 색상 변경
-    DiffuseColor *= MulColor;
-    DiffuseColor += AddColor;
-    
-    if(isGamma == true)
+    if (isGamma == true)
     {
         DiffuseColor = pow(DiffuseColor, 2.2f);
     }
     
+    DiffuseColor *= MulColor;
+    DiffuseColor += AddColor;
+    
     //Fade
     if (Delta > 0.0f)
     {
-        DiffuseColor *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
+        DiffuseColor = Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
     }
     
     /**/
-    float4 DiffuseResultColor = (float4) 0.0f;
-    
     float4 ResultPointLight = _Input.POINTLIGHT;
     float4 DiffuseRatio = _Input.DIFFUSELIGHT;
     float4 SpacularRatio = _Input.SPECULALIGHT;
     float4 AmbientRatio = _Input.AMBIENTLIGHT;
         
-    float DiffuseAlpha = DiffuseColor.w;
-    DiffuseResultColor = DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
-    DiffuseResultColor.a = DiffuseAlpha;
-    
-    //툰쉐이더  
-    //ResultColor = ceil(ResultColor * 5.0f) / 5.0f;
-    if(isHDR == true)
+    if (isLight == 1)
     {
-        DiffuseResultColor = ToneMapping_ACES(DiffuseResultColor);
+        float DiffuseAlpha = DiffuseColor.w;
+        DiffuseColor = DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
+        DiffuseColor.a = DiffuseAlpha;
     }
     
-    return DiffuseResultColor;
+    return DiffuseColor;
 }
 

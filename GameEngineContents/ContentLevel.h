@@ -27,7 +27,6 @@ public:
 	}
 
 	//카메라와 플레이어의 거리
-	void SetGlowScale(float _Distance);
 
 
 	inline void SetContentLevelType(ContentLevelType _Type)
@@ -39,11 +38,6 @@ public:
 		}
 
 		m_eLevelType = _Type;
-	}
-
-	std::shared_ptr<class GlowEffect> GetGlowEffect()
-	{
-		return Glow;
 	}
 
 	std::shared_ptr<GameEngineActor> GetPivotActor()
@@ -70,10 +64,9 @@ private:
 
 	void CreatePivotActor();
 
-	std::shared_ptr<class GlowEffect> Glow = nullptr;
-	std::shared_ptr<class AlphaGlowEffect> AlphaGlow = nullptr;
 	std::shared_ptr<class GammaCorrection> Gamma = nullptr;
 	std::shared_ptr<class FXAA> AntiAliasing = nullptr;
+	std::shared_ptr<class ToneMapping> ToneMappingEffect = nullptr;
 	ContentLevelType m_eLevelType = ContentLevelType::NONE;
 
 	std::shared_ptr<GameEngineActor> PivotActor = nullptr;

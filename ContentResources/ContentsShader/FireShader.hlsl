@@ -99,5 +99,5 @@ float4 Fire_PS(OutPut _Value) : SV_Target0
         clip(-1);
     }
     
-    return ceil(FireColor * 5.0f) / 5.0f;
+    return FireColor * 4.0f;
 }

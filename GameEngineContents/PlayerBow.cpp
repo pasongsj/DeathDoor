@@ -11,15 +11,15 @@ PlayerBow::~PlayerBow()
 {
 }
 
-
 void PlayerBow::Start()
 {
 	BowRenderer = CreateComponent< ContentFBXRenderer>(); // BOW_MESH
-	BowRenderer->SetFBXMesh("BOW_MESH.fbx", "ContentMeshDeffered");
+	BowRenderer->SetFBXMesh("BOW_MESH.fbx", "ContentMeshForward");
 	BowRenderer->GetTransform()->SetLocalScale(PLAYER_BOW_SCALE);
 	BowRenderer->GetTransform()->SetLocalRotation(PLAYER_BOW_DEFAULT_DIR);
-	BowRenderer->SetGlowToUnit(0,0);
-	BowRenderer->SetColor({ 0.95f, 0.20f, 0.25f }, 2.0f);
+	BowRenderer->SetColor({ 0.99f, 0.1f, 0.2f }, 7.0f);
+	BowRenderer->GetAllRenderUnit()[0][0]->isLight.X = 0;
+
 }
 
 

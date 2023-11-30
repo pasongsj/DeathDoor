@@ -16,6 +16,14 @@ public:
 	
 	std::shared_ptr<GameEngineRenderTarget> DetectTarget;
 	std::shared_ptr<GameEngineRenderTarget> BlurTarget;
+	std::shared_ptr<GameEngineRenderTarget> DoubleBlurTarget;
+	std::shared_ptr<GameEngineRenderTarget> TripleBlurTarget;
+	std::shared_ptr<GameEngineRenderTarget> QuadBlurTarget;
+
+	std::shared_ptr<GameEngineRenderTarget> DownSampling2x2;
+	std::shared_ptr<GameEngineRenderTarget> DownSampling4x4;
+	std::shared_ptr<GameEngineRenderTarget> DownSampling8x8;
+	std::shared_ptr<GameEngineRenderTarget> DownSampling16x16;
 
 protected:
 	void Start(GameEngineRenderTarget* _Target) override;
@@ -25,5 +33,14 @@ private:
 	GameEngineRenderUnit DetectUnit;
 	GameEngineRenderUnit BlurUnit;
 	GameEngineRenderUnit MergeUnit;
+
+	GameEngineRenderUnit SamplingUnit;
+
+	float4 BlurSize = float4::ZERO;
+	float4 DoubleBlurSize = float4::ZERO;
+	float4 TripleBlurSize = float4::ZERO;
+	float4 QuadBlurSize = float4::ZERO;
+
+	float4 UnitBlurSize = float4::ZERO;
 };
 

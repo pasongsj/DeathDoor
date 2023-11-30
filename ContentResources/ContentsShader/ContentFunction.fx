@@ -31,6 +31,11 @@ float4 Fading(Texture2D _MaskTexture, SamplerState _Sampler, float2 _UV)
         clip(-1);
     }
     
+    //if (Color.r > Delta && Color.r <= Delta * 1.1f)
+    //{
+    //    Color = float4(FadeColor, 1.0f);
+    //}
+    
     return Color;
 }
 

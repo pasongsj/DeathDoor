@@ -50,7 +50,6 @@ Output ContentMeshDeferred_VS(Input _Input)
 
 Texture2D DiffuseTexture : register(t0);
 Texture2D MaskTexture : register(t1);
-Texture2D CrackTexture : register(t2);
 
 SamplerState ENGINEBASE : register(s0);
 
@@ -59,12 +58,6 @@ struct DeferredOutPut
     float4 DifTarget  : SV_Target1;
     float4 PosTarget  : SV_Target2;
     float4 NorTarget  : SV_Target3;
-    float4 BlurTarget : SV_Target7;
-};
-
-cbuffer BlurColor : register(b5)
-{
-    float4 BlurColor;
 };
 
 cbuffer ClipData : register(b6)
@@ -110,46 +103,20 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         
     float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
+    if (isGamma == true)
+    {
+        Color = pow(Color, 2.2f);
+    }
+    
     Color *= MulColor;
     Color += AddColor;
-    
-    float4 DiffuseBlurColor = (float4) 0.0f;
-    
-    if (BlurColor.a < 0.0f)
-    {
-        DiffuseBlurColor = Color;
-    }
-    else
-    {
-        DiffuseBlurColor = BlurColor;
-    }
-    
-    
-    //Crack
-    if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
-    {
-        float4 MaskColor = (float4) 0.0f;
-        
-        MaskColor = CrackTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
-        
-        if (MaskColor.a > 0.0f)
-        {
-            NewOutPut.BlurTarget = float4(DiffuseBlurColor);
-            Color = NewOutPut.BlurTarget;
-            
-            if (isGamma == true)
-            {
-                NewOutPut.BlurTarget = pow(NewOutPut.BlurTarget, 2.2f);
-            }
-        }
-    }
     
     if (Color.a <= 0.0f)
     {
         clip(-1);
     }
     
-    //Fade
+     //Fade
     float4 FadeMask = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
 
     if (Delta > 0.0f && FadeMask.r <= Delta)
@@ -157,14 +124,9 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
         clip(-1);
     }
     
-    if (FadeMask.r > Delta && FadeMask.r <= Delta * 1.4f)
+    if (FadeMask.r > Delta && FadeMask.r <= Delta * 1.25f)
     {
-        Color = float4(BlurColor);
-    }
-    
-    if(isGamma == true)
-    {
-        Color = pow(Color, 2.2f);
+        Color = float4(FadeColor.r, FadeColor.g, FadeColor.b, 1.0f);
     }
     
     NewOutPut.DifTarget = Color;

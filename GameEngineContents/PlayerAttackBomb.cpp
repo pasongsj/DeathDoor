@@ -19,18 +19,15 @@ void PlayerAttackBomb::Start()
 {
 	// Render
 	AttackRenderer = CreateComponent< ContentFBXRenderer>();
-	AttackRenderer->SetFBXMesh("SphereDefault.fbx", "ContentMeshDeffered");
+	AttackRenderer->SetFBXMesh("SphereDefault.fbx", "NoLight");
 	AttackRenderer->GetTransform()->SetLocalScale(PLAYER_ATT_BOMB_RENDER_SCALE);
 	// PhysX
 	CreatePhysXAttComp<PhysXSphereComponent>(PLAYER_ATT_BOMB_PHYSX_SCALE, PhysXFilterGroup::PlayerBomb);
 	SetDestTarget(PhysXFilterGroup::MonsterDynamic);
 
-	AttackRenderer->SetGlowToUnit(0, 0);
-	AttackRenderer->SetColor(float4{ 1.0f, 0.1f, 0.2f }, 4.0f);
+	AttackRenderer->SetColor(float4{ 1.0f, 0.1f, 0.2f }, 5.0f);
 	PhysXComp->SetDynamicPivot(float4::DOWN * 100.0f);
 	PhysXComp->CreateSubShape(SubShapeType::SPHERE, float4::ONE * 500.0f);
-
-
 }
 //void PlayerAttackBomb::Death()
 //{
@@ -130,10 +127,9 @@ void PlayerAttackBomb::CreateParticle(float _DeltaTime)
 		ParticleCount = 0.0f;
 
 		std::shared_ptr<DustParticle> NewParticle = CreateComponent<DustParticle>();
-		NewParticle->SetColor({ 1.0f, 0.1f, 0.2f });
+		NewParticle->SetColor(float4{ 1.0f, 0.1f, 0.2f } * 5.0f);
 		NewParticle->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
 		NewParticle->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
-		NewParticle->SetGlow();
 		NewParticle->SetWorldMove();
 		NewParticle->SetFadeOut(true);
 	}
