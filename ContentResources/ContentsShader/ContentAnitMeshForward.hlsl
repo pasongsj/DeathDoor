@@ -131,6 +131,14 @@ OutputTarget ContentAniMeshForward_PS(Output _Input)
         {
             Color = CrackColor;
         }
+        
+        if (Delta > 0.0f)
+        {
+            Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
+        }
+        
+        PS_OutPut.CamForwardTarget = Color;
+        return PS_OutPut;
     }
     
     if (Color.a <= 0.0f)

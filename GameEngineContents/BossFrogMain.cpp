@@ -17,7 +17,7 @@ BossFrogMain::~BossFrogMain()
 void BossFrogMain::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
-	EnemyRenderer->SetFBXMesh("FROG_MESH.FBX", "ContentAniMeshDeffered");
+	EnemyRenderer->SetFBXMesh("FROG_MESH.FBX", "ContentAniMeshForward");
 	// 인트로 애니메이션
 	EnemyRenderer->CreateFBXAnimation("INTRO_JUMP", "FROG_JUMP.fbx", { 1.0f / 30, false }); // intro
 	EnemyRenderer->SetAnimationStartFunc("INTRO_JUMP", 1, [this]
@@ -183,6 +183,7 @@ void BossFrogMain::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("SWIM_EDIT", "FROG_SWIM_EDIT.fbx", { 1.0f / 30, true, -1, -1, 1.0f / 30 , 0.0f});
 
 	EnemyRenderer->SetUnitColor(12, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
+	EnemyRenderer->GetAllRenderUnit()[12][0]->isLight.X = 0;
 
 	EnemyRenderer->GetTransform()->SetLocalScale(float4::ONE * 50.0f);
 	EnemyRenderer->GetTransform()->SetLocalRotation(float4{90.0f,0.0f,0.0f});
