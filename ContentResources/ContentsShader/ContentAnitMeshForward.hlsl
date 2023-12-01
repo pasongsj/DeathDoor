@@ -111,6 +111,20 @@ float4 ContentAniMeshForward_PS(Output _Input) : SV_Target0
     Color *= MulColor;
     Color += AddColor;
     
+        
+    //Fade
+    float4 FadeMask = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+
+    if (Delta > 0.0f && FadeMask.r <= Delta)
+    {
+        clip(-1);
+    }
+    
+    if (FadeMask.r > Delta && FadeMask.r <= Delta * 1.1f)
+    {
+        Color = float4(FadeColor.r, FadeColor.g, FadeColor.b, 1.0f);
+    }
+    
     //Crack
     if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
     {
@@ -120,11 +134,6 @@ float4 ContentAniMeshForward_PS(Output _Input) : SV_Target0
         {
             Color = CrackColor;
             
-            if (Delta > 0.0f)
-            {
-                Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
-            }
-            
             return Color;
         }
     }
@@ -132,12 +141,6 @@ float4 ContentAniMeshForward_PS(Output _Input) : SV_Target0
     if (Color.a <= 0.0f)
     {
         clip(-1);
-    }
-    
-    //Fade
-    if (Delta > 0.0f)
-    {
-        Color *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
     }
     
     if (isLight == 1)

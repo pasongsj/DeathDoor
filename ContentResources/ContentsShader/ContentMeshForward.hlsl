@@ -108,10 +108,17 @@ float4 ContentMeshForward_PS(Output _Input) : SV_Target0
     DiffuseColor *= MulColor;
     DiffuseColor += AddColor;
     
-    //Fade
-    if (Delta > 0.0f)
+     //Fade
+    float4 FadeMask = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+
+    if (Delta > 0.0f && FadeMask.r <= Delta)
     {
-        DiffuseColor = Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
+        clip(-1);
+    }
+    
+    if (FadeMask.r > Delta && FadeMask.r <= Delta * 1.1f)
+    {
+        Color = float4(FadeColor.r, FadeColor.g, FadeColor.b, 1.0f);
     }
     
     /**/
