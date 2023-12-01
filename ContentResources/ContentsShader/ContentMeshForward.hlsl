@@ -118,7 +118,7 @@ float4 ContentMeshForward_PS(Output _Input) : SV_Target0
     
     if (FadeMask.r > Delta && FadeMask.r <= Delta * 1.1f)
     {
-        Color = float4(FadeColor.r, FadeColor.g, FadeColor.b, 1.0f);
+        DiffuseColor = float4(FadeColor.r, FadeColor.g, FadeColor.b, 1.0f);
     }
     
     /**/
