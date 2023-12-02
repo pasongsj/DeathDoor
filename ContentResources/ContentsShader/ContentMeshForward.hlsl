@@ -44,7 +44,7 @@ cbuffer IsLight : register(b6)
 
 Output ContentMeshForward_VS(Input _Input)
 {
-    Output NewOutPut = (Output) 0;
+    Output VSOutPut = (Output) 0;
     
     float4 InputPos = _Input.POSITION;
     InputPos.w = 1.0f;
@@ -52,8 +52,8 @@ Output ContentMeshForward_VS(Input _Input)
     float4 InputNormal = _Input.NORMAL;
     InputNormal.w = 0.0f;
     
-    NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
-    NewOutPut.TEXCOORD = _Input.TEXCOORD;
+    VSOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
+    VSOutPut.TEXCOORD = _Input.TEXCOORD;
     
     float4 WorldPos = mul(_Input.POSITION, WorldMatrix);
     float4 WorldNormal = mul(_Input.NORMAL, WorldMatrix);
@@ -64,7 +64,7 @@ Output ContentMeshForward_VS(Input _Input)
     
     float4 ResultPointLight = (float4) 0.0f;
 
-    NewOutPut.WORLDPOSITION = mul(InputPos, WorldMatrix);
+    VSOutPut.WORLDPOSITION = mul(InputPos, WorldMatrix);
     
     if (isLight == 1)
     {
@@ -73,13 +73,13 @@ Output ContentMeshForward_VS(Input _Input)
             ResultPointLight += CalPointLight_ViewSpace(ViewPos, ViewNormal, PointLights[Index]);
         }
     
-        NewOutPut.DIFFUSELIGHT = CalDiffuseLight(ViewPos, ViewNormal, AllLight[0]);
-        NewOutPut.SPECULALIGHT = CalSpacularLight(ViewPos, ViewNormal, AllLight[0]);
-        NewOutPut.AMBIENTLIGHT = CalAmbientLight(AllLight[0]);
-        NewOutPut.POINTLIGHT = ResultPointLight;
+        VSOutPut.DIFFUSELIGHT = CalDiffuseLight(ViewPos, ViewNormal, AllLight[0]);
+        VSOutPut.SPECULALIGHT = CalSpacularLight(ViewPos, ViewNormal, AllLight[0]);
+        VSOutPut.AMBIENTLIGHT = CalAmbientLight(AllLight[0]);
+        VSOutPut.POINTLIGHT = ResultPointLight;
     }
     
-    return NewOutPut;
+    return VSOutPut;
 }
 
 Texture2D DiffuseTexture : register(t0);
@@ -122,17 +122,16 @@ float4 ContentMeshForward_PS(Output _Input) : SV_Target0
     }
     
     /**/
+    
     float4 ResultPointLight = _Input.POINTLIGHT;
     float4 DiffuseRatio = _Input.DIFFUSELIGHT;
     float4 SpacularRatio = _Input.SPECULALIGHT;
     float4 AmbientRatio = _Input.AMBIENTLIGHT;
-        
-    if (isLight == 1)
-    {
-        float DiffuseAlpha = DiffuseColor.w;
-        DiffuseColor = DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
-        DiffuseColor.a = DiffuseAlpha;
-    }
+
+    float DiffuseAlpha = DiffuseColor.w;
+    DiffuseColor = DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
+    DiffuseColor.a = DiffuseAlpha;
+
     
     return DiffuseColor;
 }

@@ -22,7 +22,7 @@ void Boss_OldCrowCrowHead::Start()
 {
 	Renderer = CreateComponent<ContentFBXRenderer>();
 
-	Renderer->SetFBXMesh("Boss_OldCrow_CrowHead.FBX", "ContentAniMeshDeffered");
+	Renderer->SetFBXMesh("Boss_OldCrow_CrowHead.FBX", "NoLight");
 	Renderer->CreateFBXAnimation("Fly", "Boss_OldCrow_CrowHeadFly.FBX", { 0.033f, true });
 	Renderer->GetTransform()->AddLocalPosition(float4{ 0.0f, 0.2f, 0.0f });
 	Renderer->SetColor(float4::BLACK, 0.9f);
