@@ -22,7 +22,7 @@ void Boss_OldCrowCrowHead::Start()
 {
 	Renderer = CreateComponent<ContentFBXRenderer>();
 
-	Renderer->SetFBXMesh("Boss_OldCrow_CrowHead.FBX", "ContentAniMeshDeffered");
+	Renderer->SetFBXMesh("Boss_OldCrow_CrowHead.FBX", "NoLight");
 	Renderer->CreateFBXAnimation("Fly", "Boss_OldCrow_CrowHeadFly.FBX", { 0.033f, true });
 	Renderer->GetTransform()->AddLocalPosition(float4{ 0.0f, 0.2f, 0.0f });
 	Renderer->SetColor(float4::BLACK, 0.9f);
@@ -173,8 +173,7 @@ void Boss_OldCrowCrowHead::ParryingCheck() //패링 여부
 		m_pSphereComp->SetSubShapeFilter(PhysXFilterGroup::PlayerSkill);
 		m_pSphereComp->AttachShape();
 
-		Renderer->SetColor({ 0.99f, 0.1f, 0.2f, 1.0f });
-		Renderer->SetGlowToUnit(0, 0);
+		Renderer->SetColor({ 0.99f, 0.1f, 0.2f, 1.0f }, 5.0f);
 		//m_pSphereComp->SetTrigger();
 
 		GameEngineSound::Play("OldCrow_CrowHeadParrying.mp3");
@@ -212,7 +211,7 @@ void Boss_OldCrowCrowHead::CreateDustParticle(float _Delta, float4 _RGB, bool _i
 
 		if (_isGlow == true)
 		{
-			Particle->SetGlow();
+			Particle->SetColor(_RGB * 5.0f);
 		}
 	}
 }

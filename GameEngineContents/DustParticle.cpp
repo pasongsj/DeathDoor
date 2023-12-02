@@ -24,7 +24,6 @@ void DustParticle::Start()
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("MaskValue", MaskValue);
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("DistortionData", Distortion);
 	GetUnit()->ShaderResHelper.SetConstantBufferLink("DiffuseUV", DiffuseUV);
-	GetUnit()->ShaderResHelper.SetConstantBufferLink("BlurColor", BlurColor);
 
 	float Distortion1 = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.4f);
 	float Distortion2 = GameEngineRandom::MainRandom.RandomFloat(0.1f, 0.4f);
@@ -71,17 +70,6 @@ void DustParticle::Render(float _Delta)
 void DustParticle::SetColor(float4 _RGBA)
 {
 	GetUnit()->Color.PlusColor = _RGBA;
-}
-
-void DustParticle::SetGlow(float4 _GlowColor)
-{
-	if (_GlowColor == float4::ZERO)
-	{
-		BlurColor = GetUnit()->Color.PlusColor;
-		return;
-	}
-
-	BlurColor = _GlowColor;
 }
 
 void DustParticle::FadeLoop(float _Delta)

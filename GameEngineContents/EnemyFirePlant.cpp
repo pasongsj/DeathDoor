@@ -34,8 +34,7 @@ void EnemyFirePlant::InitAnimation()
 			Attack->SetTrans(ShootDir, BonePivotPos);// 위치와 방향설정
 
 			std::shared_ptr<ContentFBXRenderer> Rend = Attack->GetRenderer();
-			Rend->SetGlowToUnit(0, 0);
-			Rend->SetUnitColor(0, 0, float4::RED, 5);
+			Rend->SetUnitColor(0, 0, float4::RED, 3);
 			Attack->SetDustColor({ 255.0f / 255.0f, 198.0f / 255.0f , 198.0f / 255.0f});
 			Attack->SetShoot(1000.0f);
 			Attack->SetEndSound("MagicHit2.mp3");

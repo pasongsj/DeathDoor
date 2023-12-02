@@ -31,9 +31,8 @@ void BossFrogBomb::Start()
 {
 	BombRender = CreateComponent<ContentFBXRenderer>();
 	BombRender->SetFBXMesh("FrogBomb.fbx", "ContentMeshDeffered");
-	BombRender->SetColor(float4{ 201.0f / 256, 190.0f / 256, 146.0f / 256 }, -1);
-	BombRender->SetGlowToUnit(0, 0);
-	BombRender->SetColor(float4{ 1.0f, 1.0f, 0.1f }, 4.0f);
+	BombRender->SetColor(float4{ 201.0f / 256, 190.0f / 256, 146.0f / 256 }, 5);
+
 	GetTransform()->SetLocalScale(float4::ONE * 100.0f);
 }
 

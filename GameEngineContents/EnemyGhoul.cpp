@@ -52,9 +52,6 @@ void EnemyGhoul::InitAnimation()
 
 	EnemyRenderer->ChangeAnimation("IDLE_BOW");
 	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_GHOUL);
-
-
-	EnemyRenderer->SetBlurColor();
 }
 
 

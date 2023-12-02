@@ -25,6 +25,13 @@ struct Output
     float4 AMBIENTLIGHT : TEXCOORD4;
 };
 
+cbuffer isLight : register(b5)
+{
+    int isLight;
+    int padding1;
+    int padding2;
+    int padding3;
+}
 
 Output ContentAniMeshForward_VS(Input _Input)
 {
@@ -46,33 +53,26 @@ Output ContentAniMeshForward_VS(Input _Input)
     NewOutPut.POSITION = mul(InputPos, WorldViewProjectionMatrix);
     NewOutPut.TEXCOORD = _Input.TEXCOORD;
     
-    float4 WorldPos = mul(_Input.POSITION, WorldMatrix);
-    float4 WorldNormal = mul(_Input.NORMAL, WorldMatrix);
-    WorldNormal = normalize(WorldNormal);
-    
     float4 ViewPos = mul(InputPos, WorldView);
     float4 ViewNormal = mul(InputNormal, WorldView);
     
     float4 ResultPointLight = (float4) 0.0f;
     
-    for (int Index = 0; Index < PointLightNum; Index++)
+    if (isLight == 1)
     {
-        ResultPointLight += CalPointLight_WorldSpace(WorldPos, WorldNormal, PointLights[Index]);
+        for (int Index = 0; Index < PointLightNum; Index++)
+        {
+            ResultPointLight += CalPointLight_ViewSpace(ViewPos, ViewNormal, PointLights[Index]);
+        }
+        
+        NewOutPut.DIFFUSELIGHT = CalDiffuseLight(ViewPos, ViewNormal, AllLight[0]);
+        NewOutPut.SPECULALIGHT = CalSpacularLight(ViewPos, ViewNormal, AllLight[0]);
+        NewOutPut.AMBIENTLIGHT = CalAmbientLight(AllLight[0]);
+        NewOutPut.POINTLIGHT = ResultPointLight;
     }
-    
-    NewOutPut.DIFFUSELIGHT = CalDiffuseLight(ViewPos, ViewNormal, AllLight[0]);
-    NewOutPut.SPECULALIGHT = CalSpacularLight(ViewPos, ViewNormal, AllLight[0]);
-    NewOutPut.AMBIENTLIGHT = CalAmbientLight(AllLight[0]);
-    NewOutPut.POINTLIGHT = ResultPointLight;
-    
+
     return NewOutPut;
 }
-
-struct OutputTarget
-{
-    float4 CamForwardTarget : SV_Target0;
-    float4 BlurTarget : SV_Target7;
-};
 
 Texture2D DiffuseTexture : register(t0);
 Texture2D MaskTexture : register(t1);
@@ -80,51 +80,75 @@ Texture2D CrackTexture : register(t2);
 
 SamplerState ENGINEBASE : register(s0);
 
-OutputTarget ContentAniMeshForward_PS(Output _Input)
+cbuffer IsOn : register(b6)
 {
-    OutputTarget PS_OutPut = (OutputTarget) 0.0f;
-    
-    float4 MaskColor = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
-    float MaskAlpha = MaskColor.a;
-    
+    bool isGamma;
+    bool isHDR;
+    bool2 padding;
+};
+
+cbuffer CrackColor : register(b7)
+{
+    float4 CrackColor;
+};
+
+float4 ContentAniMeshForward_PS(Output _Input) : SV_Target0
+{
     float4 ResultPointLight = _Input.POINTLIGHT;
     float4 DiffuseRatio = _Input.DIFFUSELIGHT;
     float4 SpacularRatio = _Input.SPECULALIGHT;
     float4 AmbientRatio = _Input.AMBIENTLIGHT;
     
-    float4 DiffuseResultColor = (float4) 0.0f;
-    float4 DiffuseColor = (float4) 0.0f;
+    float4 Color = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
     
-    float Intensity = 1.0f;
-    
-    if (MaskAlpha > 0.0f)
+    if (isGamma == true)
     {
-        DiffuseColor = MaskColor * float4(1.0f, 0.2f, 1.0f, 0.0f);
-        DiffuseColor.a = 1.0f;
+        Color = pow(Color, 2.2f);
+    }
+
+    float4 MaskColor = (float4) 0.0f;
+    
+    Color *= MulColor;
+    Color += AddColor;
+    
         
-        Intensity = 6.0f;
-    }
-    else
-    {
-        DiffuseColor = DiffuseTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
-    }
-    
     //Fade
-    if (Delta > 0.0f)
+    float4 FadeMask = MaskTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+
+    if (Delta > 0.0f && FadeMask.r <= Delta)
     {
-        DiffuseColor *= Fading(MaskTexture, ENGINEBASE, _Input.TEXCOORD.xy);
+        clip(-1);
     }
     
-    float DiffuseAlpha = DiffuseColor.w;
-    DiffuseResultColor = Intensity * DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
-    DiffuseResultColor.a = DiffuseAlpha;
-    
-    PS_OutPut.CamForwardTarget = DiffuseResultColor;
-    
-    if (MaskAlpha > 0.0f)
+    if (FadeMask.r > Delta && FadeMask.r <= Delta * 1.1f)
     {
-        PS_OutPut.BlurTarget = DiffuseResultColor;
+        Color = float4(FadeColor.r, FadeColor.g, FadeColor.b, 1.0f);
     }
     
-    return PS_OutPut;
+    //Crack
+    if (UV_MaskingValue > 0.0f && _Input.TEXCOORD.x <= UV_MaskingValue && _Input.TEXCOORD.y <= UV_MaskingValue)
+    {
+        MaskColor = CrackTexture.Sample(ENGINEBASE, _Input.TEXCOORD.xy);
+        
+        if (MaskColor.a > 0.0f)
+        {
+            Color = CrackColor;
+            
+            return Color;
+        }
+    }
+    
+    if (Color.a <= 0.0f)
+    {
+        clip(-1);
+    }
+    
+    if (isLight == 1)
+    {
+        float DiffuseAlpha = Color.w;
+        Color = Color * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
+        Color.a = DiffuseAlpha;
+    }
+    
+    return Color;
 }

@@ -26,7 +26,6 @@ void EnemyAttackCapsule::SetRender(const float4& _RenderScale, const float4& _Re
 	}
 	AttackRenderer->GetTransform()->SetLocalScale(_RenderScale);
 	AttackRenderer->GetTransform()->SetLocalRotation(_RenderRotate);
-	AttackRenderer->SetGlowToUnit(0, 0);
 }
 
 void EnemyAttackCapsule::SetPhysXComp(const float4& _PhysXScale, const float4& _Pivot, const float4& _Axis)

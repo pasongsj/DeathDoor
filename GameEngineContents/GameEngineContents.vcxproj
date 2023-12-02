@@ -168,10 +168,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AlphaGlowEffect.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="BossFrogBomb.cpp">
       <SubType>
       </SubType>
@@ -383,10 +379,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GlobalValue.cpp" />
-    <ClCompile Include="GlowEffect.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="GrayScaleEffect.cpp">
       <SubType>
       </SubType>
@@ -418,6 +410,10 @@
     </ClCompile>
     <ClCompile Include="OldCrowLevel.cpp" />
     <ClCompile Include="ShortCutDoor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ToneMapping.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -615,10 +611,6 @@
     <ClCompile Include="WoodenBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AlphaGlowEffect.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="BossFrogBomb.h">
       <SubType>
       </SubType>
@@ -870,10 +862,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GlobalValue.h" />
-    <ClInclude Include="GlowEffect.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="GrayScaleEffect.h">
       <SubType>
       </SubType>
@@ -911,6 +899,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ShortCutDoor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ToneMapping.h">
       <SubType>
       </SubType>
     </ClInclude>

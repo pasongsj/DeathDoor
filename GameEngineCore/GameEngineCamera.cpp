@@ -107,7 +107,6 @@ void GameEngineCamera::InitCameraRenderTarget()
 
 	CalLightUnit.ShaderResHelper.SetConstantBufferLink("LightDatas", Data);
 	CalLightUnit.ShaderResHelper.SetConstantBufferLink("AllPointLight", PointLight);
-	CalLightUnit.ShaderResHelper.SetConstantBufferLink("isEffect", isEffectBuffer);
 
 	CalLightUnit.ShaderResHelper.SetTexture("PositionTex", AllRenderTarget->GetTexture(2));
 	CalLightUnit.ShaderResHelper.SetTexture("NormalTex", AllRenderTarget->GetTexture(3));

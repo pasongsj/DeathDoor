@@ -61,7 +61,6 @@ struct DeferredOutPut
     float4 DifTarget : SV_Target1;
     float4 PosTarget : SV_Target2;
     float4 NorTarget : SV_Target3;
-    float4 BlurTarget : SV_Target7;
 };
 
 DeferredOutPut ContentMeshDeferred_PS(Output _Input)
@@ -70,22 +69,15 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
     
     //UV값 변경
     float4 InputUV = _Input.TEXCOORD;
-    
+        
     float4 UV_1 = (float4) 0.0f;
     float4 UV_2 = (float4) 0.0f;
     
     UV_1.xy = InputUV.xy * 2.0f + AddUV;
     UV_2.xy = InputUV.xy - AddUV * 0.3f;
     
-    _Input.TEXCOORD.xy *= MulUV;
-    _Input.TEXCOORD.xy += AddUV;
-    
-    float4 Color = DiffuseTexture.Sample(WRAPSAMPLER, _Input.TEXCOORD.xy);
-    float4 MaskColor = (float4) 0.0f;
-    
+    float4 Color = AddColor;
     //텍스쳐 색상 변경
-    Color *= MulColor;
-    Color += AddColor;
     
     if (Color.a <= 0.0f)
     {
@@ -97,8 +89,7 @@ DeferredOutPut ContentMeshDeferred_PS(Output _Input)
     
     _Input.NORMAL = (Normal + Normal2) / 2.0f;
     
-    NewOutPut.DifTarget = pow(Color, 2.2f);
-    //NewOutPut.BlurTarget = Color;
+    NewOutPut.DifTarget = Color;
     NewOutPut.PosTarget = _Input.VIEWPOSITION;
     _Input.NORMAL.a = 1.0f;
     NewOutPut.NorTarget = _Input.NORMAL;

@@ -108,7 +108,7 @@ void BossFrogFat::Update(float _DeltaTime)
 void BossFrogFat::InitAnimation()
 {
 	EnemyRenderer = CreateComponent<ContentFBXRenderer>();
-	EnemyRenderer->SetFBXMesh("FROG_FAT_MESH.FBX", "ContentAniMeshDeffered");
+	EnemyRenderer->SetFBXMesh("FROG_FAT_MESH.FBX", "ContentAniMeshForward");
 
 
 	EnemyRenderer->CreateFBXAnimation("DIE_LAND", "FROG_FAT_DIE_LAND.fbx", { 1.0f / 30, false });					//¿£µù
@@ -252,11 +252,11 @@ void BossFrogFat::InitAnimation()
 	EnemyRenderer->GetTransform()->SetLocalScale(float4::ONE * 130.0f);
 
 	WeaponRenderer = CreateComponent<ContentFBXRenderer>();
-	WeaponRenderer->SetFBXMesh("FROG_WEAPONMESH.FBX", "ContentMeshDeffered");
+	WeaponRenderer->SetFBXMesh("FROG_WEAPONMESH.FBX", "ContentMeshForward");
 	WeaponRenderer->GetTransform()->SetParent(EnemyRenderer->GetTransform());
 	WeaponRenderer->GetTransform()->SetLocalScale(float4::ONE * 1.4f);
-	WeaponRenderer->SetGlowToUnit(1, 0);
-	WeaponRenderer->SetUnitColor(1, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 5.0f);
+	WeaponRenderer->SetUnitColor(1, 0, { 244.0f / 255.0f, 74.0f / 255.0f, 96.0f / 255.0f , 1.0f }, 6.0f);
+	WeaponRenderer->GetAllRenderUnit()[1][0]->isLight.X = 0;
 	WeaponRenderer->FadeOut(0.01f, 0.01f);
 
 }
@@ -662,12 +662,12 @@ void BossFrogFat::SetFSMFUNC()
 			if(LerpRatio < 1.0f)
 			{
 				float4 LerpColor = float4::Lerp(StartColor, EndColor, LerpRatio);
-				EnemyRenderer->SetBlurColor(LerpColor, 3.0f - 3.0f * LerpRatio);
+				EnemyRenderer->SetCrackColor(LerpColor, 1.0f);
 			}
 			else
 			{
 				LerpRatio = 1.0f;
-				EnemyRenderer->SetBlurColor(EndColor, -1.0f);
+				EnemyRenderer->SetCrackColor(EndColor);
 			}
 			if (GetStateDuration() > 3.0f)
 			{

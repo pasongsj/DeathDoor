@@ -15,7 +15,6 @@ public:
 	DustParticle& operator=(DustParticle&& _Other) noexcept = delete;
 
 	void SetColor(float4 _RGBA = { 0.815f, 0.576f, 0.427f, 1.0f });
-	void SetGlow(float4 _GlowColor = float4::ZERO);
 
 	void SetLoop(bool UVInit = false)
 	{
@@ -88,8 +87,6 @@ private:
 	DistortionData Distortion;
 	float LoopAngle = 0.0f;
 	float FadeSpeed = 2.0f;
-
-	float4 BlurColor = {1.0f, 1.0f, 1.0f, -1.0f };
 
 	std::function<void(float)> UpdateFunc = nullptr;
 };

@@ -83,7 +83,6 @@ void SecretTile::OffShake()
 
 	for (int i = 0; i < DustParticleList.size(); i++)
 	{
-		m_pRenderer->SetBlurColor({ 0.0f, 0.0f, 1.0f, 1.0f });
 		DustParticleList[i]->SetFadeOut();
 	}
 
@@ -103,7 +102,7 @@ void SecretTile::Update(float _DeltaTime)
 {
 	if (true == IsActive())
 	{
-		m_pRenderer->SetBlurColor({ 0.2f, 0.2f, 0.95f, 1.0f });
+		m_pRenderer->SetFadeColor({ 0.0f, 0.0f, 1.0f }, 4.0f);
 		m_pRenderer->FadeIn(1.0f, _DeltaTime);
 	}
 
@@ -114,7 +113,7 @@ void SecretTile::Update(float _DeltaTime)
 		{
 			if (0.0f >= m_fDelayTime)
 			{
-				m_pRenderer->SetBlurColor();
+				m_pRenderer->SetFadeColor({ 0.85f, 0.26f, 0.33f, 1.0f }, 4.0f);
 				m_pRenderer->FadeOut(1.0f, _DeltaTime);
 				m_fDelayTime = 1.0f;
 				m_bDelay = false;
@@ -124,7 +123,7 @@ void SecretTile::Update(float _DeltaTime)
 			m_fDelayTime -= _DeltaTime;
 		}
 
-		m_pRenderer->SetBlurColor();
+		m_pRenderer->SetFadeColor({ 0.85f, 0.26f, 0.33f, 1.0f }, 4.0f);
 		m_pRenderer->FadeOut(1.0f, _DeltaTime);
 	}
 

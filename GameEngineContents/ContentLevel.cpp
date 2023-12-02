@@ -4,11 +4,10 @@
 #include "MPBar.h"
 #include "HPBar.h"
 #include "SkillSlot.h"
-#include "GlowEffect.h"
 #include "FXAA.h"
 #include "GammaCorrection.h"
 #include "BrightBloomEffect.h"
-#include "AlphaGlowEffect.h"
+#include "ToneMapping.h"
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
 ContentLevel::ContentLevel()
@@ -48,28 +47,10 @@ void ContentLevel::CreateUI()
 
 void ContentLevel::SetPostPrecessEffect(float4 _BlurSize)
 {
-	Glow = GetLevel()->GetMainCamera()->GetCamAllRenderTarget()->CreateEffect<GlowEffect>();
-	Glow->Init(DynamicThis<GameEngineLevel>(), {1.0f, 0.0f, 0.0f, 0.0f}, _BlurSize);
-
-	AlphaGlow = GetLevel()->GetMainCamera()->GetCamAllRenderTarget()->CreateEffect<AlphaGlowEffect>();
-	AlphaGlow->Init(DynamicThis<GameEngineLevel>(), { 1.0f, 0.0f, 0.0f, 0.0f }, _BlurSize);
-
+	GetLevel()->GetLastTarget()->CreateEffect<BrightBloomEffect>();
+	ToneMappingEffect = GetLevel()->GetLastTarget()->CreateEffect<ToneMapping>();
 	Gamma = GetLevel()->GetLastTarget()->CreateEffect<GammaCorrection>();
 	AntiAliasing = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();
-}
-
-void ContentLevel::SetGlowScale(float _Distance)
-{
-	float4 BasicScale = { 1600, 900, 800, 450 };
-
-	float Ratio = _Distance / 4000.0f;
-
-	BasicScale *= 1.0f / Ratio;
-
-	if (Glow != nullptr)
-	{
-		Glow->SetBlurScale(BasicScale);
-	}
 }
 
 void ContentLevel::CreatePivotActor()
@@ -100,6 +81,12 @@ void ContentLevel::GammaUpdate()
 		}
 
 		Gamma = GetLevel()->GetLastTarget()->CreateEffect<GammaCorrection>();
+
+		if (AntiAliasing != nullptr)
+		{
+			GetLevel()->GetLastTarget()->ReleaseEffect(AntiAliasing);
+			AntiAliasing = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();
+		}
 	}
 	else
 	{
@@ -126,11 +113,34 @@ void ContentLevel::HDRUpdate()
 
 	if (isHDR == true)
 	{
-		GetMainCamera()->OnHdr();
+		if (ToneMappingEffect != nullptr)
+		{
+			MsgAssert("톤매핑 효과가 제거되지 않은 상태에서 다시 적용하려고 하였습니다.");
+		}
+
+		ToneMappingEffect = GetLevel()->GetLastTarget()->CreateEffect<ToneMapping>();
+		
+		if (Gamma != nullptr)
+		{
+			GetLevel()->GetLastTarget()->ReleaseEffect(Gamma);
+			Gamma = GetLevel()->GetLastTarget()->CreateEffect<GammaCorrection>();
+		}
+
+		if (AntiAliasing != nullptr)
+		{
+			GetLevel()->GetLastTarget()->ReleaseEffect(AntiAliasing);
+			AntiAliasing = GetLevel()->GetLastTarget()->CreateEffect<FXAA>();
+		}
 	}
 	else
 	{
-		GetMainCamera()->OffHdr();
+		if (ToneMappingEffect == nullptr)
+		{
+			MsgAssert("톤매핑 효과가 적용되지 않은 상태에서 제거하려고 하였습니다.");
+		}
+
+		GetLevel()->GetLastTarget()->ReleaseEffect(ToneMappingEffect);
+		ToneMappingEffect = nullptr;
 	}
 
 	PrevisHDR = isHDR;

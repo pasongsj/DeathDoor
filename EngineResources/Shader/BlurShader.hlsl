@@ -35,9 +35,14 @@ static float Gau[5][5] =
 Texture2D DiffuseTex : register(t0);
 SamplerState POINTSAMPLER : register(s0);
 
+cbuffer BlurSize : register(b1)
+{
+    float4 BlurSize;
+};
+
 float4 Blur_PS(OutPut _Value) : SV_Target0
 {
-    float2 PixelSize = float2(1.0f / 800.0f, 1.0f / 450);
+    float2 PixelSize = float2(1.0f / BlurSize.x, 1.0f / BlurSize.y);
     // ÇöÀç UV
     float2 PixelUvCenter = _Value.UV.xy;
     float2 StartUV = _Value.UV.xy + (-PixelSize * 2.0f);

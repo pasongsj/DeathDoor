@@ -77,10 +77,9 @@ void EnemyAttackSphere::CreateParticle(float _DeltaTime)
 		ParticleCount = 0.0f;
 
 		std::shared_ptr<DustParticle> NewParticle = CreateComponent<DustParticle>();
-		NewParticle->SetColor(DustColor);
+		NewParticle->SetColor(DustColor * 5.0f);
 		NewParticle->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
 		NewParticle->GetTransform()->SetLocalScale({ 50.0f, 50.0f, 50.0f });
-		NewParticle->SetGlow();
 		NewParticle->SetWorldMove();
 		NewParticle->SetFadeOut(true);
 	}

@@ -739,12 +739,12 @@ void Boss_OldCrow::SetFSMFUNC()
 			if (LerpRatio < 1.0f)
 			{
 				float4 LerpColor = float4::Lerp(StartColor, EndColor, LerpRatio);
-				EnemyRenderer->SetBlurColor(LerpColor, 3.0f - 3.0f * LerpRatio);
+				EnemyRenderer->SetCrackColor(LerpColor, 1.0f);
 			}
 			else
 			{
 				LerpRatio = 1.0f;
-				EnemyRenderer->SetBlurColor(EndColor, 3.0f - 3.0f * LerpRatio);
+				EnemyRenderer->SetCrackColor(EndColor, 1.0f);
 			}
 		},
 		[this]
@@ -767,12 +767,12 @@ void Boss_OldCrow::SetFSMFUNC()
 			if (LerpRatio < 1.0f)
 			{
 				float4 LerpColor = float4::Lerp(StartColor, EndColor, LerpRatio);
-				EnemyRenderer->SetBlurColor(LerpColor, 3.0f - 3.0f * LerpRatio);
+				EnemyRenderer->SetCrackColor(LerpColor, 1.0f);
 			}
 			else
 			{
 				LerpRatio = 1.0f;
-				EnemyRenderer->SetBlurColor(EndColor, 3.0f - 3.0f * LerpRatio);
+				EnemyRenderer->SetCrackColor(EndColor,1.0f);
 			}
 		},
 		[this]

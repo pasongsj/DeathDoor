@@ -141,11 +141,6 @@ void ContentFBXRenderer::SetReflect()
 		{
 			Units[i][j]->SetReflect();
 
-			if (Units[i][j]->ShaderResHelper.IsConstantBuffer("BlurColor") == true)
-			{
-				Units[i][j]->ShaderResHelper.SetConstantBufferLink("BlurColor", BlurColor);
-			}
-
 			if (Units[i][j]->ShaderResHelper.IsConstantBuffer("ClipData") == true)
 			{
 				Units[i][j]->ShaderResHelper.SetConstantBufferLink("ClipData", ClipData);
@@ -213,11 +208,6 @@ void ContentFBXRenderer::LinkConstantBuffer()
 	{
 		for (int j = 0; j < AllUnits[i].size(); j++)
 		{
-			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("BlurColor") == true)
-			{
-				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("BlurColor", BlurColor);
-			}
-
 			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("ClipData") == true)
 			{
 				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("ClipData", ClipData);
@@ -231,6 +221,11 @@ void ContentFBXRenderer::LinkConstantBuffer()
 			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("isOn") == true)
 			{
 				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("isOn", isOnBuffer);
+			}
+
+			if (AllUnits[i][j]->ShaderResHelper.IsConstantBuffer("CrackColor") == true)
+			{
+				AllUnits[i][j]->ShaderResHelper.SetConstantBufferLink("CrackColor", CrackColor);
 			}
 		}
 	}
@@ -331,6 +326,10 @@ void ContentFBXRenderer::SetFBXMesh(const std::string& _MeshName, const std::str
 	if (UpperSettingName == "CONTENTMESHDEFFERED" || UpperSettingName == "CONTENTMESHFORWARD" )
 	{
 		SetFadeMask();
+	}
+	else if (UpperSettingName == "NOLIGHT")
+	{
+		int a = 0;
 	}
 	else
 	{

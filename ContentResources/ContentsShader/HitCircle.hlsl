@@ -44,7 +44,5 @@ float4 HitCircle_PS(OutPut _Value) : SV_Target6
     TextureColor.rgb = pow(TextureColor.rgb, 2.2f);
     TextureColor.rgb *= 8.0f;
     
-    TextureColor = ToneMapping_ACES(TextureColor);
-    
     return TextureColor;
 }
