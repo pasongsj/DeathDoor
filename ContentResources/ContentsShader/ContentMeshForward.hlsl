@@ -123,15 +123,17 @@ float4 ContentMeshForward_PS(Output _Input) : SV_Target0
     
     /**/
     
-    float4 ResultPointLight = _Input.POINTLIGHT;
-    float4 DiffuseRatio = _Input.DIFFUSELIGHT;
-    float4 SpacularRatio = _Input.SPECULALIGHT;
-    float4 AmbientRatio = _Input.AMBIENTLIGHT;
+    if (isLight == 1)
+    {
+        float4 ResultPointLight = _Input.POINTLIGHT;
+        float4 DiffuseRatio = _Input.DIFFUSELIGHT;
+        float4 SpacularRatio = _Input.SPECULALIGHT;
+        float4 AmbientRatio = _Input.AMBIENTLIGHT;
 
-    float DiffuseAlpha = DiffuseColor.w;
-    DiffuseColor = DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
-    DiffuseColor.a = DiffuseAlpha;
-
+        float DiffuseAlpha = DiffuseColor.w;
+        DiffuseColor = DiffuseColor * (ResultPointLight + DiffuseRatio + SpacularRatio + AmbientRatio);
+        DiffuseColor.a = DiffuseAlpha;
+    }
     
     return DiffuseColor;
 }
