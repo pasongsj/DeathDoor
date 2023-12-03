@@ -3,6 +3,7 @@
 #include "EnemyAttackCapsule.h"
 #include "Player.h"
 #include "Map_NaviMesh.h"
+#include "Content2DRenderer.h"
 
 EnemyGhoul::EnemyGhoul() 
 {
@@ -52,6 +53,13 @@ void EnemyGhoul::InitAnimation()
 
 	EnemyRenderer->ChangeAnimation("IDLE_BOW");
 	GetTransform()->SetLocalScale(float4::ONE * RENDERSCALE_GHOUL);
+
+	std::shared_ptr<Content2DRenderer> shadow = CreateComponent<Content2DRenderer>();
+	shadow->SetMaterial("Content2DTexture", RenderPath::Alpha);
+	shadow->SetScaleToTexture("playershadow.png");
+	shadow->GetTransform()->SetLocalScale(shadow->GetTransform()->GetLocalScale() * 0.003f);
+	shadow->GetTransform()->SetLocalRotation(float4(90, 0, 0));
+	shadow->GetTransform()->SetLocalPosition({ 0.0f, 0.1f, 0.0f });
 }
 
 
@@ -210,6 +218,9 @@ void EnemyGhoul::SetFSMFUNC()
 			ArrowActor = GetLevel()->CreateActor<EnemyAttackCapsule>();
 			ArrowActor->SetRender(ArrowScale, ArrowRot);
 			ArrowActor->SetPhysXComp(ArrowPhysXScale, float4::DOWN * 100.0f, float4::LEFT);
+			ArrowActor->GetRenderer()->SetColor({ 0.95f, 0.20f, 0.25f }, 5.0f);
+			ArrowActor->GetRenderer()->GetAllRenderUnit()[0][0]->isLight.X = 0;
+
 
 		},
 		[this](float Delta)

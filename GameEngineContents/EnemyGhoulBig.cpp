@@ -4,6 +4,7 @@
 
 #include "Player.h"
 #include "Map_NaviMesh.h"
+#include "Content2DRenderer.h"
 
 EnemyGhoulBig::EnemyGhoulBig()
 {
@@ -21,6 +22,8 @@ void EnemyGhoulBig::CreateArrow()
 	ArrowActor = GetLevel()->CreateActor<EnemyAttackCapsule>();
 	ArrowActor->SetRender(ArrowScale, ArrowRot);
 	ArrowActor->SetPhysXComp(ArrowPhysXScale, float4::DOWN * 150.0f, float4::LEFT);
+	ArrowActor->GetRenderer()->SetColor({ 0.95f, 0.20f, 0.25f }, 5.0f);
+	ArrowActor->GetRenderer()->GetAllRenderUnit()[0][0]->isLight.X = 0;
 
 	BonePivot->GetTransform()->SetLocalPosition(EnemyRenderer->GetBoneData("Bow").Pos);
 	float4 BonePivotPos = BonePivot->GetTransform()->GetWorldPosition();
@@ -107,6 +110,13 @@ void EnemyGhoulBig::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("DROWN", "_E_GHOUL_DROWN.fbx", { 1.f / 30.f,false });
 
 	EnemyRenderer->ChangeAnimation("IDLE_BOW");
+	
+	std::shared_ptr<Content2DRenderer> shadow = CreateComponent<Content2DRenderer>();
+	shadow->SetMaterial("Content2DTexture", RenderPath::Alpha);
+	shadow->SetScaleToTexture("playershadow.png");
+	shadow->GetTransform()->SetLocalScale(shadow->GetTransform()->GetLocalScale() * 0.003f);
+	shadow->GetTransform()->SetLocalRotation(float4(90, 0, 0));
+	shadow->GetTransform()->SetLocalPosition({ 0.0f, 0.1f, 0.0f });
 }
 
 

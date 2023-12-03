@@ -6,6 +6,7 @@
 #include "PlayerAttackMagic.h"
 #include "Player.h"
 #include "Map_NaviMesh.h"
+#include "Content2DRenderer.h"
 
 EnemyBrute::EnemyBrute() 
 {
@@ -107,6 +108,13 @@ void EnemyBrute::InitAnimation()
 		});
 
 	EnemyRenderer->ChangeAnimation("IDLE");
+
+	std::shared_ptr<Content2DRenderer> shadow = CreateComponent<Content2DRenderer>();
+	shadow->SetMaterial("Content2DTexture", RenderPath::Alpha);
+	shadow->SetScaleToTexture("playershadow.png");
+	shadow->GetTransform()->SetLocalScale(shadow->GetTransform()->GetLocalScale() * 0.03f);
+	shadow->GetTransform()->SetLocalRotation(float4(90, 90, 0));
+	shadow->GetTransform()->SetLocalPosition({ 2.0f, 1.0f, 0.0f });
 }
 
 

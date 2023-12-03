@@ -5,6 +5,7 @@
 #include "PhysXTestLevel.h"
 #include "PhysXCapsuleComponent.h"
 #include "PhysXControllerComponent.h"
+#include "Content2DRenderer.h"
 
 #include "DustParticle.h"
 #include "ContentLevel.h"
@@ -45,7 +46,7 @@ void Player::Start()
 		// lever 충돌테스트 
 		m_pCapsuleComp->SetFilterData(PhysXFilterGroup::PlayerDynamic);
 	}
-	m_pCapsuleComp->SetWorldPosWithParent(float4{1000.0f, 500.0f, 0.0f},float4::ZERO);
+	m_pCapsuleComp->SetWorldPosWithParent(float4{ 1000.0f, 500.0f, 0.0f }, float4::ZERO);
 
 	SetFSMFunc();
 	Renderer->ChangeAnimation("IDLE0");
@@ -53,6 +54,14 @@ void Player::Start()
 	Renderer->GetAllRenderUnit()[0][1]->isLight.X = 0;
 
 	BonePivot = CreateComponent<GameEngineComponent>();
+
+	std::shared_ptr<Content2DRenderer> shadow = CreateComponent<Content2DRenderer>();
+	shadow->SetMaterial("Content2DTexture", RenderPath::Alpha);
+	shadow->SetScaleToTexture("playershadow.png");
+	shadow->GetTransform()->SetLocalScale(shadow->GetTransform()->GetLocalScale() * 0.05f);
+	shadow->GetTransform()->SetLocalRotation(float4(90, 0, 0));
+	shadow->GetTransform()->SetLocalPosition({0.0f, 1.0f, -3.0f});
+
 }
 
 void Player::SpawnPosUpdate(float _DeltaTime)

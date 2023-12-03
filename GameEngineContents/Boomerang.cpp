@@ -22,7 +22,7 @@ void Boomerang::Update(float _DeltaTime)
 	{
 		return;
 	}
-	AttackRenderer->GetTransform()->SetLocalRotation(float4{ 0.0f, GetLiveTime() * 200.0f ,0 });
+	AttackRenderer->GetTransform()->SetLocalRotation(float4{ 0.0f, GetLiveTime() * 300.0f ,0 });
 
 	if (BackTo == false)
 	{
