@@ -3,6 +3,7 @@
 #include "EnemyAttackBox.h"
 #include "Player.h"
 #include "Map_NaviMesh.h"
+#include "Content2DRenderer.h"
 
 EnemyGrunt::EnemyGrunt() 
 {
@@ -45,6 +46,12 @@ void EnemyGrunt::InitAnimation()
 		});
 
 	EnemyRenderer->ChangeAnimation("IDLE");
+	std::shared_ptr<Content2DRenderer> shadow = CreateComponent<Content2DRenderer>();
+	shadow->SetMaterial("Content2DTexture", RenderPath::Alpha);
+	shadow->SetScaleToTexture("playershadow.png");
+	shadow->GetTransform()->SetLocalScale(shadow->GetTransform()->GetLocalScale() * 0.01f);
+	shadow->GetTransform()->SetLocalRotation(float4(90, 0, 0));
+	shadow->GetTransform()->SetLocalPosition({ 0.0f, 0.5f, 1.0f });
 }
 
 

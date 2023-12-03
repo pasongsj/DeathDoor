@@ -3,6 +3,7 @@
 #include "Player.h"
 #include <GameEngineBase/GameEngineRandom.h>
 #include "EnemyAttackSphere.h"
+#include "Content2DRenderer.h"
 
 
 EnemyMage::EnemyMage() 
@@ -49,6 +50,13 @@ void EnemyMage::InitAnimation()
 	//m_pCapsuleComp = CreateComponent<PhysXCapsuleComponent>();
 	//m_pCapsuleComp->CreatePhysXActors(float4(50, 200, 50));
 	//m_pCapsuleComp->SetFilterData(PhysXFilterGroup::MonsterDynamic);
+
+	//std::shared_ptr<Content2DRenderer> shadow = CreateComponent<Content2DRenderer>();
+	//shadow->SetMaterial("Content2DTexture", RenderPath::Alpha);
+	//shadow->SetScaleToTexture("playershadow.png");
+	//shadow->GetTransform()->SetLocalScale(shadow->GetTransform()->GetLocalScale() * 0.5f);
+	//shadow->GetTransform()->SetLocalRotation(float4(90, 0, 0));
+	//shadow->GetTransform()->SetLocalPosition({ 0.0f, 2.0f, 1.0f });
 }
 
 

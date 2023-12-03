@@ -2,6 +2,7 @@
 #include "EnemyFirePlant.h"
 #include "PhysXCapsuleComponent.h"
 #include "EnemyAttackSphere.h"
+#include "Content2DRenderer.h"
 
 EnemyFirePlant::EnemyFirePlant()
 {
@@ -49,6 +50,14 @@ void EnemyFirePlant::InitAnimation()
 	EnemyRenderer->CreateFBXAnimation("HIT", "_E_FIREPLANT_HIT.fbx", { 0.04f,false });
 	EnemyRenderer->CreateFBXAnimation("DIE", "_E_FIREPLANT_DIE.fbx", { 0.02f,false });
 	EnemyRenderer->ChangeAnimation("IDLE");
+
+	std::shared_ptr<Content2DRenderer> shadow = CreateComponent<Content2DRenderer>();
+	shadow->SetMaterial("Content2DTexture", RenderPath::Alpha);
+	shadow->SetScaleToTexture("playershadow.png");
+	float curscale = shadow->GetTransform()->GetLocalScale().x * 0.005f;
+	shadow->GetTransform()->SetLocalScale(float4::ONE * curscale);
+	shadow->GetTransform()->SetWorldRotation(float4(90, 0, 0));
+	shadow->GetTransform()->SetLocalPosition({ 0.0f, 0.05f, 0.0f });
 }
 
 
