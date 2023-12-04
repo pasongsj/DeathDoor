@@ -62,5 +62,5 @@ private:
 
 	// Start에서 5도 더해줘서 135도임 
 	const float4 m_MapRot = float4{ 0 , -130 , 0 };
-	const float4 m_MapPos = float4{ 0, 0, 0 };
+	const float4 m_MapPos = float4{ 0, 5, 0 };
 };

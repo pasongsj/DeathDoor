@@ -296,7 +296,7 @@ void TileManager::Create_FireObject()
 		// 12 
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -3615, 197, 5115 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -3617, 197, 5115 });
 		FireObj->GetTransform()->SetLocalRotation({ 0.0f, -135.0f, 0.0f });
 		m_vFireObjects.push_back(FireObj);
 	}
@@ -304,7 +304,7 @@ void TileManager::Create_FireObject()
 		// 3
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -2170, 197, 3640 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -2179, 197, 3640 });
 		FireObj->GetTransform()->SetLocalRotation({ 0.0f, -135.0f, 0.0f });
 		m_vFireObjects.push_back(FireObj);
 	}
@@ -312,7 +312,7 @@ void TileManager::Create_FireObject()
 		// 6
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -3635, 197, 2170 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -3635, 197, 2180 });
 		FireObj->GetTransform()->SetLocalRotation({ 0.0f, -135.0f, 0.0f });
 		m_vFireObjects.push_back(FireObj);
 	}
@@ -320,7 +320,7 @@ void TileManager::Create_FireObject()
 		// 9
 		std::shared_ptr<FireObject> FireObj = CurLevel->CreateActor<FireObject>();
 		FireObj->GetTransform()->SetLocalScale(m_FireObjScale);
-		FireObj->GetTransform()->SetLocalPosition(float4{ -5110 , 197 , 3619 });
+		FireObj->GetTransform()->SetLocalPosition(float4{ -5090 , 197 , 3625 });
 		FireObj->GetTransform()->SetLocalRotation({ 0.0f, -135.0f, 0.0f });
 		m_vFireObjects.push_back(FireObj);
 	}
