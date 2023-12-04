@@ -152,7 +152,7 @@ void EnemyFirePlant::SetFSMFUNC()
 		[this]
 		{
 			EnemyRenderer->ChangeAnimation("HIT");
-			AddPlayerSpellCost();
+			//AddPlayerSpellCost();
 
 			GameEngineSound::Play("FirePlant_GetDamage.mp3");
 		},
