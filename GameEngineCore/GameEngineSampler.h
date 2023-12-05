@@ -17,14 +17,14 @@ public:
 	GameEngineSampler& operator=(const GameEngineSampler& _Other) = delete;
 	GameEngineSampler& operator=(GameEngineSampler&& _Other) noexcept = delete;
 
-	static std::shared_ptr<GameEngineSampler> Create(const std::string_view& _Name, const D3D11_SAMPLER_DESC& Desc)
+	static std::shared_ptr<GameEngineSampler> Create(std::string_view _Name, const D3D11_SAMPLER_DESC& Desc)
 	{
 		std::shared_ptr<GameEngineSampler> NewSampler = GameEngineResource::Create(_Name);
 		NewSampler->ResCreate(Desc);
 		return NewSampler;
 	}
 
-	static std::shared_ptr<GameEngineSampler> ReSetting(const std::string_view& _Name, const D3D11_SAMPLER_DESC& Desc)
+	static std::shared_ptr<GameEngineSampler> ReSetting(std::string_view _Name, const D3D11_SAMPLER_DESC& Desc)
 	{
 		 std::shared_ptr<GameEngineSampler> NewSampler = GameEngineResource::Find(_Name);
 		// NewTexture->ResCreate(Desc);

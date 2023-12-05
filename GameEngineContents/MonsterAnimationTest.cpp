@@ -14,11 +14,21 @@ MonsterAnimationTest::~MonsterAnimationTest()
 void MonsterAnimationTest::Start()
 {
 	Renderer = CreateComponent<ContentFBXRenderer>();
-	Renderer->SetFBXMesh("Health_Plant_MESH.FBX", "ContentAniMeshDeffered");
-	Renderer->CreateFBXAnimation("0", "Health_Plant_Growing.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("1", "Health_Plant_Idle.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("2", "Health_Plant_Release.fbx", {0.1f });
-	Renderer->CreateFBXAnimation("3", "Health_Plant_UnGrown.fbx", {0.1f });
+	//Renderer->SetFBXMesh("Health_Plant_MESH.FBX", "ContentAniMeshDeffered");
+	Renderer->SetFBXMesh("PLAYER_MESH.FBX", "ContentAniMeshforward", RenderPath::Forward);
+	//idle
+	Renderer->CreateFBXAnimation("IDLE0", "PLAYER_IDLE_0.FBX", { 0.02f,true });
+	Renderer->CreateFBXAnimation("RUN", "PLAYER_RUN.FBX", { 0.02f,true });
+	Renderer->ChangeAnimation("RUN");
+	//Renderer->SetFBXMesh("_E_GHOUL_MESH.FBX", "ContentAniMeshDeffered", "GoolTexture.png", "GoolTextureOri.png");
+	//Renderer->CreateFBXAnimation("RUN_BOW", "_E_GHOUL_RUN_BOW.fbx", { 0.11f,true });
+	////Renderer->CreateFBXAnimation("0", "Health_Plant_Growing.fbx", {0.1f });
+	////Renderer->CreateFBXAnimation("1", "Health_Plant_Idle.fbx", {0.1f });
+	////Renderer->CreateFBXAnimation("2", "Health_Plant_Release.fbx", {0.1f });
+	////Renderer->CreateFBXAnimation("3", "Health_Plant_UnGrown.fbx", {0.1f });
+	//Renderer->ChangeAnimation("RUN_BOW");
+	//Unit = Renderer->GetAllRenderUnit();
+	//Unit[0][1]->Off();
 	//Renderer->CreateFBXAnimation("4", "FROG_FAT_JUMP_SCREAM.fbx", {0.1f });
 	//Renderer->CreateFBXAnimation("5", "FROG_FAT_SHOOT.fbx", {0.1f });
 	//Renderer->CreateFBXAnimation("6", "FROG_FAT_SUCK.fbx", {0.1f });
@@ -42,9 +52,10 @@ void MonsterAnimationTest::Start()
 	//WeaponRenderer->GetTransform()->SetLocalScale(float4::ONE * 0.5f);
 	//Renderer->CreateFBXAnimation("12", "_E_JUMPER_THROW_Anim.fbx");//
 	//Renderer->ChangeAnimation("12");
-	GetTransform()->SetLocalScale(float4::ONE * 100.0f);
+	GetTransform()->SetLocalScale(float4::ONE * 10.0f);
 	GetTransform()->SetLocalRotation(float4{0.0f,0.0f,0.0f});
-	//Renderer->GetTransform()->SetLocalRotation({ 0.0f,180.0f, 0.0f });
+	//Renderer->GetTransform()->SetLocalRotation({ 10.0f,180.0f, 0.0f });
+	GetTransform()->SetLocalPosition(float4{ 0.0f,-200.0f,0.0f });
 
 	if (false == GameEngineInput::IsKey("PressN"))
 	{
@@ -75,7 +86,7 @@ void MonsterAnimationTest::Start()
 
 }
 
-float4 MonsterAnimationTest::GetBonePos(const std::string_view& _BoneName)
+float4 MonsterAnimationTest::GetBonePos(std::string_view _BoneName)
 {
 	AnimationBoneData Bone = Renderer->GetBoneData(_BoneName.data());
 

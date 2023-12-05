@@ -56,7 +56,7 @@ void GameEngineInput::GameEngineKey::Update(float _DeltaTime)
 	}
 }
 
-bool GameEngineInput::IsDown(const std::string_view& _Name)
+bool GameEngineInput::IsDown(std::string_view _Name)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -68,7 +68,7 @@ bool GameEngineInput::IsDown(const std::string_view& _Name)
 
 	return Keys[UpperName].Down;
 }
-bool GameEngineInput::IsUp(const std::string_view& _Name)
+bool GameEngineInput::IsUp(std::string_view _Name)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -80,7 +80,7 @@ bool GameEngineInput::IsUp(const std::string_view& _Name)
 
 	return Keys[UpperName].Up;
 }
-bool GameEngineInput::IsPress(const std::string_view& _Name)
+bool GameEngineInput::IsPress(std::string_view _Name)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -92,7 +92,7 @@ bool GameEngineInput::IsPress(const std::string_view& _Name)
 
 	return Keys[UpperName].Press;
 }
-bool GameEngineInput::IsFree(const std::string_view& _Name)
+bool GameEngineInput::IsFree(std::string_view _Name)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -104,7 +104,7 @@ bool GameEngineInput::IsFree(const std::string_view& _Name)
 	return Keys[UpperName].Free;
 }
 
-float GameEngineInput::GetPressTime(const std::string_view& _Name)
+float GameEngineInput::GetPressTime(std::string_view _Name)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -116,14 +116,14 @@ float GameEngineInput::GetPressTime(const std::string_view& _Name)
 	return Keys[UpperName].PressTime;
 }
 
-bool GameEngineInput::IsKey(const std::string_view& _Name)
+bool GameEngineInput::IsKey(std::string_view _Name)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
 	return Keys.end() != Keys.find(UpperName);
 }
 
-void GameEngineInput::CreateKey(const std::string_view& _Name, int _Key)
+void GameEngineInput::CreateKey(std::string_view _Name, int _Key)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 

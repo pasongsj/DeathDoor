@@ -11,12 +11,12 @@ ContentUIFontRenderer::~ContentUIFontRenderer()
 {
 }
 
-void ContentUIFontRenderer::SetFont(const std::string_view& _Font)
+void ContentUIFontRenderer::SetFont(std::string_view _Font)
 {
 	Font = GameEngineFont::Find(_Font);
 }
 
-void ContentUIFontRenderer::SetText(const std::string_view& _Text)
+void ContentUIFontRenderer::SetText(std::string_view _Text)
 {
 	Text = _Text;
 }

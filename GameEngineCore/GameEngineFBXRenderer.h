@@ -43,7 +43,7 @@ public:
 
 	std::map<UINT, AnimStartFunc> StartFunc;
 
-	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index);
+	void Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, std::string_view _Name, int _Index);
 	void Reset();
 	bool IsEnd();
 	void Update(float _DeltaTime);
@@ -110,13 +110,13 @@ public:
 	GameEngineFBXRenderer& operator=(const GameEngineFBXRenderer& _Other) = delete;
 	GameEngineFBXRenderer& operator=(GameEngineFBXRenderer&& _Other) noexcept = delete;
 
-	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, const std::string_view& BeforeTex, const std::string_view& TextureName);
+	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, std::string_view BeforeTex, std::string_view TextureName);
 	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, RenderPath _Path = RenderPath::None);
-	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, RenderPath _Path = RenderPath::None, const std::string_view& BeforeTex = "", const std::string_view& _TextureName = "");
+	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, RenderPath _Path = RenderPath::None, std::string_view BeforeTex = "", std::string_view _TextureName = "");
 	virtual std::shared_ptr<GameEngineRenderUnit> SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex, RenderPath _Path = RenderPath::None,
-		const std::string_view& BeforeTex = "", const std::string_view & _TextureName = "");
+		std::string_view BeforeTex = "", std::string_view _TextureName = "");
 
-	void SetAnimationStartFunc(const std::string_view& _Name, UINT _Index, std::function<void()> _Func);
+	void SetAnimationStartFunc(std::string_view _Name, UINT _Index, std::function<void()> _Func);
 
 	bool IsAnimationEnd()
 	{

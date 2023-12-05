@@ -40,7 +40,7 @@ GameEngineFont::~GameEngineFont()
 
 }
 
-void GameEngineFont::LoadFont(const std::string_view& _Path) 
+void GameEngineFont::LoadFont(std::string_view _Path) 
 {
 	std::wstring WPath = GameEngineString::AnsiToUniCode(_Path.data());
 
@@ -75,7 +75,7 @@ void GameEngineFont::LoadFont(const std::string_view& _Path)
 	}
 }
 
-void GameEngineFont::FontDraw(const std::string_view& _Text, const float4& _Pos, float _FontScale, const float4& _Color, FW1_TEXT_FLAG _FwTextFlag)
+void GameEngineFont::FontDraw(std::string_view _Text, const float4& _Pos, float _FontScale, const float4& _Color, FW1_TEXT_FLAG _FwTextFlag)
 {
 	std::wstring Text = GameEngineString::AnsiToUniCode(_Text);
 

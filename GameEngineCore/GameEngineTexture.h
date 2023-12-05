@@ -60,15 +60,15 @@ public:
 	GameEngineTexture& operator=(const GameEngineTexture& _Other) = delete;
 	GameEngineTexture& operator=(GameEngineTexture&& _Other) noexcept = delete;
 
-	static std::shared_ptr<GameEngineTexture> Load(const std::string_view& _Path)
+	static std::shared_ptr<GameEngineTexture> Load(std::string_view _Path)
 	{
 		GameEnginePath NewPath(_Path);
 		return Load(_Path, NewPath.GetFileName());
 	}
 
-	static void PathCheck(const std::string_view& _Path, const std::string_view& _Name);
+	static void PathCheck(std::string_view _Path, std::string_view _Name);
 
-	static std::shared_ptr<GameEngineTexture> Load(const std::string_view& _Path, const std::string_view& _Name) 
+	static std::shared_ptr<GameEngineTexture> Load(std::string_view _Path, std::string_view _Name) 
 	{
 		std::shared_ptr<GameEngineTexture> NewTexture = GameEngineResource::Create(_Name);
 		PathCheck(_Path, _Name);
@@ -77,7 +77,7 @@ public:
 		return NewTexture;
 	}
 
-	static std::shared_ptr<GameEngineTexture> Create(const std::string_view& _Name, ID3D11Texture2D* _Value)
+	static std::shared_ptr<GameEngineTexture> Create(std::string_view _Name, ID3D11Texture2D* _Value)
 	{
 		std::shared_ptr<GameEngineTexture> NewTexture = GameEngineResource::Create(_Name);
 		NewTexture->ResCreate(_Value);
@@ -91,7 +91,7 @@ public:
 		return NewTexture;
 	}
 
-	static std::shared_ptr<GameEngineTexture> UnLoad(const std::string_view& _Name)
+	static std::shared_ptr<GameEngineTexture> UnLoad(std::string_view _Name)
 	{
 		std::shared_ptr<GameEngineTexture> NewTexture = GameEngineResource::Find(_Name);
 
@@ -104,14 +104,14 @@ public:
 		return NewTexture;
 	}
 
-	static std::shared_ptr<GameEngineTexture> ReLoad(const std::string_view& _Path)
+	static std::shared_ptr<GameEngineTexture> ReLoad(std::string_view _Path)
 	{
 		GameEnginePath NewPath(_Path);
 		return ReLoad(_Path, NewPath.GetFileName());
 	}
 
 
-	static std::shared_ptr<GameEngineTexture> ReLoad(const std::string_view& _Path, const std::string_view& _Name)
+	static std::shared_ptr<GameEngineTexture> ReLoad(std::string_view _Path, std::string_view _Name)
 	{
 		std::shared_ptr<GameEngineTexture> NewTexture = GameEngineResource<GameEngineTexture>::Find(_Name);
 
@@ -173,7 +173,7 @@ private:
 	DirectX::TexMetadata Data;
 	DirectX::ScratchImage Image;
 
-	void ResLoad(const std::string_view& _Path);
+	void ResLoad(std::string_view _Path);
 
 	void ResCreate(ID3D11Texture2D* _Value);
 

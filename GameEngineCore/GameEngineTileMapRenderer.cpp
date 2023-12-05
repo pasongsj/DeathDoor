@@ -69,7 +69,7 @@ void GameEngineTileMapRenderer::Clear()
 	Tiles.clear();
 }
 
-void GameEngineTileMapRenderer::SetTile(int _X, int _Y, const std::string_view& _SpriteName, size_t _Index)
+void GameEngineTileMapRenderer::SetTile(int _X, int _Y, std::string_view _SpriteName, size_t _Index)
 {
 	if (true == Tiles.empty())
 	{
@@ -189,7 +189,7 @@ void GameEngineTileMapRenderer::Render(float _Delta)
 }
 
 
-void GameEngineTileMapRenderer::SetTile(const float4& _Pos, const std::string_view& _SpriteName, size_t _Index)
+void GameEngineTileMapRenderer::SetTile(const float4& _Pos, std::string_view _SpriteName, size_t _Index)
 {
 	int X = -1;
 	int Y = -1;

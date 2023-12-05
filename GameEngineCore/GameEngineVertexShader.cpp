@@ -15,8 +15,8 @@ GameEngineVertexShader::~GameEngineVertexShader()
 	}
 }
 
-void GameEngineVertexShader::ShaderLoad(const std::string_view& _Path
-	, const std::string_view& _EntryPoint
+void GameEngineVertexShader::ShaderLoad(std::string_view _Path
+	, std::string_view _EntryPoint
 	, UINT _VersionHigh /*= 5*/
 	, UINT _VersionLow /*= 0*/)
 {

@@ -15,7 +15,7 @@ public:
 	GameEngineDepthState& operator=(const GameEngineDepthState& _Other) = delete;
 	GameEngineDepthState& operator=(GameEngineDepthState&& _Other) noexcept = delete;
 
-	static std::shared_ptr<GameEngineDepthState> Create(const std::string_view& _Name, const D3D11_DEPTH_STENCIL_DESC& _Desc)
+	static std::shared_ptr<GameEngineDepthState> Create(std::string_view _Name, const D3D11_DEPTH_STENCIL_DESC& _Desc)
 	{
 		std::shared_ptr<GameEngineDepthState> Res = GameEngineResource::Create(_Name);
 		Res->ResCreate(_Desc);

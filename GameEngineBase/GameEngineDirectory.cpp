@@ -24,7 +24,7 @@ GameEngineDirectory::GameEngineDirectory(std::filesystem::path Path)
 GameEngineDirectory::~GameEngineDirectory()
 {
 }
-void GameEngineDirectory::MoveParentToDirectory(const std::string_view& _String)
+void GameEngineDirectory::MoveParentToDirectory(std::string_view _String)
 {
 	std::string MovePath = "\\";
 	MovePath += _String;
@@ -32,14 +32,14 @@ void GameEngineDirectory::MoveParentToDirectory(const std::string_view& _String)
 	MoveParentToChildPath(MovePath.c_str());
 }
 
-bool GameEngineDirectory::Move(const std::string_view& _String)
+bool GameEngineDirectory::Move(std::string_view _String)
 {
 	Path += "\\";
 	Path += _String;
 	return IsExists();
 }
 
-GameEnginePath GameEngineDirectory::GetPlusFileName(const std::string_view& _String)
+GameEnginePath GameEngineDirectory::GetPlusFileName(std::string_view _String)
 {
 
 	std::string PathString = GetFullPath();

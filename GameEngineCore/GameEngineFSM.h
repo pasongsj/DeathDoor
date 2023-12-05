@@ -38,17 +38,17 @@ public:
 
 	void CreateState(const StateParameter& _StateFunction);
 
-	void ChangeFunction(const std::string_view& _Name, std::function<void()> Start,
+	void ChangeFunction(std::string_view _Name, std::function<void()> Start,
 	std::function<void(float _Delta)> Update,
 	std::function<void()> End
 	);
 
-	void ChangeState(const std::string_view& _Name);
+	void ChangeState(std::string_view _Name);
 
 	void Update(float _DeltaTime);
 
 protected:
-	GameEngineFSM::State* FindState(const std::string_view& _Name);
+	GameEngineFSM::State* FindState(std::string_view _Name);
 
 private:
 	std::map<std::string, State> AllState;

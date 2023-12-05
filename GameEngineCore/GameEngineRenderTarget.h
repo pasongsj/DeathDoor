@@ -39,7 +39,7 @@ public:
 	GameEngineRenderTarget& operator=(const GameEngineRenderTarget& _Other) = delete;
 	GameEngineRenderTarget& operator=(GameEngineRenderTarget&& _Other) noexcept = delete;
 
-	static std::shared_ptr<GameEngineRenderTarget> Create(const std::string_view& _Name, std::shared_ptr<GameEngineTexture> _Texture, float4 _Color)
+	static std::shared_ptr<GameEngineRenderTarget> Create(std::string_view _Name, std::shared_ptr<GameEngineTexture> _Texture, float4 _Color)
 	{
 		std::shared_ptr<GameEngineRenderTarget> NewRenderTarget = GameEngineResource::Create(_Name);
 

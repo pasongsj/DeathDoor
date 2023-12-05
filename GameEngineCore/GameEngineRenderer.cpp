@@ -24,7 +24,7 @@ void GameEngineComputeUnit::Execute()
 	ShaderResHelper.AllResourcesReset();
 }
 
-void GameEngineComputeUnit::SetComputeShader(const std::string_view& _Name)
+void GameEngineComputeUnit::SetComputeShader(std::string_view _Name)
 {
 	ComputeShader = GameEngineComputeShader::Find(_Name);
 
@@ -47,7 +47,7 @@ void GameEngineRenderUnit::SetRenderer(GameEngineRenderer* _Renderer)
 	ParentRenderer = _Renderer;
 }
 
-void GameEngineRenderUnit::SetMesh(const std::string_view& _Name)
+void GameEngineRenderUnit::SetMesh(std::string_view _Name)
 {
 	Mesh = GameEngineMesh::Find(_Name);
 
@@ -72,7 +72,7 @@ void GameEngineRenderUnit::SetMesh(std::shared_ptr<GameEngineMesh> _Mesh)
 	}
 }
 
-void GameEngineRenderUnit::SetMaterial(const std::string_view& _Name, RenderPath _Path /*= RenderPath::None*/)
+void GameEngineRenderUnit::SetMaterial(std::string_view _Name, RenderPath _Path /*= RenderPath::None*/)
 {
 	// GetCamera()->Units[0];
 
@@ -383,7 +383,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateRenderUnitToInde
 }
 
 
-void GameEngineRenderer::SetMaterial(const std::string_view& _Name, RenderPath Path, int _index /*= 0*/)
+void GameEngineRenderer::SetMaterial(std::string_view _Name, RenderPath Path, int _index /*= 0*/)
 {
 	std::shared_ptr<GameEngineRenderUnit> Unit = GetUnit(_index);
 
@@ -396,7 +396,7 @@ void GameEngineRenderer::SetMaterial(const std::string_view& _Name, RenderPath P
 }
 
 
-void GameEngineRenderer::SetMesh(const std::string_view& _Name, int _index /*= 0*/)
+void GameEngineRenderer::SetMesh(std::string_view _Name, int _index /*= 0*/)
 {
 	std::shared_ptr<GameEngineRenderUnit> Unit = GetUnit(_index);
 

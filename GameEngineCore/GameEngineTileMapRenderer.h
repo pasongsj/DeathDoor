@@ -37,9 +37,9 @@ public:
 
 	void Clear();
 
-	void SetTile(int _X, int _Y, const std::string_view& _SpriteName = "Error", size_t _Index = 0);
+	void SetTile(int _X, int _Y, std::string_view _SpriteName = "Error", size_t _Index = 0);
 
-	void SetTile(const float4& _Pos, const std::string_view& _SpriteName = "Error", size_t _Index = 0);
+	void SetTile(const float4& _Pos, std::string_view _SpriteName = "Error", size_t _Index = 0);
 
 	size_t GetTIleIndex(const float4& _Pos);
 

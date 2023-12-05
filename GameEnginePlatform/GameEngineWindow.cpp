@@ -69,7 +69,7 @@ GameEngineWindow::~GameEngineWindow()
 {
 }
 
-void GameEngineWindow::WindowCreate(HINSTANCE _hInstance, const std::string_view& _TitleName, float4 _Size, float4 _Pos)
+void GameEngineWindow::WindowCreate(HINSTANCE _hInstance, std::string_view _TitleName, float4 _Size, float4 _Pos)
 {
     // 윈도우를 찍어낼수 있는 class를 만들어내는 것이다.
     // 나는 이러이러한 윈도우를 만들어줘...

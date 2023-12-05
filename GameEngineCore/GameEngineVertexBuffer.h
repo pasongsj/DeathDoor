@@ -20,7 +20,7 @@ public:
 	GameEngineVertexBuffer& operator=(GameEngineVertexBuffer&& _Other) noexcept = delete;
 
 	template<typename VertexType>
-	static std::shared_ptr<GameEngineVertexBuffer> Create(const std::string_view& _Name, const std::vector<VertexType>& _Vertexs)
+	static std::shared_ptr<GameEngineVertexBuffer> Create(std::string_view _Name, const std::vector<VertexType>& _Vertexs)
 	{
 		std::shared_ptr<GameEngineVertexBuffer> Res = GameEngineResource::Create(_Name);
 		Res->LayOutInfo = &VertexType::LayOut;

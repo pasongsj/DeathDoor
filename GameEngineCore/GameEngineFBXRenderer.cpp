@@ -3,7 +3,7 @@
 #include "GameEngineFBXAnimation.h"
 #include "GameEngineMaterial.h"
 
-void GameEngineFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, const std::string_view& _Name, int _Index)
+void GameEngineFBXAnimationInfo::Init(std::shared_ptr<GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimation> _Animation, std::string_view _Name, int _Index)
 {
 	// GameENgineFBXAnimation의 행렬 정보가 완전해지는것은 
 	// CalFbxExBoneFrameTransMatrix가 호출되고 난 후입니다.
@@ -182,7 +182,7 @@ GameEngineFBXRenderer::~GameEngineFBXRenderer()
 {
 }
 
-void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, const std::string_view& BeforeTex, const std::string_view& TextureName)
+void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, std::string_view BeforeTex, std::string_view TextureName)
 {
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
@@ -253,7 +253,7 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 }
 
 void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, RenderPath _Path,
-	const std::string_view& BeforeTex,  const std::string_view& _TextureName)
+	std::string_view BeforeTex,  std::string_view _TextureName)
 {
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
@@ -271,8 +271,8 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 	size_t _MeshIndex,
 	size_t _SubSetIndex,
 	RenderPath _Path/*= 0*/,
-	const std::string_view& BeforeTex ,
-	const std::string_view& _TextureName)
+	std::string_view BeforeTex ,
+	std::string_view _TextureName)
 {
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
@@ -404,7 +404,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 	return RenderUnit;
 }
 
-void GameEngineFBXRenderer::SetAnimationStartFunc(const std::string_view& _Name, UINT _Index, std::function<void()> _Func) // 애니메이션 이름, 프레임인덱스, 함수
+void GameEngineFBXRenderer::SetAnimationStartFunc(std::string_view _Name, UINT _Index, std::function<void()> _Func) // 애니메이션 이름, 프레임인덱스, 함수
 {	
 	std::string sUpperName = GameEngineString::ToUpper(_Name);
 	if (Animations.end() == Animations.find(sUpperName))

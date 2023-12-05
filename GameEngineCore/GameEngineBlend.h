@@ -15,7 +15,7 @@ public:
 	GameEngineBlend& operator=(const GameEngineBlend& _Other) = delete;
 	GameEngineBlend& operator=(GameEngineBlend&& _Other) noexcept = delete;
 
-	static std::shared_ptr<GameEngineBlend> Create(const std::string_view& _Name, const D3D11_BLEND_DESC& _Desc)
+	static std::shared_ptr<GameEngineBlend> Create(std::string_view _Name, const D3D11_BLEND_DESC& _Desc)
 	{
 		std::shared_ptr<GameEngineBlend> Res = GameEngineResource::Create(_Name);
 		Res->ResCreate(_Desc);

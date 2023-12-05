@@ -150,7 +150,7 @@ void BossFrogMain::InitAnimation()
 			SetStateCheckerOn();
 
 			SmashAttack = GetLevel()->CreateActor<EnemyAttackBox>();
-			SmashAttack->SetScale(float4{ 300.0f,100.0f,300.0f });
+			SmashAttack->SetScale(float4{ 500,100.0f,300.0f });
 			float4 forward = GetTransform()->GetWorldForwardVector();
 			SmashAttack->SetTrans(forward, GetTransform()->GetWorldPosition() + forward * 300.0f);
 

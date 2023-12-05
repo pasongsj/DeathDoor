@@ -29,7 +29,7 @@ void GameEngineFSM::CreateState(const StateParameter& _StateFunction)
 	NewState.Update = _StateFunction.Update;
 }
 
-void GameEngineFSM::ChangeFunction(const std::string_view& _Name, std::function<void()> _Start,
+void GameEngineFSM::ChangeFunction(std::string_view _Name, std::function<void()> _Start,
 	std::function<void(float _Delta)> _Update,
 	std::function<void()> _End
 ) 
@@ -57,7 +57,7 @@ void GameEngineFSM::Update(float _DeltaTime)
 	CurState->Update(_DeltaTime);
 }
 
-void GameEngineFSM::ChangeState(const std::string_view& _State) 
+void GameEngineFSM::ChangeState(std::string_view _State) 
 {
 	if (nullptr != CurState)
 	{
@@ -77,7 +77,7 @@ void GameEngineFSM::ChangeState(const std::string_view& _State)
 	CurState->Start();
 }
 
-GameEngineFSM::State* GameEngineFSM::FindState(const std::string_view& _Name)
+GameEngineFSM::State* GameEngineFSM::FindState(std::string_view _Name)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 

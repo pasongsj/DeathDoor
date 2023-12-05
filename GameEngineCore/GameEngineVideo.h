@@ -25,13 +25,13 @@ public:
 	GameEngineVideo& operator=(const GameEngineVideo&& _Other) noexcept = delete;
 
 
-	static std::shared_ptr<GameEngineVideo> Load(const std::string_view& _Path)
+	static std::shared_ptr<GameEngineVideo> Load(std::string_view _Path)
 	{
 		GameEnginePath Path = GameEnginePath(std::string(_Path.data()));
 		return Load(_Path, Path.GetFileName());
 	}
 
-	static std::shared_ptr<GameEngineVideo> Load(const std::string_view& _Path, const std::string_view& _Name)
+	static std::shared_ptr<GameEngineVideo> Load(std::string_view _Path, std::string_view _Name)
 	{
 		std::shared_ptr<GameEngineVideo> Res = GameEngineResource::Create(_Name);
 		Res->ResLoad(_Path);
@@ -80,7 +80,7 @@ private:
 	IVideoFrameStep* FrameStep = nullptr;
 
 	//동영상을 로드합니다
-	void ResLoad(const std::string_view& _Path);
+	void ResLoad(std::string_view _Path);
 
 	void Release();
 };

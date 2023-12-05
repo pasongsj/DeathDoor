@@ -15,8 +15,8 @@ GameEnginePixelShader::~GameEnginePixelShader()
 	}
 }
 
-void GameEnginePixelShader::ShaderLoad(const std::string_view& _Path
-	, const std::string_view& _EntryPoint
+void GameEnginePixelShader::ShaderLoad(std::string_view _Path
+	, std::string_view _EntryPoint
 	, UINT _VersionHigh /*= 5*/
 	, UINT _VersionLow /*= 0*/)
 {

@@ -36,7 +36,7 @@ public:
 		return m_pCapsuleComp;
 	}
 
-	float4 GetBonePos(const std::string_view& _BoneName);
+	float4 GetBonePos(std::string_view _BoneName);
 
 	inline int GetPlayerHP()
 	{

@@ -159,13 +159,13 @@ GameEngineSound::~GameEngineSound()
 	}
 }
 
-void GameEngineSound::Load(const std::string_view& _Path)
+void GameEngineSound::Load(std::string_view _Path)
 {
 	GameEnginePath NewPath(_Path);
 	return Load(NewPath.GetFileName(), _Path);
 }
 
-void GameEngineSound::Load(const std::string_view& _Name, const std::string_view& _Path)
+void GameEngineSound::Load(std::string_view _Name, std::string_view _Path)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 	std::shared_ptr<GameEngineSound> NewSound = std::make_shared<GameEngineSound>();
@@ -173,7 +173,7 @@ void GameEngineSound::Load(const std::string_view& _Name, const std::string_view
 	AllSound.insert(std::pair<std::string, std::shared_ptr<GameEngineSound>>(UpperName, NewSound));
 }
 
-GameEngineSoundPlayer GameEngineSound::Play(const std::string_view& _Name, bool _Group/* = true)*/)
+GameEngineSoundPlayer GameEngineSound::Play(std::string_view _Name, bool _Group/* = true)*/)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -205,7 +205,7 @@ GameEngineSoundPlayer GameEngineSound::Play(const std::vector<std::string>& Play
 }
 
 
-void GameEngineSound::SoundLoad(const std::string_view& _Path)
+void GameEngineSound::SoundLoad(std::string_view _Path)
 {
 	std::string UTF8Path = GameEngineString::AnsiToUTF8(_Path);
 

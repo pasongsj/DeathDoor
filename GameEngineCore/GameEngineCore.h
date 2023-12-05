@@ -35,7 +35,7 @@ public:
 	static void Start(HINSTANCE _instance, std::function<void()> _Start, std::function<void()> _End, float4 _Pos = {0, 0}, float4 _Size = { 1280, 720 });
 
 	template<typename LevelType>
-	static std::shared_ptr<LevelType> CreateLevel(const std::string_view& _Name = "")
+	static std::shared_ptr<LevelType> CreateLevel(std::string_view _Name = "")
 	{
 		std::shared_ptr<GameEngineLevel> NewLevel =  std::make_shared<LevelType>();
 		std::string Name = _Name.data();
@@ -61,7 +61,7 @@ public:
 
 		return std::dynamic_pointer_cast<LevelType>(NewLevel);
 	}
-	static std::shared_ptr<GameEngineLevel> ChangeLevel(const std::string_view& _Name);
+	static std::shared_ptr<GameEngineLevel> ChangeLevel(std::string_view _Name);
 
 	static std::shared_ptr<GameEngineLevel> GetCurLevel() 
 	{
@@ -88,7 +88,7 @@ private:
 	static void CoreResourcesInit();
 	static void CoreResourcesEnd();
 
-	static void LevelInit(std::shared_ptr<GameEngineLevel> _Level, const std::string_view& _Name);
+	static void LevelInit(std::shared_ptr<GameEngineLevel> _Level, std::string_view _Name);
 
 	static void EngineStart(std::function<void()> __ContentsStart);
 	static void EngineUpdate();

@@ -17,8 +17,8 @@ public:
 	GameEngineFontRenderer& operator=(const GameEngineFontRenderer& _Other) = delete;
 	GameEngineFontRenderer& operator=(GameEngineFontRenderer&& _Other) noexcept = delete;
 
-	void SetFont(const std::string_view& _Font);
-	void SetText(const std::string_view& _Text);
+	void SetFont(std::string_view _Font);
+	void SetText(std::string_view _Text);
 
 	void SetScale(float _FontScale)
 	{

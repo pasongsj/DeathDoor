@@ -15,7 +15,7 @@ public:
 	GameEngineMaterial& operator=(const GameEngineMaterial& _Other) = delete;
 	GameEngineMaterial& operator=(GameEngineMaterial&& _Other) noexcept = delete;
 
-	static std::shared_ptr<class GameEngineMaterial> Create(const std::string_view& _Name)
+	static std::shared_ptr<class GameEngineMaterial> Create(std::string_view _Name)
 	{
 		std::shared_ptr<class GameEngineMaterial> NewRes = GameEngineResource<GameEngineMaterial>::Create(_Name);
 		return NewRes;
@@ -36,15 +36,15 @@ public:
 		return GeometryShaderPtr;
 	}
 
-	//void SetVertexBuffer(const std::string_view& _Value);
-	//void SetIndexBuffer(const std::string_view& _Value);
+	//void SetVertexBuffer(std::string_view _Value);
+	//void SetIndexBuffer(std::string_view _Value);
 
-	void SetVertexShader(const std::string_view& _Value);
-	void SetGeometryShader(const std::string_view& _Value);
-	void SetRasterizer(const std::string_view& _Value);
-	void SetPixelShader(const std::string_view& _Value);
-	void SetBlendState(const std::string_view& _Value);
-	void SetDepthState(const std::string_view& _Value);
+	void SetVertexShader(std::string_view _Value);
+	void SetGeometryShader(std::string_view _Value);
+	void SetRasterizer(std::string_view _Value);
+	void SetPixelShader(std::string_view _Value);
+	void SetBlendState(std::string_view _Value);
+	void SetDepthState(std::string_view _Value);
 
 	inline void SetFILL_MODE(D3D11_FILL_MODE _Value)
 	{

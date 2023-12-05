@@ -12,7 +12,7 @@ GameEngineString::~GameEngineString()
 }
 
 
-std::string GameEngineString::ToUpper(const std::string_view& _Str)
+std::string GameEngineString::ToUpper(std::string_view _Str)
 {
 	std::string Text = _Str.data();
 
@@ -34,7 +34,7 @@ std::string GameEngineString::ToString(float Value)
 	return std::to_string(Value);
 }
 
-std::wstring GameEngineString::AnsiToUniCode(const std::string_view& _Text)
+std::wstring GameEngineString::AnsiToUniCode(std::string_view _Text)
 {
 	// 2가지 역할이 있습니다.
 	// 직접 변환
@@ -160,7 +160,7 @@ std::string GameEngineString::UniCodeToUTF8(const std::wstring_view& _Text)
 
 }
 
-std::string GameEngineString::AnsiToUTF8(const std::string_view& _Text)
+std::string GameEngineString::AnsiToUTF8(std::string_view _Text)
 {
 	std::wstring Unicode = AnsiToUniCode(_Text);
 	return UniCodeToUTF8(Unicode.c_str());

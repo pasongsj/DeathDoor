@@ -40,7 +40,7 @@ public:
 
 	void OnGUI(std::shared_ptr<GameEngineLevel> Level, float _DeltaTime) override;
 
-	static void AddDebugRenderTarget(int _Order, const std::string_view& _Name, std::shared_ptr<GameEngineRenderTarget> _Target);
+	static void AddDebugRenderTarget(int _Order, std::string_view _Name, std::shared_ptr<GameEngineRenderTarget> _Target);
 
 protected:
 

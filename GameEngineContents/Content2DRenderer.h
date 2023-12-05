@@ -14,7 +14,7 @@ public:
 	Content2DRenderer& operator=(const Content2DRenderer& _Other) = delete;
 	Content2DRenderer& operator=(Content2DRenderer&& _Other) noexcept = delete;
 
-	void SetScaleToTexture(const std::string_view& _Name);
+	void SetScaleToTexture(std::string_view _Name);
 protected:
 	void Start() override;
 private:

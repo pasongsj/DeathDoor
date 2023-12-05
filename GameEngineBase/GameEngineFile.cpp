@@ -18,7 +18,7 @@ GameEngineFile::GameEngineFile(std::filesystem::path _Path)
 
 }
 
-GameEngineFile::GameEngineFile(const std::string_view& _Path)
+GameEngineFile::GameEngineFile(std::string_view _Path)
 	: GameEnginePath(_Path)
 {
 
@@ -53,7 +53,7 @@ void GameEngineFile::SaveBin(const GameEngineSerializer& _Data)
 	}
 }
 
-void GameEngineFile::SaveText(const std::string_view& _View)
+void GameEngineFile::SaveText(std::string_view _View)
 {
 	FILE* FilePtr = nullptr;
 	std::string PathString = GetFullPath();
@@ -73,7 +73,7 @@ void GameEngineFile::SaveText(const std::string_view& _View)
 		fclose(FilePtr);
 	}
 }
-void GameEngineFile::SaveTextAppend(const std::string_view& _View)
+void GameEngineFile::SaveTextAppend(std::string_view _View)
 {
 	FILE* FilePtr = nullptr;
 	std::string PathString = GetFullPath();
