@@ -156,7 +156,7 @@ void GameEngineMaterial::OutputMerger()
 }
 
 //
-//void GameEngineMaterial::SetVertexBuffer(const std::string_view& _Value)
+//void GameEngineMaterial::SetVertexBuffer(std::string_view _Value)
 //{
 //	std::string UpperName = GameEngineString::ToUpper(_Value);
 //	VertexBufferPtr = GameEngineVertexBuffer::Find(UpperName);
@@ -175,7 +175,7 @@ void GameEngineMaterial::OutputMerger()
 //}
 //
 //
-//void GameEngineMaterial::SetIndexBuffer(const std::string_view& _Value)
+//void GameEngineMaterial::SetIndexBuffer(std::string_view _Value)
 //{
 //	std::string UpperName = GameEngineString::ToUpper(_Value);
 //	IndexBufferPtr = GameEngineIndexBuffer::Find(UpperName);
@@ -188,7 +188,7 @@ void GameEngineMaterial::OutputMerger()
 
 
 
-void GameEngineMaterial::SetVertexShader(const std::string_view& _Value)
+void GameEngineMaterial::SetVertexShader(std::string_view _Value)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Value);
 	VertexShaderPtr = GameEngineVertexShader::Find(UpperName);
@@ -206,7 +206,7 @@ void GameEngineMaterial::SetVertexShader(const std::string_view& _Value)
 	// InputLayOutPtr->ResCreate(VertexBufferPtr, VertexShaderPtr);
 }
 
-void GameEngineMaterial::SetGeometryShader(const std::string_view& _Value)
+void GameEngineMaterial::SetGeometryShader(std::string_view _Value)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Value);
 	GeometryShaderPtr = GameEngineGeometryShader::Find(UpperName);
@@ -225,7 +225,7 @@ void GameEngineMaterial::SetGeometryShader(const std::string_view& _Value)
 
 
 
-void GameEngineMaterial::SetPixelShader(const std::string_view& _Value)
+void GameEngineMaterial::SetPixelShader(std::string_view _Value)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Value);
 	PixelShaderPtr = GameEnginePixelShader::Find(UpperName);
@@ -236,7 +236,7 @@ void GameEngineMaterial::SetPixelShader(const std::string_view& _Value)
 	}
 }
 
-void GameEngineMaterial::SetBlendState(const std::string_view& _Value)
+void GameEngineMaterial::SetBlendState(std::string_view _Value)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Value);
 	BlendStatePtr = GameEngineBlend::Find(UpperName);
@@ -248,7 +248,7 @@ void GameEngineMaterial::SetBlendState(const std::string_view& _Value)
 	}
 }
 
-void GameEngineMaterial::SetDepthState(const std::string_view& _Value)
+void GameEngineMaterial::SetDepthState(std::string_view _Value)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Value);
 	DepthStatePtr = GameEngineDepthState::Find(UpperName);
@@ -260,7 +260,7 @@ void GameEngineMaterial::SetDepthState(const std::string_view& _Value)
 	}
 }
 
-void GameEngineMaterial::SetRasterizer(const std::string_view& _Value)
+void GameEngineMaterial::SetRasterizer(std::string_view _Value)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Value);
 	RasterizerPtr = GameEngineRasterizer::Find(UpperName);

@@ -34,7 +34,7 @@ void ContentFBXRenderer::Render(float _DeltaTime)
 	//
 }
 
-void ContentFBXRenderer::SetAllUnitTexture(const std::string_view& _SettingName, const std::string_view& _ImageName)
+void ContentFBXRenderer::SetAllUnitTexture(std::string_view _SettingName, std::string_view _ImageName)
 {
 	auto AllUnits = GetAllRenderUnit();
 
@@ -60,7 +60,7 @@ void ContentFBXRenderer::SetCrackAmount(float _Amount)
 	}
 }
 
-void ContentFBXRenderer::SetCrackMask(const std::string_view& _MaskTextureName)
+void ContentFBXRenderer::SetCrackMask(std::string_view _MaskTextureName)
 {
 	auto AllUnits = GetAllRenderUnit();
 
@@ -73,7 +73,7 @@ void ContentFBXRenderer::SetCrackMask(const std::string_view& _MaskTextureName)
 	}
 }
 
-void ContentFBXRenderer::SetFadeMask(const std::string_view& _MaskTextureName)
+void ContentFBXRenderer::SetFadeMask(std::string_view _MaskTextureName)
 {
 	auto AllUnits = GetAllRenderUnit();
 
@@ -279,7 +279,7 @@ void ContentFBXRenderer::FadeIn(float _MaxTime, float _DeltaTime)
 	}
 }
 
-void ContentFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, const std::string_view& beforeTex, const std::string_view& TextureName)
+void ContentFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, std::string_view beforeTex, std::string_view TextureName)
 {
 	std::string UpperSettingName = GameEngineString::ToUpper(_Material);
 

@@ -199,7 +199,7 @@ void GameEngineCore::Start(HINSTANCE _instance,  std::function<void()> _Start, s
 	GameEngineWindow::WindowLoop(std::bind(GameEngineCore::EngineStart, _Start), GameEngineCore::EngineUpdate, std::bind(GameEngineCore::EngineEnd, _End));
 }
 
-std::shared_ptr<GameEngineLevel> GameEngineCore::ChangeLevel(const std::string_view& _Name)
+std::shared_ptr<GameEngineLevel> GameEngineCore::ChangeLevel(std::string_view _Name)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -214,7 +214,7 @@ std::shared_ptr<GameEngineLevel> GameEngineCore::ChangeLevel(const std::string_v
 	return NextLevel;
 }
 
-void GameEngineCore::LevelInit(std::shared_ptr<GameEngineLevel> _Level,const std::string_view& _Name) 
+void GameEngineCore::LevelInit(std::shared_ptr<GameEngineLevel> _Level,std::string_view _Name) 
 {
 	_Level->SetName(_Name);
 	CurLoadLevel = _Level;

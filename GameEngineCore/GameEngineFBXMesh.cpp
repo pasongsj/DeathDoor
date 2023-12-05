@@ -43,7 +43,7 @@ void GameEngineFBXMesh::Release()
 }
 
 //
-//void GameEngineFBXMesh::UserLoad(const std::string_view& _Path)
+//void GameEngineFBXMesh::UserLoad(std::string_view _Path)
 //{
 //	GameEngineFile File = _Path.data();
 //	File.Open(OpenMode::Read, FileMode::Binary);
@@ -65,7 +65,7 @@ void GameEngineFBXMesh::Release()
 //
 //}
 //
-//void GameEngineFBXMesh::UserSave(const std::string_view& _Path)
+//void GameEngineFBXMesh::UserSave(std::string_view _Path)
 //{
 //	GameEngineFile File = _Path.data();
 //	File.Open(OpenMode::Write, FileMode::Binary);
@@ -76,7 +76,7 @@ void GameEngineFBXMesh::Release()
 //	File.Write(AllBones);
 //}
 //
-//void GameEngineFBXMesh::UserSave(const std::string_view& _Path, size_t Index)
+//void GameEngineFBXMesh::UserSave(std::string_view _Path, size_t Index)
 //{
 //	GameEngineFile File = _Path.data();
 //	File.Open(OpenMode::Write, FileMode::Binary);
@@ -97,7 +97,7 @@ void GameEngineFBXMesh::Release()
 //	File.Write(AllBones);
 //}
 //
-//void GameEngineFBXMesh::UserSave(const std::string_view& _Path, std::vector<size_t> _Indexs)
+//void GameEngineFBXMesh::UserSave(std::string_view _Path, std::vector<size_t> _Indexs)
 //{
 //	GameEngineFile File = _Path.data();
 //	File.Open(OpenMode::Write, FileMode::Binary);

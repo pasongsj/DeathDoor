@@ -377,7 +377,7 @@ void GameEngineShaderResHelper::ComputeSetting()
 	}
 }
 
-void GameEngineShaderResHelper::SetConstantBufferLink(const std::string_view& _Name, const void* _Data, UINT _Size)
+void GameEngineShaderResHelper::SetConstantBufferLink(std::string_view _Name, const void* _Data, UINT _Size)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -408,7 +408,7 @@ void GameEngineShaderResHelper::SetConstantBufferLink(const std::string_view& _N
 
 }
 
-void GameEngineShaderResHelper::SetTexture(const std::string_view& _SettingName, std::shared_ptr<GameEngineTexture> _Texture)
+void GameEngineShaderResHelper::SetTexture(std::string_view _SettingName, std::shared_ptr<GameEngineTexture> _Texture)
 {
 	if (nullptr == _Texture)
 	{
@@ -436,7 +436,7 @@ void GameEngineShaderResHelper::SetTexture(const std::string_view& _SettingName,
 	}
 }
 
-void GameEngineShaderResHelper::SetTexture(const std::string_view& _SettingName, const std::string_view& _ImageName)
+void GameEngineShaderResHelper::SetTexture(std::string_view _SettingName, std::string_view _ImageName)
 {
 	std::string UpperName = GameEngineString::ToUpper(_SettingName);
 
@@ -467,7 +467,7 @@ void GameEngineShaderResHelper::SetTexture(const std::string_view& _SettingName,
 
 }
 
-GameEngineStructuredBufferSetter* GameEngineShaderResHelper::GetStructuredBufferSetter(const std::string_view& _View)
+GameEngineStructuredBufferSetter* GameEngineShaderResHelper::GetStructuredBufferSetter(std::string_view _View)
 {
 	std::string UpperName = GameEngineString::ToUpper(_View);
 
@@ -481,7 +481,7 @@ GameEngineStructuredBufferSetter* GameEngineShaderResHelper::GetStructuredBuffer
 	return &(FindIter->second);
 }
 
-GameEngineTextureSetter* GameEngineShaderResHelper::GetTextureSetter(const std::string_view& _View)
+GameEngineTextureSetter* GameEngineShaderResHelper::GetTextureSetter(std::string_view _View)
 {
 	std::string UpperName = GameEngineString::ToUpper(_View);
 
@@ -496,7 +496,7 @@ GameEngineTextureSetter* GameEngineShaderResHelper::GetTextureSetter(const std::
 
 }
 
-std::vector<GameEngineTextureSetter*> GameEngineShaderResHelper::GetTextureSetters(const std::string_view& _View)
+std::vector<GameEngineTextureSetter*> GameEngineShaderResHelper::GetTextureSetters(std::string_view _View)
 {
 	std::string UpperName = GameEngineString::ToUpper(_View);
 
@@ -546,7 +546,7 @@ void GameEngineShaderResHelper::AllResourcesReset()
 	}
 }
 
-bool GameEngineShaderResHelper::IsConstantBuffer(const std::string_view& _Name)
+bool GameEngineShaderResHelper::IsConstantBuffer(std::string_view _Name)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -560,7 +560,7 @@ bool GameEngineShaderResHelper::IsConstantBuffer(const std::string_view& _Name)
 	return true;
 }
 
-bool GameEngineShaderResHelper::IsStructuredBuffer(const std::string_view& _Name)
+bool GameEngineShaderResHelper::IsStructuredBuffer(std::string_view _Name)
 {
 	std::string UpperName = GameEngineString::ToUpper(_Name);
 

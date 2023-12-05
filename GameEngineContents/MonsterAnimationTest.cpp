@@ -86,7 +86,7 @@ void MonsterAnimationTest::Start()
 
 }
 
-float4 MonsterAnimationTest::GetBonePos(const std::string_view& _BoneName)
+float4 MonsterAnimationTest::GetBonePos(std::string_view _BoneName)
 {
 	AnimationBoneData Bone = Renderer->GetBoneData(_BoneName.data());
 

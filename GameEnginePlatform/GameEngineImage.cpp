@@ -93,7 +93,7 @@ bool GameEngineImage::ImageLoad(const GameEnginePath& _Path)
 
 #define TEST(Value) Value
 
-bool GameEngineImage::ImageLoad(const std::string_view& _Path) 
+bool GameEngineImage::ImageLoad(std::string_view _Path) 
 {
 	//HDC ImageDC;
 	//HBITMAP BitMap;

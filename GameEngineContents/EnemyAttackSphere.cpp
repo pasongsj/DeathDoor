@@ -13,7 +13,7 @@ EnemyAttackSphere::~EnemyAttackSphere()
 
 
 
-void EnemyAttackSphere::SetRender(const float4& _RenderScale, const std::string_view& _Mesh)
+void EnemyAttackSphere::SetRender(const float4& _RenderScale, std::string_view _Mesh)
 {
 	// Render
 	if (nullptr == AttackRenderer)

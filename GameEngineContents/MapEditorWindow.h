@@ -65,7 +65,7 @@ private:
 
 	// Resource Func
 	void SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel> Level);
-	void Explorer(std::string& _Name, const std::string_view& _StartPath = "");
+	void Explorer(std::string& _Name, std::string_view _StartPath = "");
 
 	// Actor Info
 	std::shared_ptr<class GameEngineActor> CurActor = nullptr;

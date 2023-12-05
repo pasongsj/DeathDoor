@@ -607,7 +607,7 @@ void MapEditorWindow::SetReadWriteFilePath(std::shared_ptr<class GameEngineLevel
 	}
 }
 
-void MapEditorWindow::Explorer(std::string& _Name, const std::string_view& _StartPath)
+void MapEditorWindow::Explorer(std::string& _Name, std::string_view _StartPath)
 {
 	GameEngineDirectory NewDir;
 	NewDir.MoveParentToDirectory("ContentResources");

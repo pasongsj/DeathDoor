@@ -16,7 +16,7 @@ GameEngineVideo::~GameEngineVideo()
 
 
 
-void GameEngineVideo::ResLoad(const std::string_view& _Path)
+void GameEngineVideo::ResLoad(std::string_view _Path)
 {
 	HWND MainHwnd = GameEngineWindow::GetHWnd();
 

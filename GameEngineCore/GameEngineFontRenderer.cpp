@@ -11,12 +11,12 @@ GameEngineFontRenderer::~GameEngineFontRenderer()
 {
 }
 
-void GameEngineFontRenderer::SetFont(const std::string_view& _Font)
+void GameEngineFontRenderer::SetFont(std::string_view _Font)
 {
 	Font = GameEngineFont::Find(_Font);
 }
 
-void GameEngineFontRenderer::SetText(const std::string_view& _Text)
+void GameEngineFontRenderer::SetText(std::string_view _Text)
 {
 	Text = _Text;
 }

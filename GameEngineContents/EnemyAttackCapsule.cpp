@@ -10,7 +10,7 @@ EnemyAttackCapsule::EnemyAttackCapsule()
 EnemyAttackCapsule::~EnemyAttackCapsule()
 {
 }
-void EnemyAttackCapsule::SetRender(const float4& _RenderScale, const float4& _RenderRotate, const std::string_view& _Mesh)
+void EnemyAttackCapsule::SetRender(const float4& _RenderScale, const float4& _RenderRotate, std::string_view _Mesh)
 {
 	if (nullptr == AttackRenderer)
 	{

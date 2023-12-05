@@ -48,15 +48,15 @@ public:
 
 	static void Update(float _DeltaTime);
 
-	static void CreateKey(const std::string_view& _Name, int _Key);
+	static void CreateKey(std::string_view _Name, int _Key);
 
-	static bool IsKey(const std::string_view& _Name);
+	static bool IsKey(std::string_view _Name);
 
-	static bool IsDown(const std::string_view& _Name);
-	static bool IsUp(const std::string_view& _Name);
-	static bool IsPress(const std::string_view& _Name);
-	static bool IsFree(const std::string_view& _Name);
-	static float GetPressTime(const std::string_view& _Name);
+	static bool IsDown(std::string_view _Name);
+	static bool IsUp(std::string_view _Name);
+	static bool IsPress(std::string_view _Name);
+	static bool IsFree(std::string_view _Name);
+	static float GetPressTime(std::string_view _Name);
 
 	static void MouseCursorOff();
 

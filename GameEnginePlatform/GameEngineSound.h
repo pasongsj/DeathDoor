@@ -134,11 +134,11 @@ public:
 	GameEngineSound& operator=(const GameEngineSound& _Other) = delete;
 	GameEngineSound& operator=(GameEngineSound&& _Other) noexcept = delete;
 
-	static void Load(const std::string_view& _Path);
+	static void Load(std::string_view _Path);
 
-	static void Load(const std::string_view& _Name, const std::string_view& _Path);
+	static void Load(std::string_view _Name, std::string_view _Path);
 
-	static GameEngineSoundPlayer Play(const std::string_view& _Name, bool _Group = true);
+	static GameEngineSoundPlayer Play(std::string_view _Name, bool _Group = true);
 	static GameEngineSoundPlayer Play(const std::vector<std::string>& PlayList, bool _Group = true);
 
 	static FMOD::ChannelGroup* ChannelGroup;
@@ -148,7 +148,7 @@ public:
 protected:
 
 private:
-	void SoundLoad(const std::string_view& _Path);
+	void SoundLoad(std::string_view _Path);
 	FMOD::Channel* SoundPlay();
 	// ½ÃÄý½º
 	// ¿¬°ü

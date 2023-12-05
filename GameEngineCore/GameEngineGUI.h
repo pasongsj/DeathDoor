@@ -51,7 +51,7 @@ public:
 	static void Release();
 
 	template<typename WindowType>
-	static std::shared_ptr<GameEngineGUIWindow> GUIWindowCreate(const std::string_view& _Name)
+	static std::shared_ptr<GameEngineGUIWindow> GUIWindowCreate(std::string_view _Name)
 	{
 		std::string UpperString = GameEngineString::ToUpper(_Name);
 
@@ -70,14 +70,14 @@ public:
 	}
 
 	template<typename ConvertType>
-	static std::shared_ptr<ConvertType> FindGUIWindowConvert(const std::string_view& _Name)
+	static std::shared_ptr<ConvertType> FindGUIWindowConvert(std::string_view _Name)
 	{
 		std::shared_ptr<GameEngineGUIWindow> Window = FindGUIWindow(_Name);
 
 		return std::dynamic_pointer_cast<ConvertType>(Window);
 	}
 
-	static std::shared_ptr<GameEngineGUIWindow> FindGUIWindow(const std::string_view& _Name)
+	static std::shared_ptr<GameEngineGUIWindow> FindGUIWindow(std::string_view _Name)
 	{
 		std::string UpperString = GameEngineString::ToUpper(_Name);
 

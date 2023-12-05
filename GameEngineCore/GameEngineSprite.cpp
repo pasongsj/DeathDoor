@@ -9,7 +9,7 @@ GameEngineSprite::~GameEngineSprite()
 {
 }
 
-void GameEngineSprite::ResLoadFolder(const std::string_view& _Path)
+void GameEngineSprite::ResLoadFolder(std::string_view _Path)
 {
 	GameEngineDirectory Dir = _Path;
 
@@ -46,7 +46,7 @@ void GameEngineSprite::ResLoadFolder(const std::string_view& _Path)
 
 
 
-void GameEngineSprite::ResLoadSheet(const std::string_view& _Path, size_t _X, size_t _Y)
+void GameEngineSprite::ResLoadSheet(std::string_view _Path, size_t _X, size_t _Y)
 {
 	GameEnginePath NewPath(_Path);
 

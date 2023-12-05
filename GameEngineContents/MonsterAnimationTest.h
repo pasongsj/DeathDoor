@@ -19,7 +19,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-	float4 GetBonePos(const std::string_view& _BoneName);
+	float4 GetBonePos(std::string_view _BoneName);
 
 	std::shared_ptr<class ContentFBXRenderer> Renderer = nullptr;
 	std::shared_ptr<class ContentFBXRenderer> WeaponRenderer = nullptr;

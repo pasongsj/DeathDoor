@@ -440,7 +440,7 @@ float4 Player::GetMousDirection()
 }
 
 
-float4 Player::GetBonePos(const std::string_view& _BoneName)
+float4 Player::GetBonePos(std::string_view _BoneName)
 {
 	AnimationBoneData Bone = Renderer->GetBoneData(_BoneName.data());
 	BonePivot->GetTransform()->SetLocalPosition(Bone.Pos);

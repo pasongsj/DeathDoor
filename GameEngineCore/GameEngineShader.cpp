@@ -20,7 +20,7 @@ GameEngineShader::~GameEngineShader()
 	}
 }
 
-void GameEngineShader::CreateVersion(const std::string_view& _ShaderType, UINT _VersionHigt /*= 5*/, UINT _VersionLow /*= 0*/)
+void GameEngineShader::CreateVersion(std::string_view _ShaderType, UINT _VersionHigt /*= 5*/, UINT _VersionLow /*= 0*/)
 {
 	// vs_5_0
 	Version += _ShaderType;

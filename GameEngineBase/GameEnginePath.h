@@ -24,8 +24,8 @@ public:
 	GameEnginePath& operator=(const GameEnginePath& _Other) = delete;
 	GameEnginePath& operator=(GameEnginePath&& _Other) noexcept = delete;
 
-	static std::string GetFileName(const std::string_view& _Path);
-	static std::string GetFolderPath(const std::string_view& _Path);
+	static std::string GetFileName(std::string_view _Path);
+	static std::string GetFolderPath(std::string_view _Path);
 
 	std::string GetFileName() const;
 	std::string GetFullPath() const;
@@ -34,20 +34,20 @@ public:
 	void MoveParent();
 
 	// 내자식중 특정 경로나 특정 파일이 있는곳까지 자동 move
-	void MoveParentToChildPath(const std::string_view& _String);
+	void MoveParentToChildPath(std::string_view _String);
 
 	bool IsExists();
-	bool IsExistsToPlusString(const std::string_view& _String);
+	bool IsExistsToPlusString(std::string_view _String);
 
-	// bool MoveParentToChildPath(const std::string_view& _IOName );
+	// bool MoveParentToChildPath(std::string_view _IOName );
 
 	bool IsDirectory() const;
 
 	bool IsRoot();
 
-	bool Move(const std::string_view& _Path);
+	bool Move(std::string_view _Path);
 
-	void SetPath(const std::string_view& _Path);
+	void SetPath(std::string_view _Path);
 
 
 protected:

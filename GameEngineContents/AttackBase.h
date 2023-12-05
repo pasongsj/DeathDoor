@@ -20,7 +20,7 @@ public:
 	AttackBase& operator=(const AttackBase& _Other) = delete;
 	AttackBase& operator=(AttackBase&& _Other) noexcept = delete;
 
-	void SetEndSound(const std::string_view& _Name)
+	void SetEndSound(std::string_view _Name)
 	{
 		AttackEndSound = _Name;
 	}
@@ -108,7 +108,7 @@ protected:
 
 	PhysXFilterGroup DestTarget = PhysXFilterGroup::None;
 
-	void SetAttackAudio(const std::string_view& _Audio)
+	void SetAttackAudio(std::string_view _Audio)
 	{
 		AttackAudio = _Audio.data();
 	}

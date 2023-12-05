@@ -15,7 +15,7 @@ public:
 	GameEngineNameObject& operator=(const GameEngineNameObject& _Other) = delete;
 	GameEngineNameObject& operator=(GameEngineNameObject&& _Other) noexcept = delete;
 
-	void SetName(const std::string_view& _Name)
+	void SetName(std::string_view _Name)
 	{
 		Name = _Name;
 	}
