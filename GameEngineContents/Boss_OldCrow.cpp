@@ -266,7 +266,7 @@ void Boss_OldCrow::SetNextPatternState()
 		}
 
 		SetNextState(Boss_OldCrowState::IDLE);
-		CurrentPatternNum = Patterns[PatternNum].size();
+		CurrentPatternNum = static_cast<short>(Patterns[PatternNum].size());
 
 		return;
 	}
@@ -558,5 +558,5 @@ void Boss_OldCrow::LevelChangeStart()
 	GetLevel()->GetMainCamera()->GetTransform()->SetLocalPosition(m_CameraPos);
 
 	TestModeNumber = 0;
-	TestMode = true;
+	TestMode = false;
 }
