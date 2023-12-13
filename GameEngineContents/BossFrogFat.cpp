@@ -192,6 +192,7 @@ void BossFrogFat::InitAnimation()
 			std::shared_ptr< BossFrogBomb> Bomb = GetLevel()->CreateActor< BossFrogBomb>();
 			float4 StartP = GetTransform()->GetWorldPosition();
 			StartP.y = 100.0f;
+			StartP += GetTransform()->GetWorldForwardVector() * 150.0f;
 			float4 Destindex = GetRandomTileIndex();
 			Bomb->SetTargetTile(StartP, Destindex);
 		});

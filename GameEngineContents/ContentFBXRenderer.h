@@ -14,15 +14,15 @@ public:
 	ContentFBXRenderer& operator=(const ContentFBXRenderer& _Other) = delete;
 	ContentFBXRenderer& operator=(ContentFBXRenderer&& _Other) noexcept = delete;
 
-	void SetAllUnitTexture(const std::string_view& _SettingName, const std::string_view& _ImageName);
+	void SetAllUnitTexture(std::string_view _SettingName, std::string_view _ImageName);
 	
-	void SetFadeMask(const std::string_view& _MaskTextureName = "MaskType1_0.png");
-	void SetCrackMask(const std::string_view& _MaskTextureName = "CrackMask.png");
+	void SetFadeMask(std::string_view _MaskTextureName = "MaskType1_0.png");
+	void SetCrackMask(std::string_view _MaskTextureName = "CrackMask.png");
 
 	void FadeOut(float _MaxTime, float _DeltaTime);
 	void FadeIn(float _MaxTime, float _DeltaTime);
 
-	void SetFBXMesh(const std::string& _Name, std::string _Material, const std::string_view& beforeTex, const std::string_view& TextureName) override;
+	void SetFBXMesh(const std::string& _Name, std::string _Material, std::string_view beforeTex, std::string_view TextureName) override;
 	void SetFBXMesh(const std::string& _MeshName, const std::string _SettingName, RenderPath _Path = RenderPath::None) override;
 	void SetCrackAmount(float _Amount);
 
@@ -31,7 +31,7 @@ public:
 		ClipData = _ClipData;
 	}
 
-	void UnitSetTexture(const std::string_view& _SettingName, const std::string_view& _TextureName, int _IndexY, int _IndexX)
+	void UnitSetTexture(std::string_view _SettingName, std::string_view _TextureName, int _IndexY, int _IndexX)
 	{
 		std::shared_ptr<GameEngineRenderUnit> CurUnit = GetIndexRenderUnit(_IndexY, _IndexX);
 		CurUnit->ShaderResHelper.SetTexture(_SettingName, _TextureName);

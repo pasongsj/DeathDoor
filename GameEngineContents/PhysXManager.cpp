@@ -77,7 +77,7 @@ void PhysXManager::Init()
 	}
 }
 
-void PhysXManager::CreateScene(const std::string_view& _Name)
+void PhysXManager::CreateScene(std::string_view _Name)
 {
 	std::string sUpperName = GameEngineString::ToUpper(_Name);
 
@@ -114,7 +114,7 @@ void PhysXManager::CreateScene(const std::string_view& _Name)
 	ChangeScene(sUpperName);
 }
 
-void PhysXManager::ChangeScene(const std::string_view& _Name)
+void PhysXManager::ChangeScene(std::string_view _Name)
 {
 	std::string sUpperName = GameEngineString::ToUpper(_Name);
 

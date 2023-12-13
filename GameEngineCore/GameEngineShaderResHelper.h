@@ -124,11 +124,11 @@ public:
 		StructuredBufferSetters.clear();
 	}
 
-	GameEngineStructuredBufferSetter* GetStructuredBufferSetter(const std::string_view& _View);
+	GameEngineStructuredBufferSetter* GetStructuredBufferSetter(std::string_view _View);
 
-	GameEngineTextureSetter* GetTextureSetter(const std::string_view& _View);
+	GameEngineTextureSetter* GetTextureSetter(std::string_view _View);
 
-	std::vector<GameEngineTextureSetter*> GetTextureSetters(const std::string_view& _View);
+	std::vector<GameEngineTextureSetter*> GetTextureSetters(std::string_view _View);
 
 	void CreateTextureSetter(const GameEngineTextureSetter& _Setter)
 	{
@@ -150,23 +150,23 @@ public:
 		ConstantBufferSetters.insert(std::make_pair(_Setter.Name, _Setter));
 	}
 
-	bool IsStructuredBuffer(const std::string_view& _Name);
+	bool IsStructuredBuffer(std::string_view _Name);
 
-	bool IsConstantBuffer(const std::string_view& _Name);
+	bool IsConstantBuffer(std::string_view _Name);
 
 	bool IsTexture(const std::string& _Name);
 
 	template<typename DataType>
-	void SetConstantBufferLink(const std::string_view& _Name, const DataType& _Data)
+	void SetConstantBufferLink(std::string_view _Name, const DataType& _Data)
 	{
 		SetConstantBufferLink(_Name, reinterpret_cast<const void*>(&_Data), sizeof(DataType));
 	}
 
-	void SetConstantBufferLink(const std::string_view& _Name, const void* _Data, UINT _Size);
+	void SetConstantBufferLink(std::string_view _Name, const void* _Data, UINT _Size);
 
-	void SetTexture(const std::string_view& _SettingName, const std::string_view& _ImageName);
+	void SetTexture(std::string_view _SettingName, std::string_view _ImageName);
 
-	void SetTexture(const std::string_view& _SettingName, std::shared_ptr<GameEngineTexture> _Texture);
+	void SetTexture(std::string_view _SettingName, std::shared_ptr<GameEngineTexture> _Texture);
 
 	void Copy(const GameEngineShaderResHelper& _ResHelper);
 

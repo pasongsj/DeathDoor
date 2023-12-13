@@ -11,12 +11,12 @@ class GameEngineMesh : public GameEngineResource<GameEngineMesh>
 	friend class GameEngineRenderUnit;
 
 public:
-	static std::shared_ptr<GameEngineMesh> Create(const std::string_view& _Name)
+	static std::shared_ptr<GameEngineMesh> Create(std::string_view _Name)
 	{
 		return Create(_Name, _Name, _Name);
 	}
 
-	static std::shared_ptr<GameEngineMesh> Create(const std::string_view& _Name, const std::string_view& _VtxName, const std::string_view& _IdxName)
+	static std::shared_ptr<GameEngineMesh> Create(std::string_view _Name, std::string_view _VtxName, std::string_view _IdxName)
 	{
 		std::shared_ptr<GameEngineMesh> Res = GameEngineResource::Create(_Name);
 		Res->VertexBufferPtr = GameEngineVertexBuffer::Find(_VtxName);

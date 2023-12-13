@@ -9,7 +9,7 @@ Content2DRenderer::~Content2DRenderer()
 {
 }
 
-void Content2DRenderer::SetScaleToTexture(const std::string_view& _Name)
+void Content2DRenderer::SetScaleToTexture(std::string_view _Name)
 {
 	GetShaderResHelper().SetTexture("DiffuseTex", _Name);
 	std::shared_ptr<GameEngineTexture> FindTex = GameEngineTexture::Find(_Name);

@@ -15,8 +15,8 @@ GameEngineGeometryShader::~GameEngineGeometryShader()
 	}
 }
 
-void GameEngineGeometryShader::ShaderLoad(const std::string_view& _Path
-	, const std::string_view& _EntryPoint
+void GameEngineGeometryShader::ShaderLoad(std::string_view _Path
+	, std::string_view _EntryPoint
 	, UINT _VersionHigh /*= 5*/
 	, UINT _VersionLow /*= 0*/)
 {

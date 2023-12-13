@@ -68,7 +68,7 @@ public:
 
 	bool ImageLoad(const GameEnginePath& _Path);
 
-	bool ImageLoad(const std::string_view& _Path);
+	bool ImageLoad(std::string_view _Path);
 
 	void ImageClear();
 

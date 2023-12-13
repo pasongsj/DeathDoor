@@ -36,7 +36,7 @@ GameEnginePath::GameEnginePath(const GameEnginePath& _Other)
 
 }
 
-std::string GameEnginePath::GetFileName(const std::string_view& _Path)
+std::string GameEnginePath::GetFileName(std::string_view _Path)
 {
 	std::filesystem::path NewPath = _Path;
 
@@ -44,7 +44,7 @@ std::string GameEnginePath::GetFileName(const std::string_view& _Path)
 }
 
 
-std::string GameEnginePath::GetFolderPath(const std::string_view& _Path)
+std::string GameEnginePath::GetFolderPath(std::string_view _Path)
 {
 	std::string FileName = GetFileName(_Path);
 	std::string FullPath = _Path.data();
@@ -74,7 +74,7 @@ void GameEnginePath::MoveParent()
 	Path = Path.parent_path();
 }
 
-void GameEnginePath::MoveParentToChildPath(const std::string_view& _String)
+void GameEnginePath::MoveParentToChildPath(std::string_view _String)
 {
 	while (false == IsRoot())
 	{
@@ -89,7 +89,7 @@ void GameEnginePath::MoveParentToChildPath(const std::string_view& _String)
 	MsgAssert("이런 경로를 자식으로 가진 부모는 존재하지 않습니다.");
 }
 
-bool GameEnginePath::Move(const std::string_view& _Path)
+bool GameEnginePath::Move(std::string_view _Path)
 {
 	Path += _Path;
 
@@ -117,13 +117,13 @@ bool GameEnginePath::IsExists()
 	return std::filesystem::exists(Path);
 }
 
-bool GameEnginePath::IsExistsToPlusString(const std::string_view& _String)
+bool GameEnginePath::IsExistsToPlusString(std::string_view _String)
 {
 	std::string Str = GetFullPath() + _String.data();
 	return 0 == _access(Str.c_str(), 0);
 }
 
-void GameEnginePath::SetPath(const std::string_view& _Path)
+void GameEnginePath::SetPath(std::string_view _Path)
 {
 	Path = _Path.data();
 }

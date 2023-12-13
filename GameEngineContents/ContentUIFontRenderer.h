@@ -15,8 +15,8 @@ public:
 	ContentUIFontRenderer& operator=(const ContentUIFontRenderer& _Other) = delete;
 	ContentUIFontRenderer& operator=(ContentUIFontRenderer&& _Other) noexcept = delete;
 
-	void SetFont(const std::string_view& _Font);
-	void SetText(const std::string_view& _Text);
+	void SetFont(std::string_view _Font);
+	void SetText(std::string_view _Text);
 
 	void SetScale(float _FontScale)
 	{

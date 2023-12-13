@@ -50,6 +50,7 @@ void HealthPlant::InitAnimation()
 	//m_pRenderer->CreateFBXAnimation("3", "Health_Plant_UnGrown.fbx", { 0.1f });
 	m_pRenderer->ChangeAnimation("IDLE");
 	m_pRenderer->GetTransform()->SetLocalScale(float4::ONE * 150.0f);
+	m_pRenderer->SetUnitColor(0, 0, float4::WHITE, 20.0f);
 }
 
 void HealthPlant::SetFSMFUNC()

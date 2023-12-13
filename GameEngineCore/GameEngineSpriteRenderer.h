@@ -98,9 +98,9 @@ public:
 	GameEngineSpriteRenderer& operator=(const GameEngineSpriteRenderer& _Other) = delete;
 	GameEngineSpriteRenderer& operator=(GameEngineSpriteRenderer&& _Other) noexcept = delete;
 
-	void SetScaleToTexture(const std::string_view& _Name);
+	void SetScaleToTexture(std::string_view _Name);
 
-	void SetTexture(const std::string_view& _Name);
+	void SetTexture(std::string_view _Name);
 
 	void SetScaleRatio(float _Ratio)
 	{
@@ -110,16 +110,16 @@ public:
 	void SetFlipX();
 	void SetFlipY();
 
-	std::shared_ptr<AnimationInfo> FindAnimation(const std::string_view& _Name);
+	std::shared_ptr<AnimationInfo> FindAnimation(std::string_view _Name);
 
 	std::shared_ptr<AnimationInfo> CreateAnimation(const AnimationParameter& _Paramter);
 
-	void ChangeAnimation(const std::string_view& _Name, bool _Force, size_t _Frame = -1)
+	void ChangeAnimation(std::string_view _Name, bool _Force, size_t _Frame = -1)
 	{
 		ChangeAnimation(_Name, _Frame, _Force);
 	}
 
-	void ChangeAnimation(const std::string_view& _Name, size_t _Frame = -1, bool _Force = true);
+	void ChangeAnimation(std::string_view _Name, size_t _Frame = -1, bool _Force = true);
 
 	bool IsAnimationEnd()
 	{
@@ -145,7 +145,7 @@ public:
 		return ScaleRatio;
 	}
 
-	void SetSprite(const std::string_view& _SpriteName, size_t _Frame = 0);
+	void SetSprite(std::string_view _SpriteName, size_t _Frame = 0);
 
 	void SetFrame(size_t _Frame);
 
@@ -162,9 +162,9 @@ public:
 	ColorOption ColorOptionValue;
 
 
-	void SetAnimationUpdateEvent(const std::string_view& _AnimationName, size_t _Frame, std::function<void()> _Event);
+	void SetAnimationUpdateEvent(std::string_view _AnimationName, size_t _Frame, std::function<void()> _Event);
 
-	void SetAnimationStartEvent(const std::string_view& _AnimationName, size_t _Frame, std::function<void()> _Event);
+	void SetAnimationStartEvent(std::string_view _AnimationName, size_t _Frame, std::function<void()> _Event);
 
 	std::string GetTexName();
 

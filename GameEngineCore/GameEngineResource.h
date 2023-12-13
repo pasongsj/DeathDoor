@@ -36,12 +36,12 @@ public:
 		return Path.c_str();
 	}
 
-	void SetPath(const std::string_view& _Value)
+	void SetPath(std::string_view _Value)
 	{
 		Path = _Value;
 	}
 
-	static std::shared_ptr<ResourcesType> Find(const std::string_view& _Name) 
+	static std::shared_ptr<ResourcesType> Find(std::string_view _Name) 
 	{
 		std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -54,7 +54,7 @@ public:
 		return NamedResources[UpperName];
 	}
 
-	static void Remove(const std::string_view& _Name)
+	static void Remove(std::string_view _Name)
 	{
 		std::string UpperName = GameEngineString::ToUpper(_Name);
 
@@ -87,7 +87,7 @@ protected:
 		return NewRes;
 	}
 
-	static std::shared_ptr<ResourcesType> Create(const std::string_view& _Name)
+	static std::shared_ptr<ResourcesType> Create(std::string_view _Name)
 	{
 		std::string UpperName = GameEngineString::ToUpper(_Name);
 

@@ -74,7 +74,7 @@ void GameEngineCoreWindow::OnGUI(std::shared_ptr<GameEngineLevel> Level, float _
 
 }
 
-void GameEngineCoreWindow::AddDebugRenderTarget(int _Order, const std::string_view& _Name, std::shared_ptr<GameEngineRenderTarget> _Target)
+void GameEngineCoreWindow::AddDebugRenderTarget(int _Order, std::string_view _Name, std::shared_ptr<GameEngineRenderTarget> _Target)
 {
 	// _Target->SetName(_Name);
 	DebugRenderTarget[_Order] = { _Name.data(), _Target };

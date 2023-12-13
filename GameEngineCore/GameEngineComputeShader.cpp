@@ -15,7 +15,7 @@ GameEngineComputeShader::~GameEngineComputeShader()
 }
 
 
-void GameEngineComputeShader::ShaderLoad(const std::string_view& _Path, const std::string_view& _EntryPoint, UINT _VersionHigh /*= 5*/, UINT _VersionLow /*= 0*/)
+void GameEngineComputeShader::ShaderLoad(std::string_view _Path, std::string_view _EntryPoint, UINT _VersionHigh /*= 5*/, UINT _VersionLow /*= 0*/)
 {
 	CreateVersion("cs", _VersionHigh, _VersionLow);
 	SetEntryPoint(_EntryPoint);

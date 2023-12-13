@@ -24,13 +24,13 @@ public:
 	GameEngineSprite& operator=(GameEngineSprite&& _Other) noexcept = delete;
 
 
-	static std::shared_ptr<GameEngineSprite> LoadFolder(const std::string_view& _Path)
+	static std::shared_ptr<GameEngineSprite> LoadFolder(std::string_view _Path)
 	{
 		GameEnginePath NewPath = std::string(_Path);
 		return LoadFolder(NewPath.GetFileName(), _Path);
 	}
 
-	static std::shared_ptr<GameEngineSprite> LoadFolder(std::string _Spritename, const std::string_view& _Path)
+	static std::shared_ptr<GameEngineSprite> LoadFolder(std::string _Spritename, std::string_view _Path)
 	{
 		std::shared_ptr<GameEngineSprite> NewTexture = GameEngineResource::Create(_Spritename);
 		NewTexture->ResLoadFolder(_Path);
@@ -38,7 +38,7 @@ public:
 	}
 
 
-	static std::shared_ptr<GameEngineSprite> LoadSheet(const std::string_view& _Path, size_t _X, size_t _Y)
+	static std::shared_ptr<GameEngineSprite> LoadSheet(std::string_view _Path, size_t _X, size_t _Y)
 	{
 		GameEnginePath NewPath = std::string(_Path);
 
@@ -67,7 +67,7 @@ public:
 		return Sprites[_Index];
 	}
 
-	static std::shared_ptr<GameEngineSprite> UnLoad(const std::string_view& _Name)
+	static std::shared_ptr<GameEngineSprite> UnLoad(std::string_view _Name)
 	{
 		std::shared_ptr<GameEngineSprite> FindSprite = GameEngineResource::Find(_Name);
 
@@ -81,14 +81,14 @@ public:
 	}
 
 
-	static std::shared_ptr<GameEngineSprite> ReLoad(const std::string_view& _Path)
+	static std::shared_ptr<GameEngineSprite> ReLoad(std::string_view _Path)
 	{
 		GameEnginePath NewPath(_Path);
 		return ReLoad(_Path, NewPath.GetFileName());
 	}
 
 
-	static std::shared_ptr<GameEngineSprite> ReLoad(const std::string_view& _Path, const std::string_view& _Name)
+	static std::shared_ptr<GameEngineSprite> ReLoad(std::string_view _Path, std::string_view _Name)
 	{
 		std::shared_ptr<GameEngineSprite> NewTexture = GameEngineResource<GameEngineSprite>::Find(_Name);
 
@@ -108,8 +108,8 @@ public:
 protected:
 
 private:
-	void ResLoadFolder(const std::string_view& _Path);
-	void ResLoadSheet(const std::string_view& _Path, size_t _X, size_t _Y);
+	void ResLoadFolder(std::string_view _Path);
+	void ResLoadSheet(std::string_view _Path, size_t _X, size_t _Y);
 
 	std::vector<SpriteInfo> Sprites;
 

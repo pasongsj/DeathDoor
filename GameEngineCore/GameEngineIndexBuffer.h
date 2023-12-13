@@ -17,7 +17,7 @@ public:
 	GameEngineIndexBuffer& operator=(GameEngineIndexBuffer&& _Other) noexcept = delete;
 
 	template<typename IndexType>
-	static std::shared_ptr<GameEngineIndexBuffer> Create(const std::string_view& _Name, const std::vector<IndexType>& _Vertexs)
+	static std::shared_ptr<GameEngineIndexBuffer> Create(std::string_view _Name, const std::vector<IndexType>& _Vertexs)
 	{
 		std::shared_ptr<GameEngineIndexBuffer> Res = GameEngineResource::Create(_Name);
 

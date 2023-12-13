@@ -20,7 +20,7 @@ public:
 	GameEngineFile();
 	~GameEngineFile();
 	GameEngineFile(std::filesystem::path _Path);
-	GameEngineFile(const std::string_view& _Path);
+	GameEngineFile(std::string_view _Path);
 	GameEngineFile(const GameEnginePath& _Path);
 
 	// delete Function
@@ -35,8 +35,8 @@ public:
 	}
 
 	void SaveBin(const GameEngineSerializer& _Data);
-	void SaveText(const std::string_view& _View);
-	void SaveTextAppend(const std::string_view& _View);
+	void SaveText(std::string_view _View);
+	void SaveTextAppend(std::string_view _View);
 
 	void LoadBin(GameEngineSerializer& _Data);
 

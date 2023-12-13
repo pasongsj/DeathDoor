@@ -86,7 +86,7 @@ void GameEngineTexture::CreateDepthStencilView()
 }
 
 
-void GameEngineTexture::ResLoad(const std::string_view& _Path) 
+void GameEngineTexture::ResLoad(std::string_view _Path) 
 {
 	// GameEnginePath NewPath = 
 
@@ -544,7 +544,7 @@ GameEnginePixelColor GameEngineTexture::GetPixel(int _X, int _Y, GameEnginePixel
 	return DefaultColor;
 }
 
-void GameEngineTexture::PathCheck(const std::string_view& _Path, const std::string_view& _Name)
+void GameEngineTexture::PathCheck(std::string_view _Path, std::string_view _Name)
 {
 	if (nullptr == GameEngineCore::CurLoadLevel)
 	{
