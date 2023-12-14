@@ -225,8 +225,8 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 	}
 
 	
-	sTriangle sRootTriangle = vec_TriangleNav[iStartIndex];
-	sTriangle sTailTriangle = vec_TriangleNav[iEndIndex];
+	sTriangle sRootTriangle = vec_TriangleNav[iEndIndex];
+	sTriangle sTailTriangle = vec_TriangleNav[iStartIndex];
 
 	float fHeuristic = sRootTriangle.CenterPos.XYZDistance(sTailTriangle.CenterPos);
 	sRootTriangle.Cost = 0;
@@ -299,10 +299,10 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 	}
 	else
 	{
-		dq_ResultRoad.pop_front();
+		dq_ResultRoad.pop_back();
 		while (dq_ResultRoad.size()>1)
 		{
-			float4 First = dq_ResultRoad[1].CenterPos;
+			float4 First = dq_ResultRoad[dq_ResultRoad.size()-2].CenterPos;
 			First.y = 0;
 			float4 Start = _Start;
 			Start.y = 0;
@@ -310,14 +310,14 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 			float4 Dir = First - Start;
 			if (false == TriRayCast(_Start, Dir, f4Point, First.XYZDistance(Start), Dummy))
 			{
-				dq_ResultRoad.pop_front();
+				dq_ResultRoad.pop_back();
 			}
 			else
 			{
 				break;
 			}
 		}
-
+		
 		if (dq_ResultRoad.empty())
 		{
 			return false;
@@ -325,7 +325,7 @@ bool PhysXTriangleComponent::FindRoad(float4 _Start, float4 _End)
 		
 	}
 
-	//dq_ResultRoad.pop_front();
+	//dq_ResultRoad.pop_back();
 	return true;
 }
 

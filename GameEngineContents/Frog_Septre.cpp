@@ -38,9 +38,9 @@ void Frog_Septre::InitComponent()
 	m_pPhysXComponent->SetPositionSetFromParentFlag(true);
 
 	//MeshScale.y = 1.f;
-	m_pPhysXComponent->CreateSubShape(SubShapeType::SPHERE, MeshScale * 30.f, float4(0, 10, 0));
-	m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
-	m_pPhysXComponent->AttachShape();
+	//m_pPhysXComponent->CreateSubShape(SubShapeType::SPHERE, MeshScale * 30.f, float4(0, 10, 0));
+	//m_pPhysXComponent->SetSubShapeFilter(PhysXFilterGroup::LeverTrigger);
+	//m_pPhysXComponent->AttachShape();
 }
 
 void Frog_Septre::InitAnimation()

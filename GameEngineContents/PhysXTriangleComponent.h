@@ -76,7 +76,7 @@ public:
 		{
 			return float4::ZERONULL;
 		}
-		float4 Front = dq_ResultRoad.front().CenterPos;
+		float4 Front = dq_ResultRoad.back().CenterPos;
 		Front.y = 0;
 		float4 Start = _Start;
 		Start.y = 0;
