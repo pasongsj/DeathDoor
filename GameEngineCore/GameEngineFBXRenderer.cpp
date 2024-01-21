@@ -139,9 +139,10 @@ void GameEngineFBXAnimationInfo::Update(float _DeltaTime)
 		FbxExBoneFrameData& CurData = FBXAnimationData->AniFrameData[i].BoneMatData[CurFrame];
 		FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[i].BoneMatData[NextFrame];
 
-		AnimationBoneData[i].Scale = float4::Lerp(CurData.S, NextData.S, CurFrameTime);
-		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternion(CurData.Q, NextData.Q, CurFrameTime);
-		AnimationBoneData[i].Pos = float4::Lerp(CurData.T, NextData.T, CurFrameTime);
+		float inter = CurFrameTime / CurInter;
+		AnimationBoneData[i].Scale = float4::Lerp(CurData.S, NextData.S, inter);
+		AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternion(CurData.Q, NextData.Q, inter);
+		AnimationBoneData[i].Pos = float4::Lerp(CurData.T, NextData.T, inter);
 
 		size_t Size = sizeof(float4x4);
 
