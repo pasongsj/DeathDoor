@@ -70,7 +70,7 @@ void ContentsCore::GameStart()
 	GameEngineCore::CreateLevel<BossTestLevel>();
 	GameEngineCore::CreateLevel<ExplainLevel>();
 
-	GameEngineCore::ChangeLevel("StartLevel");
+	GameEngineCore::ChangeLevel("OfficeLevel");
 }
 
 void ContentsCore::GameEnd()
