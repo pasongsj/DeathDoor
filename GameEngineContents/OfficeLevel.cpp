@@ -175,14 +175,14 @@ void OfficeLevel::Set_PlayerStartPos()
 		break;
 	}
 
-	if (GameEngineCore::GetPrevLevel().get()->GetNameToString() == ("EXPLAINLEVEL"))
-	{
-		Comp->SetWorldPosWithParent(m_f4ExplainToOfficePos, float4::ZERO);
-		std::shared_ptr<FadeWhite>pWhite = CreateActor<FadeWhite>();
-		pWhite->FadeIn();
-		pWhite->FadeUpdate();
-		return;
-	}
+	//if (GameEngineCore::GetPrevLevel().get()->GetNameToString() == ("EXPLAINLEVEL"))
+	//{
+	//	Comp->SetWorldPosWithParent(m_f4ExplainToOfficePos, float4::ZERO);
+	//	std::shared_ptr<FadeWhite>pWhite = CreateActor<FadeWhite>();
+	//	pWhite->FadeIn();
+	//	pWhite->FadeUpdate();
+	//	return;
+	//}
 
 	Comp->SetWorldPosWithParent(m_StartPos, float4::ZERO);
 }
